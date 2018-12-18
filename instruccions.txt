@@ -1,0 +1,10 @@
+Pasos a seguir desrpès de clonar el projecte:
+
+1.- Amb el cmd anar a la ruta del projecte i executar les comandes:
+	composer install
+	php artisan key:generate
+
+2.- Copiar i el fitxer ".env.example" i enganxar-lo amb el nom ".env".
+
+
+Web: https://stackoverflow.com/questions/38602321/cloning-laravel-project-from-github
