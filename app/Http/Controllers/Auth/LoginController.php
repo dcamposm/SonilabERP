@@ -36,4 +36,14 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    /**
+     * Especifica el nom del camp de la base de dades amb el que l'usuari farà login.
+     * 
+     * @return string
+     */
+    public function username()
+    {
+        return 'alias_usuari';
+    }
 }
