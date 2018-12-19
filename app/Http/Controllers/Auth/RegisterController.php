@@ -37,7 +37,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('auth');
     }
 
     /**
@@ -68,5 +68,12 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+   /*
+    *funcio per retornar la vista de crear usuaris interns
+   */
+    public function showRegistrationForm(){
+        return view('usuaris_interns.create');
     }
 }
