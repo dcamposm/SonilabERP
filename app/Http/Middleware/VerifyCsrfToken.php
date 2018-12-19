@@ -19,6 +19,7 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        //
+        ///// PARA PROBAR CON POSTMAN - QUITAR LUEGO EN PRODUCCIÓN /////
+        "/*"
     ];
 }
