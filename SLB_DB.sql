@@ -11,16 +11,25 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
+
+-- Volcando estructura de base de datos para slb_db
+CREATE DATABASE IF NOT EXISTS `slb_db` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `slb_db`;
+
 -- Volcando estructura para tabla slb_db.slb_departaments
 CREATE TABLE IF NOT EXISTS `slb_departaments` (
   `id_departament` int(11) NOT NULL AUTO_INCREMENT,
-  `nom_departament` varchar(50) NOT NULL DEFAULT 'Nou rol',
+  `nom_departament` varchar(50) NOT NULL DEFAULT 'Nou departament',
   `descripcio_departament` varchar(200) NOT NULL DEFAULT 'Nova descripció',
   PRIMARY KEY (`id_departament`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla slb_db.slb_departaments: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla slb_db.slb_departaments: ~2 rows (aproximadamente)
 /*!40000 ALTER TABLE `slb_departaments` DISABLE KEYS */;
+INSERT INTO `slb_departaments` (`id_departament`, `nom_departament`, `descripcio_departament`) VALUES
+	(1, 'Departament Direcció', 'Departament que interactua amb l\'aplicació per administrar-la.'),
+	(2, 'Departament Producció', 'Departament que interactua amb l\'aplicació per administrar-la.'),
+	(3, 'Departament Técnic', 'Departament que interactua amb l\'aplicació per administrar-la.');
 /*!40000 ALTER TABLE `slb_departaments` ENABLE KEYS */;
 
 -- Volcando estructura para tabla slb_db.slb_empleats_externs
@@ -99,12 +108,12 @@ CREATE TABLE IF NOT EXISTS `slb_usuaris` (
   PRIMARY KEY (`id_usuari`),
   KEY `id_departament` (`id_departament`),
   CONSTRAINT `id_departament` FOREIGN KEY (`id_departament`) REFERENCES `slb_departaments` (`id_departament`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COMMENT='- Usuaris de l''aplicació.\r\n- La contrasenya està encriptada amb bcrypt.';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COMMENT='- Usuaris de l aplicació.\r\n- La contrasenya està encriptada amb bcrypt.';
 
 -- Volcando datos para la tabla slb_db.slb_usuaris: ~1 rows (aproximadamente)
 /*!40000 ALTER TABLE `slb_usuaris` DISABLE KEYS */;
 INSERT INTO `slb_usuaris` (`id_usuari`, `nom_usuari`, `cognoms_usuari`, `email_usuari`, `alias_usuari`, `contrasenya_usuari`, `imatge_usuari`, `token`, `id_departament`) VALUES
-	(1, 'Test', 'Tester', 'test@test.es', 'test', '$2y$10$vVP1TnX9SXrcPvVVQwVzdOlQ5dym730rUMxqgGGZZjWh7p1LdqWSa', 'defecte.png', '', NULL);
+	(1, 'Test', 'Tester', 'test@test.es', 'test', '$2a$04$hZnLQbEIMTWIY5BNC2PV2eFjhpOmlJYHhr5BFXn4zn7aidsCUHGGy', 'defecte.png', 'p9hSGhT0RWTNWXK0S3TW3PlkgMTlH0XQucighJoe1BcPsmHYHreJoyZYLUSe', NULL);
 /*!40000 ALTER TABLE `slb_usuaris` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
