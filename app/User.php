@@ -31,6 +31,12 @@ class User extends Authenticatable
         'contrasenya_usuari', 'token'
     ];
 
+    public function setContrasenyaUsuariAttribute($value){
+        if (!empty($value)){
+            $this->attributes['contrasenya_usuari'] = bcrypt($value);
+        }
+    }
+
     /**
      * Especifica el nom del camp de la contrasenya al model
      * 
