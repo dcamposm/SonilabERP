@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Departament;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -74,6 +75,8 @@ class RegisterController extends Controller
     *funcio per retornar la vista de crear usuaris interns
    */
     public function showRegistrationForm(){
-        return view('usuaris_interns.create');
+        $departaments = Departament::all();
+        
+        return view('usuaris_interns.create',array('departaments' => $departaments));
     }
 }
