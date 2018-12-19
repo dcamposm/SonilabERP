@@ -18,9 +18,9 @@ class CreateSlbUsuarisTable extends Migration
             $table->string('nom_usuari', 50);
             $table->string('cognoms_usuari', 100);
             $table->string('email_usuari', 100)->unique();
-            $table->string('alias_usuari', 255)->unique();
-            $table->string('contrasenya_usuari', 255);
-            $table->string('imatge_usuari', 250);
+            $table->string('alias_usuari')->unique();
+            $table->string('contrasenya_usuari');
+            $table->string('imatge_usuari');
             $table->integer('id_departament');
             $table->rememberToken();
             $table->timestamps();
