@@ -20,3 +20,4 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/usuaris/interns/crear', 'UserController@mostrarFormulariRegistre');
 Route::post('/usuaris/interns/crear', 'UserController@registrar')->name('crearUsuariIntern');
+Route::post('/usuaris/interns/editar/{id}', 'UserController@editarUsuario')->with('id', $id)->name('crearUsuariIntern');
