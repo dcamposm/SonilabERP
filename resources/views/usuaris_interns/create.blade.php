@@ -4,7 +4,9 @@
 
 <div class="container">
     <h2 style="font-weight: bold">Crear usuario</h2>
-    <form>
+    <form method = "POST" action="{{ route('crearUsuariIntern') }}">
+        @csrf
+
         <div class="row">
             <div class="col-6">
                 <div class="form-group">

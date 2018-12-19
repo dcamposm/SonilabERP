@@ -18,4 +18,5 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/usuaris/interns/crear', 'Auth\RegisterController@showRegistrationForm')->name('crear');
+Route::get('/usuaris/interns/crear', 'UserController@mostrarFormulariRegistre');
+Route::post('/usuaris/interns/crear', 'UserController@registrar')->name('crearUsuariIntern');
