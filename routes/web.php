@@ -18,6 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/usuaris/interns/index', 'UserController@getIndex');
 Route::get('/usuaris/interns/crear', 'UserController@viewRegistre');
 Route::post('/usuaris/interns/crear', 'UserController@crearUsuario')->name('crearUsuariIntern');
 Route::get('/usuaris/interns/editar/{id}', 'UserController@viewEditarUsuario')->name('editarUsuariIntern');

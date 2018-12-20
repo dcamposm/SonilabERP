@@ -20,7 +20,11 @@ class UserController extends Controller
     }
 
 
-
+    function getIndex(){
+        $usuaris= User::all();
+        return view('usuaris_interns.index',array('arrayUsuaris' => $usuaris));
+    }
+    
     function crearUsuario(){
         
         $usuario = new User(request()->all());
