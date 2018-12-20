@@ -46,34 +46,4 @@ class User extends Authenticatable
     {
         return $this->contrasenya_usuari;
     }
-
-    /**
-     * Retorna el token de l'usuari que vol iniciar sessió.
-     * 
-     * @return string
-     */
-    public function getRememberToken()
-    {
-        return $this->token;
-    }
-
-    /**
-     * Asigna un nou valor per al token de l'usuari que ha iniciat sessió.
-     * 
-     * @return void
-     */
-    public function setRememberToken($value)
-    {
-        $this->token = $value;
-    }
-
-    /**
-     * Especifica el nom del camp del token al model
-     * 
-     * @return string
-     */
-    public function getRememberTokenName()
-    {
-        return 'token';
-    }
 }

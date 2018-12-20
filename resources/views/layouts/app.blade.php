@@ -31,16 +31,26 @@
     <nav class="navbar navbar-dark sticky-top bg-dark navbar-sonilab flex-md-nowrap p-0">
 
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"><img src="http://sonilab.com.mialias.net/wp-content/uploads/2016/11/SONILAB_logo41-300x65-300x75.png" width="120" height="30" class="d-inline-block align-top" alt=""></a>
+        @auth
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
-                <a class="nav-link" href="#">Sign out</a>
+                <a class="nav-link" href="{{ route('logout') }}"
+                    onclick="event.preventDefault();
+                    document.getElementById('logout-form').submit();">
+                    {{ __('Tancar la sessió') }}
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
             </li>
         </ul>
+        @endguest
 
     </nav>
 
    <!--sidebar-->
 
+   @auth
     <div class="container-fluid">
         <div class="row">
             <nav class="col-md-2 d-none d-md-block bg-light sidebar">
@@ -120,6 +130,7 @@
             </nav>
         </div>
     </div>
+    @endguest
 
     <!-- Page Content -->
 
