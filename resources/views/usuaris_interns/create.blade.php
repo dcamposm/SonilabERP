@@ -10,14 +10,14 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
-                    <label for="nom" style="font-weight: bold">Nom:</label>
-                    <input type="text" class="form-control" id="nom" placeholder="Entrar nom" name="nom">
+                    <label for="nom_usuari" style="font-weight: bold">Nom:</label>
+                    <input type="text" class="form-control" id="nom_usuari" placeholder="Entrar nom" name="nom_usuari">
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <label for="cognoms" style="font-weight: bold">Cognoms:</label>
-                    <input type="text" class="form-control" id="cognoms" placeholder="Entrar cognoms" name="cognoms">
+                    <label for="cognoms_usuari" style="font-weight: bold">Cognoms:</label>
+                    <input type="text" class="form-control" id="cognoms_usuari" placeholder="Entrar cognoms" name="cognoms_usuari">
                 </div>
             </div>
             
@@ -26,14 +26,14 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
-                    <label for="email" style="font-weight: bold">Email:</label>
-                    <input type="email" class="form-control" id="email" placeholder="Entrar correu" name="correu">
+                    <label for="email_usuari" style="font-weight: bold">Email:</label>
+                    <input type="email" class="form-control" id="email_usuari" placeholder="Entrar correu" name="email_usuari">
                 </div> 
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <label for="alias" style="font-weight: bold">Alias:</label>
-                    <input type="text" class="form-control" id="alias" placeholder="Entrar alias" name="alias">
+                    <label for="alias_usuari" style="font-weight: bold">Alias:</label>
+                    <input type="text" class="form-control" id="alias_usuari" placeholder="Entrar alias" name="alias_usuari">
                 </div>
             </div>
             <!--<div class="col-6">
@@ -47,8 +47,8 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
-                    <label for="pass" style="font-weight: bold">Contrassenya:</label>
-                    <input type="password" class="form-control" id="pass" placeholder="Entrar contrassenya" name="pass">
+                    <label for="contrasenya_usuari" style="font-weight: bold">Contrasenya:</label>
+                    <input type="password" class="form-control" id="contrasenya_usuari" placeholder="Entrar contrassenya" name="contrasenya_usuari">
                 </div>
             </div>
             <div class="col-6">
@@ -63,7 +63,7 @@
             <div class="col-6">
             
                 <label for="cpass" style="font-weight: bold">Selecciona departament:</label>
-                <select class="form-control">
+                <select class="form-control" name="id_departament">
                 @foreach( $departaments as $departament )
                     <option value="{{$departament['id_departament']}}">{{$departament['nom_departament']}}</option>
                 @endforeach

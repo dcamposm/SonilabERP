@@ -70,13 +70,4 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
-
-   /*
-    *funcio per retornar la vista de crear usuaris interns
-   */
-    public function showRegistrationForm(){
-        $departaments = Departament::all();
-        
-        return view('usuaris_interns.create',array('departaments' => $departaments));
-    }
 }
