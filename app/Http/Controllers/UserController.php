@@ -70,4 +70,12 @@ class UserController extends Controller
     *funcio per retornar la vista de crear usuaris interns
    */
     
+    /**
+     * Esborra l'usuari especificat.
+     * 
+     * @return void
+     */
+    function esborrarUsuari($id_usuari) {
+        User::where('id_usuari',$id_usuari)->delete();
+    }
 }
