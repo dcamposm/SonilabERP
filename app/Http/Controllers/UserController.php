@@ -25,6 +25,10 @@ class UserController extends Controller
         return view('usuaris_interns.index',array('arrayUsuaris' => $usuaris));
     }
     
+    function getShow($id){
+         $usuaris= User::all();
+         return view('usuaris_interns.show', array('arrayUsuaris' => $usuaris[$id]));
+    }
     function crearUsuario(){
         
         $usuario = new User(request()->all());
