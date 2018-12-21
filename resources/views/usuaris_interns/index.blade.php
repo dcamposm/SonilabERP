@@ -15,7 +15,7 @@
             
         </a>
         <br> 
-            <a href="{{ url('/catalog/show/' . $key ) }}" class="btn btn-outline-danger"> Editar </a> 
+            <a href="{{ route('editarUsuariIntern', ['id' => $usuaris->id_usuari]) }}" class="btn btn-outline-danger"> Editar </a> 
             <a href="{{ url('/catalog/show/' . $key ) }}" class="btn btn-outline-danger"> Borrar </a>
     </div>
     

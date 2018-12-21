@@ -19,17 +19,21 @@ class UserController extends Controller
         $this->middleware('auth');
     }
 
-    
+    /*
+        *funcio per retornar la vista de crear usuaris interns
+    */
     function viewRegistre(){
         $departaments = Departament::all();
         return view("usuaris_interns.create",array('departaments' => $departaments));
     }
 
     function viewEditarUsuario($id){
-        //ToDo: Retornar vista
-        return "Se editará $id";
+        $departaments = Departament::all();
+        $usuario = User::find($id);
+        if ($usuario){
+            return view("usuaris_interns.create",array('departaments' => $departaments, 'usuario' => $usuario));
+        }      
     }
-
 
     function getIndex(){
         $usuaris= User::all();
@@ -40,6 +44,7 @@ class UserController extends Controller
          $usuaris= User::all();
          return view('usuaris_interns.show', array('arrayUsuaris' => $usuaris[$id]));
     }
+
     function crearUsuario(){
         
         $usuario = new User(request()->all());
@@ -63,27 +68,25 @@ class UserController extends Controller
     function editarUsuario($id){
         $usuario = User::find($id);
         
-        //ToDo: FALTA COMPLETAR VALIDATOR
-        $v = Validator::make(request()->all(), [
-            'nom_usuari' => 'required',
-            'cognoms_usuari' => 'required',
-            'email_usuari' => 'required',
-            'alias_usuari' => 'required',
-            'contrasenya_usuari' => 'required',
-            'id_departament' => 'required'
-        ]);
+        if ($usuario){
+            //ToDo: FALTA COMPLETAR VALIDATOR
+            $v = Validator::make(request()->all(), [
+                'nom_usuari' => 'required',
+                'cognoms_usuari' => 'required',
+                'email_usuari' => 'required',
+                'alias_usuari' => 'required',
+                //'contrasenya_usuari' => 'required',
+                'id_departament' => 'required'
+            ]);
 
-        if ($v->fails()){
-            return response()->json(["error" => true], 400);
-        } else {
-            $usuario->fill(request()->all());
-            $usuario->save();
+            if ($v->fails()){
+                return response()->json(["error" => true], 400);
+            } else {
+                $usuario->fill(request()->all());
+                $usuario->save();
+            }
         }
     }
-
-    /*
-    *funcio per retornar la vista de crear usuaris interns
-   */
     
     /**
      * Esborra l'usuari especificat.
