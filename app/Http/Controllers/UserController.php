@@ -41,8 +41,8 @@ class UserController extends Controller
     }
     
     function getShow($id){
-         $usuaris= User::all();
-         return view('usuaris_interns.show', array('arrayUsuaris' => $usuaris[$id]));
+         $usuaris= User::find($id);
+         return view('usuaris_interns.show', array('arrayUsuaris' => $usuaris));
     }
 
     function crearUsuario(){
@@ -84,6 +84,7 @@ class UserController extends Controller
             } else {
                 $usuario->fill(request()->all());
                 $usuario->save();
+                return $this->getIndex();
             }
         }
     }
@@ -93,7 +94,8 @@ class UserController extends Controller
      * 
      * @return void
      */
-    function esborrarUsuari($id_usuari) {
-        User::where('id_usuari',$id_usuari)->delete();
+    function esborrarUsuari(Request $request) {
+        User::where('id_usuari',$request["id"])->delete();
+        return $this->getIndex();
     }
 }

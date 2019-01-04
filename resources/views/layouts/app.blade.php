@@ -21,6 +21,18 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/project.css') }}" rel="stylesheet">
 
+    <style>
+    .card-shadow {
+        box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+        transition: box-shadow 0.3s ease-in-out;
+    }
+    .card-shadow:hover {
+        box-shadow: 10px 10px 5px grey;
+        transition: box-shadow 0.4s ease-in-out;
+    }
+    
+    </style>
+
 </head>
 
 <body>
@@ -74,7 +86,7 @@
                             <a class="nav-link" href="#"><span class="fas fa-users"></span><span class="sidebar-link underline">Gestió de Personal</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><span class="fas fa-user-plus"></span><span class="sidebar-link underline">Gestió d'Usuaris</span></a>
+                            <a class="nav-link" href="{{ route('indexUsuariIntern')}}"><span class="fas fa-user-plus"></span><span class="sidebar-link underline">Gestió d'Usuaris</span></a>
                         </li>
 
 
