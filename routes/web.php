@@ -25,3 +25,11 @@ Route::post('/usuaris/interns/crear', 'UserController@crearUsuario')->name('crea
 Route::get('/usuaris/interns/editar/{id}', 'UserController@viewEditarUsuario')->name('editarUsuariIntern');
 Route::post('/usuaris/interns/editar/{id}', 'UserController@editarUsuario')->name('editarUsuariIntern');
 Route::post('/usuaris/interns/esborrar', 'UserController@esborrarUsuari')->name('esborrarUsuariIntern');
+
+Route::get('/empleats', 'EmpleatExternController@index')->name('empleatIndex');
+Route::get('/empleats/mostrar/{id}', 'EmpleatExternController@show')->name('empleatShow');
+Route::get('/empleats/crear', 'EmpleatExternController@insertView')->name('empleatInsertView');
+Route::post('/empleats/crear', 'EmpleatExternController@insert')->name('empleatInsert');
+Route::get('/empleats/modificar', 'EmpleatExternController@updateView')->name('empleatUpdateView');
+Route::post('/empleats/modificar', 'EmpleatExternController@update')->name('empleatUpdate');
+Route::post('/empleats/esborrar', 'EmpleatExternController@delete')->name('empleatDelete');
