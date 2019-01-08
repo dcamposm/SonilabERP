@@ -30,6 +30,6 @@ Route::get('/empleats', 'EmpleatExternController@index')->name('empleatIndex');
 Route::get('/empleats/mostrar/{id}', 'EmpleatExternController@show')->name('empleatShow');
 Route::get('/empleats/crear', 'EmpleatExternController@insertView')->name('empleatInsertView');
 Route::post('/empleats/crear', 'EmpleatExternController@insert')->name('empleatInsert');
-Route::get('/empleats/modificar', 'EmpleatExternController@updateView')->name('empleatUpdateView');
+Route::get('/empleats/modificar/{id}', 'EmpleatExternController@updateView')->name('empleatUpdateView');
 Route::post('/empleats/modificar', 'EmpleatExternController@update')->name('empleatUpdate');
 Route::post('/empleats/esborrar', 'EmpleatExternController@delete')->name('empleatDelete');

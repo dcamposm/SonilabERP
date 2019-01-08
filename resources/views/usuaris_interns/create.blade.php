@@ -73,7 +73,7 @@
         </div>
         <br>
         <div class="row">
-            <div class="col-4">
+            <div class="col-6">
                 <button type="submit" class="btn btn-success col-4">{{!empty($usuario) ? 'Guardar cambios' : 'Crear'}}</button>
             </div>
         </div>

@@ -19,23 +19,27 @@ class EmpleatExternController extends Controller
     }
 
     public function index() {
-        return EmpleatExtern::all();
+        $empleats = EmpleatExtern::all();
+        return View('empleats_externs.index', array('empleats' => $empleats));
     }
 
-    public function show() {
-
+    public function show($id) {
+        $empleat = EmpleatExtern::find($id);
+        return View('empleats_externs.show', array('empleat' => $empleat));
     }
 
     public function insertView() {
-
+        return View('empleats_externs.insert');
     }
 
     public function insert() {
 
     }
 
-    public function updateView() {
-
+    public function updateView($id) {
+        // TODO: Controlar si l'empleat existeix o no per mostrar una página o un altre
+        $empleat = EmpleatExtern::find($id);
+        return View('empleats_externs.show', array('empleat' => $empleat));
     }
 
     public function update() {
@@ -43,6 +47,7 @@ class EmpleatExternController extends Controller
     }
 
     public function delete(Request $request) {
-
+        User::where('id_empleat',$request["id"])->delete();
+        return $this->index();
     }
 }

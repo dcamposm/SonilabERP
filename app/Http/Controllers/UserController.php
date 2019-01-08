@@ -62,6 +62,7 @@ class UserController extends Controller
             return response()->json(["error" => true], 400);
         } else {
             $usuario->save();
+            return $this->viewRegistre();
         }
     }
 
