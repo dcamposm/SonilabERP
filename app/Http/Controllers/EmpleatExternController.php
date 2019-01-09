@@ -42,7 +42,7 @@ class EmpleatExternController extends Controller
         return View('empleats_externs.create', array('empleat' => $empleat));
     }
 
-    public function update() {
+    public function update($id) {
         $usuario = EmpleatExtern::find($id);
         
         if ($usuario){
