@@ -29,7 +29,7 @@ class EmpleatExternController extends Controller
     }
 
     public function insertView() {
-        return View('empleats_externs.insert');
+        return View('empleats_externs.create');
     }
 
     public function insert() {
@@ -39,7 +39,7 @@ class EmpleatExternController extends Controller
     public function updateView($id) {
         // TODO: Controlar si l'empleat existeix o no per mostrar una página o un altre
         $empleat = EmpleatExtern::find($id);
-        return View('empleats_externs.show', array('empleat' => $empleat));
+        return View('empleats_externs.create', array('empleat' => $empleat));
     }
 
     public function update() {
