@@ -27,6 +27,7 @@ class EmpleatExtern extends Model
         "actor", 
         "director", 
         "tecnic_sala",
+        "traductor",
         "ajustador",
         "linguista",
         "preu_actor",

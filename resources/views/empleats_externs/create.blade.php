@@ -4,7 +4,7 @@
 
 <div class="container">
     <h2 style="font-weight: bold">{{!empty($empleat) ? 'Editar usuario' : 'Crear usuario'}}</h2>
-    <form method = "POST" action="{{!empty($empleat) ? route('empleatUpdate', ['id' => $empleat->id_usuari]) : route('empleatInsert')}}">
+    <form method = "POST" action="{{!empty($empleat) ? route('empleatUpdate', ['id' => $empleat->id_empleat]) : route('empleatInsert')}}">
         @csrf
 
         <div class="row">
@@ -27,8 +27,8 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
-                    <label for="sexe" style="font-weight: bold">Sexe:</label>
-                    <select class="form-control" name="id_departament">
+                    <label for="sexe_empleat" style="font-weight: bold">Sexe:</label>
+                    <select class="form-control" name="sexe_empleat">
                         <option value="Dona">Dona</option>
                         <option value="Home">Home</option>
                     </select>
@@ -44,12 +44,12 @@
         </div>
         <!-- POR AQUI IMAGEN -->
         <div class="row">
-            <div class="col-6">
+            <!-- <div class="col-6">
                 <div class="form-group">
                     <label for="imatge_empleat" style="font-weight: bold">Alias:</label>
                     <input type="text" class="form-control" id="alias_usuari" placeholder="Entrar alias" name="alias_usuari" value="{{!empty($empleat) ? $empleat->alias_empleat : ''}}">
                 </div>
-            </div>
+            </div> -->
 
             <div class="col-6">
                 <div class="form-group">
@@ -83,8 +83,8 @@
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <label for="codiPostal_empleat" style="font-weight: bold">Codi postal:</label>
-                    <input type="number" class="form-control" id="codiPostal_empleat" placeholder="Entrar codi postal empleat" name="codiPostal_empleat">
+                    <label for="codi_postal_empleat" style="font-weight: bold">Codi postal:</label>
+                    <input type="number" class="form-control" id="codi_postal_empleat" placeholder="Entrar codi postal empleat" name="codi_postal_empleat">
                 </div>
             </div>
         </div>
@@ -92,8 +92,8 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
-                    <label for="dataNaixement_empleat" style="font-weight: bold">Data naixement:</label>
-                    <input type="date" class="form-control" id="dataNaixement_empleat" placeholder="Entrar data empleat" name="dataNaixement_empleat">
+                    <label for="naixement_empleat" style="font-weight: bold">Data naixement:</label>
+                    <input type="date" class="form-control" id="naixement_empleat" placeholder="Entrar data empleat" name="naixement_empleat">
                 </div>
             </div>
             <div class="col-6">
@@ -108,7 +108,7 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="iban_empleat" style="font-weight: bold">IBAN:</label>
-                    <input type="date" class="form-control" id="iban_empleat" placeholder="Entrar iban empleat" name="iban_empleat">
+                    <input type="text" class="form-control" id="iban_empleat" placeholder="Entrar iban empleat" name="iban_empleat">
                 </div>
             </div>
         </div>
@@ -122,32 +122,32 @@
             </div>
             <div class="col-2">
                 <div class="form-group">
-                    <label for="director_empleat" style="font-weight: bold">Director:</label>
-                    <input type="checkbox" class="form-control" id="director_empleat" name="director_empleat">
+                    <label for="director" style="font-weight: bold">Director:</label>
+                    <input type="checkbox" class="form-control" id="director" name="director">
                 </div>
             </div>
             <div class="col-2">
                 <div class="form-group">
-                    <label for="tecnicSala_empleat" style="font-weight: bold">Tecnic:</label>
-                    <input type="checkbox" class="form-control" id="tecnicSala_empleat" name="tecnicSala_empleat">
+                    <label for="tecnic_sala" style="font-weight: bold">Tecnic:</label>
+                    <input type="checkbox" class="form-control" id="tecnic_sala" name="tecnic_sala">
                 </div>
             </div>
             <div class="col-2">
                 <div class="form-group">
-                    <label for="traductor_empleat" style="font-weight: bold">Traductor:</label>
-                    <input type="checkbox" class="form-control" id="traductor_empleat" name="traductor_empleat">
+                    <label for="traductor" style="font-weight: bold">Traductor:</label>
+                    <input type="checkbox" class="form-control" id="traductor" name="traductor_empleat">
                 </div>
             </div>
             <div class="col-2">
                 <div class="form-group">
-                    <label for="ajustador_empleat" style="font-weight: bold">Ajustador:</label>
-                    <input type="checkbox" class="form-control" id="ajustador_empleat" name="ajustador_empleat">
+                    <label for="ajustador" style="font-weight: bold">Ajustador:</label>
+                    <input type="checkbox" class="form-control" id="ajustador" name="ajustador">
                 </div>
             </div>
             <div class="col-2">
                 <div class="form-group">
-                    <label for="linguista_empleat" style="font-weight: bold">Linguista:</label>
-                    <input type="checkbox" class="form-control" id="linguista_empleat" name="linguista_empleat">
+                    <label for="linguista" style="font-weight: bold">Linguista:</label>
+                    <input type="checkbox" class="form-control" id="linguista" name="linguista">
                 </div>
             </div>
         </div>
