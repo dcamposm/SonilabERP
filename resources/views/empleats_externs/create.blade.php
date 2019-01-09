@@ -203,7 +203,7 @@
                 <button type="submit" class="btn btn-success col-4">{{!empty($empleat) ? 'Guardar cambios' : 'Crear'}}</button>
             </div>
         </div>
-
+        <br>
     </form>
 </div>
 
