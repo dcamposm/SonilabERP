@@ -57,11 +57,11 @@ class EmpleatExternController extends Controller
         ]);
 
         if ($v->fails()){
-            //return response()->json(["error" => true], 400);
-            return response()->json(["error" => request()->all()], 400);
+            return response()->json(["error" => true], 400);
+            //return response()->json(["error" => request()->all()], 400);
         } else {
             $empleat->save();
-            return $this->viewRegistre();
+            return $this->insertView();
         }
     }
 
