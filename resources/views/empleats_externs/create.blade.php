@@ -4,7 +4,7 @@
 
 <div class="container">
     <h2 style="font-weight: bold">{{!empty($empleat) ? 'Editar usuario' : 'Crear usuario'}}</h2>
-    <form method = "POST" action="{{!empty($empleat) ? route('editarUsuariIntern', ['id' => $empleat->id_usuari]) : route('crearEmpleatExtern')}}">
+    <form method = "POST" action="{{!empty($empleat) ? route('empleatUpdate', ['id' => $empleat->id_usuari]) : route('empleatInsert')}}">
         @csrf
 
         <div class="row">

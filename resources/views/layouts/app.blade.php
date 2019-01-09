@@ -83,7 +83,7 @@
                             <a class="nav-link" href="#"><span class="fas fa-project-diagram"></span><span class="sidebar-link underline">Projectes</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><span class="fas fa-users"></span><span class="sidebar-link underline">Gestió de Personal</span></a>
+                            <a class="nav-link" href="{{ route('empleatIndex') }}"><span class="fas fa-users"></span><span class="sidebar-link underline">Gestió de Personal</span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('indexUsuariIntern')}}"><span class="fas fa-user-plus"></span><span class="sidebar-link underline">Gestió d'Usuaris</span></a>
