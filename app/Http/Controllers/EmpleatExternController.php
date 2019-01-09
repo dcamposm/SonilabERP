@@ -64,8 +64,35 @@ class EmpleatExternController extends Controller
         }
     }
 
-    public function update() {
+    public function update($id) {
+        $usuario = EmpleatExtern::find($id);
+        
+        if ($usuario){
+            //ToDo: FALTA COMPLETAR VALIDATOR
+            $v = Validator::make(request()->all(), [
+                'nom_empleat' => 'required',
+                'cognoms_empleat' => 'required',
+                'sexe_empleat' => 'required',
+                'nacionalitat_empleat' => 'required',
+                'imatge_empleat' => 'required',
+                'email_empleat' => 'required',
+                'dni_empleat' => 'required',
+                'telefon_empleat' => 'required',
+                'direccio_empleat' => 'required',
+                'codi_postal_empleat' => 'required',
+                'naixement_empleat' => 'required',
+                'nss_empleat' => 'required',
+                'iban_empleat' => 'required'
+            ]);
 
+            if ($v->fails()){
+                return response()->json(["error" => true], 400);
+            } else {
+                $usuario->fill(request()->all());
+                $usuario->save();
+                return $this->index();
+            }
+        }
     }
 
     public function delete(Request $request) {
