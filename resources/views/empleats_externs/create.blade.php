@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container">
-    <h2 style="font-weight: bold">{{!empty($empleat) ? 'Editar usuario' : 'Crear usuario'}}</h2>
+    <h2 style="font-weight: bold">{{!empty($empleat) ? 'Editar usuari' : 'Crear usuari'}}</h2>
     <form method = "POST" action="{{!empty($empleat) ? route('empleatUpdate', ['id' => $empleat->id_empleat]) : route('empleatInsert')}}">
         @csrf
 
@@ -62,14 +62,14 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
-                    <label for="dni_empleat" style="font-weight: bold">Dni:</label>
-                    <input type="text" class="form-control" id="dni_empleat" placeholder="Entrar dni empleat" name="dni_empleat" value="{{!empty($empleat) ? $empleat->dni_empleat : ''}}">
+                    <label for="dni_empleat" style="font-weight: bold">DNI:</label>
+                    <input type="text" class="form-control" id="dni_empleat" placeholder="Entrar DNI empleat" name="dni_empleat" value="{{!empty($empleat) ? $empleat->dni_empleat : ''}}">
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <label for="telefon_empleat" style="font-weight: bold">Telefon:</label>
-                    <input type="tel" class="form-control" id="telefon_empleat" placeholder="Entrar telefon empleat" name="telefon_empleat" value="{{!empty($empleat) ? $empleat->telefon_empleat : ''}}">
+                    <label for="telefon_empleat" style="font-weight: bold">Telèfon:</label>
+                    <input type="tel" class="form-control" id="telefon_empleat" placeholder="Entrar telèfon empleat" name="telefon_empleat" value="{{!empty($empleat) ? $empleat->telefon_empleat : ''}}">
                 </div>
             </div>
         </div>
@@ -77,8 +77,8 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
-                    <label for="direccio_empleat" style="font-weight: bold">Direccio:</label>
-                    <input type="text" class="form-control" id="direccio_empleat" placeholder="Entrar direccio empleat" name="direccio_empleat" value="{{!empty($empleat) ? $empleat->direccio_empleat : ''}}">
+                    <label for="direccio_empleat" style="font-weight: bold">Direcció:</label>
+                    <input type="text" class="form-control" id="direccio_empleat" placeholder="Entrar direcció empleat" name="direccio_empleat" value="{{!empty($empleat) ? $empleat->direccio_empleat : ''}}">
                 </div>
             </div>
             <div class="col-6">
@@ -93,13 +93,13 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="naixement_empleat" style="font-weight: bold">Data naixement:</label>
-                    <input type="date" class="form-control" id="naixement_empleat" placeholder="Entrar data empleat" name="naixement_empleat" value="{{!empty($empleat) ? explode(' ',$empleat->naixement_empleat)[0] : ''}}">
+                    <input type="date" class="form-control" id="naixement_empleat" placeholder="Entrar data naixement empleat" name="naixement_empleat" value="{{!empty($empleat) ? explode(' ',$empleat->naixement_empleat)[0] : ''}}">
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
                     <label for="nss_empleat" style="font-weight: bold">NSS:</label>
-                    <input type="number" class="form-control" id="nss_empleat" placeholder="Entrar numero seguretat social empleat" name="nss_empleat" value="{{!empty($empleat) ? $empleat->nss_empleat : ''}}">
+                    <input type="number" class="form-control" id="nss_empleat" placeholder="Entrar número seguretat social empleat" name="nss_empleat" value="{{!empty($empleat) ? $empleat->nss_empleat : ''}}">
                 </div>
             </div>
         </div>
@@ -108,7 +108,7 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="iban_empleat" style="font-weight: bold">IBAN:</label>
-                    <input type="text" class="form-control" id="iban_empleat" placeholder="Entrar iban empleat" name="iban_empleat" value="{{!empty($empleat) ? $empleat->iban_empleat : ''}}">
+                    <input type="text" class="form-control" id="iban_empleat" placeholder="Entrar IBAN empleat" name="iban_empleat" value="{{!empty($empleat) ? $empleat->iban_empleat : ''}}">
                 </div>
             </div>
         </div>
@@ -128,7 +128,7 @@
             </div>
             <div class="col-2">
                 <div class="form-group">
-                    <label for="tecnic_sala" style="font-weight: bold">Tecnic:</label>
+                    <label for="tecnic_sala" style="font-weight: bold">Técnic:</label>
                     <input type="checkbox" class="form-control" id="tecnic_sala" name="tecnic_sala" {{!empty($empleat) && $empleat->tecnic_sala == 1 ? 'checked' : ''}} value="1">
                 </div>
             </div>
@@ -146,7 +146,7 @@
             </div>
             <div class="col-2">
                 <div class="form-group">
-                    <label for="linguista" style="font-weight: bold">Linguista:</label>
+                    <label for="linguista" style="font-weight: bold">Lingüista:</label>
                     <input type="checkbox" class="form-control" id="linguista" name="linguista" {{!empty($empleat) && $empleat->linguista == 1 ? 'checked' : ''}} value="1">
                 </div>
             </div>
@@ -170,8 +170,8 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
-                    <label for="preu_tecnicSala" style="font-weight: bold">Preu tecnic de sala:</label>
-                    <input type="number" class="form-control" id="preu_tecnicSala" placeholder="Entrar preu tecnic de Sala" name="preu_tecnic_sala" value="{{!empty($empleat) ? $empleat->preu_tecnic_sala : ''}}">
+                    <label for="preu_tecnicSala" style="font-weight: bold">Preu técnic de sala:</label>
+                    <input type="number" class="form-control" id="preu_tecnicSala" placeholder="Entrar preu técnic de Sala" name="preu_tecnic_sala" value="{{!empty($empleat) ? $empleat->preu_tecnic_sala : ''}}">
                 </div>
             </div>
             <div class="col-6">
@@ -191,8 +191,8 @@
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <label for="preu_linguista" style="font-weight: bold">Preu linguista:</label>
-                    <input type="number" class="form-control" id="preu_linguista" placeholder="Entrar preu linguista" name="preu_linguista" value="{{!empty($empleat) ? $empleat->preu_linguista : ''}}">
+                    <label for="preu_linguista" style="font-weight: bold">Preu lingüista:</label>
+                    <input type="number" class="form-control" id="preu_linguista" placeholder="Entrar preu lingüista" name="preu_linguista" value="{{!empty($empleat) ? $empleat->preu_linguista : ''}}">
                 </div>
             </div>
         </div>
@@ -200,7 +200,7 @@
         <br>
         <div class="row">
             <div class="col-6">
-                <button type="submit" class="btn btn-success col-4">{{!empty($empleat) ? 'Guardar cambios' : 'Crear'}}</button>
+                <button type="submit" class="btn btn-success col-4">{{!empty($empleat) ? 'Desar canvis' : 'Crear'}}</button>
             </div>
         </div>
         <br>

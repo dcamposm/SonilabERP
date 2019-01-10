@@ -5,7 +5,7 @@
 <div>
     <a href="{{ url('/empleats/crear') }}" class="btn btn-success">
         <span class="fas fa-user-plus"></span>
-        Crear nou empleat
+        Afegir treballador
     </a>
 </div>
 
