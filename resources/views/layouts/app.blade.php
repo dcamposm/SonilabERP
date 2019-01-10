@@ -30,7 +30,7 @@
         box-shadow: 10px 10px 5px grey;
         transition: box-shadow 0.4s ease-in-out;
     }
-    
+
     </style>
 
 </head>
@@ -74,14 +74,18 @@
                 <div class="sidebar-sticky">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#"><span class="fas fa-home"></span><span class="sidebar-link underline">Inici</span><span class="sr-only">(current)</span></a>
+                            <a class="nav-link active" href="{{ route('home') }}"><span class="fas fa-home"></span><span class="sidebar-link underline">Inici</span><span class="sr-only">(current)</span></a>
                         </li>
+
+                        <!-- Desabilitat -->
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><span class="fas fa-calendar"></span><span class="sidebar-link underline">Calendari</span></a>
+                            <div class="disabled-link" href=""><span class="fas fa-calendar"></span><span class="sidebar-link">Calendari</span></div>
                         </li>
+                        <!-- Desabilitat -->
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><span class="fas fa-project-diagram"></span><span class="sidebar-link underline">Projectes</span></a>
+                            <div class="disabled-link" href=""><span class="fas fa-project-diagram"></span><span class="sidebar-link">Projectes</span></div>
                         </li>
+
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('empleatIndex') }}"><span class="fas fa-users"></span><span class="sidebar-link underline">Gestió de Personal</span></a>
                         </li>
@@ -94,6 +98,7 @@
                     </ul>
 
 <!--
+ Esto es mas menu, en otros estilos, que venia por defecto, esta aqui por si acaso
                     <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                         <span>Saved reports</span>
                         <a class="d-flex align-items-center text-muted" href="#">

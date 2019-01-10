@@ -48,28 +48,24 @@ body {
 }
 
 .sidebar .nav-link {
-    display: inline-block;
+  display: block;
 	vertical-align: top;
 	text-transform: uppercase;
 	text-decoration: none;
-    font-weight: 800;
+  font-weight: 800;
 	color: #888888;
 	letter-spacing: 0.05em;
 	position: relative;
 }
 
-.sidebar .nav-link .fas {
-    color: #494949;
-}
-
 .sidebar .nav-link.active,
 .sidebar .nav-link .fas.active{
-    color: #BC130A;
-    font-weight: 800;
+  color: #BC130A;
+  font-weight: 800;
 }
 
-.sidebar .nav-link:hover .fas,
-.sidebar .nav-link.active .fas {
+.sidebar .nav-link:hover,
+.underline:hover {
 	color: #BC130A;
 }
 
@@ -80,18 +76,26 @@ body {
 
 /*links*/
 
+.sidebar .disabled-link {
+  color: #aaaaaa;
+  display: block;
+	vertical-align: top;
+	text-transform: uppercase;
+	text-decoration: none;
+  font-weight: 800;
+	letter-spacing: 0.05em;
+	position: relative;
+  margin-left: 1rem;
+  margin: 0.5rem 1rem 0.5rem 1rem;
+}
+
 /*esta aqui metido para que el underline del hover funcione bien*/
 .sidebar-link {
 	position: relative;
 }
 
 .underline {
-	border: 1px solid transparent;
-}
-
-.underline:hover {
-	text-decoration: none;
-	color: #BC130A;
+	border: 2px solid transparent;
 }
 
 .underline::after {
