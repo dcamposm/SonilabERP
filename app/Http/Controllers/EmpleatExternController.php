@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Validator;
 use App\EmpleatExtern;
+use App\Idioma;
+use App\IdiomaEmpleat;
 
 class EmpleatExternController extends Controller
 {
@@ -25,7 +27,15 @@ class EmpleatExternController extends Controller
 
     public function show($id) {
         $empleat = EmpleatExtern::find($id);
-        return View('empleats_externs.show', array('empleat' => $empleat));
+        $idiomesEmpleat = IdiomaEmpleat::where('id_empleat', '=', $id)->get();
+        $idiomes = array();
+        foreach($idiomesEmpleat as $key => $idiomaEmpleat) {
+            $idioma = Idioma::find($idiomaEmpleat->id_idioma);
+            $idiomes[$idioma->id_idioma] = $idioma;
+        }
+        return View('empleats_externs.show', array( 'empleat' => $empleat, 
+                                                    'idiomesEmpleat' => $idiomesEmpleat, 
+                                                    'idiomes' => $idiomes));
     }
 
     public function insertView() {
@@ -116,7 +126,7 @@ class EmpleatExternController extends Controller
     }
 
     public function delete(Request $request) {
-        User::where('id_empleat',$request["id"])->delete();
+        EmpleatExtern::where('id_empleat',$request["id"])->delete();
         return $this->index();
     }
 }
