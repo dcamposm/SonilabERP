@@ -12,7 +12,7 @@
 <div class="row">
 
     @foreach( $arrayUsuaris as $key => $usuaris )
-    <div class="card card-shadow col-xs-6 col-sm-4 col-md-3 text-center m-3">
+    <div class="card card-shadow col-xs-6 col-sm-4 col-md-3 text-center m-3" style="min-width: 200px;">
 
         <div class="card-body" href="{{ url('/usuaris/interns/show/' . $key ) }}" >
             <img src="{{url('/')}}/img/usuaris/{{$usuaris['imatge_usuari']}}" class="rounded-circle" style="height:150px"/>
@@ -23,14 +23,14 @@
                 </a>
             </h4>
             <div class="row">
-                <div class="col-6">
+                <div class="col-6" style="padding: 0px;">
                     <a href="{{ route('editarUsuariIntern', ['id' => $usuaris['id_usuari']]) }}" class="btn btn-outline-primary w-100"> Editar </a> 
                 </div>
-                <div class="col-6">
+                <div class="col-6" style="padding: 0px;">
                     <form action="{{ route('esborrarUsuariIntern') }}" method="POST">
                         @csrf
                         <input type="hidden" readonly name="id" value="{{$usuaris['id_usuari']}}">
-                        <button class="btn btn-outline-danger w-100">Esborrar</button>
+                        <button class="btn btn-outline-danger">Esborrar</button>
                     </form>
                 </div>
             </div>
