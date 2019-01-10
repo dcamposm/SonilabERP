@@ -24,6 +24,9 @@ Fuente: https://stackoverflow.com/questions/26780165/install-laravel-behind-prox
 - Para realizar la migración de la base de datos hay que:
 	1.- Crear la base de datos.
 	2.- Ejecutar el comando: php artisan migrate
+- Para introducir los datos por defecto en la base de datos ha que:
+	1.- Hacer un "composer install" en caso de añadir nuevos seeders.
+	2.- Ejecutar el comando "php artisan db:seed".
 
 -----------------------------------------------------------------------------------------------------------------------
 

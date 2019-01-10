@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Departament extends Model
 {
     protected $table = 'SLB_DEPARTAMENTS';
-
-    public $timestamps = false;
-
     protected $primaryKey = 'id_departament';
 
-    
+    protected $fillable = [
+        'nom_departament',
+        'descripcio_departament'
+    ];
 }

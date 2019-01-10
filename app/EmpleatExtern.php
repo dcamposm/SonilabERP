@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class EmpleatExtern extends Model
 {
     protected $table = 'slb_empleats_externs';
-    public $timestamps = false;
     protected $primaryKey = 'id_empleat';
 
     protected $fillable = [
@@ -30,11 +29,9 @@ class EmpleatExtern extends Model
         "traductor",
         "ajustador",
         "linguista",
-        "preu_actor",
         "preu_director",
         "preu_tecnic_sala",
-        "preu_ajustador",
-        "preu_linguista"
+        "preu_ajustador"
     ];
 
 }
