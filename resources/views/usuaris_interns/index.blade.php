@@ -16,8 +16,11 @@
 
         <div class="card-body" href="{{ url('/usuaris/interns/show/' . $key ) }}" >
             <img src="{{$usuaris['imatge_usuari']}}" style="height:200px"/>
+            
             <h4 style="min-height:45px;margin:5px 0 10px 0">
-                {{$usuaris['nom_usuari']}} {{$usuaris['cognoms_usuari']}} 
+                <a href="{{ route('veureUsuariIntern', ['id' => $usuaris['id_usuari']]) }}" style="text-decoration:none; color:black; font-size: 1.35rem;">
+                    {{$usuaris['nom_usuari']}} {{$usuaris['cognoms_usuari']}} 
+                </a>
             </h4>
             <div class="row">
                 <div class="col-6">

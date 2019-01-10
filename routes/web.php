@@ -19,7 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/usuaris/interns/index', 'UserController@getIndex') ->name('indexUsuariIntern');
-Route::get('/usuaris/interns/show/{id}', 'UserController@getShow');
+Route::get('/usuaris/interns/show/{id}', 'UserController@getShow')->name('veureUsuariIntern');
 Route::get('/usuaris/interns/crear', 'UserController@viewRegistre');
 Route::post('/usuaris/interns/crear', 'UserController@crearUsuario')->name('crearUsuariIntern');
 Route::get('/usuaris/interns/editar/{id}', 'UserController@viewEditarUsuario')->name('editarUsuariIntern');
