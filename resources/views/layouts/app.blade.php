@@ -45,9 +45,9 @@
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"><img src="http://sonilab.com.mialias.net/wp-content/uploads/2016/11/SONILAB_logo41-300x65-300x75.png" width="120" height="30" class="d-inline-block align-top" alt=""></a>
         @auth
 
-                   <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                 <!--  <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                     Link with href
-                  </a>
+                  </a>-->
 
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
@@ -129,8 +129,8 @@
 -->
                 </div>
                 <!--sidebar floating button-->
-                <a href="#" class="float"><i class="fas fa-arrow-circle-left my-float"></i></a>
-                <a class="btn-floating btn-lg purple-gradient"><i class="fa fa-bolt"></i></a>
+                <!--<a href="#" class="float"><i class="fas fa-arrow-circle-left my-float"></i></a>-->
+               <!-- <a class="btn-floating btn-lg purple-gradient"><i class="fa fa-bolt"></i></a>-->
 
             </nav>
         </div>
