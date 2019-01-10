@@ -67,7 +67,7 @@ class EmpleatExternController extends Controller
 
     public function update($id) {
         $usuario = EmpleatExtern::find($id);
-        
+
         if ($usuario){
             //ToDo: FALTA COMPLETAR VALIDATOR
             $v = Validator::make(request()->all(), [
@@ -75,7 +75,6 @@ class EmpleatExternController extends Controller
                 'cognoms_empleat' => 'required',
                 'sexe_empleat' => 'required',
                 'nacionalitat_empleat' => 'required',
-                'imatge_empleat' => 'required',
                 'email_empleat' => 'required',
                 'dni_empleat' => 'required',
                 'telefon_empleat' => 'required',
@@ -89,7 +88,27 @@ class EmpleatExternController extends Controller
             if ($v->fails()){
                 return response()->json(["error" => true], 400);
             } else {
-                $usuario->fill(request()->all());
+                $data = request()->all();
+                if (!isset($data['actor'])){
+                    $data['actor'] = 0;
+                }
+                if (!isset($data['director'])){
+                    $data['director'] = 0;
+                }
+                if (!isset($data['tecnic_sala'])){
+                    $data['tecnic_sala'] = 0;
+                }
+                if (!isset($data['traductor'])){
+                    $data['traductor'] = 0;
+                }
+                if (!isset($data['ajustador'])){
+                    $data['ajustador'] = 0;
+                }
+                if (!isset($data['linguista'])){
+                    $data['linguista'] = 0;
+                }
+
+                $usuario->fill($data);
                 $usuario->save();
                 return $this->index();
             }

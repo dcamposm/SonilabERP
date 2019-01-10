@@ -117,37 +117,37 @@
             <div class="col-2">
                 <div class="form-group">
                     <label for="actor" style="font-weight: bold">Actor:</label>
-                    <input type="checkbox" class="form-control" id="actor_empleat" name="actor" value="{{!empty($empleat) ? $empleat->actor : '1'}}">
+                    <input type="checkbox" class="form-control" id="actor" name="actor" {{!empty($empleat) && $empleat->actor == 1 ? 'checked' : ''}} value="1">
                 </div>
             </div>
             <div class="col-2">
                 <div class="form-group">
                     <label for="director" style="font-weight: bold">Director:</label>
-                    <input type="checkbox" class="form-control" id="director" name="director" value="{{!empty($empleat) ? $empleat->director : '1'}}">
+                    <input type="checkbox" class="form-control" id="director" name="director" {{!empty($empleat) && $empleat->director == 1 ? 'checked' : ''}} value="1">
                 </div>
             </div>
             <div class="col-2">
                 <div class="form-group">
                     <label for="tecnic_sala" style="font-weight: bold">Tecnic:</label>
-                    <input type="checkbox" class="form-control" id="tecnic_sala" name="tecnic_sala" value="{{!empty($empleat) ? $empleat->tecnic_sala : '1'}}">
+                    <input type="checkbox" class="form-control" id="tecnic_sala" name="tecnic_sala" {{!empty($empleat) && $empleat->tecnic_sala == 1 ? 'checked' : ''}} value="1">
                 </div>
             </div>
             <div class="col-2">
                 <div class="form-group">
                     <label for="traductor" style="font-weight: bold">Traductor:</label>
-                    <input type="checkbox" class="form-control" id="traductor" name="traductor_empleat" value="{{!empty($empleat) ? $empleat->traductor_empleat : '1'}}">
+                    <input type="checkbox" class="form-control" id="traductor" name="traductor" {{!empty($empleat) && $empleat->traductor == 1 ? 'checked' : ''}} value="1">
                 </div>
             </div>
             <div class="col-2">
                 <div class="form-group">
                     <label for="ajustador" style="font-weight: bold">Ajustador:</label>
-                    <input type="checkbox" class="form-control" id="ajustador" name="ajustador" value="{{!empty($empleat) ? $empleat->ajustador : '1'}}">
+                    <input type="checkbox" class="form-control" id="ajustador" name="ajustador" {{!empty($empleat) && $empleat->ajustador == 1 ? 'checked' : ''}} value="1">
                 </div>
             </div>
             <div class="col-2">
                 <div class="form-group">
                     <label for="linguista" style="font-weight: bold">Linguista:</label>
-                    <input type="checkbox" class="form-control" id="linguista" name="linguista" value="{{!empty($empleat) ? $empleat->linguista : '1'}}">
+                    <input type="checkbox" class="form-control" id="linguista" name="linguista" {{!empty($empleat) && $empleat->linguista == 1 ? 'checked' : ''}} value="1">
                 </div>
             </div>
         </div>
