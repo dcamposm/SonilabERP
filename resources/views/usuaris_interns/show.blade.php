@@ -5,8 +5,7 @@
 <div class="row">
 
     <div class="col-sm-4">
-        <img src="{{$arrayUsuaris['imatge_usuari']}}">   
-
+        <img src="/img/usuaris/{{$arrayUsuaris['imatge_usuari']}}" class="rounded" style="height:150px"/>
     </div>
     <div class="col-sm-8">
         <h1>Nom: {{ $arrayUsuaris['nom_usuari']}} {{ $arrayUsuaris['cognoms_usuari']}}</h1>

@@ -15,7 +15,7 @@
     <div class="card card-shadow col-xs-6 col-sm-4 col-md-3 text-center m-3">
 
         <div class="card-body" href="{{ url('/usuaris/interns/show/' . $key ) }}" >
-            <img src="{{$usuaris['imatge_usuari']}}" style="height:200px"/>
+            <img src="/img/usuaris/{{$usuaris['imatge_usuari']}}" class="rounded-circle" style="height:150px"/>
             
             <h4 style="min-height:45px;margin:5px 0 10px 0">
                 <a href="{{ route('veureUsuariIntern', ['id' => $usuaris['id_usuari']]) }}" style="text-decoration:none; color:black; font-size: 1.35rem;">
