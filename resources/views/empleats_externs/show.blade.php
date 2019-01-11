@@ -83,7 +83,7 @@
                 <tbody>
                     <tr class="row">
                         <td class="font-weight-bold col-sm-3">Idioma:</td>
-                        <td class="col">{{ $idiomes[$idiomaEmpleat['id_idioma']]->idioma }}</td>
+                        <td class="col"><img src="{{url('/')}}/img/flags/{{$idiomaEmpleat['id_idioma']}}.png" class="rounded"> {{ $idiomes[$idiomaEmpleat['id_idioma']]->idioma }}</td>
                     </tr>
                     <tr class="row">
                         <td class="font-weight-bold col-sm-3">Homologat:</td>
@@ -103,7 +103,7 @@
                 <tbody>
                     <tr class="row">
                         <td class="font-weight-bold col-sm-3">Idioma:</td>
-                        <td class="col">{{ $idiomes[$idiomaEmpleat['id_idioma']]->idioma }}</td>
+                        <td class="col"><img src="{{url('/')}}/img/flags/{{$idiomaEmpleat['id_idioma']}}.png" class="rounded"> {{ $idiomes[$idiomaEmpleat['id_idioma']]->idioma }}</td>
                     </tr>
                     <tr class="row">
                         <td class="font-weight-bold col-sm-3">Homologat:</td>
@@ -123,7 +123,7 @@
                 <tbody>
                     <tr class="row">
                         <td class="font-weight-bold col-sm-3">Idioma:</td>
-                        <td class="col">{{ $idiomes[$idiomaEmpleat['id_idioma']]->idioma }}</td>
+                        <td class="col"><img src="{{url('/')}}/img/flags/{{$idiomaEmpleat['id_idioma']}}.png" class="rounded"> {{ $idiomes[$idiomaEmpleat['id_idioma']]->idioma }}</td>
                     </tr>
                     <tr class="row">
                         <td class="font-weight-bold col-sm-3">Homologat:</td>
