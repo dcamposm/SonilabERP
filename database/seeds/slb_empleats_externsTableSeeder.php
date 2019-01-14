@@ -27,7 +27,7 @@ class slb_empleats_externsTableSeeder extends Seeder
             'telefon_empleat' => '666666666',
             'direccio_empleat' => 'C/ home i dona que treballen',
             'codi_postal_empleat' => '00666',
-            'naixement_empleat' => \Carbon\Carbon::create(1970, 1, 1),
+            'naixement_empleat' => \Carbon\Carbon::create(2000, 1, 1),
             'nss_empleat' => '666 999',
             'iban_empleat' => 'ES666666666',
             'actor' => true,

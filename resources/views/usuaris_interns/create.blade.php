@@ -3,10 +3,25 @@
 @section('content')
 
 <div class="container">
-    <h2 style="font-weight: bold">{{!empty($usuario) ? 'Editar usuario' : 'Crear usuario'}}</h2>
+    <h2 style="font-weight: bold">{{!empty($usuario) ? 'Editar usuari' : 'Crear usuari'}}</h2>
     <form method = "POST" action="{{!empty($usuario) ? route('editarUsuariIntern', ['id' => $usuario->id_usuari]) : route('crearUsuariIntern')}}">
         @csrf
 
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="alias_usuari" style="font-weight: bold">Àlias:</label>
+                    <input type="text" class="form-control" id="alias_usuari" placeholder="Entrar alias" name="alias_usuari" value="{{!empty($usuario) ? $usuario->alias_usuari : ''}}">
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="email_usuari" style="font-weight: bold">Email:</label>
+                    <input type="email" class="form-control" id="email_usuari" placeholder="Entrar correu" name="email_usuari" value="{{!empty($usuario) ? $usuario->email_usuari : ''}}">
+                </div> 
+            </div>
+        </div>
+        
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
@@ -18,22 +33,6 @@
                 <div class="form-group">
                     <label for="cognoms_usuari" style="font-weight: bold">Cognoms:</label>
                     <input type="text" class="form-control" id="cognoms_usuari" placeholder="Entrar cognoms" name="cognoms_usuari" value="{{!empty($usuario) ? $usuario->cognoms_usuari : ''}}">
-                </div>
-            </div>
-            
-        </div>
-        
-        <div class="row">
-            <div class="col-6">
-                <div class="form-group">
-                    <label for="email_usuari" style="font-weight: bold">Email:</label>
-                    <input type="email" class="form-control" id="email_usuari" placeholder="Entrar correu" name="email_usuari" value="{{!empty($usuario) ? $usuario->email_usuari : ''}}">
-                </div> 
-            </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <label for="alias_usuari" style="font-weight: bold">Àlias:</label>
-                    <input type="text" class="form-control" id="alias_usuari" placeholder="Entrar alias" name="alias_usuari" value="{{!empty($usuario) ? $usuario->alias_usuari : ''}}">
                 </div>
             </div>
             <!--<div class="col-6">
@@ -48,13 +47,13 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="contrasenya_usuari" style="font-weight: bold">{{!empty($usuario) ? 'Nova contrasenya' : 'Contrasenya'}}:</label>
-                    <input type="password" class="form-control" id="contrasenya_usuari" placeholder="Entrar contrassenya" name="contrasenya_usuari">
+                    <input type="password" class="form-control" id="contrasenya_usuari" placeholder="Entrar contrasenya" name="contrasenya_usuari">
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
                     <label for="cpass" style="font-weight: bold">Confirma contrasenya:</label>
-                    <input type="password" class="form-control" id="cpass" placeholder="Confirmar contrassenya" name="cpass">
+                    <input type="password" class="form-control" id="cpass" placeholder="Confirmar contrasenya" name="cpass">
                 </div>
             </div>
         </div>

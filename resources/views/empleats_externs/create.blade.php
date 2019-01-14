@@ -99,7 +99,7 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label for="nss_empleat" style="font-weight: bold">NSS:</label>
-                        <input type="number" class="form-control" id="nss_empleat" placeholder="Entrar número seguretat social empleat" name="nss_empleat" value="{{!empty($empleat) ? $empleat->nss_empleat : ''}}">
+                        <input type="text" class="form-control" id="nss_empleat" placeholder="Entrar número seguretat social empleat" name="nss_empleat" value="{{!empty($empleat) ? $empleat->nss_empleat : ''}}">
                     </div>
                 </div>
             </div>
@@ -119,49 +119,49 @@
                 <div class="col-2">
                     <div class="form-group">
                         <label for="actor" style="font-weight: bold">Actor:</label>
-                        <input type="checkbox" class="form-control" id="actor" name="actor" {{!empty($empleat) && $empleat->actor == 1 ? 'checked' : ''}} value="1">
+                        <input type="checkbox" onchange="mostrarCampos('actor')" class="form-control" id="actor" name="actor" {{!empty($empleat) && $empleat->actor == 1 ? 'checked' : ''}} value="1">
                     </div>
                 </div>
                 <div class="col-2">
                     <div class="form-group">
                         <label for="director" style="font-weight: bold">Director:</label>
-                        <input type="checkbox" class="form-control" id="director" name="director" {{!empty($empleat) && $empleat->director == 1 ? 'checked' : ''}} value="1">
+                        <input type="checkbox" onchange="mostrarCampos('director')" class="form-control" id="director" name="director" {{!empty($empleat) && $empleat->director == 1 ? 'checked' : ''}} value="1">
                     </div>
                 </div>
                 <div class="col-2">
                     <div class="form-group">
                         <label for="tecnic_sala" style="font-weight: bold">Técnic:</label>
-                        <input type="checkbox" class="form-control" id="tecnic_sala" name="tecnic_sala" {{!empty($empleat) && $empleat->tecnic_sala == 1 ? 'checked' : ''}} value="1">
+                        <input type="checkbox" onchange="mostrarCampos('tecnic')" class="form-control" id="tecnic_sala" name="tecnic_sala" {{!empty($empleat) && $empleat->tecnic_sala == 1 ? 'checked' : ''}} value="1">
                     </div>
                 </div>
                 <div class="col-2">
                     <div class="form-group">
                         <label for="traductor" style="font-weight: bold">Traductor:</label>
-                        <input type="checkbox" class="form-control" id="traductor" name="traductor" {{!empty($empleat) && $empleat->traductor == 1 ? 'checked' : ''}} value="1">
+                        <input type="checkbox" onchange="mostrarCampos('traductor')" class="form-control" id="traductor" name="traductor" {{!empty($empleat) && $empleat->traductor == 1 ? 'checked' : ''}} value="1">
                     </div>
                 </div>
                 <div class="col-2">
                     <div class="form-group">
                         <label for="ajustador" style="font-weight: bold">Ajustador:</label>
-                        <input type="checkbox" class="form-control" id="ajustador" name="ajustador" {{!empty($empleat) && $empleat->ajustador == 1 ? 'checked' : ''}} value="1">
+                        <input type="checkbox" onchange="mostrarCampos('ajustador')" class="form-control" id="ajustador" name="ajustador" {{!empty($empleat) && $empleat->ajustador == 1 ? 'checked' : ''}} value="1">
                     </div>
                 </div>
                 <div class="col-2">
                     <div class="form-group">
                         <label for="linguista" style="font-weight: bold">Lingüista:</label>
-                        <input type="checkbox" class="form-control" id="linguista" name="linguista" {{!empty($empleat) && $empleat->linguista == 1 ? 'checked' : ''}} value="1">
+                        <input type="checkbox" onchange="mostrarCampos('linguista')" class="form-control" id="linguista" name="linguista" {{!empty($empleat) && $empleat->linguista == 1 ? 'checked' : ''}} value="1">
                     </div>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-6">
+                <div class="col-6" id="colActor"  style="display:{{!empty($empleat) && $empleat->actor == 1 ? '' : 'none'}}">
                     <div class="form-group">
                         <label for="preu_actor" style="font-weight: bold">Preu actor:</label>
                         <input type="number" class="form-control" id="preu_actor" placeholder="Entrar preu actor" name="preu_actor" value="{{!empty($empleat) ? $empleat->preu_actor : ''}}">
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-6" id="colDirector" style="display:{{!empty($empleat) && $empleat->director == 1 ? '' : 'none'}}">
                     <div class="form-group">
                         <label for="preu_director" style="font-weight: bold">Preu director:</label>
                         <input type="number" class="form-control" id="preu_director" placeholder="Entrar preu director" name="preu_director" value="{{!empty($empleat) ? $empleat->preu_director : ''}}">
@@ -170,13 +170,13 @@
             </div>
 
             <div class="row">
-                <div class="col-6">
+                <div class="col-6" id="colTecnicSala" style="display:{{!empty($empleat) && $empleat->tecnic_sala == 1 ? '' : 'none'}}">
                     <div class="form-group">
                         <label for="preu_tecnicSala" style="font-weight: bold">Preu técnic de sala:</label>
                         <input type="number" class="form-control" id="preu_tecnicSala" placeholder="Entrar preu técnic de Sala" name="preu_tecnic_sala" value="{{!empty($empleat) ? $empleat->preu_tecnic_sala : ''}}">
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-6" id="colTraductor" style="display:{{!empty($empleat) && $empleat->traductor == 1 ? '' : 'none'}}">
                     <div class="form-group">
                         <label for="preu_traductor" style="font-weight: bold">Preu traductor:</label>
                         <input type="number" class="form-control" id="preu_traductor" placeholder="Entrar preu traductor" name="preu_traductor" value="{{!empty($empleat) ? $empleat->preu_traductor : ''}}">
@@ -185,13 +185,13 @@
             </div>
 
             <div class="row">
-                <div class="col-6">
+                <div class="col-6" id="colAjustador" style="display:{{!empty($empleat) && $empleat->ajustador == 1 ? '' : 'none'}}">
                     <div class="form-group">
                         <label for="preu_ajustador" style="font-weight: bold">Preu ajustador:</label>
                         <input type="number" class="form-control" id="preu_ajustador" placeholder="Entrar preu ajustador" name="preu_ajustador" value="{{!empty($empleat) ? $empleat->preu_ajustador : ''}}">
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-6" id="colLinguista" style="display:{{!empty($empleat) && $empleat->linguista == 1 ? '' : 'none'}}">
                     <div class="form-group">
                         <label for="preu_linguista" style="font-weight: bold">Preu lingüista:</label>
                         <input type="number" class="form-control" id="preu_linguista" placeholder="Entrar preu lingüista" name="preu_linguista" value="{{!empty($empleat) ? $empleat->preu_linguista : ''}}">
@@ -209,4 +209,55 @@
     </form>
 </div>
 
+<script>
+    
+    function mostrarCampos(valor) {
+     
+        switch(valor){
+            case "actor":
+                        if (colActor.style.display == 'none') {
+                            colActor.style.display = 'block';
+                        } else {
+                            colActor.style.display = 'none';
+                        }
+            break;
+            case "director":
+                        if (colDirector.style.display == 'none') {
+                            colDirector.style.display = 'block';
+                        } else {
+                            colDirector.style.display = 'none';
+                        }
+            break;
+            case "tecnic":
+                        if (colTecnicSala.style.display == 'none') {
+                            colTecnicSala.style.display = 'block';
+                        } else {
+                            colTecnicSala.style.display = 'none';
+                        }
+            break;
+            case "traductor":
+                        if (colTraductor.style.display == 'none') {
+                            colTraductor.style.display = 'block';
+                        } else {
+                            colTraductor.style.display = 'none';
+                        }
+            break;
+            case "ajustador":
+                        if (colAjustador.style.display == 'none') {
+                            colAjustador.style.display = 'block';
+                        } else {
+                            colAjustador.style.display = 'none';
+                        }
+            break;
+            case "linguista":
+                        if (colLinguista.style.display == 'none') {
+                            colLinguista.style.display = 'block';
+                        } else {
+                            colLinguista.style.display = 'none';
+                        }
+            break;
+        }
+        
+    }
+</script>
 @endsection
