@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container">
-    <h2 style="font-weight: bold">{{!empty($empleat) ? 'Editar usuari' : 'Crear usuari'}}</h2>
+    <h2 style="font-weight: bold">{{!empty($empleat) ? 'Editar empleat' : 'Crear empleat'}}</h2>
     <form method = "POST" action="{{!empty($empleat) ? route('empleatUpdate', ['id' => $empleat->id_empleat]) : route('empleatInsert')}}">
         @csrf
         <fieldset class="border p-2">
@@ -119,54 +119,137 @@
                 <div class="col-2">
                     <div class="form-group">
                         <label for="actor" style="font-weight: bold">Actor:</label>
-                        <input type="checkbox" onchange="mostrarCampos('actor')" class="form-control" id="actor" name="actor" {{!empty($empleat) && $empleat->actor == 1 ? 'checked' : ''}} value="1">
+                        <input type="checkbox" onchange="mostrarCamps('actor')" class="form-control" id="actor" name="actor" {{!empty($empleat) && $empleat->actor == 1 ? 'checked' : ''}} value="1">
                     </div>
                 </div>
                 <div class="col-2">
                     <div class="form-group">
                         <label for="director" style="font-weight: bold">Director:</label>
-                        <input type="checkbox" onchange="mostrarCampos('director')" class="form-control" id="director" name="director" {{!empty($empleat) && $empleat->director == 1 ? 'checked' : ''}} value="1">
+                        <input type="checkbox" onchange="mostrarCamps('director')" class="form-control" id="director" name="director" {{!empty($empleat) && $empleat->director == 1 ? 'checked' : ''}} value="1">
                     </div>
                 </div>
                 <div class="col-2">
                     <div class="form-group">
                         <label for="tecnic_sala" style="font-weight: bold">Técnic:</label>
-                        <input type="checkbox" onchange="mostrarCampos('tecnic')" class="form-control" id="tecnic_sala" name="tecnic_sala" {{!empty($empleat) && $empleat->tecnic_sala == 1 ? 'checked' : ''}} value="1">
+                        <input type="checkbox" onchange="mostrarCamps('tecnic')" class="form-control" id="tecnic_sala" name="tecnic_sala" {{!empty($empleat) && $empleat->tecnic_sala == 1 ? 'checked' : ''}} value="1">
                     </div>
                 </div>
                 <div class="col-2">
                     <div class="form-group">
                         <label for="traductor" style="font-weight: bold">Traductor:</label>
-                        <input type="checkbox" onchange="mostrarCampos('traductor')" class="form-control" id="traductor" name="traductor" {{!empty($empleat) && $empleat->traductor == 1 ? 'checked' : ''}} value="1">
+                        <input type="checkbox" onchange="mostrarCamps('traductor')" class="form-control" id="traductor" name="traductor" {{!empty($empleat) && $empleat->traductor == 1 ? 'checked' : ''}} value="1">
                     </div>
                 </div>
                 <div class="col-2">
                     <div class="form-group">
                         <label for="ajustador" style="font-weight: bold">Ajustador:</label>
-                        <input type="checkbox" onchange="mostrarCampos('ajustador')" class="form-control" id="ajustador" name="ajustador" {{!empty($empleat) && $empleat->ajustador == 1 ? 'checked' : ''}} value="1">
+                        <input type="checkbox" onchange="mostrarCamps('ajustador')" class="form-control" id="ajustador" name="ajustador" {{!empty($empleat) && $empleat->ajustador == 1 ? 'checked' : ''}} value="1">
                     </div>
                 </div>
                 <div class="col-2">
                     <div class="form-group">
                         <label for="linguista" style="font-weight: bold">Lingüista:</label>
-                        <input type="checkbox" onchange="mostrarCampos('linguista')" class="form-control" id="linguista" name="linguista" {{!empty($empleat) && $empleat->linguista == 1 ? 'checked' : ''}} value="1">
+                        <input type="checkbox" onchange="mostrarCamps('linguista')" class="form-control" id="linguista" name="linguista" {{!empty($empleat) && $empleat->linguista == 1 ? 'checked' : ''}} value="1">
                     </div>
                 </div>
             </div>
 
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-6" id="colActor"  style="display:{{!empty($empleat) && $empleat->actor == 1 ? '' : 'none'}}">
                     <div class="form-group">
-                        <label for="preu_actor" style="font-weight: bold">Preu actor:</label>
-                        <input type="number" class="form-control" id="preu_actor" placeholder="Entrar preu actor" name="preu_actor" value="{{!empty($empleat) ? $empleat->preu_actor : ''}}">
+                    <h4>Actor</h4>
+                        <div class="row"> 
+                        @foreach( $idiomes as $key => $idioma)
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <label for="idioma_actor_{{$idioma->idioma}}" style="font-weight: bold">{{$idioma->idioma}}:</label>
+                                    <input type="checkbox" class="form-control" id="idioma_actor_{{$idioma->idioma}}" onchange="mostrarSubMenus('{{$idioma->idioma}}','actor')" name="idioma_actor_{{$idioma->idioma}}" value="1">
+                                </div>
+                            </div>
+                        
+                            <div class="col-5">
+                                <label for="homologat_actor_{{$idioma->idioma}}" style="font-weight: bold">Homologat:</label>
+                                <select class="form-control" id="homologat_actor_{{$idioma->idioma}}" name="homologat_actor_{{$idioma->idioma}}" disabled>
+                                    <option value="NO" {{(!empty($empleat) && $empleat->homologat == 'NO') ? 'selected' : ''}}>NO</option>
+                                    <option value="SI" {{(!empty($empleat) && $empleat->homologat == 'SI') ? 'selected' : ''}}>SI</option>
+                                </select>
+                            </div>
+                           
+                            <div class="col-5">
+                                <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Preu actor:</label>
+                                <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}" placeholder="Entrar preu actor" name="preu_actor_{{$idioma->idioma}}" value="{{!empty($empleat) ? $empleat->preu_actor : ''}}" disabled>
+                            </div>
+                            
+                        @endforeach
+                        </div>
                     </div>
-                </div>
-                <div class="col-6" id="colDirector" style="display:{{!empty($empleat) && $empleat->director == 1 ? '' : 'none'}}">
+                </div> -->
+
+                <div class="row container">
+                <div class="col-6" id="colActor"  style="display:{{!empty($empleat) && $empleat->actor == 1 ? '' : 'none'}}">
                     <div class="form-group">
-                        <label for="preu_director" style="font-weight: bold">Preu director:</label>
-                        <input type="number" class="form-control" id="preu_director" placeholder="Entrar preu director" name="preu_director" value="{{!empty($empleat) ? $empleat->preu_director : ''}}">
+                        <table class="table">
+                                <thead class="thead-dark">
+                            <tr class="row">
+                                <th class="col">Actor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach( $idiomes as $key => $idioma)
+                        <tr class="row">
+                            <td class="col">
+                                <div class="form-group">
+                                    <label for="idioma_actor_{{$idioma->idioma}}" style="font-weight: bold">{{$idioma->idioma}}:</label>
+                                    <input type="checkbox" class="form-control" id="idioma_actor_{{$idioma->idioma}}" onchange="mostrarSubMenus('{{$idioma->idioma}}','actor')" name="idioma_actor_{{$idioma->idioma}}" value="1">
+                                </div>
+                            </td>
+                            <td class="col">
+                                <label for="homologat_actor_{{$idioma->idioma}}" style="font-weight: bold">Homologat:</label>
+                                <select class="form-control" id="homologat_actor_{{$idioma->idioma}}" name="homologat_actor_{{$idioma->idioma}}" disabled>
+                                    <option value="NO" {{(!empty($empleat) && $empleat->homologat == 'NO') ? 'selected' : ''}}>NO</option>
+                                    <option value="SI" {{(!empty($empleat) && $empleat->homologat == 'SI') ? 'selected' : ''}}>SI</option>
+                                </select>
+                            </td>
+                            <td class="col">
+                            <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Preu actor:</label>
+                                <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}" placeholder="Entrar preu actor" name="preu_actor_{{$idioma->idioma}}" value="{{!empty($empleat) ? $empleat->preu_actor : ''}}" disabled>
+                            </td>
+                        
+                        </tr>          
+                        @endforeach
+                        </tbody> 
+                        </table>
                     </div>
                 </div>
+
+                <div class="col-6" id="colTraductor" style="display:{{!empty($empleat) && $empleat->traductor == 1 ? '' : 'none'}}">
+                    <div class="form-group">
+                        <div class="row"> 
+                        @foreach( $idiomes as $key => $idioma)
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <label for="idioma_traductor_{{$idioma->idioma}}" style="font-weight: bold">{{$idioma->idioma}}:</label>
+                                    <input type="checkbox" class="form-control" id="idioma_traductor_{{$idioma->idioma}}" onchange="mostrarSubMenus('{{$idioma->idioma}}','traductor')" name="idioma_traductor_{{$idioma->idioma}}" value="1">
+                                </div>
+                            </div>
+                        
+                            <div class="col-5">
+                                <label for="homologat_traductor_{{$idioma->idioma}}" style="font-weight: bold">Homologat:</label>
+                                <select class="form-control" id="homologat_traductor_{{$idioma->idioma}}" name="homologat_traductor_{{$idioma->idioma}}" disabled>
+                                    <option value="NO" {{(!empty($empleat) && $empleat->homologat == 'NO') ? 'selected' : ''}}>NO</option>
+                                    <option value="SI" {{(!empty($empleat) && $empleat->homologat == 'SI') ? 'selected' : ''}}>SI</option>
+                                </select>
+                            </div>
+                           
+                            <div class="col-5">
+                                <label for="preu_traductor_{{$idioma->idioma}}" style="font-weight: bold">Preu traductor:</label>
+                                <input type="number" class="form-control" id="preu_traductor_{{$idioma->idioma}}" placeholder="Entrar preu traductor" name="preu_traductor_{{$idioma->idioma}}" value="{{!empty($empleat) ? $empleat->preu_traductor : ''}}">
+                            </div>
+                            
+                        @endforeach
+                        </div>
+                    </div>
+                </div> 
             </div>
 
             <div class="row">
@@ -176,12 +259,14 @@
                         <input type="number" class="form-control" id="preu_tecnicSala" placeholder="Entrar preu técnic de Sala" name="preu_tecnic_sala" value="{{!empty($empleat) ? $empleat->preu_tecnic_sala : ''}}">
                     </div>
                 </div>
-                <div class="col-6" id="colTraductor" style="display:{{!empty($empleat) && $empleat->traductor == 1 ? '' : 'none'}}">
+
+                <div class="col-6" id="colDirector" style="display:{{!empty($empleat) && $empleat->director == 1 ? '' : 'none'}}">
                     <div class="form-group">
-                        <label for="preu_traductor" style="font-weight: bold">Preu traductor:</label>
-                        <input type="number" class="form-control" id="preu_traductor" placeholder="Entrar preu traductor" name="preu_traductor" value="{{!empty($empleat) ? $empleat->preu_traductor : ''}}">
+                        <label for="preu_director" style="font-weight: bold">Preu director:</label>
+                        <input type="number" class="form-control" id="preu_director" placeholder="Entrar preu director" name="preu_director" value="{{!empty($empleat) ? $empleat->preu_director : ''}}">
                     </div>
                 </div>
+
             </div>
 
             <div class="row">
@@ -191,12 +276,35 @@
                         <input type="number" class="form-control" id="preu_ajustador" placeholder="Entrar preu ajustador" name="preu_ajustador" value="{{!empty($empleat) ? $empleat->preu_ajustador : ''}}">
                     </div>
                 </div>
+
                 <div class="col-6" id="colLinguista" style="display:{{!empty($empleat) && $empleat->linguista == 1 ? '' : 'none'}}">
                     <div class="form-group">
-                        <label for="preu_linguista" style="font-weight: bold">Preu lingüista:</label>
-                        <input type="number" class="form-control" id="preu_linguista" placeholder="Entrar preu lingüista" name="preu_linguista" value="{{!empty($empleat) ? $empleat->preu_linguista : ''}}">
+                        <div class="row"> 
+                        @foreach( $idiomes as $key => $idioma)
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <label for="idioma_linguista_{{$idioma->idioma}}" style="font-weight: bold">{{$idioma->idioma}}:</label>
+                                    <input type="checkbox" class="form-control" id="idioma_linguista_{{$idioma->idioma}}" onchange="mostrarSubMenus('{{$idioma->idioma}}','linguista')" name="idioma_linguista_{{$idioma->idioma}}" value="1">
+                                </div>
+                            </div>
+                        
+                            <div class="col-5">
+                                <label for="homologat_linguista_{{$idioma->idioma}}" style="font-weight: bold">Homologat:</label>
+                                <select class="form-control" id="homologat_linguista_{{$idioma->idioma}}" name="homologat_linguista_{{$idioma->idioma}}" disabled>
+                                    <option value="NO" {{(!empty($empleat) && $empleat->homologat == 'NO') ? 'selected' : ''}}>NO</option>
+                                    <option value="SI" {{(!empty($empleat) && $empleat->homologat == 'SI') ? 'selected' : ''}}>SI</option>
+                                </select>
+                            </div>
+                           
+                            <div class="col-5">
+                                <label for="preu_linguista_{{$idioma->idioma}}" style="font-weight: bold">Preu lingüista:</label>
+                                <input type="number" class="form-control" id="preu_linguista_{{$idioma->idioma}}" placeholder="Entrar preu lingüista" name="preu_linguista{{$idioma->idioma}}" value="{{!empty($empleat) ? $empleat->preu_linguista : ''}}">
+                            </div>
+                            
+                        @endforeach
+                        </div>
                     </div>
-                </div>
+                </div> 
             </div>
         </fieldset>
         <br>
@@ -211,7 +319,7 @@
 
 <script>
     
-    function mostrarCampos(valor) {
+    function mostrarCamps(valor) {
      
         switch(valor){
             case "actor":
@@ -258,6 +366,40 @@
             break;
         }
         
+    }
+
+    function mostrarSubMenus(idioma,carrec){
+        
+        switch(idioma){
+            case "Català":
+                        if (document.getElementById("idioma_"+carrec+"_Català").checked == true ) {
+                            document.getElementById("homologat_"+carrec+"_Català").removeAttribute('disabled');
+                            document.getElementById("preu_"+carrec+"_Català").removeAttribute('disabled');
+                        }else{
+                            document.getElementById("homologat_"+carrec+"_Català").setAttribute('disabled',"");
+                            document.getElementById("preu_"+carrec+"_Català").setAttribute('disabled',"");
+                        }
+            break;
+            case "Castellà":
+                        if (document.getElementById("idioma_"+carrec+"_Castellà").checked == true ) {
+                            document.getElementById("homologat_"+carrec+"_Castellà").removeAttribute('disabled');
+                            document.getElementById("preu_"+carrec+"_Castellà").removeAttribute('disabled');
+                        }else{
+                            document.getElementById("homologat_"+carrec+"_Castellà").setAttribute('disabled',"");
+                            document.getElementById("preu_"+carrec+"_Castellà").setAttribute('disabled',"");
+                        }
+            break;
+            case "Anglès":
+                        if (document.getElementById("idioma_"+carrec+"_Anglès").checked == true ) {
+                            document.getElementById("homologat_"+carrec+"_Anglès").removeAttribute('disabled');
+                            document.getElementById("preu_"+carrec+"_Anglès").removeAttribute('disabled',"");
+                        }else{
+                            document.getElementById("homologat_"+carrec+"_Anglès").setAttribute('disabled',"");
+                            document.getElementById("preu_"+carrec+"_Anglès").setAttribute('disabled',"");
+                        }
+            break;
+          
+        }
     }
 </script>
 @endsection

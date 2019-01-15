@@ -39,7 +39,9 @@ class EmpleatExternController extends Controller
     }
 
     public function insertView() {
-        return View('empleats_externs.create');
+        $idioma = Idioma::select('idioma')->get();
+        //return response()->json(['prpr'=>$idioma]);
+        return View('empleats_externs.create', array('idiomes' => $idioma));
     }
 
     public function updateView($id) {
