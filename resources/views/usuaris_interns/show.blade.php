@@ -2,17 +2,51 @@
 
 @section('content')
 
-<div class="row">
+<div class="container">
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr class="row">
+                <th class="col">Dades personals</th>
+            </tr>
+        </thead>
 
-    <div class="col-sm-4">
-        <img src="{{url('/')}}/img/usuaris/{{$arrayUsuaris['imatge_usuari']}}" class="rounded" style="height:150px"/>
-    </div>
-    <div class="col-sm-8">
-        <h1>Nom: {{ $arrayUsuaris['nom_usuari']}} {{ $arrayUsuaris['cognoms_usuari']}}</h1>
-        <h3>email: {{$arrayUsuaris['email_usuari']}}</h3>
-        <h3>Data de creació: {{$arrayUsuaris['created_at']}}</h3>
-    </div>
+        <tbody>
+            <tr class="row">
+                <td class="font-weight-bold col-sm-3">Imatge:</td>
+                <td class="col">
+                    <img src="{{url('/')}}/img/usuaris/{{$usuari['imatge_usuari']}}" class="rounded" style="height:100px"/>
+                </td>
+            </tr>
+            <tr class="row">
+                <td class="font-weight-bold col-sm-3">Àlies:</td>
+                <td class="col">{{ $usuari['alias_usuari']}}</td>
+            </tr>
+            <tr class="row">
+                <td class="font-weight-bold col-sm-3">Nom:</td>
+                <td class="col">{{ $usuari['nom_usuari']}}</td>
+            </tr>
+            <tr class="row">
+                <td class="font-weight-bold col-sm-3">Cognoms:</td>
+                <td class="col">{{ $usuari['cognoms_usuari']}}</td>
+            </tr>
+            <tr class="row">
+                <td class="font-weight-bold col-sm-3">Email:</td>
+                <td class="col">{{ $usuari['email_usuari']}}</td>
+            </tr>
+            <tr class="row">
+                <td class="font-weight-bold col-sm-3">Departament:</td>
+                <td class="col">{{ $departament['nom_departament']}}</td>
+            </tr>
+            <tr class="row">
+                <td class="font-weight-bold col-sm-3">Data de creació:</td>
+                <td class="col">{{ $usuari['created_at']}}</td>
+            </tr>
+            <tr class="row">
+                <td class="font-weight-bold col-sm-3">Última data de modificació:</td>
+                <td class="col">{{ $usuari['updated_at']}}</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
-
 
 @stop

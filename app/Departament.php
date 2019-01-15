@@ -13,4 +13,15 @@ class Departament extends Model
         'nom_departament',
         'descripcio_departament'
     ];
+
+    /**
+     * - Indica el tipo de relación del campo especificado.
+     * - En este caso le estamos diciendo que el campo "id_departament" pertenece al
+     * "id_departament" de modelo User.
+     * - Esta función retornará un listado de usuarios los cuales pertenecen a este departamento.
+     */
+    public function users()
+    {
+        return $this->hasMany('App\User', 'id_departament', 'id_departament');
+    }
 }

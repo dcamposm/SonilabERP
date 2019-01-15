@@ -41,8 +41,10 @@ class UserController extends Controller
     }
     
     function getShow($id){
-         $usuaris= User::find($id);
-         return view('usuaris_interns.show', array('arrayUsuaris' => $usuaris));
+        $usuari = User::find($id);
+        $departament = $usuari->departament;
+        
+        return view('usuaris_interns.show', array('usuari' => $usuari, 'departament' => $departament));
     }
 
     function crearUsuario(){

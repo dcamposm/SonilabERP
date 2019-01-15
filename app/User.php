@@ -46,4 +46,15 @@ class User extends Authenticatable
     {
         return $this->contrasenya_usuari;
     }
+
+    /**
+     * - Indica el tipo de relación del campo especificado.
+     * - En este caso le estamos diciendo que el campo "id_departament" pertenece al
+     * "id_departament" de modelo Departament.
+     * - Esta función retornará el departamento al que pertenezca el usuario.
+     */
+    public function departament()
+    {
+        return $this->belongsTo('App\Departament', 'id_departament', 'id_departament');
+    }
 }

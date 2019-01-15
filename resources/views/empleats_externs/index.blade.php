@@ -15,7 +15,7 @@
 
     <div class="card card-shadow col-xs-6 col-sm-4 col-md-3 text-center m-3" style="min-width: 200px;">
 
-        <div class="card-body" href="{{ url('/usuaris/interns/show/' . $key ) }}" >
+        <div class="card-body">
             <img src="{{url('/')}}/img/usuaris/{{$empleat['imatge_empleat']}}" class="rounded-circle" style="height:150px"/>
             
             <h4 style="min-height:45px;margin:5px 0 10px 0">

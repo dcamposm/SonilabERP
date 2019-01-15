@@ -14,7 +14,7 @@
 
         <tbody>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Image:</td>
+                <td class="font-weight-bold col-sm-3">Imatge:</td>
                 <td class="col">
                     <img src="{{url('/')}}/img/usuaris/{{$empleat['imatge_empleat']}}" class="rounded" style="height:100px"/>
                 </td>
@@ -66,6 +66,14 @@
             <tr class="row">
                 <td class="font-weight-bold col-sm-3">IBAN:</td>
                 <td class="col">{{ $empleat['iban_empleat']}}</td>
+            </tr>
+            <tr class="row">
+                <td class="font-weight-bold col-sm-3">Data de creació:</td>
+                <td class="col">{{ $empleat['created_at']}}</td>
+            </tr>
+            <tr class="row">
+                <td class="font-weight-bold col-sm-3">Última data de modificació:</td>
+                <td class="col">{{ $empleat['updated_at']}}</td>
             </tr>
         </tbody>
     </table>
