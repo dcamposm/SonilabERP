@@ -5,6 +5,7 @@
 <!-- TODO: Hacer que las tablas puedan ocultar sus "tbody" para que el usuario desplegue el que desee -->
 
 <div class="container">
+    <!-- DATOS PERSONALES DEL EMPLEADO -->
     <table class="table table-striped">
         <thead class="thead-dark">
             <tr class="row">
@@ -78,78 +79,35 @@
         </tbody>
     </table>
 
+    <!-- CARGOS DEL EMPLEADO -->
     <div class="row">
-        @foreach( $idiomesEmpleat as $key => $idiomaEmpleat )
+        @foreach( $carrecsEmpelat as $key => $carrec )
         <div class="col-6 col-sm-6 col-md-4">
             <table class="table table-striped">
-                @if ($idiomaEmpleat['preu_actor'] > 0)
-                <thead class="thead-dark">
+                <thead class="thead-dark" style="border-left: 3px solid white">
                     <tr class="row">
-                        <th class="col">Actor</th>
+                        <th class="col">{{ $key }}</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="row">
-                        <td class="font-weight-bold col-sm-3">Idioma:</td>
-                        <td class="col"><img src="{{url('/')}}/img/flags/{{$idiomaEmpleat['id_idioma']}}.png" class="rounded"> {{ $idiomes[$idiomaEmpleat['id_idioma']]->idioma }}</td>
-                    </tr>
-                    <tr class="row">
-                        <td class="font-weight-bold col-sm-3">Homologat:</td>
-                        <td class="col">{{ ($idiomaEmpleat['empleat_homologat']) ? 'Sí' : 'No' }}</td>
-                    </tr>
-                    <tr class="row">
-                        <td class="font-weight-bold col-sm-3">Preu:</td>
-                        <td class="col">{{ $idiomaEmpleat['preu_actor'] }}</td>
-                    </tr>
+                    @foreach( $carrec as $key => $info )
+                        @if (empty($info['idioma']))
+                            <tr class="row">
+                                <td class="col">{{ $info['preu_carrec'] }}€</td>
+                            </tr>
+                        @else
+                            <tr class="row">
+                                <td class="col"><img src="{{url('/')}}/img/flags/{{$info['id_idioma']}}.png" class="rounded"> {{ $info['idioma'] }}</td>
+                                <td class="col">{{ $info['empleat_homologat'] ? 'Homologat' : 'No homologat' }}</td>
+                                <td class="col">{{ $info['preu_carrec'] }}€</td>
+                            </tr>
+                        @endif
+                    @endforeach
                 </tbody>
-                @elseif ($idiomaEmpleat['preu_traductor'] > 0)
-                <thead class="thead-dark">
-                    <tr class="row">
-                        <th class="col">Traductor</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="row">
-                        <td class="font-weight-bold col-sm-3">Idioma:</td>
-                        <td class="col"><img src="{{url('/')}}/img/flags/{{$idiomaEmpleat['id_idioma']}}.png" class="rounded"> {{ $idiomes[$idiomaEmpleat['id_idioma']]->idioma }}</td>
-                    </tr>
-                    <tr class="row">
-                        <td class="font-weight-bold col-sm-3">Homologat:</td>
-                        <td class="col">{{ ($idiomaEmpleat['empleat_homologat']) ? 'Sí' : 'No' }}</td>
-                    </tr>
-                    <tr class="row">
-                        <td class="font-weight-bold col-sm-3">Preu:</td>
-                        <td class="col">{{ $idiomaEmpleat['preu_traductor'] }}</td>
-                    </tr>
-                </tbody>
-                @elseif ($idiomaEmpleat['preu_linguista'] > 0)
-                <thead class="thead-dark">
-                    <tr class="row">
-                        <th class="col">Linguista</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="row">
-                        <td class="font-weight-bold col-sm-3">Idioma:</td>
-                        <td class="col"><img src="{{url('/')}}/img/flags/{{$idiomaEmpleat['id_idioma']}}.png" class="rounded"> {{ $idiomes[$idiomaEmpleat['id_idioma']]->idioma }}</td>
-                    </tr>
-                    <tr class="row">
-                        <td class="font-weight-bold col-sm-3">Homologat:</td>
-                        <td class="col">{{ ($idiomaEmpleat['empleat_homologat']) ? 'Sí' : 'No' }}</td>
-                    </tr>
-                    <tr class="row">
-                        <td class="font-weight-bold col-sm-3">Preu:</td>
-                        <td class="col">{{ $idiomaEmpleat['preu_linguista'] }}</td>
-                    </tr>
-                </tbody>
-                @endif
             </table>
         </div>
         @endforeach
     </div>
-    
-    
 </div>
-
 
 @stop
