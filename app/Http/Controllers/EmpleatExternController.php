@@ -52,7 +52,7 @@ class EmpleatExternController extends Controller
 
     public function insert() {
         $empleat = new EmpleatExtern(request()->all());
-
+        return response()->json(["error" => request()->all()], 400);
         $v = Validator::make(request()->all(), [
             'nom_empleat' => 'required',
             'cognoms_empleat' => 'required',
@@ -73,6 +73,41 @@ class EmpleatExternController extends Controller
             //return response()->json(["error" => request()->all()], 400);
         } else {
             $empleat->save();
+
+            if ($empleat){
+
+                //ToDo: FALTA PONER QUE LOS VALORES EXISTAN EN LA BBDD Y CONTROLAR TIPO DE VALORES
+                /*$v = Validator::make(request()->all(), [
+                    'id_empleat' => 'required',
+                    'id_carrec' => 'required',
+                    'id_idioma' => 'required',
+                    'empleat_homologat' => 'required',
+                    'preu_carrec' => 'required',
+                ]);*/
+
+                if ($v->fails() == false) {
+                    $camposCargos = ["director","tecnic_sala","ajustador","actor","traductor","linguista"];
+                    $idiomas = ["Català", 'Castellà', "Anglès"];
+
+                    $datos = [];
+
+                    foreach ($camposCargos as $key => $value) {
+                        if ($value == "director" || $value == "tecnic_sala" || $value == "ajustador"){
+                            //COMPROBAR QUE LOS CAMPOS EXISTAN
+                            $datos["preu_carrec"] = request()->input("preu_$value");
+                        } else {
+                            foreach ($idiomas as $key => $idioma) {
+                                //IGUAL
+                                $datos["preu_carrec"] = request()->input("preu_$value"."_$idioma);
+                            }
+                        }
+                    }
+
+
+                }
+
+            }
+
             return $this->insertView();
         }
     }

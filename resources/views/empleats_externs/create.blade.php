@@ -118,12 +118,6 @@
             <div class="row">
                 <div class="col-2">
                     <div class="form-group">
-                        <label for="actor" style="font-weight: bold">Actor:</label>
-                        <input type="checkbox" onchange="mostrarCamps('actor')" class="form-control" id="actor" name="actor" {{!empty($empleat) && $empleat->actor == 1 ? 'checked' : ''}} value="1">
-                    </div>
-                </div>
-                <div class="col-2">
-                    <div class="form-group">
                         <label for="director" style="font-weight: bold">Director:</label>
                         <input type="checkbox" onchange="mostrarCamps('director')" class="form-control" id="director" name="director" {{!empty($empleat) && $empleat->director == 1 ? 'checked' : ''}} value="1">
                     </div>
@@ -136,14 +130,20 @@
                 </div>
                 <div class="col-2">
                     <div class="form-group">
-                        <label for="traductor" style="font-weight: bold">Traductor:</label>
-                        <input type="checkbox" onchange="mostrarCamps('traductor')" class="form-control" id="traductor" name="traductor" {{!empty($empleat) && $empleat->traductor == 1 ? 'checked' : ''}} value="1">
+                        <label for="ajustador" style="font-weight: bold">Ajustador:</label>
+                        <input type="checkbox" onchange="mostrarCamps('ajustador')" class="form-control" id="ajustador" name="ajustador" {{!empty($empleat) && $empleat->ajustador == 1 ? 'checked' : ''}} value="1">
                     </div>
                 </div>
                 <div class="col-2">
                     <div class="form-group">
-                        <label for="ajustador" style="font-weight: bold">Ajustador:</label>
-                        <input type="checkbox" onchange="mostrarCamps('ajustador')" class="form-control" id="ajustador" name="ajustador" {{!empty($empleat) && $empleat->ajustador == 1 ? 'checked' : ''}} value="1">
+                        <label for="actor" style="font-weight: bold">Actor:</label>
+                        <input type="checkbox" onchange="mostrarCamps('actor')" class="form-control" id="actor" name="actor" {{!empty($empleat) && $empleat->actor == 1 ? 'checked' : ''}} value="1">
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <label for="traductor" style="font-weight: bold">Traductor:</label>
+                        <input type="checkbox" onchange="mostrarCamps('traductor')" class="form-control" id="traductor" name="traductor" {{!empty($empleat) && $empleat->traductor == 1 ? 'checked' : ''}} value="1">
                     </div>
                 </div>
                 <div class="col-2">
@@ -185,8 +185,33 @@
                     </div>
                 </div> -->
 
-                <div class="row container">
-                <div class="col-6" id="colActor"  style="display:{{!empty($empleat) && $empleat->actor == 1 ? '' : 'none'}}">
+            <div class="row">
+                
+                <div class="col-4" id="colDirector" style="display:{{!empty($empleat) && $empleat->director == 1 ? '' : 'none'}}">
+                    <div class="form-group">
+                        <label for="preu_director" style="font-weight: bold">Preu director:</label>
+                        <input type="number" class="form-control" id="preu_director" placeholder="Entrar preu director" name="preu_director" value="{{!empty($empleat) ? $empleat->preu_director : ''}}" disabled>
+                    </div>
+                </div>
+
+                <div class="col-4" id="colTecnicSala" style="display:{{!empty($empleat) && $empleat->tecnic_sala == 1 ? '' : 'none'}}">
+                    <div class="form-group">
+                        <label for="preu_tecnicSala" style="font-weight: bold">Preu técnic de sala:</label>
+                        <input type="number" class="form-control" id="preu_tecnicSala" placeholder="Entrar preu técnic de Sala" name="preu_tecnic_sala" value="{{!empty($empleat) ? $empleat->preu_tecnic_sala : ''}}" disabled>
+                    </div>
+                </div>
+
+                <div class="col-4" id="colAjustador" style="display:{{!empty($empleat) && $empleat->ajustador == 1 ? '' : 'none'}}">
+                    <div class="form-group">
+                        <label for="preu_ajustador" style="font-weight: bold">Preu ajustador:</label>
+                        <input type="number" class="form-control" id="preu_ajustador" placeholder="Entrar preu ajustador" name="preu_ajustador" value="{{!empty($empleat) ? $empleat->preu_ajustador : ''}}" disabled>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row container">
+                <div id="colActor" style="width: 100%; margin-left: 15px; display:{{!empty($empleat) && $empleat->actor == 1 ? '' : 'none'}}">
                     <div class="form-group">
                         <table class="table">
                                 <thead class="thead-dark">
@@ -222,7 +247,7 @@
                     </div>
                 </div>
 
-                <div class="col-6" id="colTraductor" style="display:{{!empty($empleat) && $empleat->traductor == 1 ? '' : 'none'}}">
+                <div id="colTraductor" style="width: 100%; margin-left: 15px; width: 100%; display:{{!empty($empleat) && $empleat->traductor == 1 ? '' : 'none'}}">
                     <div class="form-group">
                         <div class="row"> 
                         @foreach( $idiomes as $key => $idioma)
@@ -243,7 +268,7 @@
                            
                             <div class="col-5">
                                 <label for="preu_traductor_{{$idioma->idioma}}" style="font-weight: bold">Preu traductor:</label>
-                                <input type="number" class="form-control" id="preu_traductor_{{$idioma->idioma}}" placeholder="Entrar preu traductor" name="preu_traductor_{{$idioma->idioma}}" value="{{!empty($empleat) ? $empleat->preu_traductor : ''}}">
+                                <input type="number" class="form-control" id="preu_traductor_{{$idioma->idioma}}" placeholder="Entrar preu traductor" name="preu_traductor_{{$idioma->idioma}}" value="{{!empty($empleat) ? $empleat->preu_traductor : ''}}" disabled>
                             </div>
                             
                         @endforeach
@@ -253,31 +278,8 @@
             </div>
 
             <div class="row">
-                <div class="col-6" id="colTecnicSala" style="display:{{!empty($empleat) && $empleat->tecnic_sala == 1 ? '' : 'none'}}">
-                    <div class="form-group">
-                        <label for="preu_tecnicSala" style="font-weight: bold">Preu técnic de sala:</label>
-                        <input type="number" class="form-control" id="preu_tecnicSala" placeholder="Entrar preu técnic de Sala" name="preu_tecnic_sala" value="{{!empty($empleat) ? $empleat->preu_tecnic_sala : ''}}">
-                    </div>
-                </div>
 
-                <div class="col-6" id="colDirector" style="display:{{!empty($empleat) && $empleat->director == 1 ? '' : 'none'}}">
-                    <div class="form-group">
-                        <label for="preu_director" style="font-weight: bold">Preu director:</label>
-                        <input type="number" class="form-control" id="preu_director" placeholder="Entrar preu director" name="preu_director" value="{{!empty($empleat) ? $empleat->preu_director : ''}}">
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="row">
-                <div class="col-6" id="colAjustador" style="display:{{!empty($empleat) && $empleat->ajustador == 1 ? '' : 'none'}}">
-                    <div class="form-group">
-                        <label for="preu_ajustador" style="font-weight: bold">Preu ajustador:</label>
-                        <input type="number" class="form-control" id="preu_ajustador" placeholder="Entrar preu ajustador" name="preu_ajustador" value="{{!empty($empleat) ? $empleat->preu_ajustador : ''}}">
-                    </div>
-                </div>
-
-                <div class="col-6" id="colLinguista" style="display:{{!empty($empleat) && $empleat->linguista == 1 ? '' : 'none'}}">
+                <div id="colLinguista" style="width: 100%; margin-left: 15px; width: 100%; display:{{!empty($empleat) && $empleat->linguista == 1 ? '' : 'none'}}">
                     <div class="form-group">
                         <div class="row"> 
                         @foreach( $idiomes as $key => $idioma)
@@ -298,7 +300,7 @@
                            
                             <div class="col-5">
                                 <label for="preu_linguista_{{$idioma->idioma}}" style="font-weight: bold">Preu lingüista:</label>
-                                <input type="number" class="form-control" id="preu_linguista_{{$idioma->idioma}}" placeholder="Entrar preu lingüista" name="preu_linguista{{$idioma->idioma}}" value="{{!empty($empleat) ? $empleat->preu_linguista : ''}}">
+                                <input type="number" class="form-control" id="preu_linguista_{{$idioma->idioma}}" placeholder="Entrar preu lingüista" name="preu_linguista_{{$idioma->idioma}}" value="{{!empty($empleat) ? $empleat->preu_linguista : ''}}" disabled>
                             </div>
                             
                         @endforeach
@@ -319,12 +321,17 @@
 
 <script>
     
+    function onReady(){
+        //console.log(localStorage)
+    }
+
     function mostrarCamps(valor) {
      
         switch(valor){
             case "actor":
                         if (colActor.style.display == 'none') {
                             colActor.style.display = 'block';
+                            localStorage.setItem('colActor', 'block')
                         } else {
                             colActor.style.display = 'none';
                         }
@@ -332,15 +339,19 @@
             case "director":
                         if (colDirector.style.display == 'none') {
                             colDirector.style.display = 'block';
+                            preu_director.removeAttribute("disabled"); 
                         } else {
                             colDirector.style.display = 'none';
+                            preu_director.setAttribute("disabled", ""); 
                         }
             break;
             case "tecnic":
                         if (colTecnicSala.style.display == 'none') {
                             colTecnicSala.style.display = 'block';
+                            preu_tecnicSala.removeAttribute("disabled"); 
                         } else {
                             colTecnicSala.style.display = 'none';
+                            preu_tecnicSala.setAttribute("disabled", ""); 
                         }
             break;
             case "traductor":
@@ -353,8 +364,10 @@
             case "ajustador":
                         if (colAjustador.style.display == 'none') {
                             colAjustador.style.display = 'block';
+                            preu_ajustador.removeAttribute("disabled"); 
                         } else {
                             colAjustador.style.display = 'none';
+                            preu_ajustador.setAttribute("disabled", ""); 
                         }
             break;
             case "linguista":
@@ -401,5 +414,8 @@
           
         }
     }
+
+    onReady()
+
 </script>
 @endsection
