@@ -14,7 +14,7 @@ class CreateSlbIdiomesTable extends Migration
     public function up()
     {
         Schema::create('slb_idiomes', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('id_idioma');
             $table->string('idioma');
             $table->timestamps();
         });

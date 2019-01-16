@@ -5,7 +5,8 @@ use App\User;
 use App\Departament;
 use App\EmpleatExtern;
 use App\Idioma;
-use App\IdiomaEmpleat;
+use App\Carrec;
+use App\CarrecEmpleat;
 
 class DatabaseSeeder extends Seeder
 {
@@ -32,8 +33,12 @@ class DatabaseSeeder extends Seeder
         $this->call(slb_idiomesTableSeeder::class);
         Idioma::reguard();
 
-        IdiomaEmpleat::unguard();
-        $this->call(slb_idiomes_empleatsTableSeeder::class);
-        IdiomaEmpleat::reguard();
+        Carrec::unguard();
+        $this->call(slb_carrecs::class);
+        Carrec::reguard();
+
+        CarrecEmpleat::unguard();
+        $this->call(slb_carrecs_empleats::class);
+        CarrecEmpleat::reguard();
     }
 }

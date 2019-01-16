@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateSlbEmpleatsExternsTable extends Migration
+class CreateSlbCarrecsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class UpdateSlbEmpleatsExternsTable extends Migration
      */
     public function up()
     {
-        Schema::table('slb_empleats_externs', function (Blueprint $table) {
-            $table->string('imatge_empleat')->default('defecte.png')->change();
+        Schema::create('slb_carrecs', function (Blueprint $table) {
+            $table->increments('id_carrec');
+            $table->string('nom_carrec', 50)->unique();
+            $table->string('descripcio_carrec', 250);
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ class UpdateSlbEmpleatsExternsTable extends Migration
      */
     public function down()
     {
-        Schema::table('slb_empleats_externs', function (Blueprint $table) {
-            $table->string('imatge_empleat')->change();
-        });
+        Schema::dropIfExists('slb_carrecs');
     }
 }

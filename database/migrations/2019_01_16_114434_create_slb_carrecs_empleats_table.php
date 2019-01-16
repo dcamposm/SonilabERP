@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSlbIdiomesEmpleatsTable extends Migration
+class CreateSlbCarrecsEmpleatsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreateSlbIdiomesEmpleatsTable extends Migration
      */
     public function up()
     {
-        Schema::create('slb_idiomes_empleats', function (Blueprint $table) {
+        Schema::create('slb_carrecs_empleats', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('id_empleat');
-            $table->integer('id_idioma');
+            $table->integer('id_carrec');
+            $table->integer('id_idioma')->default(0);
             $table->boolean('empleat_homologat')->default(false);
-            $table->double('preu_actor')->default(0);
-            $table->double('preu_traductor')->default(0);
-            $table->double('preu_linguista')->default(0);
+            $table->double('preu_carrec')->default(0);
             $table->timestamps();
         });
     }
@@ -32,6 +31,6 @@ class CreateSlbIdiomesEmpleatsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('slb_idiomes_empleats');
+        Schema::dropIfExists('slb_carrecs_empleats');
     }
 }

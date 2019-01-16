@@ -22,16 +22,7 @@ class EmpleatExtern extends Model
         "codi_postal_empleat", 
         "naixement_empleat", 
         "nss_empleat", 
-        "iban_empleat", 
-        "actor", 
-        "director", 
-        "tecnic_sala",
-        "traductor",
-        "ajustador",
-        "linguista",
-        "preu_director",
-        "preu_tecnic_sala",
-        "preu_ajustador"
+        "iban_empleat"
     ];
 
 }

@@ -29,16 +29,7 @@ class slb_empleats_externsTableSeeder extends Seeder
             'codi_postal_empleat' => '00666',
             'naixement_empleat' => \Carbon\Carbon::create(2000, 1, 1),
             'nss_empleat' => '666 999',
-            'iban_empleat' => 'ES666666666',
-            'actor' => true,
-            'director' => false,
-            'tecnic_sala' => false,
-            'traductor' => false,
-            'ajustador' => false,
-            'linguista' => false,
-            'preu_director' => 0,
-            'preu_tecnic_sala' => 0,
-            'preu_ajustador' => 0
+            'iban_empleat' => 'ES666666666'
         ));
     }
 }

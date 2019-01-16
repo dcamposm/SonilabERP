@@ -17,8 +17,18 @@ class slb_departamentsTableSeeder extends Seeder
         // Añadimos una entrada a esta tabla
         Departament::create(array(
             'id_departament' => '1',
-            'nom_departament' => 'testing',
-            'descripcio_departament' => 'para probar'
+            'nom_departament' => 'Producció',
+            'descripcio_departament' => 'Usuari que interactua amb l\'aplicació per administrar-la.'
+        ));
+        Departament::create(array(
+            'id_departament' => '2',
+            'nom_departament' => 'Tècnic',
+            'descripcio_departament' => 'Usuari que interactua amb l\'aplicació per administrar-la.'
+        ));
+        Departament::create(array(
+            'id_departament' => '3',
+            'nom_departament' => 'Administració',
+            'descripcio_departament' => 'Usuari que interactua amb l\'aplicació per administrar-la.'
         ));
     }
 }
