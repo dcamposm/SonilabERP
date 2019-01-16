@@ -13,4 +13,9 @@ class Carrec extends Model
         'nom_carrec',
         'descripcio_carrec'
     ];
+
+    public function carrecEmpleat()
+    {
+        return $this->hasMany('App\CarrecEmpleat', 'id_carrec', 'id_carrec');
+    }
 }

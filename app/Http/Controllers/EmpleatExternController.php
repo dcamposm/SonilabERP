@@ -27,15 +27,24 @@ class EmpleatExternController extends Controller
 
     public function show($id) {
         $empleat = EmpleatExtern::find($id);
-        $idiomesEmpleat = IdiomaEmpleat::where('id_empleat', '=', $id)->get();
-        $idiomes = array();
-        foreach($idiomesEmpleat as $key => $idiomaEmpleat) {
-            $idioma = Idioma::find($idiomaEmpleat->id_idioma);
-            $idiomes[$idioma->id_idioma] = $idioma;
+        $carrecs = $empleat->carrec;
+        
+        // Crea el objeto "carrecsEmpelat" para mostrar las tablas de cargos en el frontend
+        $carrecsEmpelat = array();
+        foreach($carrecs as $key => $carrec) {
+            $idioma = $carrec->idioma;
+            $carrecsEmpelat[$carrec->carrec->nom_carrec][$carrec->id] = array(
+                'id_idioma' => (empty($idioma)) ? 0 : $idioma->id_idioma,
+                'idioma' => (empty($idioma)) ? '' : $idioma->idioma,
+                'empleat_homologat' => $carrec->empleat_homologat,
+                'preu_carrec' => $carrec->preu_carrec
+            );
         }
-        return View('empleats_externs.show', array( 'empleat' => $empleat, 
-                                                    'idiomesEmpleat' => $idiomesEmpleat, 
-                                                    'idiomes' => $idiomes));
+
+        return View('empleats_externs.show', array(
+            'empleat'        => $empleat,
+            'carrecsEmpelat' => $carrecsEmpelat
+        ));
     }
 
     public function insertView() {

@@ -25,4 +25,9 @@ class EmpleatExtern extends Model
         "iban_empleat"
     ];
 
+    public function carrec()
+    {
+        return $this->hasMany('App\CarrecEmpleat', 'id_empleat', 'id_empleat');
+    }
+
 }

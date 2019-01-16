@@ -12,4 +12,9 @@ class Idioma extends Model
     protected $fillable = [
         "idioma"
     ];
+
+    public function carrecs()
+    {
+        return $this->hasMany('App\CarrecEmpleat', 'id_idioma', 'id_idioma');
+    }
 }

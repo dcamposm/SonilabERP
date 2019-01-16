@@ -13,7 +13,7 @@
 
     @foreach( $empleats as $key => $empleat )
 
-    <div class="card card-shadow col-xs-6 col-sm-4 col-md-3 text-center m-3" style="min-width: 200px;">
+    <div class="card card-shadow text-center m-3" style="min-width: 250px;">
 
         <div class="card-body">
             <img src="{{url('/')}}/img/usuaris/{{$empleat['imatge_empleat']}}" class="rounded-circle" style="height:150px"/>
@@ -25,13 +25,13 @@
             </h4>
             <div class="row">
                 <div class="col-6" style="padding: 0px;">
-                    <a href="{{ route('empleatUpdateView', ['id' => $empleat['id_empleat']]) }}" class="btn btn-outline-primary w-100"> Editar </a> 
+                    <a href="{{ route('empleatUpdateView', ['id' => $empleat['id_empleat']]) }}" class="btn btn-outline-primary" style="width: 75%;"> Editar </a> 
                 </div>
                 <div class="col-6" style="padding: 0px;">
                     <form action="{{ route('empleatDelete') }}" method="POST">
                         @csrf
                         <input type="hidden" readonly name="id" value="{{$empleat['id_empleat']}}">
-                        <button class="btn btn-outline-danger">Esborrar</button>
+                        <button class="btn btn-outline-danger" style="width: 75%;">Esborrar</button>
                     </form>
                 </div>
             </div>
