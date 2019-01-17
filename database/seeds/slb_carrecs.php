@@ -12,6 +12,7 @@ class slb_carrecs extends Seeder
      */
     public function run()
     {
+        DB::table('slb_carrecs')->delete();
         Carrec::create(array(
             'id_carrec'         => 1,
             'nom_carrec'        => 'Actor',
