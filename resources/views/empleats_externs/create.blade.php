@@ -204,8 +204,8 @@
                                     <td class="col">
                                         <label for="homologat_actor_{{$idioma->idioma}}" style="font-weight: bold">Homologat:</label>
                                         <select class="form-control" id="homologat_actor_{{$idioma->idioma}}" name="homologat_actor_{{$idioma->idioma}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
-                                            <option value="NO" {{ (isset($carrecs['actor'][$idioma->idioma]) && $carrecs['actor'][$idioma->idioma]['empleat_homologat'] == false) ? 'selected' : ''}}>NO</option>
-                                            <option value="SI" {{ (isset($carrecs['actor'][$idioma->idioma]) && $carrecs['actor'][$idioma->idioma]['empleat_homologat'] == true) ? 'selected' : ''}}>SI</option>
+                                            <option value="0" {{ (isset($carrecs['actor'][$idioma->idioma]) && $carrecs['actor'][$idioma->idioma]['empleat_homologat'] == false) ? 'selected' : ''}}>NO</option>
+                                            <option value="1" {{ (isset($carrecs['actor'][$idioma->idioma]) && $carrecs['actor'][$idioma->idioma]['empleat_homologat'] == true) ? 'selected' : ''}}>SI</option>
                                         </select>
                                     </td>
                                     <td class="col">
@@ -239,8 +239,8 @@
                                     <td class="col">
                                         <label for="homologat_traductor_{{$idioma->idioma}}" style="font-weight: bold">Homologat:</label>
                                         <select class="form-control" id="homologat_traductor_{{$idioma->idioma}}" name="homologat_traductor_{{$idioma->idioma}}" {{ isset($carrecs['traductor'][$idioma->idioma]) ? '' : 'disabled' }}>
-                                            <option value="NO" {{ (isset($carrecs['traductor'][$idioma->idioma]) && $carrecs['traductor'][$idioma->idioma]['empleat_homologat'] == false) ? 'selected' : ''}}>NO</option>
-                                            <option value="SI" {{ (isset($carrecs['traductor'][$idioma->idioma]) && $carrecs['traductor'][$idioma->idioma]['empleat_homologat'] == true) ? 'selected' : ''}}>SI</option>
+                                            <option value="0" {{ (isset($carrecs['traductor'][$idioma->idioma]) && $carrecs['traductor'][$idioma->idioma]['empleat_homologat'] == false) ? 'selected' : ''}}>NO</option>
+                                            <option value="1" {{ (isset($carrecs['traductor'][$idioma->idioma]) && $carrecs['traductor'][$idioma->idioma]['empleat_homologat'] == true) ? 'selected' : ''}}>SI</option>
                                         </select>
                                     </td>
                                     <td class="col">
@@ -276,8 +276,8 @@
                                     <td class="col">
                                         <label for="homologat_linguista_{{$idioma->idioma}}" style="font-weight: bold">Homologat:</label>
                                         <select class="form-control" id="homologat_linguista_{{$idioma->idioma}}" name="homologat_linguista_{{$idioma->idioma}}" {{ isset($carrecs['linguista'][$idioma->idioma]) ? '' : 'disabled' }}>
-                                            <option value="NO" {{ (isset($carrecs['linguista'][$idioma->idioma]) && $carrecs['linguista'][$idioma->idioma]['empleat_homologat'] == false) ? 'selected' : ''}}>NO</option>
-                                            <option value="SI" {{ (isset($carrecs['linguista'][$idioma->idioma]) && $carrecs['linguista'][$idioma->idioma]['empleat_homologat'] == true) ? 'selected' : ''}}>SI</option>
+                                            <option value="0" {{ (isset($carrecs['linguista'][$idioma->idioma]) && $carrecs['linguista'][$idioma->idioma]['empleat_homologat'] == false) ? 'selected' : ''}}>NO</option>
+                                            <option value="1" {{ (isset($carrecs['linguista'][$idioma->idioma]) && $carrecs['linguista'][$idioma->idioma]['empleat_homologat'] == true) ? 'selected' : ''}}>SI</option>
                                         </select>
                                     </td>
                                     <td class="col">
