@@ -98,7 +98,15 @@ class UserController extends Controller
      * @return void
      */
     function esborrarUsuari(Request $request) {
-        User::where('id_usuari',$request["id"])->delete();
-        return $this->getIndex();
+        $currentId = request()->user()->id_usuari;
+        $user = User::where([
+            ['id_usuari', '=', $request["id"]],
+            ['id_usuari', '<>', $currentId]
+        ]);
+
+        if ($user) {
+            $user->delete();
+            return $this->getIndex();
+        }
     }
 }
