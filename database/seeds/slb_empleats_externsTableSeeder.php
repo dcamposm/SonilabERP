@@ -20,8 +20,8 @@ class slb_empleats_externsTableSeeder extends Seeder
         EmpleatExtern::create(array(
             'id_empleat' => '1',
             'nom_empleat' => 'Empleat',
-            'cognom1' => 'Treballador',
-            'cognom2' => 'Treballador',
+            'cognom1_empleat' => 'Treballador',
+            'cognom2_empleat' => 'Treballador',
             'sexe_empleat' => 'Home',
             'nacionalitat_empleat' => 'Español',
             'imatge_empleat' => $image,

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateSlbUsuarisTable extends Migration
+class Update2SlbUsuarisTable extends Migration
 {
     /**
      * Run the migrations.
@@ -28,7 +28,8 @@ class UpdateSlbUsuarisTable extends Migration
     public function down()
     {
         Schema::table('slb_usuaris', function (Blueprint $table) {
-            $table->string('congnoms')->change();
+            $table->renameColumn('cognom1_usuari', 'cognoms_usuari');
+            $table->dropColumn('cognom2_usuari');
         });
     }
 }

@@ -21,8 +21,8 @@ class slb_usuarisTableSeeder extends Seeder
         User::create(array(
             'id_usuari' => '1',
             'nom_usuari' => 'Administrador',
-            'cognom1' => 'Admin',
-            'cognom2' => 'Admin',
+            'cognom1_usuari' => 'Admin',
+            'cognom2_usuari' => 'Admin',
             'email_usuari' => 'admin@admin.cat',
             'alias_usuari' => 'admin',
             'contrasenya_usuari' => 'SL_admin.2019',
@@ -32,8 +32,8 @@ class slb_usuarisTableSeeder extends Seeder
         User::create(array(
             'id_usuari' => '2',
             'nom_usuari' => 'test',
-            'cognom1' => 'test',
-            'cognom2' => 'test',
+            'cognom1_usuari' => 'test',
+            'cognom2_usuari' => 'test',
             'email_usuari' => 'test@test.com',
             'alias_usuari' => 'test',
             'contrasenya_usuari' => 'test',
