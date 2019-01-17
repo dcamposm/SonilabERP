@@ -28,7 +28,8 @@ class UpdateSlbEmpleatsExternsTable extends Migration
     public function down()
     {
         Schema::table('slb_empleats_externs', function (Blueprint $table) {
-            $table->string('congnoms')->change();
+            $table->renameColumn('cognom1_empleat', 'cognoms_empleat');
+            $table->dropColumn('cognom2_empleat');
         });
     }
 }
