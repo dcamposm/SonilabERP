@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Validator;
+use App\Carrec;
+use App\CarrecEmpleat;
 use App\EmpleatExtern;
 use App\Idioma;
-use App\IdiomaEmpleat;
+use Illuminate\Http\Request;
+use Validator;
 
 class EmpleatExternController extends Controller
 {
@@ -20,48 +21,77 @@ class EmpleatExternController extends Controller
         $this->middleware('auth');
     }
 
-    public function index() {
+    public function index()
+    {
         $empleats = EmpleatExtern::all();
         return View('empleats_externs.index', array('empleats' => $empleats));
     }
 
-    public function show($id) {
+    public function show($id)
+    {
         $empleat = EmpleatExtern::find($id);
         $carrecs = $empleat->carrec;
-        
+
         // Crea el objeto "carrecsEmpelat" para mostrar las tablas de cargos en el frontend
         $carrecsEmpelat = array();
-        foreach($carrecs as $key => $carrec) {
+        foreach ($carrecs as $key => $carrec) {
             $idioma = $carrec->idioma;
             $carrecsEmpelat[$carrec->carrec->nom_carrec][$carrec->id] = array(
                 'id_idioma' => (empty($idioma)) ? 0 : $idioma->id_idioma,
                 'idioma' => (empty($idioma)) ? '' : $idioma->idioma,
                 'empleat_homologat' => $carrec->empleat_homologat,
-                'preu_carrec' => $carrec->preu_carrec
+                'preu_carrec' => $carrec->preu_carrec,
             );
         }
 
         return View('empleats_externs.show', array(
-            'empleat'        => $empleat,
-            'carrecsEmpelat' => $carrecsEmpelat
+            'empleat' => $empleat,
+            'carrecsEmpelat' => $carrecsEmpelat,
         ));
     }
 
-    public function insertView() {
+    public function insertView()
+    {
         $idioma = Idioma::select('idioma')->get();
         //return response()->json(['prpr'=>$idioma]);
         return View('empleats_externs.create', array('idiomes' => $idioma));
     }
 
-    public function updateView($id) {
+    public function updateView($id)
+    {
         // TODO: Controlar si l'empleat existeix o no per mostrar una página o un altre
         $empleat = EmpleatExtern::find($id);
-        return View('empleats_externs.create', array('empleat' => $empleat));
+        $idioma = Idioma::select('idioma')->get();
+        $carrecsEmpleats = $empleat->carrec;
+        $carrecsData = [];
+
+        foreach ($carrecsEmpleats as $key => $carrecEmp) {
+            if ($carrecEmp->id_idioma == 0) {
+                $carrecsData[$carrecEmp->carrec->input_name] = array(
+                    'preu_carrec' => $carrecEmp->preu_carrec
+                );
+            }
+            else {
+                $carrecsData[$carrecEmp->carrec->input_name][$carrecEmp->idioma->idioma] = array(
+                    'empleat_homologat' => $carrecEmp->empleat_homologat,
+                    'preu_carrec' => $carrecEmp->preu_carrec
+                );
+            }
+        }
+
+        // return response()->json($carrecsData);
+
+        return View('empleats_externs.create', array(
+            'empleat' => $empleat,
+            'idiomes' => $idioma,
+            'carrecs' => $carrecsData
+        ));
     }
 
-    public function insert() {
+    public function insert()
+    {
         $empleat = new EmpleatExtern(request()->all());
-        return response()->json(["error" => request()->all()], 400);
+        // return response()->json(["error" => request()->all()], 400);
         $v = Validator::make(request()->all(), [
             'nom_empleat' => 'required',
             'cognoms_empleat' => 'required',
@@ -74,57 +104,75 @@ class EmpleatExternController extends Controller
             'codi_postal_empleat' => 'required',
             'naixement_empleat' => 'required',
             'nss_empleat' => 'required',
-            'iban_empleat' => 'required'
+            'iban_empleat' => 'required',
         ]);
 
-        if ($v->fails()){
+        if ($v->fails()) {
             return response()->json(["error" => true], 400);
             //return response()->json(["error" => request()->all()], 400);
         } else {
             $empleat->save();
 
-            if ($empleat){
+            if ($empleat) {
 
                 //ToDo: FALTA PONER QUE LOS VALORES EXISTAN EN LA BBDD Y CONTROLAR TIPO DE VALORES
                 /*$v = Validator::make(request()->all(), [
-                    'id_empleat' => 'required',
-                    'id_carrec' => 'required',
-                    'id_idioma' => 'required',
-                    'empleat_homologat' => 'required',
-                    'preu_carrec' => 'required',
+                'id_empleat' => 'required',
+                'id_carrec' => 'required',
+                'id_idioma' => 'required',
+                'empleat_homologat' => 'required',
+                'preu_carrec' => 'required',
                 ]);*/
 
-                if ($v->fails() == false) {
-                    $camposCargos = ["director","tecnic_sala","ajustador","actor","traductor","linguista"];
-                    $idiomas = ["Català", 'Castellà', "Anglès"];
+                $camposCargos = Carrec::all(); //["director","tecnic_sala","ajustador","actor","traductor","linguista"];
+                $idiomas = Idioma::all(); //["Català", 'Castellà', "Anglès"];
 
-                    $datos = [];
+                $datos = [];
 
-                    foreach ($camposCargos as $key => $value) {
-                        if ($value == "director" || $value == "tecnic_sala" || $value == "ajustador"){
-                            //COMPROBAR QUE LOS CAMPOS EXISTAN
-                            $datos["preu_carrec"] = request()->input("preu_$value");
-                        } else {
-                            foreach ($idiomas as $key => $idioma) {
-                                //IGUAL
-                                $datos["preu_carrec"] = request()->input("preu_$value"."_$idioma");
+                foreach ($camposCargos as $key => $carrec) {
+                    $id_carrec = $carrec->id_carrec;
+                    $nomCarrec = $carrec->input_name;
+                    
+                    if (($nomCarrec == "director" || $nomCarrec == "tecnic_sala" || $nomCarrec == "ajustador") && request()->has($nomCarrec)) {
+                        $datos["id_empleat"] = $empleat->id_empleat;
+                        $datos["id_carrec"] = $id_carrec;
+                        $datos["id_idioma"] = 0;
+                        $datos["empleat_homologat"] = false;
+                        $datos["preu_carrec"] = (request()->has("preu_$nomCarrec")) ? request()->input("preu_$nomCarrec") : 0;
+
+                        $carrecEmpleat = new CarrecEmpleat($datos);
+                        // TODO: Validar "carrecEmpleat"
+                        $carrecEmpleat->save();
+                    } else if (request()->has($nomCarrec)) {
+                        foreach ($idiomas as $key => $idioma) {
+                            $id_idioma = $idioma->id_idioma;
+                            $nom_idioma = $idioma->idioma;
+
+                            if (request()->has("idioma_$nomCarrec" . "_$nom_idioma")) {
+                                $datos["id_empleat"] = $empleat->id_empleat;
+                                $datos["id_carrec"] = $id_carrec;
+                                $datos["id_idioma"] = $id_idioma;
+                                $datos["empleat_homologat"] = (request()->has("homologat_$nomCarrec" . "_$nom_idioma")) ? request()->input("homologat_$nomCarrec" . "_$nom_idioma") : false;
+                                $datos["preu_carrec"] = (request()->has("preu_$nomCarrec" . "_$nom_idioma")) ? request()->input("preu_$nomCarrec" . "_$nom_idioma") : 0;
+    
+                                $carrecEmpleat = new CarrecEmpleat($datos);
+                                // TODO: Validar "carrecEmpleat"
+                                $carrecEmpleat->save();
                             }
                         }
                     }
-
-
                 }
-
             }
 
             return $this->insertView();
         }
     }
 
-    public function update($id) {
+    public function update($id)
+    {
         $usuario = EmpleatExtern::find($id);
 
-        if ($usuario){
+        if ($usuario) {
             //ToDo: FALTA COMPLETAR VALIDATOR
             $v = Validator::make(request()->all(), [
                 'nom_empleat' => 'required',
@@ -138,29 +186,29 @@ class EmpleatExternController extends Controller
                 'codi_postal_empleat' => 'required',
                 'naixement_empleat' => 'required',
                 'nss_empleat' => 'required',
-                'iban_empleat' => 'required'
+                'iban_empleat' => 'required',
             ]);
 
-            if ($v->fails()){
+            if ($v->fails()) {
                 return response()->json(["error" => true], 400);
             } else {
                 $data = request()->all();
-                if (!isset($data['actor'])){
+                if (!isset($data['actor'])) {
                     $data['actor'] = 0;
                 }
-                if (!isset($data['director'])){
+                if (!isset($data['director'])) {
                     $data['director'] = 0;
                 }
-                if (!isset($data['tecnic_sala'])){
+                if (!isset($data['tecnic_sala'])) {
                     $data['tecnic_sala'] = 0;
                 }
-                if (!isset($data['traductor'])){
+                if (!isset($data['traductor'])) {
                     $data['traductor'] = 0;
                 }
-                if (!isset($data['ajustador'])){
+                if (!isset($data['ajustador'])) {
                     $data['ajustador'] = 0;
                 }
-                if (!isset($data['linguista'])){
+                if (!isset($data['linguista'])) {
                     $data['linguista'] = 0;
                 }
 
@@ -171,8 +219,9 @@ class EmpleatExternController extends Controller
         }
     }
 
-    public function delete(Request $request) {
-        EmpleatExtern::where('id_empleat',$request["id"])->delete();
+    public function delete(Request $request)
+    {
+        EmpleatExtern::where('id_empleat', $request["id"])->delete();
         return $this->index();
     }
 }

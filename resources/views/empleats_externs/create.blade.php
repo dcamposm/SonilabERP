@@ -121,37 +121,37 @@
                 <div class="col-2">
                     <div class="form-group">
                         <label for="director" style="font-weight: bold">Director:</label>
-                        <input type="checkbox" onchange="mostrarCamps('director')" class="form-control" id="director" name="director" {{!empty($empleat) && $empleat->director == 1 ? 'checked' : ''}} value="1">
+                        <input type="checkbox" onchange="mostrarCamps('director')" class="form-control" id="director" name="director" {{ isset($carrecs['director']) ? 'checked' : ''}} value="1">
                     </div>
                 </div>
                 <div class="col-2">
                     <div class="form-group">
                         <label for="tecnic_sala" style="font-weight: bold">Tècnic:</label>
-                        <input type="checkbox" onchange="mostrarCamps('tecnic')" class="form-control" id="tecnic_sala" name="tecnic_sala" {{!empty($empleat) && $empleat->tecnic_sala == 1 ? 'checked' : ''}} value="1">
+                        <input type="checkbox" onchange="mostrarCamps('tecnic')" class="form-control" id="tecnic_sala" name="tecnic_sala" {{ isset($carrecs['tecnic_sala']) ? 'checked' : ''}} value="1">
                     </div>
                 </div>
                 <div class="col-2">
                     <div class="form-group">
                         <label for="ajustador" style="font-weight: bold">Ajustador:</label>
-                        <input type="checkbox" onchange="mostrarCamps('ajustador')" class="form-control" id="ajustador" name="ajustador" {{!empty($empleat) && $empleat->ajustador == 1 ? 'checked' : ''}} value="1">
+                        <input type="checkbox" onchange="mostrarCamps('ajustador')" class="form-control" id="ajustador" name="ajustador" {{ isset($carrecs['ajustador']) ? 'checked' : ''}} value="1">
                     </div>
                 </div>
                 <div class="col-2">
                     <div class="form-group">
                         <label for="actor" style="font-weight: bold">Actor:</label>
-                        <input type="checkbox" onchange="mostrarCamps('actor')" class="form-control" id="actor" name="actor" {{!empty($empleat) && $empleat->actor == 1 ? 'checked' : ''}} value="1">
+                        <input type="checkbox" onchange="mostrarCamps('actor')" class="form-control" id="actor" name="actor" {{ isset($carrecs['actor']) ? 'checked' : ''}} value="1">
                     </div>
                 </div>
                 <div class="col-2">
                     <div class="form-group">
                         <label for="traductor" style="font-weight: bold">Traductor:</label>
-                        <input type="checkbox" onchange="mostrarCamps('traductor')" class="form-control" id="traductor" name="traductor" {{!empty($empleat) && $empleat->traductor == 1 ? 'checked' : ''}} value="1">
+                        <input type="checkbox" onchange="mostrarCamps('traductor')" class="form-control" id="traductor" name="traductor" {{ isset($carrecs['traductor']) ? 'checked' : ''}} value="1">
                     </div>
                 </div>
                 <div class="col-2">
                     <div class="form-group">
                         <label for="linguista" style="font-weight: bold">Lingüista:</label>
-                        <input type="checkbox" onchange="mostrarCamps('linguista')" class="form-control" id="linguista" name="linguista" {{!empty($empleat) && $empleat->linguista == 1 ? 'checked' : ''}} value="1">
+                        <input type="checkbox" onchange="mostrarCamps('linguista')" class="form-control" id="linguista" name="linguista" {{ isset($carrecs['linguista']) ? 'checked' : ''}} value="1">
                     </div>
                 </div>
             </div>
@@ -159,24 +159,24 @@
             <!-- CARGOS: DIRECTOR, TÉCNICO DE SALA, AJUSTADOR -->
             <div class="row">
                 
-                <div class="col-4" id="colDirector" style="display:{{!empty($empleat) && $empleat->director == 1 ? '' : 'none'}}">
+                <div class="col-4" id="colDirector" style="display:{{ isset($carrecs['director']) ? '' : 'none'}}">
                     <div class="form-group">
                         <label for="preu_director" style="font-weight: bold">Preu director:</label>
-                        <input type="number" class="form-control" id="preu_director" placeholder="Entrar preu director" name="preu_director" value="{{!empty($empleat) ? $empleat->preu_director : ''}}" disabled>
+                        <input type="number" class="form-control" id="preu_director" placeholder="Entrar preu director" name="preu_director" value="{{ isset($carrecs['director']) ? $carrecs['director']['preu_carrec'] : ''}}" {{ isset($carrecs['director']) ? '' : 'disabled' }}>
                     </div>
                 </div>
 
-                <div class="col-4" id="colTecnicSala" style="display:{{!empty($empleat) && $empleat->tecnic_sala == 1 ? '' : 'none'}}">
+                <div class="col-4" id="colTecnicSala" style="display:{{ isset($carrecs['tecnic_sala']) ? '' : 'none'}}">
                     <div class="form-group">
                         <label for="preu_tecnicSala" style="font-weight: bold">Preu tècnic de sala:</label>
-                        <input type="number" class="form-control" id="preu_tecnicSala" placeholder="Entrar preu tècnic de Sala" name="preu_tecnic_sala" value="{{!empty($empleat) ? $empleat->preu_tecnic_sala : ''}}" disabled>
+                        <input type="number" class="form-control" id="preu_tecnicSala" placeholder="Entrar preu tècnic de Sala" name="preu_tecnic_sala" value="{{ isset($carrecs['tecnic_sala']) ? $carrecs['tecnic_sala']['preu_carrec'] : ''}}" {{ isset($carrecs['tecnic_sala']) ? '' : 'disabled' }}>
                     </div>
                 </div>
 
-                <div class="col-4" id="colAjustador" style="display:{{!empty($empleat) && $empleat->ajustador == 1 ? '' : 'none'}}">
+                <div class="col-4" id="colAjustador" style="display:{{ isset($carrecs['ajustador']) ? '' : 'none'}}">
                     <div class="form-group">
                         <label for="preu_ajustador" style="font-weight: bold">Preu ajustador:</label>
-                        <input type="number" class="form-control" id="preu_ajustador" placeholder="Entrar preu ajustador" name="preu_ajustador" value="{{!empty($empleat) ? $empleat->preu_ajustador : ''}}" disabled>
+                        <input type="number" class="form-control" id="preu_ajustador" placeholder="Entrar preu ajustador" name="preu_ajustador" value="{{ isset($carrecs['ajustador']) ? $carrecs['ajustador']['preu_carrec'] : ''}}" {{ isset($carrecs['ajustador']) ? '' : 'disabled' }}>
                     </div>
                 </div>
 
@@ -184,7 +184,7 @@
 
             <!-- CARGOS: ACTOR, TRADUCTOR, LINGÜISTA -->
             <div class="row container">
-                <div id="colActor" style="width: 100%; margin-left: 15px; display:{{!empty($empleat) && $empleat->actor == 1 ? '' : 'none'}}">
+                <div id="colActor" style="width: 100%; margin-left: 15px; display:{{ isset($carrecs['actor']) ? '' : 'none'}}">
                     <div class="form-group">
                         <table class="table">
                             <thead class="thead-dark">
@@ -198,19 +198,19 @@
                                     <td class="col">
                                         <div class="form-group">
                                             <label for="idioma_actor_{{$idioma->idioma}}" style="font-weight: bold">{{$idioma->idioma}}:</label>
-                                            <input type="checkbox" class="form-control" id="idioma_actor_{{$idioma->idioma}}" onchange="mostrarSubMenus('{{$idioma->idioma}}','actor')" name="idioma_actor_{{$idioma->idioma}}" value="1">
+                                            <input type="checkbox" class="form-control" id="idioma_actor_{{$idioma->idioma}}" onchange="mostrarSubMenus('{{$idioma->idioma}}','actor')" name="idioma_actor_{{$idioma->idioma}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? 'checked': '' }} value="1">
                                         </div>
                                     </td>
                                     <td class="col">
                                         <label for="homologat_actor_{{$idioma->idioma}}" style="font-weight: bold">Homologat:</label>
-                                        <select class="form-control" id="homologat_actor_{{$idioma->idioma}}" name="homologat_actor_{{$idioma->idioma}}" disabled>
-                                            <option value="NO" {{(!empty($empleat) && $empleat->homologat == 'NO') ? 'selected' : ''}}>NO</option>
-                                            <option value="SI" {{(!empty($empleat) && $empleat->homologat == 'SI') ? 'selected' : ''}}>SI</option>
+                                        <select class="form-control" id="homologat_actor_{{$idioma->idioma}}" name="homologat_actor_{{$idioma->idioma}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                            <option value="NO" {{ (isset($carrecs['actor'][$idioma->idioma]) && $carrecs['actor'][$idioma->idioma]['empleat_homologat'] == false) ? 'selected' : ''}}>NO</option>
+                                            <option value="SI" {{ (isset($carrecs['actor'][$idioma->idioma]) && $carrecs['actor'][$idioma->idioma]['empleat_homologat'] == true) ? 'selected' : ''}}>SI</option>
                                         </select>
                                     </td>
                                     <td class="col">
                                     <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Preu actor:</label>
-                                        <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}" placeholder="Entrar preu actor" name="preu_actor_{{$idioma->idioma}}" value="{{!empty($empleat) ? $empleat->preu_actor : ''}}" disabled>
+                                        <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}" placeholder="Entrar preu actor" name="preu_actor_{{$idioma->idioma}}" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
                                     </td>
                                 </tr>          
                             @endforeach
@@ -219,7 +219,7 @@
                     </div>
                 </div>
 
-                <div id="colTraductor" style="width: 100%; margin-left: 15px; display:{{!empty($empleat) && $empleat->traductor == 1 ? '' : 'none'}}">
+                <div id="colTraductor" style="width: 100%; margin-left: 15px; display:{{ isset($carrecs['traductor']) ? '' : 'none'}}">
                     <div class="form-group">
                         <table class="table">
                             <thead class="thead-dark">
@@ -233,19 +233,19 @@
                                     <td class="col">
                                         <div class="form-group">
                                             <label for="idioma_traductor_{{$idioma->idioma}}" style="font-weight: bold">{{$idioma->idioma}}:</label>
-                                            <input type="checkbox" class="form-control" id="idioma_traductor_{{$idioma->idioma}}" onchange="mostrarSubMenus('{{$idioma->idioma}}','traductor')" name="idioma_traductor_{{$idioma->idioma}}" value="1">
+                                            <input type="checkbox" class="form-control" id="idioma_traductor_{{$idioma->idioma}}" onchange="mostrarSubMenus('{{$idioma->idioma}}','traductor')" name="idioma_traductor_{{$idioma->idioma}}" {{ isset($carrecs['traductor'][$idioma->idioma]) ? 'checked': '' }} value="1">
                                         </div>
                                     </td>
                                     <td class="col">
                                         <label for="homologat_traductor_{{$idioma->idioma}}" style="font-weight: bold">Homologat:</label>
-                                        <select class="form-control" id="homologat_traductor_{{$idioma->idioma}}" name="homologat_traductor_{{$idioma->idioma}}" disabled>
-                                            <option value="NO" {{(!empty($empleat) && $empleat->homologat == 'NO') ? 'selected' : ''}}>NO</option>
-                                            <option value="SI" {{(!empty($empleat) && $empleat->homologat == 'SI') ? 'selected' : ''}}>SI</option>
+                                        <select class="form-control" id="homologat_traductor_{{$idioma->idioma}}" name="homologat_traductor_{{$idioma->idioma}}" {{ isset($carrecs['traductor'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                            <option value="NO" {{ (isset($carrecs['traductor'][$idioma->idioma]) && $carrecs['traductor'][$idioma->idioma]['empleat_homologat'] == false) ? 'selected' : ''}}>NO</option>
+                                            <option value="SI" {{ (isset($carrecs['traductor'][$idioma->idioma]) && $carrecs['traductor'][$idioma->idioma]['empleat_homologat'] == true) ? 'selected' : ''}}>SI</option>
                                         </select>
                                     </td>
                                     <td class="col">
                                     <label for="preu_traductor_{{$idioma->idioma}}" style="font-weight: bold">Preu traductor:</label>
-                                        <input type="number" class="form-control" id="preu_traductor_{{$idioma->idioma}}" placeholder="Entrar preu traductor" name="preu_traductor_{{$idioma->idioma}}" value="{{!empty($empleat) ? $empleat->preu_traductor : ''}}" disabled>
+                                        <input type="number" class="form-control" id="preu_traductor_{{$idioma->idioma}}" placeholder="Entrar preu traductor" name="preu_traductor_{{$idioma->idioma}}" value="{{ isset($carrecs['traductor'][$idioma->idioma]) ? $carrecs['traductor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['traductor'][$idioma->idioma]) ? '' : 'disabled' }}>
                                     </td>
                                 </tr>          
                             @endforeach
@@ -256,7 +256,7 @@
             </div>
 
             <div class="row container">
-                <div id="colLinguista" style="width: 100%; margin-left: 15px; display:{{!empty($empleat) && $empleat->linguista == 1 ? '' : 'none'}}">
+                <div id="colLinguista" style="width: 100%; margin-left: 15px; display:{{ isset($carrecs['linguista']) ? '' : 'none'}}">
                     <div class="form-group">
                         <table class="table">
                             <thead class="thead-dark">
@@ -270,19 +270,19 @@
                                     <td class="col">
                                         <div class="form-group">
                                             <label for="idioma_linguista_{{$idioma->idioma}}" style="font-weight: bold">{{$idioma->idioma}}:</label>
-                                            <input type="checkbox" class="form-control" id="idioma_linguista_{{$idioma->idioma}}" onchange="mostrarSubMenus('{{$idioma->idioma}}','linguista')" name="idioma_linguista_{{$idioma->idioma}}" value="1">
+                                            <input type="checkbox" class="form-control" id="idioma_linguista_{{$idioma->idioma}}" onchange="mostrarSubMenus('{{$idioma->idioma}}','linguista')" name="idioma_linguista_{{$idioma->idioma}}" {{ isset($carrecs['linguista'][$idioma->idioma]) ? 'checked': '' }} value="1">
                                         </div>
                                     </td>
                                     <td class="col">
                                         <label for="homologat_linguista_{{$idioma->idioma}}" style="font-weight: bold">Homologat:</label>
-                                        <select class="form-control" id="homologat_linguista_{{$idioma->idioma}}" name="homologat_linguista_{{$idioma->idioma}}" disabled>
-                                            <option value="NO" {{(!empty($empleat) && $empleat->homologat == 'NO') ? 'selected' : ''}}>NO</option>
-                                            <option value="SI" {{(!empty($empleat) && $empleat->homologat == 'SI') ? 'selected' : ''}}>SI</option>
+                                        <select class="form-control" id="homologat_linguista_{{$idioma->idioma}}" name="homologat_linguista_{{$idioma->idioma}}" {{ isset($carrecs['linguista'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                            <option value="NO" {{ (isset($carrecs['linguista'][$idioma->idioma]) && $carrecs['linguista'][$idioma->idioma]['empleat_homologat'] == false) ? 'selected' : ''}}>NO</option>
+                                            <option value="SI" {{ (isset($carrecs['linguista'][$idioma->idioma]) && $carrecs['linguista'][$idioma->idioma]['empleat_homologat'] == true) ? 'selected' : ''}}>SI</option>
                                         </select>
                                     </td>
                                     <td class="col">
                                     <label for="preu_linguista_{{$idioma->idioma}}" style="font-weight: bold">Preu lingüista:</label>
-                                        <input type="number" class="form-control" id="preu_linguista_{{$idioma->idioma}}" placeholder="Entrar preu lingüista" name="preu_linguista_{{$idioma->idioma}}" value="{{!empty($empleat) ? $empleat->preu_linguista : ''}}" disabled>
+                                        <input type="number" class="form-control" id="preu_linguista_{{$idioma->idioma}}" placeholder="Entrar preu lingüista" name="preu_linguista_{{$idioma->idioma}}" value="{{ isset($carrecs['linguista'][$idioma->idioma]) ? $carrecs['linguista'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['linguista'][$idioma->idioma]) ? '' : 'disabled' }}>
                                     </td>
                                 </tr>          
                             @endforeach
