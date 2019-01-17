@@ -2,6 +2,11 @@
 
 @section('content')
 
+<?php 
+use Carbon\Carbon; 
+$fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
+?>
+
 <div class="container">
     <h2 style="font-weight: bold">{{!empty($empleat) ? 'Editar empleat' : 'Crear empleat'}}</h2>
     <form method = "POST" action="{{!empty($empleat) ? route('empleatUpdate', ['id' => $empleat->id_empleat]) : route('empleatInsert')}}">
@@ -93,7 +98,7 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label for="naixement_empleat" style="font-weight: bold">Data naixement:</label>
-                        <input type="date" class="form-control" id="naixement_empleat" placeholder="Entrar data naixement empleat" name="naixement_empleat" value="{{!empty($empleat) ? explode(' ',$empleat->naixement_empleat)[0] : ''}}">
+                        <input type="date" max="{{$fecha16AnyosMenos}}" value="{{$fecha16AnyosMenos}}" class="form-control" id="naixement_empleat" placeholder="Entrar data naixement empleat" name="naixement_empleat" value="{{!empty($empleat) ? explode(' ',$empleat->naixement_empleat)[0] : ''}}">
                     </div>
                 </div>
                 <div class="col-6">
