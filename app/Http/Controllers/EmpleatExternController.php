@@ -110,6 +110,11 @@ class EmpleatExternController extends Controller
             //return response()->json(["error" => request()->all()], 400);
         } else {
             $empleat = new EmpleatExtern(request()->all());
+
+            if (request()->has('imatge_empleat') && request()->input('imatge_empleat') != ''){
+                $empleat['imatge_empleat'] = base64_encode(file_get_contents($_FILES["imatge_empleat"]["tmp_name"]));
+            }
+
             $empleat->save();
 
             if ($empleat) {
@@ -193,6 +198,11 @@ class EmpleatExternController extends Controller
                 // Modifica datos personales del empleado
                 $data = request()->all();
                 $empleat->fill($data);
+
+                if (request()->has('imatge_empleat') && request()->input('imatge_empleat') != ''){
+                    $empleat['imatge_empleat'] = base64_encode(file_get_contents($_FILES["imatge_empleat"]["tmp_name"]));
+                }
+
                 $empleat->save();
 
                 // Modifica cargos del empleado
