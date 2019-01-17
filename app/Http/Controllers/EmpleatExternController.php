@@ -107,7 +107,7 @@ class EmpleatExternController extends Controller
                         } else {
                             foreach ($idiomas as $key => $idioma) {
                                 //IGUAL
-                                $datos["preu_carrec"] = request()->input("preu_$value"."_$idioma);
+                                $datos["preu_carrec"] = request()->input("preu_$value"."_$idioma");
                             }
                         }
                     }

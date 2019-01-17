@@ -115,6 +115,8 @@
         </fieldset>
         <fieldset class="border p-2">
             <legend class="w-auto">Càrrecs:</legend>
+
+            <!-- CHECKBOX PARA ACTIVAR CARGOS -->
             <div class="row">
                 <div class="col-2">
                     <div class="form-group">
@@ -124,7 +126,7 @@
                 </div>
                 <div class="col-2">
                     <div class="form-group">
-                        <label for="tecnic_sala" style="font-weight: bold">Técnic:</label>
+                        <label for="tecnic_sala" style="font-weight: bold">Tècnic:</label>
                         <input type="checkbox" onchange="mostrarCamps('tecnic')" class="form-control" id="tecnic_sala" name="tecnic_sala" {{!empty($empleat) && $empleat->tecnic_sala == 1 ? 'checked' : ''}} value="1">
                     </div>
                 </div>
@@ -154,37 +156,7 @@
                 </div>
             </div>
 
-            <!-- <div class="row">
-                <div class="col-6" id="colActor"  style="display:{{!empty($empleat) && $empleat->actor == 1 ? '' : 'none'}}">
-                    <div class="form-group">
-                    <h4>Actor</h4>
-                        <div class="row"> 
-                        @foreach( $idiomes as $key => $idioma)
-                            <div class="col-2">
-                                <div class="form-group">
-                                    <label for="idioma_actor_{{$idioma->idioma}}" style="font-weight: bold">{{$idioma->idioma}}:</label>
-                                    <input type="checkbox" class="form-control" id="idioma_actor_{{$idioma->idioma}}" onchange="mostrarSubMenus('{{$idioma->idioma}}','actor')" name="idioma_actor_{{$idioma->idioma}}" value="1">
-                                </div>
-                            </div>
-                        
-                            <div class="col-5">
-                                <label for="homologat_actor_{{$idioma->idioma}}" style="font-weight: bold">Homologat:</label>
-                                <select class="form-control" id="homologat_actor_{{$idioma->idioma}}" name="homologat_actor_{{$idioma->idioma}}" disabled>
-                                    <option value="NO" {{(!empty($empleat) && $empleat->homologat == 'NO') ? 'selected' : ''}}>NO</option>
-                                    <option value="SI" {{(!empty($empleat) && $empleat->homologat == 'SI') ? 'selected' : ''}}>SI</option>
-                                </select>
-                            </div>
-                           
-                            <div class="col-5">
-                                <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Preu actor:</label>
-                                <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}" placeholder="Entrar preu actor" name="preu_actor_{{$idioma->idioma}}" value="{{!empty($empleat) ? $empleat->preu_actor : ''}}" disabled>
-                            </div>
-                            
-                        @endforeach
-                        </div>
-                    </div>
-                </div> -->
-
+            <!-- CARGOS: DIRECTOR, TÉCNICO DE SALA, AJUSTADOR -->
             <div class="row">
                 
                 <div class="col-4" id="colDirector" style="display:{{!empty($empleat) && $empleat->director == 1 ? '' : 'none'}}">
@@ -196,8 +168,8 @@
 
                 <div class="col-4" id="colTecnicSala" style="display:{{!empty($empleat) && $empleat->tecnic_sala == 1 ? '' : 'none'}}">
                     <div class="form-group">
-                        <label for="preu_tecnicSala" style="font-weight: bold">Preu técnic de sala:</label>
-                        <input type="number" class="form-control" id="preu_tecnicSala" placeholder="Entrar preu técnic de Sala" name="preu_tecnic_sala" value="{{!empty($empleat) ? $empleat->preu_tecnic_sala : ''}}" disabled>
+                        <label for="preu_tecnicSala" style="font-weight: bold">Preu tècnic de sala:</label>
+                        <input type="number" class="form-control" id="preu_tecnicSala" placeholder="Entrar preu tècnic de Sala" name="preu_tecnic_sala" value="{{!empty($empleat) ? $empleat->preu_tecnic_sala : ''}}" disabled>
                     </div>
                 </div>
 
@@ -210,106 +182,119 @@
 
             </div>
 
+            <!-- CARGOS: ACTOR, TRADUCTOR, LINGÜISTA -->
             <div class="row container">
                 <div id="colActor" style="width: 100%; margin-left: 15px; display:{{!empty($empleat) && $empleat->actor == 1 ? '' : 'none'}}">
                     <div class="form-group">
                         <table class="table">
-                                <thead class="thead-dark">
-                            <tr class="row">
-                                <th class="col">Actor</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        @foreach( $idiomes as $key => $idioma)
-                        <tr class="row">
-                            <td class="col">
-                                <div class="form-group">
-                                    <label for="idioma_actor_{{$idioma->idioma}}" style="font-weight: bold">{{$idioma->idioma}}:</label>
-                                    <input type="checkbox" class="form-control" id="idioma_actor_{{$idioma->idioma}}" onchange="mostrarSubMenus('{{$idioma->idioma}}','actor')" name="idioma_actor_{{$idioma->idioma}}" value="1">
-                                </div>
-                            </td>
-                            <td class="col">
-                                <label for="homologat_actor_{{$idioma->idioma}}" style="font-weight: bold">Homologat:</label>
-                                <select class="form-control" id="homologat_actor_{{$idioma->idioma}}" name="homologat_actor_{{$idioma->idioma}}" disabled>
-                                    <option value="NO" {{(!empty($empleat) && $empleat->homologat == 'NO') ? 'selected' : ''}}>NO</option>
-                                    <option value="SI" {{(!empty($empleat) && $empleat->homologat == 'SI') ? 'selected' : ''}}>SI</option>
-                                </select>
-                            </td>
-                            <td class="col">
-                            <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Preu actor:</label>
-                                <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}" placeholder="Entrar preu actor" name="preu_actor_{{$idioma->idioma}}" value="{{!empty($empleat) ? $empleat->preu_actor : ''}}" disabled>
-                            </td>
-                        
-                        </tr>          
-                        @endforeach
-                        </tbody> 
+                            <thead class="thead-dark">
+                                <tr class="row">
+                                    <th class="col">Actor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @foreach( $idiomes as $key => $idioma)
+                                <tr class="row">
+                                    <td class="col">
+                                        <div class="form-group">
+                                            <label for="idioma_actor_{{$idioma->idioma}}" style="font-weight: bold">{{$idioma->idioma}}:</label>
+                                            <input type="checkbox" class="form-control" id="idioma_actor_{{$idioma->idioma}}" onchange="mostrarSubMenus('{{$idioma->idioma}}','actor')" name="idioma_actor_{{$idioma->idioma}}" value="1">
+                                        </div>
+                                    </td>
+                                    <td class="col">
+                                        <label for="homologat_actor_{{$idioma->idioma}}" style="font-weight: bold">Homologat:</label>
+                                        <select class="form-control" id="homologat_actor_{{$idioma->idioma}}" name="homologat_actor_{{$idioma->idioma}}" disabled>
+                                            <option value="NO" {{(!empty($empleat) && $empleat->homologat == 'NO') ? 'selected' : ''}}>NO</option>
+                                            <option value="SI" {{(!empty($empleat) && $empleat->homologat == 'SI') ? 'selected' : ''}}>SI</option>
+                                        </select>
+                                    </td>
+                                    <td class="col">
+                                    <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Preu actor:</label>
+                                        <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}" placeholder="Entrar preu actor" name="preu_actor_{{$idioma->idioma}}" value="{{!empty($empleat) ? $empleat->preu_actor : ''}}" disabled>
+                                    </td>
+                                </tr>          
+                            @endforeach
+                            </tbody> 
                         </table>
                     </div>
                 </div>
 
-                <div id="colTraductor" style="width: 100%; margin-left: 15px; width: 100%; display:{{!empty($empleat) && $empleat->traductor == 1 ? '' : 'none'}}">
+                <div id="colTraductor" style="width: 100%; margin-left: 15px; display:{{!empty($empleat) && $empleat->traductor == 1 ? '' : 'none'}}">
                     <div class="form-group">
-                        <div class="row"> 
-                        @foreach( $idiomes as $key => $idioma)
-                            <div class="col-2">
-                                <div class="form-group">
-                                    <label for="idioma_traductor_{{$idioma->idioma}}" style="font-weight: bold">{{$idioma->idioma}}:</label>
-                                    <input type="checkbox" class="form-control" id="idioma_traductor_{{$idioma->idioma}}" onchange="mostrarSubMenus('{{$idioma->idioma}}','traductor')" name="idioma_traductor_{{$idioma->idioma}}" value="1">
-                                </div>
-                            </div>
-                        
-                            <div class="col-5">
-                                <label for="homologat_traductor_{{$idioma->idioma}}" style="font-weight: bold">Homologat:</label>
-                                <select class="form-control" id="homologat_traductor_{{$idioma->idioma}}" name="homologat_traductor_{{$idioma->idioma}}" disabled>
-                                    <option value="NO" {{(!empty($empleat) && $empleat->homologat == 'NO') ? 'selected' : ''}}>NO</option>
-                                    <option value="SI" {{(!empty($empleat) && $empleat->homologat == 'SI') ? 'selected' : ''}}>SI</option>
-                                </select>
-                            </div>
-                           
-                            <div class="col-5">
-                                <label for="preu_traductor_{{$idioma->idioma}}" style="font-weight: bold">Preu traductor:</label>
-                                <input type="number" class="form-control" id="preu_traductor_{{$idioma->idioma}}" placeholder="Entrar preu traductor" name="preu_traductor_{{$idioma->idioma}}" value="{{!empty($empleat) ? $empleat->preu_traductor : ''}}" disabled>
-                            </div>
-                            
-                        @endforeach
-                        </div>
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr class="row">
+                                    <th class="col">Traductor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @foreach( $idiomes as $key => $idioma)
+                                <tr class="row">
+                                    <td class="col">
+                                        <div class="form-group">
+                                            <label for="idioma_traductor_{{$idioma->idioma}}" style="font-weight: bold">{{$idioma->idioma}}:</label>
+                                            <input type="checkbox" class="form-control" id="idioma_traductor_{{$idioma->idioma}}" onchange="mostrarSubMenus('{{$idioma->idioma}}','traductor')" name="idioma_traductor_{{$idioma->idioma}}" value="1">
+                                        </div>
+                                    </td>
+                                    <td class="col">
+                                        <label for="homologat_traductor_{{$idioma->idioma}}" style="font-weight: bold">Homologat:</label>
+                                        <select class="form-control" id="homologat_traductor_{{$idioma->idioma}}" name="homologat_traductor_{{$idioma->idioma}}" disabled>
+                                            <option value="NO" {{(!empty($empleat) && $empleat->homologat == 'NO') ? 'selected' : ''}}>NO</option>
+                                            <option value="SI" {{(!empty($empleat) && $empleat->homologat == 'SI') ? 'selected' : ''}}>SI</option>
+                                        </select>
+                                    </td>
+                                    <td class="col">
+                                    <label for="preu_traductor_{{$idioma->idioma}}" style="font-weight: bold">Preu traductor:</label>
+                                        <input type="number" class="form-control" id="preu_traductor_{{$idioma->idioma}}" placeholder="Entrar preu traductor" name="preu_traductor_{{$idioma->idioma}}" value="{{!empty($empleat) ? $empleat->preu_traductor : ''}}" disabled>
+                                    </td>
+                                </tr>          
+                            @endforeach
+                            </tbody> 
+                        </table>
                     </div>
-                </div> 
+                </div>
             </div>
 
-            <div class="row">
-
-                <div id="colLinguista" style="width: 100%; margin-left: 15px; width: 100%; display:{{!empty($empleat) && $empleat->linguista == 1 ? '' : 'none'}}">
+            <div class="row container">
+                <div id="colLinguista" style="width: 100%; margin-left: 15px; display:{{!empty($empleat) && $empleat->linguista == 1 ? '' : 'none'}}">
                     <div class="form-group">
-                        <div class="row"> 
-                        @foreach( $idiomes as $key => $idioma)
-                            <div class="col-2">
-                                <div class="form-group">
-                                    <label for="idioma_linguista_{{$idioma->idioma}}" style="font-weight: bold">{{$idioma->idioma}}:</label>
-                                    <input type="checkbox" class="form-control" id="idioma_linguista_{{$idioma->idioma}}" onchange="mostrarSubMenus('{{$idioma->idioma}}','linguista')" name="idioma_linguista_{{$idioma->idioma}}" value="1">
-                                </div>
-                            </div>
-                        
-                            <div class="col-5">
-                                <label for="homologat_linguista_{{$idioma->idioma}}" style="font-weight: bold">Homologat:</label>
-                                <select class="form-control" id="homologat_linguista_{{$idioma->idioma}}" name="homologat_linguista_{{$idioma->idioma}}" disabled>
-                                    <option value="NO" {{(!empty($empleat) && $empleat->homologat == 'NO') ? 'selected' : ''}}>NO</option>
-                                    <option value="SI" {{(!empty($empleat) && $empleat->homologat == 'SI') ? 'selected' : ''}}>SI</option>
-                                </select>
-                            </div>
-                           
-                            <div class="col-5">
-                                <label for="preu_linguista_{{$idioma->idioma}}" style="font-weight: bold">Preu lingüista:</label>
-                                <input type="number" class="form-control" id="preu_linguista_{{$idioma->idioma}}" placeholder="Entrar preu lingüista" name="preu_linguista_{{$idioma->idioma}}" value="{{!empty($empleat) ? $empleat->preu_linguista : ''}}" disabled>
-                            </div>
-                            
-                        @endforeach
-                        </div>
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr class="row">
+                                    <th class="col">Lingüista</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @foreach( $idiomes as $key => $idioma)
+                                <tr class="row">
+                                    <td class="col">
+                                        <div class="form-group">
+                                            <label for="idioma_linguista_{{$idioma->idioma}}" style="font-weight: bold">{{$idioma->idioma}}:</label>
+                                            <input type="checkbox" class="form-control" id="idioma_linguista_{{$idioma->idioma}}" onchange="mostrarSubMenus('{{$idioma->idioma}}','linguista')" name="idioma_linguista_{{$idioma->idioma}}" value="1">
+                                        </div>
+                                    </td>
+                                    <td class="col">
+                                        <label for="homologat_linguista_{{$idioma->idioma}}" style="font-weight: bold">Homologat:</label>
+                                        <select class="form-control" id="homologat_linguista_{{$idioma->idioma}}" name="homologat_linguista_{{$idioma->idioma}}" disabled>
+                                            <option value="NO" {{(!empty($empleat) && $empleat->homologat == 'NO') ? 'selected' : ''}}>NO</option>
+                                            <option value="SI" {{(!empty($empleat) && $empleat->homologat == 'SI') ? 'selected' : ''}}>SI</option>
+                                        </select>
+                                    </td>
+                                    <td class="col">
+                                    <label for="preu_linguista_{{$idioma->idioma}}" style="font-weight: bold">Preu lingüista:</label>
+                                        <input type="number" class="form-control" id="preu_linguista_{{$idioma->idioma}}" placeholder="Entrar preu lingüista" name="preu_linguista_{{$idioma->idioma}}" value="{{!empty($empleat) ? $empleat->preu_linguista : ''}}" disabled>
+                                    </td>
+                                </tr>          
+                            @endforeach
+                            </tbody> 
+                        </table>
                     </div>
-                </div> 
+                </div>
             </div>
         </fieldset>
         <br>
+
+        <!-- BOTÓN DE CREAR O ACTUALIZAR -->
         <div class="row">
             <div class="col-6">
                 <button type="submit" class="btn btn-success col-4">{{!empty($empleat) ? 'Desar canvis' : 'Crear'}}</button>
