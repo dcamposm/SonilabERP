@@ -63,6 +63,11 @@ class UserController extends Controller
         if ($v->fails()){
             return response()->json(["error" => true], 400);
         } else {
+            
+            if (request()->has('imatge_empleat') && request()->input('imatge_empleat') != ''){
+                $empleat['imatge_empleat'] = base64_encode(file_get_contents($_FILES["imatge_empleat"]["tmp_name"]));
+            }
+
             $usuario->save();
             return $this->viewRegistre();
         }
@@ -86,6 +91,11 @@ class UserController extends Controller
                 return response()->json(["error" => true], 400);
             } else {
                 $usuario->fill(request()->all());
+
+                if (request()->has('imatge_empleat') && request()->input('imatge_empleat') != ''){
+                    $empleat['imatge_empleat'] = base64_encode(file_get_contents($_FILES["imatge_empleat"]["tmp_name"]));
+                }
+
                 $usuario->save();
                 return $this->getIndex();
             }
