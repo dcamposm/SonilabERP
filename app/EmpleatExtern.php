@@ -11,7 +11,8 @@ class EmpleatExtern extends Model
 
     protected $fillable = [
         "nom_empleat", 
-        "cognoms_empleat", 
+        "cognom1_empleat",
+        "cognom2_empleat", 
         "sexe_empleat", 
         "nacionalitat_empleat", 
         "imatge_empleat",

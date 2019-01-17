@@ -18,12 +18,12 @@
                 <div class="form-group">
                     <label for="email_usuari" style="font-weight: bold">Email:</label>
                     <input type="email" class="form-control" id="email_usuari" placeholder="Entrar correu" name="email_usuari" value="{{!empty($usuario) ? $usuario->email_usuari : ''}}">
-                </div> 
+                </div>
             </div>
         </div>
-        
+
         <div class="row">
-            <div class="col-6"> 
+            <div class="col-6">
                 <div class="form-group">
                     <label for="nom_usuari" style="font-weight: bold">Nom:</label>
                     <input type="text" class="form-control" id="nom_usuari" placeholder="Entrar nom" name="nom_usuari" value="{{!empty($usuario) ? $usuario->nom_usuari : ''}}">
@@ -31,8 +31,8 @@
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <label for="cognoms_usuari" style="font-weight: bold">Cognoms:</label>
-                    <input type="text" class="form-control" id="cognoms_usuari" placeholder="Entrar cognoms" name="cognoms_usuari" value="{{!empty($usuario) ? $usuario->cognoms_usuari : ''}}">
+                    <label for="cognom1_usuari" style="font-weight: bold">Primer cognom:</label>
+                    <input type="text" class="form-control" id="cognom1_usuari" placeholder="Entrar primer cognom" name="cognom1_usuari" value="{{!empty($usuario) ? $usuario->cognom1_usuari : ''}}">
                 </div>
             </div>
             <!--<div class="col-6">
@@ -41,6 +41,24 @@
                     <input type="tel" class="form-control" id="telefon" placeholder="Entrar telefon" name="telefon">
                 </div>
             </div>-->
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="cognom2_usuari" style="font-weight: bold">Segon cognom:</label>
+                    <input type="text" class="form-control" id="cognom2_usuari" placeholder="Entrar segon cognom" name="cognom2_usuari" value="{{!empty($usuario) ? $usuario->cognom2_usuari : ''}}">
+                </div>
+            </div>
+
+            <div class="col-6">
+                <label for="cpass" style="font-weight: bold">Selecciona departament:</label>
+                <select class="form-control" name="id_departament">
+                @foreach( $departaments as $departament )
+                    <option value="{{$departament['id_departament']}}" {{(!empty($usuario) && $usuario->id_departament == $departament['id_departament']) ? 'selected' : ''}} >{{$departament['nom_departament']}}</option>
+                @endforeach
+                </select>
+            </div>
         </div>
 
         <div class="row">
@@ -55,19 +73,6 @@
                     <label for="cpass" style="font-weight: bold">Confirma contrasenya:</label>
                     <input type="password" class="form-control" id="cpass" placeholder="Confirmar contrasenya" name="cpass">
                 </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-6">
-            
-                <label for="cpass" style="font-weight: bold">Selecciona departament:</label>
-                <select class="form-control" name="id_departament">
-                @foreach( $departaments as $departament )
-                    <option value="{{$departament['id_departament']}}" {{(!empty($usuario) && $usuario->id_departament == $departament['id_departament']) ? 'selected' : ''}} >{{$departament['nom_departament']}}</option>
-                @endforeach
-                </select>
-            
             </div>
         </div>
         <br>

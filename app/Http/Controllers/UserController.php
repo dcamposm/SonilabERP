@@ -53,7 +53,8 @@ class UserController extends Controller
 
         $v = Validator::make(request()->all(), [
             'nom_usuari' => 'required',
-            'cognoms_usuari' => 'required',
+            'cognom1_usuari' => 'required',
+            'cognom2_usuari' => 'required',
             'email_usuari' => 'required',
             'alias_usuari' => 'required',
             'contrasenya_usuari' => 'required',
@@ -80,7 +81,8 @@ class UserController extends Controller
             //ToDo: FALTA COMPLETAR VALIDATOR
             $v = Validator::make(request()->all(), [
                 'nom_usuari' => 'required',
-                'cognoms_usuari' => 'required',
+                'cognom1_usuari' => 'required',
+                'cognom2_usuari' => 'required',
                 'email_usuari' => 'required',
                 'alias_usuari' => 'required',
                 //'contrasenya_usuari' => 'required',
