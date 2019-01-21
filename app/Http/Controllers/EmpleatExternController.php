@@ -294,7 +294,7 @@ class EmpleatExternController extends Controller
                     }
                 }
 
-                return $this->index();
+                return redirect()->route('empleatIndex');
             }
         }
     }
@@ -303,6 +303,6 @@ class EmpleatExternController extends Controller
     {
         CarrecEmpleat::where('id_empleat', $request["id"])->delete();
         EmpleatExtern::where('id_empleat', $request["id"])->delete();
-        return $this->index();
+        return redirect()->route('empleatIndex');
     }
 }

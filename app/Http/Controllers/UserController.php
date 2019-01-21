@@ -100,7 +100,7 @@ class UserController extends Controller
                 }
 
                 $usuario->save();
-                return $this->getIndex();
+                return redirect()->route('indexUsuariIntern');
             }
         }
     }
@@ -114,12 +114,13 @@ class UserController extends Controller
         $currentId = request()->user()->id_usuari;
         $user = User::where([
             ['id_usuari', '=', $request["id"]],
-            ['id_usuari', '<>', $currentId]
+            ['id_usuari', '<>', $currentId],
+            ['id_usuari', '<>', '1']
         ]);
 
         if ($user) {
             $user->delete();
-            return $this->getIndex();
+            return redirect()->route('indexUsuariIntern');
         }
     }
 }
