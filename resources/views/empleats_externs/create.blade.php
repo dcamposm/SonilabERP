@@ -22,14 +22,36 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                 </div>
                 <div class="col-6">
                     <div class="form-group">
-                        <label for="cognoms_empleat" style="font-weight: bold">Cognoms:</label>
-                        <input type="text" class="form-control" id="cognoms_empleat" placeholder="Entrar cognoms" name="cognoms_empleat" value="{{!empty($empleat) ? $empleat->cognoms_empleat : ''}}">
-                    </div>
+                        <label for="email_empleat" style="font-weight: bold">Email:</label>
+                        <input type="email" class="form-control" id="email_empleat" placeholder="Entrar correu" name="email_empleat" value="{{!empty($empleat) ? $empleat->email_empleat : ''}}">
+                    </div> 
                 </div>
                 
             </div>
 
             <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="cognom1_empleat" style="font-weight: bold">Primer Cognom:</label>
+                        <input type="text" class="form-control" id="cognom1_empleat" placeholder="Entrar primer cognom" name="cognom1_empleat" value="{{!empty($empleat) ? $empleat->cognom1_empleat : ''}}">
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="cognom2_empleat" style="font-weight: bold">Segon Cognom:</label>
+                        <input type="text" class="form-control" id="cognom2_empleat" placeholder="Entrar segon cognom" name="cognom2_empleat" value="{{!empty($empleat) ? $empleat->cognom2_empleat : ''}}">
+                    </div>
+                </div>
+            </div>
+            <!-- POR AQUI IMAGEN -->
+            <div class="row">
+                <!-- <div class="col-6">
+                    <div class="form-group">
+                        <label for="imatge_empleat" style="font-weight: bold">Alias:</label>
+                        <input type="text" class="form-control" id="alias_usuari" placeholder="Entrar alias" name="alias_usuari" value="{{!empty($empleat) ? $empleat->alias_empleat : ''}}">
+                    </div>
+                </div> -->
                 <div class="col-6">
                     <div class="form-group">
                         <label for="sexe_empleat" style="font-weight: bold">Sexe:</label>
@@ -46,22 +68,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                     </div>
                 </div>
                 
-            </div>
-            <!-- POR AQUI IMAGEN -->
-            <div class="row">
-                <!-- <div class="col-6">
-                    <div class="form-group">
-                        <label for="imatge_empleat" style="font-weight: bold">Alias:</label>
-                        <input type="text" class="form-control" id="alias_usuari" placeholder="Entrar alias" name="alias_usuari" value="{{!empty($empleat) ? $empleat->alias_empleat : ''}}">
-                    </div>
-                </div> -->
 
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="email_empleat" style="font-weight: bold">Email:</label>
-                        <input type="email" class="form-control" id="email_empleat" placeholder="Entrar correu" name="email_empleat" value="{{!empty($empleat) ? $empleat->email_empleat : ''}}">
-                    </div> 
-                </div>
             </div>
 
             <div class="row">

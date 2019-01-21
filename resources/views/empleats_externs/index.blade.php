@@ -16,7 +16,7 @@
     <div class="card card-shadow text-center m-3" style="min-width: 250px;">
 
         <div class="card-body">
-            <img src="{{url('/')}}/img/usuaris/{{$empleat['imatge_empleat']}}" class="rounded-circle" style="height:150px"/>
+            <img src="data:image/jpg;base64,{{$empleat['imatge_empleat']}}" class="rounded-circle" style="height:150px"/>
             
             <h4 style="min-height:45px;margin:5px 0 10px 0">
                 <a href="{{ route('empleatShow', ['id' => $empleat['id_empleat']]) }}" style="text-decoration:none; color:black; font-size: 1.35rem;">

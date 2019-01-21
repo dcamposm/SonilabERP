@@ -92,7 +92,8 @@ class EmpleatExternController extends Controller
         // return response()->json(["error" => request()->all()], 400);
         $v = Validator::make(request()->all(), [
             'nom_empleat' => 'required',
-            'cognoms_empleat' => 'required',
+            'cognom1_empleat' => 'required',
+            'cognom2_empleat' => 'required',
             'sexe_empleat' => 'required',
             'nacionalitat_empleat' => 'required',
             'email_empleat' => 'required',
@@ -179,7 +180,8 @@ class EmpleatExternController extends Controller
         if ($empleat) {
             $v = Validator::make(request()->all(), [
                 'nom_empleat' => 'required',
-                'cognoms_empleat' => 'required',
+                'cognom1_empleat' => 'required',
+                'cognom2_empleat' => 'required',
                 'sexe_empleat' => 'required',
                 'nacionalitat_empleat' => 'required',
                 'email_empleat' => 'required',

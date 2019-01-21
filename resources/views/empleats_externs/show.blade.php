@@ -17,7 +17,7 @@
             <tr class="row">
                 <td class="font-weight-bold col-sm-3">Imatge:</td>
                 <td class="col">
-                    <img src="{{url('/')}}/img/usuaris/{{$empleat['imatge_empleat']}}" class="rounded" style="height:100px"/>
+                    <img src="data:image/jpg;base64,{{$empleat['imatge_empleat']}}" class="rounded" style="height:100px"/>
                 </td>
             </tr>
             <tr class="row">
