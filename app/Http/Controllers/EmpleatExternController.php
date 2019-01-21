@@ -112,7 +112,7 @@ class EmpleatExternController extends Controller
         } else {
             $empleat = new EmpleatExtern(request()->all());
 
-            if (request()->has('imatge_empleat') && request()->input('imatge_empleat') != ''){
+            if ($_FILES["imatge_empleat"]["tmp_name"]!=""){
                 $empleat['imatge_empleat'] = base64_encode(file_get_contents($_FILES["imatge_empleat"]["tmp_name"]));
             }
 
@@ -201,7 +201,7 @@ class EmpleatExternController extends Controller
                 $data = request()->all();
                 $empleat->fill($data);
 
-                if (request()->has('imatge_empleat') && request()->input('imatge_empleat') != ''){
+                if ($_FILES["imatge_empleat"]["tmp_name"]!=""){
                     $empleat['imatge_empleat'] = base64_encode(file_get_contents($_FILES["imatge_empleat"]["tmp_name"]));
                 }
 

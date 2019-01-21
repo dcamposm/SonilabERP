@@ -4,7 +4,7 @@
 
 <div class="container">
     <h2 style="font-weight: bold">{{!empty($usuario) ? 'Editar usuari' : 'Crear usuari'}}</h2>
-    <form method = "POST" action="{{!empty($usuario) ? route('editarUsuariIntern', ['id' => $usuario->id_usuari]) : route('crearUsuariIntern')}}">
+    <form method = "POST" action="{{!empty($usuario) ? route('editarUsuariIntern', ['id' => $usuario->id_usuari]) : route('crearUsuariIntern')}}" enctype="multipart/form-data">
         @csrf
 
         <div class="row">
@@ -73,6 +73,13 @@
                     <label for="cpass" style="font-weight: bold">Confirma contrasenya:</label>
                     <input type="password" class="form-control" id="cpass" placeholder="Confirmar contrasenya" name="cpass">
                 </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                <label for="imatge_usuari" style="font-weight: bold">Imatge Usuari:</label>
+                <input type="file" name="imatge_usuari" />
             </div>
         </div>
         <br>

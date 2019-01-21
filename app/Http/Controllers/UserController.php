@@ -60,13 +60,14 @@ class UserController extends Controller
             'contrasenya_usuari' => 'required',
             'id_departament' => 'required'
         ]);
-
+        
         if ($v->fails()){
             return response()->json(["error" => true], 400);
         } else {
             
-            if (request()->has('imatge_empleat') && request()->input('imatge_empleat') != ''){
-                $empleat['imatge_empleat'] = base64_encode(file_get_contents($_FILES["imatge_empleat"]["tmp_name"]));
+            if ($_FILES["imatge_usuari"]["tmp_name"]!=""){
+                
+                $usuario['imatge_usuari'] = base64_encode(file_get_contents($_FILES["imatge_usuari"]["tmp_name"]));
             }
 
             $usuario->save();
@@ -88,14 +89,14 @@ class UserController extends Controller
                 //'contrasenya_usuari' => 'required',
                 'id_departament' => 'required'
             ]);
-
+            
             if ($v->fails()){
                 return response()->json(["error" => true], 400);
             } else {
                 $usuario->fill(request()->all());
 
-                if (request()->has('imatge_empleat') && request()->input('imatge_empleat') != ''){
-                    $empleat['imatge_empleat'] = base64_encode(file_get_contents($_FILES["imatge_empleat"]["tmp_name"]));
+                if ($_FILES["imatge_usuari"]["tmp_name"]!=""){
+                    $usuario['imatge_usuari'] = base64_encode(file_get_contents($_FILES["imatge_usuari"]["tmp_name"]));
                 }
 
                 $usuario->save();

@@ -9,7 +9,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
 
 <div class="container">
     <h2 style="font-weight: bold">{{!empty($empleat) ? 'Editar empleat' : 'Crear empleat'}}</h2>
-    <form method = "POST" action="{{!empty($empleat) ? route('empleatUpdate', ['id' => $empleat->id_empleat]) : route('empleatInsert')}}">
+    <form method = "POST" action="{{!empty($empleat) ? route('empleatUpdate', ['id' => $empleat->id_empleat]) : route('empleatInsert')}}" enctype="multipart/form-data">
         @csrf
         <fieldset class="border p-2">
             <legend class="w-auto">Dades personals:</legend>
@@ -304,6 +304,13 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                 </div>
             </div>
         </fieldset>
+
+        <div class="row">
+            <div class="form-group">
+                <label for="imatge_empleat" style="font-weight: bold">Imatge Empleat:</label>
+                <input type="file" name="imatge_empleat" />
+            </div>
+        </div>
         <br>
 
         <!-- BOTÓN DE CREAR O ACTUALIZAR -->
