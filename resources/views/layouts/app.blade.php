@@ -12,6 +12,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/sidebar.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -45,10 +46,6 @@
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"><img src="http://sonilab.com.mialias.net/wp-content/uploads/2016/11/SONILAB_logo41-300x65-300x75.png" width="120" height="30" class="d-inline-block align-top" alt=""></a>
         @auth
 
-                 <!--  <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                    Link with href
-                  </a>-->
-
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
                 <a class="nav-link" href="{{ route('logout') }}"
@@ -74,23 +71,23 @@
                 <div class="sidebar-sticky">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link active" href="{{ route('home') }}"><span class="fas fa-home"></span><span class="sidebar-link underline">Inici</span><span class="sr-only">(current)</span></a>
+                            <a class="{{ Request::is('home') ? 'nav-link active' : 'nav-link' }}" href="{{ route('home') }}"><span class="fas fa-home"></span><span class="sidebar-link underline">Inici</span><span class="sr-only">(current)</span></a>
                         </li>
 
                         <!-- Desabilitat -->
                         <li class="nav-item">
-                            <div class="disabled-link" href=""><span class="fas fa-calendar"></span><span class="sidebar-link">Calendari</span></div>
+                            <div class="disabled-link {{ Request::is('calendar') ? 'nav-link active' : '' }}" href=""><span class="fas fa-calendar"></span><span class="sidebar-link">Calendari</span></div>
                         </li>
                         <!-- Desabilitat -->
                         <li class="nav-item">
-                            <div class="disabled-link" href=""><span class="fas fa-project-diagram"></span><span class="sidebar-link">Projectes</span></div>
+                            <div class="disabled-link {{ Request::is('projects') ? 'nav-link active' : '' }}" href=""><span class="fas fa-project-diagram"></span><span class="sidebar-link">Projectes</span></div>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('empleatIndex') }}"><span class="fas fa-users"></span><span class="sidebar-link underline">Gestió de Personal</span></a>
+                            <a class="{{ Request::is('empleats') ? 'nav-link active' : 'nav-link' }}" href="{{ route('empleatIndex') }}"><span class="fas fa-users"></span><span class="sidebar-link underline">Gestió de Personal</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('indexUsuariIntern')}}"><span class="fas fa-user-plus"></span><span class="sidebar-link underline">Gestió d'Usuaris</span></a>
+                            <a class="{{ Request::is('usuaris*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('indexUsuariIntern')}}"><span class="fas fa-user-plus"></span><span class="sidebar-link underline">Gestió d'Usuaris</span></a>
                         </li>
 
 
