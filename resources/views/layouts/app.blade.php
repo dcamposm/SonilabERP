@@ -76,15 +76,15 @@
 
                         <!-- Desabilitat -->
                         <li class="nav-item">
-                            <div class="disabled-link {{ Request::is('calendar') ? 'nav-link active' : '' }}" href=""><span class="fas fa-calendar"></span><span class="sidebar-link">Calendari</span></div>
+                            <div class="disabled-link {{ Request::is('calendar*') ? 'nav-link active' : '' }}" href=""><span class="fas fa-calendar"></span><span class="sidebar-link">Calendari</span></div>
                         </li>
                         <!-- Desabilitat -->
                         <li class="nav-item">
-                            <div class="disabled-link {{ Request::is('projects') ? 'nav-link active' : '' }}" href=""><span class="fas fa-project-diagram"></span><span class="sidebar-link">Projectes</span></div>
+                            <div class="disabled-link {{ Request::is('projects*') ? 'nav-link active' : '' }}" href=""><span class="fas fa-project-diagram"></span><span class="sidebar-link">Projectes</span></div>
                         </li>
 
                         <li class="nav-item">
-                            <a class="{{ Request::is('empleats') ? 'nav-link active' : 'nav-link' }}" href="{{ route('empleatIndex') }}"><span class="fas fa-users"></span><span class="sidebar-link underline">Gestió de Personal</span></a>
+                            <a class="{{ Request::is('empleats*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('empleatIndex') }}"><span class="fas fa-users"></span><span class="sidebar-link underline">Gestió de Personal</span></a>
                         </li>
                         <li class="nav-item">
                             <a class="{{ Request::is('usuaris*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('indexUsuariIntern')}}"><span class="fas fa-user-plus"></span><span class="sidebar-link underline">Gestió d'Usuaris</span></a>
