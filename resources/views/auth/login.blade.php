@@ -12,7 +12,7 @@
                         {{ csrf_field() }}
 
                         <div class="form-group row">
-                            <label for="alias_usuari" class="col-md-4 col-form-label text-md-right">{{ __('Alias usuari') }}</label>
+                            <label for="alias_usuari" class="col-md-4 col-form-label text-md-right">{{ __('Àlies usuari') }}</label>
 
                             <div class="col-md-6">
                                 <input id="alias_usuari" type="text" class="form-control{{ $errors->has('alias_usuari') ? ' is-invalid' : '' }}" name="alias_usuari" value="{{ old('alias_usuari') }}" required autofocus>
@@ -45,7 +45,7 @@
                                     <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
 
                                     <label class="form-check-label" for="remember">
-                                        {{ __('Desa el meu alias') }}
+                                        {{ __('Desa el meu àlies') }}
                                     </label>
                                 </div>
                             </div>
@@ -59,7 +59,7 @@
 
                                 @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Has olvidat la teva contrasenya?') }}
+                                        {{ __('Has oblidat la teva contrasenya?') }}
                                     </a>
                                 @endif
                             </div>

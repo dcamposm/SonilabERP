@@ -10,8 +10,8 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
-                    <label for="alias_usuari" style="font-weight: bold">Àlias:</label>
-                    <input type="text" class="form-control" id="alias_usuari" placeholder="Entrar alias" name="alias_usuari" value="{{!empty($usuario) ? $usuario->alias_usuari : ''}}">
+                    <label for="alias_usuari" style="font-weight: bold">Àlies:</label>
+                    <input type="text" class="form-control" id="alias_usuari" placeholder="Entrar àlies" name="alias_usuari" value="{{!empty($usuario) ? $usuario->alias_usuari : ''}}">
                 </div>
             </div>
             <div class="col-6">
