@@ -140,7 +140,7 @@ class EmpleatExternController extends Controller
                     $id_carrec = $carrec->id_carrec;
                     $nomCarrec = $carrec->input_name;
 
-                    if (($nomCarrec == "director" || $nomCarrec == "tecnic_sala" || $nomCarrec == "ajustador") && request()->has($nomCarrec)) {
+                    if (($nomCarrec == "director" || $nomCarrec == "tecnic_sala") && request()->has($nomCarrec)) {
                         $datos["id_empleat"] = $empleat->id_empleat;
                         $datos["id_carrec"] = $id_carrec;
                         $datos["id_idioma"] = 0;
@@ -222,7 +222,7 @@ class EmpleatExternController extends Controller
                     $id_carrec = $carrec->id_carrec;
                     $nomCarrec = $carrec->input_name;
 
-                    if (($nomCarrec == "director" || $nomCarrec == "tecnic_sala" || $nomCarrec == "ajustador") && request()->has($nomCarrec)) {
+                    if (($nomCarrec == "director" || $nomCarrec == "tecnic_sala") && request()->has($nomCarrec)) {
                         $datos["id_empleat"] = $id;
                         $datos["id_carrec"] = $id_carrec;
                         $datos["id_idioma"] = 0;
