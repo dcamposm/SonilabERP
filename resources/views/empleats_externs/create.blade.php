@@ -141,13 +141,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                         <label for="tecnic_sala" style="font-weight: bold">Tècnic:</label>
                         <input type="checkbox" onchange="mostrarCamps('tecnic')" class="form-control" id="tecnic_sala" name="tecnic_sala" {{ isset($carrecs['tecnic_sala']) ? 'checked' : ''}} value="1">
                     </div>
-                </div>
-                <div class="col-2">
-                    <div class="form-group">
-                        <label for="ajustador" style="font-weight: bold">Ajustador:</label>
-                        <input type="checkbox" onchange="mostrarCamps('ajustador')" class="form-control" id="ajustador" name="ajustador" {{ isset($carrecs['ajustador']) ? 'checked' : ''}} value="1">
-                    </div>
-                </div>
+                </div>               
                 <div class="col-2">
                     <div class="form-group">
                         <label for="actor" style="font-weight: bold">Actor:</label>
@@ -162,13 +156,19 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                 </div>
                 <div class="col-2">
                     <div class="form-group">
+                        <label for="ajustador" style="font-weight: bold">Ajustador:</label>
+                        <input type="checkbox" onchange="mostrarCamps('ajustador')" class="form-control" id="ajustador" name="ajustador" {{ isset($carrecs['ajustador']) ? 'checked' : ''}} value="1">
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
                         <label for="linguista" style="font-weight: bold">Lingüista:</label>
                         <input type="checkbox" onchange="mostrarCamps('linguista')" class="form-control" id="linguista" name="linguista" {{ isset($carrecs['linguista']) ? 'checked' : ''}} value="1">
                     </div>
                 </div>
             </div>
 
-            <!-- CARGOS: DIRECTOR, TÉCNICO DE SALA, AJUSTADOR -->
+            <!-- CARGOS: DIRECTOR, TÉCNICO DE SALA -->
             <div class="row">
                 
                 <div class="col-4" id="colDirector" style="display:{{ isset($carrecs['director']) ? '' : 'none'}}">
@@ -185,16 +185,9 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                     </div>
                 </div>
 
-                <div class="col-4" id="colAjustador" style="display:{{ isset($carrecs['ajustador']) ? '' : 'none'}}">
-                    <div class="form-group">
-                        <label for="preu_ajustador" style="font-weight: bold">Preu ajustador:</label>
-                        <input type="number" class="form-control" id="preu_ajustador" placeholder="Entrar preu ajustador" name="preu_ajustador" value="{{ isset($carrecs['ajustador']) ? $carrecs['ajustador']['preu_carrec'] : ''}}" {{ isset($carrecs['ajustador']) ? '' : 'disabled' }}>
-                    </div>
-                </div>
-
             </div>
 
-            <!-- CARGOS: ACTOR, TRADUCTOR, LINGÜISTA -->
+            <!-- CARGOS: ACTOR, TRADUCTOR, AJUSTADOR, LINGÜISTA -->
             <div class="row container">
                 <div id="colActor" style="width: 100%; margin-left: 15px; display:{{ isset($carrecs['actor']) ? '' : 'none'}}">
                     <div class="form-group">
@@ -265,9 +258,40 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                         </table>
                     </div>
                 </div>
-            </div>
-
-            <div class="row container">
+                <div id="colAjustador" style="width: 100%; margin-left: 15px; display:{{ isset($carrecs['ajustador']) ? '' : 'none'}}">
+                        <div class="form-group">
+                            <table class="table">
+                                <thead class="thead-dark">
+                                    <tr class="row">
+                                        <th class="col">Ajustador</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @foreach( $idiomes as $key => $idioma)
+                                    <tr class="row">
+                                        <td class="col">
+                                            <div class="form-group">
+                                                <label for="idioma_ajustador_{{$idioma->idioma}}" style="font-weight: bold">{{$idioma->idioma}}:</label>
+                                                <input type="checkbox" class="form-control" id="idioma_ajustador_{{$idioma->idioma}}" onchange="mostrarSubMenus('{{$idioma->idioma}}','ajustador')" name="idioma_ajustador_{{$idioma->idioma}}" {{ isset($carrecs['ajustador'][$idioma->idioma]) ? 'checked': '' }} value="1">
+                                            </div>
+                                        </td>
+                                        <td class="col">
+                                            <label for="homologat_ajustador_{{$idioma->idioma}}" style="font-weight: bold">Homologat:</label>
+                                            <select class="form-control" id="homologat_ajustador_{{$idioma->idioma}}" name="homologat_ajustador_{{$idioma->idioma}}" {{ isset($carrecs['ajustador'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                                <option value="0" {{ (isset($carrecs['ajustador'][$idioma->idioma]) && $carrecs['ajustador'][$idioma->idioma]['empleat_homologat'] == false) ? 'selected' : ''}}>NO</option>
+                                                <option value="1" {{ (isset($carrecs['ajustador'][$idioma->idioma]) && $carrecs['ajustador'][$idioma->idioma]['empleat_homologat'] == true) ? 'selected' : ''}}>SI</option>
+                                            </select>
+                                        </td>
+                                        <td class="col">
+                                        <label for="preu_ajustador_{{$idioma->idioma}}" style="font-weight: bold">Preu ajustador:</label>
+                                            <input type="number" class="form-control" id="preu_ajustador_{{$idioma->idioma}}" placeholder="Entrar preu ajustador" name="preu_ajustador_{{$idioma->idioma}}" value="{{ isset($carrecs['ajustador'][$idioma->idioma]) ? $carrecs['ajustador'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['ajustador'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                        </td>
+                                    </tr>          
+                                @endforeach
+                                </tbody> 
+                            </table>
+                        </div>
+                    </div>
                 <div id="colLinguista" style="width: 100%; margin-left: 15px; display:{{ isset($carrecs['linguista']) ? '' : 'none'}}">
                     <div class="form-group">
                         <table class="table">
@@ -368,10 +392,8 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
             case "ajustador":
                         if (colAjustador.style.display == 'none') {
                             colAjustador.style.display = 'block';
-                            preu_ajustador.removeAttribute("disabled"); 
                         } else {
                             colAjustador.style.display = 'none';
-                            preu_ajustador.setAttribute("disabled", ""); 
                         }
             break;
             case "linguista":
