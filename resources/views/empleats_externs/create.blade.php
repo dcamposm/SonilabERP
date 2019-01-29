@@ -217,7 +217,8 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                                     <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Preu actor:</label>
                                         <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}" placeholder="Entrar preu actor" name="preu_actor_{{$idioma->idioma}}" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
                                     </td>
-                                </tr>          
+                                </tr>
+                                    
                             @endforeach
                             </tbody> 
                         </table>

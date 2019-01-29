@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+@if (session('success'))
+    <div class="alert alert-success" role="alert">
+        {{ session('success') }}
+    </div>
+@endif
 
 <div>
     <a href="{{ url('/usuaris/interns/crear') }}" class="btn btn-success">
