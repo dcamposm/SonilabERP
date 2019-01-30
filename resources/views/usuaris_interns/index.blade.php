@@ -1,11 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-@if (session('success'))
-    <div class="alert alert-success" role="alert">
-        {{ session('success') }}
-    </div>
-@endif
 
 <div>
     <a href="{{ url('/usuaris/interns/crear') }}" class="btn btn-success">
@@ -24,7 +19,7 @@
             
             <h4 style="min-height:45px;margin:5px 0 10px 0">
                 <a href="{{ route('veureUsuariIntern', ['id' => $usuaris['id_usuari']]) }}" style="text-decoration:none; color:black; font-size: 1.35rem;">
-                    {{$usuaris['nom_usuari']}} {{$usuaris['cognoms_usuari']}} 
+                    {{$usuaris['nom_usuari']}} {{$usuaris['cognom1_usuari']}} 
                 </a>
             </h4>
             <div class="row">

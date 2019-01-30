@@ -62,7 +62,8 @@ class UserController extends Controller
         ]);
         
         if ($v->fails()){
-            return response()->json(["error" => true], 400);
+            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
+            //return response()->json(["error" => true], 400);
         } else {
             
             if ($_FILES["imatge_usuari"]["tmp_name"]!=""){
@@ -74,7 +75,7 @@ class UserController extends Controller
             try{
                 $usuario->save();
             } catch (\Exception $e){
-                return redirect()->back()->withErrors(array('user_error' => 'L\'alias o el email ja existeixen'));
+                return redirect()->back()->withErrors(array('error' => 'ERROR. L\'alias o el email ja existeix'));
             }
             return redirect()->back()->with('success', 'S\'ha creat el usuari correctament');
         }
@@ -96,7 +97,8 @@ class UserController extends Controller
             ]);
             
             if ($v->fails()){
-                return response()->json(["error" => true], 400);
+                return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
+                //return response()->json(["error" => true], 400);
             } else {
                 $usuario->fill(request()->all());
 
@@ -104,8 +106,13 @@ class UserController extends Controller
                     $usuario['imatge_usuari'] = base64_encode(file_get_contents($_FILES["imatge_usuari"]["tmp_name"]));
                 }
 
-                $usuario->save();
-                return redirect()->route('indexUsuariIntern');
+                try{
+                    $usuario->save();
+                } catch (\Exception $e){
+                    return redirect()->back()->withErrors(array('error' => 'ERROR. L\'alias o el email ja existeixen'));
+                }
+                
+                return redirect()->route('indexUsuariIntern')->with('success', 'S\'ha modificat el usuari correctament');
             }
         }
     }
