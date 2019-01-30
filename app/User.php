@@ -63,4 +63,36 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Departament', 'id_departament', 'id_departament');
     }
+    
+        
+    //Metodos para los roles del usuario
+    public function authorizeRoles($roles)
+    {
+        if ($this->hasAnyRole($roles)) {
+            return true;
+        }
+        abort(401, 'Esta acció no está autorizada.');
+    }
+    public function hasAnyRole($roles)
+    {
+        if (is_array($roles)) {
+            foreach ($roles as $role) {
+                if ($this->hasRole($role)) {
+                    return true;
+                }
+            }
+        } else {
+            if ($this->hasRole($roles)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public function hasRole($role)
+    {
+        if ($this->departament()->where('id_departament', $role)->first()) {
+            return true;
+        }
+        return false;
+    }
 }

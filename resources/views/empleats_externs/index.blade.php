@@ -20,7 +20,7 @@
             
             <h4 style="min-height:45px;margin:5px 0 10px 0">
                 <a href="{{ route('empleatShow', ['id' => $empleat['id_empleat']]) }}" style="text-decoration:none; color:black; font-size: 1.35rem;">
-                    {{$empleat['nom_empleat']}} {{$empleat['cognoms_empleat']}} 
+                    {{$empleat['nom_empleat']}} {{$empleat['cognom1_empleat']}} 
                 </a>
             </h4>
             <div class="row">

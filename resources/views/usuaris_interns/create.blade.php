@@ -4,14 +4,14 @@
 
 <div class="container">
     <h2 style="font-weight: bold">{{!empty($usuario) ? 'Editar usuari' : 'Crear usuari'}}</h2>
-    <form method = "POST" action="{{!empty($usuario) ? route('editarUsuariIntern', ['id' => $usuario->id_usuari]) : route('crearUsuariIntern')}}" enctype="multipart/form-data">
+    <form method = "POST" action="{{!empty($usuario) ? route('editarUsuariIntern', ['id' => $usuario->id_usuari]) : route('crearUsuariIntern')}}" onsubmit="return checkPass(this);" enctype="multipart/form-data">
         @csrf
 
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
                     <label for="alias_usuari" style="font-weight: bold">Àlies:</label>
-                    <input type="text" class="form-control" id="alias_usuari" placeholder="Entrar àlies" name="alias_usuari" value="{{!empty($usuario) ? $usuario->alias_usuari : ''}}">
+                    <input type="text" class="form-control" id="alias_usuari" placeholder="Entrar àlies" name="alias_usuari" value="{{!empty($usuario) ? $usuario->alias_usuari : ''}}" required>
                 </div>
             </div>
             <div class="col-6">
@@ -64,7 +64,7 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
-                    <label for="contrasenya_usuari" style="font-weight: bold">{{!empty($usuario) ? 'Nova contrasenya' : 'Contrasenya'}}:</label>
+                    <label for="contrasenya_usuari" style="font-weight: bold">{{empty($usuario) ? 'Nova contrasenya' : 'Contrasenya'}}:</label>
                     <input type="password" class="form-control" id="contrasenya_usuari" placeholder="Entrar contrasenya" name="contrasenya_usuari">
                 </div>
             </div>
@@ -91,5 +91,14 @@
 
     </form>
 </div>
-
+<script type="text/javascript">
+    function checkPass(form){
+        if(form.contrasenya_usuari.value == form.cpass.value) {
+            return true;
+        } else {
+            alert('La contrasenya de confirmacio no es la mateix');
+            return false;
+        }
+    }
+</script>
 @endsection
