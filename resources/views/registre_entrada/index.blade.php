@@ -3,8 +3,7 @@
 @section('content')
 
 <div>
-<!--    <a href="{{ url('/registreEntrada/crear') }}" class="btn btn-success">-->
-    <a href="#" class="btn btn-success">
+    <a href="{{ url('/registreEntrada/crear') }}" class="btn btn-success">
         <span class="fas fa-atlas"></span>
         Afegir registre d'entrada
     </a>
