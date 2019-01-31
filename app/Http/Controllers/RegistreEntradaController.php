@@ -67,8 +67,8 @@ class RegistreEntradaController extends Controller
                 $datos = [];
 
                 foreach ($camposClient as $key => $client) {
-                    $id_carrec = $carrec->id_carrec;
-                    $nomCarrec = $carrec->input_name;
+                    $id_client = $client->id_client;
+                    $nomClient = $client->input_name;
 
                     if (($nomCarrec == "director" || $nomCarrec == "tecnic_sala") && request()->has($nomCarrec)) {
                         $datos["id_empleat"] = $registreEntrada->id_empleat;

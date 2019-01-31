@@ -10,51 +10,7 @@
 </div>
 
 <div class="row">
-
-@extends('layouts.app')
-
-@section('content')
-
-<div>
-    <a href="{{ url('/registreEntrada/crear') }}" class="btn btn-success">
-        <span class="fas fa-atlas"></span>
-        Afegir registre d'entrada
-    </a>
-</div>
-
-<div class="row">
-
-
-   {{-- @foreach( $registreEntradas as $key => $registreEntrada )
-
-    <div class="card card-shadow text-center m-3" style="min-width: 250px;">
-
-        <div class="card-body">
-            <img src="data:image/jpg;base64,{{$registreEntrada['imatge_registreEntrada']}}" class="rounded-circle" style="height:150px"/>
-            
-            <h4 style="min-height:45px;margin:5px 0 10px 0">
-                <a href="{{ route('registreEntradaShow', ['id' => $registreEntrada['id_registreEntrada']]) }}" style="text-decoration:none; color:black; font-size: 1.35rem;">
-                    {{$registreEntrada['nom_registreEntrada']}} {{$registreEntrada['cognom1_registreEntrada']}} 
-                </a>
-            </h4>
-            <div class="row">
-                <div class="col-6" style="padding: 0px;">
-                    <a href="{{ route('registreEntradaUpdateView', ['id' => $registreEntrada['id_registreEntrada']]) }}" class="btn btn-outline-primary" style="width: 75%;"> Editar </a> 
-                </div>
-                <div class="col-6" style="padding: 0px;">
-                    <button onclick="setregistreEntradaPerEsborrar({{$registreEntrada['id_registreEntrada']}}, '{{$registreEntrada['nom_registreEntrada']}} {{$registreEntrada['cognom1_registreEntrada']}} {{$registreEntrada['cognom2_registreEntrada']}}')" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModalCenter"  style="width: 75%;">Esborrar</button>
-                    <form id="delete-{{ $registreEntrada['id_registreEntrada'] }}" action="{{ route('registreEntradaDelete') }}" method="POST">
-                        @csrf
-                        <input type="hidden" readonly name="id" value="{{$registreEntrada['id_registreEntrada']}}">
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
     
-    @endforeach --}}
-=======
-    {{-- TODO: Realizar la vista principal. Usar la variable $registreEntrades para coger los registros de entrada. --}}
     {{-- TODO: Realizar la vista principal. Usar la variable $registreEntrades para coger los registros de entrada. --}}
 
     <!-- MODAL ESBORRAR REGISSTRE -->
