@@ -2,17 +2,17 @@
 
 @section('content')
 
-<div>
-    <a href="{{ url('/registreEntrada/crear') }}" class="btn btn-success">
-        <span class="fas fa-atlas"></span>
-        Afegir registre d'entrada
-    </a>
-</div>
-
 <div class="container">
+
+    <div>
+        <a href="{{ url('/registreEntrada/crear') }}" class="btn btn-success">
+            <span class="fas fa-atlas"></span>
+            Afegir registre d'entrada
+        </a>
+    </div>
     
     {{-- TODO: Realizar la vista principal. Usar la variable $registreEntrades para coger los registros de entrada. --}}
-    <table class="table">
+    <table class="table" style="margin-top: 25px;">
         <thead>
             <tr>
                 <th>Títol</th>
@@ -24,12 +24,14 @@
         </thead>
         <tbody>
             @foreach( $registreEntrades as $key => $registreEntrada )
-            <tr class="{{ ($registreEntrada->estat == 'Pendent') ? 'bg-warning' : '' }} ">
-                <td>{{ $registreEntrada->titol }}</td>
-                <td>{{ $registreEntrada->entrada }}</td>
-                <td>{{ $registreEntrada->sortida }}</td>
-                <td>{{ $registreEntrada->estat }}</td>
-                <td>
+            <tr class="{{ ($registreEntrada->estat == 'Pendent') ? 'border-warning' : (($registreEntrada->estat == 'Finalitzada') ? 'border-success' : 'border-danger') }}">
+                <td style="vertical-align: middle;">
+                    <a href="#" class="font-weight-bold" style="text-decoration:none; color:black; font-size: 1rem;">{{ $registreEntrada->titol }}</a>
+                </td>
+                <td style="vertical-align: middle;">{{ $registreEntrada->entrada }}</td>
+                <td style="vertical-align: middle;">{{ $registreEntrada->sortida }}</td>
+                <td style="vertical-align: middle;">{{ $registreEntrada->estat }}</td>
+                <td style="vertical-align: middle;">
                     <a href="#" class="btn btn-primary">Modificar</a>
                     <a href="#" class="btn btn-danger">Esborrar</a>
                 </td>

@@ -23,6 +23,7 @@
     <link href="{{ asset('css/project.css') }}" rel="stylesheet">
 
     <style>
+    /* Usuaris i empleats */
     .card-shadow {
         box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
         transition: box-shadow 0.3s ease-in-out;
@@ -30,6 +31,17 @@
     .card-shadow:hover {
         box-shadow: 10px 10px 5px grey;
         transition: box-shadow 0.4s ease-in-out;
+    }
+
+    /* Registre d'entrades */
+    .border-success {
+        border-left: 10px solid lawngreen !important;
+    }
+    .border-warning {
+        border-left: 10px solid yellow !important;
+    }
+    .border-danger {
+        border-left: 10px solid red !important;
     }
 
     </style>
