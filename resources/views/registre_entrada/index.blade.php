@@ -12,27 +12,27 @@
 
 <div class="row">
 
-   {{-- @foreach( $empleats as $key => $empleat )
+   {{-- @foreach( $registreEntradas as $key => $registreEntrada )
 
     <div class="card card-shadow text-center m-3" style="min-width: 250px;">
 
         <div class="card-body">
-            <img src="data:image/jpg;base64,{{$empleat['imatge_empleat']}}" class="rounded-circle" style="height:150px"/>
+            <img src="data:image/jpg;base64,{{$registreEntrada['imatge_registreEntrada']}}" class="rounded-circle" style="height:150px"/>
             
             <h4 style="min-height:45px;margin:5px 0 10px 0">
-                <a href="{{ route('empleatShow', ['id' => $empleat['id_empleat']]) }}" style="text-decoration:none; color:black; font-size: 1.35rem;">
-                    {{$empleat['nom_empleat']}} {{$empleat['cognom1_empleat']}} 
+                <a href="{{ route('registreEntradaShow', ['id' => $registreEntrada['id_registreEntrada']]) }}" style="text-decoration:none; color:black; font-size: 1.35rem;">
+                    {{$registreEntrada['nom_registreEntrada']}} {{$registreEntrada['cognom1_registreEntrada']}} 
                 </a>
             </h4>
             <div class="row">
                 <div class="col-6" style="padding: 0px;">
-                    <a href="{{ route('empleatUpdateView', ['id' => $empleat['id_empleat']]) }}" class="btn btn-outline-primary" style="width: 75%;"> Editar </a> 
+                    <a href="{{ route('registreEntradaUpdateView', ['id' => $registreEntrada['id_registreEntrada']]) }}" class="btn btn-outline-primary" style="width: 75%;"> Editar </a> 
                 </div>
                 <div class="col-6" style="padding: 0px;">
-                    <button onclick="setEmpleatPerEsborrar({{$empleat['id_empleat']}}, '{{$empleat['nom_empleat']}} {{$empleat['cognom1_empleat']}} {{$empleat['cognom2_empleat']}}')" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModalCenter"  style="width: 75%;">Esborrar</button>
-                    <form id="delete-{{ $empleat['id_empleat'] }}" action="{{ route('empleatDelete') }}" method="POST">
+                    <button onclick="setregistreEntradaPerEsborrar({{$registreEntrada['id_registreEntrada']}}, '{{$registreEntrada['nom_registreEntrada']}} {{$registreEntrada['cognom1_registreEntrada']}} {{$registreEntrada['cognom2_registreEntrada']}}')" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModalCenter"  style="width: 75%;">Esborrar</button>
+                    <form id="delete-{{ $registreEntrada['id_registreEntrada'] }}" action="{{ route('registreEntradaDelete') }}" method="POST">
                         @csrf
-                        <input type="hidden" readonly name="id" value="{{$empleat['id_empleat']}}">
+                        <input type="hidden" readonly name="id" value="{{$registreEntrada['id_registreEntrada']}}">
                     </form>
                 </div>
             </div>
@@ -55,8 +55,8 @@
                     <span id="delete-message">...</span>
                 </div>
 <!--                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="setEmpleatPerEsborrar(0)">Tancar</button>
-                    <button type="button" class="btn btn-danger" onclick="deleteEmpleat()">Esborrar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="setregistreEntradaPerEsborrar(0)">Tancar</button>
+                    <button type="button" class="btn btn-danger" onclick="deleteregistreEntrada()">Esborrar</button>
                 </div>-->
                 </div>
             </div>
@@ -65,18 +65,18 @@
 </div>
 
 <script>
-    var empleatPerEsborrar = 0;
+    var registreEntradaPerEsborrar = 0;
 
-    function setEmpleatPerEsborrar(empleatId, empleatAlias) {
-        empleatPerEsborrar = empleatId;
-        if (empleatAlias != undefined) {
-            document.getElementById('delete-message').innerHTML = 'Vols esborrar l\'empleat <b>' + empleatAlias + '</b>?';
+    function setregistreEntradaPerEsborrar(registreEntradaId, registreEntradaAlias) {
+        registreEntradaPerEsborrar = registreEntradaId;
+        if (registreEntradaAlias != undefined) {
+            document.getElementById('delete-message').innerHTML = 'Vols esborrar l\'registreEntrada <b>' + registreEntradaAlias + '</b>?';
         }
     }
 
-    function deleteEmpleat() {
-        if (empleatPerEsborrar != 0) {
-            document.all["delete-" + empleatPerEsborrar].submit(); 
+    function deleteregistreEntrada() {
+        if (registreEntradaPerEsborrar != 0) {
+            document.all["delete-" + registreEntradaPerEsborrar].submit(); 
         }
     }
 </script>
