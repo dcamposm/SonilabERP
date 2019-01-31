@@ -6,6 +6,7 @@ use App\Carrec;
 use App\CarrecEmpleat;
 use App\EmpleatExtern;
 use App\Idioma;
+use App\Tarifa;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -53,8 +54,9 @@ class EmpleatExternController extends Controller
     public function insertView()
     {
         $idioma = Idioma::select('idioma')->get();
+        $tarifas = Tarifa::select(['nombre', 'id_carrec'])->get();
         //return response()->json(['prpr'=>$idioma]);
-        return View('empleats_externs.create', array('idiomes' => $idioma));
+        return View('empleats_externs.create', array('idiomes' => $idioma, 'tarifas' => $tarifas));
     }
 
     public function updateView($id)
@@ -62,6 +64,7 @@ class EmpleatExternController extends Controller
         // TODO: Controlar si l'empleat existeix o no per mostrar una página o un altre
         $empleat = EmpleatExtern::find($id);
         $idioma = Idioma::select('idioma')->get();
+        $tarifas = Tarifa::select('nombre')->get();
         $carrecsEmpleats = $empleat->carrec;
         $carrecsData = [];
 
@@ -84,6 +87,7 @@ class EmpleatExternController extends Controller
             'empleat' => $empleat,
             'idiomes' => $idioma,
             'carrecs' => $carrecsData,
+            'tarifas' => $tarifas
         ));
     }
 

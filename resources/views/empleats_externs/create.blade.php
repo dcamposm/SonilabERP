@@ -44,14 +44,8 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                     </div>
                 </div>
             </div>
-            <!-- POR AQUI IMAGEN -->
+
             <div class="row">
-                <!-- <div class="col-6">
-                    <div class="form-group">
-                        <label for="imatge_empleat" style="font-weight: bold">Alias:</label>
-                        <input type="text" class="form-control" id="alias_usuari" placeholder="Entrar alias" name="alias_usuari" value="{{!empty($empleat) ? $empleat->alias_empleat : ''}}">
-                    </div>
-                </div> -->
                 <div class="col-6">
                     <div class="form-group">
                         <label for="sexe_empleat" style="font-weight: bold">Sexe:</label>
@@ -67,7 +61,6 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                         <input type="text" class="form-control" id="nacionalitat_empleat" placeholder="Entrar nacionalitat" name="nacionalitat_empleat" value="{{!empty($empleat) ? $empleat->nacionalitat_empleat : ''}}">
                     </div>
                 </div>
-                
 
             </div>
 
@@ -124,6 +117,14 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                     </div>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-6">
+                    <label for="imatge_empleat" style="font-weight: bold">Imatge Empleat:</label>
+                    <input type="file" name="imatge_empleat" />
+                </div>
+            </div>
+
         </fieldset>
         <fieldset class="border p-2">
             <legend class="w-auto">Càrrecs:</legend>
@@ -214,8 +215,28 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                                         </select>
                                     </td>
                                     <td class="col">
-                                    <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Preu actor:</label>
-                                        <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}" placeholder="Entrar preu actor" name="preu_actor_{{$idioma->idioma}}" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                        <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Selección de tarifas:</label>
+                                        <select id="tarifas">
+                                            <option value="-1">Selecciona una tarifa</option>
+                                            @foreach( $tarifas as $key => $tarifa)
+                                                @if($tarifa->id_carrec == 1)
+                                                    <option value="{{$tarifa->nombre}}">{{$tarifa->nombre}}</option>
+                                                @endif
+                                            @endforeach
+                                        </select>
+                                        
+                                    </td>
+                                    <td class="col">
+                                        <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa video take:</label>
+                                        <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}" placeholder="Tarifa video take" name="preu_actor_{{$idioma->idioma}}" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                        <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa video cg:</label>                                        
+                                        <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}" placeholder="Tarifa video cg" name="preu_actor_{{$idioma->idioma}}" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                        <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa cine take:</label>
+                                        <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}" placeholder="Tarifa cine take" name="preu_actor_{{$idioma->idioma}}" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                        <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa cine cg:</label>                                        
+                                        <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}" placeholder="Tarifa cine cg" name="preu_actor_{{$idioma->idioma}}" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                        <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa canso:</label>
+                                        <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}" placeholder="Tarifa canso" name="preu_actor_{{$idioma->idioma}}" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
                                     </td>
                                 </tr>
                                     
@@ -330,12 +351,6 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
             </div>
         </fieldset>
 
-        <div class="row">
-            <div class="form-group">
-                <label for="imatge_empleat" style="font-weight: bold">Imatge Empleat:</label>
-                <input type="file" name="imatge_empleat" />
-            </div>
-        </div>
         <br>
 
         <!-- BOTÓN DE CREAR O ACTUALIZAR -->
