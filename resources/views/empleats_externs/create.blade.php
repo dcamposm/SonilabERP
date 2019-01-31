@@ -175,15 +175,9 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                 <div class="col-4" id="colDirector" style="display:{{ isset($carrecs['director']) ? '' : 'none'}}">
 
                     <div class="form-group">
-                        <label for="preu_rotllo_director" style="font-weight: bold">Preu rotllo:</label>
-                        <input type="number" class="form-control" id="preu_rotllo_director" placeholder="Entrar preu rotllo" name="preu_rotllo_director" value="{{ isset($carrecs['director']) ? $carrecs['director']['preu_carrec'] : ''}}" {{ isset($carrecs['director']) ? '' : 'disabled' }}>
+                        <label for="preu_director" style="font-weight: bold">Preu director:</label>
+                        <input type="number" class="form-control" id="preu_director" placeholder="Entrar director" name="preu_director" value="{{ isset($carrecs['director']) ? $carrecs['director']['preu_carrec'] : ''}}" {{ isset($carrecs['director']) ? '' : 'disabled' }}>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="preu_minut_director" style="font-weight: bold">Preu rotllo:</label>
-                        <input type="number" class="form-control" id="preu_director" placeholder="Entrar preu rotllo" name="preu_director" value="{{ isset($carrecs['director']) ? $carrecs['director']['preu_carrec'] : ''}}" {{ isset($carrecs['director']) ? '' : 'disabled' }}>
-                    </div> 
-
                 </div>
                 
 

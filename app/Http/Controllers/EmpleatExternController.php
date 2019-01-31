@@ -54,7 +54,6 @@ class EmpleatExternController extends Controller
     public function insertView()
     {
         $idioma = Idioma::select('idioma')->get();
-        //$tarifa = Tarifa::select('nombre')->get();
         //return response()->json(['prpr'=>$idioma]);
         return View('empleats_externs.create', array('idiomes' => $idioma));
     }
@@ -64,17 +63,16 @@ class EmpleatExternController extends Controller
         // TODO: Controlar si l'empleat existeix o no per mostrar una página o un altre
         $empleat = EmpleatExtern::find($id);
         $idioma = Idioma::select('idioma')->get();
-        $tarifa = Tarifa::select('nombre')->get();
         $carrecsEmpleats = $empleat->carrec;
         $carrecsData = [];
 
         foreach ($carrecsEmpleats as $key => $carrecEmp) {
             if ($carrecEmp->id_idioma == 0) {
-                $carrecsData[$carrecEmp->carrec->input_name][$carrecEmp->tarifa->tarifa] = array(
+                $carrecsData[$carrecEmp->carrec->input_name] = array(
                     'preu_carrec' => $carrecEmp->preu_carrec,
                 );
             } else {
-                $carrecsData[$carrecEmp->carrec->input_name][$carrecEmp->idioma->idioma][$carrecEmp->tarifa->tarifa] = array(
+                $carrecsData[$carrecEmp->carrec->input_name][$carrecEmp->idioma->idioma] = array(
                     'empleat_homologat' => $carrecEmp->empleat_homologat,
                     'preu_carrec' => $carrecEmp->preu_carrec,
                 );
