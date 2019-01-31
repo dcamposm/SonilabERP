@@ -7,6 +7,7 @@ use App\EmpleatExtern;
 use App\Idioma;
 use App\Carrec;
 use App\CarrecEmpleat;
+use App\Tarifa;
 
 class DatabaseSeeder extends Seeder
 {
@@ -40,5 +41,9 @@ class DatabaseSeeder extends Seeder
         CarrecEmpleat::unguard();
         $this->call(slb_carrecs_empleats::class);
         CarrecEmpleat::reguard();
+
+        Tarifa::unguard();
+        $this->call(slb_tarifasTableSeeder::class);
+        Tarifa::reguard();
     }
 }
