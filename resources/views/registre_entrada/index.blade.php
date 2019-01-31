@@ -10,7 +10,7 @@
 </div>
 
 <div class="row">
-
+    
     {{-- TODO: Realizar la vista principal. Usar la variable $registreEntrades para coger los registros de entrada. --}}
 
     <!-- MODAL ESBORRAR REGISSTRE -->
@@ -27,8 +27,8 @@
                     <span id="delete-message">...</span>
                 </div>
 <!--                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="setEmpleatPerEsborrar(0)">Tancar</button>
-                    <button type="button" class="btn btn-danger" onclick="deleteEmpleat()">Esborrar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="setregistreEntradaPerEsborrar(0)">Tancar</button>
+                    <button type="button" class="btn btn-danger" onclick="deleteregistreEntrada()">Esborrar</button>
                 </div>-->
                 </div>
             </div>
@@ -37,18 +37,18 @@
 </div>
 
 <script>
-    var empleatPerEsborrar = 0;
+    var registreEntradaPerEsborrar = 0;
 
-    function setEmpleatPerEsborrar(empleatId, empleatAlias) {
-        empleatPerEsborrar = empleatId;
-        if (empleatAlias != undefined) {
-            document.getElementById('delete-message').innerHTML = 'Vols esborrar l\'empleat <b>' + empleatAlias + '</b>?';
+    function setregistreEntradaPerEsborrar(registreEntradaId, registreEntradaAlias) {
+        registreEntradaPerEsborrar = registreEntradaId;
+        if (registreEntradaAlias != undefined) {
+            document.getElementById('delete-message').innerHTML = 'Vols esborrar l\'registreEntrada <b>' + registreEntradaAlias + '</b>?';
         }
     }
 
-    function deleteEmpleat() {
-        if (empleatPerEsborrar != 0) {
-            document.all["delete-" + empleatPerEsborrar].submit(); 
+    function deleteregistreEntrada() {
+        if (registreEntradaPerEsborrar != 0) {
+            document.all["delete-" + registreEntradaPerEsborrar].submit(); 
         }
     }
 </script>
