@@ -9,9 +9,34 @@
     </a>
 </div>
 
-<div class="row">
+<div class="container">
     
     {{-- TODO: Realizar la vista principal. Usar la variable $registreEntrades para coger los registros de entrada. --}}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Títol</th>
+                <th>Entrada</th>
+                <th>Sortida</th>
+                <th>Estat</th>
+                <th>Accions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach( $registreEntrades as $key => $registreEntrada )
+            <tr class="{{ ($registreEntrada->estat == 'Pendent') ? 'bg-warning' : '' }} ">
+                <td>{{ $registreEntrada->titol }}</td>
+                <td>{{ $registreEntrada->entrada }}</td>
+                <td>{{ $registreEntrada->sortida }}</td>
+                <td>{{ $registreEntrada->estat }}</td>
+                <td>
+                    <a href="#" class="btn btn-primary">Modificar</a>
+                    <a href="#" class="btn btn-danger">Esborrar</a>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
 
     <!-- MODAL ESBORRAR REGISSTRE -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
