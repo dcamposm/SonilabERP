@@ -93,6 +93,7 @@ class EmpleatExternController extends Controller
 
     public function insert()
     {
+        return response()->json(request()->all());
         // return response()->json(["error" => request()->all()], 400);
         $v = Validator::make(request()->all(), [
             'nom_empleat' => 'required',
