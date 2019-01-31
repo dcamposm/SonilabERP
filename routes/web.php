@@ -33,3 +33,5 @@ Route::post('/empleats/crear', 'EmpleatExternController@insert')->name('empleatI
 Route::get('/empleats/modificar/{id}', 'EmpleatExternController@updateView')->name('empleatUpdateView');
 Route::post('/empleats/modificar/{id}', 'EmpleatExternController@update')->name('empleatUpdate');
 Route::post('/empleats/esborrar', 'EmpleatExternController@delete')->name('empleatDelete');
+
+Route::get('/registreEntrada', 'RegistreEntradaController@index')->name('indexRegistreEntrada');
