@@ -20,7 +20,7 @@ class slb_carrecs_empleats extends Seeder
             'id_idioma'         => 1,
             'empleat_homologat' => true,
             'preu_carrec'       => 69,
-            'id_tarifa'         => 7
+            'id_tarifa'         => 6
         ));
         CarrecEmpleat::create(array(
             'id'                => 2,
@@ -29,7 +29,7 @@ class slb_carrecs_empleats extends Seeder
             'id_idioma'         => 2,
             'empleat_homologat' => false,
             'preu_carrec'       => 45,
-            'id_tarifa'         => 8
+            'id_tarifa'         => 7
         ));
         CarrecEmpleat::create(array(
             'id'                => 3,
@@ -38,7 +38,7 @@ class slb_carrecs_empleats extends Seeder
             'id_idioma'         => 1,
             'empleat_homologat' => true,
             'preu_carrec'       => 99,
-            'id_tarifa'         => 11
+            'id_tarifa'         => 10
         ));
         CarrecEmpleat::create(array(
             'id'                => 4,
