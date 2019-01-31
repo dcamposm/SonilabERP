@@ -82,8 +82,9 @@
     <!-- CARGOS DEL EMPLEADO -->
     <div class="row">
         @foreach( $carrecsEmpelat as $key => $carrec )
-        <div class="col-6 col-sm-6 col-md-4">
-            <table class="table table-striped">
+        
+        <div class="col-12">
+            <table class="table">
                 <thead class="thead-dark" style="border-left: 3px solid white">
                     <tr class="row">
                         <th class="col">{{ $key }}</th>
@@ -92,13 +93,35 @@
                 <tbody>
                     @foreach( $carrec as $key => $info )
                         @if (empty($info['idioma']))
+                            <tr class="row ">
+                                <td class="col"></td>
+                                <td class="col">{{ $info['empleat_homologat'] ? 'Homologat' : 'No homologat' }}</td>
+                            </tr>
                             <tr class="row">
                                 <td class="col">{{ $info['preu_carrec'] }}€</td>
                             </tr>
                         @else
-                            <tr class="row">
-                                <td class="col"><img src="{{url('/')}}/img/flags/{{$info['id_idioma']}}.png" class="rounded"> {{ $info['idioma'] }}</td>
+                            <tr class="row ">
+                                <td class="col-1"><img src="{{url('/')}}/img/flags/{{$info['id_idioma']}}.png" class="rounded"> {{ $info['idioma'] }}</td>
                                 <td class="col">{{ $info['empleat_homologat'] ? 'Homologat' : 'No homologat' }}</td>
+                            </tr>
+                            
+                            <tr class="row text-center bg-white">
+                                <td class="col">Tarifa video take</td>
+                                <td class="col">Tarifa video cg</td>
+                                <td class="col">Tarifa cine take</td>
+                                <td class="col">Tarifa cine cg</td>
+                                <td class="col">Tarifa docu</td>
+                                <td class="col">Tarifa canso</td>
+                                <td class="col">Tarifa narrador</td>
+                            </tr>
+                            <tr class="row text-center bg-white">
+                                <td class="col">{{ $info['preu_carrec'] }}€</td>
+                                <td class="col">{{ $info['preu_carrec'] }}€</td>
+                                <td class="col">{{ $info['preu_carrec'] }}€</td>
+                                <td class="col">{{ $info['preu_carrec'] }}€</td>
+                                <td class="col">{{ $info['preu_carrec'] }}€</td>
+                                <td class="col">{{ $info['preu_carrec'] }}€</td>
                                 <td class="col">{{ $info['preu_carrec'] }}€</td>
                             </tr>
                         @endif
