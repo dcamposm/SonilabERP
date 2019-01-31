@@ -31,7 +31,7 @@ class slb_tarifasTableSeeder extends Seeder
         ));
         Tarifa::create(array(
             'id' => '5',
-            'nombre' => 'Tarifa sala'
+            'nombre' => 'Tarifa docu'
         ));
         Tarifa::create(array(
             'id' => '6',

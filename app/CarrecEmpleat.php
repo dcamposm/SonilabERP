@@ -31,4 +31,9 @@ class CarrecEmpleat extends Model
     {
         return $this->belongsTo('App\Carrec', 'id_carrec', 'id_carrec');
     }
+    
+    public function tarifa()
+    {
+        return $this->belongsTo('App\Tarifa', 'id_tarifa', 'id');
+    }
 }
