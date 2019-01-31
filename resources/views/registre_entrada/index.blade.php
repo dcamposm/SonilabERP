@@ -12,34 +12,7 @@
 
 <div class="row">
 
-   {{-- @foreach( $empleats as $key => $empleat )
-
-    <div class="card card-shadow text-center m-3" style="min-width: 250px;">
-
-        <div class="card-body">
-            <img src="data:image/jpg;base64,{{$empleat['imatge_empleat']}}" class="rounded-circle" style="height:150px"/>
-            
-            <h4 style="min-height:45px;margin:5px 0 10px 0">
-                <a href="{{ route('empleatShow', ['id' => $empleat['id_empleat']]) }}" style="text-decoration:none; color:black; font-size: 1.35rem;">
-                    {{$empleat['nom_empleat']}} {{$empleat['cognom1_empleat']}} 
-                </a>
-            </h4>
-            <div class="row">
-                <div class="col-6" style="padding: 0px;">
-                    <a href="{{ route('empleatUpdateView', ['id' => $empleat['id_empleat']]) }}" class="btn btn-outline-primary" style="width: 75%;"> Editar </a> 
-                </div>
-                <div class="col-6" style="padding: 0px;">
-                    <button onclick="setEmpleatPerEsborrar({{$empleat['id_empleat']}}, '{{$empleat['nom_empleat']}} {{$empleat['cognom1_empleat']}} {{$empleat['cognom2_empleat']}}')" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModalCenter"  style="width: 75%;">Esborrar</button>
-                    <form id="delete-{{ $empleat['id_empleat'] }}" action="{{ route('empleatDelete') }}" method="POST">
-                        @csrf
-                        <input type="hidden" readonly name="id" value="{{$empleat['id_empleat']}}">
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    @endforeach --}}
+    {{-- TODO: Realizar la vista principal. Usar la variable $registreEntrades para coger los registros de entrada. --}}
 
     <!-- MODAL ESBORRAR REGISSTRE -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
