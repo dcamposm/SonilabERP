@@ -11,7 +11,20 @@
 
 <div class="row">
 
-<<<<<<< HEAD
+@extends('layouts.app')
+
+@section('content')
+
+<div>
+    <a href="{{ url('/registreEntrada/crear') }}" class="btn btn-success">
+        <span class="fas fa-atlas"></span>
+        Afegir registre d'entrada
+    </a>
+</div>
+
+<div class="row">
+
+
    {{-- @foreach( $registreEntradas as $key => $registreEntrada )
 
     <div class="card card-shadow text-center m-3" style="min-width: 250px;">
@@ -42,7 +55,7 @@
     @endforeach --}}
 =======
     {{-- TODO: Realizar la vista principal. Usar la variable $registreEntrades para coger los registros de entrada. --}}
->>>>>>> adbb63b2c063c2abd269665707f67e926c4ab63c
+    {{-- TODO: Realizar la vista principal. Usar la variable $registreEntrades para coger los registros de entrada. --}}
 
     <!-- MODAL ESBORRAR REGISSTRE -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
