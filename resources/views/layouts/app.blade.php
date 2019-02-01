@@ -43,7 +43,7 @@
 
     <nav class="navbar navbar-dark sticky-top bg-dark navbar-sonilab flex-md-nowrap p-0">
 
-        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"><img src="http://sonilab.com.mialias.net/wp-content/uploads/2016/11/SONILAB_logo41-300x65-300x75.png" width="120" height="30" class="d-inline-block align-top" alt=""></a>
+        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{ route('home') }}"><img src="http://sonilab.com.mialias.net/wp-content/uploads/2016/11/SONILAB_logo41-300x65-300x75.png" width="120" height="30" class="d-inline-block align-top" alt=""></a>
         @auth
 
         <ul class="navbar-nav px-3">
@@ -143,6 +143,21 @@
     <!-- Page Content -->
 
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+        @if (session('success'))
+            <div class="alert alert-success" role="alert">
+                <span class="fas fa-check"></span>{{ session('success') }}
+            </div>
+        @endif
+        @if($errors->any())
+            <div class="alert alert-danger" role="alert">
+                <span class="fas fa-exclamation-circle"></span>{{ $errors->first('error') }}
+            </div>
+        @endif
+        @if (session('alert'))
+            <div class="alert alert-warning" role="alert">
+                <span class="fas fa-exclamation-triangle"></span>{{ session('alert') }}
+            </div>
+        @endif
         @yield('content')
     </main>
 

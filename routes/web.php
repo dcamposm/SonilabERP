@@ -18,7 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/usuaris/interns/index', 'UserController@getIndex') ->name('indexUsuariIntern');
+Route::get('/usuaris/interns/index', 'UserController@getIndex') ->name('indexUsuariIntern')->middleware('role: 1, 4' );
 Route::get('/usuaris/interns/show/{id}', 'UserController@getShow')->name('veureUsuariIntern');
 Route::get('/usuaris/interns/crear', 'UserController@viewRegistre');
 Route::post('/usuaris/interns/crear', 'UserController@crearUsuario')->name('crearUsuariIntern');
@@ -27,6 +27,7 @@ Route::post('/usuaris/interns/editar/{id}', 'UserController@editarUsuario')->nam
 Route::post('/usuaris/interns/esborrar', 'UserController@esborrarUsuari')->name('esborrarUsuariIntern');
 
 Route::get('/empleats', 'EmpleatExternController@index')->name('empleatIndex');
+Route::get('/empleats/buscar', 'EmpleatExternController@find')->name('empleatFind');
 Route::get('/empleats/mostrar/{id}', 'EmpleatExternController@show')->name('empleatShow');
 Route::get('/empleats/crear', 'EmpleatExternController@insertView')->name('empleatInsertView');
 Route::post('/empleats/crear', 'EmpleatExternController@insert')->name('empleatInsert');

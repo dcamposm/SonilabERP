@@ -27,7 +27,7 @@ class slb_usuarisTableSeeder extends Seeder
             'alias_usuari' => 'admin',
             'contrasenya_usuari' => 'SL_admin.2019',
             'imatge_usuari' => $image,
-            'id_departament' => '1'
+            'id_departament' => '4'
         ));
         User::create(array(
             'id_usuari' => '2',

@@ -9,6 +9,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
 
 <div class="container">
     <h2 style="font-weight: bold">{{!empty($empleat) ? 'Editar empleat' : 'Crear empleat'}}</h2>
+    
     <form method = "POST" action="{{!empty($empleat) ? route('empleatUpdate', ['id' => $empleat->id_empleat]) : route('empleatInsert')}}" enctype="multipart/form-data">
         @csrf
         <fieldset class="border p-2">
@@ -75,7 +76,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                 <div class="col-6">
                     <div class="form-group">
                         <label for="dni_empleat" style="font-weight: bold">DNI:</label>
-                        <input type="text" class="form-control" id="dni_empleat" placeholder="Entrar DNI empleat" name="dni_empleat" value="{{!empty($empleat) ? $empleat->dni_empleat : ''}}">
+                        <input type="text" class="form-control" pattern="\d{8}[A-Za-z]" id="dni_empleat" placeholder="Entrar DNI empleat" name="dni_empleat" value="{{!empty($empleat) ? $empleat->dni_empleat : ''}}">
                     </div>
                 </div>
                 <div class="col-6">
@@ -173,15 +174,23 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                 
                 <div class="col-4" id="colDirector" style="display:{{ isset($carrecs['director']) ? '' : 'none'}}">
                     <div class="form-group">
-                        <label for="preu_director" style="font-weight: bold">Preu director:</label>
-                        <input type="number" class="form-control" id="preu_director" placeholder="Entrar preu director" name="preu_director" value="{{ isset($carrecs['director']) ? $carrecs['director']['preu_carrec'] : ''}}" {{ isset($carrecs['director']) ? '' : 'disabled' }}>
+                        <label for="preu1_director" style="font-weight: bold">Preu rotllo:</label>
+                        <input type="number" class="form-control" id="preu1_director" placeholder="Entrar preu director" name="preu1_director" value="{{ isset($carrecs['director']) ? $carrecs['director']['preu_carrec1'] : ''}}" {{ isset($carrecs['director']) ? '' : 'disabled' }}>
+                    </div>
+                    <div class="form-group">
+                        <label for="preu2_director" style="font-weight: bold">Preu minut:</label>
+                        <input type="number" class="form-control" id="preu2_director" placeholder="Entrar preu director" name="preu2_director" value="{{ isset($carrecs['director']) ? $carrecs['director']['preu_carrec2'] : ''}}" {{ isset($carrecs['director']) ? '' : 'disabled' }}>
                     </div>
                 </div>
 
                 <div class="col-4" id="colTecnicSala" style="display:{{ isset($carrecs['tecnic_sala']) ? '' : 'none'}}">
                     <div class="form-group">
-                        <label for="preu_tecnicSala" style="font-weight: bold">Preu tècnic de sala:</label>
-                        <input type="number" class="form-control" id="preu_tecnicSala" placeholder="Entrar preu tècnic de Sala" name="preu_tecnic_sala" value="{{ isset($carrecs['tecnic_sala']) ? $carrecs['tecnic_sala']['preu_carrec'] : ''}}" {{ isset($carrecs['tecnic_sala']) ? '' : 'disabled' }}>
+                        <label for="preu1_tecnicSala" style="font-weight: bold">Tarifa sala:</label>
+                        <input type="number" class="form-control" id="preu1_tecnicSala" placeholder="Entrar preu tècnic de Sala" name="preu1_tecnic_sala" value="{{ isset($carrecs['tecnic_sala']) ? $carrecs['tecnic_sala']['preu_carrec1'] : ''}}" {{ isset($carrecs['tecnic_sala']) ? '' : 'disabled' }}>
+                    </div>
+                    <div class="form-group">
+                        <label for="preu2_director" style="font-weight: bold">Tarifa MIX:</label>
+                        <input type="number" class="form-control" id="preu2_tecnicSala" placeholder="Entrar preu tècnic de Sala" name="preu2_tecnic_sala" value="{{ isset($carrecs['tecnic_sala']) ? $carrecs['director']['preu_carrec2'] : ''}}" {{ isset($carrecs['tecnic_sala']) ? '' : 'disabled' }}>
                     </div>
                 </div>
 
@@ -214,8 +223,32 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                                         </select>
                                     </td>
                                     <td class="col">
-                                    <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Preu actor:</label>
-                                        <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}" placeholder="Entrar preu actor" name="preu_actor_{{$idioma->idioma}}" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                    <label for="preu_video_tk_actor_{{$idioma->idioma}}" style="font-weight: bold">Preu Video TK:</label>
+                                        <input type="number" class="form-control" id="preu_video_tk_actor_{{$idioma->idioma}}" placeholder="Entrar preu actor" name="preu_video_tk_actor_{{$idioma->idioma}}" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_video_tk'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                    </td>
+                                    <td class="col">
+                                    <label for="preu_video_cg_actor_{{$idioma->idioma}}" style="font-weight: bold">Preu Video CG:</label>
+                                        <input type="number" class="form-control" id="preu_video_cg_actor_{{$idioma->idioma}}" placeholder="Entrar preu actor" name="preu_video_cg_actor_{{$idioma->idioma}}" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_video_cg'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                    </td>
+                                    <td class="col">
+                                    <label for="preu_cine_tk_actor_{{$idioma->idioma}}" style="font-weight: bold">Preu Cine TK:</label>
+                                        <input type="number" class="form-control" id="preu_cine_tk_actor_{{$idioma->idioma}}" placeholder="Entrar preu actor" name="preu_cine_tk_actor_{{$idioma->idioma}}" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_cine_tk'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                    </td>
+                                    <td class="col">
+                                    <label for="preu_cine_cg_actor_{{$idioma->idioma}}" style="font-weight: bold">Preu Cine CG:</label>
+                                        <input type="number" class="form-control" id="preu_cine_cg_actor_{{$idioma->idioma}}" placeholder="Entrar preu actor" name="preu_cine_cg_actor_{{$idioma->idioma}}" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_cine_cg'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                    </td>
+                                    <td class="col">
+                                    <label for="preu_docu_actor_{{$idioma->idioma}}" style="font-weight: bold">Preu Docu:</label>
+                                        <input type="number" class="form-control" id="preu_docu_actor_{{$idioma->idioma}}" placeholder="Entrar preu actor" name="preu_docu_actor_{{$idioma->idioma}}" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_docu'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                    </td>
+                                    <td class="col">
+                                    <label for="preu1_actor_{{$idioma->idioma}}" style="font-weight: bold">Preu Narrador:</label>
+                                        <input type="number" class="form-control" id="preu1_actor_{{$idioma->idioma}}" placeholder="Entrar preu actor" name="preu1_actor_{{$idioma->idioma}}" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_carrec1'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                    </td>
+                                    <td class="col">
+                                    <label for="preu2_actor_{{$idioma->idioma}}" style="font-weight: bold">Preu Cançons:</label>
+                                        <input type="number" class="form-control" id="preu2_actor_{{$idioma->idioma}}" placeholder="Entrar preu actor" name="preu2_actor_{{$idioma->idioma}}" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_carrec2'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
                                     </td>
                                 </tr>          
                             @endforeach
@@ -249,8 +282,12 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                                         </select>
                                     </td>
                                     <td class="col">
-                                    <label for="preu_traductor_{{$idioma->idioma}}" style="font-weight: bold">Preu traductor:</label>
-                                        <input type="number" class="form-control" id="preu_traductor_{{$idioma->idioma}}" placeholder="Entrar preu traductor" name="preu_traductor_{{$idioma->idioma}}" value="{{ isset($carrecs['traductor'][$idioma->idioma]) ? $carrecs['traductor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['traductor'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                    <label for="preu1_traductor_{{$idioma->idioma}}" style="font-weight: bold">Preu 1 traductor:</label>
+                                        <input type="number" class="form-control" id="preu1_traductor_{{$idioma->idioma}}" placeholder="Entrar preu traductor" name="preu1_traductor_{{$idioma->idioma}}" value="{{ isset($carrecs['traductor'][$idioma->idioma]) ? $carrecs['traductor'][$idioma->idioma]['preu_carrec1'] : ''}}" {{ isset($carrecs['traductor'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                    </td>
+                                    <td class="col">
+                                    <label for="preu2_traductor_{{$idioma->idioma}}" style="font-weight: bold">Preu 2 traductor:</label>
+                                        <input type="number" class="form-control" id="preu2_traductor_{{$idioma->idioma}}" placeholder="Entrar preu traductor" name="preu2_traductor_{{$idioma->idioma}}" value="{{ isset($carrecs['traductor'][$idioma->idioma]) ? $carrecs['traductor'][$idioma->idioma]['preu_carrec2'] : ''}}" {{ isset($carrecs['traductor'][$idioma->idioma]) ? '' : 'disabled' }}>
                                     </td>
                                 </tr>          
                             @endforeach
@@ -284,8 +321,12 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                                             </select>
                                         </td>
                                         <td class="col">
-                                        <label for="preu_ajustador_{{$idioma->idioma}}" style="font-weight: bold">Preu ajustador:</label>
-                                            <input type="number" class="form-control" id="preu_ajustador_{{$idioma->idioma}}" placeholder="Entrar preu ajustador" name="preu_ajustador_{{$idioma->idioma}}" value="{{ isset($carrecs['ajustador'][$idioma->idioma]) ? $carrecs['ajustador'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['ajustador'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                        <label for="preu1_ajustador_{{$idioma->idioma}}" style="font-weight: bold">Preu ajustador:</label>
+                                            <input type="number" class="form-control" id="preu1_ajustador_{{$idioma->idioma}}" placeholder="Entrar preu ajustador" name="preu1_ajustador_{{$idioma->idioma}}" value="{{ isset($carrecs['ajustador'][$idioma->idioma]) ? $carrecs['ajustador'][$idioma->idioma]['preu_carrec1'] : ''}}" {{ isset($carrecs['ajustador'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                        </td>
+                                        <td class="col">
+                                        <label for="preu2_ajustador_{{$idioma->idioma}}" style="font-weight: bold">Preu ajustador:</label>
+                                            <input type="number" class="form-control" id="preu2_ajustador_{{$idioma->idioma}}" placeholder="Entrar preu ajustador" name="preu2_ajustador_{{$idioma->idioma}}" value="{{ isset($carrecs['ajustador'][$idioma->idioma]) ? $carrecs['ajustador'][$idioma->idioma]['preu_carrec2'] : ''}}" {{ isset($carrecs['ajustador'][$idioma->idioma]) ? '' : 'disabled' }}>
                                         </td>
                                     </tr>          
                                 @endforeach
@@ -321,8 +362,12 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                                         </select>
                                     </td>
                                     <td class="col">
-                                    <label for="preu_linguista_{{$idioma->idioma}}" style="font-weight: bold">Preu lingüista:</label>
-                                        <input type="number" class="form-control" id="preu_linguista_{{$idioma->idioma}}" placeholder="Entrar preu lingüista" name="preu_linguista_{{$idioma->idioma}}" value="{{ isset($carrecs['linguista'][$idioma->idioma]) ? $carrecs['linguista'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['linguista'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                    <label for="preu1_linguista_{{$idioma->idioma}}" style="font-weight: bold">Preu lingüista:</label>
+                                        <input type="number" class="form-control" id="preu1_linguista_{{$idioma->idioma}}" placeholder="Entrar preu lingüista" name="preu1_linguista_{{$idioma->idioma}}" value="{{ isset($carrecs['linguista'][$idioma->idioma]) ? $carrecs['linguista'][$idioma->idioma]['preu_carrec1'] : ''}}" {{ isset($carrecs['linguista'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                    </td>
+                                    <td class="col">
+                                    <label for="preu2_linguista_{{$idioma->idioma}}" style="font-weight: bold">Preu lingüista:</label>
+                                        <input type="number" class="form-control" id="preu2_linguista_{{$idioma->idioma}}" placeholder="Entrar preu lingüista" name="preu2_linguista_{{$idioma->idioma}}" value="{{ isset($carrecs['linguista'][$idioma->idioma]) ? $carrecs['linguista'][$idioma->idioma]['preu_carrec2'] : ''}}" {{ isset($carrecs['linguista'][$idioma->idioma]) ? '' : 'disabled' }}>
                                     </td>
                                 </tr>          
                             @endforeach
@@ -332,14 +377,13 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                 </div>
             </div>
         </fieldset>
-
+        <br>
         <div class="row">
             <div class="form-group">
                 <label for="imatge_empleat" style="font-weight: bold">Imatge Empleat:</label>
                 <input type="file" name="imatge_empleat" />
             </div>
         </div>
-        <br>
 
         <!-- BOTÓN DE CREAR O ACTUALIZAR -->
         <div class="row">
@@ -371,19 +415,23 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
             case "director":
                         if (colDirector.style.display == 'none') {
                             colDirector.style.display = 'block';
-                            preu_director.removeAttribute("disabled"); 
+                            preu1_director.removeAttribute("disabled");
+                            preu2_director.removeAttribute("disabled"); 
                         } else {
                             colDirector.style.display = 'none';
-                            preu_director.setAttribute("disabled", ""); 
+                            preu1_director.setAttribute("disabled", ""); 
+                            preu2_director.setAttribute("disabled", ""); 
                         }
             break;
             case "tecnic":
                         if (colTecnicSala.style.display == 'none') {
                             colTecnicSala.style.display = 'block';
-                            preu_tecnicSala.removeAttribute("disabled"); 
+                            preu1_tecnicSala.removeAttribute("disabled");
+                            preu2_tecnicSala.removeAttribute("disabled"); 
                         } else {
                             colTecnicSala.style.display = 'none';
-                            preu_tecnicSala.setAttribute("disabled", ""); 
+                            preu1_tecnicSala.setAttribute("disabled", "");
+                            preu2_tecnicSala.setAttribute("disabled", ""); 
                         }
             break;
             case "traductor":
@@ -417,28 +465,64 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
             case "Català":
                         if (document.getElementById("idioma_"+carrec+"_Català").checked == true ) {
                             document.getElementById("homologat_"+carrec+"_Català").removeAttribute('disabled');
-                            document.getElementById("preu_"+carrec+"_Català").removeAttribute('disabled');
+                            document.getElementById("preu1_"+carrec+"_Català").removeAttribute('disabled');
+                            document.getElementById("preu2_"+carrec+"_Català").removeAttribute('disabled');
+                            document.getElementById("preu_docu_"+carrec+"_Català").removeAttribute('disabled');
+                            document.getElementById("preu_video_tk_"+carrec+"_Català").removeAttribute('disabled');
+                            document.getElementById("preu_video_cg_"+carrec+"_Català").removeAttribute('disabled');
+                            document.getElementById("preu_cine_tk_"+carrec+"_Català").removeAttribute('disabled');
+                            document.getElementById("preu_cine_cg_"+carrec+"_Català").removeAttribute('disabled');
                         }else{
                             document.getElementById("homologat_"+carrec+"_Català").setAttribute('disabled',"");
-                            document.getElementById("preu_"+carrec+"_Català").setAttribute('disabled',"");
+                            document.getElementById("preu1_"+carrec+"_Català").setAttribute('disabled',"");
+                            document.getElementById("preu2_"+carrec+"_Català").setAttribute('disabled',"");
+                            document.getElementById("preu_docu_"+carrec+"_Català").setAttribute('disabled',"");
+                            document.getElementById("preu_video_tk_"+carrec+"_Català").setAttribute('disabled',"");
+                            document.getElementById("preu_video_cg_"+carrec+"_Català").setAttribute('disabled',"");
+                            document.getElementById("preu_cine_tk_"+carrec+"_Català").setAttribute('disabled',"");
+                            document.getElementById("preu_cine_cg_"+carrec+"_Català").setAttribute('disabled',"");
                         }
             break;
             case "Castellà":
                         if (document.getElementById("idioma_"+carrec+"_Castellà").checked == true ) {
                             document.getElementById("homologat_"+carrec+"_Castellà").removeAttribute('disabled');
-                            document.getElementById("preu_"+carrec+"_Castellà").removeAttribute('disabled');
+                            document.getElementById("preu1_"+carrec+"_Castellà").removeAttribute('disabled');
+                            document.getElementById("preu2_"+carrec+"_Castellà").removeAttribute('disabled');
+                            document.getElementById("preu_docu_"+carrec+"_Castellà").removeAttribute('disabled');
+                            document.getElementById("preu_video_tk_"+carrec+"_Castellà").removeAttribute('disabled');
+                            document.getElementById("preu_video_cg_"+carrec+"_Castellà").removeAttribute('disabled');
+                            document.getElementById("preu_cine_tk_"+carrec+"_Castellà").removeAttribute('disabled');
+                            document.getElementById("preu_cine_cg_"+carrec+"_Castellà").removeAttribute('disabled');
                         }else{
                             document.getElementById("homologat_"+carrec+"_Castellà").setAttribute('disabled',"");
-                            document.getElementById("preu_"+carrec+"_Castellà").setAttribute('disabled',"");
+                            document.getElementById("preu1_"+carrec+"_Castellà").setAttribute('disabled',"");
+                            document.getElementById("preu2_"+carrec+"_Castellà").setAttribute('disabled',"");
+                            document.getElementById("preu_docu_"+carrec+"_Castellà").setAttribute('disabled',"");
+                            document.getElementById("preu_video_tk_"+carrec+"_Castellà").setAttribute('disabled',"");
+                            document.getElementById("preu_video_cg_"+carrec+"_Castellà").setAttribute('disabled',"");
+                            document.getElementById("preu_cine_tk_"+carrec+"_Castellà").setAttribute('disabled',"");
+                            document.getElementById("preu_cine_cg_"+carrec+"_Castellà").setAttribute('disabled',"");
                         }
             break;
             case "Anglès":
                         if (document.getElementById("idioma_"+carrec+"_Anglès").checked == true ) {
                             document.getElementById("homologat_"+carrec+"_Anglès").removeAttribute('disabled');
-                            document.getElementById("preu_"+carrec+"_Anglès").removeAttribute('disabled',"");
+                            document.getElementById("preu1_"+carrec+"_Anglès").removeAttribute('disabled');
+                            document.getElementById("preu2_"+carrec+"_Anglès").removeAttribute('disabled');
+                            document.getElementById("preu_docu_"+carrec+"_Anglès").removeAttribute('disabled');
+                            document.getElementById("preu_video_tk_"+carrec+"_Anglès").removeAttribute('disabled');
+                            document.getElementById("preu_video_cg_"+carrec+"_Anglès").removeAttribute('disabled');
+                            document.getElementById("preu_cine_tk_"+carrec+"_Anglès").removeAttribute('disabled');
+                            document.getElementById("preu_cine_cg_"+carrec+"_Anglès").removeAttribute('disabled');
                         }else{
                             document.getElementById("homologat_"+carrec+"_Anglès").setAttribute('disabled',"");
-                            document.getElementById("preu_"+carrec+"_Anglès").setAttribute('disabled',"");
+                            document.getElementById("preu1_"+carrec+"_Anglès").setAttribute('disabled',"");
+                            document.getElementById("preu2_"+carrec+"_Anglès").setAttribute('disabled',"");
+                            document.getElementById("preu_docu_"+carrec+"_Anglès").setAttribute('disabled',"");
+                            document.getElementById("preu_video_tk_"+carrec+"_Anglès").setAttribute('disabled',"");
+                            document.getElementById("preu_video_cg_"+carrec+"_Anglès").setAttribute('disabled',"");
+                            document.getElementById("preu_cine_tk_"+carrec+"_Anglès").setAttribute('disabled',"");
+                            document.getElementById("preu_cine_cg_"+carrec+"_Anglès").setAttribute('disabled',"");
                         }
             break;
           
