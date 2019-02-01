@@ -15,7 +15,7 @@ class RegistreEntradaController extends Controller
     
     public function index()
     {
-        $registreEntrades = RegistreEntrada::all();
+        $registreEntrades = RegistreEntrada::with('client')->get();
         return View('registre_entrada.index', array('registreEntrades' => $registreEntrades));
     }
     
@@ -105,6 +105,8 @@ class RegistreEntradaController extends Controller
         }
     }
     
-    
-    
+    public function delete(Request $request) {
+        RegistreEntrada::where('id_registre_entrada', $request["id"])->delete();
+        return redirect()->route('indexRegistreEntrada');
+    }
 }

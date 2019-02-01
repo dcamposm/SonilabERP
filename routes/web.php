@@ -35,3 +35,5 @@ Route::post('/empleats/modificar/{id}', 'EmpleatExternController@update')->name(
 Route::post('/empleats/esborrar', 'EmpleatExternController@delete')->name('empleatDelete');
 
 Route::get('/registreEntrada', 'RegistreEntradaController@index')->name('indexRegistreEntrada');
+Route::get('/registreEntrada/mostrar', 'RegistreEntradaController@index')->name('mostrarRegistreEntrada');  // FIXME: Especificar la función correspondiente cuando esté creada.
+Route::post('/registreEntrada/esborrar', 'RegistreEntradaController@delete')->name('esborrarRegistreEntrada');
