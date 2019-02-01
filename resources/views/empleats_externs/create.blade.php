@@ -380,21 +380,63 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
 
     function mostrarCamposTarifas(e){
         let valores = $('#'+e.target.id).val() // NO ACOSTUMBRARSE >:( JQUERY MEH
-        valores.forEach(element => {
-            switch(element){
-                case 'Tarifa video take':
-                    document.getElementById('tarifaActor1').style.display = ''
-                    document.getElementById('tarifaActor1').removeAttribute('disabled')
-                    break
-                case 'Tarifa video cg':
+        let opciones = e.target.options;
 
-                    break
-                case 'Tarifa cine take':
-                    break
-                case 'Tarifa cine cg':
-                    break
-                case 'Tarifa canso':
-                    break
+        Array.prototype.forEach.call(opciones,function(element,key){
+            var selected = false
+       
+            valores.forEach(valor => {
+                if(element.value == valor){
+                    selected = true  
+                }
+            });
+           
+            if (selected){
+                switch(element.value){
+                    case 'Tarifa video take':
+                        document.getElementById('tarifaActor1').style.display = ''
+                        document.getElementById('tarifaActor1').removeAttribute('disabled')
+                        break
+                    case 'Tarifa video cg':
+                        document.getElementById('tarifaActor2').style.display = ''
+                        document.getElementById('tarifaActor2').removeAttribute('disabled')
+                        break
+                    case 'Tarifa cine take':
+                        document.getElementById('tarifaActor3').style.display = ''
+                        document.getElementById('tarifaActor3').removeAttribute('disabled')
+                        break
+                    case 'Tarifa cine cg':
+                        document.getElementById('tarifaActor4').style.display = ''
+                        document.getElementById('tarifaActor4').removeAttribute('disabled')
+                        break
+                    case 'Tarifa canso':
+                        document.getElementById('tarifaActor5').style.display = ''
+                        document.getElementById('tarifaActor5').removeAttribute('disabled')
+                        break
+                }
+            } else {
+                switch(element.value){
+                    case 'Tarifa video take':
+                        document.getElementById('tarifaActor1').style.display = 'none'
+                        document.getElementById('tarifaActor1').setAttribute('disabled','')
+                        break
+                    case 'Tarifa video cg':
+                        document.getElementById('tarifaActor2').style.display = 'none'
+                        document.getElementById('tarifaActor2').setAttribute('disabled','')
+                        break
+                    case 'Tarifa cine take':
+                        document.getElementById('tarifaActor3').style.display = 'none'
+                        document.getElementById('tarifaActor3').setAttribute('disabled','')
+                        break
+                    case 'Tarifa cine cg':
+                        document.getElementById('tarifaActor4').style.display = 'none'
+                        document.getElementById('tarifaActor4').setAttribute('disabled','')
+                        break
+                    case 'Tarifa canso':
+                        document.getElementById('tarifaActor5').style.display = 'none'
+                        document.getElementById('tarifaActor5').setAttribute('disabled','')
+                        break
+                }
             }
         });
         
