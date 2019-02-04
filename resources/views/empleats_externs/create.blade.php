@@ -177,7 +177,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
 
                     <div class="form-group" style="width:100%;">
                        <div style="width:30%; float:left">
-                            <label for="preu_director" style="font-weight: bold">Selección de tarifas:</label>
+                            <label for="director_tarifas" style="font-weight: bold">Selección de tarifas:</label>
                             <select onchange="mostrarCamposTarifas(event,'director')" id="director_tarifas" multiple class="form-control">
                                 <option value="-1" disabled>Selecciona una tarifa</option>
                                 @foreach( $tarifas as $key => $tarifa)
@@ -190,11 +190,11 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                         <div style="width:65%; float:left; margin-left:5%;">
                             <div id="tarifa_director1" style="display: none;">
                                 <label for="tarifa_director1" style="font-weight: bold">Preu rotllo:</label>
-                                <input type="number" class="form-control" id="tarifa_director1" placeholder="Preu rotllo" name="tarifa_director1" value="{{ isset($carrecs['director']) ? $carrecs['director']['preu_carrec'] : ''}}" {{ isset($carrecs['director']) ? '' : 'disabled' }}>
+                                <input type="number" class="form-control" id="tarifa_director1_inp" placeholder="Preu rotllo" name="tarifa_director1" value="{{ isset($carrecs['director']) ? $carrecs['director']['preu_carrec'] : ''}}" {{ isset($carrecs['director']) ? '' : 'disabled' }}>
                             </div>
                             <div id="tarifa_director2" style="display: none;">
                                 <label for="tarifa_director2" style="font-weight: bold">Preu minut:</label>                                        
-                                <input type="number" class="form-control" id="tarifa_director2" placeholder="Preu minut" name="tarifa_director2" value="{{ isset($carrecs['director']) ? $carrecs['director']['preu_carrec'] : ''}}" {{ isset($carrecs['director']) ? '' : 'disabled' }}>
+                                <input type="number" class="form-control" id="tarifa_director2_inp" placeholder="Preu minut" name="tarifa_director2" value="{{ isset($carrecs['director']) ? $carrecs['director']['preu_carrec'] : ''}}" {{ isset($carrecs['director']) ? '' : 'disabled' }}>
                             </div>
                         </div>       
                     </div>
@@ -203,11 +203,31 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                 </div>
                 
 
-                <div class="col-4" id="colTecnicSala" style="display:{{ isset($carrecs['tecnic_sala']) ? '' : 'none'}}">
-                    <div class="form-group">
-                        <label for="preu_tecnicSala" style="font-weight: bold">Preu tècnic de sala:</label>
-                        <input type="number" class="form-control" id="preu_tecnicSala" placeholder="Entrar preu tècnic de Sala" name="preu_tecnic_sala" value="{{ isset($carrecs['tecnic_sala']) ? $carrecs['tecnic_sala']['preu_carrec'] : ''}}" {{ isset($carrecs['tecnic_sala']) ? '' : 'disabled' }}>
-                    </div>
+                <div class="col-12" id="colTecnicSala" style="display:{{ isset($carrecs['tecnic_sala']) ? '' : 'none'}}">
+                    
+                    <div class="form-group" style="width:100%;">
+                        <div style="width:30%; float:left">
+                             <label for="tecnic_tarifas" style="font-weight: bold">Selección de tarifas:</label>
+                             <select onchange="mostrarCamposTarifas(event,'tecnic')" id="tecnic_tarifas" multiple class="form-control">
+                                 <option value="-1" disabled>Selecciona una tarifa</option>
+                                 @foreach( $tarifas as $key => $tarifa)
+                                     @if($tarifa->id_carrec == 3)
+                                         <option value="{{$tarifa->nombre}}">{{$tarifa->nombre}}</option>
+                                     @endif
+                                 @endforeach
+                             </select>
+                         </div> 
+                         <div style="width:65%; float:left; margin-left:5%;">
+                             <div id="tarifa_tecnic1" style="display: none;">
+                                 <label for="tarifa_tecnic1_inp" style="font-weight: bold">Tarifa sala:</label>
+                                 <input type="number" class="form-control" id="tarifa_tecnic1_inp" placeholder="Tarifa sala" name="tarifa_tecnic1" value="{{ isset($carrecs['tecnic_sala']) ? $carrecs['tecnic_sala']['preu_carrec'] : ''}}" {{ isset($carrecs['tecnic_sala']) ? '' : 'disabled' }}>
+                             </div>
+                             <div id="tarifa_tecnic2" style="display: none;">
+                                 <label for="tarifa_tecnic2_inp" style="font-weight: bold">Tarifa mix:</label>                                        
+                                 <input type="number" class="form-control" id="tarifa_tecnic2_inp" placeholder="Tarifa mix" name="tarifa_tecnic2" value="{{ isset($carrecs['tecnic_sala']) ? $carrecs['tecnic_sala']['preu_carrec'] : ''}}" {{ isset($carrecs['tecnic_sala']) ? '' : 'disabled' }}>
+                             </div>
+                         </div>       
+                     </div>
                 </div>
 
             </div>
@@ -401,7 +421,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
     function mostrarCamposTarifas(e,cargo,idioma){
         let valores = $('#'+e.target.id).val() // NO ACOSTUMBRARSE >:( JQUERY MEH
         let opciones = e.target.options;
-console.log(valores)
+
         Array.prototype.forEach.call(opciones,function(element,key){
             var selected = false
             var val;
@@ -412,11 +432,11 @@ console.log(valores)
                     selected = true  
                 }
             });
-          var lang = "";
+            var lang = "";
 
-          if(idioma && idioma.length > 0){
-            lang = "_" + idioma
-          }
+            if(idioma && idioma.length > 0){
+                lang = "_" + idioma
+            }
 
             if (selected){
                 switch(val){
@@ -441,12 +461,18 @@ console.log(valores)
                         document.getElementById('tarifa_'+ cargo + '5' + lang).removeAttribute('disabled')
                         break
                     case 'Preu rotllo':
-                        document.getElementById('tarifa_'+ cargo + '1' + lang).style.display = ''
-                        document.getElementById('tarifa_'+ cargo + '1' + lang).removeAttribute('disabled')
+                    case 'Tarifa sala':
+                        document.getElementById('tarifa_'+ cargo + '1').style.display = ''
+                        document.getElementById('tarifa_'+ cargo + '1').removeAttribute('disabled')
+                        document.getElementById('tarifa_'+ cargo + '1_inp').style.display = ''
+                        document.getElementById('tarifa_'+ cargo + '1_inp').removeAttribute('disabled')
                         break
                     case 'Preu minut':
-                        document.getElementById('tarifa_'+ cargo + '2' + lang).style.display = ''
-                        document.getElementById('tarifa_'+ cargo + '2' + lang).removeAttribute('disabled')
+                    case 'Tarifa mix':
+                        document.getElementById('tarifa_'+ cargo + '2').style.display = ''
+                        document.getElementById('tarifa_'+ cargo + '2').removeAttribute('disabled')
+                        document.getElementById('tarifa_'+ cargo + '2_inp').style.display = ''
+                        document.getElementById('tarifa_'+ cargo + '2_inp').removeAttribute('disabled')
                         break
                 }
             } else {
@@ -472,12 +498,16 @@ console.log(valores)
                         document.getElementById('tarifa_'+ cargo + '5' + lang).setAttribute('disabled' , '')
                         break
                     case 'Preu rotllo':
-                        document.getElementById('tarifa_'+ cargo + '1' + lang).style.display = 'none'
-                        document.getElementById('tarifa_'+ cargo + '1' + lang).setAttribute('disabled' , '')
+                    case 'Tarifa sala':
+                        document.getElementById('tarifa_'+ cargo + '1').style.display = 'none'
+                        document.getElementById('tarifa_'+ cargo + '1').setAttribute('disabled' , '')
+                        document.getElementById('tarifa_'+ cargo + '1_inp').setAttribute('disabled' , '')
                         break
                     case 'Preu minut':
-                        document.getElementById('tarifa_'+ cargo + '2' + lang).style.display = 'none'
-                        document.getElementById('tarifa_'+ cargo + '2' + lang).setAttribute('disabled' , '')
+                    case 'Tarifa mix':
+                        document.getElementById('tarifa_'+ cargo + '2').style.display = 'none'
+                        document.getElementById('tarifa_'+ cargo + '2').setAttribute('disabled' , '')
+                        document.getElementById('tarifa_'+ cargo + '2_inp').setAttribute('disabled' , '')
                         break
                     
                 }
@@ -500,19 +530,15 @@ console.log(valores)
             case "director":
                         if (colDirector.style.display == 'none') {
                             colDirector.style.display = 'block';
-                            colDirector.removeAttribute("disabled"); 
                         } else {
                             colDirector.style.display = 'none';
-                            colDirector.setAttribute("disabled", ""); 
                         }
             break;
             case "tecnic":
                         if (colTecnicSala.style.display == 'none') {
                             colTecnicSala.style.display = 'block';
-                            preu_tecnicSala.removeAttribute("disabled"); 
                         } else {
                             colTecnicSala.style.display = 'none';
-                            preu_tecnicSala.setAttribute("disabled", ""); 
                         }
             break;
             case "traductor":
