@@ -173,12 +173,33 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
             <div class="row">
                 
                 
-                <div class="col-4" id="colDirector" style="display:{{ isset($carrecs['director']) ? '' : 'none'}}">
+                <div class="col-12" id="colDirector" style="display:{{ isset($carrecs['director']) ? '' : 'none'}}">
 
-                    <div class="form-group">
-                        <label for="preu_director" style="font-weight: bold">Preu director:</label>
-                        <input type="number" class="form-control" id="preu_director" placeholder="Entrar director" name="preu_director" value="{{ isset($carrecs['director']) ? $carrecs['director']['preu_carrec'] : ''}}" {{ isset($carrecs['director']) ? '' : 'disabled' }}>
+                    <div class="form-group" style="width:100%;">
+                       <div style="width:30%; float:left">
+                            <label for="preu_director" style="font-weight: bold">Selección de tarifas:</label>
+                            <select onchange="mostrarCamposTarifas(event,'director')" id="director_tarifas" multiple class="form-control">
+                                <option value="-1" disabled>Selecciona una tarifa</option>
+                                @foreach( $tarifas as $key => $tarifa)
+                                    @if($tarifa->id_carrec == 2)
+                                        <option value="{{$tarifa->nombre}}">{{$tarifa->nombre}}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div> 
+                        <div style="width:65%; float:left; margin-left:5%;">
+                            <div id="tarifa_director1" style="display: none;">
+                                <label for="tarifa_director1" style="font-weight: bold">Preu rotllo:</label>
+                                <input type="number" class="form-control" id="tarifa_director1" placeholder="Preu rotllo" name="tarifa_director1" value="{{ isset($carrecs['director']) ? $carrecs['director']['preu_carrec'] : ''}}" {{ isset($carrecs['director']) ? '' : 'disabled' }}>
+                            </div>
+                            <div id="tarifa_director2" style="display: none;">
+                                <label for="tarifa_director2" style="font-weight: bold">Preu minut:</label>                                        
+                                <input type="number" class="form-control" id="tarifa_director2" placeholder="Preu minut" name="tarifa_director2" value="{{ isset($carrecs['director']) ? $carrecs['director']['preu_carrec'] : ''}}" {{ isset($carrecs['director']) ? '' : 'disabled' }}>
+                            </div>
+                        </div>       
                     </div>
+
+                    
                 </div>
                 
 
@@ -227,7 +248,6 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                                                 @endif
                                             @endforeach
                                         </select>
-                                        
                                     </td>
                                     <td class="col">
                                         <div id="tarifa_actor1_{{$idioma->idioma}}" style="display: none;">
@@ -420,6 +440,14 @@ console.log(valores)
                         document.getElementById('tarifa_'+ cargo + '5' + lang).style.display = ''
                         document.getElementById('tarifa_'+ cargo + '5' + lang).removeAttribute('disabled')
                         break
+                    case 'Preu rotllo':
+                        document.getElementById('tarifa_'+ cargo + '1' + lang).style.display = ''
+                        document.getElementById('tarifa_'+ cargo + '1' + lang).removeAttribute('disabled')
+                        break
+                    case 'Preu minut':
+                        document.getElementById('tarifa_'+ cargo + '2' + lang).style.display = ''
+                        document.getElementById('tarifa_'+ cargo + '2' + lang).removeAttribute('disabled')
+                        break
                 }
             } else {
                 switch(element.value){
@@ -443,6 +471,15 @@ console.log(valores)
                         document.getElementById('tarifa_'+ cargo + '5' + lang).style.display = 'none'
                         document.getElementById('tarifa_'+ cargo + '5' + lang).setAttribute('disabled' , '')
                         break
+                    case 'Preu rotllo':
+                        document.getElementById('tarifa_'+ cargo + '1' + lang).style.display = 'none'
+                        document.getElementById('tarifa_'+ cargo + '1' + lang).setAttribute('disabled' , '')
+                        break
+                    case 'Preu minut':
+                        document.getElementById('tarifa_'+ cargo + '2' + lang).style.display = 'none'
+                        document.getElementById('tarifa_'+ cargo + '2' + lang).setAttribute('disabled' , '')
+                        break
+                    
                 }
             }
         });
@@ -463,10 +500,10 @@ console.log(valores)
             case "director":
                         if (colDirector.style.display == 'none') {
                             colDirector.style.display = 'block';
-                            preu_director.removeAttribute("disabled"); 
+                            colDirector.removeAttribute("disabled"); 
                         } else {
                             colDirector.style.display = 'none';
-                            preu_director.setAttribute("disabled", ""); 
+                            colDirector.setAttribute("disabled", ""); 
                         }
             break;
             case "tecnic":
