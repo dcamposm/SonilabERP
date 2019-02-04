@@ -219,7 +219,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                                     </td>
                                     <td class="col">
                                         <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Selección de tarifas:</label>
-                                        <select onchange="mostrarCamposTarifas(event)" id="{{$idioma->idioma}}_actor_tarifas" multiple class="form-control" disabled>
+                                        <select onchange="mostrarCamposTarifas(event,'actor','{{$idioma->idioma}}')" id="{{$idioma->idioma}}_actor_tarifas" multiple class="form-control" disabled>
                                             <option value="-1" disabled>Selecciona una tarifa</option>
                                             @foreach( $tarifas as $key => $tarifa)
                                                 @if($tarifa->id_carrec == 1)
@@ -230,23 +230,23 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                                         
                                     </td>
                                     <td class="col">
-                                        <div id="tarifaActor1" style="display: none;">
+                                        <div id="tarifa_actor1_{{$idioma->idioma}}" style="display: none;">
                                             <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa video take:</label>
                                             <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_video_take" placeholder="Tarifa video take" name="preu_actor_{{$idioma->idioma}}_video_take" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
                                         </div>
-                                        <div id="tarifaActor2" style="display: none;">
+                                        <div id="tarifa_actor2_{{$idioma->idioma}}" style="display: none;">
                                             <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa video cg:</label>                                        
                                             <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_video_cg" placeholder="Tarifa video cg" name="preu_actor_{{$idioma->idioma}}_video_cg" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
                                         </div>
-                                        <div id="tarifaActor3" style="display: none;">
+                                        <div id="tarifa_actor3_{{$idioma->idioma}}" style="display: none;">
                                             <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa cine take:</label>
                                             <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_cine_take" placeholder="Tarifa cine take" name="preu_actor_{{$idioma->idioma}}_cine_take" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
                                         </div>
-                                        <div id="tarifaActor4" style="display: none;">
+                                        <div id="tarifa_actor4_{{$idioma->idioma}}" style="display: none;">
                                             <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa cine cg:</label>                                        
                                             <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_cine_cg" placeholder="Tarifa cine cg" name="preu_actor_{{$idioma->idioma}}_cine_cg" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
                                         </div>
-                                        <div id="tarifaActor5" style="display: none;">
+                                        <div id="tarifa_actor5_{{$idioma->idioma}}" style="display: none;">
                                             <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa canso:</label>
                                             <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_canso" placeholder="Tarifa canso" name="preu_actor_{{$idioma->idioma}}_canso" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
                                         </div>
@@ -378,63 +378,70 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
 
 <script>
 
-    function mostrarCamposTarifas(e){
+    function mostrarCamposTarifas(e,cargo,idioma){
         let valores = $('#'+e.target.id).val() // NO ACOSTUMBRARSE >:( JQUERY MEH
         let opciones = e.target.options;
-
+console.log(valores)
         Array.prototype.forEach.call(opciones,function(element,key){
             var selected = false
-       
+            var val;
+           
             valores.forEach(valor => {
                 if(element.value == valor){
+                    val = valor
                     selected = true  
                 }
             });
-           
+          var lang = "";
+
+          if(idioma && idioma.length > 0){
+            lang = "_" + idioma
+          }
+
             if (selected){
-                switch(element.value){
+                switch(val){
                     case 'Tarifa video take':
-                        document.getElementById('tarifaActor1').style.display = ''
-                        document.getElementById('tarifaActor1').removeAttribute('disabled')
+                        document.getElementById('tarifa_'+ cargo + '1' + lang).style.display = ''
+                        document.getElementById('tarifa_'+ cargo + '1' + lang).removeAttribute('disabled')
                         break
                     case 'Tarifa video cg':
-                        document.getElementById('tarifaActor2').style.display = ''
-                        document.getElementById('tarifaActor2').removeAttribute('disabled')
+                        document.getElementById('tarifa_'+ cargo + '2' + lang).style.display = ''
+                        document.getElementById('tarifa_'+ cargo + '2' + lang).removeAttribute('disabled')
                         break
                     case 'Tarifa cine take':
-                        document.getElementById('tarifaActor3').style.display = ''
-                        document.getElementById('tarifaActor3').removeAttribute('disabled')
+                        document.getElementById('tarifa_'+ cargo + '3' + lang).style.display = ''
+                        document.getElementById('tarifa_'+ cargo + '3' + lang).removeAttribute('disabled')
                         break
                     case 'Tarifa cine cg':
-                        document.getElementById('tarifaActor4').style.display = ''
-                        document.getElementById('tarifaActor4').removeAttribute('disabled')
+                        document.getElementById('tarifa_'+ cargo + '4' + lang).style.display = ''
+                        document.getElementById('tarifa_'+ cargo + '4' + lang).removeAttribute('disabled')
                         break
                     case 'Tarifa canso':
-                        document.getElementById('tarifaActor5').style.display = ''
-                        document.getElementById('tarifaActor5').removeAttribute('disabled')
+                        document.getElementById('tarifa_'+ cargo + '5' + lang).style.display = ''
+                        document.getElementById('tarifa_'+ cargo + '5' + lang).removeAttribute('disabled')
                         break
                 }
             } else {
                 switch(element.value){
                     case 'Tarifa video take':
-                        document.getElementById('tarifaActor1').style.display = 'none'
-                        document.getElementById('tarifaActor1').setAttribute('disabled','')
+                        document.getElementById('tarifa_'+ cargo + '1' + lang).style.display = 'none'
+                        document.getElementById('tarifa_'+ cargo + '1' + lang).setAttribute('disabled' , '')
                         break
                     case 'Tarifa video cg':
-                        document.getElementById('tarifaActor2').style.display = 'none'
-                        document.getElementById('tarifaActor2').setAttribute('disabled','')
+                        document.getElementById('tarifa_'+ cargo + '2' + lang).style.display = 'none'
+                        document.getElementById('tarifa_'+ cargo + '2' + lang).setAttribute('disabled' , '')
                         break
                     case 'Tarifa cine take':
-                        document.getElementById('tarifaActor3').style.display = 'none'
-                        document.getElementById('tarifaActor3').setAttribute('disabled','')
+                        document.getElementById('tarifa_'+ cargo + '3' + lang).style.display = 'none'
+                        document.getElementById('tarifa_'+ cargo + '3' + lang).setAttribute('disabled' , '')
                         break
                     case 'Tarifa cine cg':
-                        document.getElementById('tarifaActor4').style.display = 'none'
-                        document.getElementById('tarifaActor4').setAttribute('disabled','')
+                        document.getElementById('tarifa_'+ cargo + '4' + lang).style.display = 'none'
+                        document.getElementById('tarifa_'+ cargo + '4' + lang).setAttribute('disabled' , '')
                         break
                     case 'Tarifa canso':
-                        document.getElementById('tarifaActor5').style.display = 'none'
-                        document.getElementById('tarifaActor5').setAttribute('disabled','')
+                        document.getElementById('tarifa_'+ cargo + '5' + lang).style.display = 'none'
+                        document.getElementById('tarifa_'+ cargo + '5' + lang).setAttribute('disabled' , '')
                         break
                 }
             }
