@@ -442,23 +442,23 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                 switch(val){
                     case 'Tarifa video take':
                         document.getElementById('tarifa_'+ cargo + '1' + lang).style.display = ''
-                        document.getElementById('tarifa_'+ cargo + '1' + lang).removeAttribute('disabled')
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_video_take').removeAttribute('disabled')
                         break
                     case 'Tarifa video cg':
                         document.getElementById('tarifa_'+ cargo + '2' + lang).style.display = ''
-                        document.getElementById('tarifa_'+ cargo + '2' + lang).removeAttribute('disabled')
+                        document.getElementById('preu_'+ cargo+ '_' + idioma + '_video_cg').removeAttribute('disabled')
                         break
                     case 'Tarifa cine take':
                         document.getElementById('tarifa_'+ cargo + '3' + lang).style.display = ''
-                        document.getElementById('tarifa_'+ cargo + '3' + lang).removeAttribute('disabled')
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_cine_take').removeAttribute('disabled')
                         break
                     case 'Tarifa cine cg':
                         document.getElementById('tarifa_'+ cargo + '4' + lang).style.display = ''
-                        document.getElementById('tarifa_'+ cargo + '4' + lang).removeAttribute('disabled')
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_cine_cg').removeAttribute('disabled')
                         break
                     case 'Tarifa canso':
                         document.getElementById('tarifa_'+ cargo + '5' + lang).style.display = ''
-                        document.getElementById('tarifa_'+ cargo + '5' + lang).removeAttribute('disabled')
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_canso').removeAttribute('disabled')
                         break
                     case 'Preu rotllo':
                     case 'Tarifa sala':
@@ -476,26 +476,26 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                         break
                 }
             } else {
-                switch(element.value){
+                switch(element.value){//preu_actor_{{$idioma->idioma}}_video_take
                     case 'Tarifa video take':
                         document.getElementById('tarifa_'+ cargo + '1' + lang).style.display = 'none'
-                        document.getElementById('tarifa_'+ cargo + '1' + lang).setAttribute('disabled' , '')
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_video_take').setAttribute('disabled' , '')
                         break
                     case 'Tarifa video cg':
                         document.getElementById('tarifa_'+ cargo + '2' + lang).style.display = 'none'
-                        document.getElementById('tarifa_'+ cargo + '2' + lang).setAttribute('disabled' , '')
+                        document.getElementById('preu_'+ cargo+ '_' + idioma + '_video_cg').setAttribute('disabled' , '')
                         break
                     case 'Tarifa cine take':
                         document.getElementById('tarifa_'+ cargo + '3' + lang).style.display = 'none'
-                        document.getElementById('tarifa_'+ cargo + '3' + lang).setAttribute('disabled' , '')
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_cine_take').setAttribute('disabled' , '')
                         break
                     case 'Tarifa cine cg':
                         document.getElementById('tarifa_'+ cargo + '4' + lang).style.display = 'none'
-                        document.getElementById('tarifa_'+ cargo + '4' + lang).setAttribute('disabled' , '')
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_cine_cg').setAttribute('disabled' , '')
                         break
                     case 'Tarifa canso':
                         document.getElementById('tarifa_'+ cargo + '5' + lang).style.display = 'none'
-                        document.getElementById('tarifa_'+ cargo + '5' + lang).setAttribute('disabled' , '')
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_canso').setAttribute('disabled' , '')
                         break
                     case 'Preu rotllo':
                     case 'Tarifa sala':
