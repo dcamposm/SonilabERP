@@ -95,14 +95,14 @@
                         @if (empty($info['idioma']))
                             <tr class="row ">
                                 <td class="col"></td>
-                                <td class="col">{{ $info['empleat_homologat'] ? 'Homologat' : 'No homologat' }}</td>
+                                <td class="col"></td>
                             </tr>
                             <tr class="row">
                                 <td class="col">{{ $info['preu_carrec'] }}€</td>
                             </tr>
                         @else
                             <tr class="row ">
-                                <td class="col-1"><img src="{{url('/')}}/img/flags/{{$info['id_idioma']}}.png" class="rounded"> {{ $info['idioma'] }}</td>
+                                <td class="col-2"><img src="{{url('/')}}/img/flags/{{$info['id_idioma']}}.png" class="rounded"> {{ $info['idioma'] }}</td>
                                 <td class="col">{{ $info['empleat_homologat'] ? 'Homologat' : 'No homologat' }}</td>
                             </tr>
                             

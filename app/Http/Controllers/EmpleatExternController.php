@@ -27,7 +27,64 @@ class EmpleatExternController extends Controller
         $empleats = EmpleatExtern::all();
         return View('empleats_externs.index', array('empleats' => $empleats));
     }
-
+    
+    public function find()
+    {
+        if (request()->input("searchBy") == '1'){  
+            $carrec = Carrec::where('nom_carrec', request()->input("search_term"))->first();
+            
+            try {
+                $carrecEmpleat = $carrec->carrecEmpleat;
+            } catch (\Exception $ex) {
+                $empleats = Array();
+                return View('empleats_externs.index', array('empleats' => $empleats));
+            }
+                        
+            $cont = 0;
+            $empleatsArray = array();
+            foreach ($carrecEmpleat as $empleat){
+                if (!isset($empleatsArray)){                    
+                    $empleatsArray[$cont] = $empleat->id_empleat;
+                    $cont++;
+                } else {
+                    $rep = false;
+                    for ($i = 0; $i < $cont; $i++){
+                        if ($empleatsArray[$i] == $empleat->id_empleat){
+                            $rep = true;
+                            $i = $cont;
+                        }
+                    }
+                    
+                    if ($rep == false) {
+                        $empleatsArray[$cont] = $empleat->id_empleat;
+                        $cont++;
+                    }
+                }
+            }
+            
+            $empleats = Array();
+            
+            for ($i = 0; $i < count($empleatsArray); $i++){
+                $empleats[$i] =  EmpleatExtern::where('id_empleat', $empleatsArray[$i])->first();
+            }
+            
+            //return redirect()->route('empleatIndex')->with('success', $empleats);
+            
+        } else if (request()->input("searchBy") == '2'){
+            $empleats = EmpleatExtern::where('sexe_empleat', request()->input("search_term"))->get();
+        } else if (request()->input("searchBy") == '3'){
+            $empleats = EmpleatExtern::where('nacionalitat_empleat', request()->input("search_term"))->get();
+        } else {
+            $empleats = EmpleatExtern::where('nom_empleat', request()->input("search_term"))
+                    ->orWhere('cognom1_empleat', request()->input("search_term"))
+                    ->orWhere('cognom2_empleat', request()->input("search_term"))->get();
+        }
+        
+        
+        //return redirect()->route('empleatIndex')->with('success', request()->input("searchBy").'-'.request()->input("search_term"));
+        return View('empleats_externs.index', array('empleats' => $empleats));
+    }
+    
     public function show($id)
     {
         $empleat = EmpleatExtern::find($id);
