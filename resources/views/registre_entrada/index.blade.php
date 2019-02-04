@@ -18,7 +18,7 @@
             <span>Finalitzat</span>
         </div>
         <div class="llegenda">
-            <span style="color: yellow; font-size: 30px;">&#9646;</span>
+            <span style="color: darkorange; font-size: 30px;">&#9646;</span>
             <span>Pendent</span>
         </div>
         <div class="llegenda">
@@ -42,10 +42,8 @@
         <tbody>
             @foreach( $registreEntrades as $key => $registreEntrada )
             <tr class="table-selected {{ ($registreEntrada->estat == 'Pendent') ? 'border-warning' : (($registreEntrada->estat == 'Finalitzada') ? 'border-success' : 'border-danger') }}">
-                <td class="cursor" style="vertical-align: middle;" onclick="self.mostrarRegistreEntrada({{ $registreEntrada->id_registre_entrada }})">
+                <td class="cursor" style="vertical-align: middle;" onclick="self.mostrarRegistreEntrada('{{ route('mostrarRegistreEntrada') }}/{{ $registreEntrada->id_registre_entrada }}')">
                     <span class="font-weight-bold" style="font-size: 1rem;">{{ $registreEntrada->titol }}</span>
-                    <form id="mostrar-{{ $registreEntrada->id_registre_entrada }}" action="{{ route('mostrarRegistreEntrada') }}" method="GET">
-                    </form>
                 </td>
                 <td style="vertical-align: middle;">{{ date('d/m/Y H:i:s', strtotime($registreEntrada->entrada)) }}</td>
                 <td style="vertical-align: middle;">{{ date('d/m/Y H:i:s', strtotime($registreEntrada->sortida)) }}</td>
@@ -92,8 +90,8 @@
     self.registrePerEsborrar = 0;
 
     // Executa el formulari per mostrar la vista d'un registre d'entrada.
-    self.mostrarRegistreEntrada = function (registreEntrada) {
-        document.all["mostrar-" + registreEntrada].submit(); 
+    self.mostrarRegistreEntrada = function (urlShow) {
+        window.location.replace(urlShow);
     }
 
     // Emmagatzema l'identificador d'un registre d'entrada i mostra un missatge en el modal d'esborrar.

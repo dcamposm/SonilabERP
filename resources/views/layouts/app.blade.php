@@ -42,7 +42,7 @@
         border-left: 10px solid lawngreen !important;
     }
     .border-warning {
-        border-left: 10px solid yellow !important;
+        border-left: 10px solid darkorange !important;
     }
     .border-danger {
         border-left: 10px solid red !important;
