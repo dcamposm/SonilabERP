@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\RegistreEntrada;
+use App\Idioma;
+use App\Client;
+use App\Servei;
 
 class RegistreEntradaController extends Controller
 {
@@ -18,7 +21,13 @@ class RegistreEntradaController extends Controller
         $registreEntrades = RegistreEntrada::with('client')->get();
         return View('registre_entrada.index', array('registreEntrades' => $registreEntrades));
     }
-    
+    public function insertView(){
+        $clients = Client::select('nom_client')->get();
+        $idiomes = Idioma::select('idioma')->get();
+        $serveis = Servei::select('nom_servei')->get();
+        return View('registre_entrada.create', array('idiomes' => $idiomes, 'clients' => $clients,'serveis'=>$serveis));
+    }
+
     public function insert()
     {
         // return response()->json(["error" => request()->all()], 400);

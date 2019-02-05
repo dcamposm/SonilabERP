@@ -173,20 +173,61 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
             <div class="row">
                 
                 
-                <div class="col-4" id="colDirector" style="display:{{ isset($carrecs['director']) ? '' : 'none'}}">
+                <div class="col-12" id="colDirector" style="display:{{ isset($carrecs['director']) ? '' : 'none'}}">
 
-                    <div class="form-group">
-                        <label for="preu_director" style="font-weight: bold">Preu director:</label>
-                        <input type="number" class="form-control" id="preu_director" placeholder="Entrar director" name="preu_director" value="{{ isset($carrecs['director']) ? $carrecs['director']['preu_carrec'] : ''}}" {{ isset($carrecs['director']) ? '' : 'disabled' }}>
+                    <div class="form-group" style="width:100%;">
+                       <div style="width:30%; float:left">
+                            <label for="director_tarifas" style="font-weight: bold">Selección de tarifas:</label>
+                            <select onchange="mostrarCamposTarifas(event,'director')" id="director_tarifas" multiple class="form-control">
+                                <option value="-1" disabled>Selecciona una tarifa</option>
+                                @foreach( $tarifas as $key => $tarifa)
+                                    @if($tarifa->id_carrec == 2)
+                                        <option value="{{$tarifa->nombre}}">{{$tarifa->nombre}}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div> 
+                        <div style="width:65%; float:left; margin-left:5%;">
+                            <div id="tarifa_director1" style="display: none;">
+                                <label for="tarifa_director1" style="font-weight: bold">Preu rotllo:</label>
+                                <input type="number" class="form-control" id="tarifa_director1_inp" placeholder="Preu rotllo" name="tarifa_director1" value="{{ isset($carrecs['director']) ? $carrecs['director']['preu_carrec'] : ''}}" {{ isset($carrecs['director']) ? '' : 'disabled' }}>
+                            </div>
+                            <div id="tarifa_director2" style="display: none;">
+                                <label for="tarifa_director2" style="font-weight: bold">Preu minut:</label>                                        
+                                <input type="number" class="form-control" id="tarifa_director2_inp" placeholder="Preu minut" name="tarifa_director2" value="{{ isset($carrecs['director']) ? $carrecs['director']['preu_carrec'] : ''}}" {{ isset($carrecs['director']) ? '' : 'disabled' }}>
+                            </div>
+                        </div>       
                     </div>
+
+                    
                 </div>
                 
 
-                <div class="col-4" id="colTecnicSala" style="display:{{ isset($carrecs['tecnic_sala']) ? '' : 'none'}}">
-                    <div class="form-group">
-                        <label for="preu_tecnicSala" style="font-weight: bold">Preu tècnic de sala:</label>
-                        <input type="number" class="form-control" id="preu_tecnicSala" placeholder="Entrar preu tècnic de Sala" name="preu_tecnic_sala" value="{{ isset($carrecs['tecnic_sala']) ? $carrecs['tecnic_sala']['preu_carrec'] : ''}}" {{ isset($carrecs['tecnic_sala']) ? '' : 'disabled' }}>
-                    </div>
+                <div class="col-12" id="colTecnicSala" style="display:{{ isset($carrecs['tecnic_sala']) ? '' : 'none'}}">
+                    
+                    <div class="form-group" style="width:100%;">
+                        <div style="width:30%; float:left">
+                             <label for="tecnic_tarifas" style="font-weight: bold">Selección de tarifas:</label>
+                             <select onchange="mostrarCamposTarifas(event,'tecnic')" id="tecnic_tarifas" multiple class="form-control">
+                                 <option value="-1" disabled>Selecciona una tarifa</option>
+                                 @foreach( $tarifas as $key => $tarifa)
+                                     @if($tarifa->id_carrec == 3)
+                                         <option value="{{$tarifa->nombre}}">{{$tarifa->nombre}}</option>
+                                     @endif
+                                 @endforeach
+                             </select>
+                         </div> 
+                         <div style="width:65%; float:left; margin-left:5%;">
+                             <div id="tarifa_tecnic1" style="display: none;">
+                                 <label for="tarifa_tecnic1_inp" style="font-weight: bold">Tarifa sala:</label>
+                                 <input type="number" class="form-control" id="tarifa_tecnic1_inp" placeholder="Tarifa sala" name="tarifa_tecnic1" value="{{ isset($carrecs['tecnic_sala']) ? $carrecs['tecnic_sala']['preu_carrec'] : ''}}" {{ isset($carrecs['tecnic_sala']) ? '' : 'disabled' }}>
+                             </div>
+                             <div id="tarifa_tecnic2" style="display: none;">
+                                 <label for="tarifa_tecnic2_inp" style="font-weight: bold">Tarifa mix:</label>                                        
+                                 <input type="number" class="form-control" id="tarifa_tecnic2_inp" placeholder="Tarifa mix" name="tarifa_tecnic2" value="{{ isset($carrecs['tecnic_sala']) ? $carrecs['tecnic_sala']['preu_carrec'] : ''}}" {{ isset($carrecs['tecnic_sala']) ? '' : 'disabled' }}>
+                             </div>
+                         </div>       
+                     </div>
                 </div>
 
             </div>
@@ -219,7 +260,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                                     </td>
                                     <td class="col">
                                         <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Selección de tarifas:</label>
-                                        <select onchange="mostrarCamposTarifas(event)" id="{{$idioma->idioma}}_actor_tarifas" multiple class="form-control" disabled>
+                                        <select onchange="mostrarCamposTarifas(event,'actor','{{$idioma->idioma}}')" id="{{$idioma->idioma}}_actor_tarifas" multiple class="form-control" disabled>
                                             <option value="-1" disabled>Selecciona una tarifa</option>
                                             @foreach( $tarifas as $key => $tarifa)
                                                 @if($tarifa->id_carrec == 1)
@@ -227,26 +268,25 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                                                 @endif
                                             @endforeach
                                         </select>
-                                        
                                     </td>
                                     <td class="col">
-                                        <div id="tarifaActor1" style="display: none;">
+                                        <div id="tarifa_actor1_{{$idioma->idioma}}" style="display: none;">
                                             <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa video take:</label>
                                             <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_video_take" placeholder="Tarifa video take" name="preu_actor_{{$idioma->idioma}}_video_take" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
                                         </div>
-                                        <div id="tarifaActor2" style="display: none;">
+                                        <div id="tarifa_actor2_{{$idioma->idioma}}" style="display: none;">
                                             <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa video cg:</label>                                        
                                             <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_video_cg" placeholder="Tarifa video cg" name="preu_actor_{{$idioma->idioma}}_video_cg" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
                                         </div>
-                                        <div id="tarifaActor3" style="display: none;">
+                                        <div id="tarifa_actor3_{{$idioma->idioma}}" style="display: none;">
                                             <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa cine take:</label>
                                             <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_cine_take" placeholder="Tarifa cine take" name="preu_actor_{{$idioma->idioma}}_cine_take" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
                                         </div>
-                                        <div id="tarifaActor4" style="display: none;">
+                                        <div id="tarifa_actor4_{{$idioma->idioma}}" style="display: none;">
                                             <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa cine cg:</label>                                        
                                             <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_cine_cg" placeholder="Tarifa cine cg" name="preu_actor_{{$idioma->idioma}}_cine_cg" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
                                         </div>
-                                        <div id="tarifaActor5" style="display: none;">
+                                        <div id="tarifa_actor5_{{$idioma->idioma}}" style="display: none;">
                                             <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa canso:</label>
                                             <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_canso" placeholder="Tarifa canso" name="preu_actor_{{$idioma->idioma}}_canso" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
                                         </div>
@@ -378,64 +418,98 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
 
 <script>
 
-    function mostrarCamposTarifas(e){
+    function mostrarCamposTarifas(e,cargo,idioma){
         let valores = $('#'+e.target.id).val() // NO ACOSTUMBRARSE >:( JQUERY MEH
         let opciones = e.target.options;
 
         Array.prototype.forEach.call(opciones,function(element,key){
             var selected = false
-       
+            var val;
+           
             valores.forEach(valor => {
                 if(element.value == valor){
+                    val = valor
                     selected = true  
                 }
             });
-           
+            var lang = "";
+
+            if(idioma && idioma.length > 0){
+                lang = "_" + idioma
+            }
+
             if (selected){
-                switch(element.value){
+                switch(val){
                     case 'Tarifa video take':
-                        document.getElementById('tarifaActor1').style.display = ''
-                        document.getElementById('tarifaActor1').removeAttribute('disabled')
+                        document.getElementById('tarifa_'+ cargo + '1' + lang).style.display = ''
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_video_take').removeAttribute('disabled')
                         break
                     case 'Tarifa video cg':
-                        document.getElementById('tarifaActor2').style.display = ''
-                        document.getElementById('tarifaActor2').removeAttribute('disabled')
+                        document.getElementById('tarifa_'+ cargo + '2' + lang).style.display = ''
+                        document.getElementById('preu_'+ cargo+ '_' + idioma + '_video_cg').removeAttribute('disabled')
                         break
                     case 'Tarifa cine take':
-                        document.getElementById('tarifaActor3').style.display = ''
-                        document.getElementById('tarifaActor3').removeAttribute('disabled')
+                        document.getElementById('tarifa_'+ cargo + '3' + lang).style.display = ''
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_cine_take').removeAttribute('disabled')
                         break
                     case 'Tarifa cine cg':
-                        document.getElementById('tarifaActor4').style.display = ''
-                        document.getElementById('tarifaActor4').removeAttribute('disabled')
+                        document.getElementById('tarifa_'+ cargo + '4' + lang).style.display = ''
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_cine_cg').removeAttribute('disabled')
                         break
                     case 'Tarifa canso':
-                        document.getElementById('tarifaActor5').style.display = ''
-                        document.getElementById('tarifaActor5').removeAttribute('disabled')
+                        document.getElementById('tarifa_'+ cargo + '5' + lang).style.display = ''
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_canso').removeAttribute('disabled')
+                        break
+                    case 'Preu rotllo':
+                    case 'Tarifa sala':
+                        document.getElementById('tarifa_'+ cargo + '1').style.display = ''
+                        document.getElementById('tarifa_'+ cargo + '1').removeAttribute('disabled')
+                        document.getElementById('tarifa_'+ cargo + '1_inp').style.display = ''
+                        document.getElementById('tarifa_'+ cargo + '1_inp').removeAttribute('disabled')
+                        break
+                    case 'Preu minut':
+                    case 'Tarifa mix':
+                        document.getElementById('tarifa_'+ cargo + '2').style.display = ''
+                        document.getElementById('tarifa_'+ cargo + '2').removeAttribute('disabled')
+                        document.getElementById('tarifa_'+ cargo + '2_inp').style.display = ''
+                        document.getElementById('tarifa_'+ cargo + '2_inp').removeAttribute('disabled')
                         break
                 }
             } else {
-                switch(element.value){
+                switch(element.value){//preu_actor_{{$idioma->idioma}}_video_take
                     case 'Tarifa video take':
-                        document.getElementById('tarifaActor1').style.display = 'none'
-                        document.getElementById('tarifaActor1').setAttribute('disabled','')
+                        document.getElementById('tarifa_'+ cargo + '1' + lang).style.display = 'none'
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_video_take').setAttribute('disabled' , '')
                         break
                     case 'Tarifa video cg':
-                        document.getElementById('tarifaActor2').style.display = 'none'
-                        document.getElementById('tarifaActor2').setAttribute('disabled','')
+                        document.getElementById('tarifa_'+ cargo + '2' + lang).style.display = 'none'
+                        document.getElementById('preu_'+ cargo+ '_' + idioma + '_video_cg').setAttribute('disabled' , '')
                         break
                     case 'Tarifa cine take':
-                        document.getElementById('tarifaActor3').style.display = 'none'
-                        document.getElementById('tarifaActor3').setAttribute('disabled','')
+                        document.getElementById('tarifa_'+ cargo + '3' + lang).style.display = 'none'
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_cine_take').setAttribute('disabled' , '')
                         break
                     case 'Tarifa cine cg':
-                        document.getElementById('tarifaActor4').style.display = 'none'
-                        document.getElementById('tarifaActor4').setAttribute('disabled','')
+                        document.getElementById('tarifa_'+ cargo + '4' + lang).style.display = 'none'
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_cine_cg').setAttribute('disabled' , '')
                         break
                     case 'Tarifa canso':
-                        document.getElementById('tarifaActor5').style.display = 'none'
-                        document.getElementById('tarifaActor5').setAttribute('disabled','')
+                        document.getElementById('tarifa_'+ cargo + '5' + lang).style.display = 'none'
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_canso').setAttribute('disabled' , '')
                         break
+                    case 'Preu rotllo':
+                    case 'Tarifa sala':
+                        document.getElementById('tarifa_'+ cargo + '1').style.display = 'none'
+                        document.getElementById('tarifa_'+ cargo + '1').setAttribute('disabled' , '')
+                        document.getElementById('tarifa_'+ cargo + '1_inp').setAttribute('disabled' , '')
+                        break
+                    case 'Preu minut':
+                    case 'Tarifa mix':
+                        document.getElementById('tarifa_'+ cargo + '2').style.display = 'none'
+                        document.getElementById('tarifa_'+ cargo + '2').setAttribute('disabled' , '')
+                        document.getElementById('tarifa_'+ cargo + '2_inp').setAttribute('disabled' , '')
+                        break
+                    
                 }
             }
         });
@@ -456,19 +530,15 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
             case "director":
                         if (colDirector.style.display == 'none') {
                             colDirector.style.display = 'block';
-                            preu_director.removeAttribute("disabled"); 
                         } else {
                             colDirector.style.display = 'none';
-                            preu_director.setAttribute("disabled", ""); 
                         }
             break;
             case "tecnic":
                         if (colTecnicSala.style.display == 'none') {
                             colTecnicSala.style.display = 'block';
-                            preu_tecnicSala.removeAttribute("disabled"); 
                         } else {
                             colTecnicSala.style.display = 'none';
-                            preu_tecnicSala.setAttribute("disabled", ""); 
                         }
             break;
             case "traductor":
