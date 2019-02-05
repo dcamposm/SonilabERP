@@ -7,6 +7,7 @@ use App\RegistreEntrada;
 use App\Idioma;
 use App\Client;
 use App\Servei;
+use App\TipusMedia;
 
 class RegistreEntradaController extends Controller
 {
@@ -25,7 +26,8 @@ class RegistreEntradaController extends Controller
         $clients = Client::select('nom_client')->get();
         $idiomes = Idioma::select('idioma')->get();
         $serveis = Servei::select('nom_servei')->get();
-        return View('registre_entrada.create', array('idiomes' => $idiomes, 'clients' => $clients,'serveis'=>$serveis));
+        $medias = TipusMedia::select('nom_media')->get();
+        return View('registre_entrada.create', array('idiomes' => $idiomes, 'clients' => $clients,'serveis'=>$serveis,'medias'=>$medias));
     }
 
     public function insert()
