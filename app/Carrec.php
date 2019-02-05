@@ -14,7 +14,7 @@ class Carrec extends Model
         'descripcio_carrec'
     ];
 
-    public function empleat()
+    public function carrecEmpleat()
     {
         return $this->hasMany('App\CarrecEmpleat', 'id_carrec', 'id_carrec');
     }

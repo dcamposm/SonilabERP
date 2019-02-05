@@ -33,8 +33,6 @@
     </div>
 </div>
 
-    
-
 <div class="row">
 
     @foreach( $empleats as $key => $empleat )

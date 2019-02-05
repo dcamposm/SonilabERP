@@ -7,6 +7,11 @@ use App\EmpleatExtern;
 use App\Idioma;
 use App\Carrec;
 use App\CarrecEmpleat;
+use App\Tarifa;
+use App\Client;
+use App\Servei;
+use App\TipusMedia;
+use App\RegistreEntrada;
 
 class DatabaseSeeder extends Seeder
 {
@@ -40,5 +45,25 @@ class DatabaseSeeder extends Seeder
         CarrecEmpleat::unguard();
         $this->call(slb_carrecs_empleats::class);
         CarrecEmpleat::reguard();
+
+        Tarifa::unguard();
+        $this->call(slb_tarifasTableSeeder::class);
+        Tarifa::reguard();
+
+        Client::unguard();
+        $this->call(slb_clientsSeeder::class);
+        Client::reguard();
+
+        Servei::unguard();
+        $this->call(slb_serveisSeeder::class);
+        Servei::reguard();
+
+        TipusMedia::unguard();
+        $this->call(slb_tipus_mediaSeeder::class);
+        TipusMedia::reguard();
+
+        RegistreEntrada::unguard();
+        $this->call(slb_registre_entradesSeeder::class);
+        RegistreEntrada::reguard();
     }
 }

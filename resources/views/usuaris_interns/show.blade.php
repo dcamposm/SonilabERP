@@ -27,7 +27,7 @@
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-3">Cognoms:</td>
-                <td class="col">{{ $usuari['cognoms_usuari']}}</td>
+                <td class="col">{{ $usuari['cognom1_usuari']}} {{ $usuari['cognom2_usuari']}}</td>
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-3">Email:</td>

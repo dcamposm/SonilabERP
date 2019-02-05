@@ -26,7 +26,7 @@
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-3">Cognoms:</td>
-                <td class="col">{{ $empleat['cognoms_empleat']}}</td>
+                <td class="col">{{ $empleat['cognom1_empleat']}} {{ $empleat['cognom2_empleat']}}</td>
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-3">Sexe:</td>
@@ -80,112 +80,105 @@
     </table>
 
     <!-- CARGOS DEL EMPLEADO -->
-    <div class="row container">
-        @foreach( $carrecsEmpelat as $key => $carrec )
-        <div style="width: 100%; margin-left: 15px; display:block">
-            <div class="form-group">
-                <table class="table">
-                    <thead class="thead-dark">
-                        <tr class="row">
-                            <th class="col">{{ $key }}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    @foreach( $carrec as $key => $info)
-                        
-                        @if (empty($info['idioma']))
-                        <tr class="row">
-                            <td class="col">
-                                {{ $info['id_carrec'] == 2 ? 'Preu Rotllo: ' : 'Tarifa sala: '}}{{ $info['preu_carrec1'] }}€
-                            </td>
-                            <td class="col">
-                                {{ $info['id_carrec' ]== 2 ? 'Preu Minut: ' : 'Tarifa MIX: '}}{{ $info['preu_carrec2'] }}€
-                            </td>
-                        </tr>    
-                        @else
-                            @if ($info['id_carrec'] == 1)
-                            <tr class="row">
-                                <td class="col">
-                                    <img src="{{url('/')}}/img/flags/{{$info['id_idioma']}}.png" class="rounded"> {{ $info['idioma'] }}                                    
-                                </td>
-                                <td class="col">
-                                    {{ $info['empleat_homologat'] ? 'Homologat' : 'No homologat' }}
-                                </td>
-                            </tr>
-                            <tr class="row">                                
-                                <td class="col">
-                                    <b>Video CG's:</b> {{ empty($info['preu_video_tk']) ? '-' : $info['preu_video_tk'].'€' }}
-                                </td>
-                                </td>
-                                <td class="col">
-                                    <b>Video TK's:</b> {{ empty($info['preu_video_cg']) ? '-' : $info['preu_video_cg'].'€' }}
-                                </td>
-                                <td class="col">
-                                    <b>Cine CG's:</b> {{ empty($info['preu_cine_tk']) ? '-' : $info['preu_cine_tk'].'€' }}
-                                </td>
-                                </td>
-                                <td class="col">
-                                    <b>Cine TK's:</b> {{ empty($info['preu_cine_cg']) ? '-' : $info['preu_cine_cg'].'€' }}
-                                </td>
-                                <td class="col">
-                                    <b>Documental:</b> {{ empty($info['preu_docu']) ? '-' : '<'.$info['preu_docu'] }}
-                                </td>
-                                </td>
-                                <td class="col">
-                                    <b>Narrador:</b> {{ empty($info['preu_carrec1']) ? '-' : $info['preu_carrec1'].'€' }}
-                                </td>
-                                <td class="col">
-                                    <b>Cançons:</b> {{ empty($info['preu_carrec2']) ? '-' : $info['preu_carrec2'].'€' }}
-                                </td>
-                            </tr>
-                            @else
-                            <tr class="row">
-                                <td class="col">
-                                    <img src="{{url('/')}}/img/flags/{{$info['id_idioma']}}.png" class="rounded"> {{ $info['idioma'] }}
-                                </td>
-                            </tr>
-                            <tr class="row">
-                                <td class="col">
-                                    {{ $info['empleat_homologat'] ? 'Homologat' : 'No homologat' }}
-                                </td>
-                                <td class="col">
-                                    {{ $info['preu_carrec1'] }}€
-                                </td>
-                                <td class="col">
-                                    {{ $info['preu_carrec2'] }}€
-                                </td>
-                            </tr>
-                            @endif
-                        @endif
-                    @endforeach
-                    </tbody> 
-                </table>
-            </div>
-        </div>
-        @endforeach
-    </div>
-    <!--
     <div class="row">
         @foreach( $carrecsEmpelat as $key => $carrec )
-        <div class="col-6 col-sm-6 col-md-4">
+        
+        <div class="col-12">
             <table class="table">
-                <thead class="thead-dark" style="border-left: 3px solid white">
+                <thead class="thead-dark">
                     <tr class="row">
                         <th class="col">{{ $key }}</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach( $carrec as $key => $info )
-                        @if (empty($info['idioma']))
+                    @foreach( $carrec as $key2 => $info )
+                        @if ($key2 === 0)
+                                                   
                             <tr class="row">
-                                <td class="col">{{ $info['preu_carrec1'] }}€</td>
+                                @foreach ($info as $key => $tarifa) 
+                                    <td class="col">{{ $tarifa['tarifa'] }}</td>
+                                @endforeach
                             </tr>
+                            
+                            <tr class="row">
+                                @foreach ($info as $key => $tarifa) 
+                                    <td class="col">{{ $tarifa['preu_carrec'] }}€</td>
+                                @endforeach
+                            </tr>
+                            
                         @else
-                            <tr class="row">
-                                <td class="col"><img src="{{url('/')}}/img/flags/{{$info['id_idioma']}}.png" class="rounded"> {{ $info['idioma'] }}</td>
-                                <td class="col">{{ $info['empleat_homologat'] ? 'Homologat' : 'No homologat' }}</td>
-                                <td class="col">{{ $info['preu_carrec1'] }}€</td>
+                            <tr class="row table-active">
+                                <td class="col"><img src="{{url('/')}}/img/flags/{{$key2}}.png" class="rounded"> {{ $key2 }}</td>                   
+                                <td class="col">
+                                @foreach ($info as $key => $tarifa) 
+                                    @if ($tarifa['empleat_homologat'] == '1')
+                                        Homologat
+                                        @break
+                                    @endif
+                                @endforeach
+                                </td>
                             </tr>
+                                <tr class="row text-center bg-white">
+                                    <td class="col">Tarifa video take</td>
+                                    <td class="col">Tarifa video cg</td>
+                                    <td class="col">Tarifa cine take</td>
+                                    <td class="col">Tarifa cine cg</td>
+                                    <td class="col">Tarifa docu</td>
+                                    <td class="col">Tarifa canso</td>
+                                    <td class="col">Tarifa narrador</td>
+                                </tr>
+                                <tr class="row text-center bg-white">
+                                    <td class="col">
+                                        @foreach ($info as $key => $tarifa) 
+                                            @if ($tarifa['tarifa'] == 'Tarifa video take')
+                                                {{ $tarifa['preu_carrec'] }}€
+                                            @endif
+                                        @endforeach
+                                    </td>
+                                    <td class="col">
+                                        @foreach ($info as $key => $tarifa) 
+                                            @if ($tarifa['tarifa'] == 'Tarifa video cg')
+                                                {{ $tarifa['preu_carrec'] }}€
+                                            @endif
+                                        @endforeach
+                                    </td>
+                                    <td class="col">
+                                        @foreach ($info as $key => $tarifa) 
+                                            @if ($tarifa['tarifa'] == 'Tarifa cine take')
+                                                {{ $tarifa['preu_carrec'] }}€
+                                            @endif
+                                        @endforeach
+                                    </td>
+                                    <td class="col">
+                                        @foreach ($info as $key => $tarifa) 
+                                            @if ($tarifa['tarifa'] == 'Tarifa cine cg')
+                                                {{ $tarifa['preu_carrec'] }}€
+                                            @endif
+                                        @endforeach
+                                    </td>
+                                    <td class="col">
+                                        @foreach ($info as $key => $tarifa) 
+                                            @if ($tarifa['tarifa'] == 'Tarifa docu')
+                                                {{ $tarifa['preu_carrec'] }}€
+                                            @endif
+                                        @endforeach
+                                    </td>
+                                    <td class="col">
+                                        @foreach ($info as $key => $tarifa) 
+                                            @if ($tarifa['tarifa'] == 'Tarifa canso')
+                                                {{ $tarifa['preu_carrec'] }}€
+                                            @endif
+                                        @endforeach
+                                    </td>
+                                    <td class="col">
+                                        @foreach ($info as $key => $tarifa) 
+                                            @if ($tarifa['tarifa'] == 'Tarifa narrador')
+                                                {{ $tarifa['preu_carrec'] }}€
+                                            @endif
+                                        @endforeach
+                                    </td>                                    
+                                </tr>
+
                         @endif
                     @endforeach
                 </tbody>
@@ -194,6 +187,5 @@
         @endforeach
     </div>
 </div>
-    -->
 
 @stop

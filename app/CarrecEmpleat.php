@@ -14,13 +14,7 @@ class CarrecEmpleat extends Model
         'id_carrec',
         'id_idioma',
         'empleat_homologat',
-        'preu_carrec1',
-        'preu_carrec2',
-        'preu_docu',
-        'preu_video_tk',
-        'preu_video_cg',
-        'preu_cine_tk',
-        'preu_cine_cg'
+        'preu_carrec'
     ];
 
     public function empleat()
@@ -36,5 +30,10 @@ class CarrecEmpleat extends Model
     public function carrec()
     {
         return $this->belongsTo('App\Carrec', 'id_carrec', 'id_carrec');
+    }
+    
+    public function tarifa()
+    {
+        return $this->belongsTo('App\Tarifa', 'id_tarifa', 'id');
     }
 }

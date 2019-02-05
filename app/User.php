@@ -63,6 +63,7 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Departament', 'id_departament', 'id_departament');
     }
+    
         
     //Metodos para los roles del usuario
     public function authorizeRoles($roles)
