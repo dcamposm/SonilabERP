@@ -89,7 +89,7 @@ class EmpleatExternController extends Controller
     {
         $empleat = EmpleatExtern::find($id);
         $carrecs = $empleat->carrec;
-
+        $tarifas = Tarifa::select(['nombre', 'id_carrec'])->get();
         // Crea el objeto "carrecsEmpelat" para mostrar las tablas de cargos en el frontend
         $carrecsEmpelat = array();
         foreach ($carrecs as $key => $carrec) {
@@ -110,6 +110,7 @@ class EmpleatExternController extends Controller
             'empleat' => $empleat,
             'carrecsEmpelat' => $carrecsEmpelat,
             //'idioma' => $idioma,
+            'tarifa' => $tarifa->nombre,
         ));
     }
 

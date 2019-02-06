@@ -26,7 +26,7 @@
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-3">Cognoms:</td>
-                <td class="col">{{ $empleat['cognoms_empleat']}}</td>
+                <td class="col">{{ $empleat['cognom1_empleat']}}{{ $empleat['cognom2_empleat']}}</td>
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-3">Sexe:</td>
@@ -119,13 +119,13 @@
                                 </td>
                             </tr>
                                 <tr class="row text-center bg-white">
-                                    <td class="col">Tarifa video take</td>
-                                    <td class="col">Tarifa video cg</td>
-                                    <td class="col">Tarifa cine take</td>
-                                    <td class="col">Tarifa cine cg</td>
-                                    <td class="col">Tarifa docu</td>
-                                    <td class="col">Tarifa canso</td>
-                                    <td class="col">Tarifa narrador</td>
+                                    @if ($key == 'Actor')
+                                        @foreach( $tarifas as $key3 => $tarifa)
+                                            @if($tarifa->id_carrec == 1)
+                                                <td class="col">{{$tarifa->nombre}}</td>
+                                            @endif
+                                        @endforeach
+                                    @endif
                                 </tr>
                                 <tr class="row text-center bg-white">
                                     <td class="col">
