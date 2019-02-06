@@ -205,6 +205,7 @@ class EmpleatExternController extends Controller
 
                 $camposCargos = Carrec::all(); //["director","tecnic_sala","ajustador","actor","traductor","linguista"];
                 $idiomas = Idioma::all(); //["Català", 'Castellà', "Anglès"];
+                $tarifas = Tarifa::all();
 
                 $datos = [];
 
@@ -218,6 +219,7 @@ class EmpleatExternController extends Controller
                         $datos["id_idioma"] = 0;
                         $datos["empleat_homologat"] = 0;
                         $datos["preu_carrec"] = (request()->has("preu_$nomCarrec")) ? request()->input("preu_$nomCarrec") : 0;
+                        
 
                         $carrecEmpleat = new CarrecEmpleat($datos);
                         // TODO: Validar "carrecEmpleat"
@@ -239,6 +241,9 @@ class EmpleatExternController extends Controller
                                 $carrecEmpleat->save();
                             }
                         }
+                        /*if(request()->has("preu_$nomCarrec")){
+                            
+                        }*/
                     }
                 }
             }
