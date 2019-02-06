@@ -25,19 +25,19 @@
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-3">Client:</td>
-                <td class="col">{{ $registreEntrada['id_client']}}</td>
+                <td class="col">{{ $client['nom_client']}}</td>
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-3">Servei:</td>
-                <td class="col">{{ $registreEntrada['id_servei']}}</td>
+                <td class="col">{{ $servei['nom_servei']}}</td>
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-3">Idioma:</td>
-                <td class="col">{{ $registreEntrada['id_idioma']}}</td>
+                <td class="col">{{ $idioma['idioma']}}</td>
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-3">Media:</td>
-                <td class="col">{{ $registreEntrada['id_media']}}</td>
+                <td class="col">{{ $media['nom_media']}}</td>
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-3">Minuts:</td>
@@ -58,6 +58,14 @@
             <tr class="row">
                 <td class="font-weight-bold col-sm-3">Estat:</td>
                 <td class="col">{{ $registreEntrada['estat']}}</td>
+            </tr>
+            <tr class="row">
+                <td class="font-weight-bold col-sm-3">Data de creació:</td>
+                <td class="col">{{ $registreEntrada['created_at']}}</td>
+            </tr>
+            <tr class="row">
+                <td class="font-weight-bold col-sm-3">Última actualització:</td>
+                <td class="col">{{ $registreEntrada['updated_at']}}</td>
             </tr>
         </tbody>
     </table>
