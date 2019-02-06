@@ -40,5 +40,5 @@ Route::get('/registreEntrada/crear', 'RegistreEntradaController@insertView')->na
 Route::post('/registreEntrada/crear', 'RegistreEntradaController@insert')->name('registreEntradaInsert');
 Route::get('/registreEntrada/mostrar/{id}', 'RegistreEntradaController@show')->name('mostrarRegistreEntrada');
 Route::get('/registreEntrada/modificar/{id}', 'RegistreEntradaController@updateView')->name('registreEntradaUpdateView');
-Route::post('/registreEntrada/modificar', 'RegistreEntradaController@update')->name('registreEntradaUpdate');
+Route::post('/registreEntrada/modificar/{id}', 'RegistreEntradaController@update')->name('registreEntradaUpdate');
 Route::post('/registreEntrada/esborrar', 'RegistreEntradaController@delete')->name('esborrarRegistreEntrada');

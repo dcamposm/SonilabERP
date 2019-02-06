@@ -3,8 +3,8 @@
 @section('content')
 
 <div class="container">
-    <h2 style="font-weight: bold">{{!empty($registreEntrada) ? 'Editar registre Entrada' : 'Crear registre Entrada'}}</h2>
-    <form method = "POST" action="{{ route('registreEntradaInsert') }}" enctype="multipart/form-data">
+    <h2 style="font-weight: bold">{{!empty($registreEntrada) ? 'Editar registre d\'entrada' : 'Crear registre d\'entrada'}}</h2>
+    <form method = "POST" action="{{ !empty($registreEntrada) ? route('registreEntradaUpdate', array('id' => $registreEntrada->id_registre_entrada)) : route('registreEntradaInsert') }}" enctype="multipart/form-data">
         @csrf
         <fieldset class="border p-2">
             <legend class="w-auto">Dades:</legend>

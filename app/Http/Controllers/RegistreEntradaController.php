@@ -65,12 +65,51 @@ class RegistreEntradaController extends Controller
 
     public function updateView($id) {
         $registreEntrada = RegistreEntrada::find($id);
-        return view('registre_entrada.create', array('registreEntrada' => $registreEntrada));
+        $clients = Client::all();
+        $idiomes = Idioma::all();
+        $serveis = Servei::all();
+        $medias = TipusMedia::all();
+        return view('registre_entrada.create', array(
+            'registreEntrada' => $registreEntrada,
+            'clients'         => $clients,
+            'idiomes'         => $idiomes,
+            'serveis'         => $serveis,
+            'medias'          => $medias,
+        ));
     }
 
-    public function update() {
-        // TODO: Actualizar registro de entrada.
-
+    public function update($id) {
+        $registreEntrada = RegistreEntrada::find($id);
+        if ($registreEntrada) {
+            $v = Validator::make(request()->all(), [
+                'titol'               => 'required',
+                'entrada'             => 'required',
+                'sortida'             => 'required',
+                'id_client'           => 'required',
+                'id_servei'           => 'required',
+                'id_idioma'           => 'required',
+                'id_media'            => 'required',
+                'minuts'              => 'required',
+                'total_episodis'      => 'required',
+                'episodis_setmanals'  => 'required',
+                'entregues_setmanals' => 'required',
+                'estat'               => 'required',
+            ]);
+    
+            if ($v->fails()) {
+                return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar les dades.'));
+            } else {
+                $registreEntrada->fill(request()->all());
+    
+                try {
+                    $registreEntrada->save(); 
+                } catch (\Exception $ex) {
+                    return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar el registre d\'entrada.'));
+                }
+    
+                return redirect()->back()->with('success', 'Registre d\'entrada modificat correctament.');
+            }
+        }
     }
     
     public function show($id){
