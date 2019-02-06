@@ -128,7 +128,11 @@ class RegistreEntradaController extends Controller
     
     public function show(){
         $registreEntrada = RegistreEntrada::findOrFind($id);
-        return view('registre_entrada.show', array('registreEntrada' => $registreEntrada));
+        $idioma = Idioma::findOrFind($registreEntrada['id_idioma']);
+        $client = Client::findOrFind($registreEntrada['id_client']);
+        $servei = Servei::findOrFind($registreEntrada['id_servei']);
+        $media = Media::findOrFind($registreEntrada['id_media']);
+        return view('registre_entrada.show', array('registreEntrada' => $registreEntrada), array('idioma' => $idioma), array('client' => $client), array('servei' => $servei), array('media' => $media));
         
     }
     public function delete(Request $request) {
