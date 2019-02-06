@@ -73,6 +73,11 @@ class RegistreEntradaController extends Controller
 
     }
     
+    public function show(){
+        $registreEntrada = RegistreEntrada::findOrFind($id);
+        return view('registre_entrada.show', array('registreEntrada' => $registreEntrada));
+        
+    }
     public function delete(Request $request) {
         RegistreEntrada::where('id_registre_entrada', $request["id"])->delete();
         return redirect()->route('indexRegistreEntrada');

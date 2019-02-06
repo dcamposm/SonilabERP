@@ -39,6 +39,7 @@ Route::get('/registreEntrada', 'RegistreEntradaController@index')->name('indexRe
 Route::get('/registreEntrada/crear', 'RegistreEntradaController@insertView')->name('registreEntradaInsertView');
 Route::post('/registreEntrada/crear', 'RegistreEntradaController@insert')->name('registreEntradaInsert');
 Route::get('/registreEntrada/mostrar', 'RegistreEntradaController@index')->name('mostrarRegistreEntrada');  // FIXME: Especificar la función correspondiente cuando esté creada.
+Route::get('/registreEntrada/show/{id}', 'RegistreEntradaController@show')->name('veureRegistreEntrada');
 Route::get('/registreEntrada/modificar/{id}', 'RegistreEntradaController@updateView')->name('registreEntradaUpdateView');
 Route::post('/registreEntrada/modificar', 'RegistreEntradaController@update')->name('registreEntradaUpdate');
 Route::post('/registreEntrada/esborrar', 'RegistreEntradaController@delete')->name('esborrarRegistreEntrada');
