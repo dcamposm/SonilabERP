@@ -73,7 +73,6 @@ class RegistreEntradaController extends Controller
 
     }
     
-<<<<<<< HEAD
     public function show(){
         $registreEntrada = RegistreEntrada::findOrFind($id);
         $idioma = Idioma::findOrFind($registreEntrada['id_idioma']);
@@ -81,12 +80,7 @@ class RegistreEntradaController extends Controller
         $servei = Servei::findOrFind($registreEntrada['id_servei']);
         $media = Media::findOrFind($registreEntrada['id_media']);
         return view('registre_entrada.show', array('registreEntrada' => $registreEntrada), array('idioma' => $idioma), array('client' => $client), array('servei' => $servei), array('media' => $media));
-=======
-    public function show($id){
-        $registreEntrada = RegistreEntrada::find($id);
-        return view('registre_entrada.show', array('registreEntrada' => $registreEntrada));
->>>>>>> 6cb503ff26741f4382950f96a0fff38d4d4586ca
-        
+       
     }
     public function delete(Request $request) {
         RegistreEntrada::where('id_registre_entrada', $request["id"])->delete();
