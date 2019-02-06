@@ -94,17 +94,22 @@ class EmpleatExternController extends Controller
         $carrecsEmpelat = array();
         foreach ($carrecs as $key => $carrec) {
             $idioma = $carrec->idioma;
-            $carrecsEmpelat[$carrec->carrec->nom_carrec][$carrec->id] = array(
-                'id_idioma' => (empty($idioma)) ? 0 : $idioma->id_idioma,
-                'idioma' => (empty($idioma)) ? '' : $idioma->idioma,
+            $tarifa = $carrec->tarifa;
+            $carrecsEmpelat[$carrec->carrec->nom_carrec][(empty($idioma)) ? 0 : $idioma->idioma][$carrec->id] = array(
+                //'idioma' => (empty($idioma)) ? '' : $idioma->idioma,
                 'empleat_homologat' => $carrec->empleat_homologat,
                 'preu_carrec' => $carrec->preu_carrec,
+                'id_tarifa' => $tarifa->id,
+                'tarifa' => $tarifa->nombre,
             );
         }
-
+        
+        //$idioma = Idioma::all();
+        
         return View('empleats_externs.show', array(
             'empleat' => $empleat,
             'carrecsEmpelat' => $carrecsEmpelat,
+            //'idioma' => $idioma,
         ));
     }
 
