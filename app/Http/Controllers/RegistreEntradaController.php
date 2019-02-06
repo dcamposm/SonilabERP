@@ -73,8 +73,8 @@ class RegistreEntradaController extends Controller
 
     }
     
-    public function show(){
-        $registreEntrada = RegistreEntrada::findOrFind($id);
+    public function show($id){
+        $registreEntrada = RegistreEntrada::find($id);
         return view('registre_entrada.show', array('registreEntrada' => $registreEntrada));
         
     }
