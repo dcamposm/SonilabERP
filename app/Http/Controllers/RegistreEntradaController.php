@@ -115,6 +115,16 @@ class RegistreEntradaController extends Controller
             return redirect()->back()->with('success', 'S\'ha creat el personal correctament');
         }
     }
+
+    public function updateView($id) {
+        $registreEntrada = RegistreEntrada::find($id);
+        return view('registre_entrada.create', array('registreEntrada' => $registreEntrada));
+    }
+
+    public function update() {
+        // TODO: Actualizar registro de entrada.
+
+    }
     
     public function delete(Request $request) {
         RegistreEntrada::where('id_registre_entrada', $request["id"])->delete();
