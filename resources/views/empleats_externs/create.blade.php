@@ -190,11 +190,11 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                         <div style="width:65%; float:left; margin-left:5%;">
                             <div id="tarifa_director1" style="display: none;">
                                 <label for="tarifa_director1" style="font-weight: bold">Preu rotllo:</label>
-                                <input type="number" class="form-control" id="tarifa_director1_inp" placeholder="Preu rotllo" name="tarifa_director1" value="{{ isset($carrecs['director']) ? $carrecs['director']['preu_carrec'] : ''}}" {{ isset($carrecs['director']) ? '' : 'disabled' }}>
+                                <input type="number" class="form-control" id="tarifa_director1_inp" placeholder="Preu rotllo" name="preu_director_rotllo" value="{{ isset($carrecs['director']) ? $carrecs['director']['preu_carrec'] : ''}}" {{ isset($carrecs['director']) ? '' : 'disabled' }}>
                             </div>
                             <div id="tarifa_director2" style="display: none;">
                                 <label for="tarifa_director2" style="font-weight: bold">Preu minut:</label>                                        
-                                <input type="number" class="form-control" id="tarifa_director2_inp" placeholder="Preu minut" name="tarifa_director2" value="{{ isset($carrecs['director']) ? $carrecs['director']['preu_carrec'] : ''}}" {{ isset($carrecs['director']) ? '' : 'disabled' }}>
+                                <input type="number" class="form-control" id="tarifa_director2_inp" placeholder="Preu minut" name="preu_director_minut" value="{{ isset($carrecs['director']) ? $carrecs['director']['preu_carrec'] : ''}}" {{ isset($carrecs['director']) ? '' : 'disabled' }}>
                             </div>
                         </div>       
                     </div>
@@ -220,11 +220,11 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                          <div style="width:65%; float:left; margin-left:5%;">
                              <div id="tarifa_tecnic1" style="display: none;">
                                  <label for="tarifa_tecnic1_inp" style="font-weight: bold">Tarifa sala:</label>
-                                 <input type="number" class="form-control" id="tarifa_tecnic1_inp" placeholder="Tarifa sala" name="tarifa_tecnic1" value="{{ isset($carrecs['tecnic_sala']) ? $carrecs['tecnic_sala']['preu_carrec'] : ''}}" {{ isset($carrecs['tecnic_sala']) ? '' : 'disabled' }}>
+                                 <input type="number" class="form-control" id="tarifa_tecnic1_inp" placeholder="Tarifa sala" name="preu_tecnic_sala" value="{{ isset($carrecs['tecnic_sala']) ? $carrecs['tecnic_sala']['preu_carrec'] : ''}}" {{ isset($carrecs['tecnic_sala']) ? '' : 'disabled' }}>
                              </div>
                              <div id="tarifa_tecnic2" style="display: none;">
                                  <label for="tarifa_tecnic2_inp" style="font-weight: bold">Tarifa mix:</label>                                        
-                                 <input type="number" class="form-control" id="tarifa_tecnic2_inp" placeholder="Tarifa mix" name="tarifa_tecnic2" value="{{ isset($carrecs['tecnic_sala']) ? $carrecs['tecnic_sala']['preu_carrec'] : ''}}" {{ isset($carrecs['tecnic_sala']) ? '' : 'disabled' }}>
+                                 <input type="number" class="form-control" id="tarifa_tecnic2_inp" placeholder="Tarifa mix" name="preu_tecnic_mix" value="{{ isset($carrecs['tecnic_sala']) ? $carrecs['tecnic_sala']['preu_carrec'] : ''}}" {{ isset($carrecs['tecnic_sala']) ? '' : 'disabled' }}>
                              </div>
                          </div>       
                      </div>
@@ -325,7 +325,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                                     </td>
                                     <td class="col">
                                     <label for="preu_traductor_{{$idioma->idioma}}" style="font-weight: bold">Preu traductor:</label>
-                                        <input type="number" class="form-control" id="preu_traductor_{{$idioma->idioma}}" placeholder="Entrar preu traductor" name="preu_traductor_{{$idioma->idioma}}" value="{{ isset($carrecs['traductor'][$idioma->idioma]) ? $carrecs['traductor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['traductor'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                        <input type="number" class="form-control" id="preu_traductor_{{$idioma->idioma}}" placeholder="Entrar preu traductor" name="preu_traductor_{{$idioma->idioma}}_traductor" value="{{ isset($carrecs['traductor'][$idioma->idioma]) ? $carrecs['traductor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['traductor'][$idioma->idioma]) ? '' : 'disabled' }}>
                                     </td>
                                 </tr>          
                             @endforeach
@@ -359,7 +359,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                                         </td>
                                         <td class="col">
                                         <label for="preu_ajustador_{{$idioma->idioma}}" style="font-weight: bold">Preu ajustador:</label>
-                                            <input type="number" class="form-control" id="preu_ajustador_{{$idioma->idioma}}" placeholder="Entrar preu ajustador" name="preu_ajustador_{{$idioma->idioma}}" value="{{ isset($carrecs['ajustador'][$idioma->idioma]) ? $carrecs['ajustador'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['ajustador'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                            <input type="number" class="form-control" id="preu_ajustador_{{$idioma->idioma}}" placeholder="Entrar preu ajustador" name="preu_ajustador_{{$idioma->idioma}}_ajustador" value="{{ isset($carrecs['ajustador'][$idioma->idioma]) ? $carrecs['ajustador'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['ajustador'][$idioma->idioma]) ? '' : 'disabled' }}>
                                         </td>
                                     </tr>          
                                 @endforeach
@@ -393,7 +393,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                                     </td>
                                     <td class="col">
                                     <label for="preu_linguista_{{$idioma->idioma}}" style="font-weight: bold">Preu lingüista:</label>
-                                        <input type="number" class="form-control" id="preu_linguista_{{$idioma->idioma}}" placeholder="Entrar preu lingüista" name="preu_linguista_{{$idioma->idioma}}" value="{{ isset($carrecs['linguista'][$idioma->idioma]) ? $carrecs['linguista'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['linguista'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                        <input type="number" class="form-control" id="preu_linguista_{{$idioma->idioma}}" placeholder="Entrar preu lingüista" name="preu_linguista_{{$idioma->idioma}}_linguista" value="{{ isset($carrecs['linguista'][$idioma->idioma]) ? $carrecs['linguista'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['linguista'][$idioma->idioma]) ? '' : 'disabled' }}>
                                     </td>
                                 </tr>          
                             @endforeach

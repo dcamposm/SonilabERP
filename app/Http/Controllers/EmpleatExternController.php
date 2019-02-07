@@ -156,7 +156,7 @@ class EmpleatExternController extends Controller
 
     public function insert()
     {
-        return response()->json(request()->all());
+        //return response()->json(request()->all());
         // return response()->json(["error" => request()->all()], 400);
         $v = Validator::make(request()->all(), [
             'nom_empleat' => 'required',
@@ -206,6 +206,7 @@ class EmpleatExternController extends Controller
 
                 $camposCargos = Carrec::all(); //["director","tecnic_sala","ajustador","actor","traductor","linguista"];
                 $idiomas = Idioma::all(); //["Català", 'Castellà', "Anglès"];
+                $tarifas = Tarifa::all();
 
                 $datos = [];
 
@@ -214,32 +215,48 @@ class EmpleatExternController extends Controller
                     $nomCarrec = $carrec->input_name;
 
                     if (($nomCarrec == "director" || $nomCarrec == "tecnic_sala") && request()->has($nomCarrec)) {
-                        $datos["id_empleat"] = $empleat->id_empleat;
-                        $datos["id_carrec"] = $id_carrec;
-                        $datos["id_idioma"] = 0;
-                        $datos["empleat_homologat"] = 0;
-                        $datos["preu_carrec"] = (request()->has("preu_$nomCarrec")) ? request()->input("preu_$nomCarrec") : 0;
+                        foreach ($tarifas as $key => $tarifa) {
+                            $nombre_corto = $tarifa->nombre_corto;
+                            $id_tarifa = $tarifa->id_tarifa;
 
-                        $carrecEmpleat = new CarrecEmpleat($datos);
-                        // TODO: Validar "carrecEmpleat"
-                        $carrecEmpleat->save();
-                    } else if (request()->has($nomCarrec)) {
-                        foreach ($idiomas as $key => $idioma) {
-                            $id_idioma = $idioma->id_idioma;
-                            $nom_idioma = $idioma->idioma;
-
-                            if (request()->has("idioma_$nomCarrec" . "_$nom_idioma")) {
+                            if(request()->has("preu_$nomCarrec"."_$nombre_corto")){
                                 $datos["id_empleat"] = $empleat->id_empleat;
                                 $datos["id_carrec"] = $id_carrec;
-                                $datos["id_idioma"] = $id_idioma;
-                                $datos["empleat_homologat"] = request()->input("homologat_$nomCarrec" . "_$nom_idioma");
-                                $datos["preu_carrec"] = (request()->has("preu_$nomCarrec" . "_$nom_idioma")) ? request()->input("preu_$nomCarrec" . "_$nom_idioma") : 0;
+                                $datos["id_idioma"] = 0;
+                                $datos["empleat_homologat"] = 0;
+                                $datos["preu_carrec"] = request()->input("preu_$nomCarrec"."_$nombre_corto");//coge el valor mandado del input
+                                $datos["id_tarifa"] = $id_tarifa;
 
                                 $carrecEmpleat = new CarrecEmpleat($datos);
                                 // TODO: Validar "carrecEmpleat"
                                 $carrecEmpleat->save();
                             }
                         }
+                    } else if (request()->has($nomCarrec)) {
+                        foreach ($idiomas as $key => $idioma) {
+                            foreach ($tarifas as $key => $tarifa) {
+                                $nombre_corto = $tarifa->nombre_corto;
+                                $id_tarifa = $tarifa->id_tarifa;
+                                $id_idioma = $idioma->id_idioma;
+                                $nom_idioma = $idioma->idioma;
+
+                                if (request()->has("idioma_$nomCarrec" . "_$nom_idioma") && (request()->has("preu_$nomCarrec" . "_$nom_idioma" . "_$nombre_corto"))) {
+                                    $datos["id_empleat"] = $empleat->id_empleat;
+                                    $datos["id_carrec"] = $id_carrec;
+                                    $datos["id_idioma"] = $id_idioma;
+                                    $datos["empleat_homologat"] = request()->input("homologat_$nomCarrec" . "_$nom_idioma");
+                                    $datos["preu_carrec"] = request()->input("preu_$nomCarrec" . "_$nom_idioma" . "_$nombre_corto");
+                                    $datos["id_tarifa"] = $tarifa->id;
+                                    //(Tarifa::select('id')->where('id_carrec',$id_carrec)->first())->id;
+
+                                    $carrecEmpleat = new CarrecEmpleat($datos);
+                                    // TODO: Validar "carrecEmpleat"
+                                    //return response()->json($datos);
+                                    $carrecEmpleat->save();
+
+                                }   
+                            }
+                        }   
                     }
                 }
             }
