@@ -2,11 +2,35 @@
 
 @section('content')
 
-<div>
-    <a href="{{ url('/empleats/crear') }}" class="btn btn-success">
-        <span class="fas fa-user-plus"></span>
-        Afegir treballador
-    </a>
+<div class="row">
+    <div class="col">
+        <a href="{{ url('/empleats/crear') }}" class="btn btn-success">
+            <span class="fas fa-user-plus"></span>
+            Afegir treballador
+        </a>    
+    </div>
+    
+    <!-- FILTRA EMPLEAT -->
+    <div class="row">    
+        <div class="col">
+            <form method = "GET" action= '{{ route('empleatFind') }}' id='search'>
+                @csrf
+            <div class="input-group">   
+                <select class="custom-select" id='searchBy' name="searchBy" form="search">
+                    <option selected>Buscar per...</option>
+                    <option>Nom o cognoms</option>
+                    <option value="1">Carrec</option>
+                    <option value="2">Sexe</option>
+                    <option value="3">Nacionalitat</option>
+                </select>
+                <input type="text" id="search_term" class="form-control" name="search_term" placeholder="Buscar treballador...">
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-default" type="button"><span class="fas fa-search"></span></button>
+                </span>
+            </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 <div class="row">

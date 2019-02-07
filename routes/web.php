@@ -27,6 +27,7 @@ Route::post('/usuaris/interns/editar/{id}', 'UserController@editarUsuario')->nam
 Route::post('/usuaris/interns/esborrar', 'UserController@esborrarUsuari')->name('esborrarUsuariIntern');
 
 Route::get('/empleats', 'EmpleatExternController@index')->name('empleatIndex');
+Route::get('/empleats/buscar', 'EmpleatExternController@find')->name('empleatFind');
 Route::get('/empleats/mostrar/{id}', 'EmpleatExternController@show')->name('empleatShow');
 Route::get('/empleats/crear', 'EmpleatExternController@insertView')->name('empleatInsertView');
 Route::post('/empleats/crear', 'EmpleatExternController@insert')->name('empleatInsert');
@@ -36,5 +37,8 @@ Route::post('/empleats/esborrar', 'EmpleatExternController@delete')->name('emple
 
 Route::get('/registreEntrada', 'RegistreEntradaController@index')->name('indexRegistreEntrada');
 Route::get('/registreEntrada/crear', 'RegistreEntradaController@insertView')->name('registreEntradaInsertView');
-Route::get('/registreEntrada/mostrar', 'RegistreEntradaController@index')->name('mostrarRegistreEntrada');  // FIXME: Especificar la función correspondiente cuando esté creada.
+Route::post('/registreEntrada/crear', 'RegistreEntradaController@insert')->name('registreEntradaInsert');
+Route::get('/registreEntrada/mostrar/{id}', 'RegistreEntradaController@show')->name('mostrarRegistreEntrada');
+Route::get('/registreEntrada/modificar/{id}', 'RegistreEntradaController@updateView')->name('registreEntradaUpdateView');
+Route::post('/registreEntrada/modificar/{id}', 'RegistreEntradaController@update')->name('registreEntradaUpdate');
 Route::post('/registreEntrada/esborrar', 'RegistreEntradaController@delete')->name('esborrarRegistreEntrada');

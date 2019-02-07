@@ -27,27 +27,91 @@ class EmpleatExternController extends Controller
         $empleats = EmpleatExtern::all();
         return View('empleats_externs.index', array('empleats' => $empleats));
     }
-
+    
+    public function find()
+    {
+        if (request()->input("searchBy") == '1'){  
+            $carrec = Carrec::where('nom_carrec', request()->input("search_term"))->first();
+            
+            try {
+                $carrecEmpleat = $carrec->carrecEmpleat;
+            } catch (\Exception $ex) {
+                $empleats = Array();
+                return View('empleats_externs.index', array('empleats' => $empleats));
+            }
+                        
+            $cont = 0;
+            $empleatsArray = array();
+            foreach ($carrecEmpleat as $empleat){
+                if (!isset($empleatsArray)){                    
+                    $empleatsArray[$cont] = $empleat->id_empleat;
+                    $cont++;
+                } else {
+                    $rep = false;
+                    for ($i = 0; $i < $cont; $i++){
+                        if ($empleatsArray[$i] == $empleat->id_empleat){
+                            $rep = true;
+                            $i = $cont;
+                        }
+                    }
+                    
+                    if ($rep == false) {
+                        $empleatsArray[$cont] = $empleat->id_empleat;
+                        $cont++;
+                    }
+                }
+            }
+            
+            $empleats = Array();
+            
+            for ($i = 0; $i < count($empleatsArray); $i++){
+                $empleats[$i] =  EmpleatExtern::where('id_empleat', $empleatsArray[$i])->first();
+            }
+            
+            //return redirect()->route('empleatIndex')->with('success', $empleats);
+            
+        } else if (request()->input("searchBy") == '2'){
+            $empleats = EmpleatExtern::where('sexe_empleat', request()->input("search_term"))->get();
+        } else if (request()->input("searchBy") == '3'){
+            $empleats = EmpleatExtern::where('nacionalitat_empleat', request()->input("search_term"))->get();
+        } else {
+            $empleats = EmpleatExtern::where('nom_empleat', request()->input("search_term"))
+                    ->orWhere('cognom1_empleat', request()->input("search_term"))
+                    ->orWhere('cognom2_empleat', request()->input("search_term"))->get();
+        }
+        
+        
+        //return redirect()->route('empleatIndex')->with('success', request()->input("searchBy").'-'.request()->input("search_term"));
+        return View('empleats_externs.index', array('empleats' => $empleats));
+    }
+    
     public function show($id)
     {
         $empleat = EmpleatExtern::find($id);
         $carrecs = $empleat->carrec;
-
+        $tarifas = Tarifa::all();
         // Crea el objeto "carrecsEmpelat" para mostrar las tablas de cargos en el frontend
         $carrecsEmpelat = array();
         foreach ($carrecs as $key => $carrec) {
             $idioma = $carrec->idioma;
-            $carrecsEmpelat[$carrec->carrec->nom_carrec][$carrec->id] = array(
-                'id_idioma' => (empty($idioma)) ? 0 : $idioma->id_idioma,
-                'idioma' => (empty($idioma)) ? '' : $idioma->idioma,
+            $tarifa = $carrec->tarifa;
+            $carrecsEmpelat[$carrec->carrec->nom_carrec][(empty($idioma)) ? 0 : $idioma->idioma][$carrec->id] = array(
+                //'idioma' => (empty($idioma)) ? '' : $idioma->idioma,
+                'nomCarrec' => $carrec->carrec->nom_carrec,
                 'empleat_homologat' => $carrec->empleat_homologat,
+                'rotllo' => $carrec->rotllo,
                 'preu_carrec' => $carrec->preu_carrec,
+                'id_tarifa' => $tarifa->id,
+                'tarifa' => $tarifa->nombre,
             );
         }
-
+        
+        //$idioma = Idioma::all();
+        
         return View('empleats_externs.show', array(
             'empleat' => $empleat,
             'carrecsEmpelat' => $carrecsEmpelat,
+            'tarifas' => $tarifas,
         ));
     }
 
@@ -76,6 +140,7 @@ class EmpleatExternController extends Controller
             } else {
                 $carrecsData[$carrecEmp->carrec->input_name][$carrecEmp->idioma->idioma] = array(
                     'empleat_homologat' => $carrecEmp->empleat_homologat,
+                    'rotllo' => $carrecEmp->rotllo,
                     'preu_carrec' => $carrecEmp->preu_carrec,
                 );
             }
@@ -93,7 +158,7 @@ class EmpleatExternController extends Controller
 
     public function insert()
     {
-        return response()->json(request()->all());
+        //return response()->json(request()->all());
         // return response()->json(["error" => request()->all()], 400);
         $v = Validator::make(request()->all(), [
             'nom_empleat' => 'required',
@@ -143,6 +208,7 @@ class EmpleatExternController extends Controller
 
                 $camposCargos = Carrec::all(); //["director","tecnic_sala","ajustador","actor","traductor","linguista"];
                 $idiomas = Idioma::all(); //["Català", 'Castellà', "Anglès"];
+                $tarifas = Tarifa::all();
 
                 $datos = [];
 
@@ -151,32 +217,50 @@ class EmpleatExternController extends Controller
                     $nomCarrec = $carrec->input_name;
 
                     if (($nomCarrec == "director" || $nomCarrec == "tecnic_sala") && request()->has($nomCarrec)) {
-                        $datos["id_empleat"] = $empleat->id_empleat;
-                        $datos["id_carrec"] = $id_carrec;
-                        $datos["id_idioma"] = 0;
-                        $datos["empleat_homologat"] = 0;
-                        $datos["preu_carrec"] = (request()->has("preu_$nomCarrec")) ? request()->input("preu_$nomCarrec") : 0;
+                        foreach ($tarifas as $key => $tarifa) {
+                            $nombre_corto = $tarifa->nombre_corto;
+                            $id_tarifa = $tarifa->id_tarifa;
 
-                        $carrecEmpleat = new CarrecEmpleat($datos);
-                        // TODO: Validar "carrecEmpleat"
-                        $carrecEmpleat->save();
-                    } else if (request()->has($nomCarrec)) {
-                        foreach ($idiomas as $key => $idioma) {
-                            $id_idioma = $idioma->id_idioma;
-                            $nom_idioma = $idioma->idioma;
-
-                            if (request()->has("idioma_$nomCarrec" . "_$nom_idioma")) {
+                            if(request()->has("preu_$nomCarrec"."_$nombre_corto")){
                                 $datos["id_empleat"] = $empleat->id_empleat;
                                 $datos["id_carrec"] = $id_carrec;
-                                $datos["id_idioma"] = $id_idioma;
-                                $datos["empleat_homologat"] = request()->input("homologat_$nomCarrec" . "_$nom_idioma");
-                                $datos["preu_carrec"] = (request()->has("preu_$nomCarrec" . "_$nom_idioma")) ? request()->input("preu_$nomCarrec" . "_$nom_idioma") : 0;
+                                $datos["id_idioma"] = 0;
+                                $datos["empleat_homologat"] = 0;
+                                $datos["rotllo"] = 0;
+                                $datos["preu_carrec"] = request()->input("preu_$nomCarrec"."_$nombre_corto");//coge el valor mandado del input
+                                $datos["id_tarifa"] = $id_tarifa;
 
                                 $carrecEmpleat = new CarrecEmpleat($datos);
                                 // TODO: Validar "carrecEmpleat"
                                 $carrecEmpleat->save();
                             }
                         }
+                    } else if (request()->has($nomCarrec)) {
+                        foreach ($idiomas as $key => $idioma) {
+                            foreach ($tarifas as $key => $tarifa) {
+                                $nombre_corto = $tarifa->nombre_corto;
+                                $id_tarifa = $tarifa->id_tarifa;
+                                $id_idioma = $idioma->id_idioma;
+                                $nom_idioma = $idioma->idioma;
+
+                                if (request()->has("idioma_$nomCarrec" . "_$nom_idioma") && (request()->has("preu_$nomCarrec" . "_$nom_idioma" . "_$nombre_corto"))) {
+                                    $datos["id_empleat"] = $empleat->id_empleat;
+                                    $datos["id_carrec"] = $id_carrec;
+                                    $datos["id_idioma"] = $id_idioma;
+                                    $datos["empleat_homologat"] = request()->input("homologat_$nomCarrec" . "_$nom_idioma");
+                                    $datos["rotllo"] = (request()->has("rotllo_$nomCarrec" . "_$nom_idioma")) ? request()->input("rotllo_$nomCarrec" . "_$nom_idioma") : 0;
+                                    $datos["preu_carrec"] = request()->input("preu_$nomCarrec" . "_$nom_idioma" . "_$nombre_corto");
+                                    $datos["id_tarifa"] = $tarifa->id;
+                                    //(Tarifa::select('id')->where('id_carrec',$id_carrec)->first())->id;
+
+                                    $carrecEmpleat = new CarrecEmpleat($datos);
+                                    // TODO: Validar "carrecEmpleat"
+                                    //return response()->json($datos);
+                                    $carrecEmpleat->save();
+
+                                }   
+                            }
+                        }   
                     }
                 }
             }
@@ -242,6 +326,7 @@ class EmpleatExternController extends Controller
                         $datos["id_carrec"] = $id_carrec;
                         $datos["id_idioma"] = 0;
                         $datos["empleat_homologat"] = 0;
+                        $datos["rotllo"] = 0;
                         $datos["preu_carrec"] = (request()->has("preu_$nomCarrec")) ? request()->input("preu_$nomCarrec") : 0;
 
                         $carrecAntic = CarrecEmpleat::where([
@@ -271,6 +356,7 @@ class EmpleatExternController extends Controller
                                 $datos["id_carrec"] = $id_carrec;
                                 $datos["id_idioma"] = $id_idioma;
                                 $datos["empleat_homologat"] = request()->input("homologat_$nomCarrec" . "_$nom_idioma") ;
+                                $datos["rotllo"] = request()->input("rotllo_$nomCarrec" . "_$nom_idioma") ;
                                 $datos["preu_carrec"] = (request()->has("preu_$nomCarrec" . "_$nom_idioma")) ? request()->input("preu_$nomCarrec" . "_$nom_idioma") : 0;
 
                                 $carrecAntic = CarrecEmpleat::where([

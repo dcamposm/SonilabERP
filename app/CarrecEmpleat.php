@@ -14,7 +14,9 @@ class CarrecEmpleat extends Model
         'id_carrec',
         'id_idioma',
         'empleat_homologat',
-        'preu_carrec'
+        'rotllo',
+        'preu_carrec',
+        'id_tarifa'
     ];
 
     public function empleat()

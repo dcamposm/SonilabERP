@@ -2,16 +2,9 @@
 
 @section('content')
 
-<?php
-
-use Carbon\Carbon;
-
-$fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
-?>
-
 <div class="container">
-    <h2 style="font-weight: bold">{{!empty($registreEntrada) ? 'Editar registre Entrada' : 'Crear registre Entrada'}}</h2>
-    <form method = "POST" action="#" enctype="multipart/form-data">
+    <h2 style="font-weight: bold">{{!empty($registreEntrada) ? 'Editar registre d\'entrada' : 'Crear registre d\'entrada'}}</h2>
+    <form method = "POST" action="{{ !empty($registreEntrada) ? route('registreEntradaUpdate', array('id' => $registreEntrada->id_registre_entrada)) : route('registreEntradaInsert') }}" enctype="multipart/form-data">
         @csrf
         <fieldset class="border p-2">
             <legend class="w-auto">Dades:</legend>
@@ -61,7 +54,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                     <label for="idioma" style="font-weight: bold">Selecciona idioma:</label>
                     <select class="form-control" name="id_idioma">
                         @foreach( $idiomes as $idioma )
-                        <option value="{{$servei['id_idioma']}}" {{(!empty($registreEntrada) && $registreEntrada->id_registre_entrada == $idioma['id_idioma']) ? 'selected' : ''}} >{{$idioma['idioma']}}</option>
+                        <option value="{{$idioma['id_idioma']}}" {{(!empty($registreEntrada) && $registreEntrada->id_registre_entrada == $idioma['id_idioma']) ? 'selected' : ''}} >{{$idioma['idioma']}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -108,9 +101,9 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                 <div class="col-6">
                         <label for="episodis_setmanals" style="font-weight: bold">Estat:</label>
                         <select class="form-control" name="estat">
-                            <option value="Pendent" {{(!empty($empleat) && $empleat->estat == 'Pendent') ? 'selected' : ''}}>Pendent</option>
-                            <option value="Finalitzada" {{(!empty($empleat) && $empleat->estat == 'Finalitzada') ? 'selected' : ''}}>Finalitzada</option>
-                            <option value="Cancelada" {{(!empty($empleat) && $empleat->estat == 'Cancelada') ? 'selected' : ''}}>Cancelada</option>
+                            <option value="Pendent" {{(!empty($registreEntrada) && $registreEntrada->estat == 'Pendent') ? 'selected' : ''}}>Pendent</option>
+                            <option value="Finalitzada" {{(!empty($registreEntrada) && $registreEntrada->estat == 'Finalitzada') ? 'selected' : ''}}>Finalitzada</option>
+                            <option value="Cancel·lada" {{(!empty($registreEntrada) && $registreEntrada->estat == 'Cancel·lada') ? 'selected' : ''}}>Cancel·lada</option>
                         </select>
                 </div>
 
@@ -122,7 +115,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
         <!-- BOTÓN DE CREAR O ACTUALIZAR -->
         <div class="row">
             <div class="col-6">
-                <button type="submit" class="btn btn-success col-4">{{!empty($empleat) ? 'Desar canvis' : 'Crear'}}</button>
+                <button type="submit" class="btn btn-success col-4">{{!empty($registreEntrada) ? 'Desar canvis' : 'Crear'}}</button>
             </div>
         </div>
         <br>
