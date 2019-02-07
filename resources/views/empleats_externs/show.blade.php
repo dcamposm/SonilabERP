@@ -91,15 +91,25 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach( $carrec as $key => $info )
+                    @foreach( $carrec as $key2 => $info )
+
+                        
+
                         @if (empty($info['idioma']))
-                            <tr class="row ">
-                                <td class="col"></td>
-                                <td class="col">{{ $info['empleat_homologat'] ? 'Homologat' : 'No homologat' }}</td>
+                            @if( $key == 'Director')
+                            <tr class="row text-center bg-white">
+                                <td class="col">Preu rotllo</td>
+                                <td class="col">Preu minut</td>
                             </tr>
+                            <tr class="row text-center bg-white">
+                                <td class="col">{{ $info['preu_carrec'] }}€</td>
+                                <td class="col">{{ $info['preu_carrec'] }}€</td>
+                            </tr>
+                            @elseif( $key == 'Tècnic de sala')
                             <tr class="row">
                                 <td class="col">{{ $info['preu_carrec'] }}€</td>
                             </tr>
+                            @endif
                         @else
                             <tr class="row ">
                                 <td class="col-1"><img src="{{url('/')}}/img/flags/{{$info['id_idioma']}}.png" class="rounded"> {{ $info['idioma'] }}</td>
