@@ -89,7 +89,7 @@ class EmpleatExternController extends Controller
     {
         $empleat = EmpleatExtern::find($id);
         $carrecs = $empleat->carrec;
-        $tarifas = Tarifa::select(['nombre', 'id_carrec'])->get();
+        $tarifas = Tarifa::all();
         // Crea el objeto "carrecsEmpelat" para mostrar las tablas de cargos en el frontend
         $carrecsEmpelat = array();
         foreach ($carrecs as $key => $carrec) {
@@ -97,6 +97,7 @@ class EmpleatExternController extends Controller
             $tarifa = $carrec->tarifa;
             $carrecsEmpelat[$carrec->carrec->nom_carrec][(empty($idioma)) ? 0 : $idioma->idioma][$carrec->id] = array(
                 //'idioma' => (empty($idioma)) ? '' : $idioma->idioma,
+                'nomCarrec' => $carrec->carrec->nom_carrec,
                 'empleat_homologat' => $carrec->empleat_homologat,
                 'preu_carrec' => $carrec->preu_carrec,
                 'id_tarifa' => $tarifa->id,
@@ -109,8 +110,7 @@ class EmpleatExternController extends Controller
         return View('empleats_externs.show', array(
             'empleat' => $empleat,
             'carrecsEmpelat' => $carrecsEmpelat,
-            //'idioma' => $idioma,
-            'tarifa' => $tarifa->nombre,
+            'tarifas' => $tarifas,
         ));
     }
 

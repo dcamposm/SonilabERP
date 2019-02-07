@@ -38,7 +38,7 @@ class slb_carrecs_empleats extends Seeder
             'id_idioma'         => 1,
             'empleat_homologat' => true,
             'preu_carrec'       => 99,
-            'id_tarifa'         => 10
+            'id_tarifa'         => 12
         ));
         CarrecEmpleat::create(array(
             'id'                => 4,
