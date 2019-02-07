@@ -114,6 +114,14 @@
                                     @endif
                                 @endforeach
                                 </td>
+                                <td class="col">
+                                @foreach ($info as $key3 => $tarifa) 
+                                    @if ($tarifa['rotllo'] == '1')
+                                        Rotllo
+                                        @break
+                                    @endif
+                                @endforeach
+                                </td>
                             </tr>
                             <tr class="row text-center bg-white">
                                 @foreach ($info as $key => $infoTarifa) 
