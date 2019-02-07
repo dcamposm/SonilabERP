@@ -248,7 +248,7 @@ class EmpleatExternController extends Controller
                                     $datos["id_carrec"] = $id_carrec;
                                     $datos["id_idioma"] = $id_idioma;
                                     $datos["empleat_homologat"] = request()->input("homologat_$nomCarrec" . "_$nom_idioma");
-                                    $datos["rotllo"] = request()->input("rotllo_$nomCarrec" . "_$nom_idioma");
+                                    $datos["rotllo"] = (request()->has("rotllo_$nomCarrec" . "_$nom_idioma")) ? request()->input("rotllo_$nomCarrec" . "_$nom_idioma") : 0;
                                     $datos["preu_carrec"] = request()->input("preu_$nomCarrec" . "_$nom_idioma" . "_$nombre_corto");
                                     $datos["id_tarifa"] = $tarifa->id;
                                     //(Tarifa::select('id')->where('id_carrec',$id_carrec)->first())->id;
@@ -359,7 +359,7 @@ class EmpleatExternController extends Controller
                                 $datos["id_idioma"] = $id_idioma;
                                 $datos["empleat_homologat"] = request()->input("homologat_$nomCarrec" . "_$nom_idioma") ;
                                 $datos["rotllo"] = request()->input("rotllo_$nomCarrec" . "_$nom_idioma") ;
-                                $datos["preu_carrec"] = (request()->has("preu_$nomCarrec" . "_$nom_idioma" . "_$nombre_corto")) ? request()->input("preu_$nomCarrec" . "_$nom_idioma" . "_$nombre_corto") : 0;
+                                $datos["preu_carrec"] = (request()->has("preu_$nomCarrec" . "_$nom_idioma")) ? request()->input("preu_$nomCarrec" . "_$nom_idioma") : 0;
 
                                 $carrecAntic = CarrecEmpleat::where([
                                     ['id_empleat', '=', $id],
