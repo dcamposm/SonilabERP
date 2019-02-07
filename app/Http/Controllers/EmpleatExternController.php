@@ -99,6 +99,7 @@ class EmpleatExternController extends Controller
                 //'idioma' => (empty($idioma)) ? '' : $idioma->idioma,
                 'nomCarrec' => $carrec->carrec->nom_carrec,
                 'empleat_homologat' => $carrec->empleat_homologat,
+                'rotllo' => $carrec->rotllo,
                 'preu_carrec' => $carrec->preu_carrec,
                 'id_tarifa' => $tarifa->id,
                 'tarifa' => $tarifa->nombre,
@@ -139,6 +140,7 @@ class EmpleatExternController extends Controller
             } else {
                 $carrecsData[$carrecEmp->carrec->input_name][$carrecEmp->idioma->idioma] = array(
                     'empleat_homologat' => $carrecEmp->empleat_homologat,
+                    'rotllo' => $carrecEmp->rotllo,
                     'preu_carrec' => $carrecEmp->preu_carrec,
                 );
             }
@@ -224,6 +226,7 @@ class EmpleatExternController extends Controller
                                 $datos["id_carrec"] = $id_carrec;
                                 $datos["id_idioma"] = 0;
                                 $datos["empleat_homologat"] = 0;
+                                $datos["rotllo"] = 0;
                                 $datos["preu_carrec"] = request()->input("preu_$nomCarrec"."_$nombre_corto");//coge el valor mandado del input
                                 $datos["id_tarifa"] = $id_tarifa;
 
@@ -245,6 +248,7 @@ class EmpleatExternController extends Controller
                                     $datos["id_carrec"] = $id_carrec;
                                     $datos["id_idioma"] = $id_idioma;
                                     $datos["empleat_homologat"] = request()->input("homologat_$nomCarrec" . "_$nom_idioma");
+                                    $datos["rotllo"] = request()->input("rotllo_$nomCarrec" . "_$nom_idioma");
                                     $datos["preu_carrec"] = request()->input("preu_$nomCarrec" . "_$nom_idioma" . "_$nombre_corto");
                                     $datos["id_tarifa"] = $tarifa->id;
                                     //(Tarifa::select('id')->where('id_carrec',$id_carrec)->first())->id;
@@ -322,6 +326,7 @@ class EmpleatExternController extends Controller
                         $datos["id_carrec"] = $id_carrec;
                         $datos["id_idioma"] = 0;
                         $datos["empleat_homologat"] = 0;
+                        $datos["rotllo"] = 0;
                         $datos["preu_carrec"] = (request()->has("preu_$nomCarrec")) ? request()->input("preu_$nomCarrec") : 0;
 
                         $carrecAntic = CarrecEmpleat::where([
@@ -351,6 +356,7 @@ class EmpleatExternController extends Controller
                                 $datos["id_carrec"] = $id_carrec;
                                 $datos["id_idioma"] = $id_idioma;
                                 $datos["empleat_homologat"] = request()->input("homologat_$nomCarrec" . "_$nom_idioma") ;
+                                $datos["rotllo"] = request()->input("rotllo_$nomCarrec" . "_$nom_idioma") ;
                                 $datos["preu_carrec"] = (request()->has("preu_$nomCarrec" . "_$nom_idioma")) ? request()->input("preu_$nomCarrec" . "_$nom_idioma") : 0;
 
                                 $carrecAntic = CarrecEmpleat::where([

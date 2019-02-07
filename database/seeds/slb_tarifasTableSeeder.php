@@ -71,31 +71,37 @@ class slb_tarifasTableSeeder extends Seeder
             'id' => '10',
             'nombre' => 'Tarifa docu',
             'id_carrec' => '1',
+            'nombre_corto' => 'docu',
         ));
         Tarifa::create(array(
             'id' => '11',
             'nombre' => 'Tarifa narrador',
             'id_carrec' => '1',
+            'nombre_corto' => 'narrador',
         ));
         Tarifa::create(array(
             'id' => '12',
             'nombre' => 'Tarifa traductor',
             'id_carrec' => '4',
+            'nombre_corto' => 'traductor',
         ));
         Tarifa::create(array(
             'id' => '13',
             'nombre' => 'Tarifa ajustador',
             'id_carrec' => '5',
+            'nombre_corto' => 'ajustador',
         ));
         Tarifa::create(array(
             'id' => '14',
             'nombre' => 'Tarifa lingüista',
             'id_carrec' => '6',
-        ));
+            'nombre_corto' => 'linguista',
+        ));    
         Tarifa::create(array(
             'id' => '15',
             'nombre' => 'Tarifa sinopsi',
             'id_carrec' => '4',
+            'nombre_corto' => 'sinopsi',
         ));
     }
 }

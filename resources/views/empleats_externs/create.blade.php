@@ -324,6 +324,13 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                                         </select>
                                     </td>
                                     <td class="col">
+                                        <label for="rotllo_traductor_{{$idioma->idioma}}" style="font-weight: bold">Rotllo:</label>
+                                        <select class="form-control" id="rotllo_traductor_{{$idioma->idioma}}" name="rotllo_traductor_{{$idioma->idioma}}" {{ isset($carrecs['traductor'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                            <option value="0" {{ (isset($carrecs['traductor'][$idioma->idioma]) && $carrecs['traductor'][$idioma->idioma]['rotllo'] == false) ? 'selected' : ''}}>NO</option>
+                                            <option value="1" {{ (isset($carrecs['traductor'][$idioma->idioma]) && $carrecs['traductor'][$idioma->idioma]['rotllo'] == true) ? 'selected' : ''}}>SI</option>
+                                        </select>
+                                    </td>
+                                    <td class="col">
                                     <label for="preu_traductor_{{$idioma->idioma}}" style="font-weight: bold">Preu traductor:</label>
                                         <input type="number" class="form-control" id="preu_traductor_{{$idioma->idioma}}" placeholder="Entrar preu traductor" name="preu_traductor_{{$idioma->idioma}}_traductor" value="{{ isset($carrecs['traductor'][$idioma->idioma]) ? $carrecs['traductor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['traductor'][$idioma->idioma]) ? '' : 'disabled' }}>
                                     </td>
@@ -358,6 +365,13 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                                             </select>
                                         </td>
                                         <td class="col">
+                                            <label for="rotllo_ajustador_{{$idioma->idioma}}" style="font-weight: bold">Rotllo:</label>
+                                            <select class="form-control" id="rotllo_ajustador_{{$idioma->idioma}}" name="rotllo_ajustador_{{$idioma->idioma}}" {{ isset($carrecs['ajustador'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                                <option value="0" {{ (isset($carrecs['ajustador'][$idioma->idioma]) && $carrecs['ajustador'][$idioma->idioma]['rotllo'] == false) ? 'selected' : ''}}>NO</option>
+                                                <option value="1" {{ (isset($carrecs['ajustador'][$idioma->idioma]) && $carrecs['ajustador'][$idioma->idioma]['rotllo'] == true) ? 'selected' : ''}}>SI</option>
+                                            </select>
+                                        </td>
+                                        <td class="col">
                                         <label for="preu_ajustador_{{$idioma->idioma}}" style="font-weight: bold">Preu ajustador:</label>
                                             <input type="number" class="form-control" id="preu_ajustador_{{$idioma->idioma}}" placeholder="Entrar preu ajustador" name="preu_ajustador_{{$idioma->idioma}}_ajustador" value="{{ isset($carrecs['ajustador'][$idioma->idioma]) ? $carrecs['ajustador'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['ajustador'][$idioma->idioma]) ? '' : 'disabled' }}>
                                         </td>
@@ -389,6 +403,13 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                                         <select class="form-control" id="homologat_linguista_{{$idioma->idioma}}" name="homologat_linguista_{{$idioma->idioma}}" {{ isset($carrecs['linguista'][$idioma->idioma]) ? '' : 'disabled' }}>
                                             <option value="0" {{ (isset($carrecs['linguista'][$idioma->idioma]) && $carrecs['linguista'][$idioma->idioma]['empleat_homologat'] == false) ? 'selected' : ''}}>NO</option>
                                             <option value="1" {{ (isset($carrecs['linguista'][$idioma->idioma]) && $carrecs['linguista'][$idioma->idioma]['empleat_homologat'] == true) ? 'selected' : ''}}>SI</option>
+                                        </select>
+                                    </td>
+                                    <td class="col">
+                                        <label for="rotllo_linguista_{{$idioma->idioma}}" style="font-weight: bold">Rotllo:</label>
+                                        <select class="form-control" id="rotllo_linguista_{{$idioma->idioma}}" name="rotllo_linguista_{{$idioma->idioma}}" {{ isset($carrecs['linguista'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                            <option value="0" {{ (isset($carrecs['linguista'][$idioma->idioma]) && $carrecs['linguista'][$idioma->idioma]['rotllo'] == false) ? 'selected' : ''}}>NO</option>
+                                            <option value="1" {{ (isset($carrecs['linguista'][$idioma->idioma]) && $carrecs['linguista'][$idioma->idioma]['rotllo'] == true) ? 'selected' : ''}}>SI</option>
                                         </select>
                                     </td>
                                     <td class="col">
@@ -578,6 +599,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
 
         if (document.getElementById("idioma_"+carrec+"_"+idioma).checked == true ) {
             document.getElementById("homologat_"+carrec+"_"+idioma).removeAttribute('disabled');
+            document.getElementById("rotllo_"+carrec+"_"+idioma).removeAttribute('disabled');
             if (type == 1){
                 document.getElementById(idioma+'_'+carrec+'_tarifas').removeAttribute('disabled');
             } else {
@@ -585,6 +607,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
             }
         }else{
             document.getElementById("homologat_"+carrec+"_"+idioma).setAttribute('disabled',"");
+            document.getElementById("rotllo_"+carrec+"_"+idioma).setAttribute('disabled',"");
             if (type == 1){
                 document.getElementById(idioma+'_'+carrec+'_tarifas').setAttribute('disabled',"");
             } else {
