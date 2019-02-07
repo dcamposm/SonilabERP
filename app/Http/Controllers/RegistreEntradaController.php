@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\RegistreEntrada;
+use App\Idioma;
+use App\Client;
+use App\Servei;
 
 class RegistreEntradaController extends Controller
 {
@@ -15,10 +18,16 @@ class RegistreEntradaController extends Controller
     
     public function index()
     {
-        $registreEntrades = RegistreEntrada::all();
+        $registreEntrades = RegistreEntrada::with('client')->get();
         return View('registre_entrada.index', array('registreEntrades' => $registreEntrades));
     }
-    
+    public function insertView(){
+        $clients = Client::select('nom_client')->get();
+        $idiomes = Idioma::select('idioma')->get();
+        $serveis = Servei::select('nom_servei')->get();
+        return View('registre_entrada.create', array('idiomes' => $idiomes, 'clients' => $clients,'serveis'=>$serveis));
+    }
+
     public function insert()
     {
         // return response()->json(["error" => request()->all()], 400);
@@ -105,6 +114,8 @@ class RegistreEntradaController extends Controller
         }
     }
     
-    
-    
+    public function delete(Request $request) {
+        RegistreEntrada::where('id_registre_entrada', $request["id"])->delete();
+        return redirect()->route('indexRegistreEntrada');
+    }
 }

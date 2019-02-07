@@ -23,6 +23,10 @@
     <link href="{{ asset('css/project.css') }}" rel="stylesheet">
 
     <style>
+    .cursor {
+        cursor: pointer;
+    }
+
     /* Usuaris i empleats */
     .card-shadow {
         box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
@@ -38,10 +42,20 @@
         border-left: 10px solid lawngreen !important;
     }
     .border-warning {
-        border-left: 10px solid yellow !important;
+        border-left: 10px solid darkorange !important;
     }
     .border-danger {
         border-left: 10px solid red !important;
+    }
+    .llegenda {
+        float: left;
+        margin-right: 15px;
+    }
+    .table-selected:hover {
+        background-color: #E3E3E3;
+    }
+    .table td {
+        padding: .50rem !important;
     }
 
     </style>
