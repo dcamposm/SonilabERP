@@ -290,6 +290,14 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                                             <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa canso:</label>
                                             <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_canso" placeholder="Tarifa canso" name="preu_actor_{{$idioma->idioma}}_canso" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
                                         </div>
+                                        <div id="tarifa_actor6_{{$idioma->idioma}}" style="display: none;">
+                                            <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa docu:</label>
+                                            <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_docu" placeholder="Tarifa docu" name="preu_actor_{{$idioma->idioma}}_docu" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                        </div>
+                                        <div id="tarifa_actor7_{{$idioma->idioma}}" style="display: none;">
+                                            <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa narrador:</label>
+                                            <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_narrador" placeholder="Tarifa narrador" name="preu_actor_{{$idioma->idioma}}_narrador" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                        </div>
                                     </td>
                                 </tr>
                                     
@@ -481,6 +489,14 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                         document.getElementById('tarifa_'+ cargo + '5' + lang).style.display = ''
                         document.getElementById('preu_'+ cargo + '_' + idioma + '_canso').removeAttribute('disabled')
                         break
+                    case 'Tarifa docu':
+                        document.getElementById('tarifa_'+ cargo + '6' + lang).style.display = ''
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_docu').removeAttribute('disabled')
+                        break
+                    case 'Tarifa narrador':
+                        document.getElementById('tarifa_'+ cargo + '7' + lang).style.display = ''
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_narrador').removeAttribute('disabled')
+                        break
                     case 'Preu rotllo':
                     case 'Tarifa sala':
                         document.getElementById('tarifa_'+ cargo + '1').style.display = ''
@@ -518,6 +534,14 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                         document.getElementById('tarifa_'+ cargo + '5' + lang).style.display = 'none'
                         document.getElementById('preu_'+ cargo + '_' + idioma + '_canso').setAttribute('disabled' , '')
                         break
+                    case 'Tarifa docu':
+                        document.getElementById('tarifa_'+ cargo + '6' + lang).style.display = 'none'
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_docu').setAttribute('disabled' , '')
+                        break
+                    case 'Tarifa narrador':
+                        document.getElementById('tarifa_'+ cargo + '7' + lang).style.display = 'none'
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_narrador').setAttribute('disabled' , '')
+                        break
                     case 'Preu rotllo':
                     case 'Tarifa sala':
                         document.getElementById('tarifa_'+ cargo + '1').style.display = 'none'
@@ -543,7 +567,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
             case "actor":
                         if (colActor.style.display == 'none') {
                             colActor.style.display = 'block';
-                            localStorage.setItem('colActor', 'block')
+                            localStorage.setItem('colActor', 'block');
                         } else {
                             colActor.style.display = 'none';
                         }
@@ -596,22 +620,22 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                 elements[i].selected = false;
             }
         }
-
+        
         if (document.getElementById("idioma_"+carrec+"_"+idioma).checked == true ) {
             document.getElementById("homologat_"+carrec+"_"+idioma).removeAttribute('disabled');
-            document.getElementById("rotllo_"+carrec+"_"+idioma).removeAttribute('disabled');
             if (type == 1){
                 document.getElementById(idioma+'_'+carrec+'_tarifas').removeAttribute('disabled');
             } else {
-                document.getElementById('preu_'+carrec+'_'+idioma).removeAttribute('disabled');                
+                document.getElementById('preu_'+carrec+'_'+idioma).removeAttribute('disabled');
+                document.getElementById("rotllo_"+carrec+"_"+idioma).removeAttribute('disabled');
             }
         }else{
             document.getElementById("homologat_"+carrec+"_"+idioma).setAttribute('disabled',"");
-            document.getElementById("rotllo_"+carrec+"_"+idioma).setAttribute('disabled',"");
             if (type == 1){
                 document.getElementById(idioma+'_'+carrec+'_tarifas').setAttribute('disabled',"");
             } else {
-                document.getElementById('preu_'+carrec+'_'+idioma).setAttribute('disabled',"");       
+                document.getElementById('preu_'+carrec+'_'+idioma).setAttribute('disabled',"");
+                document.getElementById("rotllo_"+carrec+"_"+idioma).setAttribute('disabled',"");
             }
             clearSelected(document.getElementById(idioma+'_'+carrec+'_tarifas'))
         }

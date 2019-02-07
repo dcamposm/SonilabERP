@@ -175,15 +175,15 @@
                                         </td>
                                         <td class="col">
                                             @foreach ($info as $key2 => $infoTarifa) 
-                                                @if ($infoTarifa['tarifa'] == 'Tarifa docu')
+                                                @if ($infoTarifa['tarifa'] == 'Tarifa canso')
                                                     {{ $infoTarifa['preu_carrec'] }}€
                                                 @endif
                                             @endforeach
                                         </td>
                                         <td class="col">
                                             @foreach ($info as $key2 => $infoTarifa) 
-                                                @if ($infoTarifa['tarifa'] == 'Tarifa canso')
-                                                    {{ $infoTarifa['preu_carrec'] }}€
+                                                @if ($infoTarifa['tarifa'] == 'Tarifa docu')
+                                                    <{{ $infoTarifa['preu_carrec'] }}
                                                 @endif
                                             @endforeach
                                         </td>
