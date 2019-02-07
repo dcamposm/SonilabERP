@@ -42,14 +42,13 @@
         <tbody>
             @foreach( $registreEntrades as $key => $registreEntrada )
             <tr class="table-selected {{ ($registreEntrada->estat == 'Pendent') ? 'border-warning' : (($registreEntrada->estat == 'Finalitzada') ? 'border-success' : 'border-danger') }}">
-                <td class="cursor" style="vertical-align: middle;" onclick="self.mostrarRegistreEntrada('{{ route('mostrarRegistreEntrada') }}/{{ $registreEntrada->id_registre_entrada }}')">
+                <td class="cursor" style="vertical-align: middle;" onclick="self.mostrarRegistreEntrada('{{ route('mostrarRegistreEntrada', array('id' => $registreEntrada->id_registre_entrada)) }}')">
                     <span class="font-weight-bold" style="font-size: 1rem;">{{ $registreEntrada->titol }}</span>
                 </td>
                 <td style="vertical-align: middle;">{{ date('d/m/Y H:i:s', strtotime($registreEntrada->entrada)) }}</td>
                 <td style="vertical-align: middle;">{{ date('d/m/Y H:i:s', strtotime($registreEntrada->sortida)) }}</td>
                 <td style="vertical-align: middle;">{{ $registreEntrada->client->nom_client }}</td>
                 <td style="vertical-align: middle;">
-                    {{-- TODO: Especificar la ruta del botón de modificar. --}}
                     <a href="{{ route('registreEntradaUpdateView', array('id' => $registreEntrada['id_registre_entrada'])) }}" class="btn btn-primary">Modificar</a>
                     <button class="btn btn-danger" onclick="self.seleccionarRegistreEntrada({{ $registreEntrada['id_registre_entrada'] }}, '{{ $registreEntrada['titol'] }}')" data-toggle="modal" data-target="#exampleModalCenter">Esborrar</button>
                     <form id="delete-{{ $registreEntrada['id_registre_entrada'] }}" action="{{ route('esborrarRegistreEntrada') }}" method="POST">
