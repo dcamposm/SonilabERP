@@ -11,7 +11,7 @@
     </div>
     
     <!-- FILTRA EMPLEAT -->
-    <div class="row">    
+    <div>    
         <div class="col">
             <form method = "GET" action= '{{ route('empleatFind') }}' id='search'>
                 @csrf
