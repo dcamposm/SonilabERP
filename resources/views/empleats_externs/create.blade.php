@@ -623,7 +623,6 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                 document.getElementById("rotllo_"+carrec+"_"+idioma).removeAttribute('disabled');
             }
         }else{
-            document.getElementById("homologat_"+carrec+"_"+idioma).setAttribute('disabled',"");
             if (type == 1){
                 document.getElementById(idioma+'_'+carrec+'_tarifas').setAttribute('disabled',"");
             } else {
