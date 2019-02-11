@@ -252,13 +252,6 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                                         </div>
                                     </td>
                                     <td class="col">
-                                        <label for="homologat_actor_{{$idioma->idioma}}" style="font-weight: bold">Homologat:</label>
-                                        <select class="form-control" id="homologat_actor_{{$idioma->idioma}}" name="homologat_actor_{{$idioma->idioma}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
-                                            <option value="0" {{ (isset($carrecs['actor'][$idioma->idioma]) && $carrecs['actor'][$idioma->idioma]['empleat_homologat'] == false) ? 'selected' : ''}}>NO</option>
-                                            <option value="1" {{ (isset($carrecs['actor'][$idioma->idioma]) && $carrecs['actor'][$idioma->idioma]['empleat_homologat'] == true) ? 'selected' : ''}}>SI</option>
-                                        </select>
-                                    </td>
-                                    <td class="col">
                                         <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Selección de tarifas:</label>
                                         <select onchange="mostrarCamposTarifas(event,'actor','{{$idioma->idioma}}')" id="{{$idioma->idioma}}_actor_tarifas" multiple class="form-control" disabled>
                                             <option value="-1" disabled>Selecciona una tarifa</option>
@@ -622,10 +615,10 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
         }
         
         if (document.getElementById("idioma_"+carrec+"_"+idioma).checked == true ) {
-            document.getElementById("homologat_"+carrec+"_"+idioma).removeAttribute('disabled');
             if (type == 1){
                 document.getElementById(idioma+'_'+carrec+'_tarifas').removeAttribute('disabled');
             } else {
+                document.getElementById("homologat_"+carrec+"_"+idioma).removeAttribute('disabled');
                 document.getElementById('preu_'+carrec+'_'+idioma).removeAttribute('disabled');
                 document.getElementById("rotllo_"+carrec+"_"+idioma).removeAttribute('disabled');
             }
@@ -634,6 +627,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
             if (type == 1){
                 document.getElementById(idioma+'_'+carrec+'_tarifas').setAttribute('disabled',"");
             } else {
+                document.getElementById("homologat_"+carrec+"_"+idioma).removeAttribute('disabled');
                 document.getElementById('preu_'+carrec+'_'+idioma).setAttribute('disabled',"");
                 document.getElementById("rotllo_"+carrec+"_"+idioma).setAttribute('disabled',"");
             }

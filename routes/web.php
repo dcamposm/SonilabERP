@@ -42,3 +42,5 @@ Route::get('/registreEntrada/mostrar/{id}', 'RegistreEntradaController@show')->n
 Route::get('/registreEntrada/modificar/{id}', 'RegistreEntradaController@updateView')->name('registreEntradaUpdateView');
 Route::post('/registreEntrada/modificar/{id}', 'RegistreEntradaController@update')->name('registreEntradaUpdate');
 Route::post('/registreEntrada/esborrar', 'RegistreEntradaController@delete')->name('esborrarRegistreEntrada');
+
+Route::get('/projectes', 'ProjectesController@getIndex')->name('indexProjectes');

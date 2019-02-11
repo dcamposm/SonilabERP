@@ -228,7 +228,7 @@ class EmpleatExternController extends Controller
                                 $datos["empleat_homologat"] = 0;
                                 $datos["rotllo"] = 0;
                                 $datos["preu_carrec"] = request()->input("preu_$nomCarrec"."_$nombre_corto");//coge el valor mandado del input
-                                $datos["id_tarifa"] = $id_tarifa;
+                                $datos["id_tarifa"] = $tarifa->id;
 
                                 $carrecEmpleat = new CarrecEmpleat($datos);
                                 // TODO: Validar "carrecEmpleat"
@@ -247,7 +247,7 @@ class EmpleatExternController extends Controller
                                     $datos["id_empleat"] = $empleat->id_empleat;
                                     $datos["id_carrec"] = $id_carrec;
                                     $datos["id_idioma"] = $id_idioma;
-                                    $datos["empleat_homologat"] = request()->input("homologat_$nomCarrec" . "_$nom_idioma");
+                                    $datos["empleat_homologat"] = (request()->has("homologat_$nomCarrec" . "_$nom_idioma")) ? request()->input("homologat_$nomCarrec" . "_$nom_idioma") : 0;
                                     $datos["rotllo"] = (request()->has("rotllo_$nomCarrec" . "_$nom_idioma")) ? request()->input("rotllo_$nomCarrec" . "_$nom_idioma") : 0;
                                     $datos["preu_carrec"] = request()->input("preu_$nomCarrec" . "_$nom_idioma" . "_$nombre_corto");
                                     $datos["id_tarifa"] = $tarifa->id;
