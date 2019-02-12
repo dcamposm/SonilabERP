@@ -88,13 +88,13 @@ class slb_tarifasTableSeeder extends Seeder
         Tarifa::create(array(
             'id' => '13',
             'nombre' => 'Tarifa ajustador',
-            'id_carrec' => '5',
+            'id_carrec' => '4',
             'nombre_corto' => 'ajustador',
         ));
         Tarifa::create(array(
             'id' => '14',
             'nombre' => 'Tarifa lingüista',
-            'id_carrec' => '6',
+            'id_carrec' => '4',
             'nombre_corto' => 'linguista',
         ));    
         Tarifa::create(array(
