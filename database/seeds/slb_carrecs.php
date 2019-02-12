@@ -34,20 +34,8 @@ class slb_carrecs extends Seeder
         Carrec::create(array(
             'id_carrec'         => 4,
             'nom_carrec'        => 'Traductor',
-            'descripcio_carrec' => 'Traductor',
+            'descripcio_carrec' => 'Traductor, Ajustadors i Lingüistes',
             'input_name'        => 'traductor'
-        ));
-        Carrec::create(array(
-            'id_carrec'         => 5,
-            'nom_carrec'        => 'Ajustador',
-            'descripcio_carrec' => 'Ajustador',
-            'input_name'        => 'ajustador'
-        ));
-        Carrec::create(array(
-            'id_carrec'         => 6,
-            'nom_carrec'        => 'Lingüista',
-            'descripcio_carrec' => 'Lingüista',
-            'input_name'        => 'linguista'
         ));
     }
 }

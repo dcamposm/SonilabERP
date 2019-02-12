@@ -131,40 +131,28 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
 
             <!-- CHECKBOX PARA ACTIVAR CARGOS -->
             <div class="row">
-                <div class="col-2">
+                <div class="col">
                     <div class="form-group">
                         <label for="director" style="font-weight: bold">Director:</label>
                         <input type="checkbox" onchange="mostrarCamps('director')" class="form-control" id="director" name="director" {{ isset($carrecs['director']) ? 'checked' : ''}} value="1">
                     </div>
                 </div>
-                <div class="col-2">
+                <div class="col">
                     <div class="form-group">
                         <label for="tecnic_sala" style="font-weight: bold">Tècnic:</label>
                         <input type="checkbox" onchange="mostrarCamps('tecnic')" class="form-control" id="tecnic_sala" name="tecnic_sala" {{ isset($carrecs['tecnic_sala']) ? 'checked' : ''}} value="1">
                     </div>
                 </div>               
-                <div class="col-2">
+                <div class="col">
                     <div class="form-group">
                         <label for="actor" style="font-weight: bold">Actor:</label>
                         <input type="checkbox" onchange="mostrarCamps('actor')" class="form-control" id="actor" name="actor" {{ isset($carrecs['actor']) ? 'checked' : ''}} value="1">
                     </div>
                 </div>
-                <div class="col-2">
+                <div class="col">
                     <div class="form-group">
-                        <label for="traductor" style="font-weight: bold">Traductor:</label>
+                        <label for="traductor" style="font-weight: bold">Traductor, Ajustador i Lingüista:</label>
                         <input type="checkbox" onchange="mostrarCamps('traductor')" class="form-control" id="traductor" name="traductor" {{ isset($carrecs['traductor']) ? 'checked' : ''}} value="1">
-                    </div>
-                </div>
-                <div class="col-2">
-                    <div class="form-group">
-                        <label for="ajustador" style="font-weight: bold">Ajustador:</label>
-                        <input type="checkbox" onchange="mostrarCamps('ajustador')" class="form-control" id="ajustador" name="ajustador" {{ isset($carrecs['ajustador']) ? 'checked' : ''}} value="1">
-                    </div>
-                </div>
-                <div class="col-2">
-                    <div class="form-group">
-                        <label for="linguista" style="font-weight: bold">Lingüista:</label>
-                        <input type="checkbox" onchange="mostrarCamps('linguista')" class="form-control" id="linguista" name="linguista" {{ isset($carrecs['linguista']) ? 'checked' : ''}} value="1">
                     </div>
                 </div>
             </div>
@@ -177,24 +165,24 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
 
                     <div class="form-group" style="width:100%;">
                        <div style="width:30%; float:left">
-                            <label for="director_tarifas" style="font-weight: bold">Selección de tarifas:</label>
+                            <label for="director_tarifas" style="font-weight: bold">Selección de tarifas director:</label>
                             <select onchange="mostrarCamposTarifas(event,'director')" id="director_tarifas" multiple class="form-control">
                                 <option value="-1" disabled>Selecciona una tarifa</option>
                                 @foreach( $tarifas as $key => $tarifa)
                                     @if($tarifa->id_carrec == 2)
-                                        <option value="{{$tarifa->nombre}}">{{$tarifa->nombre}}</option>
+                                        <option value="{{$tarifa->nombre}}" {{isset($carrecs['director'][$tarifa->nombre_corto]) ? 'selected' : ''}} >{{$tarifa->nombre}}</option>
                                     @endif
                                 @endforeach
                             </select>
                         </div> 
                         <div style="width:65%; float:left; margin-left:5%;">
-                            <div id="tarifa_director1" style="display: none;">
+                            <div id="tarifa_director1" style="display: {{ isset($carrecs['director']['rotllo']) ? '' : 'none;' }}">
                                 <label for="tarifa_director1" style="font-weight: bold">Preu rotllo:</label>
-                                <input type="number" class="form-control" id="tarifa_director1_inp" placeholder="Preu rotllo" name="preu_director_rotllo" value="{{ isset($carrecs['director']) ? $carrecs['director']['preu_carrec'] : ''}}" {{ isset($carrecs['director']) ? '' : 'disabled' }}>
+                                <input type="number" class="form-control" id="tarifa_director1_inp" placeholder="Preu rotllo" name="preu_director_rotllo" value="{{ isset($carrecs['director']['rotllo']) ? $carrecs['director']['rotllo']['preu_carrec'] : ''}}" {{ isset($carrecs['director']['rotllo']) ? '' : 'disabled' }}>
                             </div>
-                            <div id="tarifa_director2" style="display: none;">
+                            <div id="tarifa_director2" style="display: {{ isset($carrecs['director']['minut']) ? '' : 'none;' }}">
                                 <label for="tarifa_director2" style="font-weight: bold">Preu minut:</label>                                        
-                                <input type="number" class="form-control" id="tarifa_director2_inp" placeholder="Preu minut" name="preu_director_minut" value="{{ isset($carrecs['director']) ? $carrecs['director']['preu_carrec'] : ''}}" {{ isset($carrecs['director']) ? '' : 'disabled' }}>
+                                <input type="number" class="form-control" id="tarifa_director2_inp" placeholder="Preu minut" name="preu_director_minut" value="{{ isset($carrecs['director']['minut']) ? $carrecs['director']['minut']['preu_carrec'] : ''}}" {{ isset($carrecs['director']['minut']) ? '' : 'disabled' }}>
                             </div>
                         </div>       
                     </div>
@@ -207,31 +195,31 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                     
                     <div class="form-group" style="width:100%;">
                         <div style="width:30%; float:left">
-                             <label for="tecnic_tarifas" style="font-weight: bold">Selección de tarifas:</label>
+                             <label for="tecnic_tarifas" style="font-weight: bold">Selección de tarifas tecnic:</label>
                              <select onchange="mostrarCamposTarifas(event,'tecnic')" id="tecnic_tarifas" multiple class="form-control">
                                  <option value="-1" disabled>Selecciona una tarifa</option>
                                  @foreach( $tarifas as $key => $tarifa)
                                      @if($tarifa->id_carrec == 3)
-                                         <option value="{{$tarifa->nombre}}">{{$tarifa->nombre}}</option>
+                                         <option value="{{$tarifa->nombre}}" {{isset($carrecs['tecnic_sala'][$tarifa->nombre_corto]) ? 'selected' : ''}}>{{$tarifa->nombre}}</option>
                                      @endif
                                  @endforeach
                              </select>
                          </div> 
                          <div style="width:65%; float:left; margin-left:5%;">
-                             <div id="tarifa_tecnic1" style="display: none;">
+                             <div id="tarifa_tecnic1" style="display: {{ isset($carrecs['tecnic_sala']['sala']) ? '' : 'none;' }}">
                                  <label for="tarifa_tecnic1_inp" style="font-weight: bold">Tarifa sala:</label>
-                                 <input type="number" class="form-control" id="tarifa_tecnic1_inp" placeholder="Tarifa sala" name="preu_tecnic_sala" value="{{ isset($carrecs['tecnic_sala']) ? $carrecs['tecnic_sala']['preu_carrec'] : ''}}" {{ isset($carrecs['tecnic_sala']) ? '' : 'disabled' }}>
+                                 <input type="number" class="form-control" id="tarifa_tecnic1_inp" placeholder="Tarifa sala" name="preu_tecnic_sala_sala" value="{{ isset($carrecs['tecnic_sala']['sala']) ? $carrecs['tecnic_sala']['sala']['preu_carrec'] : ''}}" {{ isset($carrecs['tecnic_sala']['sala']) ? '' : 'disabled' }}>
                              </div>
-                             <div id="tarifa_tecnic2" style="display: none;">
+                             <div id="tarifa_tecnic2" style="display: {{ isset($carrecs['tecnic_sala']['mix']) ? '' : 'none;' }}">
                                  <label for="tarifa_tecnic2_inp" style="font-weight: bold">Tarifa mix:</label>                                        
-                                 <input type="number" class="form-control" id="tarifa_tecnic2_inp" placeholder="Tarifa mix" name="preu_tecnic_mix" value="{{ isset($carrecs['tecnic_sala']) ? $carrecs['tecnic_sala']['preu_carrec'] : ''}}" {{ isset($carrecs['tecnic_sala']) ? '' : 'disabled' }}>
+                                 <input type="number" class="form-control" id="tarifa_tecnic2_inp" placeholder="Tarifa mix" name="preu_tecnic_sala_mix" value="{{ isset($carrecs['tecnic_sala']['mix']) ? $carrecs['tecnic_sala']['mix']['preu_carrec'] : ''}}" {{ isset($carrecs['tecnic_sala']['mix']) ? '' : 'disabled' }}>
                              </div>
                          </div>       
                      </div>
                 </div>
 
             </div>
-
+            <br>
             <!-- CARGOS: ACTOR, TRADUCTOR, AJUSTADOR, LINGÜISTA -->
             <div class="row container">
                 <div id="colActor" style="width: 100%; margin-left: 15px; display:{{ isset($carrecs['actor']) ? '' : 'none'}}">
@@ -252,51 +240,44 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                                         </div>
                                     </td>
                                     <td class="col">
-                                        <label for="homologat_actor_{{$idioma->idioma}}" style="font-weight: bold">Homologat:</label>
-                                        <select class="form-control" id="homologat_actor_{{$idioma->idioma}}" name="homologat_actor_{{$idioma->idioma}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
-                                            <option value="0" {{ (isset($carrecs['actor'][$idioma->idioma]) && $carrecs['actor'][$idioma->idioma]['empleat_homologat'] == false) ? 'selected' : ''}}>NO</option>
-                                            <option value="1" {{ (isset($carrecs['actor'][$idioma->idioma]) && $carrecs['actor'][$idioma->idioma]['empleat_homologat'] == true) ? 'selected' : ''}}>SI</option>
-                                        </select>
-                                    </td>
-                                    <td class="col">
                                         <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Selección de tarifas:</label>
-                                        <select onchange="mostrarCamposTarifas(event,'actor','{{$idioma->idioma}}')" id="{{$idioma->idioma}}_actor_tarifas" multiple class="form-control" disabled>
+                                        <select onchange="mostrarCamposTarifas(event,'actor','{{$idioma->idioma}}')" id="{{$idioma->idioma}}_actor_tarifas" multiple class="form-control" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
                                             <option value="-1" disabled>Selecciona una tarifa</option>
                                             @foreach( $tarifas as $key => $tarifa)
                                                 @if($tarifa->id_carrec == 1)
-                                                    <option value="{{$tarifa->nombre}}">{{$tarifa->nombre}}</option>
+                                                    <option value="{{$tarifa->nombre}}" {{isset($carrecs['actor'][$idioma->idioma][$tarifa->nombre_corto]) ? 'selected' : ''}} > {{$tarifa->nombre}}</option>
                                                 @endif
                                             @endforeach
                                         </select>
                                     </td>
                                     <td class="col">
-                                        <div id="tarifa_actor1_{{$idioma->idioma}}" style="display: none;">
+                                        <div id="tarifa_actor1_{{$idioma->idioma}}" style="display: {{ isset($carrecs['actor'][$idioma->idioma]['video_take']) ? '' : 'none;' }}">
                                             <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa video take:</label>
-                                            <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_video_take" placeholder="Tarifa video take" name="preu_actor_{{$idioma->idioma}}_video_take" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                            <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_video_take" placeholder="Tarifa video take" name="preu_actor_{{$idioma->idioma}}_video_take" value="{{ isset($carrecs['actor'][$idioma->idioma]['video_take']) ? $carrecs['actor'][$idioma->idioma]['video_take']['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]['video_take']) ? '' : 'disabled' }}>
                                         </div>
-                                        <div id="tarifa_actor2_{{$idioma->idioma}}" style="display: none;">
+                                        <div id="tarifa_actor2_{{$idioma->idioma}}" style="display: {{ isset($carrecs['actor'][$idioma->idioma]['video_cg']) ? '' : 'none;' }}">
                                             <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa video cg:</label>                                        
-                                            <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_video_cg" placeholder="Tarifa video cg" name="preu_actor_{{$idioma->idioma}}_video_cg" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                            <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_video_cg" placeholder="Tarifa video cg" name="preu_actor_{{$idioma->idioma}}_video_cg" value="{{ isset($carrecs['actor'][$idioma->idioma]['video_cg']) ? $carrecs['actor'][$idioma->idioma]['video_cg']['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]['video_cg']) ? '' : 'disabled' }}>
                                         </div>
-                                        <div id="tarifa_actor3_{{$idioma->idioma}}" style="display: none;">
-                                            <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa cine take:</label>
-                                            <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_cine_take" placeholder="Tarifa cine take" name="preu_actor_{{$idioma->idioma}}_cine_take" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                        <div id="tarifa_actor3_{{$idioma->idioma}}" style="display: {{ isset($carrecs['actor'][$idioma->idioma]['cine_take']) ? '' : 'none;' }}">
+                                            <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa cine take</label>                                        
+                                            <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_cine_take" placeholder="Tarifa cine take" name="preu_actor_{{$idioma->idioma}}_cine_take" value="{{ isset($carrecs['actor'][$idioma->idioma]['cine_take']) ? $carrecs['actor'][$idioma->idioma]['cine_take']['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]['cine_take']) ? '' : 'disabled' }}>
                                         </div>
-                                        <div id="tarifa_actor4_{{$idioma->idioma}}" style="display: none;">
+                                        <div id="tarifa_actor4_{{$idioma->idioma}}" style="display: {{ isset($carrecs['actor'][$idioma->idioma]['cine_cg']) ? '' : 'none;' }}">
                                             <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa cine cg:</label>                                        
-                                            <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_cine_cg" placeholder="Tarifa cine cg" name="preu_actor_{{$idioma->idioma}}_cine_cg" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                            <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_cine_cg" placeholder="Tarifa cine cg" name="preu_actor_{{$idioma->idioma}}_cine_cg" value="{{ isset($carrecs['actor'][$idioma->idioma]['cine_cg']) ? $carrecs['actor'][$idioma->idioma]['cine_cg']['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]['cine_cg']) ? '' : 'disabled' }}>
                                         </div>
-                                        <div id="tarifa_actor5_{{$idioma->idioma}}" style="display: none;">
+                                        <div id="tarifa_actor5_{{$idioma->idioma}}" style="display: {{ isset($carrecs['actor'][$idioma->idioma]['canso']) ? '' : 'none;' }}">
                                             <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa canso:</label>
-                                            <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_canso" placeholder="Tarifa canso" name="preu_actor_{{$idioma->idioma}}_canso" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                            <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_canso" placeholder="Tarifa canso" name="preu_actor_{{$idioma->idioma}}_canso" value="{{ isset($carrecs['actor'][$idioma->idioma]['canso']) ? $carrecs['actor'][$idioma->idioma]['canso']['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]['canso']) ? '' : 'disabled' }}>
                                         </div>
-                                        <div id="tarifa_actor6_{{$idioma->idioma}}" style="display: none;">
+                                        <div id="tarifa_actor6_{{$idioma->idioma}}" style="display: {{ isset($carrecs['actor'][$idioma->idioma]['docu']) ? '' : 'none;' }}">
                                             <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa docu:</label>
-                                            <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_docu" placeholder="Tarifa docu" name="preu_actor_{{$idioma->idioma}}_docu" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                            <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_docu" placeholder="Tarifa docu" name="preu_actor_{{$idioma->idioma}}_docu" value="{{ isset($carrecs['actor'][$idioma->idioma]['docu']) ? $carrecs['actor'][$idioma->idioma]['docu']['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]['docu']) ? '' : 'disabled' }}>
                                         </div>
-                                        <div id="tarifa_actor7_{{$idioma->idioma}}" style="display: none;">
+                                        <div id="tarifa_actor7_{{$idioma->idioma}}" style="display: {{ isset($carrecs['actor'][$idioma->idioma]['narrador']) ? '' : 'none;' }}">
                                             <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa narrador:</label>
-                                            <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_narrador" placeholder="Tarifa narrador" name="preu_actor_{{$idioma->idioma}}_narrador" value="{{ isset($carrecs['actor'][$idioma->idioma]) ? $carrecs['actor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                            <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_narrador" placeholder="Tarifa narrador" name="preu_actor_{{$idioma->idioma}}_narrador" value="{{ isset($carrecs['actor'][$idioma->idioma]['narrador']) ? $carrecs['actor'][$idioma->idioma]['narrador']['preu_carrec'] : ''}}" {{ isset($carrecs['actor'][$idioma->idioma]['narrador']) ? '' : 'disabled' }}>
                                         </div>
                                     </td>
                                 </tr>
@@ -312,7 +293,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                         <table class="table">
                             <thead class="thead-dark">
                                 <tr class="row">
-                                    <th class="col">Traductor</th>
+                                    <th class="col">Traductor, Ajustador i Lingüista</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -330,8 +311,6 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                                             <option value="0" {{ (isset($carrecs['traductor'][$idioma->idioma]) && $carrecs['traductor'][$idioma->idioma]['empleat_homologat'] == false) ? 'selected' : ''}}>NO</option>
                                             <option value="1" {{ (isset($carrecs['traductor'][$idioma->idioma]) && $carrecs['traductor'][$idioma->idioma]['empleat_homologat'] == true) ? 'selected' : ''}}>SI</option>
                                         </select>
-                                    </td>
-                                    <td class="col">
                                         <label for="rotllo_traductor_{{$idioma->idioma}}" style="font-weight: bold">Rotllo:</label>
                                         <select class="form-control" id="rotllo_traductor_{{$idioma->idioma}}" name="rotllo_traductor_{{$idioma->idioma}}" {{ isset($carrecs['traductor'][$idioma->idioma]) ? '' : 'disabled' }}>
                                             <option value="0" {{ (isset($carrecs['traductor'][$idioma->idioma]) && $carrecs['traductor'][$idioma->idioma]['rotllo'] == false) ? 'selected' : ''}}>NO</option>
@@ -339,97 +318,33 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                                         </select>
                                     </td>
                                     <td class="col">
-                                    <label for="preu_traductor_{{$idioma->idioma}}" style="font-weight: bold">Preu traductor:</label>
-                                        <input type="number" class="form-control" id="preu_traductor_{{$idioma->idioma}}" placeholder="Entrar preu traductor" name="preu_traductor_{{$idioma->idioma}}_traductor" value="{{ isset($carrecs['traductor'][$idioma->idioma]) ? $carrecs['traductor'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['traductor'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                        <label for="preu_traductor_{{$idioma->idioma}}" style="font-weight: bold">Selección de tarifas:</label>
+                                        <select onchange="mostrarCamposTarifas(event,'traductor','{{$idioma->idioma}}')" id="{{$idioma->idioma}}_traductor_tarifas" multiple class="form-control" {{ isset($carrecs['traductor'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                            <option value="-1" disabled>Selecciona una tarifa</option>
+                                            @foreach( $tarifas as $key => $tarifa)
+                                                @if($tarifa->id_carrec == 4)
+                                                    <option value="{{$tarifa->nombre}}" {{isset($carrec_tarifa['traductor'][$idioma->idioma][$tarifa->nombre_corto]) ? 'selected' : ''}} > {{$tarifa->nombre}}</option>
+                                                @endif
+                                            @endforeach
+                                        </select>
                                     </td>
-                                </tr>          
-                            @endforeach
-                            </tbody> 
-                        </table>
-                    </div>
-                </div>
-                <div id="colAjustador" style="width: 100%; margin-left: 15px; display:{{ isset($carrecs['ajustador']) ? '' : 'none'}}">
-                        <div class="form-group">
-                            <table class="table">
-                                <thead class="thead-dark">
-                                    <tr class="row">
-                                        <th class="col">Ajustador</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                @foreach( $idiomes as $key => $idioma)
-                                    <tr class="row">
-                                        <td class="col">
-                                            <div class="form-group">
-                                                <label for="idioma_ajustador_{{$idioma->idioma}}" style="font-weight: bold">{{$idioma->idioma}}:</label>
-                                                <input type="checkbox" class="form-control" id="idioma_ajustador_{{$idioma->idioma}}" onchange="mostrarSubMenus('{{$idioma->idioma}}','ajustador', 0)" name="idioma_ajustador_{{$idioma->idioma}}" {{ isset($carrecs['ajustador'][$idioma->idioma]) ? 'checked': '' }} value="1">
-                                            </div>
-                                        </td>
-                                        <td class="col">
-                                            <label for="homologat_ajustador_{{$idioma->idioma}}" style="font-weight: bold">Homologat:</label>
-                                            <select class="form-control" id="homologat_ajustador_{{$idioma->idioma}}" name="homologat_ajustador_{{$idioma->idioma}}" {{ isset($carrecs['ajustador'][$idioma->idioma]) ? '' : 'disabled' }}>
-                                                <option value="0" {{ (isset($carrecs['ajustador'][$idioma->idioma]) && $carrecs['ajustador'][$idioma->idioma]['empleat_homologat'] == false) ? 'selected' : ''}}>NO</option>
-                                                <option value="1" {{ (isset($carrecs['ajustador'][$idioma->idioma]) && $carrecs['ajustador'][$idioma->idioma]['empleat_homologat'] == true) ? 'selected' : ''}}>SI</option>
-                                            </select>
-                                        </td>
-                                        <td class="col">
-                                            <label for="rotllo_ajustador_{{$idioma->idioma}}" style="font-weight: bold">Rotllo:</label>
-                                            <select class="form-control" id="rotllo_ajustador_{{$idioma->idioma}}" name="rotllo_ajustador_{{$idioma->idioma}}" {{ isset($carrecs['ajustador'][$idioma->idioma]) ? '' : 'disabled' }}>
-                                                <option value="0" {{ (isset($carrecs['ajustador'][$idioma->idioma]) && $carrecs['ajustador'][$idioma->idioma]['rotllo'] == false) ? 'selected' : ''}}>NO</option>
-                                                <option value="1" {{ (isset($carrecs['ajustador'][$idioma->idioma]) && $carrecs['ajustador'][$idioma->idioma]['rotllo'] == true) ? 'selected' : ''}}>SI</option>
-                                            </select>
-                                        </td>
-                                        <td class="col">
-                                        <label for="preu_ajustador_{{$idioma->idioma}}" style="font-weight: bold">Preu ajustador:</label>
-                                            <input type="number" class="form-control" id="preu_ajustador_{{$idioma->idioma}}" placeholder="Entrar preu ajustador" name="preu_ajustador_{{$idioma->idioma}}_ajustador" value="{{ isset($carrecs['ajustador'][$idioma->idioma]) ? $carrecs['ajustador'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['ajustador'][$idioma->idioma]) ? '' : 'disabled' }}>
-                                        </td>
-                                    </tr>          
-                                @endforeach
-                                </tbody> 
-                            </table>
-                        </div>
-                    </div>
-                <div id="colLinguista" style="width: 100%; margin-left: 15px; display:{{ isset($carrecs['linguista']) ? '' : 'none'}}">
-                    <div class="form-group">
-                        <table class="table">
-                            <thead class="thead-dark">
-                                <tr class="row">
-                                    <th class="col">Lingüista</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            @foreach( $idiomes as $key => $idioma)
-                                <tr class="row">
                                     <td class="col">
-                                        <div class="form-group">
-                                            <label for="idioma_linguista_{{$idioma->idioma}}" style="font-weight: bold">{{$idioma->idioma}}:</label>
-                                            <input type="checkbox" class="form-control" id="idioma_linguista_{{$idioma->idioma}}" onchange="mostrarSubMenus('{{$idioma->idioma}}','linguista', 0)" name="idioma_linguista_{{$idioma->idioma}}" {{ isset($carrecs['linguista'][$idioma->idioma]) ? 'checked': '' }} value="1">
+                                        <div id="tarifa_traductor1_{{$idioma->idioma}}" style="display: {{ isset($carrec_tarifa['traductor'][$idioma->idioma]['traductor']) ? '' : 'none;' }}">
+                                            <label for="preu_traductor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa traductor:</label>
+                                            <input type="number" class="form-control" id="preu_traductor_{{$idioma->idioma}}_traductor" placeholder="Tarifa traductor" name="preu_traductor_{{$idioma->idioma}}_traductor" value="{{ isset($carrec_tarifa['traductor'][$idioma->idioma]['traductor']) ? $carrec_tarifa['traductor'][$idioma->idioma]['traductor']['preu_carrec'] : ''}}" {{ isset($carrec_tarifa['traductor'][$idioma->idioma]['traductor']) ? '' : 'disabled' }}>
                                         </div>
-                                    </td>
-                                    <td class="col">
-                                        <label for="homologat_linguista_{{$idioma->idioma}}" style="font-weight: bold">Homologat:</label>
-                                        <select class="form-control" id="homologat_linguista_{{$idioma->idioma}}" name="homologat_linguista_{{$idioma->idioma}}" {{ isset($carrecs['linguista'][$idioma->idioma]) ? '' : 'disabled' }}>
-                                            <option value="0" {{ (isset($carrecs['linguista'][$idioma->idioma]) && $carrecs['linguista'][$idioma->idioma]['empleat_homologat'] == false) ? 'selected' : ''}}>NO</option>
-                                            <option value="1" {{ (isset($carrecs['linguista'][$idioma->idioma]) && $carrecs['linguista'][$idioma->idioma]['empleat_homologat'] == true) ? 'selected' : ''}}>SI</option>
-                                        </select>
-                                    </td>
-                                    <td class="col">
-                                        <label for="rotllo_linguista_{{$idioma->idioma}}" style="font-weight: bold">Rotllo:</label>
-                                        <select class="form-control" id="rotllo_linguista_{{$idioma->idioma}}" name="rotllo_linguista_{{$idioma->idioma}}" {{ isset($carrecs['linguista'][$idioma->idioma]) ? '' : 'disabled' }}>
-                                            <option value="0" {{ (isset($carrecs['linguista'][$idioma->idioma]) && $carrecs['linguista'][$idioma->idioma]['rotllo'] == false) ? 'selected' : ''}}>NO</option>
-                                            <option value="1" {{ (isset($carrecs['linguista'][$idioma->idioma]) && $carrecs['linguista'][$idioma->idioma]['rotllo'] == true) ? 'selected' : ''}}>SI</option>
-                                        </select>
-                                    </td>
-                                    <td class="col">
-                                            <label for="rotllo_linguista_{{$idioma->idioma}}" style="font-weight: bold">Rotllo:</label>
-                                            <select class="form-control" id="rotllo_linguista_{{$idioma->idioma}}" name="rotllo_linguista_{{$idioma->idioma}}" {{ isset($carrecs['linguista'][$idioma->idioma]) ? '' : 'disabled' }}>
-                                                <option value="0" {{ (isset($carrecs['linguista'][$idioma->idioma]) && $carrecs['linguista'][$idioma->idioma]['rotllo'] == false) ? 'selected' : ''}}>NO</option>
-                                                <option value="1" {{ (isset($carrecs['linguista'][$idioma->idioma]) && $carrecs['linguista'][$idioma->idioma]['rotllo'] == true) ? 'selected' : ''}}>SI</option>
-                                            </select>
-                                        </td>
-                                    <td class="col">
-                                    <label for="preu_linguista_{{$idioma->idioma}}" style="font-weight: bold">Preu lingüista:</label>
-                                        <input type="number" class="form-control" id="preu_linguista_{{$idioma->idioma}}" placeholder="Entrar preu lingüista" name="preu_linguista_{{$idioma->idioma}}_linguista" value="{{ isset($carrecs['linguista'][$idioma->idioma]) ? $carrecs['linguista'][$idioma->idioma]['preu_carrec'] : ''}}" {{ isset($carrecs['linguista'][$idioma->idioma]) ? '' : 'disabled' }}>
+                                        <div id="tarifa_traductor2_{{$idioma->idioma}}" style="display: {{ isset($carrec_tarifa['traductor'][$idioma->idioma]['ajustador']) ? '' : 'none;' }}">
+                                            <label for="preu_traductor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa ajustador:</label>
+                                            <input type="number" class="form-control" id="preu_traductor_{{$idioma->idioma}}_ajustador" placeholder="Tarifa ajustador" name="preu_traductor_{{$idioma->idioma}}_ajustador" value="{{ isset($carrec_tarifa['traductor'][$idioma->idioma]['ajustador']) ? $carrec_tarifa['traductor'][$idioma->idioma]['ajustador']['preu_carrec'] : ''}}" {{ isset($carrec_tarifa['traductor'][$idioma->idioma]['ajustador']) ? '' : 'disabled' }}>
+                                        </div>
+                                        <div id="tarifa_traductor3_{{$idioma->idioma}}" style="display: {{ isset($carrec_tarifa['traductor'][$idioma->idioma]['linguista']) ? '' : 'none;' }}">
+                                            <label for="preu_traductor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa lingüista:</label>                                        
+                                            <input type="number" class="form-control" id="preu_traductor_{{$idioma->idioma}}_linguista" placeholder="Trifa lingüista" name="preu_traductor_{{$idioma->idioma}}_linguista" value="{{ isset($carrec_tarifa['traductor'][$idioma->idioma]['linguista']) ? $carrec_tarifa['traductor'][$idioma->idioma]['linguista']['preu_carrec'] : ''}}" {{ isset($carrec_tarifa['traductor'][$idioma->idioma]['linguista']) ? '' : 'disabled' }}>
+                                        </div>
+                                        <div id="tarifa_traductor4_{{$idioma->idioma}}" style="display: {{ isset($carrec_tarifa['traductor'][$idioma->idioma]['sinopsi']) ? '' : 'none;' }}">
+                                            <label for="preu_traductor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa sinopsi:</label>
+                                            <input type="number" class="form-control" id="preu_traductor_{{$idioma->idioma}}_sinopsi" placeholder="Tarifa sinopsi" name="preu_traductor_{{$idioma->idioma}}_sinopsi" value="{{ isset($carrec_tarifa['traductor'][$idioma->idioma]['sinopsi']) ? $carrec_tarifa['traductor'][$idioma->idioma]['sinopsi']['preu_carrec'] : ''}}" {{ isset($carrec_tarifa['traductor'][$idioma->idioma]['sinopsi']) ? '' : 'disabled' }}>
+                                        </div>
                                     </td>
                                 </tr>          
                             @endforeach
@@ -518,6 +433,22 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                         document.getElementById('tarifa_'+ cargo + '2_inp').style.display = ''
                         document.getElementById('tarifa_'+ cargo + '2_inp').removeAttribute('disabled')
                         break
+                    case 'Tarifa traductor':
+                        document.getElementById('tarifa_'+ cargo + '1' + lang).style.display = ''
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_traductor').removeAttribute('disabled')
+                        break
+                    case 'Tarifa ajustador':
+                        document.getElementById('tarifa_'+ cargo + '2' + lang).style.display = ''
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_ajustador').removeAttribute('disabled')
+                        break
+                    case 'Tarifa lingüista':
+                        document.getElementById('tarifa_'+ cargo + '3' + lang).style.display = ''
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_linguista').removeAttribute('disabled')
+                        break
+                    case 'Tarifa sinopsi':
+                        document.getElementById('tarifa_'+ cargo + '4' + lang).style.display = ''
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_sinopsi').removeAttribute('disabled')
+                        break
                 }
             } else {
                 switch(element.value){//preu_actor_{{$idioma->idioma}}_video_take
@@ -561,6 +492,22 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                         document.getElementById('tarifa_'+ cargo + '2').setAttribute('disabled' , '')
                         document.getElementById('tarifa_'+ cargo + '2_inp').setAttribute('disabled' , '')
                         break
+                    case 'Tarifa traductor':
+                        document.getElementById('tarifa_'+ cargo + '1' + lang).style.display = 'none'
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_traductor').setAttribute('disabled' , '')
+                        break
+                    case 'Tarifa ajustador':
+                        document.getElementById('tarifa_'+ cargo + '2' + lang).style.display = 'none'
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_ajustador').setAttribute('disabled' , '')
+                        break
+                    case 'Tarifa lingüista':
+                        document.getElementById('tarifa_'+ cargo + '3' + lang).style.display = 'none'
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_linguista').setAttribute('disabled' , '')
+                        break
+                    case 'Tarifa sinopsi':
+                        document.getElementById('tarifa_'+ cargo + '4' + lang).style.display = 'none'
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_sinopsi').setAttribute('disabled' , '')
+                        break
                     
                 }
             }
@@ -600,20 +547,6 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                             colTraductor.style.display = 'none';
                         }
             break;
-            case "ajustador":
-                        if (colAjustador.style.display == 'none') {
-                            colAjustador.style.display = 'block';
-                        } else {
-                            colAjustador.style.display = 'none';
-                        }
-            break;
-            case "linguista":
-                        if (colLinguista.style.display == 'none') {
-                            colLinguista.style.display = 'block';
-                        } else {
-                            colLinguista.style.display = 'none';
-                        }
-            break;
         }
         
     }
@@ -629,21 +562,21 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
         }
 
         if (document.getElementById("idioma_"+carrec+"_"+idioma).checked == true ) {
-            document.getElementById("homologat_"+carrec+"_"+idioma).removeAttribute('disabled');
             
             if (type == 1){
                 document.getElementById(idioma+'_'+carrec+'_tarifas').removeAttribute('disabled');
             } else {
-                document.getElementById('preu_'+carrec+'_'+idioma).removeAttribute('disabled'); 
+                document.getElementById("homologat_"+carrec+"_"+idioma).removeAttribute('disabled');
+                document.getElementById(idioma+'_'+carrec+'_tarifas').removeAttribute('disabled');
                 document.getElementById("rotllo_"+carrec+"_"+idioma).removeAttribute('disabled');
             }
         }else{
-            document.getElementById("homologat_"+carrec+"_"+idioma).setAttribute('disabled',"");
             
             if (type == 1){
                 document.getElementById(idioma+'_'+carrec+'_tarifas').setAttribute('disabled',"");
             } else {
-                document.getElementById('preu_'+carrec+'_'+idioma).setAttribute('disabled',"");      
+                document.getElementById("homologat_"+carrec+"_"+idioma).setAttribute('disabled',"");
+                document.getElementById(idioma+'_'+carrec+'_tarifas').setAttribute('disabled',"");    
                 document.getElementById("rotllo_"+carrec+"_"+idioma).setAttribute('disabled',"");
             }
             clearSelected(document.getElementById(idioma+'_'+carrec+'_tarifas'))
