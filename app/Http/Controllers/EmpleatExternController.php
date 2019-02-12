@@ -433,9 +433,8 @@ class EmpleatExternController extends Controller
                     }
                 }
             }
-
-
             return redirect()->route('empleatIndex')->with('success', 'S\'ha modificat el personal correctament');
+            
         }
     }
 

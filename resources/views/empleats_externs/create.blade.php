@@ -508,7 +508,22 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                         document.getElementById('tarifa_'+ cargo + '4' + lang).style.display = 'none'
                         document.getElementById('preu_'+ cargo + '_' + idioma + '_sinopsi').setAttribute('disabled' , '')
                         break
-                    
+                    case 'Tarifa traductor':
+                        document.getElementById('tarifa_'+ cargo + '1' + lang).style.display = 'none'
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_traductor').setAttribute('disabled' , '')
+                        break
+                    case 'Tarifa ajustador':
+                        document.getElementById('tarifa_'+ cargo + '2' + lang).style.display = 'none'
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_ajustador').setAttribute('disabled' , '')
+                        break
+                    case 'Tarifa lingüista':
+                        document.getElementById('tarifa_'+ cargo + '3' + lang).style.display = 'none'
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_linguista').setAttribute('disabled' , '')
+                        break
+                    case 'Tarifa sinopsi':
+                        document.getElementById('tarifa_'+ cargo + '4' + lang).style.display = 'none'
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_sinopsi').setAttribute('disabled' , '')
+                        break
                 }
             }
         });
@@ -521,7 +536,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
             case "actor":
                         if (colActor.style.display == 'none') {
                             colActor.style.display = 'block';
-                            localStorage.setItem('colActor', 'block')
+                            localStorage.setItem('colActor', 'block');
                         } else {
                             colActor.style.display = 'none';
                         }

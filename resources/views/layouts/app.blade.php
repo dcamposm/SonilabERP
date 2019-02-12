@@ -106,7 +106,7 @@
                         </li>
                         <!-- Desabilitat -->
                         <li class="nav-item">
-                            <div class="disabled-link {{ Request::is('projects*') ? 'nav-link active' : '' }}" href=""><span class="fas fa-project-diagram"></span><span class="sidebar-link">Projectes</span></div>
+                            <a class="{{ Request::is('projects*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('indexProjectes') }}"><span class="fas fa-project-diagram"></span><span class="sidebar-link underline">Projectes</span></a>
                         </li>
 
                         <li class="nav-item">
@@ -118,9 +118,6 @@
                         <li class="nav-item">
                             <a class="{{ Request::is('registreEntrada*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('indexRegistreEntrada')}}"><span class="fas fa-atlas"></span><span class="sidebar-link underline">Registre d'entrada</span></a>
                         </li>
-
-
-
                     </ul>
 
 <!--
