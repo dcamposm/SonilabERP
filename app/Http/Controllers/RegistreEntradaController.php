@@ -21,8 +21,26 @@ class RegistreEntradaController extends Controller
     public function index()
     {
         $registreEntrades = RegistreEntrada::with('client')->get();
-        return View('registre_entrada.index', array('registreEntrades' => $registreEntrades));
+        $clients = Client::all();
+        return View('registre_entrada.index', array('registreEntrades' => $registreEntrades, 'clients' => $clients));
     }
+    
+    public function find()
+    {
+        if (request()->input("searchBy") == '1'){  
+            $registreEntrades = RegistreEntrada::where('id_client', request()->input("search_Client"))->get();                     
+        } else if (request()->input("searchBy") == '2'){
+            $registreEntrades = RegistreEntrada::where('estat', request()->input("search_Estat"))->get();
+        }  else {
+            $registreEntrades = RegistreEntrada::where('titol', request()->input("search_term"))
+                    ->orWhere('id_registre_entrada', request()->input("search_term"))->get();
+        }
+        
+        $clients = Client::all();
+        //return redirect()->route('empleatIndex')->with('success', request()->input("searchBy").'-'.request()->input("search_term"));
+        return view('registre_entrada.index',array('registreEntrades' => $registreEntrades, 'clients' => $clients));
+    }
+    
     public function insertView(){
         $clients = Client::all();
         $idiomes = Idioma::all();

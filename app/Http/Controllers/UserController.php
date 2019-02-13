@@ -37,7 +37,25 @@ class UserController extends Controller
 
     function getIndex(){
         $usuaris= User::all();
-        return view('usuaris_interns.index',array('arrayUsuaris' => $usuaris));
+        $departaments = Departament::all();
+        return view('usuaris_interns.index',array('arrayUsuaris' => $usuaris, 'departaments' => $departaments));
+    }
+    
+    public function find()
+    {
+        if (request()->input("searchBy") == '1'){  
+            $users = User::where('id_departament', request()->input("search_Dep"))->get();            
+        } else if (request()->input("searchBy") == '2'){
+            $users = User::where('alias_usuari', request()->input("search_term"))->get();
+        }  else {
+            $users = User::where('nom_usuari', request()->input("search_term"))
+                    ->orWhere('cognom1_usuari', request()->input("search_term"))
+                    ->orWhere('cognom2_usuari', request()->input("search_term"))->get();
+        }
+        
+        $departaments = Departament::all();
+        //return redirect()->route('empleatIndex')->with('success', request()->input("searchBy").'-'.request()->input("search_term"));
+        return view('usuaris_interns.index',array('arrayUsuaris' => $users, 'departaments' => $departaments));
     }
     
     function getShow($id){
