@@ -2,11 +2,42 @@
 
 @section('content')
 <div class="container">
-  <div>
-      <a href="{{ url('/usuaris/interns/crear') }}" class="btn btn-success">
-          <span class="fas fa-user-plus"></span>
-          Crear nou usuari
-      </a>
+  <div class="row">
+      <div class="col">
+            <a href="{{ url('/usuaris/interns/crear') }}" class="btn btn-success">
+                <span class="fas fa-user-plus"></span>
+                Crear nou usuari
+            </a>
+      </div>
+
+      <!-- FILTRA USUARI -->
+      <div class="row">
+          <div class="col">
+              <form method = "GET" action= '{{ route('usuariFind') }}' id='search'>
+                  @csrf
+              <div class="input-group">
+                  <select class="custom-select" id='searchBy' name="searchBy" form="search">
+                      <option selected>Buscar per...</option>
+                      <option>Nom o cognoms</option>
+                      <option value="1">Departament</option>
+                      <option value="2">Àlies</option>
+                  </select>
+                  
+                  <input type="text" id="search_term" class="form-control" name="search_term" placeholder="Buscar usuari...">
+                  
+                  <select class="custom-select" id='search_Dep' name="search_Dep" form="search" style="display: none;">
+                      @foreach( $departaments as $key => $departament )
+                        <option value="{{$departament['id_departament']}}">{{$departament['nom_departament']}}</option>
+                      @endforeach
+                  </select>
+                  
+                  <span class="input-group-btn">
+                      <button type="submit" class="btn btn-default" type="button"><span class="fas fa-search"></span></button>
+                  </span>
+              </div>
+              </form>
+          </div>
+      </div>
   </div>
 
   <div class="row">
@@ -78,6 +109,21 @@
             document.all["delete-" + usuariPerEsborrar].submit();
         }
     }
+    //--------Funcions per el filtra-----------
+    function selectSearch() {
+        //var value = $('#searchBy').val();
+        
+        //alert(value);
+        if ($('#searchBy').val() == '1') {
+            $('#search_term').hide();
+            $('#search_Dep').show();
+        } else {
+            $('#search_term').show();
+            $('#search_Dep').hide();
+        }
+    }
+    
+    $('#searchBy').change(selectSearch); 
 </script>
 
 
