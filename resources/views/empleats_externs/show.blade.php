@@ -92,38 +92,21 @@
                 </thead>
                 <tbody>
                     @foreach( $carrec as $key2 => $info )
-<<<<<<< HEAD
 
-                        
-
-                        @if (empty($info['idioma']))
-                            @if( $key == 'Director')
-                            <tr class="row text-center bg-white">
-                                <td class="col">Preu rotllo</td>
-                                <td class="col">Preu minut</td>
-                            </tr>
-                            <tr class="row text-center bg-white">
-                                <td class="col">{{ $info['preu_carrec'] }}€</td>
-                                <td class="col">{{ $info['preu_carrec'] }}€</td>
-                            </tr>
-                            @elseif( $key == 'Tècnic de sala')
-=======
                         @if ($key2 === 0)                                                   
->>>>>>> 9540308fd5486404d7036f772eb1c9009dd6c365
+
                             <tr class="row">
                                 @foreach ($info as $key => $tarifa) 
                                     <td class="col">{{ $tarifa['tarifa'] }}</td>
                                 @endforeach
                             </tr>
-<<<<<<< HEAD
-                            @endif
-=======
+
                             <tr class="row">
                                 @foreach ($info as $key => $tarifa) 
                                     <td class="col">{{ $tarifa['preu_carrec'] }}€</td>
                                 @endforeach
                             </tr>  
->>>>>>> 9540308fd5486404d7036f772eb1c9009dd6c365
+
                         @else
                             <tr class="row table-active">
                                 <td class="col"><img src="{{url('/')}}/img/flags/{{$key2}}.png" class="rounded"> {{ $key2 }}</td>                   
