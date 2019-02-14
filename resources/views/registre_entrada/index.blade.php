@@ -3,12 +3,45 @@
 @section('content')
 
 <div class="container">
-
-    <div>
-        <a href="{{ url('/registreEntrada/crear') }}" class="btn btn-success">
-            <span class="fas fa-atlas"></span>
-            Afegir registre d'entrada
-        </a>
+<div class="row">
+        <div class="col">
+            <a href="{{ url('/registreEntrada/crear') }}" class="btn btn-success">
+                <span class="fas fa-atlas"></span>
+                Afegir registre d'entrada
+            </a>
+        </div>
+        <!-- FILTRA REGISTRE ENTRADA -->
+        <div class="row">
+            <div class="col">
+                <form method = "GET" action= '{{ route('registreEntradaFind') }}' id='search'>
+                    @csrf
+                <div class="input-group">
+                    <select class="custom-select" id='searchBy' name="searchBy" form="search">
+                        <option selected>Buscar per...</option>
+                        <option>Referencia</option>
+                        <option value="1">Client</option>
+                        <option value="2">Estat</option>
+                    </select>
+                    <input type="text" id="search_term" class="form-control" name="search_term" placeholder="Buscar registre...">
+                    
+                    <select class="custom-select" id='search_Client' name="search_Client" form="search" style="display: none;">
+                        @foreach( $clients as $key => $client )
+                          <option value="{{$client['id_client']}}">{{$client['nom_client']}}</option>
+                        @endforeach
+                    </select>
+                    <select class="custom-select" id='search_Estat' name="search_Estat" form="search" style="display: none;">
+                          <option value="Pendent">Pendent</option>
+                          <option value="Finalitzada">Finalitzada</option>
+                          <option value="Cancel·lada">Cancel·lada</option>
+                    </select>
+                    
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-default" type="button"><span class="fas fa-search"></span></button>
+                    </span>
+                </div>
+                </form>
+            </div>
+        </div>
     </div>
     
     {{-- LEYENDA DE COLORES DE ESTADO --}}
@@ -32,6 +65,7 @@
     <table class="table" style="margin-top: 10px;">
         <thead>
             <tr>
+                <th>REF</th> 
                 <th>Títol</th>
                 <th>Entrada</th>
                 <th>Sortida</th>
@@ -42,6 +76,9 @@
         <tbody>
             @foreach( $registreEntrades as $key => $registreEntrada )
             <tr class="table-selected {{ ($registreEntrada->estat == 'Pendent') ? 'border-warning' : (($registreEntrada->estat == 'Finalitzada') ? 'border-success' : 'border-danger') }}">
+                <td class="cursor" style="vertical-align: middle;" onclick="self.mostrarRegistreEntrada('{{ route('mostrarRegistreEntrada', array('id' => $registreEntrada->id_registre_entrada)) }}')">
+                    <span class="font-weight-bold" style="font-size: 1rem;">{{ $registreEntrada->id_registre_entrada }}</span>
+                </td>
                 <td class="cursor" style="vertical-align: middle;" onclick="self.mostrarRegistreEntrada('{{ route('mostrarRegistreEntrada', array('id' => $registreEntrada->id_registre_entrada)) }}')">
                     <span class="font-weight-bold" style="font-size: 1rem;">{{ $registreEntrada->titol }}</span>
                 </td>
@@ -107,6 +144,29 @@
             document.all["delete-" + self.registrePerEsborrar].submit(); 
         }
     }
+        
+    //--------Funcions per el filtra-----------
+    function selectSearch() {
+        //var value = $('#searchBy').val();
+        
+        //alert(value);
+        if ($('#searchBy').val() == '1') {
+            $('#search_term').hide();
+            $('#search_Client').show();
+            $('#search_Estat').hide();
+        } else if ($('#searchBy').val() == '2'){
+            $('#search_term').hide();
+            $('#search_Client').hide();
+            $('#search_Estat').show();
+        } 
+        else {
+            $('#search_term').show();
+            $('#search_Client').hide();
+            $('#search_Estat').hide();
+        }
+    }
+    
+    $('#searchBy').change(selectSearch); 
 </script>
 
 

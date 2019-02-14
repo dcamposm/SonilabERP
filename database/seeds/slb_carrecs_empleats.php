@@ -18,7 +18,7 @@ class slb_carrecs_empleats extends Seeder
             'id_empleat'        => 1,
             'id_carrec'         => 1,
             'id_idioma'         => 1,
-            'empleat_homologat' => true,
+            'empleat_homologat' => false,
             'preu_carrec'       => 69,
             'id_tarifa'         => 6
         ));

@@ -87,7 +87,7 @@
             <table class="table">
                 <thead class="thead-dark">
                     <tr class="row">
-                        <th class="col">{{ $key }}</th>
+                        <th class="col">{{ $key != 'Traductor' ? $key : 'Traductor & Subtitulació' }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -142,6 +142,7 @@
                                                 <td class="col text-left">{{$tarifa->nombre}}</td>
                                             @endif
                                         @endforeach
+                                    @break
                                     @endif
                                 @endforeach
                             </tr>
@@ -191,6 +192,7 @@
                                                 @endif
                                             @endforeach
                                         </td>
+                                        
                                         <td class="col">
                                             @foreach ($info as $key2 => $infoTarifa) 
                                                 @if ($infoTarifa['tarifa'] == 'Tarifa narrador')
@@ -201,15 +203,34 @@
                                         @break
                                     @else
                                         <td class="col text-left">
-                                            @if ($infoTarifa['tarifa'] != 'Tarifa sinopsi')
-                                                {{ $infoTarifa['preu_carrec'] }}€
-                                            @endif
+                                            @foreach ($info as $key2 => $infoTarifa) 
+                                                @if ($infoTarifa['tarifa'] == 'Tarifa traductor')
+                                                    {{ $infoTarifa['preu_carrec'] }}€
+                                                @endif
+                                            @endforeach
                                         </td>
-                                        <td class="col">
-                                            @if ($infoTarifa['tarifa'] == 'Tarifa sinopsi')
-                                                {{ $infoTarifa['preu_carrec'] }}€
-                                            @endif
+                                        <td class="col text-left">
+                                            @foreach ($info as $key2 => $infoTarifa) 
+                                                @if ($infoTarifa['tarifa'] == 'Tarifa ajustador')
+                                                    {{ $infoTarifa['preu_carrec'] }}€
+                                                @endif
+                                            @endforeach
                                         </td>
+                                        <td class="col text-left">
+                                            @foreach ($info as $key2 => $infoTarifa) 
+                                                @if ($infoTarifa['tarifa'] == 'Tarifa lingüista')
+                                                    {{ $infoTarifa['preu_carrec'] }}€
+                                                @endif
+                                            @endforeach
+                                        </td>
+                                        <td class="col text-left">
+                                            @foreach ($info as $key2 => $infoTarifa) 
+                                                @if ($infoTarifa['tarifa'] == 'Tarifa sinopsi')
+                                                    {{ $infoTarifa['preu_carrec'] }}€
+                                                @endif
+                                            @endforeach
+                                        </td>
+                                        @break
                                     @endif
                                 @endforeach
                             </tr>

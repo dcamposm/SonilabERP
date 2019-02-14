@@ -19,6 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/usuaris/interns/index', 'UserController@getIndex') ->name('indexUsuariIntern')->middleware('role: 1, 4' );
+Route::get('/usuaris/interns/buscar', 'UserController@find')->name('usuariFind');
 Route::get('/usuaris/interns/show/{id}', 'UserController@getShow')->name('veureUsuariIntern');
 Route::get('/usuaris/interns/crear', 'UserController@viewRegistre');
 Route::post('/usuaris/interns/crear', 'UserController@crearUsuario')->name('crearUsuariIntern');
@@ -36,9 +37,12 @@ Route::post('/empleats/modificar/{id}', 'EmpleatExternController@update')->name(
 Route::post('/empleats/esborrar', 'EmpleatExternController@delete')->name('empleatDelete');
 
 Route::get('/registreEntrada', 'RegistreEntradaController@index')->name('indexRegistreEntrada');
+Route::get('/registreEntrada/buscar', 'RegistreEntradaController@find')->name('registreEntradaFind');
 Route::get('/registreEntrada/crear', 'RegistreEntradaController@insertView')->name('registreEntradaInsertView');
 Route::post('/registreEntrada/crear', 'RegistreEntradaController@insert')->name('registreEntradaInsert');
 Route::get('/registreEntrada/mostrar/{id}', 'RegistreEntradaController@show')->name('mostrarRegistreEntrada');
 Route::get('/registreEntrada/modificar/{id}', 'RegistreEntradaController@updateView')->name('registreEntradaUpdateView');
 Route::post('/registreEntrada/modificar/{id}', 'RegistreEntradaController@update')->name('registreEntradaUpdate');
 Route::post('/registreEntrada/esborrar', 'RegistreEntradaController@delete')->name('esborrarRegistreEntrada');
+
+Route::get('/projectes', 'ProjectesController@getIndex')->name('indexProjectes');
