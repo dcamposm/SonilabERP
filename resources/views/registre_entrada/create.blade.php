@@ -31,7 +31,7 @@
                 </div>
 
                 <div class="col-6">
-                    <label for="client" style="font-weight: bold">Selecciona client existent:</label>
+                    <label for="client" style="font-weight: bold">Selecciona client:</label>
                     <select class="form-control" name="id_client">
                         @foreach( $clients as $client )
                         <option value="{{$client['id_client']}}" {{(!empty($registreEntrada) && $registreEntrada->id_registre_entrada == $client['id_client']) ? 'selected' : ''}} >{{$client['nom_client']}}</option>
@@ -106,7 +106,7 @@
                             <option value="Cancel·lada" {{(!empty($registreEntrada) && $registreEntrada->estat == 'Cancel·lada') ? 'selected' : ''}}>Cancel·lada</option>
                         </select>
                 </div>
-
+            </div>
         </fieldset>
 
 
