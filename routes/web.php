@@ -45,4 +45,12 @@ Route::get('/registreEntrada/modificar/{id}', 'RegistreEntradaController@updateV
 Route::post('/registreEntrada/modificar/{id}', 'RegistreEntradaController@update')->name('registreEntradaUpdate');
 Route::post('/registreEntrada/esborrar', 'RegistreEntradaController@delete')->name('esborrarRegistreEntrada');
 
+Route::get('/clients', 'ClientController@index')->name('indexClient');
+Route::get('/clients/mostrar/{id}', 'ClientController@show')->name('mostrarClient');
+Route::get('/clients/crear', 'ClientController@insertView')->name('clientInsertView');
+Route::post('/clients/crear', 'ClientController@insert')->name('clientInsert');
+Route::get('/clients/modificar/{id}', 'ClientController@updateView')->name('clientUpdateView');
+Route::post('/clients/modificar/{id}', 'ClientController@update')->name('clientUpdate');
+Route::post('/clients/esborrar', 'ClientController@delete')->name('esborrarClient');
+
 Route::get('/projectes', 'ProjectesController@getIndex')->name('indexProjectes');

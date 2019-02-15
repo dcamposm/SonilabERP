@@ -4,10 +4,16 @@
 
 <div class="container">
 <div class="row">
-        <div class="col">
+        <div class="col-3">
             <a href="{{ url('/registreEntrada/crear') }}" class="btn btn-success">
                 <span class="fas fa-atlas"></span>
                 Afegir registre d'entrada
+            </a>
+        </div>
+        <div class="col">
+            <a href="{{ url('/clients') }}" class="btn btn-success">
+                <span class="fas fa-address-book"></span>
+                Gestionar Clients
             </a>
         </div>
         <!-- FILTRA REGISTRE ENTRADA -->
