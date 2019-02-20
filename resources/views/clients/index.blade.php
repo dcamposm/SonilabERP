@@ -5,7 +5,7 @@
 <div class="container">
     <div>
         <a href="{{ url('/clients/crear') }}" class="btn btn-success">
-            <span class="fas fa-atlas"></span>
+            <span class="fas fa-address-book"></span>
             Afegir client
         </a>
     </div>
