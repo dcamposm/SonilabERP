@@ -21,20 +21,24 @@ class EmpleatExternController extends Controller
     {
         $this->middleware('auth');
     }
-
+    /*
+        *funcio que retorna tots els empleats externs
+    */
     public function index()
     {
         $empleats = EmpleatExtern::all();
         $carrecs = Carrec::all();
         return View('empleats_externs.index', array('empleats' => $empleats, 'carrecs' => $carrecs));
     }
-    
+    /*
+        *funcio que busca empleats externs per una opcio insertada
+    */
     public function find()
     {
         if (request()->input("searchBy") == '1'){  
-            
+            //Primer busca tots els empleats amb el carrec insertat
             $carrecEmpleat = CarrecEmpleat::where('id_carrec', request()->input("search_Carrec"))->get();
-            
+            //Despres, guarda en una array el id dels empleats amb el carrec insertat
             $cont = 0;
             $empleatsArray = array();
             foreach ($carrecEmpleat as $empleat){
@@ -58,7 +62,7 @@ class EmpleatExternController extends Controller
             }
             
             $empleats = Array();
-            
+            //Despres introdueix en una altre array, tots els atributs del empleat
             for ($i = 0; $i < count($empleatsArray); $i++){
                 $empleats[$i] =  EmpleatExtern::where('id_empleat', $empleatsArray[$i])->first();
             }

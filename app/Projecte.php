@@ -6,12 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Projecte extends Model
 {
-    protected $table = 'SLB_PROJECTES';
-    protected $primaryKey = 'id_projecte';
+    protected $table = 'slb_registre_produccio';
+    protected $primaryKey = 'id';
 
     protected $fillable = [
-        'nom_projecte',
-        'descripcio_projecte'
+        'id_registre_entrada',
+        'id_sub',
+        'nom',
+        'descripcio'
     ];
 
     /**
@@ -23,5 +25,10 @@ class Projecte extends Model
     public function users()
     {
         return $this->hasMany('App\User', 'id_projecte', 'id_projecte');
+    }
+    
+    public function estadillo()
+    {
+        return $this->hasMany('App\Estadillo', 'id_sub', 'subreferencia');
     }
 }

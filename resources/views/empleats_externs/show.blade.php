@@ -83,9 +83,9 @@
     <div class="row">
         @foreach( $carrecsEmpelat as $key => $carrec )
         
-        <div class="col-12">
+        <div class="{{(Auth::user()->hasAnyRole(['1', '4'])) ? 'col-12' : 'col-6 col-sm-6 col-md-3'  }}">
             <table class="table">
-                <thead class="thead-dark">
+                <thead class="thead-dark" style="border-left: 3px solid white">
                     <tr class="row">
                         <th class="col">{{ $key != 'Traductor' ? $key : 'Traductor & Subtitulació' }}</th>
                     </tr>
@@ -126,7 +126,7 @@
                                 @endforeach
                                 </td>
                             </tr>
-                            @if(Auth::user()->hasRole('1') OR Auth::user()->hasRole('4'))
+                            @if(Auth::user()->hasAnyRole(['1', '4']))
                                 <tr class="row text-center bg-white">
                                     @foreach ($info as $key => $infoTarifa) 
                                         @if ($infoTarifa['nomCarrec'] == 'Actor')
@@ -227,6 +227,35 @@
                                                 @foreach ($info as $key2 => $infoTarifa) 
                                                     @if ($infoTarifa['tarifa'] == 'Tarifa sinopsi')
                                                         {{ $infoTarifa['preu_carrec'] }}€
+                                                    @endif
+                                                @endforeach
+                                            </td>
+                                            @break
+                                        @endif
+                                    @endforeach
+                                </tr>
+                            @else
+                                <tr class="row bg-white">
+                                    @foreach ($info as $key => $infoTarifa) 
+                                        @if ($infoTarifa['nomCarrec'] == 'Traductor')
+                                            <td class="col text-left">
+                                                @foreach ($info as $key2 => $infoTarifa) 
+                                                    @if ($infoTarifa['tarifa'] == 'Tarifa traductor')
+                                                        Traductor
+                                                    @endif
+                                                @endforeach
+                                            </td>
+                                            <td class="col text-left">
+                                                @foreach ($info as $key2 => $infoTarifa) 
+                                                    @if ($infoTarifa['tarifa'] == 'Tarifa ajustador')
+                                                        Ajustador
+                                                    @endif
+                                                @endforeach
+                                            </td>
+                                            <td class="col text-left">
+                                                @foreach ($info as $key2 => $infoTarifa) 
+                                                    @if ($infoTarifa['tarifa'] == 'Tarifa lingüista')
+                                                        Lingüista
                                                     @endif
                                                 @endforeach
                                             </td>

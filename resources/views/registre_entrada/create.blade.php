@@ -99,7 +99,7 @@
                     </div>
                 </div>
                 <div class="col-6">
-                        <label for="episodis_setmanals" style="font-weight: bold">Estat:</label>
+                        <label for="estat" style="font-weight: bold">Estat:</label>
                         <select class="form-control" name="estat">
                             <option value="Pendent" {{(!empty($registreEntrada) && $registreEntrada->estat == 'Pendent') ? 'selected' : ''}}>Pendent</option>
                             <option value="Finalitzada" {{(!empty($registreEntrada) && $registreEntrada->estat == 'Finalitzada') ? 'selected' : ''}}>Finalitzada</option>
