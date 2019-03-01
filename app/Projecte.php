@@ -6,12 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Projecte extends Model
 {
-    protected $table = 'SLB_PROJECTES';
-    protected $primaryKey = 'id_projecte';
+    protected $table = 'slb_registre_produccio';
+    protected $primaryKey = 'id';
 
     protected $fillable = [
-        'nom_projecte',
-        'descripcio_projecte'
+        'id_registre_entrada',
+        'id_sub',
+        'setmana',
+        'nom',
+        'estadillo'
     ];
 
     /**
