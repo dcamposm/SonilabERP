@@ -19,32 +19,41 @@
             </form>
         </div>
     </div>
-
+    <br>
     {{-- TABLA DE ESTADILLOS --}}
     <table class="table" style="margin-top: 10px;">
         <thead>
             <tr>
-                <th>Titol</th> 
+                <th>Estadillo</th> 
                 <th>Validat</th>
                 <th>Accions</th>
             </tr>
         </thead>
         <tbody>
-            @foreach( $estadillos as $key => $estadillo )
-            <tr class="table-selected">
-                <td class="cursor"  style="vertical-align: middle;" onclick="self.mostrarEstadillo('{{ route('estadilloShow', array('id' => $estadillo->id_estadillo)) }}')">
-                    <span class="font-weight-bold" style="font-size: 1rem;">{{ $estadillo->registreEntrades->titol }} {{ $estadillo->id_registre_produccio }}</span>
-                </td>
-                <td style="vertical-align: middle;">{{ $estadillo->validat == 0 ? 'No' : 'Si' }}</td>
-                <td style="vertical-align: middle;">
-                    <a href="{{ route('estadilloUpdateView', array('id' => $estadillo['id_estadillo'])) }}" class="btn btn-primary">Modificar</a>
-                    <button class="btn btn-danger" onclick="self.seleccionarEstadillo({{ $estadillo['id_estadillo'] }}, '{{ $estadillo->registreEntrades->titol }} {{ $estadillo->id_registre_produccio }}')" data-toggle="modal" data-target="#exampleModalCenter">Esborrar</button>
-                    <form id="delete-{{ $estadillo['id_estadillo'] }}" action="{{ route('esborrarEstadillo') }}" method="POST">
-                        @csrf
-                        <input type="hidden" readonly name="id" value="{{ $estadillo['id_estadillo'] }}">
-                    </form>
-                </td>
-            </tr>
+            @foreach( $showEstadillos as $key => $estadillos )
+                @foreach( $estadillos as $key2 => $estadillo )
+                    <tr class="table-selected">
+                        <td class="cursor"  style="vertical-align: middle;" onclick="self.mostrarEstadillo('{{ isset($estadillo['id_estadillo']) ? route('estadilloShow', array('id' => $estadillo['id_estadillo'])) : route('estadilloShow', array('id' => $key, 'id_setmana' => $estadillo['setmana'])) }}')">
+                            <span class="font-weight-bold" style="font-size: 1rem;">{{ $key }} {{ $estadillo['nom'] }} {{ !isset($estadillo['min']) ? '' : ( $estadillo['min'] != $estadillo['max'] ? $estadillo['min'].'-'.$estadillo['max'] : $estadillo['min']) }}</span>
+                        </td>
+                        <td style="vertical-align: middle;">{{ $estadillo['validat'] == 0 ? 'No' : 'Si' }}</td>
+                        @if (isset($estadillo['id_estadillo']))
+                            <td style="vertical-align: middle;">
+                                <a href="{{ route('estadilloUpdateView', array('id' => $estadillo['id_estadillo'])) }}" class="btn btn-primary">Modificar</a>
+                                <button class="btn btn-danger" onclick="self.seleccionarEstadillo({{ $estadillo['id_estadillo'] }}, '{{ $estadillo['id_estadillo'] }}')" data-toggle="modal" data-target="#exampleModalCenter">Esborrar</button>
+                                <form id="delete-{{ $estadillo['id_estadillo'] }}" action="{{ route('esborrarEstadillo') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" readonly name="id" value="{{ $estadillo['id_estadillo'] }}">
+                                </form>
+                            </td>
+                        @else
+                            <td style="vertical-align: middle;">
+                                 <a href="{{ route('estadilloShowSetmana', array($key, 'id_setmana' => $estadillo['setmana'])) }}" class="btn btn-primary">Veure estadillos</a>
+                                 <a href="{{ route('estadilloShow', array($key, 'id_setmana' => $estadillo['setmana'])) }}" class="btn btn-primary">Veure actors</a>
+                            </td>
+                        @endif
+                    </tr>
+                @endforeach
             @endforeach
         </tbody>
     </table>
