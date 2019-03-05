@@ -12,6 +12,9 @@ use App\Client;
 use App\Servei;
 use App\TipusMedia;
 use App\RegistreEntrada;
+use App\Projecte;
+use App\Estadillo;
+use App\ActorEstadillo;
 
 class DatabaseSeeder extends Seeder
 {
@@ -65,5 +68,17 @@ class DatabaseSeeder extends Seeder
         RegistreEntrada::unguard();
         $this->call(slb_registre_entradesSeeder::class);
         RegistreEntrada::reguard();
+        
+        Projecte::unguard();
+        $this->call(slb_registre_produccio::class);
+        Projecte::reguard();
+        
+        Estadillo::unguard();
+        $this->call(slb_estadillosTableSeeder::class);
+        Estadillo::reguard();
+        
+        ActorEstadillo::unguard();
+        $this->call(slb_actors_estadillosTableSeeder::class);
+        ActorEstadillo::reguard();
     }
 }

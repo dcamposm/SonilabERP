@@ -38,5 +38,10 @@ class slb_tipus_mediaSeeder extends Seeder
             'nom_media'        => 'Serie Ficció',
             'descripcio_media' => 'Serie de ficció.'
         ));
+        TipusMedia:: create(array(
+            'id_media'         => 6,
+            'nom_media'        => 'Serie d Animació',
+            'descripcio_media' => 'Serie d\'Animació.'
+        ));
     }
 }
