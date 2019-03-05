@@ -27,4 +27,9 @@ class Projecte extends Model
     {
         return $this->belongsTo('App\Estadillo');
     }
+    
+    public function getEstadillo()
+    {
+        return $this->hasOne('App\Estadillo', 'id_registre_produccio' ,'id');
+    }
 }

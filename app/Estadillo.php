@@ -22,4 +22,9 @@ class Estadillo extends Model
     {
         return $this->hasOne('App\Projecte', 'id', 'id_registre_produccio');
     }
+    
+    public function registres()
+    {
+        return $this->belongTo('App\Projecte');
+    }
 }

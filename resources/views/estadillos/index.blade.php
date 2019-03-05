@@ -40,7 +40,7 @@
                         @if (isset($estadillo['id_estadillo']))
                             <td style="vertical-align: middle;">
                                 <a href="{{ route('estadilloUpdateView', array('id' => $estadillo['id_estadillo'])) }}" class="btn btn-primary">Modificar</a>
-                                <button class="btn btn-danger" onclick="self.seleccionarEstadillo({{ $estadillo['id_estadillo'] }}, '{{ $estadillo['id_estadillo'] }}')" data-toggle="modal" data-target="#exampleModalCenter">Esborrar</button>
+                                <button class="btn btn-danger" onclick="self.seleccionarEstadillo({{ $key }}, '{{ $estadillo['nom'] }}')" data-toggle="modal" data-target="#exampleModalCenter">Esborrar</button>
                                 <form id="delete-{{ $estadillo['id_estadillo'] }}" action="{{ route('esborrarEstadillo') }}" method="POST">
                                     @csrf
                                     <input type="hidden" readonly name="id" value="{{ $estadillo['id_estadillo'] }}">
