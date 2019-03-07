@@ -31,7 +31,7 @@
                 </div>
 
                 <div class="col-6">
-                    <label for="client" style="font-weight: bold">Selecciona client existent:</label>
+                    <label for="client" style="font-weight: bold">Selecciona client:</label>
                     <select class="form-control" name="id_client">
                         @foreach( $clients as $client )
                         <option value="{{$client['id_client']}}" {{(!empty($registreEntrada) && $registreEntrada->id_client == $client['id_client']) ? 'selected' : ''}} >{{$client['nom_client']}}</option>
@@ -99,14 +99,14 @@
                     </div>
                 </div>
                 <div class="col-6">
-                        <label for="episodis_setmanals" style="font-weight: bold">Estat:</label>
+                        <label for="estat" style="font-weight: bold">Estat:</label>
                         <select class="form-control" name="estat">
                             <option value="Pendent" {{(!empty($registreEntrada) && $registreEntrada->estat == 'Pendent') ? 'selected' : ''}}>Pendent</option>
                             <option value="Finalitzada" {{(!empty($registreEntrada) && $registreEntrada->estat == 'Finalitzada') ? 'selected' : ''}}>Finalitzada</option>
                             <option value="Cancel·lada" {{(!empty($registreEntrada) && $registreEntrada->estat == 'Cancel·lada') ? 'selected' : ''}}>Cancel·lada</option>
                         </select>
                 </div>
-
+            </div>
         </fieldset>
 
 

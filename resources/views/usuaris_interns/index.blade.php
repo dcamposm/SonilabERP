@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-  <div class="row">
+    <div class="row">
       <div class="col">
             <a href="{{ url('/usuaris/interns/crear') }}" class="btn btn-success">
                 <span class="fas fa-user-plus"></span>
@@ -39,7 +39,6 @@
           </div>
       </div>
   </div>
-
   <div class="row">
 
       @foreach( $arrayUsuaris as $key => $usuaris )
@@ -123,7 +122,7 @@
         }
     }
     
-    $('#searchBy').change(selectSearch); 
+    $('#searchBy').change(selectSearch);   
 </script>
 
 

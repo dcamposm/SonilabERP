@@ -11,37 +11,37 @@
       </div>
 
       <!-- FILTRA EMPLEAT -->
-      <div class="row">
-          <div class="col">
-              <form method = "GET" action= '{{ route('empleatFind') }}' id='search'>
-                  @csrf
-              <div class="input-group">
-                  <select class="custom-select" id='searchBy' name="searchBy" form="search">
-                      <option selected>Buscar per...</option>
-                      <option>Nom o cognoms</option>
-                      <option value="1">Càrrec</option>
-                      <option value="2">Sexe</option>
-                      <option value="3">Nacionalitat</option>
-                  </select>
-                  
-                  <input type="text" id="search_term" class="form-control" name="search_term" placeholder="Buscar treballador...">
-                  
-                  <select class="custom-select" id='search_Carrec' name="search_Carrec" form="search" style="display: none;">
-                      @foreach( $carrecs as $key => $carrec )
-                        <option value="{{$carrec['id_carrec']}}">{{$carrec['descripcio_carrec']}}</option>
-                      @endforeach
-                  </select>
-                  <select class="custom-select" id='search_Sexe' name="search_Sexe" form="search" style="display: none;">
-                        <option value="Dona">Dona</option>
-                        <option value="Home">Home</option>
-                  </select>
-                  <span class="input-group-btn">
-                      <button type="submit" class="btn btn-default" type="button"><span class="fas fa-search"></span></button>
-                  </span>
-              </div>
-              </form>
-          </div>
-      </div>
+        <div class="row">
+            <div class="col">
+                <form method = "GET" action= '{{ route('empleatFind') }}' id='search'>
+                    @csrf
+                <div class="input-group">
+                    <select class="custom-select" id='searchBy' name="searchBy" form="search">
+                        <option selected>Buscar per...</option>
+                        <option>Nom o cognoms</option>
+                        <option value="1">Càrrec</option>
+                        <option value="2">Sexe</option>
+                        <option value="3">Nacionalitat</option>
+                    </select>
+
+                    <input type="text" id="search_term" class="form-control" name="search_term" placeholder="Buscar treballador...">
+
+                    <select class="custom-select" id='search_Carrec' name="search_Carrec" form="search" style="display: none;">
+                        @foreach( $carrecs as $key => $carrec )
+                          <option value="{{$carrec['id_carrec']}}">{{$carrec['descripcio_carrec']}}</option>
+                        @endforeach
+                    </select>
+                    <select class="custom-select" id='search_Sexe' name="search_Sexe" form="search" style="display: none;">
+                          <option value="Dona">Dona</option>
+                          <option value="Home">Home</option>
+                    </select>
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-default" type="button"><span class="fas fa-search"></span></button>
+                    </span>
+                </div>
+                </form>
+            </div>
+        </div>
   </div>
 
   <div class="row">

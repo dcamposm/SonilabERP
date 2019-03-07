@@ -18,6 +18,27 @@
                 <button type="submit" class="btn btn-success col-2">Importar</button>
             </form>
         </div>
+        <div class="col">
+                <form method = "GET" action= '{{ route('registreEntradaFind') }}' id='search'>
+                    @csrf
+                <div class="input-group">
+                    <select class="custom-select" id='searchBy' name="searchBy" form="search">
+                        <option selected>Buscar per...</option>
+                        <option>Referencia</option>
+                        <option value="1">Validat </option>
+                    </select>
+                    <input type="text" id="search_term" class="form-control" name="search_term" placeholder="Buscar Estadillo...">
+                    <select class="custom-select" id='search_Validat' name="search_Validat" form="search" style="display: none;">
+                          <option value="Si">Si</option>
+                          <option value="No">No</option>
+                    </select>
+                    
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-default" type="button"><span class="fas fa-search"></span></button>
+                    </span>
+                </div>
+                </form>
+            </div>
     </div>
     <br>
     {{-- TABLA DE ESTADILLOS --}}
@@ -40,7 +61,7 @@
                         @if (isset($estadillo['id_estadillo']))
                             <td style="vertical-align: middle;">
                                 <a href="{{ route('estadilloUpdateView', array('id' => $estadillo['id_estadillo'])) }}" class="btn btn-primary">Modificar</a>
-                                <button class="btn btn-danger" onclick="self.seleccionarEstadillo({{ $estadillo['id_estadillo'] }}, '{{ $estadillo['id_estadillo'] }}')" data-toggle="modal" data-target="#exampleModalCenter">Esborrar</button>
+                                <button class="btn btn-danger" onclick="self.seleccionarEstadillo({{ $key }}, '{{ $estadillo['nom'] }}')" data-toggle="modal" data-target="#exampleModalCenter">Esborrar</button>
                                 <form id="delete-{{ $estadillo['id_estadillo'] }}" action="{{ route('esborrarEstadillo') }}" method="POST">
                                     @csrf
                                     <input type="hidden" readonly name="id" value="{{ $estadillo['id_estadillo'] }}">
