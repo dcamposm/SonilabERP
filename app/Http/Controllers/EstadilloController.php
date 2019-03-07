@@ -611,7 +611,7 @@ class EstadilloController extends Controller
         $clients = Client::all();
         //return redirect()->route('empleatIndex')->with('success', request()->input("searchBy").'-'.request()->input("search_term"));
         return view('registre_entrada.index',array('registreEntrades' => $registreEntrades, 'clients' => $clients));
-    
+    }
     public function delete(Request $request)
     {
         ActorEstadillo::where('id_estadillo', $request["id"])->delete();
