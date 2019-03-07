@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class RegistreProduccio extends Model
 {
     protected $table = 'slb_registres_produccio';
-    protected $primaryKey = 'subreferencia';
+    protected $primaryKey = 'id';
 
     protected $fillable = [
+        'subreferencia',
         'id_registre_entrada',
         'data_entrega',
         'setmana',

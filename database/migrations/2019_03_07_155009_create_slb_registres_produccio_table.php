@@ -14,7 +14,8 @@ class CreateSlbRegistresProduccioTable extends Migration
     public function up()
     {
         Schema::create('slb_registres_produccio', function (Blueprint $table) {
-            $table->increments('subreferencia');
+            $table->increments('id');
+            $table->integer('subreferencia')->default(0);
             $table->integer('id_registre_entrada')->default(0);
             $table->timestamp('data_entrega');
             $table->integer('setmana')->default(0);
