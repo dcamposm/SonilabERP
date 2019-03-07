@@ -21,7 +21,7 @@ class ProjectesController extends Controller
 
     function viewProjectes(){
         $projectes = Projecte::all();
-        return view("usuaris_interns.create",array('projectes' => $projectes));
+        return view("registre_produccio",array('projectes' => $projectes));
     }
 
     function getIndex(){
