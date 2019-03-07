@@ -9,7 +9,7 @@ class Projecte extends Model
     protected $table = 'slb_registre_produccio';
     protected $primaryKey = 'id';
 
-    protected $fillable = [
+    public $fillable = [
         'id_registre_entrada',
         'id_sub',
         'setmana',
@@ -22,9 +22,14 @@ class Projecte extends Model
      * - En este caso le estamos diciendo que el campo "id_projecte" pertenece al
      * "id_projecte" de modelo User.
      * - Esta función retornará un listado de usuarios los cuales pertenecen a este proyecto.
-     */
-    public function users()
+     */    
+    public function estadillo()
     {
-        return $this->hasMany('App\User', 'id_projecte', 'id_projecte');
+        return $this->belongsTo('App\Estadillo');
+    }
+    
+    public function getEstadillo()
+    {
+        return $this->hasOne('App\Estadillo', 'id_registre_produccio' ,'id');
     }
 }

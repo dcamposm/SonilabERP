@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container">
-<div class="row">
+    <div class="row">
         <div class="col-3">
             <a href="{{ url('/registreEntrada/crear') }}" class="btn btn-success">
                 <span class="fas fa-atlas"></span>
@@ -150,7 +150,7 @@
             document.all["delete-" + self.registrePerEsborrar].submit(); 
         }
     }
-        
+    
     //--------Funcions per el filtra-----------
     function selectSearch() {
         //var value = $('#searchBy').val();

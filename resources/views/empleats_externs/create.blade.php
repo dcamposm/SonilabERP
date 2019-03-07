@@ -508,6 +508,22 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                         document.getElementById('tarifa_'+ cargo + '4' + lang).style.display = 'none'
                         document.getElementById('preu_'+ cargo + '_' + idioma + '_sinopsi').setAttribute('disabled' , '')
                         break
+                    case 'Tarifa traductor':
+                        document.getElementById('tarifa_'+ cargo + '1' + lang).style.display = 'none'
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_traductor').setAttribute('disabled' , '')
+                        break
+                    case 'Tarifa ajustador':
+                        document.getElementById('tarifa_'+ cargo + '2' + lang).style.display = 'none'
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_ajustador').setAttribute('disabled' , '')
+                        break
+                    case 'Tarifa lingüista':
+                        document.getElementById('tarifa_'+ cargo + '3' + lang).style.display = 'none'
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_linguista').setAttribute('disabled' , '')
+                        break
+                    case 'Tarifa sinopsi':
+                        document.getElementById('tarifa_'+ cargo + '4' + lang).style.display = 'none'
+                        document.getElementById('preu_'+ cargo + '_' + idioma + '_sinopsi').setAttribute('disabled' , '')
+                        break
                 }
             }
         });
@@ -544,20 +560,6 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                             colTraductor.style.display = 'block';
                         } else {
                             colTraductor.style.display = 'none';
-                        }
-            break;
-            case "ajustador":
-                        if (colAjustador.style.display == 'none') {
-                            colAjustador.style.display = 'block';
-                        } else {
-                            colAjustador.style.display = 'none';
-                        }
-            break;
-            case "linguista":
-                        if (colLinguista.style.display == 'none') {
-                            colLinguista.style.display = 'block';
-                        } else {
-                            colLinguista.style.display = 'none';
                         }
             break;
         }

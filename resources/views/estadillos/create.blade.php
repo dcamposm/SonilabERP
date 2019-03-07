@@ -43,7 +43,7 @@
     </form>
     
     <div>
-        <a href="{{ url('/estadillos') }}" class="btn btn-primary">
+        <a href="{{ URL::previous() }}" class="btn btn-primary">
             <span class="fas fa-angle-double-left"></span>
             Tornar enrere
         </a>

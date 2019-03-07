@@ -26,7 +26,7 @@
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-3">Cognoms:</td>
-                <td class="col">{{ $empleat['cognom1_empleat']}}{{ $empleat['cognom2_empleat']}}</td>
+                <td class="col">{{ $empleat['cognom1_empleat']}} {{ $empleat['cognom2_empleat']}}</td>
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-3">Sexe:</td>

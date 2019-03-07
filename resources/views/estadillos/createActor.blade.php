@@ -4,7 +4,7 @@
 
 <div class="container">
     <h2 style="font-weight: bold">{{!empty($actor) ? 'Editar actor' : 'Afegir actor'}}</h2>
-    <form method = "POST" action="{{ !empty($actor) ? route('estadilloActorUpdate', array('id' => $estadillos['id_estadillo'], 'id_actor' => $actor['id'])) : route('estadilloActorInsert') }}" enctype="multipart/form-data">
+    <form method = "POST" action="{{ !empty($actor) ? ( !isset($registreProduccio[0]['setmana']) ? route('estadilloActorUpdate', array('id' => $estadillos['id_estadillo'], 'id_actor' => $actor['id'])) : route('estadilloActorUpdate', array('id' => $registreProduccio[0]['id_registre_entrada'],'id_actor' => $actor[0]['id'], 'setmana' => $registreProduccio[0]['setmana']))) : ( !isset($registreProduccio[0]['setmana']) ? route('estadilloActorInsert') : route('estadilloActorInsert', array('setmana' => $registreProduccio[0]['setmana']))) }}" enctype="multipart/form-data">
         @csrf
         <fieldset class="border p-2">
             <legend class="w-auto">Dades:</legend>
@@ -18,11 +18,12 @@
                     <label for="id_actor" style="font-weight: bold">Selecciona actor:</label>
                     <select class="form-control" name="id_actor">
                         @foreach( $empleats as $empleat )
-                            <option value="{{$empleat['id_empleat']}}" {{(!empty($actor) && $actor->id_actor == $empleat['id_empleat']) ? 'selected' : ''}} >{{$empleat['nom_empleat']}} {{$empleat['cognom1_empleat']}}</option>
+                            <option value="{{$empleat['id_empleat']}}" {{(!empty($actor) && $actor[0]->id_actor == $empleat['id_empleat']) ? 'selected' : ''}} >{{$empleat['nom_empleat']}} {{$empleat['cognom1_empleat']}}</option>
                         @endforeach
                     </select>
                 </div>
             </div>
+            <br>
             @if (isset($estadillos))
                 <div class="row">
                     <div class="col-6">
@@ -40,20 +41,55 @@
                 </div>
             @else
                 @foreach ($registreProduccio as $projecte)
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="take_estaillo_{{ $projecte['id'] }}" style="font-weight: bold">TKs Episodi {{ $projecte['id_sub'] }}:</label>
-                                <input type="number" class="form-control" id="take_estaillo_{{ $projecte['id'] }}" placeholder="Entrar tks" name="take_estaillo_{{ $projecte['id'] }}" value="{{!empty($actor) ? $actor->take_estaillo : ''}}">
-                            </div>
+                    @if (isset($projecte->getEstadillo))
+                        <div class="row">
+                            @if (isset($actor))
+                                @forelse ($projecte->getEstadillo->actors as $actors)
+                                    @if ($actors->id_actor == $actor[0]->id_actor)
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="take_estaillo_{{ $projecte['id'] }}" style="font-weight: bold">TKs Episodi {{ $projecte['id_sub'] }}:</label>
+                                                <input type="number" class="form-control" id="take_estaillo_{{ $projecte['id'] }}" placeholder="Entrar tks" name="take_estaillo_{{ $projecte['id'] }}" value="{{ $actors['take_estaillo']}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="cg_actor_{{ $projecte['id'] }}" style="font-weight: bold">CGs Episodi {{ $projecte['id_sub'] }}:</label>
+                                                <input type="number" class="form-control" id="cg_actor_{{ $projecte['id'] }}" placeholder="Entrar cgs" name="cg_actor_{{ $projecte['id'] }}" value="{{ $actors['cg_actor'] }}">
+                                            </div>
+                                        </div>
+                                        @break
+                                    @endif
+                                    @empty
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="take_estaillo_{{ $projecte['id'] }}" style="font-weight: bold">TKs Episodi {{ $projecte['id_sub'] }}:</label>
+                                                <input type="number" class="form-control" id="take_estaillo_{{ $projecte['id'] }}" placeholder="Entrar tks" name="take_estaillo_{{ $projecte['id'] }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="cg_actor_{{ $projecte['id'] }}" style="font-weight: bold">CGs Episodi {{ $projecte['id_sub'] }}:</label>
+                                                <input type="number" class="form-control" id="cg_actor_{{ $projecte['id'] }}" placeholder="Entrar cgs" name="cg_actor_{{ $projecte['id'] }}">
+                                            </div>
+                                        </div> 
+                                @endforelse
+                            @else
+                               <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="take_estaillo_{{ $projecte['id'] }}" style="font-weight: bold">TKs Episodi {{ $projecte['id_sub'] }}:</label>
+                                        <input type="number" class="form-control" id="take_estaillo_{{ $projecte['id'] }}" placeholder="Entrar tks" name="take_estaillo_{{ $projecte['id'] }}">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="cg_actor_{{ $projecte['id'] }}" style="font-weight: bold">CGs Episodi {{ $projecte['id_sub'] }}:</label>
+                                        <input type="number" class="form-control" id="cg_actor_{{ $projecte['id'] }}" placeholder="Entrar cgs" name="cg_actor_{{ $projecte['id'] }}">
+                                    </div>
+                                </div> 
+                            @endif
                         </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="cg_actor_{{ $projecte['id'] }}" style="font-weight: bold">CGs Episodi {{ $projecte['id_sub'] }}::</label>
-                                <input type="number" class="form-control" id="cg_actor_{{ $projecte['id'] }}" placeholder="Entrar cgs" name="cg_actor_{{ $projecte['id'] }}" value="{{!empty($actor) ? $actor->cg_actor : ''}}">
-                            </div>
-                        </div>
-                    </div>
+                    @endif
                 @endforeach
             @endif
         </fieldset>
