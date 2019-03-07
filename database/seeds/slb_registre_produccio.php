@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Projecte;
+use App\RegistreProduccio;
 
 class slb_registre_produccio extends Seeder
 {
@@ -13,15 +13,12 @@ class slb_registre_produccio extends Seeder
     public function run()
     {
         // Borramos los datos de la tabla
-        DB::table('slb_registre_produccio')->delete();
+        DB::table('slb_registres_produccio')->delete();
 
         // Añadimos una entrada a esta tabla
-        Projecte::create(array(
-            'id' => '1',
-            'id_registre_entrada' => '1',
-            'id_sub' => '0',
-            'nom' => 'Registre de prova',
-            'setmana' => '1'
+        RegistreProduccio::create(array(
+            'subreferencia' => '1',
+            'id_registre_entrada' => '1'
         ));
     }
 }
