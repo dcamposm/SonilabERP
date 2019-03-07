@@ -35,8 +35,8 @@
                         @endif
                     @endforeach
                 </td>
-                <td style="vertical-align: middle;">{{ $actor['cg_actor']}}</td>
-                <td style="vertical-align: middle;">{{ $actor['take_estaillo']}}</td>
+                <td style="vertical-align: middle;">{{ $actor['cg_estadillo']}}</td>
+                <td style="vertical-align: middle;">{{ $actor['take_estadillo']}}</td>
                 <td style="vertical-align: middle;">
                     <a href="{{ !isset($registreProduccio) ? route('estadilloActorUpdateView', array('id' => $estadillos->id_estadillo, 'id_actor' => $actor['id'])) : route('estadilloActorUpdateView', array('id' => $registreProduccio->id_registre_entrada, 'id_actor'=>$actor['id_actor'], 'setmana'=>$registreProduccio->setmana))  }}" class="btn btn-primary">Modificar</a>
                     @if (isset($actor['id']))

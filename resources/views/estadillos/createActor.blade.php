@@ -28,14 +28,14 @@
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
-                            <label for="take_estaillo" style="font-weight: bold">TKs:</label>
-                            <input type="number" class="form-control" id="take_estaillo" placeholder="Entrar tks" name="take_estaillo" value="{{!empty($actor) ? $actor->take_estaillo : ''}}">
+                            <label for="take_estadillo" style="font-weight: bold">TKs:</label>
+                            <input type="number" class="form-control" id="take_estadillo" placeholder="Entrar tks" name="take_estadillo" value="{{!empty($actor) ? $actor->take_estadillo : ''}}">
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            <label for="cg_actor" style="font-weight: bold">CGs:</label>
-                            <input type="number" class="form-control" id="cg_actor" placeholder="Entrar cgs" name="cg_actor" value="{{!empty($actor) ? $actor->cg_actor : ''}}">
+                            <label for="cg_estadillo" style="font-weight: bold">CGs:</label>
+                            <input type="number" class="form-control" id="cg_estadillo" placeholder="Entrar cgs" name="cg_estadillo" value="{{!empty($actor) ? $actor->cg_estadillo : ''}}">
                         </div>
                     </div>
                 </div>
@@ -48,14 +48,14 @@
                                     @if ($actors->id_actor == $actor[0]->id_actor)
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <label for="take_estaillo_{{ $projecte['id'] }}" style="font-weight: bold">TKs Episodi {{ $projecte['id_sub'] }}:</label>
-                                                <input type="number" class="form-control" id="take_estaillo_{{ $projecte['id'] }}" placeholder="Entrar tks" name="take_estaillo_{{ $projecte['id'] }}" value="{{ $actors['take_estaillo']}}">
+                                                <label for="take_estaidllo_{{ $projecte['id'] }}" style="font-weight: bold">TKs Episodi {{ $projecte['id_sub'] }}:</label>
+                                                <input type="number" class="form-control" id="take_estadillo_{{ $projecte['id'] }}" placeholder="Entrar tks" name="take_estadillo_{{ $projecte['id'] }}" value="{{ $actors['take_estadillo']}}">
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <label for="cg_actor_{{ $projecte['id'] }}" style="font-weight: bold">CGs Episodi {{ $projecte['id_sub'] }}:</label>
-                                                <input type="number" class="form-control" id="cg_actor_{{ $projecte['id'] }}" placeholder="Entrar cgs" name="cg_actor_{{ $projecte['id'] }}" value="{{ $actors['cg_actor'] }}">
+                                                <label for="cg_estadillo{{ $projecte['id'] }}" style="font-weight: bold">CGs Episodi {{ $projecte['id_sub'] }}:</label>
+                                                <input type="number" class="form-control" id="cg_estadillo{{ $projecte['id'] }}" placeholder="Entrar cgs" name="cg_estadillo{{ $projecte['id'] }}" value="{{ $actors['cg_estadillo'] }}">
                                             </div>
                                         </div>
                                         @break
@@ -63,28 +63,28 @@
                                     @empty
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <label for="take_estaillo_{{ $projecte['id'] }}" style="font-weight: bold">TKs Episodi {{ $projecte['id_sub'] }}:</label>
-                                                <input type="number" class="form-control" id="take_estaillo_{{ $projecte['id'] }}" placeholder="Entrar tks" name="take_estaillo_{{ $projecte['id'] }}">
+                                                <label for="take_estadillo_{{ $projecte['id'] }}" style="font-weight: bold">TKs Episodi {{ $projecte['id_sub'] }}:</label>
+                                                <input type="number" class="form-control" id="take_estadillo_{{ $projecte['id'] }}" placeholder="Entrar tks" name="take_estadillo_{{ $projecte['id'] }}">
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <label for="cg_actor_{{ $projecte['id'] }}" style="font-weight: bold">CGs Episodi {{ $projecte['id_sub'] }}:</label>
-                                                <input type="number" class="form-control" id="cg_actor_{{ $projecte['id'] }}" placeholder="Entrar cgs" name="cg_actor_{{ $projecte['id'] }}">
+                                                <label for="cg_estadillo{{ $projecte['id'] }}" style="font-weight: bold">CGs Episodi {{ $projecte['id_sub'] }}:</label>
+                                                <input type="number" class="form-control" id="cg_estadillo{{ $projecte['id'] }}" placeholder="Entrar cgs" name="cg_estadillo{{ $projecte['id'] }}">
                                             </div>
                                         </div> 
                                 @endforelse
                             @else
                                <div class="col-6">
                                     <div class="form-group">
-                                        <label for="take_estaillo_{{ $projecte['id'] }}" style="font-weight: bold">TKs Episodi {{ $projecte['id_sub'] }}:</label>
-                                        <input type="number" class="form-control" id="take_estaillo_{{ $projecte['id'] }}" placeholder="Entrar tks" name="take_estaillo_{{ $projecte['id'] }}">
+                                        <label for="take_estadillo_{{ $projecte['id'] }}" style="font-weight: bold">TKs Episodi {{ $projecte['id_sub'] }}:</label>
+                                        <input type="number" class="form-control" id="take_estadillo_{{ $projecte['id'] }}" placeholder="Entrar tks" name="take_estadillo_{{ $projecte['id'] }}">
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
-                                        <label for="cg_actor_{{ $projecte['id'] }}" style="font-weight: bold">CGs Episodi {{ $projecte['id_sub'] }}:</label>
-                                        <input type="number" class="form-control" id="cg_actor_{{ $projecte['id'] }}" placeholder="Entrar cgs" name="cg_actor_{{ $projecte['id'] }}">
+                                        <label for="cg_estadillo{{ $projecte['id'] }}" style="font-weight: bold">CGs Episodi {{ $projecte['id_sub'] }}:</label>
+                                        <input type="number" class="form-control" id="cg_estadillo{{ $projecte['id'] }}" placeholder="Entrar cgs" name="cg_estadillo{{ $projecte['id'] }}">
                                     </div>
                                 </div> 
                             @endif

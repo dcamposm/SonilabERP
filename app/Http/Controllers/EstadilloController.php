@@ -109,12 +109,12 @@ class EstadilloController extends Controller
                     if (!isset($arrayActors[$actor['id_actor']])){
                         $arrayActors[$actor['id_actor']] = array(
                             'id_actor' => $actor['id_actor'],
-                            'cg_actor' =>  $actor['cg_actor'],
+                            'cg_estadillo' =>  $actor['cg_estadillo'],
                             'take_estaillo' => $actor['take_estaillo']
                         );
                     } else {
-                        $arrayActors[$actor['id_actor']]['cg_actor']+=$actor['cg_actor'];
-                        $arrayActors[$actor['id_actor']]['take_estaillo']+=$actor['take_estaillo'];
+                        $arrayActors[$actor['id_actor']]['cg_estadillo']+=$actor['cg_estadillo'];
+                        $arrayActors[$actor['id_actor']]['take_estadillo']+=$actor['take_estadillo'];
                         //return response()->json($arrayActors);
                     }
                     //return response()->json($arrayActors);
@@ -425,8 +425,8 @@ class EstadilloController extends Controller
         if ($setmana == 0){
            $v = Validator::make(request()->all(), [
                 'id_actor'          => 'required',
-                'take_estaillo'     => 'required',
-                'cg_actor'          => 'required',
+                'take_estadillo'     => 'required',
+                'cg_estadillo'          => 'required',
             ]);
 
             if ($v->fails()) {
@@ -462,8 +462,8 @@ class EstadilloController extends Controller
                             $actor = new ActorEstadillo;
                             $actor->id_estadillo=$estadillo->id_estadillo;
                             $actor->id_actor=request()->input('id_actor');
-                            $actor->take_estaillo=request()->input('take_estaillo_'.$estadillo->id_registre_produccio);
-                            $actor->cg_actor=request()->input('cg_actor_'.$estadillo->id_registre_produccio);
+                            $actor->take_estaillo=request()->input('take_estadillo_'.$estadillo->id_registre_produccio);
+                            $actor->cg_estadillo=request()->input('cg_estadillo'.$estadillo->id_registre_produccio);
                             $actor->save();
                         }
                         //return response()->json($estadillo->id_registre_produccio);
@@ -537,8 +537,8 @@ class EstadilloController extends Controller
             if ($actor) {
                 $v = Validator::make(request()->all(), [
                     'id_actor'          => 'required',
-                    'take_estaillo'     => 'required',
-                    'cg_actor'          => 'required',
+                    'take_estadillo'     => 'required',
+                    'cg_estadillo'          => 'required',
                 ]);
 
                 if ($v->fails()) {
@@ -579,15 +579,15 @@ class EstadilloController extends Controller
                         $actor = new ActorEstadillo;
                         $actor->id_estadillo=$estadillo->id_estadillo;
                         $actor->id_actor=request()->input('id_actor');
-                        $actor->take_estaillo=request()->input('take_estaillo_'.$estadillo->id_registre_produccio);
-                        $actor->cg_actor=request()->input('cg_actor_'.$estadillo->id_registre_produccio);
+                        $actor->take_estadillo=request()->input('take_estadillo_'.$estadillo->id_registre_produccio);
+                        $actor->cg_estadillo=request()->input('cg_estadillo'.$estadillo->id_registre_produccio);
                         $actor->save();
                     } else {
                         //return response()->json($actor);
                         $actor->id_estadillo=$estadillo->id_estadillo;
                         $actor->id_actor=request()->input('id_actor');
-                        $actor->take_estaillo=request()->input('take_estaillo_'.$estadillo->id_registre_produccio);
-                        $actor->cg_actor=request()->input('cg_actor_'.$estadillo->id_registre_produccio);
+                        $actor->take_estadillo=request()->input('take_estaillo_'.$estadillo->id_registre_produccio);
+                        $actor->cg_estadillo=request()->input('cg_estadillo'.$estadillo->id_registre_produccio);
                         $actor->save(); 
                     }
                     //return response()->json($estadillo->id_registre_produccio);
