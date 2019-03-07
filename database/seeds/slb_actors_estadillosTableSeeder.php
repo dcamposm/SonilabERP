@@ -22,7 +22,7 @@ class slb_actors_estadillosTableSeeder extends Seeder
             'id_actor' => '1',
             'take_estadillo' => '20',
             'cg_estadillo' => '4',
-            'canso_estadillo' => '0'
+            'canso_estaillo' => '0'
         ));
     }
 }
