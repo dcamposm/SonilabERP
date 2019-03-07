@@ -71,7 +71,7 @@ class User extends Authenticatable
         if ($this->hasAnyRole($roles)) {
             return true;
         }
-        abort(401, 'Esta acció no está autorizada.');
+        return redirect('home')->with('alert', 'WARNING. No tens accés autoritzat');
     }
     public function hasAnyRole($roles)
     {
