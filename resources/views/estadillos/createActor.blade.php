@@ -54,8 +54,8 @@
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <label for="cg_estadillo{{ $projecte['id'] }}" style="font-weight: bold">CGs Episodi {{ $projecte['id_sub'] }}:</label>
-                                                <input type="number" class="form-control" id="cg_estadillo{{ $projecte['id'] }}" placeholder="Entrar cgs" name="cg_estadillo{{ $projecte['id'] }}" value="{{ $actors['cg_estadillo'] }}">
+                                                <label for="cg_estadillo_{{ $projecte['id'] }}" style="font-weight: bold">CGs Episodi {{ $projecte['id_sub'] }}:</label>
+                                                <input type="number" class="form-control" id="cg_estadillo_{{ $projecte['id'] }}" placeholder="Entrar cgs" name="cg_estadillo_{{ $projecte['id'] }}" value="{{ $actors['cg_estadillo'] }}">
                                             </div>
                                         </div>
                                         @break
@@ -69,8 +69,8 @@
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <label for="cg_estadillo{{ $projecte['id'] }}" style="font-weight: bold">CGs Episodi {{ $projecte['id_sub'] }}:</label>
-                                                <input type="number" class="form-control" id="cg_estadillo{{ $projecte['id'] }}" placeholder="Entrar cgs" name="cg_estadillo{{ $projecte['id'] }}">
+                                                <label for="cg_estadillo_{{ $projecte['id'] }}" style="font-weight: bold">CGs Episodi {{ $projecte['id_sub'] }}:</label>
+                                                <input type="number" class="form-control" id="cg_estadillo_{{ $projecte['id'] }}" placeholder="Entrar cgs" name="cg_estadillo_{{ $projecte['id'] }}">
                                             </div>
                                         </div> 
                                 @endforelse
@@ -83,8 +83,8 @@
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
-                                        <label for="cg_estadillo{{ $projecte['id'] }}" style="font-weight: bold">CGs Episodi {{ $projecte['id_sub'] }}:</label>
-                                        <input type="number" class="form-control" id="cg_estadillo{{ $projecte['id'] }}" placeholder="Entrar cgs" name="cg_estadillo{{ $projecte['id'] }}">
+                                        <label for="cg_estadillo_{{ $projecte['id'] }}" style="font-weight: bold">CGs Episodi {{ $projecte['id_sub'] }}:</label>
+                                        <input type="number" class="form-control" id="cg_estadillo_{{ $projecte['id'] }}" placeholder="Entrar cgs" name="cg_estadillo_{{ $projecte['id'] }}">
                                     </div>
                                 </div> 
                             @endif
