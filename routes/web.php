@@ -75,11 +75,16 @@ Route::get('/idiomes/modificar/{id}', 'IdiomaController@updateView')->name('idio
 Route::post('/idiomes/modificar/{id}', 'IdiomaController@update')->name('idiomaUpdate');
 Route::post('/idiomes/esborrar', 'IdiomaController@delete')->name('idiomaDelete');
 //------------------Rutes registre producció------------------
+<<<<<<< HEAD
 Route::middleware(['role: 1, 2,3,4'])->group(function () {
     Route::get('/registreProduccio', 'RegistreProduccioController@getIndex')->name('indexRegistreProduccio');
     Route::get('/registreProduccio/crear', 'RegistreProduccioController@insertView')->name('registreEntradaInsertView');
 });
 
+=======
+Route::get('/registreProduccio', 'RegistreProduccioController@getIndex')->name('indexRegistreProduccio');
+Route::get('/registreProduccio/create', 'RegistreProduccioController@createView')->name('createRegistreProduccio');
+>>>>>>> 02b80ac59b3c527381c16281bd12bec726578d47
 //------------------Rutes estadillo------------------
 Route::get('/estadillos', 'EstadilloController@index')->name('indexEstadillos');
 Route::get('/estadillos/buscar', 'EstadilloController@find')->name('EstadillosFind');
