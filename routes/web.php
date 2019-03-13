@@ -76,6 +76,7 @@ Route::post('/idiomes/modificar/{id}', 'IdiomaController@update')->name('idiomaU
 Route::post('/idiomes/esborrar', 'IdiomaController@delete')->name('idiomaDelete');
 //------------------Rutes registre producció------------------
 Route::get('/registreProduccio', 'RegistreProduccioController@getIndex')->name('indexRegistreProduccio');
+Route::get('/registreProduccio/create', 'RegistreProduccioController@createView')->name('createRegistreProduccio');
 //------------------Rutes estadillo------------------
 Route::get('/estadillos', 'EstadilloController@index')->name('indexEstadillos');
 Route::get('/estadillos/buscar', 'EstadilloController@find')->name('EstadillosFind');
