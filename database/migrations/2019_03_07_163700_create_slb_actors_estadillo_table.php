@@ -17,9 +17,9 @@ class CreateSlbActorsEstadilloTable extends Migration
             $table->increments('id');
             $table->integer('id_produccio');
             $table->integer('id_empleat');
-            $table->double('take_estadillo');
-            $table->double('cg_estadillo');
-            $table->double('canso_estadillo');
+            $table->double('take_estadillo')->nullable();
+            $table->double('cg_estadillo')->nullable();
+            $table->double('canso_estadillo')->nullable();
             $table->timestamps();
         });
     }
