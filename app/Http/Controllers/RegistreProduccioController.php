@@ -39,8 +39,8 @@ class RegistreProduccioController extends Controller {
     }
 
     public function find() {
-        if (request()->input("searchBy") == '1') {
-            $registreProduccio = RegistreEntrada::where('id_client', request()->input("search_Client"))->get();
+        if (request()->input("searchBy") == '3') {
+            $registreProduccio = RegistreProduccio::where('estat', request()->input("search_Estat"))->get();
         } else if (request()->input("searchBy") == '2') {
             $registreProduccio = RegistreEntrada::where('estat', request()->input("search_Estat"))->get();
         } else {
@@ -48,9 +48,7 @@ class RegistreProduccioController extends Controller {
                             ->orWhere('id_registre_entrada', request()->input("search_term"))->get();
         }
 
-        $clients = Client::all();
-        //return redirect()->route('empleatIndex')->with('success', request()->input("searchBy").'-'.request()->input("search_term"));
-        return view('registre_entrada.index', array('registreEntrades' => $registreProduccio, 'clients' => $clients));
+        return view('registre_produccio.index', array('registreProduccions' => $registreProduccio));
     }
 
 }
