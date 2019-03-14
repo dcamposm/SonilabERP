@@ -61,13 +61,13 @@
                 @foreach( $estadillos as $key2 => $estadillo )
                     <tr class="table-selected">
                         <td class="cursor"  style="vertical-align: middle;" onclick="self.mostrarEstadillo('{{ isset($estadillo['id_estadillo']) ? route('estadilloShow', array('id' => $estadillo['id_estadillo'])) : route('estadilloShow', array('id' => $key, 'id_setmana' => $estadillo['setmana'])) }}')">
-                            <span class="font-weight-bold" style="font-size: 1rem;">{{ $key }} {{ $estadillo['nom'] }} {{ !isset($estadillo['min']) ? '' : ( $estadillo['min'] != $estadillo['max'] ? $estadillo['min'].'-'.$estadillo['max'] : $estadillo['min']) }}</span>
+                            <span class="font-weight-bold" style="font-size: 1rem;">{{ $key }} {{ $estadillo['titol'] }} {{ !isset($estadillo['min']) ? '' : ( $estadillo['min'] != $estadillo['max'] ? $estadillo['min'].'-'.$estadillo['max'] : $estadillo['min']) }}</span>
                         </td>
                         <td style="vertical-align: middle;">{{ $estadillo['validat'] == 0 ? 'No' : 'Si' }}</td>
                         @if (isset($estadillo['id_estadillo']))
                             <td style="vertical-align: middle;">
                                 <a href="{{ route('estadilloUpdateView', array('id' => $estadillo['id_estadillo'])) }}" class="btn btn-primary">Modificar</a>
-                                <button class="btn btn-danger" onclick="self.seleccionarEstadillo({{ $key }}, '{{ $estadillo['nom'] }}')" data-toggle="modal" data-target="#exampleModalCenter">Esborrar</button>
+                                <button class="btn btn-danger" onclick="self.seleccionarEstadillo({{ $key }}, '{{ $estadillo['titol'] }}')" data-toggle="modal" data-target="#exampleModalCenter">Esborrar</button>
                                 <form id="delete-{{ $estadillo['id_estadillo'] }}" action="{{ route('esborrarEstadillo') }}" method="POST">
                                     @csrf
                                     <input type="hidden" readonly name="id" value="{{ $estadillo['id_estadillo'] }}">

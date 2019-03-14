@@ -41,4 +41,14 @@ class RegistreProduccio extends Model
         'ppe',
         'estat'
     ];
+    
+    public function getEstadillo()
+    {
+            return $this->hasOne('App\Estadillo', 'id_registre_produccio');
+    }
+    
+    public function estadillo()
+    {
+        return $this->belongTo('App\Estadillo');
+    }
 }

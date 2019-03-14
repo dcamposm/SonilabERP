@@ -14,7 +14,7 @@
     
     <br>
     {{-- TABLA DE ACTORS ESTADILLO --}}
-    <h2 style="font-weight: bold">{{ $estadillos->id_registre_entrada }} {{ $estadillos->nom }} {{ !isset($min) ? '' : ( $min != $max ? $min.'-'.$max : $min) }}</h2>
+    <h2 style="font-weight: bold">{{ $estadillos->id_registre_entrada }} {{ $estadillos->titol }} {{ !isset($min) ? '' : ( $min != $max ? $min.'-'.$max : $min) }}</h2>
     
     <table class="table" style="margin-top: 10px;">
         <thead>

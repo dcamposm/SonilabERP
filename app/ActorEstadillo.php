@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class ActorEstadillo extends Model
 {
     protected $table = 'slb_actors_estadillo';
-    protected $primaryKey = ('id');
+    protected $primaryKey = 'id';
 
     protected $fillable = [
-        "id_estadillo",
+        "id_produccio",
         "id_actor",
         "take_estadillo", 
         "cg_estadillo", 
@@ -19,11 +19,11 @@ class ActorEstadillo extends Model
 
     public function empleat()
     {
-        return $this->belongsTo('App\EmpleatExtern', 'id_empleat', 'id_empleat');
+        return $this->belongsTo('App\EmpleatExtern', 'id_actor', 'id_empleat');
     }
 
     public function estadillo()
     {
-        return $this->belongsTo('App\Idioma', 'id_estadillo', 'id_estadillo');
+        return $this->belongsTo('App\Estadillo', 'id_estadillo', 'id_produccio');
     }
 }
