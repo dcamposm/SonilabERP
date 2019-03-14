@@ -3,15 +3,6 @@
 @section('content')
 
 <div class="container">
-    <div class="row">
-        <div class="col-3">
-            <a href="{{ route('estadilloActorInsertView', array('id' => $estadillos->id_estadillo)) }}" class="btn btn-success">
-                <span class="fas fa-user-tie"></span>
-                Afegir actor
-            </a>
-        </div>
-    </div>
-    <br>
     {{-- TABLA DE ESTADILLOS --}}
     <table class="table" style="margin-top: 10px;">
         <thead>
@@ -22,27 +13,23 @@
             </tr>
         </thead>
         <tbody>
-            @foreach( $actors as $key => $actor )
-            <tr class="table-selected">
-                <td style="vertical-align: middle;">
-                    @foreach ($empleats as $empleat)
-                        @if ($actor->id_actor == $empleat->id_empleat)
-                            <span class="font-weight-bold" style="font-size: 1rem;">{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }}</span>
-                        @endif
-                    @endforeach
-                </td>
-                <td style="vertical-align: middle;">{{ $actor->take_estaillo}}</td>
-                <td style="vertical-align: middle;">{{ $actor->cg_actor}}</td>
-                <td style="vertical-align: middle;">{{ $actor->canso_estaillo}}</td>
-                <td style="vertical-align: middle;">
-                    <a href="{{ route('estadilloActorUpdateView', array('id' => $estadillos['id_estadillo'], 'id_actor' => $actor['id'])) }}" class="btn btn-primary">Modificar</a>
-                    <button class="btn btn-danger" onclick="self.seleccionarActor({{ $actor['id'] }}, '{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }}')" data-toggle="modal" data-target="#exampleModalCenter">Esborrar</button>
-                    <form id="delete-{{ $actor['id'] }}" action="{{ route('esborrarEstadilloActor') }}" method="POST">
-                        @csrf
-                        <input type="hidden" readonly name="id" value="{{ $actor['id'] }}">
-                    </form>
-                </td>
-            </tr>
+            @foreach( $registreProduccio as $registre )
+                    @if (isset($registre->getEstadillo))
+                        <tr class="table-selected">
+                            <td class="cursor"  style="vertical-align: middle;" onclick="self.mostrarEstadillo('{{ route('estadilloShow', array('id' => $registre->getEstadillo->id_estadillo)) }}')">
+                                <span class="font-weight-bold" style="font-size: 1rem;">{{ $registre->id_registre_entrada }} {{ $registre->nom }} {{ $registre->id_sub }}</span>
+                            </td>
+                            <td style="vertical-align: middle;">{{ $registre->estadillo == 0 ? 'No' : 'Si' }}</td>
+                            <td style="vertical-align: middle;">
+                                <a href="{{ route('estadilloUpdateView', array('id' => $registre->getEstadillo->id_estadillo)) }}" class="btn btn-primary">Modificar</a>
+                                <button class="btn btn-danger" onclick="self.seleccionarEstadillo({{ $registre->getEstadillo->id_estadillo }}, '{{ $registre->id_registre_entrada }} {{ $registre->nom }} {{ $registre->id_sub }}')" data-toggle="modal" data-target="#exampleModalCenter">Esborrar</button>
+                                <form id="delete-{{ $registre->getEstadillo->id_estadillo }}" action="{{ route('esborrarEstadillo') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" readonly name="id" value="{{ $registre->getEstadillo->id_estadillo }}">
+                                </form>
+                            </td>
+                        </tr>
+                    @endif
             @endforeach
         </tbody>
     </table>
@@ -53,12 +40,12 @@
             Tornar enrere
         </a>
     </div>
-    <!-- MODAL ESBORRAR ACTOR ESTADILLO -->
+    <!-- MODAL ESBORRAR ESTADILLO -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Esborrar actor</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">Esborrar estadillo</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -67,8 +54,8 @@
                     <span id="delete-message">...</span>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="self.seleccionarActor(0)">Tancar</button>
-                    <button type="button" class="btn btn-danger" onclick="self.esborrarActor()">Esborrar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="self.seleccionarEstadillo(0)">Tancar</button>
+                    <button type="button" class="btn btn-danger" onclick="self.esborrarEstadillo()">Esborrar</button>
                 </div>
             </div>
         </div>
@@ -78,25 +65,25 @@
 
 <script>
     var self = this;
-    self.actorPerEsborrar = 0;
+    self.estadilloPerEsborrar = 0;
 
-    // Executa el formulari per mostrar la vista d'un actor.
-    self.mostrarActor = function (urlShow) {
+    // Executa el formulari per mostrar la vista d'un estadillo.
+    self.mostrarEstadillo = function (urlShow) {
         window.location.replace(urlShow);
     }
 
-    // Emmagatzema l'identificador d'un actor i mostra un missatge en el modal d'esborrar.
-    self.seleccionarActor = function (actorId, actorAlias) {
-        self.actorPerEsborrar = actorId;
-        if (actorAlias != undefined) {
-            document.getElementById('delete-message').innerHTML = 'Vols esborrar el actor <b>' + actorAlias + '</b>?';
+    // Emmagatzema l'identificador d'un estadillo i mostra un missatge en el modal d'esborrar.
+    self.seleccionarEstadillo = function (estadilloId, estadilloAlias) {
+        self.estadilloPerEsborrar = estadilloId;
+        if (estadilloAlias != undefined) {
+            document.getElementById('delete-message').innerHTML = 'Vols esborrar el estadillo <b>' + estadilloAlias + '</b>?';
         }
     }
 
-    // Esborra el d'un actor seleccionat.
-    self.esborrarActor = function () {
-        if (self.actorPerEsborrar != 0) {
-            document.all["delete-" + self.actorPerEsborrar].submit(); 
+    // Esborra el d'un estadillo seleccionat.
+    self.esborrarEstadillo = function () {
+        if (self.estadilloPerEsborrar != 0) {
+            document.all["delete-" + self.estadilloPerEsborrar].submit(); 
         }
     }
 </script>

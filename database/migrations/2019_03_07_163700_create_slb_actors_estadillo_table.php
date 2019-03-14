@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSlbRegistreProduccio extends Migration
+class CreateSlbActorsEstadilloTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,13 @@ class CreateSlbRegistreProduccio extends Migration
      */
     public function up()
     {
-        Schema::create('slb_registre_produccio', function (Blueprint $table) {
+        Schema::create('slb_actors_estadillo', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('id_produccio');
+            $table->integer('id_empleat');
+            $table->double('take_estadillo');
+            $table->double('cg_estadillo');
+            $table->double('canso_estadillo');
             $table->timestamps();
         });
     }
@@ -26,6 +31,6 @@ class CreateSlbRegistreProduccio extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('slb_registre_produccio');
+        Schema::dropIfExists('slb_actors_estadillo');
     }
 }

@@ -18,13 +18,15 @@
                     </select>
                 </div>
                 
-                <div class="col-6">
-                    <label for="validat" style="font-weight: bold">Validat:</label>
-                    <select class="form-control" name="validat">
-                        <option value="0" {{(!empty($estadillos) && $estadillos->validat == '0') ? 'selected' : ''}}>No</option>
-                        <option value="1" {{(!empty($estadillos) && $estadillos->validat == '1') ? 'selected' : ''}}>Si</option>
-                    </select>
-                </div>
+                @if (isset($estadillos))
+                    <div class="col-6">
+                        <label for="validat" style="font-weight: bold">Validat:</label>
+                        <select class="form-control" name="validat">
+                            <option value="0" {{$registre->estadillo == '0' ? 'selected' : ''}}>No</option>
+                            <option value="1" {{$registre->estadillo == '1' ? 'selected' : ''}}>Si</option>
+                        </select>
+                    </div>
+                @endif
             </div>
         </fieldset>
 
@@ -41,7 +43,7 @@
     </form>
     
     <div>
-        <a href="{{ url('/estadillos') }}" class="btn btn-primary">
+        <a href="{{ URL::previous() }}" class="btn btn-primary">
             <span class="fas fa-angle-double-left"></span>
             Tornar enrere
         </a>

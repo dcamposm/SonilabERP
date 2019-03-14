@@ -12,9 +12,9 @@ class Projecte extends Model
     public $fillable = [
         'id_registre_entrada',
         'id_sub',
+        'setmana',
         'nom',
-        'estadillo',
-        'descripcio'
+        'estadillo'
     ];
 
     /**
@@ -25,6 +25,11 @@ class Projecte extends Model
      */    
     public function estadillo()
     {
-        return $this->BelongTo('App\Estadillo', 'estadillo', 'id_estadillo');
+        return $this->belongsTo('App\Estadillo');
+    }
+    
+    public function getEstadillo()
+    {
+        return $this->hasOne('App\Estadillo', 'id_registre_produccio' ,'id');
     }
 }

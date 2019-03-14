@@ -34,7 +34,7 @@
                     <label for="client" style="font-weight: bold">Selecciona client:</label>
                     <select class="form-control" name="id_client">
                         @foreach( $clients as $client )
-                        <option value="{{$client['id_client']}}" {{(!empty($registreEntrada) && $registreEntrada->id_registre_entrada == $client['id_client']) ? 'selected' : ''}} >{{$client['nom_client']}}</option>
+                        <option value="{{$client['id_client']}}" {{(!empty($registreEntrada) && $registreEntrada->id_client == $client['id_client']) ? 'selected' : ''}} >{{$client['nom_client']}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -46,7 +46,7 @@
                     <label for="client" style="font-weight: bold">Selecciona servei:</label>
                     <select class="form-control" name="id_servei">
                         @foreach( $serveis as $servei )
-                        <option value="{{$servei['id_servei']}}" {{(!empty($registreEntrada) && $registreEntrada->id_registre_entrada == $client['id_servei']) ? 'selected' : ''}} >{{$servei['nom_servei']}}</option>
+                        <option value="{{$servei['id_servei']}}" {{(!empty($registreEntrada) && $registreEntrada->id_servei == $client['id_servei']) ? 'selected' : ''}} >{{$servei['nom_servei']}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -54,7 +54,7 @@
                     <label for="idioma" style="font-weight: bold">Selecciona idioma:</label>
                     <select class="form-control" name="id_idioma">
                         @foreach( $idiomes as $idioma )
-                        <option value="{{$idioma['id_idioma']}}" {{(!empty($registreEntrada) && $registreEntrada->id_registre_entrada == $idioma['id_idioma']) ? 'selected' : ''}} >{{$idioma['idioma']}}</option>
+                        <option value="{{$idioma['id_idioma']}}" {{(!empty($registreEntrada) && $registreEntrada->id_idioma == $idioma['id_idioma']) ? 'selected' : ''}} >{{$idioma['idioma']}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -66,7 +66,7 @@
                     <label for="media" style="font-weight: bold">Selecciona tipus:</label>
                     <select class="form-control" name="id_media">
                         @foreach( $medias as $media )
-                        <option value="{{$media['id_media']}}" {{(!empty($registreEntrada) && $registreEntrada->id_registre_entrada == $media['id_media']) ? 'selected' : ''}} >{{$media['nom_media']}}</option>
+                        <option value="{{$media['id_media']}}" {{(!empty($registreEntrada) && $registreEntrada->id_media == $media['id_media']) ? 'selected' : ''}} >{{$media['nom_media']}}</option>
                         @endforeach
                     </select>
                 </div>

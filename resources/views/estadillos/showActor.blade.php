@@ -5,7 +5,7 @@
 <div class="container">
     <div class="row">
         <div class="col-3">
-            <a href="{{ route('estadilloActorInsertView', array('id' => $estadillos->id_estadillo)) }}" class="btn btn-success">
+            <a href="{{ !isset($registreProduccio) ? route('estadilloActorInsertView', array('id' => $estadillos->id_estadillo)) :  route('estadilloActorInsertView', array('id' => $registreProduccio->id_registre_entrada, 'setmana'=>$registreProduccio->setmana))}}" class="btn btn-success">
                 <span class="fas fa-user-tie"></span>
                 Afegir actor
             </a>
@@ -14,14 +14,14 @@
     
     <br>
     {{-- TABLA DE ACTORS ESTADILLO --}}
-    <h2 style="font-weight: bold">{{ $registreProduccio->id_registre_entrada }} {{ $registreProduccio->nom }} {{ !isset($min) ? '' : ( $min != $max ? $min.'-'.$max : $min) }}</h2>
+    <h2 style="font-weight: bold">{{ $estadillos->id_registre_entrada }} {{ $estadillos->nom }} {{ !isset($min) ? '' : ( $min != $max ? $min.'-'.$max : $min) }}</h2>
     
     <table class="table" style="margin-top: 10px;">
         <thead>
             <tr>
                 <th>Actor</th> 
                 <th>CGs</th>
-                <th> {{ isset($actor['id']) ? 'TKs' : 'TKs Totals'}}</th>
+                <th>{{isset($actor['id']) ? 'TKs' : 'TKs Totals'}}</th>
                 <th>Accions</th>
             </tr>
         </thead>
@@ -35,10 +35,10 @@
                         @endif
                     @endforeach
                 </td>
-                <td style="vertical-align: middle;">{{ $actor['cg_actor']}}</td>
-                <td style="vertical-align: middle;">{{ $actor['take_estaillo']}}</td>
+                <td style="vertical-align: middle;">{{ $actor['cg_estadillo']}}</td>
+                <td style="vertical-align: middle;">{{ $actor['take_estadillo']}}</td>
                 <td style="vertical-align: middle;">
-                    <a href="{{ isset($actor['id']) ? route('estadilloActorUpdateView', array('id' => $estadillos['id_estadillo'], 'id_actor' => $actor['id'])) : route('estadilloActorUpdateView', array('id' => $estadillos['id_estadillo'], 'id_actor' => $actor['id_actor']))  }}" class="btn btn-primary">Modificar</a>
+                    <a href="{{ !isset($registreProduccio) ? route('estadilloActorUpdateView', array('id' => $estadillos->id_estadillo, 'id_actor' => $actor['id'])) : route('estadilloActorUpdateView', array('id' => $registreProduccio->id_registre_entrada, 'id_actor'=>$actor['id_actor'], 'setmana'=>$registreProduccio->setmana))  }}" class="btn btn-primary">Modificar</a>
                     @if (isset($actor['id']))
                     <button class="btn btn-danger" onclick="self.seleccionarActor({{ $actor['id'] }}, '{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }}')" data-toggle="modal" data-target="#exampleModalCenter">Esborrar</button>
                         <form id="delete-{{ $actor['id'] }}" action="{{ route('esborrarEstadilloActor') }}" method="POST">
@@ -53,7 +53,7 @@
     </table>
     <br>
     <div>
-        <a href="/estadillos" class="btn btn-primary">
+        <a href="{{ URL::previous() }}" class="btn btn-primary">
             <span class="fas fa-angle-double-left"></span>
             Tornar enrere
         </a>

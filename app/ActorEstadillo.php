@@ -12,8 +12,8 @@ class ActorEstadillo extends Model
     protected $fillable = [
         "id_estadillo",
         "id_actor",
-        "take_estaillo", 
-        "cg_actor", 
+        "take_estadillo", 
+        "cg_estadillo", 
         "canso_estaillo"
     ];
 
