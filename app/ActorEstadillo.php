@@ -14,7 +14,7 @@ class ActorEstadillo extends Model
         "id_actor",
         "take_estadillo", 
         "cg_estadillo", 
-        "canso_estaillo"
+        "canso_estadillo"
     ];
 
     public function empleat()
