@@ -42,19 +42,20 @@
             @foreach( $registreProduccions as $key => $registreProduccio )
             <tr class="table-selected {{ ($registreProduccio->estat == 'Pendent') ? 'border-warning' : (($registreProduccio->estat == 'Finalitzada') ? 'border-success' : 'border-danger') }}">
                 <td class="cursor" style="vertical-align: middle;" onclick="self.mostrarRegistreProduccio('{{ route('mostrarRegistreProduccio', array('id' => $registreProduccio->id)) }}')">
-                    <span class="font-weight-bold" style="font-size: 1rem;">{{ $registreEntrada->id_registre_entrada }}</span>
+                    <span class="font-weight-bold" style="font-size: 1rem;">{{ $registreProduccio->id_registre_entrada }}</span>
                 </td>
+                
             </tr>
             @endforeach
         </tbody>
     </table>
 </div>
-@stop
+
 <script>
     
     var self = this;
     // Executa el formulari per mostrar la vista d'un registre d'entrada.
-    self.mostrarRegistreEntrada = function (urlShow) {
+    self.mostrarRegistreProduccio = function (urlShow) {
     window.location.replace(urlShow);
     }
 

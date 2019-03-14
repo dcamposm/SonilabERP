@@ -30,17 +30,11 @@ class RegistreProduccioController extends Controller {
     }
     
     public function show($id){
-        $registreEntrada = RegistreEntrada::find($id);
-        $idioma = Idioma::find($registreEntrada['id_idioma']);
-        $client = Client::find($registreEntrada['id_client']);
-        $servei = Servei::find($registreEntrada['id_servei']);
-        $media = TipusMedia::find($registreEntrada['id_media']);
-        return view('registre_entrada.show', array(
-            'registreEntrada' => $registreEntrada,
-            'client'          => $client,
-            'servei'          => $servei,
-            'media'           => $media,
-            'idioma'          => $idioma
+        $registreProduccio = RegistreProduccio::find($id);
+        
+        return view('registre_produccio.show', array(
+            'registreProduccio' => $registreProduccio
+            
         ));
     }
 
