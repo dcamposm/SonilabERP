@@ -77,6 +77,7 @@ Route::post('/idiomes/esborrar', 'IdiomaController@delete')->name('idiomaDelete'
 //------------------Rutes registre producció------------------
 Route::middleware(['role: 1, 2,3,4'])->group(function () {
     Route::get('/registreProduccio', 'RegistreProduccioController@getIndex')->name('indexRegistreProduccio');
+    Route::get('/registreProduccio/buscar', 'RegistreProduccioController@find')->name('registreProduccioFind');
     Route::get('/registreProduccio/crear', 'RegistreProduccioController@createView')->name('createRegistreProduccio');
     Route::get('/registreProduccio/mostrar/{id}', 'RegistreProduccioController@show')->name('mostrarRegistreProduccio');
 });
