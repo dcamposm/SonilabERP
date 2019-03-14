@@ -72,45 +72,103 @@
     {{-- COMANDA --}}
     <div class="col-12 col-xl-6 mb-3">
       <div class="card">
-        <div class="card-header">
-          <span class="h3">Comanda</span>
-          <button class="btn btn-success float-right">
-            <span class="fas fa-save"></span>Desar
-          </button>
-        </div>
-        <div class="card-body">
-          Formulario...
-        </div>
+        <form action=""> {{-- init form --}}
+          <div class="card-header">
+            <span class="h3">Comanda</span>
+            <button class="btn btn-success float-right">
+              <span class="fas fa-save"></span>Desar
+            </button>
+          </div>
+          <div class="card-body row">
+            <div class="form-group col-12 col-sm-6">
+              <label for="estadillo">Estadillo</label>
+              <select name="estadillo" id="estadillo" class="form-control">
+                <option value="false" selected>No</option>
+                <option value="true">Sí</option>
+              </select>
+            </div>
+
+            <div class="form-group col-12 col-sm-6">
+              <label for="propostes">Propostes</label>
+              <select name="propostes" id="propostes" class="form-control">
+                <option value="false" selected>No</option>
+                <option value="true">Sí</option>
+              </select>
+            </div>
+
+            <div class="form-group col-12 col-sm-6">
+              <label for="retakes">Retakes</label>
+              <select name="retakes" id="retakes" class="form-control">
+                <option value="No" selected>No</option>
+                <option value="Si">Sí</option>
+                <option value="Fet">Fet</option>
+              </select>
+            </div>
+
+            <div class="form-group col-12 col-sm-6">
+              <label for="subtitol">Sub-títol</label>
+              <input type="text" name="subtitol" id="subtitol" class="form-control">
+            </div>
+
+          </div>
+        </form> {{-- end form --}}
       </div>
     </div>
 
     {{-- MATERIAL AUDIOVISUAL --}}
     <div class="col-12 col-xl-6 mb-3">
       <div class="card">
-        <div class="card-header">
-          <span class="h3">Material audiovisual</span>
-          <button class="btn btn-success float-right">
-            <span class="fas fa-save"></span>Desar
-          </button>
-        </div>
-        <div class="card-body">
-          Formulario...
-        </div>
+        <form action=""> {{-- init form --}}
+          <div class="card-header">
+            <span class="h3">Material audiovisual</span>
+            <button class="btn btn-success float-right">
+              <span class="fas fa-save"></span>Desar
+            </button>
+          </div>
+          <div class="card-body row">
+            <div class="form-group col-12 col-sm-6">
+              <label for="qc_vo">QC VO</label>
+              <select name="qc_vo" id="qc_vo" class="form-control">
+                <option value="false" selected>No</option>
+                <option value="true">Sí</option>
+              </select>
+            </div>
+
+            <div class="form-group col-12 col-sm-6">
+              <label for="qc_me">QC M&E</label>
+              <select name="qc_me" id="qc_me" class="form-control">
+                <option value="false" selected>No</option>
+                <option value="true">Sí</option>
+              </select>
+            </div>
+
+            <div class="form-group col-12 col-sm-6">
+              <label for="ppp">PPP</label>
+              <select name="ppp" id="ppp" class="form-control">
+                <option value="false" selected>No</option>
+                <option value="true">Sí</option>
+              </select>
+            </div>
+            
+          </div>
+        </form> {{-- end form --}}
       </div>
     </div>
 
       {{-- EMPLEATS --}}
     <div class="col-12 col-xl-6 mb-3">
       <div class="card">
-        <div class="card-header">
-          <span class="h3">Empleats</span>
-          <button class="btn btn-success float-right">
-            <span class="fas fa-save"></span>Desar
-          </button>
-        </div>
-        <div class="card-body">
-          Formulario...
-        </div>
+        <form action=""> {{-- init form --}}
+          <div class="card-header">
+            <span class="h3">Empleats</span>
+            <button class="btn btn-success float-right">
+              <span class="fas fa-save"></span>Desar
+            </button>
+          </div>
+          <div class="card-body row">
+            Formulario de empleados........
+          </div>
+        </form> {{-- end form --}}
       </div>
     </div>
 
