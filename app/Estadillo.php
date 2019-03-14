@@ -10,8 +10,9 @@ class Estadillo extends Model
     protected $primaryKey = 'id_estadillo';
 
     public  $fillable = [ 
-        "id_registre_produccio", 
-        "validat"
+        "validat",
+        "id_registre_produccio",
+        "setmana",
     ];
 
     public function actors()
@@ -19,8 +20,8 @@ class Estadillo extends Model
         return $this->hasMany('App\ActorEstadillo', 'id_estadillo', 'id_estadillo');
     }
     
-    public function registrProduccio()
+    public function registreProduccio()
     {
-        return $this->hasMany('App\Projecte', 'id_registre_produccio', 'id');
+        return $this->BelongTo('App\Projecte', 'id', 'id_registre_produccio');
     }
 }

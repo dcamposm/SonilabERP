@@ -4,7 +4,7 @@
 
 <div class="container">
     <h2 style="font-weight: bold">{{!empty($actor) ? 'Editar actor' : 'Afegir actor'}}</h2>
-    <form method = "POST" action="{{ !empty($actor) ? route('estadilloActorUpdate', array('id' => $actor->id)) : route('estadilloActorInsert') }}" enctype="multipart/form-data">
+    <form method = "POST" action="{{ !empty($actor) ? route('estadilloActorUpdate', array('id' => $estadillos['id_estadillo'], 'id_actor' => $actor['id'])) : route('estadilloActorInsert') }}" enctype="multipart/form-data">
         @csrf
         <fieldset class="border p-2">
             <legend class="w-auto">Dades:</legend>
@@ -55,6 +55,13 @@
         </div>
         <br>
     </form>
+    
+    <div>
+        <a href="/estadillos/mostrar/{{ $estadillos->id_estadillo }}" class="btn btn-primary">
+            <span class="fas fa-angle-double-left"></span>
+            Tornar enrere
+        </a>
+    </div>
 </div>
 
 

@@ -10,24 +10,10 @@
             <legend class="w-auto">Dades:</legend>
             <div class="row">
                 <div class="col-6">
-                    <div class="form-group">
-                        <label for="id_registre_entrada" style="font-weight: bold">Numero de referencia:</label>
-                        <input type="text" class="form-control" id="id_registre_entrada" placeholder="Entrar numero de referencia" name="id_registre_entrada" value="{{!empty($estadillos) ? $estadillos->id_registre_entrada : ''}}">
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="id_registre_produccio" style="font-weight: bold">Numero de sub-referencia:</label>
-                        <input type="text" class="form-control" id="id_registre_produccio" placeholder="Entrar numero de sub-referencia" name="id_registre_produccio" value="{{!empty($estadillos) ? $estadillos->id_registre_produccio : ''}}">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-6">
-                    <label for="tipus_media" style="font-weight: bold">Selecciona tipus:</label>
-                    <select class="form-control" name="tipus_media">
-                        @foreach( $medias as $media )
-                            <option value="{{$media['id_media']}}" {{(!empty($estadillos) && $estadillos->tipus_media == $media['id_media']) ? 'selected' : ''}} >{{$media['nom_media']}}</option>
+                    <label for="id_registre_produccio" style="font-weight: bold">Seleccion el registre:</label>
+                    <select class="form-control" name="id_registre_produccio">
+                        @foreach( $registreProduccio as $projecte )
+                            <option value="{{$projecte['id']}}" {{(!empty($estadillos) && $estadillos->id_registre_produccio == $projecte['id']) ? 'selected' : ''}} >{{$projecte['id_registre_entrada']}} {{$projecte['nom']}} {{$projecte['id_sub']}} </option>
                         @endforeach
                     </select>
                 </div>
@@ -53,6 +39,13 @@
         </div>
         <br>
     </form>
+    
+    <div>
+        <a href="{{ url('/estadillos') }}" class="btn btn-primary">
+            <span class="fas fa-angle-double-left"></span>
+            Tornar enrere
+        </a>
+    </div>
 </div>
 
 
