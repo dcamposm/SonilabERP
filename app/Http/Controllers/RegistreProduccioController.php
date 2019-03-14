@@ -14,8 +14,8 @@ class RegistreProduccioController extends Controller {
     }
 
     public function getIndex() {
-        $registresProduccio = array('3838','001','29/09/2018','1','SHANE - THE DISTANT BELL');
-        return View('registre_produccio.index', array('registreProduccio' => $registresProduccio));
+        $registreProduccio = RegistreProduccio::all();
+        return View('registre_produccio.index', array('registreProduccions' => $registreProduccio));
     }
 
     public function createView() {
@@ -26,6 +26,21 @@ class RegistreProduccioController extends Controller {
         return view('registre_produccio.create', array(
             'empleats'    => $empleats,
             'regEntrades' => $regEntrades
+        ));
+    }
+    
+    public function show($id){
+        $registreEntrada = RegistreEntrada::find($id);
+        $idioma = Idioma::find($registreEntrada['id_idioma']);
+        $client = Client::find($registreEntrada['id_client']);
+        $servei = Servei::find($registreEntrada['id_servei']);
+        $media = TipusMedia::find($registreEntrada['id_media']);
+        return view('registre_entrada.show', array(
+            'registreEntrada' => $registreEntrada,
+            'client'          => $client,
+            'servei'          => $servei,
+            'media'           => $media,
+            'idioma'          => $idioma
         ));
     }
 
