@@ -15,8 +15,6 @@ class Update2SlbActorsEstadillo extends Migration
     {
         Schema::table('slb_actors_estadillo', function (Blueprint $table) {
             $table->dropColumn('take_estadillo');
-            $table->dropColumn('cg_estadillo');
-            $table->dropColumn('canso_estadillo');
         });
     }
 
@@ -29,8 +27,6 @@ class Update2SlbActorsEstadillo extends Migration
     {
         Schema::table('slb_actors_estadillo', function (Blueprint $table) {
             $table->double('take_estadillo');
-            $table->double('cg_estadillo');
-            $table->double('canso_estadillo');
         });
     }
 }
