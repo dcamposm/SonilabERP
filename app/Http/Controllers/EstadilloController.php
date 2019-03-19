@@ -26,7 +26,7 @@ class EstadilloController extends Controller
         $showEstadillos = array();
         
         foreach ($estadillos as $estadillo){
-            //$projecte = Projecte::find($estadillo['id_registre_produccio']);
+            //$projecte = RegistreProduccio::find($estadillo['id_registre_produccio']);
             //return response()->json($projecte);
             
             if ($estadillo->registreProduccio->subreferencia!=0){
@@ -39,6 +39,7 @@ class EstadilloController extends Controller
                         'max'=>$estadillo->registreProduccio->subreferencia,
                         'validat'=>$estadillo->registreProduccio->estadillo
                     );
+                    //return response()->json($showEstadillos);
                 } else {
                     if(!isset($showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana])){
                         $showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]= array(
@@ -49,10 +50,11 @@ class EstadilloController extends Controller
                             'validat'=>$estadillo->registreProduccio->estadillo
                         );
                     } else {
-                        if ($showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]['max']<$estadillo->registreProduccio->id_sub){
-                            $showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]['max'] = $estadillo->registreProduccio->id_sub;
-                        } else if ($showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]['min']>$estadillo->registreProduccio->id_sub){
-                            $showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]['min'] = $estadillo->registreProduccio->id_sub;
+                        //return response()->json($estadillo);
+                        if ($showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]['max']<$estadillo->registreProduccio->subreferencia){
+                            $showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]['max'] = $estadillo->registreProduccio->subreferencia;
+                        } else if ($showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]['min']>$estadillo->registreProduccio->subreferencia){
+                            $showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]['min'] = $estadillo->registreProduccio->subreferencia;
                         }
                         if ($estadillo->registreProduccio->estadillo == 0){
                             $showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]['validat'] = $estadillo->registreProduccio->estadillo;
@@ -458,8 +460,9 @@ class EstadilloController extends Controller
                 foreach ($estadillos as $estadillo){
                     //return response()->json($estadillo->id_registre_produccio);
                     if (request()->has('take_estadillo_'.$estadillo->id_registre_produccio)){
-                        //return response()->json($estadillo->id_registre_produccio);
-                        if (!ActorEstadillo::where('id_produccio',$estadillo->id_estadillo)->first()){
+                        //return response()->json($estadillo->id_estadillo);
+                        if (!ActorEstadillo::where('id_produccio',$estadillo->id_estadillo)->where('id_actor', request()->input('id_actor'))->first()){
+                            //return response()->json($estadillo->id_registre_produccio);
                             $actor = new ActorEstadillo;
                             $actor->id_produccio=$estadillo->id_estadillo;
                             $actor->id_actor=request()->input('id_actor');
@@ -508,12 +511,12 @@ class EstadilloController extends Controller
         
         if ($setmana == 0){
             $estadillos = Estadillo::find($id);
-            
+            //return response()->json($estadillos);
             $actor = ActorEstadillo::where('id_produccio', $id)->where('id_actor', $id_actor)->first();
             
-            //return response()->json($actor);
+            //return response()->json($empleats);
             
-            return View('estadillos.createActor', array('actor'=> $actor,'empleats'=>$empleats, 'estadillos'=>$estadillos, )); 
+            return View('estadillos.createActor', array('actor'=> $actor,'empleats'=>$empleats, 'estadillos'=>$estadillos)); 
         } 
         $registreProduccio = RegistreProduccio::where('id_registre_entrada', $id)->where('setmana', $setmana)->get();
         //return response()->json($registreProduccio);
@@ -527,7 +530,7 @@ class EstadilloController extends Controller
                                                                 ->first());
         }
 
-        //return response()->json($registreProduccio);
+        //return response()->json($actor);
         return view('estadillos.createActor', array('actor'=> $actor,'empleats'=> $empleats, 'registreProduccio'=> $registreProduccio));
     }
 
