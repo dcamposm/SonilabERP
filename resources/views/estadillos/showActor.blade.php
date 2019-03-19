@@ -38,7 +38,7 @@
                 <td style="vertical-align: middle;">{{ $actor['cg_estadillo']}}</td>
                 <td style="vertical-align: middle;">{{ $actor['take_estadillo']}}</td>
                 <td style="vertical-align: middle;">
-                    <a href="{{ !isset($registreProduccio) ? route('estadilloActorUpdateView', array('id' => $estadillos->id_estadillo, 'id_actor' => $actor['id'])) : route('estadilloActorUpdateView', array('id' => $registreProduccio->id_registre_entrada, 'id_actor'=>$actor['id_actor'], 'setmana'=>$registreProduccio->setmana))  }}" class="btn btn-primary">Modificar</a>
+                    <a href="{{ !isset($registreProduccio) ? route('estadilloActorUpdateView', array('id' => $estadillos->id_estadillo, 'id_actor' => $actor['id_actor'])) : route('estadilloActorUpdateView', array('id' => $registreProduccio->id_registre_entrada, 'id_actor'=>$actor['id_actor'], 'setmana'=>$registreProduccio->setmana))  }}" class="btn btn-primary">Modificar</a>
                     @if (isset($actor['id']))
                     <button class="btn btn-danger" onclick="self.seleccionarActor({{ $actor['id'] }}, '{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }}')" data-toggle="modal" data-target="#exampleModalCenter">Esborrar</button>
                         <form id="delete-{{ $actor['id'] }}" action="{{ route('esborrarEstadilloActor') }}" method="POST">
