@@ -81,17 +81,21 @@ class UserController extends Controller
         $usuario = new User(request()->all());
         //Primer es valida si se ha insertat els atributs indicats
         $v = Validator::make(request()->all(), [
-            'nom_usuari' => 'required',
-            'cognom1_usuari' => 'required',
-            'cognom2_usuari' => 'required',
-            'email_usuari' => 'required',
-            'alias_usuari' => 'required',
-            'contrasenya_usuari' => 'required',
+            'nom_usuari' => 'required|max:35',
+            'cognom1_usuari' => 'required|max:35',
+            'cognom2_usuari' => 'required|max:35',
+            'email_usuari' => 'required|email',
+            'alias_usuari' => 'required|min:4|max:35',
+            'contrasenya_usuari' => 'required|min:4|max:15|same:password',
             'id_departament' => 'required'
+        ],[
+            'nom_usuari.required' => ' No s\'ha posat el nom d\'usuari.',
+            'nom_usuari.max' => ' El tamany maxim és de 35 caracters..',
         ]);
         //En cas que no, se renvia cap al formulari amb un missatge de error
         if ($v->fails()){
-            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
+            //return response()->json($v);
+            return redirect()->back()->withErrors($v)->withInput();
             //return response()->json(["error" => true], 400);
         } else {
             

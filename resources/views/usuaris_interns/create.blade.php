@@ -24,9 +24,10 @@
 
         <div class="row">
             <div class="col-6">
-                <div class="form-group">
+                <div class="form-group {{ $errors->has('nom_usuari') ? 'has-error' : '' }}">
                     <label for="nom_usuari" style="font-weight: bold">Nom:</label>
                     <input type="text" class="form-control" id="nom_usuari" placeholder="Entrar nom" name="nom_usuari" value="{{!empty($usuario) ? $usuario->nom_usuari : ''}}">
+                    <span class="text-danger">{{ $errors->first('nom_usuari') }}</span>
                 </div>
             </div>
             <div class="col-6">
