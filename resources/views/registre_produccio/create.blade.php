@@ -8,7 +8,7 @@
     {{-- DADES BÀSIQUES --}}
     <div class="col-12 col-xl-6 mb-3">
       <div class="card">
-        <form action=""> {{-- init form --}}
+        <form method="POST" action="{{route('createRegistreBasic')}}"> {{-- init form --}}
           <div class="card-header">
             <span class="h3">Dades bàsiques</span>
             <button class="btn btn-success float-right">
@@ -72,7 +72,7 @@
     {{-- COMANDA --}}
     <div class="col-12 col-xl-6 mb-3">
       <div class="card">
-        <form action=""> {{-- init form --}}
+        <form method="POST" action="{{route('createRegisteComanda')}}"> {{-- init form --}}
           <div class="card-header">
             <span class="h3">Comanda</span>
             <button class="btn btn-success float-right">
@@ -134,7 +134,7 @@
     {{-- EMPLEATS --}}
     <div class="col-12 col-xl-6 mb-3">
       <div class="card">
-        <form action=""> {{-- init form --}}
+        <form method="POST" action="{{route('createRegistreEmpleats')}}"> {{-- init form --}}
           <div class="card-header">
             <span class="h3">Empleats</span>
             <button class="btn btn-success float-right">
@@ -215,7 +215,7 @@
     {{-- PREPARACIÓ --}}
     <div class="col-12 col-xl-6 mb-3">
       <div class="card">
-        <form action=""> {{-- init form --}}
+        <form method="POST" action="{{route('createRegistrePreparacio')}}"> {{-- init form --}}
           <div class="card-header">
             <span class="h3">Preparació</span>
             <button class="btn btn-success float-right">
@@ -280,7 +280,7 @@
     {{-- CONVOCATORIA --}}
     <div class="col-12 col-xl-6 mb-3">
       <div class="card">
-        <form action=""> {{-- init form --}}
+        <form method="POST" action="{{route('createRegistreConvocatoria')}}"> {{-- init form --}}
           <div class="card-header">
             <span class="h3">Convocatòria</span>
             <button class="btn btn-success float-right">

@@ -79,7 +79,17 @@ Route::middleware(['role: 1, 2,3,4'])->group(function () {
     Route::get('/registreProduccio', 'RegistreProduccioController@getIndex')->name('indexRegistreProduccio');
     Route::get('/registreProduccio/buscar', 'RegistreProduccioController@find')->name('registreProduccioFind');
     Route::get('/registreProduccio/crear', 'RegistreProduccioController@createView')->name('createRegistreProduccio');
+    Route::get('/registreProduccio/modificar/{id}', 'RegistreProduccioController@updateView')->name('updateRegistreProduccio');
     Route::get('/registreProduccio/mostrar/{id}', 'RegistreProduccioController@show')->name('mostrarRegistreProduccio');
+
+    Route::post('/registreProduccio/crearBasic', 'RegistreProduccioController@createBasic')->name('createRegistreBasic');
+    Route::post('/registreProduccio/crearComanda', 'RegistreProduccioController@createComanda')->name('createRegisteComanda');
+    Route::post('/registreProduccio/crearEmpleats', 'RegistreProduccioController@createEmpleats')->name('createRegistreEmpleats');
+    Route::post('/registreProduccio/crearPreparacio', 'RegistreProduccioController@createPreparacio')->name('createRegistrePreparacio');
+    Route::post('/registreProduccio/crearConvocatoria', 'RegistreProduccioController@createConvocatoria')->name('createRegistreConvocatoria');
+
+    Route::post('/registreProduccio/modificar/{id}', 'RegistreProduccioController@update')->name('updateRegistre');
+    Route::post('/registreProduccio/delete/{id}', 'RegistreProduccioController@delete')->name('deleteRegistre');
 });
 
 //------------------Rutes estadillo------------------

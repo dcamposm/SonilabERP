@@ -76,6 +76,15 @@
                 <td style="vertical-align: middle;">{{ date('d/m/Y', strtotime($registreProduccio->data_entrega)) }}</td>
                 <td style="vertical-align: middle;">{{$registreProduccio->setmana}}</td>
                 <td style="vertical-align: middle;">{{$registreProduccio->titol}}</td>
+                <td style="vertical-align: middle;">
+                    <a href="{{ route('updateRegistre', array('id' => $registreProduccio->id )) }}" class="btn btn-primary">Modificar</a>
+                    
+                    <form action="{{ route('deleteRegistre',['id' => $registreProduccio->id]) }}" method="POST">
+                        @csrf
+                        <input type="hidden" readonly name="id" value="{{ $registreProduccio->id }}">
+                        <button type="submit" class="btn btn-danger" >Esborrar</button>
+                    </form>
+                </td>
             </tr>
             @endforeach
         </tbody>
