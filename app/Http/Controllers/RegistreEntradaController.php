@@ -52,7 +52,7 @@ class RegistreEntradaController extends Controller
     public function insert()
     {
         $v = Validator::make(request()->all(), [
-            'titol'               => 'required',
+            'nom_titol'               => 'required',
             'entrada'             => 'required',
             'sortida'             => 'required',
             'id_client'           => 'required',
@@ -64,10 +64,13 @@ class RegistreEntradaController extends Controller
             'episodis_setmanals'  => 'required',
             'entregues_setmanals' => 'required',
             'estat'               => 'required',
+        ],[
+            'required' => 'No s\'ha introduït aquesta dada.',
         ]);
 
         if ($v->fails()) {
-            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
+            return redirect()->back()->withErrors($v)->withInput();
+            //return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
         } else {
             $registreEntrada = new RegistreEntrada(request()->all());               
 
@@ -112,10 +115,13 @@ class RegistreEntradaController extends Controller
                 'episodis_setmanals'  => 'required',
                 'entregues_setmanals' => 'required',
                 'estat'               => 'required',
+            ],[
+                'required' => 'No s\'ha introduït aquesta dada.',
             ]);
-    
+
             if ($v->fails()) {
-                return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar les dades.'));
+                return redirect()->back()->withErrors($v)->withInput();
+                //return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar les dades.'));
             } else {
                 $registreEntrada->fill(request()->all());
     
