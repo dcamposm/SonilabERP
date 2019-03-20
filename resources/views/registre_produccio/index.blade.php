@@ -67,10 +67,10 @@
         <tbody>
             @foreach( $registreProduccions as $key => $registreProduccio )
             <tr class="table-selected {{ ($registreProduccio->estat == 'Pendent') ? 'border-warning' : (($registreProduccio->estat == 'Finalitzada') ? 'border-success' : 'border-danger') }}">
-                <td class="cursor" title='Veure registre d&apos;entrada' style="vertical-align: middle;" onclick="self.mostrarRegistreProduccio('{{ route('mostrarRegistreProduccio', array('id' => $registreProduccio->id)) }}')">
-                    <span class="font-weight-bold" style="font-size: 1rem;">{{ $registreProduccio->id_registre_entrada }}</span>
+                <td class="cursor" title='Veure registre d&apos;entrada' style="vertical-align: middle;" onclick="self.mostrarRegistreProduccio('{{ route('mostrarRegistreEntrada', array('id' => $registreProduccio->id_registre_entrada)) }}')">
+                    <span class="font-weight-bold" style="font-size: 1rem;">{{ $registreProduccio->id_registre_entrada }}</span>    
                 </td>
-                <td class="cursor" title='Veure producció' style="vertical-align: middle;" onclick="self.mostrarRegistreProduccio('{{ route('mostrarRegistreEntrada', array('id' => $registreProduccio->id_registre_entrada)) }}')">
+                <td class="cursor" title='Veure producció' style="vertical-align: middle;" onclick="self.mostrarRegistreProduccio('{{ route('mostrarRegistreProduccio', array('id' => $registreProduccio->id)) }}')">
                     <span class="font-weight-bold" style="font-size: 1rem;">{{ $registreProduccio->id }}</span>
                 </td>
                 <td style="vertical-align: middle;">{{ date('d/m/Y', strtotime($registreProduccio->data_entrega)) }}</td>
@@ -78,7 +78,7 @@
                 <td style="vertical-align: middle;">{{$registreProduccio->titol}}</td>
                 <td style="vertical-align: middle;">
                     <a href="{{ route('updateRegistre', array('id' => $registreProduccio->id )) }}" class="btn btn-primary">Modificar</a>
-                    
+
                     <form action="{{ route('deleteRegistre',['id' => $registreProduccio->id]) }}" method="POST">
                         @csrf
                         <input type="hidden" readonly name="id" value="{{ $registreProduccio->id }}">

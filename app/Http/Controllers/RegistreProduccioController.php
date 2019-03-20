@@ -64,6 +64,13 @@ class RegistreProduccioController extends Controller {
             'regEntrades'       => $regEntrades
         ));
     }
+    
+    public function update($id){
+        //pongo esto de relleno
+        $registreProduccio = RegistreProduccio::all();
+        $registreEntrada = RegistreEntrada::all();
+        return View('registre_produccio.index', array('registreProduccions' => $registreProduccio, 'registreEntrades' => $registreEntrada));
+    }
 
     public function find() {
         if (request()->input("searchBy") == '3') {
