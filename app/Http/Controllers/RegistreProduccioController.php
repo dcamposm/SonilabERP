@@ -34,8 +34,34 @@ class RegistreProduccioController extends Controller {
     public function show($id) {
         $registreProduccio = RegistreProduccio::find($id);
 
+        $empleados   = [];
+        $traductor   = EmpleatExtern::find($registreProduccio["id_traductor"]);
+        $ajustador   = EmpleatExtern::find($registreProduccio->id_ajustador);
+        $linguista   = EmpleatExtern::find($registreProduccio->id_linguista);
+        $director    = EmpleatExtern::find($registreProduccio->id_director);
+        $tecnic_mix  = EmpleatExtern::find($registreProduccio->id_tecnic_mix);
+
+        if ($traductor) $empleados["traductor"] = $traductor;
+        if ($ajustador) $empleados["ajustador"] = $ajustador;
+        if ($linguista) $empleados["linguista"] = $linguista;
+        if ($director) $empleados["director"] = $director;
+        if ($tecnic_mix) $empleados["tecnic_mix"] = $tecnic_mix;
+
         return view('registre_produccio.show', array(
-            'registreProduccio' => $registreProduccio
+            'registreProduccio' => $registreProduccio,
+            'empleats'          => $empleados
+        ));
+    }
+
+    public function updateView($id){
+        $registreProduccio = RegistreProduccio::find($id);
+        $empleats = EmpleatExtern::all();
+        $regEntrades = RegistreEntrada::where('estat', '=', 'Pendent')->get();
+
+        return view('registre_produccio.create', array(
+            'registreProduccio' => $registreProduccio,
+            'empleats'          => $empleats,
+            'regEntrades'       => $regEntrades
         ));
     }
 
@@ -183,4 +209,7 @@ class RegistreProduccioController extends Controller {
         RegistreProduccio::where('id', request()->input("id"))->delete();
         return redirect()->route('indexRegistreProduccio');
     }
+
+
+
 }

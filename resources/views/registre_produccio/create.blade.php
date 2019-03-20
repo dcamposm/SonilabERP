@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container">
-  <h2 class="mb-4">Creació de registres de producció</h2>
+  <h2 class="mb-4">{{!empty($registreProduccio) ? 'Modificació' : 'Creació' }} de registres de producció</h2>
   <div class="row">
     {{-- DADES BÀSIQUES --}}
     <div class="col-12 col-xl-6 mb-3">
@@ -20,7 +20,7 @@
               <label for="id_registre_entrada">Referència</label>
               <select name="id_registre_entrada" id="id_registre_entrada" class="form-control">
                 @foreach ($regEntrades as $key => $entrada) 
-                  <option value="{{ $entrada->id_registre_entrada }}">{{ $entrada->titol }}</option>
+                  <option value="{{ $entrada->id_registre_entrada }}" {{(!empty($registreProduccio) && $entrada->id_registre_entrada == $registreProduccio->id_registre_entrada) ? 'selected' : '' }} >{{ $entrada->titol }}</option>
                 @endforeach
               </select>
             </div>
