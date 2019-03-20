@@ -179,7 +179,7 @@
         @endif
         @if($errors->any())
             <div class="alert alert-danger" role="alert">
-                <span class="fas fa-exclamation-circle"></span>{{ !empty($errors->first('error')) ? $errors->first('error') : 'ERROR. No s\'han introduit correctament les dades.'  }}
+                <span class="fas fa-exclamation-circle"></span>{{ !empty($errors->first('error')) ? $errors->first('error') : 'ERROR. No s\'han introduït correctament les dades.'  }}
             </div>
         @endif
         @if (session('alert'))

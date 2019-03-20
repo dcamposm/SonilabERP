@@ -523,11 +523,14 @@ class EstadilloController extends Controller
         $actor = array();
         
         foreach ($registreProduccio as $projecte){
-            $projecte->getEstadillo->actors;
+            
             //return response()->json($projecte);
-            array_push ($actor , ActorEstadillo::where('id_produccio', $projecte->getEstadillo->id_estadillo)
+            if (!empty($projecte->getEstadillo->actors)){
+                $projecte->getEstadillo->actors;
+                array_push ($actor , ActorEstadillo::where('id_produccio', $projecte->getEstadillo->id_estadillo)
                                                                 ->where('id_actor', $id_actor)
                                                                 ->first());
+            }
         }
 
         //return response()->json($actor);

@@ -177,18 +177,21 @@ class EmpleatExternController extends Controller
             'cognom2_empleat' => 'required',
             'sexe_empleat' => 'required',
             'nacionalitat_empleat' => 'required',
-            'email_empleat' => 'required',
+            'email_empleat' => 'required|email',
             'dni_empleat' => 'required',
             'telefon_empleat' => 'required',
             'direccio_empleat' => 'required',
             'codi_postal_empleat' => 'required',
             'naixement_empleat' => 'required',
             'nss_empleat' => 'required',
-            'iban_empleat' => 'required',
+            'iban_empleat' => 'required'
+        ],[
+            'required' => 'No s\'ha introduït aquesta dada.',
+            'email' => 'Aquesta dada té que ser un email.'
         ]);
 
         if ($v->fails()) {
-            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
+            return redirect()->back()->withErrors($v)->withInput();
             //return response()->json(["error" => true], 400);
             //return response()->json(["error" => request()->all()], 400);
         } else {
@@ -291,7 +294,7 @@ class EmpleatExternController extends Controller
                 'cognom2_empleat' => 'required',
                 'sexe_empleat' => 'required',
                 'nacionalitat_empleat' => 'required',
-                'email_empleat' => 'required',
+                'email_empleat' => 'required|email',
                 'dni_empleat' => 'required',
                 'telefon_empleat' => 'required',
                 'direccio_empleat' => 'required',
@@ -299,10 +302,13 @@ class EmpleatExternController extends Controller
                 'naixement_empleat' => 'required',
                 'nss_empleat' => 'required',
                 'iban_empleat' => 'required',
+            ],[
+                'required' => ' No s\'ha introduït aquesta dada.',
+                'email' => 'Aquesta dada té que ser un email.'
             ]);
 
             if ($v->fails()) {
-                return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
+                return redirect()->back()->withErrors($v)->withInput();
                 //return response()->json(["error" => true], 400);
             } else {
                 // Modifica datos personales del empleado
