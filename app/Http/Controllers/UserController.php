@@ -86,7 +86,7 @@ class UserController extends Controller
             'cognom2_usuari' => 'required|max:35',
             'email_usuari' => 'required|email',
             'alias_usuari' => 'required|min:4|max:35',
-            'contrasenya_usuari' => 'required|min:4|max:15|same:password',
+            'contrasenya_usuari' => 'required|min:4|max:15',
             'id_departament' => 'required'
         ],[
             'nom_usuari.required' => ' No s\'ha posat el nom d\'usuari.',
@@ -135,7 +135,7 @@ class UserController extends Controller
                 'cognom2_usuari' => 'required|max:35',
                 'email_usuari' => 'required|email',
                 'alias_usuari' => 'required|min:4|max:35',
-                'contrasenya_usuari' => 'required|min:4|max:15|same:password',
+                //'contrasenya_usuari' => 'required|min:4|max:15',
                 'id_departament' => 'required'
             ],[
                 'nom_usuari.required' => ' No s\'ha posat el nom d\'usuari.',

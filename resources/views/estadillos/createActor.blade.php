@@ -46,7 +46,7 @@
                             @if (isset($actor))
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label for="take_estaidllo_{{ $projecte['id'] }}" style="font-weight: bold">TKs Episodi {{ $projecte['id_sub'] }}:</label>
+                                    <label for="take_estaidllo_{{ $projecte['id'] }}" style="font-weight: bold">TKs Episodi {{ $projecte['subreferencia'] }}:</label>
                                     <input type="number" class="form-control" id="take_estadillo_{{ $projecte['id'] }}" placeholder="Entrar tks" name="take_estadillo_{{ $projecte['id'] }}"
                                         @foreach($projecte->getEstadillo->actors as $actors)
                                             @if ($actors->id_actor == $actor[0]->id_actor)
@@ -59,7 +59,7 @@
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label for="cg_estadillo_{{ $projecte['id'] }}" style="font-weight: bold">CGs Episodi {{ $projecte['id_sub'] }}:</label>
+                                    <label for="cg_estadillo_{{ $projecte['id'] }}" style="font-weight: bold">CGs Episodi {{ $projecte['subreferencia'] }}:</label>
                                     <input type="number" class="form-control" id="cg_estadillo_{{ $projecte['id'] }}" placeholder="Entrar cgs" name="cg_estadillo_{{ $projecte['id'] }}"
                                         @foreach($projecte->getEstadillo->actors as $actors)
                                             @if ($actors->id_actor == $actor[0]->id_actor)
@@ -72,13 +72,13 @@
                             @else
                                <div class="col-6">
                                     <div class="form-group">
-                                        <label for="take_estadillo_{{ $projecte['id'] }}" style="font-weight: bold">TKs Episodi {{ $projecte['id_sub'] }}:</label>
+                                        <label for="take_estadillo_{{ $projecte['id'] }}" style="font-weight: bold">TKs Episodi {{ $projecte['subreferencia'] }}:</label>
                                         <input type="number" class="form-control" id="take_estadillo_{{ $projecte['id'] }}" placeholder="Entrar tks" name="take_estadillo_{{ $projecte['id'] }}">
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
-                                        <label for="cg_estadillo_{{ $projecte['id'] }}" style="font-weight: bold">CGs Episodi {{ $projecte['id_sub'] }}:</label>
+                                        <label for="cg_estadillo_{{ $projecte['id'] }}" style="font-weight: bold">CGs Episodi {{ $projecte['subreferencia'] }}:</label>
                                         <input type="number" class="form-control" id="cg_estadillo_{{ $projecte['id'] }}" placeholder="Entrar cgs" name="cg_estadillo_{{ $projecte['id'] }}">
                                     </div>
                                 </div> 
