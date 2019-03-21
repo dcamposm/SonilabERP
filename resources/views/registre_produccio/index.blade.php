@@ -77,7 +77,7 @@
                 <td style="vertical-align: middle;">{{$registreProduccio->setmana}}</td>
                 <td style="vertical-align: middle;">{{$registreProduccio->titol}}</td>
                 <td style="vertical-align: middle;">
-                    <a href="{{ route('updateRegistre', array('id' => $registreProduccio->id )) }}" class="btn btn-primary">Modificar</a>
+                    <a href="{{ route('updateRegistreProduccio', array('id' => $registreProduccio->id )) }}" class="btn btn-primary">Modificar</a>
 
                     <form action="{{ route('deleteRegistre',['id' => $registreProduccio->id]) }}" method="POST">
                         @csrf

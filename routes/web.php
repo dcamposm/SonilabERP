@@ -88,7 +88,12 @@ Route::middleware(['role: 1, 2,3,4'])->group(function () {
     Route::post('/registreProduccio/crearPreparacio', 'RegistreProduccioController@createPreparacio')->name('createRegistrePreparacio');
     Route::post('/registreProduccio/crearConvocatoria', 'RegistreProduccioController@createConvocatoria')->name('createRegistreConvocatoria');
 
-    Route::post('/registreProduccio/modificar/{id}', 'RegistreProduccioController@update')->name('updateRegistre');
+    Route::post('/registreProduccio/modificarBasic/{id}', 'RegistreProduccioController@updateBasic')->name('updateRegistreBasic');
+    Route::post('/registreProduccio/modificarComanda/{id}', 'RegistreProduccioController@updateComanda')->name('updateRegistreComanda');
+    Route::post('/registreProduccio/modificarEmpleats/{id}', 'RegistreProduccioController@updateEmpleats')->name('updateRegistreEmpleats');
+    Route::post('/registreProduccio/modificarPreparacio/{id}', 'RegistreProduccioController@updatePreparacio')->name('updateRegistrePreparacio');
+    Route::post('/registreProduccio/modificarConvocatoria/{id}', 'RegistreProduccioController@updateConvocatoria')->name('updateRegistreConvocatoria');
+
     Route::post('/registreProduccio/delete/{id}', 'RegistreProduccioController@delete')->name('deleteRegistre');
 });
 
