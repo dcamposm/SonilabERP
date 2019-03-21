@@ -20,11 +20,11 @@ class Estadillo extends Model
     
     public function registreProduccio()
     {
-        return $this->hasOne('App\Projecte', 'id', 'id_registre_produccio');
+        return $this->hasOne('App\RegistreProduccio', 'id', 'id_registre_produccio');
     }
     
     public function registres()
     {
-        return $this->belongTo('App\Projecte');
+        return $this->belongTo('App\RegistreProduccio');
     }
 }
