@@ -16,6 +16,14 @@
                 <td class="col">{{ $registreEntrada['titol']}}</td>
             </tr>
             <tr class="row">
+                <td class="font-weight-bold col-sm-3">OT:</td>
+                <td class="col">{{ $registreEntrada['ot']}}</td>
+            </tr>
+            <tr class="row">
+                <td class="font-weight-bold col-sm-3">OC:</td>
+                <td class="col">{{ $registreEntrada['OC']}}</td>
+            </tr>
+            <tr class="row">
                 <td class="font-weight-bold col-sm-3">Entrada:</td>
                 <td class="col">{{ $registreEntrada['entrada']}}</td>
             </tr>
@@ -36,7 +44,7 @@
                 <td class="col">{{ $idioma['idioma']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Media:</td>
+                <td class="font-weight-bold col-sm-3">Tipus:</td>
                 <td class="col">{{ $media['nom_media']}}</td>
             </tr>
             <tr class="row">

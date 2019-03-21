@@ -32,17 +32,21 @@ class ClientController extends Controller
     {
         $v = Validator::make(request()->all(), [
             'nom_client'            => 'required',
-            'email_client'          => 'required',
+            'email_client'          => 'required|email',
             'telefon_client'        => 'required',
             'direccio_client'       => 'required',
             'codi_postal_client'    => 'required',
             'ciutat_client'         => 'required',
             'pais_client'           => 'required',
 
+        ],[
+            'required' => 'No s\'ha introduït aquesta dada.',
+            'email' => 'Aquesta dada té que ser un email.'
         ]);
 
         if ($v->fails()) {
-            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
+            return redirect()->back()->withErrors($v)->withInput();
+            //return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
         } else {
             $client = new Client(request()->all());               
 
@@ -67,16 +71,20 @@ class ClientController extends Controller
         if ($client) {
             $v = Validator::make(request()->all(), [
                 'nom_client'            => 'required',
-                'email_client'          => 'required',
+                'email_client'          => 'required|email',
                 'telefon_client'        => 'required',
                 'direccio_client'       => 'required',
                 'codi_postal_client'    => 'required',
                 'ciutat_client'         => 'required',
                 'pais_client'           => 'required',
+            ],[
+                'required' => 'No s\'ha introduït aquesta dada.',
+                'email' => 'Aquesta dada té que ser un email.'
             ]);
-    
+
             if ($v->fails()) {
-                return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar les dades.'));
+                return redirect()->back()->withErrors($v)->withInput();
+                //return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar les dades.'));
             } else {
                 $client->fill(request()->all());
     

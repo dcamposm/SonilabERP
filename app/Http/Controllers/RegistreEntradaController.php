@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Validator;
 use App\RegistreEntrada;
@@ -20,7 +21,10 @@ class RegistreEntradaController extends Controller
     
     public function index()
     {
-        $registreEntrades = RegistreEntrada::with('client')->get();
+        $registreEntrades = RegistreEntrada::with('client')
+                                ->with('servei')
+                                ->with('idioma')
+                                ->with('media')->get();
         $clients = Client::all();
         return View('registre_entrada.index', array('registreEntrades' => $registreEntrades, 'clients' => $clients));
     }
@@ -32,8 +36,9 @@ class RegistreEntradaController extends Controller
         } else if (request()->input("searchBy") == '2'){
             $registreEntrades = RegistreEntrada::where('estat', request()->input("search_Estat"))->get();
         }  else {
-            $registreEntrades = RegistreEntrada::where('titol', request()->input("search_term"))
-                    ->orWhere('id_registre_entrada', request()->input("search_term"))->get();
+            $registreEntrades = RegistreEntrada::whereRaw('LOWER(titol) like "%'.strtolower(request()->input("search_term")).'%" '
+                    . 'OR id_registre_entrada like "'.request()->input("search_term").'"')->get();
+                    //->orWhere('id_registre_entrada', request()->input("search_Estat"))->get();
         }
         
         $clients = Client::all();
@@ -60,16 +65,36 @@ class RegistreEntradaController extends Controller
             'id_idioma'           => 'required',
             'id_media'            => 'required',
             'minuts'              => 'required',
-            'total_episodis'      => 'required',
-            'episodis_setmanals'  => 'required',
-            'entregues_setmanals' => 'required',
             'estat'               => 'required',
+        ],[
+            'required' => 'No s\'ha introduït aquesta dada.',
         ]);
 
         if ($v->fails()) {
-            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
+            return redirect()->back()->withErrors($v)->withInput();
+            //return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
         } else {
-            $registreEntrada = new RegistreEntrada(request()->all());               
+            if (request()->input('id_registre_entrada')){
+                $registreEntrada = new RegistreEntrada(request()->all());
+            } else {
+                $registreEntrada = new RegistreEntrada;
+                $registreEntrada->ot = request()->input('ot') ? request()->input('ot') : '';
+                $registreEntrada->oc =request()->input('oc') ? request()->input('oc') : '';
+                $registreEntrada->titol =request()->input('titol');
+                $registreEntrada->entrada =request()->input('entrada');
+                $registreEntrada->sortida =request()->input('sortida');
+                $registreEntrada->id_client =request()->input('id_client');
+                $registreEntrada->id_servei =request()->input('id_servei');
+                $registreEntrada->id_idioma =request()->input('id_idioma');
+                $registreEntrada->id_media =request()->input('id_media');
+                $registreEntrada->minuts =request()->input('minuts');
+                $registreEntrada->total_episodis =request()->input('total_episodis') ? request()->input('total_episodis') : '1';
+                $registreEntrada->episodis_setmanals =request()->input('total_episodis') ? request()->input('total_episodis') : '1';
+                $registreEntrada->entregues_setmanals =request()->input('total_episodis') ? request()->input('total_episodis') : '1';
+                $registreEntrada->estat =request()->input('estat');
+                $registreEntrada->save();
+            }
+                           
 
             try {
                 $registreEntrada->save(); 
@@ -100,7 +125,7 @@ class RegistreEntradaController extends Controller
         $registreEntrada = RegistreEntrada::find($id);
         if ($registreEntrada) {
             $v = Validator::make(request()->all(), [
-                'titol'               => 'required',
+                'titol'           => 'required',
                 'entrada'             => 'required',
                 'sortida'             => 'required',
                 'id_client'           => 'required',
@@ -108,14 +133,14 @@ class RegistreEntradaController extends Controller
                 'id_idioma'           => 'required',
                 'id_media'            => 'required',
                 'minuts'              => 'required',
-                'total_episodis'      => 'required',
-                'episodis_setmanals'  => 'required',
-                'entregues_setmanals' => 'required',
                 'estat'               => 'required',
+            ],[
+                'required' => 'No s\'ha introduït aquesta dada.',
             ]);
-    
+
             if ($v->fails()) {
-                return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar les dades.'));
+                return redirect()->back()->withErrors($v)->withInput();
+                //return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar les dades.'));
             } else {
                 $registreEntrada->fill(request()->all());
     
