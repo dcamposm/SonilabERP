@@ -53,11 +53,13 @@ class UserController extends Controller
         if (request()->input("searchBy") == '1'){  
             $users = User::where('id_departament', request()->input("search_Dep"))->get();            
         } else if (request()->input("searchBy") == '2'){
-            $users = User::where('alias_usuari', request()->input("search_term"))->get();
+            $users = User::whereRaw('LOWER(alias_usuari) like "%'. strtolower(request()->input("search_term")).'%"')->get();
         }  else {
-            $users = User::where('nom_usuari', request()->input("search_term"))
-                    ->orWhere('cognom1_usuari', request()->input("search_term"))
-                    ->orWhere('cognom2_usuari', request()->input("search_term"))->get();
+            $users = User::whereRaw('LOWER(nom_usuari) like "%'. strtolower(request()->input("search_term")).'%"'
+                    . 'OR LOWER(cognom1_usuari) like "%'. strtolower(request()->input("search_term")).'%"'.
+                    'OR LOWER(cognom2_usuari) like "%'. strtolower(request()->input("search_term")).'%"')->get();
+                    /*->orWhere('cognom1_usuari', request()->input("search_term"))
+                    ->orWhere('cognom2_usuari', request()->input("search_term"))->get();*/
         }
         
         $departaments = Departament::all();

@@ -78,6 +78,10 @@
                 <th>Entrada</th>
                 <th>Sortida</th>
                 <th>Client</th>
+                <th>Servei</th>
+                <th>Idioma</th>
+                <th>Tipus</th>
+                <th>Minuts</th>
                 @if (Auth::user()->hasAnyRole(['1', '4']))
                 <th>Accions</th>
                 @endif
@@ -92,9 +96,13 @@
                 <td class="cursor" style="vertical-align: middle;" onclick="self.mostrarRegistreEntrada('{{ route('mostrarRegistreEntrada', array('id' => $registreEntrada->id_registre_entrada)) }}')">
                     <span class="font-weight-bold" style="font-size: 1rem;">{{ $registreEntrada->titol }}</span>
                 </td>
-                <td style="vertical-align: middle;">{{ date('d/m/Y H:i:s', strtotime($registreEntrada->entrada)) }}</td>
-                <td style="vertical-align: middle;">{{ date('d/m/Y H:i:s', strtotime($registreEntrada->sortida)) }}</td>
+                <td style="vertical-align: middle;">{{ date('d/m/Y', strtotime($registreEntrada->entrada)) }}</td>
+                <td style="vertical-align: middle;">{{ date('d/m/Y', strtotime($registreEntrada->sortida)) }}</td>
                 <td style="vertical-align: middle;">{{ $registreEntrada->client->nom_client }}</td>
+                <td style="vertical-align: middle;">{{ $registreEntrada->servei->nom_servei }}</td>
+                <td style="vertical-align: middle;">{{ $registreEntrada->idioma->idioma }}</td>
+                <td style="vertical-align: middle;">{{ $registreEntrada->media->nom_media }}</td>
+                <td style="vertical-align: middle;">{{ $registreEntrada->minuts }}</td>
                 @if (Auth::user()->hasAnyRole(['1', '4']))
                 <td style="vertical-align: middle;">
                     <a href="{{ route('registreEntradaUpdateView', array('id' => $registreEntrada['id_registre_entrada'])) }}" class="btn btn-primary">Modificar</a>
