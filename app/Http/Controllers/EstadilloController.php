@@ -601,15 +601,16 @@ class EstadilloController extends Controller
     public function find()
     {
         if (request()->input("searchBy") == '1'){
-            $estadillos = Estadillo::where('estat', request()->input("search_Estat"))->get();
+            $estadillos = Estadillo::where('estat', request()->input("search_Validat"))->get();
         }  else {
-            $registreEntrades = RegistreEntrada::where('titol', request()->input("search_term"))
+            $estadillos = RegistreEntrada::where('titol', request()->input("search_term"))
                     ->orWhere('id_registre_entrada', request()->input("search_term"))->get();
         }
         
         $clients = Client::all();
         //return redirect()->route('empleatIndex')->with('success', request()->input("searchBy").'-'.request()->input("search_term"));
         return view('registre_entrada.index',array('registreEntrades' => $registreEntrades, 'clients' => $clients));
+    }
     
     public function delete(Request $request)
     {
