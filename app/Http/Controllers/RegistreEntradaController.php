@@ -103,7 +103,7 @@ class RegistreEntradaController extends Controller
         $registreEntrada = RegistreEntrada::find($id);
         if ($registreEntrada) {
             $v = Validator::make(request()->all(), [
-                'titol'               => 'required',
+                'nom_titol'           => 'required',
                 'entrada'             => 'required',
                 'sortida'             => 'required',
                 'id_client'           => 'required',
