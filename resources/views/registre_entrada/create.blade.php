@@ -9,6 +9,15 @@
         <fieldset class="border p-2">
             <legend class="w-auto">Dades:</legend>
             <div class="row">
+            <div class="col-6">
+                    <div class="form-group">
+                        <label for="id_registre_entrada" style="font-weight: bold">Referencia:</label>
+                        <input type="number" class="form-control" id="id_registre_entrada" placeholder="Entrar referencia" name="id_registre_entrada" value="{{!empty($registreEntrada) ? $registreEntrada->id_registre_entrada : ''}}">
+                        <span class="text-danger">{{ $errors->first('id_registre_entrada') }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-6">
                     <div class="form-group">
                         <label for="titol" style="font-weight: bold">Titol:</label>
@@ -21,6 +30,22 @@
                         <label for="entrada" style="font-weight: bold">Data Entrada:</label>
                         <input type="date" class="form-control" id="entrada" placeholder="Entrar data Entrada" name="entrada" value="{{!empty($registreEntrada) ? explode(' ',$registreEntrada->entrada)[0] : ''}}">
                         <span class="text-danger">{{ $errors->first('entrada') }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="ot" style="font-weight: bold">OT:</label>
+                        <input type="text" class="form-control" id="ot" placeholder="Entrar ot" name="ot" value="{{!empty($registreEntrada) ? $registreEntrada->ot : ''}}">
+                        <span class="text-danger">{{ $errors->first('ot') }}</span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="oc" style="font-weight: bold">OC:</label>
+                        <input type="text" class="form-control" id="oc" placeholder="Entrar oc" name="oc" value="{{!empty($registreEntrada) ? $registreEntrada->oc : ''}}">
+                        <span class="text-danger">{{ $errors->first('oc') }}</span>
                     </div>
                 </div>
             </div>
@@ -77,7 +102,7 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label for="media" style="font-weight: bold">Selecciona tipus:</label>
-                        <select class="form-control" name="id_media">
+                        <select class="form-control" name="id_media" id="id_media">
                             @foreach( $medias as $media )
                                 <option value="{{$media['id_media']}}" {{(!empty($registreEntrada) && $registreEntrada->id_media == $media['id_media']) ? 'selected' : ''}} >{{$media['nom_media']}}</option>
                             @endforeach
@@ -94,7 +119,7 @@
                 </div>
 
             </div>
-            <div class="row">
+            <div class="row" id="total_ep">
                 <div class="col-6">
                     <div class="form-group">
                         <label for="total_episodis" style="font-weight: bold">Episodis totals:</label>
@@ -102,7 +127,7 @@
                         <span class="text-danger">{{ $errors->first('total_episodis') }}</span>
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-6" id="ep_set">
                     <div class="form-group">
                         <label for="episodis_setmanals" style="font-weight: bold">Episodis setmanals:</label>
                         <input type="number" class="form-control" id="episodis_setmanals" name="episodis_setmanals" value="{{!empty($registreEntrada) ? $registreEntrada->episodis_setmanals : ''}}">                    
@@ -111,7 +136,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-6">
+                <div class="col-6" id="ent_set">
                     <div class="form-group">
                         <label for="entregues_setmanals" style="font-weight: bold">Entregues setmanals:</label>
                         <input type="number" class="form-control" id="entregues_setmanals" name="entregues_setmanals" value="{{!empty($registreEntrada) ? $registreEntrada->entregues_setmanals : ''}}">
@@ -145,5 +170,37 @@
     </form>
 </div>
 
+<script>
+    //--------Funcions per el filtra-----------
+    $( document ).ready(function() {
+        if ($('#id_media').val() < '5' && $('#id_media').val() > 1) {
+            $('#total_ep').hide();
+            $('#ep_set').hide();
+            $('#ent_set').hide();
+        }
+        else {
+            $('#total_ep').show();
+            $('#ep_set').show();
+            $('#ent_set').show();
+        }
+    });
+    function hideInputs() {
+        //var value = $('#id_media').val();
+        
+        //alert(value);
+        if ($('#id_media').val() < '5' && $('#id_media').val() > 1) {
+            $('#total_ep').hide();
+            $('#ep_set').hide();
+            $('#ent_set').hide();
+        }
+        else {
+            $('#total_ep').show();
+            $('#ep_set').show();
+            $('#ent_set').show();
+        }
+    }
+    
+    $('#id_media').change(hideInputs); 
+</script>
 
 @endsection

@@ -106,7 +106,7 @@
                         </li>
                         <!-- Desabilitat -->
                         <li class="nav-item">
-                            <a class="{{ Request::is('registreProduccio*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('indexRegistreProduccio') }}"><span class="fas fa-project-diagram"></span><span class="sidebar-link underline">Projectes</span></a>
+                            <a class="{{ Request::is('registreProduccio*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('indexRegistreProduccio') }}"><span class="fas fa-project-diagram"></span><span class="sidebar-link underline">Registre de producció</span></a>
                         </li>
 
                         <li class="nav-item">

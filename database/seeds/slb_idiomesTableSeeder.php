@@ -28,5 +28,9 @@ class slb_idiomesTableSeeder extends Seeder
             'id_idioma' => '3',
             'idioma' => 'Anglès'
         ));
+        Idioma::create(array(
+            'id_idioma' => '4',
+            'idioma' => 'Francès'
+        ));
     }
 }
