@@ -91,3 +91,4 @@ Route::post('/estadillos/modificar/{id}', 'EstadilloController@update')->name('e
 Route::post('/estadillos/modificar/actor/{id}/{id_actor}/{setmana?}', 'EstadilloController@updateActor')->name('estadilloActorUpdate');
 Route::post('/estadillos/esborrar', 'EstadilloController@delete')->name('esborrarEstadillo');
 Route::post('/estadillos/esborrar/actor', 'EstadilloController@deleteActor')->name('esborrarEstadilloActor');
+Route::get('/estadillos/buscar/actor/{id}/{id_setmana?}', 'EstadilloController@findActor')->name('actorFind');
