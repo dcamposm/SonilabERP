@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSlbEstadillo extends Migration
+class Update4SlbActorsEstadilloTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateSlbEstadillo extends Migration
      */
     public function up()
     {
-        Schema::create('slb_estadillo', function (Blueprint $table) {
-            $table->increments('id_estadillo');
-            $table->integer('id_registre_produccio');
-            $table->timestamps();
+        Schema::table('slb_actors_estadillo', function (Blueprint $table) {
+            $table->renameColumn('id_empleat', 'id_actor');
+
         });
     }
 
@@ -27,6 +26,8 @@ class CreateSlbEstadillo extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('slb_estadillo');
+        Schema::table('slb_actors_estadillo', function (Blueprint $table) {
+            $table->renameColumn('id_actor', 'id_empleat');
+        });
     }
 }

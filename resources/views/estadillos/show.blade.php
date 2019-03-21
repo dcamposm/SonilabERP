@@ -17,12 +17,12 @@
                     @if (isset($registre->getEstadillo))
                         <tr class="table-selected">
                             <td class="cursor"  style="vertical-align: middle;" onclick="self.mostrarEstadillo('{{ route('estadilloShow', array('id' => $registre->getEstadillo->id_estadillo)) }}')">
-                                <span class="font-weight-bold" style="font-size: 1rem;">{{ $registre->id_registre_entrada }} {{ $registre->nom }} {{ $registre->id_sub }}</span>
+                                <span class="font-weight-bold" style="font-size: 1rem;">{{ $registre->id_registre_entrada }} {{ $registre->titol }} {{ $registre->subreferencia }}</span>
                             </td>
                             <td style="vertical-align: middle;">{{ $registre->estadillo == 0 ? 'No' : 'Si' }}</td>
                             <td style="vertical-align: middle;">
                                 <a href="{{ route('estadilloUpdateView', array('id' => $registre->getEstadillo->id_estadillo)) }}" class="btn btn-primary">Modificar</a>
-                                <button class="btn btn-danger" onclick="self.seleccionarEstadillo({{ $registre->getEstadillo->id_estadillo }}, '{{ $registre->id_registre_entrada }} {{ $registre->nom }} {{ $registre->id_sub }}')" data-toggle="modal" data-target="#exampleModalCenter">Esborrar</button>
+                                <button class="btn btn-danger" onclick="self.seleccionarEstadillo({{ $registre->getEstadillo->id_estadillo }}, '{{ $registre->id_registre_entrada }} {{ $registre->titol }} {{ $registre->subreferencia }}')" data-toggle="modal" data-target="#exampleModalCenter">Esborrar</button>
                                 <form id="delete-{{ $registre->getEstadillo->id_estadillo }}" action="{{ route('esborrarEstadillo') }}" method="POST">
                                     @csrf
                                     <input type="hidden" readonly name="id" value="{{ $registre->getEstadillo->id_estadillo }}">

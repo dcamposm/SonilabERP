@@ -72,11 +72,14 @@ class EmpleatExternController extends Controller
         } else if (request()->input("searchBy") == '2'){
             $empleats = EmpleatExtern::where('sexe_empleat', request()->input("search_Sexe"))->get();
         } else if (request()->input("searchBy") == '3'){
-            $empleats = EmpleatExtern::where('nacionalitat_empleat', request()->input("search_term"))->get();
+            $empleats = EmpleatExtern::whereRaw('LOWER(nacionalitat_empleat) like "%'. strtolower(request()->input("search_term").'%"'))->get();
         } else {
-            $empleats = EmpleatExtern::where('nom_empleat', request()->input("search_term"))
-                    ->orWhere('cognom1_empleat', request()->input("search_term"))
-                    ->orWhere('cognom2_empleat', request()->input("search_term"))->get();
+            $empleats = EmpleatExtern::whereRaw('LOWER(nom_empleat) like "%'. strtolower(request()->input("search_term")).'%"'
+                        . 'OR LOWER(cognom1_empleat) like "%'. strtolower(request()->input("search_term")).'%"'
+                        . 'OR LOWER(cognom2_empleat) like "%'. strtolower(request()->input("search_term")).'%"')->get();
+                    
+                    /*->orWhere('cognom1_empleat', request()->input("search_term"))
+                    ->orWhere('cognom2_empleat', request()->input("search_term"))->get();*/
         }
         
         $carrecs = Carrec::all();
@@ -177,18 +180,21 @@ class EmpleatExternController extends Controller
             'cognom2_empleat' => 'required',
             'sexe_empleat' => 'required',
             'nacionalitat_empleat' => 'required',
-            'email_empleat' => 'required',
+            'email_empleat' => 'required|email',
             'dni_empleat' => 'required',
             'telefon_empleat' => 'required',
             'direccio_empleat' => 'required',
             'codi_postal_empleat' => 'required',
             'naixement_empleat' => 'required',
             'nss_empleat' => 'required',
-            'iban_empleat' => 'required',
+            'iban_empleat' => 'required'
+        ],[
+            'required' => 'No s\'ha introduït aquesta dada.',
+            'email' => 'Aquesta dada té que ser un email.'
         ]);
 
         if ($v->fails()) {
-            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
+            return redirect()->back()->withErrors($v)->withInput();
             //return response()->json(["error" => true], 400);
             //return response()->json(["error" => request()->all()], 400);
         } else {
@@ -291,7 +297,7 @@ class EmpleatExternController extends Controller
                 'cognom2_empleat' => 'required',
                 'sexe_empleat' => 'required',
                 'nacionalitat_empleat' => 'required',
-                'email_empleat' => 'required',
+                'email_empleat' => 'required|email',
                 'dni_empleat' => 'required',
                 'telefon_empleat' => 'required',
                 'direccio_empleat' => 'required',
@@ -299,10 +305,13 @@ class EmpleatExternController extends Controller
                 'naixement_empleat' => 'required',
                 'nss_empleat' => 'required',
                 'iban_empleat' => 'required',
+            ],[
+                'required' => ' No s\'ha introduït aquesta dada.',
+                'email' => 'Aquesta dada té que ser un email.'
             ]);
 
             if ($v->fails()) {
-                return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
+                return redirect()->back()->withErrors($v)->withInput();
                 //return response()->json(["error" => true], 400);
             } else {
                 // Modifica datos personales del empleado

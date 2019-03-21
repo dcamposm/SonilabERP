@@ -3,13 +3,16 @@
 @section('content')
 <div class="container">
   <div class="row">
-      <div class="col">
-          <a href="{{ url('/empleats/crear') }}" class="btn btn-success">
-              <span class="fas fa-user-plus"></span>
-              Afegir treballador
-          </a>
-      </div>
-
+      
+        <div class="col">
+            @if (Auth::user()->hasAnyRole(['1', '4']))
+            <a href="{{ url('/empleats/crear') }}" class="btn btn-success">
+                <span class="fas fa-user-plus"></span>
+                Afegir treballador
+            </a>
+            @endif
+        </div>
+      
       <!-- FILTRA EMPLEAT -->
         <div class="row">
             <div class="col">
@@ -58,6 +61,7 @@
                       {{$empleat['nom_empleat']}} {{$empleat['cognom1_empleat']}}
                   </a>
               </h4>
+              @if (Auth::user()->hasAnyRole(['1', '4']))
               <div class="row">
                   <div class="col-6" style="padding: 0px;">
                       <a href="{{ route('empleatUpdateView', ['id' => $empleat['id_empleat']]) }}" class="btn btn-outline-primary" style="width: 75%;"> Editar </a>
@@ -70,6 +74,7 @@
                       </form>
                   </div>
               </div>
+              @endif
           </div>
       </div>
 

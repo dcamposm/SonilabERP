@@ -13,7 +13,7 @@
                     <label for="id_registre_produccio" style="font-weight: bold">Selecció del registre:</label>
                     <select class="form-control" name="id_registre_produccio">
                         @foreach( $registreProduccio as $projecte )
-                            <option value="{{$projecte['id']}}" {{(!empty($estadillos) && $estadillos->id_registre_produccio == $projecte['id']) ? 'selected' : ''}} >{{$projecte['id_registre_entrada']}} {{$projecte['nom']}} {{$projecte['id_sub']}} </option>
+                            <option value="{{$projecte['id']}}" {{(!empty($estadillos) && $estadillos->id_registre_produccio == $projecte['id']) ? 'selected' : ''}} >{{$projecte['id_registre_entrada']}} {{$projecte['titol']}} {{$projecte['subreferencia']}} </option>
                         @endforeach
                     </select>
                 </div>

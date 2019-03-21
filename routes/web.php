@@ -1,15 +1,15 @@
 <?php
 
 /*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+  |--------------------------------------------------------------------------
+  | Web Routes
+  |--------------------------------------------------------------------------
+  |
+  | Here is where you can register web routes for your application. These
+  | routes are loaded by the RouteServiceProvider within a group which
+  | contains the "web" middleware group. Now create something great!
+  |
+ */
 
 Route::get('/', function () {
     return redirect("/login");
@@ -21,7 +21,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 //------------------Rutes usuaris------------------
 Route::middleware(['role: 1, 4'])->group(function () {//Middleware para dar acceso a los roles indicados,  en este caso 1 (Dis.Estudi) i 4 (Administracion)
-    Route::get('/usuaris/interns/index', 'UserController@getIndex') ->name('indexUsuariIntern');
+    Route::get('/usuaris/interns/index', 'UserController@getIndex')->name('indexUsuariIntern');
     Route::get('/usuaris/interns/buscar', 'UserController@find')->name('usuariFind');
     Route::get('/usuaris/interns/show/{id}', 'UserController@getShow')->name('veureUsuariIntern');
     Route::get('/usuaris/interns/crear', 'UserController@viewRegistre');
@@ -75,9 +75,31 @@ Route::get('/idiomes/modificar/{id}', 'IdiomaController@updateView')->name('idio
 Route::post('/idiomes/modificar/{id}', 'IdiomaController@update')->name('idiomaUpdate');
 Route::post('/idiomes/esborrar', 'IdiomaController@delete')->name('idiomaDelete');
 //------------------Rutes registre producció------------------
-Route::get('/projectes', 'ProjectesController@getIndex')->name('indexProjectes');
+Route::middleware(['role: 1, 2,3,4'])->group(function () {
+    Route::get('/registreProduccio', 'RegistreProduccioController@getIndex')->name('indexRegistreProduccio');
+    Route::get('/registreProduccio/buscar', 'RegistreProduccioController@find')->name('registreProduccioFind');
+    Route::get('/registreProduccio/crear', 'RegistreProduccioController@createView')->name('createRegistreProduccio');
+    Route::get('/registreProduccio/modificar/{id}', 'RegistreProduccioController@updateView')->name('updateRegistreProduccio');
+    Route::get('/registreProduccio/mostrar/{id}', 'RegistreProduccioController@show')->name('mostrarRegistreProduccio');
+
+    Route::post('/registreProduccio/crearBasic', 'RegistreProduccioController@createBasic')->name('createRegistreBasic');
+    Route::post('/registreProduccio/crearComanda', 'RegistreProduccioController@createComanda')->name('createRegisteComanda');
+    Route::post('/registreProduccio/crearEmpleats', 'RegistreProduccioController@createEmpleats')->name('createRegistreEmpleats');
+    Route::post('/registreProduccio/crearPreparacio', 'RegistreProduccioController@createPreparacio')->name('createRegistrePreparacio');
+    Route::post('/registreProduccio/crearConvocatoria', 'RegistreProduccioController@createConvocatoria')->name('createRegistreConvocatoria');
+
+    Route::post('/registreProduccio/modificarBasic/{id}', 'RegistreProduccioController@updateBasic')->name('updateRegistreBasic');
+    Route::post('/registreProduccio/modificarComanda/{id}', 'RegistreProduccioController@updateComanda')->name('updateRegistreComanda');
+    Route::post('/registreProduccio/modificarEmpleats/{id}', 'RegistreProduccioController@updateEmpleats')->name('updateRegistreEmpleats');
+    Route::post('/registreProduccio/modificarPreparacio/{id}', 'RegistreProduccioController@updatePreparacio')->name('updateRegistrePreparacio');
+    Route::post('/registreProduccio/modificarConvocatoria/{id}', 'RegistreProduccioController@updateConvocatoria')->name('updateRegistreConvocatoria');
+
+    Route::post('/registreProduccio/delete/{id}', 'RegistreProduccioController@delete')->name('deleteRegistre');
+});
+
 //------------------Rutes estadillo------------------
 Route::get('/estadillos', 'EstadilloController@index')->name('indexEstadillos');
+Route::get('/estadillos/buscar', 'EstadilloController@find')->name('EstadillosFind');
 Route::get('/estadillos/mostrar/{id}/{id_setmana?}', 'EstadilloController@show')->name('estadilloShow');
 Route::get('/estadillos/mostrar/setmana/{id}/{id_setmana}', 'EstadilloController@showSetmana')->name('estadilloShowSetmana');
 Route::post('/estadillos/import', 'EstadilloController@import')->name('estadilloImport');

@@ -4,18 +4,45 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-3">
+        <div class="col-2">
             <a href="{{ url('/estadillos/crear') }}" class="btn btn-success">
                 <span class="fas fa-clipboard-list"></span>
                 Crear estadillo
             </a>
         </div>
         <div class="col">
-            <form  action="{{ route('estadilloImport') }}" method="POST" enctype="multipart/form-data">
+            <form class="col" action="{{ route('estadilloImport') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+                <div class="input-group">
+                    <div class="custom-file">
+                      <input type="file" class="custom-file-input" name="import_file" id="inputGroupFile" aria-describedby="inputGroupFileAddon">
+                      <label class="custom-file-label" for="inputGroupFile">Importar Estadillo</label>
+                    </div>
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary" type="submit" id="inputGroupFileAddon">Importar</button>
+                    </div>
+                </div>
+            </form>
+        </div>   
+        <div class="col-4">
+            <form method = "GET" action= '{{ route('registreEntradaFind') }}' id='search'>
                 @csrf
-                <label for="import_file" style="font-weight: bold">Importar Estadillo:</label>
-                <input type="file" name="import_file">
-                <button type="submit" class="btn btn-success col-2">Importar</button>
+            <div class="input-group">
+                <select class="custom-select" id='searchBy' name="searchBy" form="search">
+                    <option selected>Buscar per...</option>
+                    <option>Referencia</option>
+                    <option value="1">Validat </option>
+                </select>
+                <input type="text" id="search_term" class="form-control" name="search_term" placeholder="Buscar Estadillo...">
+                <select class="custom-select" id='search_Validat' name="search_Validat" form="search" style="display: none;">
+                      <option value="Si">Si</option>
+                      <option value="No">No</option>
+                </select>
+
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-default" type="button"><span class="fas fa-search"></span></button>
+                </span>
+            </div>
             </form>
         </div>
     </div>
@@ -34,13 +61,13 @@
                 @foreach( $estadillos as $key2 => $estadillo )
                     <tr class="table-selected">
                         <td class="cursor"  style="vertical-align: middle;" onclick="self.mostrarEstadillo('{{ isset($estadillo['id_estadillo']) ? route('estadilloShow', array('id' => $estadillo['id_estadillo'])) : route('estadilloShow', array('id' => $key, 'id_setmana' => $estadillo['setmana'])) }}')">
-                            <span class="font-weight-bold" style="font-size: 1rem;">{{ $key }} {{ $estadillo['nom'] }} {{ !isset($estadillo['min']) ? '' : ( $estadillo['min'] != $estadillo['max'] ? $estadillo['min'].'-'.$estadillo['max'] : $estadillo['min']) }}</span>
+                            <span class="font-weight-bold" style="font-size: 1rem;">{{ $key }} {{ $estadillo['titol'] }} {{ !isset($estadillo['min']) ? '' : ( $estadillo['min'] != $estadillo['max'] ? $estadillo['min'].'-'.$estadillo['max'] : $estadillo['min']) }}</span>
                         </td>
                         <td style="vertical-align: middle;">{{ $estadillo['validat'] == 0 ? 'No' : 'Si' }}</td>
                         @if (isset($estadillo['id_estadillo']))
                             <td style="vertical-align: middle;">
                                 <a href="{{ route('estadilloUpdateView', array('id' => $estadillo['id_estadillo'])) }}" class="btn btn-primary">Modificar</a>
-                                <button class="btn btn-danger" onclick="self.seleccionarEstadillo({{ $key }}, '{{ $estadillo['nom'] }}')" data-toggle="modal" data-target="#exampleModalCenter">Esborrar</button>
+                                <button class="btn btn-danger" onclick="self.seleccionarEstadillo({{ $key }}, '{{ $estadillo['titol'] }}')" data-toggle="modal" data-target="#exampleModalCenter">Esborrar</button>
                                 <form id="delete-{{ $estadillo['id_estadillo'] }}" action="{{ route('esborrarEstadillo') }}" method="POST">
                                     @csrf
                                     <input type="hidden" readonly name="id" value="{{ $estadillo['id_estadillo'] }}">
@@ -104,7 +131,21 @@
             document.all["delete-" + self.estadilloPerEsborrar].submit(); 
         }
     }
+     function selectSearch() {
+        //var value = $('#searchBy').val();
+        
+        //alert(value);
+        if ($('#searchBy').val() == '1') {
+            $('#search_term').hide();
+            $('#search_Validat').show();
+        } else {
+            $('#search_term').show();
+            $('#search_Validat').hide();
+        }
+    }
+    
+    $('#searchBy').change(selectSearch);   
 </script>
-
+   
 
 @stop
