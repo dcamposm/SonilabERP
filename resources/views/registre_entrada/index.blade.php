@@ -4,12 +4,14 @@
 
 <div class="container">
     <div class="row">
+        @if (Auth::user()->hasAnyRole(['1', '4']))
         <div class="col-3">
             <a href="{{ url('/registreEntrada/crear') }}" class="btn btn-success">
                 <span class="fas fa-atlas"></span>
                 Afegir registre d'entrada
             </a>
         </div>
+        @endif
         <div class="col">
             <a href="{{ url('/clients') }}" class="btn btn-success">
                 <span class="fas fa-address-book"></span>
@@ -76,7 +78,13 @@
                 <th>Entrada</th>
                 <th>Sortida</th>
                 <th>Client</th>
+                <th>Servei</th>
+                <th>Idioma</th>
+                <th>Tipus</th>
+                <th>Minuts</th>
+                @if (Auth::user()->hasAnyRole(['1', '4']))
                 <th>Accions</th>
+                @endif
             </tr>
         </thead>
         <tbody>
@@ -88,9 +96,14 @@
                 <td class="cursor" style="vertical-align: middle;" onclick="self.mostrarRegistreEntrada('{{ route('mostrarRegistreEntrada', array('id' => $registreEntrada->id_registre_entrada)) }}')">
                     <span class="font-weight-bold" style="font-size: 1rem;">{{ $registreEntrada->titol }}</span>
                 </td>
-                <td style="vertical-align: middle;">{{ date('d/m/Y H:i:s', strtotime($registreEntrada->entrada)) }}</td>
-                <td style="vertical-align: middle;">{{ date('d/m/Y H:i:s', strtotime($registreEntrada->sortida)) }}</td>
+                <td style="vertical-align: middle;">{{ date('d/m/Y', strtotime($registreEntrada->entrada)) }}</td>
+                <td style="vertical-align: middle;">{{ date('d/m/Y', strtotime($registreEntrada->sortida)) }}</td>
                 <td style="vertical-align: middle;">{{ $registreEntrada->client->nom_client }}</td>
+                <td style="vertical-align: middle;">{{ $registreEntrada->servei->nom_servei }}</td>
+                <td style="vertical-align: middle;">{{ $registreEntrada->idioma->idioma }}</td>
+                <td style="vertical-align: middle;">{{ $registreEntrada->media->nom_media }}</td>
+                <td style="vertical-align: middle;">{{ $registreEntrada->minuts }}</td>
+                @if (Auth::user()->hasAnyRole(['1', '4']))
                 <td style="vertical-align: middle;">
                     <a href="{{ route('registreEntradaUpdateView', array('id' => $registreEntrada['id_registre_entrada'])) }}" class="btn btn-primary">Modificar</a>
                     <button class="btn btn-danger" onclick="self.seleccionarRegistreEntrada({{ $registreEntrada['id_registre_entrada'] }}, '{{ $registreEntrada['titol'] }}')" data-toggle="modal" data-target="#exampleModalCenter">Esborrar</button>
@@ -99,6 +112,7 @@
                         <input type="hidden" readonly name="id" value="{{ $registreEntrada['id_registre_entrada'] }}">
                     </form>
                 </td>
+                @endif
             </tr>
             @endforeach
         </tbody>

@@ -12,7 +12,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="{{ asset('js/sidebar.js') }}" defer></script>
+    <!-- <script src="{{ asset('js/sidebar.js') }}" defer></script> -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -106,7 +106,7 @@
                         </li>
                         <!-- Desabilitat -->
                         <li class="nav-item">
-                            <a class="{{ Request::is('registreProduccio*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('indexRegistreProduccio') }}"><span class="fas fa-project-diagram"></span><span class="sidebar-link underline">Projectes</span></a>
+                            <a class="{{ Request::is('registreProduccio*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('indexRegistreProduccio') }}"><span class="fas fa-project-diagram"></span><span class="sidebar-link underline">Registre de producció</span></a>
                         </li>
 
                         <li class="nav-item">
@@ -118,9 +118,11 @@
                         <li class="nav-item">
                                 <a class="{{ Request::is('registreEntrada*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('indexRegistreEntrada')}}"><span class="fas fa-atlas"></span><span class="sidebar-link underline">Registre d'entrada</span></a>
                         </li>
+                        @if (Auth::user()->hasAnyRole(['1', '2', '4']))
                         <li class="nav-item">
                                 <a class="{{ Request::is('estadillos*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('indexEstadillos')}}"> <span class="fas fa-clipboard-list"></span><span class="sidebar-link underline">Estadillo</span></a>
                         </li>
+                        @endif
                     </ul>
 
 <!--
@@ -179,7 +181,7 @@
         @endif
         @if($errors->any())
             <div class="alert alert-danger" role="alert">
-                <span class="fas fa-exclamation-circle"></span>{{ $errors->first('error') }}
+                <span class="fas fa-exclamation-circle"></span>{{ !empty($errors->first('error')) ? $errors->first('error') : 'ERROR. No s\'han introduït correctament les dades.'  }}
             </div>
         @endif
         @if (session('alert'))

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSlbActorsEstadillo extends Migration
+class CreateSlbActorsEstadilloTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,11 +15,11 @@ class CreateSlbActorsEstadillo extends Migration
     {
         Schema::create('slb_actors_estadillo', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_estadillo');
-            $table->integer('id_actor');
-            $table->double('take_estadillo');
-            $table->double('cg_estadillo');
-            $table->double('canso_estaillo');
+            $table->integer('id_produccio');
+            $table->integer('id_empleat');
+            $table->double('take_estadillo')->nullable();
+            $table->double('cg_estadillo')->nullable();
+            $table->double('canso_estadillo')->nullable();
             $table->timestamps();
         });
     }

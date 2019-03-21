@@ -40,7 +40,7 @@ class slb_tipus_mediaSeeder extends Seeder
         ));
         TipusMedia:: create(array(
             'id_media'         => 6,
-            'nom_media'        => 'Serie d Animació',
+            'nom_media'        => 'Serie animació',
             'descripcio_media' => 'Serie d\'Animació.'
         ));
     }

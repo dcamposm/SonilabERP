@@ -53,11 +53,13 @@ class UserController extends Controller
         if (request()->input("searchBy") == '1'){  
             $users = User::where('id_departament', request()->input("search_Dep"))->get();            
         } else if (request()->input("searchBy") == '2'){
-            $users = User::where('alias_usuari', request()->input("search_term"))->get();
+            $users = User::whereRaw('LOWER(alias_usuari) like "%'. strtolower(request()->input("search_term")).'%"')->get();
         }  else {
-            $users = User::where('nom_usuari', request()->input("search_term"))
-                    ->orWhere('cognom1_usuari', request()->input("search_term"))
-                    ->orWhere('cognom2_usuari', request()->input("search_term"))->get();
+            $users = User::whereRaw('LOWER(nom_usuari) like "%'. strtolower(request()->input("search_term")).'%"'
+                    . 'OR LOWER(cognom1_usuari) like "%'. strtolower(request()->input("search_term")).'%"'.
+                    'OR LOWER(cognom2_usuari) like "%'. strtolower(request()->input("search_term")).'%"')->get();
+                    /*->orWhere('cognom1_usuari', request()->input("search_term"))
+                    ->orWhere('cognom2_usuari', request()->input("search_term"))->get();*/
         }
         
         $departaments = Departament::all();
@@ -78,23 +80,35 @@ class UserController extends Controller
     */
     function crearUsuario(){
         
-        $usuario = new User(request()->all());
+        
         //Primer es valida si se ha insertat els atributs indicats
         $v = Validator::make(request()->all(), [
-            'nom_usuari' => 'required',
-            'cognom1_usuari' => 'required',
-            'cognom2_usuari' => 'required',
-            'email_usuari' => 'required',
-            'alias_usuari' => 'required',
-            'contrasenya_usuari' => 'required',
+            'nom_usuari' => 'required|max:35',
+            'cognom1_usuari' => 'required|max:35',
+            'cognom2_usuari' => 'required|max:35',
+            'email_usuari' => 'required|email',
+            'alias_usuari' => 'required|min:4|max:35',
+            'contrasenya_usuari' => 'required|min:4|max:15',
             'id_departament' => 'required'
+        ],[
+            'nom_usuari.required' => ' No s\'ha posat el nom d\'usuari.',
+            'cognom1_usuari.required' => ' No s\'ha posat el primer cognom.',
+            'cognom2_usuari.required' => ' No s\'ha posat el segon cognom.',
+            'email_usuari.required' => ' No s\'ha posat el email.',
+            'alias_usuari.required' => ' No s\'ha posat el àlies.',
+            'contrasenya_usuari.required' => ' No s\'ha posat la contrasenya.',
+            'id_departament.required' => ' No s\'ha seleccionat el departament.',
+            '*.max' => ' El tamany maxim és de 35 caracters.',
+            '*.min' => ' El tamany minim és de 4 caracters.',
         ]);
+        
         //En cas que no, se renvia cap al formulari amb un missatge de error
         if ($v->fails()){
-            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
+            //return response()->json($v);
+            return redirect()->back()->withErrors($v)->withInput();
             //return response()->json(["error" => true], 400);
         } else {
-            
+            $usuario = new User(request()->all());
             if ($_FILES["imatge_usuari"]["tmp_name"]!=""){
                 $usuario['imatge_usuari'] = base64_encode(file_get_contents($_FILES["imatge_usuari"]["tmp_name"]));
             } else {
@@ -118,19 +132,32 @@ class UserController extends Controller
         if ($usuario){
             //ToDo: FALTA COMPLETAR VALIDATOR
             $v = Validator::make(request()->all(), [
-                'nom_usuari' => 'required',
-                'cognom1_usuari' => 'required',
-                'cognom2_usuari' => 'required',
-                'email_usuari' => 'required',
-                'alias_usuari' => 'required',
-                //'contrasenya_usuari' => 'required',
+                'nom_usuari' => 'required|max:35',
+                'cognom1_usuari' => 'required|max:35',
+                'cognom2_usuari' => 'required|max:35',
+                'email_usuari' => 'required|email',
+                'alias_usuari' => 'required|min:4|max:35',
+                //'contrasenya_usuari' => 'required|min:4|max:15',
                 'id_departament' => 'required'
+            ],[
+                'nom_usuari.required' => ' No s\'ha posat el nom d\'usuari.',
+                'cognom1_usuari.required' => ' No s\'ha posat el primer cognom.',
+                'cognom2_usuari.required' => ' No s\'ha posat el segon cognom.',
+                'email_usuari.required' => ' No s\'ha posat el email.',
+                'alias_usuari.required' => ' No s\'ha posat el àlies.',
+                'contrasenya_usuari.required' => ' No s\'ha posat la contrasenya.',
+                'id_departament.required' => ' No s\'ha seleccionat el departament.',
+                'max' => ' El tamany maxim és de 35 caracters.',
+                'min' => ' El tamany minim és de 4 caracters.',
             ]);
-            
+        
+        //En cas que no, se renvia cap al formulari amb un missatge de error
             if ($v->fails()){
-                return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
+                //return response()->json($v);
+                //Posar tambe un span (per mostrar el missatge d'error) en la vista en cada input
+                return redirect()->back()->withErrors($v)->withInput();
                 //return response()->json(["error" => true], 400);
-            } else {
+            }else {
                 $usuario->fill(request()->all());
 
                 if ($_FILES["imatge_usuari"]["tmp_name"]!=""){
