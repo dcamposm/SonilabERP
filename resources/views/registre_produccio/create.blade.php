@@ -3,12 +3,12 @@
 @section('content')
 
 <div class="container">
-  <h2 class="mb-4">Creació de registres de producció</h2>
+  <h2 class="mb-4">{{!empty($registreProduccio) ? 'Modificació' : 'Creació' }} de registres de producció</h2>
   <div class="row">
     {{-- DADES BÀSIQUES --}}
     <div class="col-12 col-xl-6 mb-3">
       <div class="card">
-        <form method="POST" action="{{route('createRegistreBasic')}}"> {{-- init form --}}
+        <form method="POST" action="{{!empty($registreProduccio) ? route('updateRegistre',array('id' => $registreProduccio->id)) : route('createRegistreBasic')}}"> {{-- init form --}}
           <div class="card-header">
             <span class="h3">Dades bàsiques</span>
             <button class="btn btn-success float-right">
@@ -20,40 +20,40 @@
               <label for="id_registre_entrada">Referència</label>
               <select name="id_registre_entrada" id="id_registre_entrada" class="form-control">
                 @foreach ($regEntrades as $key => $entrada) 
-                  <option value="{{ $entrada->id_registre_entrada }}">{{ $entrada->titol }}</option>
+                  <option value="{{ $entrada->id_registre_entrada }}" {{(!empty($registreProduccio) && $entrada->id_registre_entrada == $registreProduccio->id_registre_entrada) ? 'selected' : '' }} >{{ $entrada->titol }}</option>
                 @endforeach
               </select>
             </div>
 
             <div class="form-group col-12 col-sm-6">
               <label for="subreferencia">Sub-referència</label>
-              <input type="text" name="subreferencia" id="subreferencia" class="form-control">
+              <input type="text" name="subreferencia" id="subreferencia" class="form-control" value="{{!empty($registreProduccio) ? $registreProduccio->id : ''}}">
             </div>
 
             <div class="form-group col-12 col-sm-6">
               <label for="data_entrega">Data d'entrega</label>
-              <input type="date" name="data_entrega" id="data_entrega" class="form-control">
+              <input type="date" name="data_entrega" id="data_entrega" class="form-control" value="{{!empty($registreProduccio) ? explode(' ',$registreProduccio->data_entrega)[0] : ''}}">
             </div>
 
             <div class="form-group col-12 col-sm-6">
               <label for="setmana">Setmana</label>
-              <input type="number" name="setmana" id="setmana" class="form-control" min="0">
+              <input type="number" name="setmana" id="setmana" class="form-control" min="0" value="{{!empty($registreProduccio) ? $registreProduccio->setmana : ''}}">
             </div>
 
             <div class="form-group col-12 col-sm-6">
               <label for="titol">Títol</label>
-              <input type="text" name="titol" id="titol" class="form-control">
+              <input type="text" name="titol" id="titol" class="form-control" value="{{!empty($registreProduccio) ? $registreProduccio->titol : ''}}">
             </div>
 
             <div class="form-group col-12 col-sm-6">
               <label for="titol_traduit">Títol traduit</label>
-              <input type="text" name="titol_traduit" id="titol_traduit" class="form-control">
+              <input type="text" name="titol_traduit" id="titol_traduit" class="form-control" value="{{!empty($registreProduccio) ? $registreProduccio->titol_traduit : ''}}">
             </div>
 
             {{-- NOTA: data_mix NO EXISTE todavía en la base de datos --}}
             <div class="form-group col-12 col-sm-6">
               <label for="data_mix">Data mix</label>
-              <input type="date" name="data_mix" id="data_mix" class="form-control">
+              <input type="date" name="data_mix" id="data_mix" class="form-control" value="{{!empty($registreProduccio) ? explode(' ',$registreProduccio->data_tecnic_mix)[0] : ''}}">
             </div>
 
             <div class="form-group col-12 col-sm-6">
