@@ -12,8 +12,8 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label for="titol" style="font-weight: bold">Titol:</label>
-                        <input type="text" class="form-control" id="nom_titol" placeholder="Entrar titol" name="titol" value="{{!empty($registreEntrada) ? $registreEntrada->titol : ''}}">
-                        <span class="text-danger">{{ $errors->first('nom_titol') }}</span>
+                        <input type="text" class="form-control" id="titol" placeholder="Entrar titol" name="titol" value="{{!empty($registreEntrada) ? $registreEntrada->titol : ''}}">
+                        <span class="text-danger">{{ $errors->first('titol') }}</span>
                     </div>
                 </div>
                 <div class="col-6">

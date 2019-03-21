@@ -52,7 +52,7 @@ class RegistreEntradaController extends Controller
     public function insert()
     {
         $v = Validator::make(request()->all(), [
-            'nom_titol'               => 'required',
+            'titol'               => 'required',
             'entrada'             => 'required',
             'sortida'             => 'required',
             'id_client'           => 'required',
