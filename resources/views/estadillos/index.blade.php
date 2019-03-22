@@ -131,7 +131,21 @@
             document.all["delete-" + self.estadilloPerEsborrar].submit(); 
         }
     }
+     function selectSearch() {
+        //var value = $('#searchBy').val();
+        
+        //alert(value);
+        if ($('#searchBy').val() == '1') {
+            $('#search_term').hide();
+            $('#search_Validat').show();
+        } else {
+            $('#search_term').show();
+            $('#search_Validat').hide();
+        }
+    }
+    
+    $('#searchBy').change(selectSearch);   
 </script>
-
+   
 
 @stop
