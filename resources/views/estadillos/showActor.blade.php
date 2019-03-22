@@ -4,7 +4,7 @@
 
 <div class="container">
 
-    <!-- FILTRA USUARI -->
+    <!-- {{--FILTRA USUARI 
         <div class="row">
             <div class="col">
                 <form method = "GET" action= '{{ route('actorFind') }}' id='search'>
@@ -31,7 +31,7 @@
                 </div>
                 </form>
             </div>
-        </div>
+        </div>--}}-->
 
     <div class="row">
         <div class="col-3">
