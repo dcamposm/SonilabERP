@@ -27,7 +27,7 @@
 
             <div class="form-group col-12 col-sm-6">
               <label for="subreferencia">Sub-referència</label>
-              <input type="text" name="subreferencia" id="subreferencia" class="form-control" value="{{!empty($registreProduccio) ? $registreProduccio->id : ''}}">
+              <input type="text" name="subreferencia" id="subreferencia" class="form-control" value="{{!empty($registreProduccio) ? $registreProduccio->subreferencia : ''}}">
             </div>
 
             <div class="form-group col-12 col-sm-6">
