@@ -17,14 +17,14 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                 <div class="col-6">
                     <div class="form-group">
                         <label for="nom_empleat" style="font-weight: bold">Nom:</label>
-                        <input type="text" class="form-control" id="nom_empleat" placeholder="Entrar nom" name="nom_empleat" value="{{!empty($empleat) ? $empleat->nom_empleat : ''}}">
+                        <input type="text" class="form-control" id="nom_empleat" placeholder="Entrar nom" name="nom_empleat" value="{{!empty($empleat) ? $empleat->nom_empleat : old('nom_empleat')}}">
                         <span class="text-danger">{{ $errors->first('nom_empleat') }}</span>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="form-group">
                         <label for="email_empleat" style="font-weight: bold">Email:</label>
-                        <input type="email" class="form-control" id="email_empleat" placeholder="Entrar correu" name="email_empleat" value="{{!empty($empleat) ? $empleat->email_empleat : ''}}">
+                        <input type="email" class="form-control" id="email_empleat" placeholder="Entrar correu" name="email_empleat" value="{{!empty($empleat) ? $empleat->email_empleat : old('email_empleat')}}">
                         <span class="text-danger">{{ $errors->first('email_empleat') }}</span>
                     </div> 
                 </div>
@@ -35,7 +35,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                 <div class="col-6">
                     <div class="form-group">
                         <label for="cognom1_empleat" style="font-weight: bold">Primer Cognom:</label>
-                        <input type="text" class="form-control" id="cognom1_empleat" placeholder="Entrar primer cognom" name="cognom1_empleat" value="{{!empty($empleat) ? $empleat->cognom1_empleat : ''}}">
+                        <input type="text" class="form-control" id="cognom1_empleat" placeholder="Entrar primer cognom" name="cognom1_empleat" value="{{!empty($empleat) ? $empleat->cognom1_empleat : old('cognom1_empleat')}}">
                         <span class="text-danger">{{ $errors->first('cognom1_empleat') }}</span>
                     </div>
                 </div>
@@ -43,7 +43,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                 <div class="col-6">
                     <div class="form-group">
                         <label for="cognom2_empleat" style="font-weight: bold">Segon Cognom:</label>
-                        <input type="text" class="form-control" id="cognom2_empleat" placeholder="Entrar segon cognom" name="cognom2_empleat" value="{{!empty($empleat) ? $empleat->cognom2_empleat : ''}}">
+                        <input type="text" class="form-control" id="cognom2_empleat" placeholder="Entrar segon cognom" name="cognom2_empleat" value="{{!empty($empleat) ? $empleat->cognom2_empleat : old('cognom2_empleat')}}">
                         <span class="text-danger">{{ $errors->first('cognom2_empleat') }}</span>
                     </div>
                 </div>
@@ -54,8 +54,8 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                     <div class="form-group">
                         <label for="sexe_empleat" style="font-weight: bold">Sexe:</label>
                         <select class="form-control" name="sexe_empleat">
-                            <option value="Dona" {{(!empty($empleat) && $empleat->sexe_empleat == 'Dona') ? 'selected' : ''}}>Dona</option>
-                            <option value="Home" {{(!empty($empleat) && $empleat->sexe_empleat == 'Home') ? 'selected' : ''}}>Home</option>
+                            <option value="Dona" {{(!empty($empleat) && $empleat->sexe_empleat == 'Dona') || (old('sexe_empleat') == 'Dona') ? 'selected' : ''}}>Dona</option>
+                            <option value="Home" {{(!empty($empleat) && $empleat->sexe_empleat == 'Home') || (old('sexe_empleat') == 'Home')? 'selected' : ''}}>Home</option>
                         </select>
                         <span class="text-danger">{{ $errors->first('sexe_empleat') }}</span>
                     </div>
@@ -63,7 +63,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                 <div class="col-6">
                     <div class="form-group">
                         <label for="nacionalitat" style="font-weight: bold">Nacionalitat:</label>
-                        <input type="text" class="form-control" id="nacionalitat_empleat" placeholder="Entrar nacionalitat" name="nacionalitat_empleat" value="{{!empty($empleat) ? $empleat->nacionalitat_empleat : ''}}">
+                        <input type="text" class="form-control" id="nacionalitat_empleat" placeholder="Entrar nacionalitat" name="nacionalitat_empleat" value="{{!empty($empleat) ? $empleat->nacionalitat_empleat : old('nacionalitat_empleat')}}">
                         <span class="text-danger">{{ $errors->first('nacionalitat_empleat') }}</span>
                     </div>
                 </div>
@@ -74,14 +74,14 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                 <div class="col-6">
                     <div class="form-group">
                         <label for="dni_empleat" style="font-weight: bold">DNI:</label>
-                        <input type="text" class="form-control" id="dni_empleat" placeholder="Entrar DNI empleat" name="dni_empleat" value="{{!empty($empleat) ? $empleat->dni_empleat : ''}}">
+                        <input type="text" class="form-control" id="dni_empleat" placeholder="Entrar DNI empleat" name="dni_empleat" value="{{!empty($empleat) ? $empleat->dni_empleat : old('dni_empleat')}}">
                         <span class="text-danger">{{ $errors->first('dni_empleat') }}</span>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="form-group">
                         <label for="telefon_empleat" style="font-weight: bold">Telèfon:</label>
-                        <input type="tel" class="form-control" id="telefon_empleat" placeholder="Entrar telèfon empleat" name="telefon_empleat" value="{{!empty($empleat) ? $empleat->telefon_empleat : ''}}">
+                        <input type="tel" class="form-control" id="telefon_empleat" placeholder="Entrar telèfon empleat" name="telefon_empleat" value="{{!empty($empleat) ? $empleat->telefon_empleat : old('telefon_empleat')}}">
                         <span class="text-danger">{{ $errors->first('telefon_empleat') }}</span>
                     </div>
                 </div>
@@ -91,14 +91,14 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                 <div class="col-6">
                     <div class="form-group">
                         <label for="direccio_empleat" style="font-weight: bold">Direcció:</label>
-                        <input type="text" class="form-control" id="direccio_empleat" placeholder="Entrar direcció empleat" name="direccio_empleat" value="{{!empty($empleat) ? $empleat->direccio_empleat : ''}}">
+                        <input type="text" class="form-control" id="direccio_empleat" placeholder="Entrar direcció empleat" name="direccio_empleat" value="{{!empty($empleat) ? $empleat->direccio_empleat : old('direccio_empleat')}}">
                         <span class="text-danger">{{ $errors->first('direccio_empleat') }}</span>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="form-group">
                         <label for="codi_postal_empleat" style="font-weight: bold">Codi postal:</label>
-                        <input type="number" class="form-control" id="codi_postal_empleat" placeholder="Entrar codi postal empleat" name="codi_postal_empleat" value="{{!empty($empleat) ? $empleat->codi_postal_empleat : ''}}">
+                        <input type="number" class="form-control" id="codi_postal_empleat" placeholder="Entrar codi postal empleat" name="codi_postal_empleat" value="{{!empty($empleat) ? $empleat->codi_postal_empleat : old('codi_postal_empleat')}}">
                         <span class="text-danger">{{ $errors->first('codi_postal_empleat') }}</span>
                     </div>
                 </div>
@@ -115,7 +115,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                 <div class="col-6">
                     <div class="form-group">
                         <label for="nss_empleat" style="font-weight: bold">NSS:</label>
-                        <input type="text" class="form-control" id="nss_empleat" placeholder="Entrar número seguretat social empleat" name="nss_empleat" value="{{!empty($empleat) ? $empleat->nss_empleat : ''}}">
+                        <input type="text" class="form-control" id="nss_empleat" placeholder="Entrar número seguretat social empleat" name="nss_empleat" value="{{!empty($empleat) ? $empleat->nss_empleat : old('nss_empleat')}}">
                         <span class="text-danger">{{ $errors->first('nss_empleat') }}</span>
                     </div>
                 </div>
@@ -125,7 +125,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                 <div class="col-6">
                     <div class="form-group">
                         <label for="iban_empleat" style="font-weight: bold">IBAN:</label>
-                        <input type="text" class="form-control" id="iban_empleat" placeholder="Entrar IBAN empleat" name="iban_empleat" value="{{!empty($empleat) ? $empleat->iban_empleat : ''}}">
+                        <input type="text" class="form-control" id="iban_empleat" placeholder="Entrar IBAN empleat" name="iban_empleat" value="{{!empty($empleat) ? $empleat->iban_empleat : old('iban_empleat')}}">
                         <span class="text-danger">{{ $errors->first('iban_empleat') }}</span>
                     </div>
                 </div>
