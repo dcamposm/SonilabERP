@@ -12,14 +12,14 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label for="nom_client" style="font-weight: bold">Nom:</label>
-                        <input type="text" class="form-control" id="nom_client" placeholder="Entrar nom" name="nom_client" value="{{!empty($client) ? $client->nom_client : ''}}">
+                        <input type="text" class="form-control" id="nom_client" placeholder="Entrar nom" name="nom_client" value="{{!empty($client) ? $client->nom_client : old('nom_client')}}">
                         <span class="text-danger">{{ $errors->first('nom_client') }}</span>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="form-group">
                         <label for="email_client" style="font-weight: bold">Email:</label>
-                        <input type="email" class="form-control" id="email_client" placeholder="Entrar email" name="email_client" value="{{!empty($client) ? $client->email_client : ''}}">
+                        <input type="email" class="form-control" id="email_client" placeholder="Entrar email" name="email_client" value="{{!empty($client) ? $client->email_client : old('email_client')}}">
                         <span class="text-danger">{{ $errors->first('email_client') }}</span>
                     </div>
                 </div>
@@ -85,7 +85,7 @@
     <div>
         <a href="{{ url('/clients') }}" class="btn btn-primary">
             <span class="fas fa-angle-double-left"></span>
-            Tornar enrere
+            Tornar enrera
         </a>
     </div>
 </div>
