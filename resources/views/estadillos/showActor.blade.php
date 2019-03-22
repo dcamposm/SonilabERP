@@ -3,6 +3,36 @@
 @section('content')
 
 <div class="container">
+
+    <!-- FILTRA USUARI -->
+        <div class="row">
+            <div class="col">
+                <form method = "GET" action= '{{ route('actorFind') }}' id='search'>
+                    @csrf
+                <div class="input-group">
+                    <select class="custom-select" id='searchBy' name="searchBy" form="search">
+                        <option selected>Buscar per...</option>
+                        <option>Nom o cognoms</option>
+                        <option value="1">Departament</option>
+                        <option value="2">Àlies</option>
+                    </select>
+                  
+                    <input type="text" id="search_term" class="form-control" name="search_term" placeholder="Buscar usuari...">
+                  
+                    <select class="custom-select" id='search_Dep' name="search_Dep" form="search" style="display: none;">
+                        @foreach( $departaments as $key => $departament )
+                            <option value="{{$departament['id_departament']}}">{{$departament['nom_departament']}}</option>
+                        @endforeach
+                    </select>
+                  
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-default" type="button"><span class="fas fa-search"></span></button>
+                    </span>
+                </div>
+                </form>
+            </div>
+        </div>
+
     <div class="row">
         <div class="col-3">
             <a href="{{ !isset($registreProduccio) ? route('estadilloActorInsertView', array('id' => $estadillos->id_estadillo)) :  route('estadilloActorInsertView', array('id' => $registreProduccio->id_registre_entrada, 'setmana'=>$registreProduccio->setmana))}}" class="btn btn-success">

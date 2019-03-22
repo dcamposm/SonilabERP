@@ -10,7 +10,7 @@
             <legend class="w-auto">Dades:</legend>
             <div class="row">
                 <div class="col-6">
-                    <label for="id_registre_produccio" style="font-weight: bold">Seleccion el registre:</label>
+                    <label for="id_registre_produccio" style="font-weight: bold">Selecció del registre:</label>
                     <select class="form-control" name="id_registre_produccio">
                         @foreach( $registreProduccio as $projecte )
                             <option value="{{$projecte['id']}}" {{(!empty($estadillos) && $estadillos->id_registre_produccio == $projecte['id']) ? 'selected' : ''}} >{{$projecte['id_registre_entrada']}} {{$projecte['titol']}} {{$projecte['subreferencia']}} </option>
@@ -43,7 +43,7 @@
     </form>
     
     <div>
-        <a href="{{ URL::previous() }}" class="btn btn-primary">
+        <a href="{{ route('indexEstadillos') }}" class="btn btn-primary">
             <span class="fas fa-angle-double-left"></span>
             Tornar enrere
         </a>
