@@ -26,9 +26,24 @@ class EmpleatExternController extends Controller
     */
     public function index()
     {
-        $empleats = EmpleatExtern::all();
+        $empleatsArray = array();
+        $idiomes = Idioma::all();
         $carrecs = Carrec::all();
-        return View('empleats_externs.index', array('empleats' => $empleats, 'carrecs' => $carrecs));
+        $empleats = EmpleatExtern::with('carrec')->get();
+        foreach ($empleats as $empleat) {
+            foreach( $empleat->carrec as $empleatCarrec ){
+                    $empleatCarrec->carrec;
+                    //return response()->json($empleatCarrec);
+                    isset($empleatsArray[$empleat->id_empleat][$empleatCarrec->carrec->nom_carrec]) ? '' : $empleatsArray[$empleat->id_empleat][$empleatCarrec->carrec->nom_carrec] = $empleatCarrec->carrec->nom_carrec;
+            
+                    //return response()->json($empleatsArray);
+            }
+        }
+        //$empleats['carrec']->with('idioma')->get();
+        //return response()->json($empleatsArray);
+        
+        return View('empleats_externs.index', array('empleats' => $empleats, 'carrecs' => $carrecs,
+                                                    'idiomes' => $idiomes,'empleatsArray' => $empleatsArray));
     }
     /*
         *funcio que busca empleats externs per una opcio insertada
@@ -64,27 +79,37 @@ class EmpleatExternController extends Controller
             $empleats = Array();
             //Despres introdueix en una altre array, tots els atributs del empleat
             for ($i = 0; $i < count($empleatsArray); $i++){
-                $empleats[$i] =  EmpleatExtern::where('id_empleat', $empleatsArray[$i])->first();
+                $empleats[$i] =  EmpleatExtern::where('id_empleat', $empleatsArray[$i])->with('carrec')->first();
             }
             
             //return redirect()->route('empleatIndex')->with('success', $empleats);
             
         } else if (request()->input("searchBy") == '2'){
-            $empleats = EmpleatExtern::where('sexe_empleat', request()->input("search_Sexe"))->get();
+            $empleats = EmpleatExtern::where('sexe_empleat', request()->input("search_Sexe"))->with('carrec')->get();
         } else if (request()->input("searchBy") == '3'){
-            $empleats = EmpleatExtern::whereRaw('LOWER(nacionalitat_empleat) like "%'. strtolower(request()->input("search_term").'%"'))->get();
+            $empleats = EmpleatExtern::whereRaw('LOWER(nacionalitat_empleat) like "%'. strtolower(request()->input("search_term").'%"'))->with('carrec')->get();
         } else {
             $empleats = EmpleatExtern::whereRaw('LOWER(nom_empleat) like "%'. strtolower(request()->input("search_term")).'%"'
                         . 'OR LOWER(cognom1_empleat) like "%'. strtolower(request()->input("search_term")).'%"'
-                        . 'OR LOWER(cognom2_empleat) like "%'. strtolower(request()->input("search_term")).'%"')->get();
+                        . 'OR LOWER(cognom2_empleat) like "%'. strtolower(request()->input("search_term")).'%"')->with('carrec')->get();
                     
                     /*->orWhere('cognom1_empleat', request()->input("search_term"))
                     ->orWhere('cognom2_empleat', request()->input("search_term"))->get();*/
         }
-        
+        //return response()->json($empleats);
         $carrecs = Carrec::all();
+        $empleatsArray = array();
+        foreach ($empleats as $empleat) {
+            foreach( $empleat->carrec as $empleatCarrec ){
+                    $empleatCarrec->carrec;
+                    //return response()->json($empleatCarrec);
+                    isset($empleatsArray[$empleat->id_empleat][$empleatCarrec->carrec->nom_carrec]) ? '' : $empleatsArray[$empleat->id_empleat][$empleatCarrec->carrec->nom_carrec] = $empleatCarrec->carrec->nom_carrec;
+            
+                    //return response()->json($empleatsArray);
+            }
+        }
         //return redirect()->route('empleatIndex')->with('success', request()->input("searchBy").'-'.request()->input("search_term"));
-        return View('empleats_externs.index', array('empleats' => $empleats, 'carrecs' => $carrecs));
+        return View('empleats_externs.index', array('empleats' => $empleats, 'carrecs' => $carrecs,'empleatsArray' => $empleatsArray));
     }
     
     public function show($id)
