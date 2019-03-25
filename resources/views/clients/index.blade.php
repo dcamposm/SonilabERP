@@ -4,6 +4,10 @@
 
 <div class="container">
     <div>
+        <a href="{{ url('/registreEntrada') }}" class="btn btn-primary col-2">
+            <span class="fas fa-angle-double-left"></span>
+            Tornar enrera
+        </a>
         <a href="{{ url('/clients/crear') }}" class="btn btn-success">
             <span class="fas fa-atlas"></span>
             Afegir client

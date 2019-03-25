@@ -5,6 +5,12 @@
 <!-- TODO: Hacer que las tablas puedan ocultar sus "tbody" para que el usuario desplegue el que desee -->
 
 <div class="container">
+    <a href="{{ url('/empleats') }}" class="btn btn-primary col-2">
+        <span class="fas fa-angle-double-left"></span>
+        Tornar enrera
+    </a>
+    <br>
+    <br>
     <!-- DATOS PERSONALES DEL EMPLEADO -->
     <table class="table table-striped">
         <thead class="thead-dark">
