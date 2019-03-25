@@ -36,7 +36,7 @@
                 <td style="vertical-align: middle;">{{ $client->direccio_client }}</td>
                 <td style="vertical-align: middle;">
                     <a href="{{ route('clientUpdateView', array('id' => $client['id_client'])) }}" class="btn btn-primary">Modificar</a>
-                    <button class="btn btn-danger" onclick="self.seleccionarClient({{ $client['id_client'] }}, '{{ $client['nom_client'] }}')" data-toggle="modal" data-target="#exampleModalCenter">Esborrar</button>
+                    <button class="btn btn-danger" onclick="self.seleccionarClient({{ $client['id_client'] }}, '{{ $client['nom_client'] }}')" data-toggle="modal" data-target="#exampleModalCenter"><i class="far fa-trash-alt"></i>Esborrar</button>
                     <form id="delete-{{ $client['id_client'] }}" action="{{ route('esborrarClient') }}" method="POST">
                         @csrf
                         <input type="hidden" readonly name="id" value="{{ $client['id_client'] }}">

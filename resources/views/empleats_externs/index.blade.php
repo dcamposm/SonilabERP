@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
   <div class="row">
       
         <div class="col">
@@ -70,7 +70,7 @@
                         @foreach( $empleatsArray as $key => $empCarrec )
                             @if ($key == $empleat->id_empleat)
                                 @foreach( $empCarrec as $key2 => $carrec )
-                                <li class="list-group-item" style="border-top: none; border-bottom: none;">{{$carrec}}</li>
+                                    <li class="list-group-item" style="border-top: none; border-bottom: none;">{{$carrec}}</li>
                                 @endforeach
                             @endif
                         @endforeach

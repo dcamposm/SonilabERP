@@ -2,69 +2,78 @@
 
 @section('content')
 
-<div class="container">
-    <div class="row">
+<div class="container-fluid">
+    <div class="row justify-content-between">
+        
+        <div>
         @if (Auth::user()->hasAnyRole(['1', '4']))
-        <div class="col-3">
             <a href="{{ url('/registreEntrada/crear') }}" class="btn btn-success">
                 <span class="fas fa-atlas"></span>
                 Afegir registre d'entrada
             </a>
-        </div>
         @endif
-        <div class="col">
             <a href="{{ url('/clients') }}" class="btn btn-success">
                 <span class="fas fa-address-book"></span>
                 Gestionar Clients
             </a>
         </div>
         <!-- FILTRA REGISTRE ENTRADA -->
-        <div class="row">
-            <div class="col">
-                <form method = "GET" action= '{{ route('registreEntradaFind') }}' id='search'>
-                    @csrf
-                <div class="input-group">
-                    <select class="custom-select" id='searchBy' name="searchBy" form="search">
-                        <option selected>Buscar per...</option>
-                        <option>Referencia</option>
-                        <option value="1">Client</option>
-                        <option value="2">Estat</option>
-                    </select>
-                    <input type="text" id="search_term" class="form-control" name="search_term" placeholder="Buscar registre...">
-                    
-                    <select class="custom-select" id='search_Client' name="search_Client" form="search" style="display: none;">
-                        @foreach( $clients as $key => $client )
-                          <option value="{{$client['id_client']}}">{{$client['nom_client']}}</option>
-                        @endforeach
-                    </select>
-                    <select class="custom-select" id='search_Estat' name="search_Estat" form="search" style="display: none;">
-                          <option value="Pendent">Pendent</option>
-                          <option value="Finalitzada">Finalitzada</option>
-                          <option value="Cancel·lada">Cancel·lada</option>
-                    </select>
-                    
-                    <span class="input-group-btn">
-                        <button type="submit" class="btn btn-default" type="button"><span class="fas fa-search"></span></button>
-                    </span>
-                </div>
-                </form>
+        <div>
+            <form method = "GET" action= '{{ route('registreEntradaFind') }}' id='search'>
+                @csrf
+            <div class="input-group row">
+                <select class="custom-select" id='searchBy' name="searchBy" form="search">
+                    <option selected>Buscar per...</option>
+                    <option>Referencia</option>
+                    <option value="1">Client</option>
+                    <option value="2">Estat</option>
+                </select>
+                <input type="text" id="search_term" class="form-control" name="search_term" placeholder="Buscar registre...">
+
+                <select class="custom-select" id='search_Client' name="search_Client" form="search" style="display: none;">
+                    @foreach( $clients as $key => $client )
+                        <option value="{{$client['id_client']}}">{{$client['nom_client']}}</option>
+                    @endforeach
+                </select>
+                <select class="custom-select" id='search_Estat' name="search_Estat" form="search" style="display: none;">
+                      <option value="Pendent">Pendent</option>
+                      <option value="Finalitzada">Finalitzada</option>
+                      <option value="Cancel·lada">Cancel·lada</option>
+                </select>
+
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-default" type="button"><span class="fas fa-search"></span></button>
+                </span>
             </div>
+            </form>
         </div>
     </div>
     
     {{-- LEYENDA DE COLORES DE ESTADO --}}
     <div style="margin-top: 10px;">
         <div class="llegenda">
-            <span style="color: lawngreen; font-size: 30px;">&#9646;</span>
-            <span>Finalitzat</span>
+            <form method = "GET" action= '{{ route('registreEntradaFind') }}' id='search'>
+                @csrf
+                <input type="hidden" id="searchBy" class="form-control" name="searchBy" value="2">
+                <input type="hidden" id="search_Estat" class="form-control" name="search_Estat" value="Finalitzada">
+                <span style="color: lawngreen; font-size: 30px;">&#9646;</span><button type="submit" class="btn btn-link" style="text-decoration: none; color: black;">Finalitzat</button>
+            </form>
         </div>
         <div class="llegenda">
-            <span style="color: darkorange; font-size: 30px;">&#9646;</span>
-            <span>Pendent</span>
+            <form method = "GET" action= '{{ route('registreEntradaFind') }}' id='search'>
+                @csrf
+                <input type="hidden" id="searchBy" class="form-control" name="searchBy" value="2">
+                <input type="hidden" id="search_Estat" class="form-control" name="search_Estat" value="Pendent">
+                <span style="color: darkorange; font-size: 30px;">&#9646;</span><button type="submit" class="btn btn-link" style="text-decoration: none; color: black;">Pendent</button>
+            </form>
         </div>
         <div class="llegenda">
-            <span style="color: red; font-size: 30px;">&#9646;</span>
-            <span>Cancel·lat</span>
+            <form method = "GET" action= '{{ route('registreEntradaFind') }}' id='search'>
+                @csrf
+                <input type="hidden" id="searchBy" class="form-control" name="searchBy" value="2">
+                <input type="hidden" id="search_Estat" class="form-control" name="search_Estat" value="Cancel·lada">
+                <span style="color: red; font-size: 30px;">&#9646;</span><button type="submit" class="btn btn-link" style="text-decoration: none; color: black;">Cancel·lat</button>
+            </form>
         </div>
         <div style="clear:both;"></div>
     </div>

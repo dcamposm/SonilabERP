@@ -24,7 +24,7 @@ class RegistreEntradaController extends Controller
         $registreEntrades = RegistreEntrada::with('client')
                                 ->with('servei')
                                 ->with('idioma')
-                                ->with('media')->get();
+                                ->with('media')->orderBy("estat")->get();
         $clients = Client::all();
         return View('registre_entrada.index', array('registreEntrades' => $registreEntrades, 'clients' => $clients));
     }
