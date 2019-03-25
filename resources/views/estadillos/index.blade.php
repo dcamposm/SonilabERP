@@ -25,7 +25,7 @@
             </form>
         </div>   
         <div class="col-4">
-            <form method = "GET" action= '{{ route('registreEntradaFind') }}' id='search'>
+            <form method = "GET" action= '{{ route('estadilloFind') }}' id='search'>
                 @csrf
             <div class="input-group">
                 <select class="custom-select" id='searchBy' name="searchBy" form="search">
@@ -35,8 +35,8 @@
                 </select>
                 <input type="text" id="search_term" class="form-control" name="search_term" placeholder="Buscar Estadillo...">
                 <select class="custom-select" id='search_Validat' name="search_Validat" form="search" style="display: none;">
-                      <option value="Si">Si</option>
-                      <option value="No">No</option>
+                      <option value="1">Si</option>
+                      <option value="0">No</option>
                 </select>
 
                 <span class="input-group-btn">
