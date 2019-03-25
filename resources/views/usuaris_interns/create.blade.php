@@ -90,12 +90,14 @@
             </div>
         </div>
         <br>
-        <div class="row">
-            <div class="col-6">
-                <button type="submit" class="btn btn-success col-4">{{!empty($usuario) ? 'Guardar canvis' : 'Crear'}}</button>
-            </div>
+        <div class="row justify-content-between">
+            <a href="{{ url('/usuaris/interns/index') }}" class="btn btn-primary col-2">
+                <span class="fas fa-angle-double-left"></span>
+                Tornar enrera
+            </a> 
+            <button type="submit" class="btn btn-success col-2">{{!empty($usuario) ? 'Guardar canvis' : 'Crear'}} <i class="fas fa-save"></i></i></button>     
         </div>
-
+        
     </form>
 </div>
 <script type="text/javascript">

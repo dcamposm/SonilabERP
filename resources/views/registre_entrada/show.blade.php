@@ -77,6 +77,11 @@
             </tr>
         </tbody>
     </table>
+    
+    <a href="{{ url('/registreEntrada') }}" class="btn btn-primary col-2">
+        <span class="fas fa-angle-double-left"></span>
+        Tornar enrera
+    </a>
 </div>
 
 @stop

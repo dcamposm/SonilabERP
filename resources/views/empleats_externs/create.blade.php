@@ -334,10 +334,13 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
         <br>
 
         <!-- BOTÓN DE CREAR O ACTUALIZAR -->
-        <div class="row">
-            <div class="col-6">
-                <button type="submit" class="btn btn-success col-4">{{!empty($empleat) ? 'Desar canvis' : 'Crear'}}</button>
-            </div>
+        <div class="row justify-content-between">
+            <a href="{{ url('/empleats') }}" class="btn btn-primary col-2">
+                <span class="fas fa-angle-double-left"></span>
+                Tornar enrera
+            </a>
+            <button type="submit" class="btn btn-success col-2">{{!empty($empleat) ? 'Desar canvis' : 'Crear'}} <i class="fas fa-save"></i></button>
+
         </div>
         <br>
     </form>
