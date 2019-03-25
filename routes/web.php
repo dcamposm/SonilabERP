@@ -99,7 +99,7 @@ Route::middleware(['role: 1, 2,3,4'])->group(function () {
 
 //------------------Rutes estadillo------------------
 Route::get('/estadillos', 'EstadilloController@index')->name('indexEstadillos');
-Route::get('/estadillos/buscar', 'EstadilloController@find')->name('EstadillosFind');
+Route::get('/estadillos/buscar', 'EstadilloController@find')->name('estadilloFind');
 Route::get('/estadillos/mostrar/{id}/{id_setmana?}', 'EstadilloController@show')->name('estadilloShow');
 Route::get('/estadillos/mostrar/setmana/{id}/{id_setmana}', 'EstadilloController@showSetmana')->name('estadilloShowSetmana');
 Route::post('/estadillos/import', 'EstadilloController@import')->name('estadilloImport');
