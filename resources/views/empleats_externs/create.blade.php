@@ -149,13 +149,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                         <label for="director" style="font-weight: bold">Director:</label>
                         <input type="checkbox" onchange="mostrarCamps('director')" class="form-control" id="director" name="director" {{ isset($carrecs['director']) ? 'checked' : ''}} value="1">
                     </div>
-                </div>
-                <div class="col">
-                    <div class="form-group">
-                        <label for="tecnic_sala" style="font-weight: bold">Tècnic:</label>
-                        <input type="checkbox" onchange="mostrarCamps('tecnic')" class="form-control" id="tecnic_sala" name="tecnic_sala" {{ isset($carrecs['tecnic_sala']) ? 'checked' : ''}} value="1">
-                    </div>
-                </div>               
+                </div>              
                 <div class="col">
                     <div class="form-group">
                         <label for="actor" style="font-weight: bold">Actor:</label>
@@ -168,47 +162,42 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                         <input type="checkbox" onchange="mostrarCamps('traductor')" class="form-control" id="traductor" name="traductor" {{ isset($carrecs['traductor']) ? 'checked' : ''}} value="1">
                     </div>
                 </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="tecnic_sala" style="font-weight: bold">Tècnic:</label>
+                        <input type="checkbox" onchange="mostrarCamps('tecnic')" class="form-control" id="tecnic_sala" name="tecnic_sala" {{ isset($carrecs['tecnic_sala']) ? 'checked' : ''}} value="1">
+                    </div>
+                </div> 
             </div>
 
             <!-- CARGOS: DIRECTOR, TÉCNICO DE SALA -->
-            <div class="row">
-                
-                
-                <div class="col-12" id="colDirector" style="display:{{ isset($carrecs['director']) ? '' : 'none'}}">
-
-                    <div class="form-group" style="width:100%;">
-                        <div style="width:65%; float:left; margin-left:5%;">
-                            <div id="tarifa_director1">
-                                <label for="tarifa_director1" style="font-weight: bold">Preu rotllo:</label>
-                                <input type="number" class="form-control" id="tarifa_director1_inp" placeholder="Preu rotllo" name="preu_director_rotllo" value="{{ isset($carrecs['director']['rotllo']) ? $carrecs['director']['rotllo']['preu_carrec'] : ''}}">
-                            </div>
-                            <div id="tarifa_director2">
-                                <label for="tarifa_director2" style="font-weight: bold">Preu minut:</label>                                        
-                                <input type="number" class="form-control" id="tarifa_director2_inp" placeholder="Preu minut" name="preu_director_minut" value="{{ isset($carrecs['director']['minut']) ? $carrecs['director']['minut']['preu_carrec'] : ''}}">
-                            </div>
-                        </div>       
-                    </div>
-
-                    
+            <div class="row container">
+                <div id="colDirector" style="width: 100%; margin-left: 15px; display:{{ isset($carrecs['director']) ? '' : 'none'}}">
+                    <div class="form-group">
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr class="row">
+                                    <th class="col">Directos</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="row">
+                                    <td class="col">
+                                        <div>
+                                            <div id="tarifa_director1">
+                                                <label for="tarifa_director1" style="font-weight: bold">Preu rotllo:</label>
+                                                <input type="number" step="any" class="form-control" id="tarifa_director1_inp" placeholder="Preu rotllo" name="preu_director_rotllo" value="{{ isset($carrecs['director']['rotllo']) ? $carrecs['director']['rotllo']['preu_carrec'] : ''}}">
+                                            </div>
+                                            <div id="tarifa_director2">
+                                                <label for="tarifa_director2" style="font-weight: bold">Preu minut:</label>                                        
+                                                <input type="number" step="any" class="form-control" id="tarifa_director2_inp" placeholder="Preu minut" name="preu_director_minut" value="{{ isset($carrecs['director']['minut']) ? $carrecs['director']['minut']['preu_carrec'] : ''}}">
+                                            </div>
+                                        </div> 
+                                    </td>
+                            </tbody>
+                        </table>
+                    </div>                  
                 </div>
-                
-
-                <div class="col-12" id="colTecnicSala" style="display:{{ isset($carrecs['tecnic_sala']) ? '' : 'none'}}">
-                    
-                    <div class="form-group" style="width:100%;">
-                         <div style="width:65%; float:left; margin-left:5%;">
-                             <div id="tarifa_tecnic1">
-                                 <label for="tarifa_tecnic1_inp" style="font-weight: bold">Tarifa sala:</label>
-                                 <input type="number" class="form-control" id="tarifa_tecnic1_inp" placeholder="Tarifa sala" name="preu_tecnic_sala_sala" value="{{ isset($carrecs['tecnic_sala']['sala']) ? $carrecs['tecnic_sala']['sala']['preu_carrec'] : ''}}">
-                             </div>
-                             <div id="tarifa_tecnic2">
-                                 <label for="tarifa_tecnic2_inp" style="font-weight: bold">Tarifa mix:</label>                                        
-                                 <input type="number" class="form-control" id="tarifa_tecnic2_inp" placeholder="Tarifa mix" name="preu_tecnic_sala_mix" value="{{ isset($carrecs['tecnic_sala']['mix']) ? $carrecs['tecnic_sala']['mix']['preu_carrec'] : ''}}">
-                             </div>
-                         </div>       
-                     </div>
-                </div>
-
             </div>
             <br>
             <!-- CARGOS: ACTOR, TRADUCTOR, AJUSTADOR, LINGÜISTA -->
@@ -235,34 +224,34 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                                             <div class="col">
                                                 <div id="tarifa_actor1_{{$idioma->idioma}}"
                                                     <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa video take:</label>
-                                                    <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_video_take" placeholder="Tarifa video take" name="preu_actor_{{$idioma->idioma}}_video_take" value="{{ isset($carrecs['actor'][$idioma->idioma]['video_take']) ? $carrecs['actor'][$idioma->idioma]['video_take']['preu_carrec'] : ''}}">
+                                                    <input type="number" step="any" class="form-control" id="preu_actor_{{$idioma->idioma}}_video_take" placeholder="Tarifa video take" name="preu_actor_{{$idioma->idioma}}_video_take" value="{{ isset($carrecs['actor'][$idioma->idioma]['video_take']) ? $carrecs['actor'][$idioma->idioma]['video_take']['preu_carrec'] : ''}}">
                                                 </div>
                                                 <div id="tarifa_actor2_{{$idioma->idioma}}">
                                                     <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa video cg:</label>                                        
-                                                    <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_video_cg" placeholder="Tarifa video cg" name="preu_actor_{{$idioma->idioma}}_video_cg" value="{{ isset($carrecs['actor'][$idioma->idioma]['video_cg']) ? $carrecs['actor'][$idioma->idioma]['video_cg']['preu_carrec'] : ''}}">
+                                                    <input type="number" step="any" class="form-control" id="preu_actor_{{$idioma->idioma}}_video_cg" placeholder="Tarifa video cg" name="preu_actor_{{$idioma->idioma}}_video_cg" value="{{ isset($carrecs['actor'][$idioma->idioma]['video_cg']) ? $carrecs['actor'][$idioma->idioma]['video_cg']['preu_carrec'] : ''}}">
                                                 </div>
 
                                                 <div id="tarifa_actor3_{{$idioma->idioma}}">
                                                     <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa cine take</label>                                        
-                                                    <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_cine_take" placeholder="Tarifa cine take" name="preu_actor_{{$idioma->idioma}}_cine_take" value="{{ isset($carrecs['actor'][$idioma->idioma]['cine_take']) ? $carrecs['actor'][$idioma->idioma]['cine_take']['preu_carrec'] : ''}}">
+                                                    <input type="number" step="any" class="form-control" id="preu_actor_{{$idioma->idioma}}_cine_take" placeholder="Tarifa cine take" name="preu_actor_{{$idioma->idioma}}_cine_take" value="{{ isset($carrecs['actor'][$idioma->idioma]['cine_take']) ? $carrecs['actor'][$idioma->idioma]['cine_take']['preu_carrec'] : ''}}">
                                                 </div>
                                                 <div id="tarifa_actor4_{{$idioma->idioma}}">
                                                     <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa cine cg:</label>                                        
-                                                    <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_cine_cg" placeholder="Tarifa cine cg" name="preu_actor_{{$idioma->idioma}}_cine_cg" value="{{ isset($carrecs['actor'][$idioma->idioma]['cine_cg']) ? $carrecs['actor'][$idioma->idioma]['cine_cg']['preu_carrec'] : ''}}">
+                                                    <input type="number" step="any" class="form-control" id="preu_actor_{{$idioma->idioma}}_cine_cg" placeholder="Tarifa cine cg" name="preu_actor_{{$idioma->idioma}}_cine_cg" value="{{ isset($carrecs['actor'][$idioma->idioma]['cine_cg']) ? $carrecs['actor'][$idioma->idioma]['cine_cg']['preu_carrec'] : ''}}">
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div id="tarifa_actor5_{{$idioma->idioma}}">
                                                     <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa canso:</label>
-                                                    <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_canso" placeholder="Tarifa canso" name="preu_actor_{{$idioma->idioma}}_canso" value="{{ isset($carrecs['actor'][$idioma->idioma]['canso']) ? $carrecs['actor'][$idioma->idioma]['canso']['preu_carrec'] : ''}}">
+                                                    <input type="number" step="any" class="form-control" id="preu_actor_{{$idioma->idioma}}_canso" placeholder="Tarifa canso" name="preu_actor_{{$idioma->idioma}}_canso" value="{{ isset($carrecs['actor'][$idioma->idioma]['canso']) ? $carrecs['actor'][$idioma->idioma]['canso']['preu_carrec'] : ''}}">
                                                 </div>
                                                 <div id="tarifa_actor6_{{$idioma->idioma}}">
                                                     <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa docu:</label>
-                                                    <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_docu" placeholder="Tarifa docu" name="preu_actor_{{$idioma->idioma}}_docu" value="{{ isset($carrecs['actor'][$idioma->idioma]['docu']) ? $carrecs['actor'][$idioma->idioma]['docu']['preu_carrec'] : ''}}">
+                                                    <input type="number" step="any" class="form-control" id="preu_actor_{{$idioma->idioma}}_docu" placeholder="Tarifa docu" name="preu_actor_{{$idioma->idioma}}_docu" value="{{ isset($carrecs['actor'][$idioma->idioma]['docu']) ? $carrecs['actor'][$idioma->idioma]['docu']['preu_carrec'] : ''}}">
                                                 </div>
                                                 <div id="tarifa_actor7_{{$idioma->idioma}}">
                                                     <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa narrador:</label>
-                                                    <input type="number" class="form-control" id="preu_actor_{{$idioma->idioma}}_narrador" placeholder="Tarifa narrador" name="preu_actor_{{$idioma->idioma}}_narrador" value="{{ isset($carrecs['actor'][$idioma->idioma]['narrador']) ? $carrecs['actor'][$idioma->idioma]['narrador']['preu_carrec'] : ''}}">
+                                                    <input type="number" step="any" class="form-control" id="preu_actor_{{$idioma->idioma}}_narrador" placeholder="Tarifa narrador" name="preu_actor_{{$idioma->idioma}}_narrador" value="{{ isset($carrecs['actor'][$idioma->idioma]['narrador']) ? $carrecs['actor'][$idioma->idioma]['narrador']['preu_carrec'] : ''}}">
                                                 </div>
                                             </div>
                                         </div>
@@ -303,21 +292,21 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                                             <div class="col">
                                                 <div id="tarifa_traductor1_{{$idioma->idioma}}">
                                                     <label for="preu_traductor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa traductor:</label>
-                                                    <input type="number" class="form-control" id="preu_traductor_{{$idioma->idioma}}_traductor" placeholder="Tarifa traductor" name="preu_traductor_{{$idioma->idioma}}_traductor" value="{{ isset($carrec_tarifa['traductor'][$idioma->idioma]['traductor']) ? $carrec_tarifa['traductor'][$idioma->idioma]['traductor']['preu_carrec'] : ''}}">
+                                                    <input type="number" step="any" class="form-control" id="preu_traductor_{{$idioma->idioma}}_traductor" placeholder="Tarifa traductor" name="preu_traductor_{{$idioma->idioma}}_traductor" value="{{ isset($carrec_tarifa['traductor'][$idioma->idioma]['traductor']) ? $carrec_tarifa['traductor'][$idioma->idioma]['traductor']['preu_carrec'] : ''}}">
                                                 </div>
                                                 <div id="tarifa_traductor2_{{$idioma->idioma}}">
                                                     <label for="preu_traductor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa ajustador:</label>
-                                                    <input type="number" class="form-control" id="preu_traductor_{{$idioma->idioma}}_ajustador" placeholder="Tarifa ajustador" name="preu_traductor_{{$idioma->idioma}}_ajustador" value="{{ isset($carrec_tarifa['traductor'][$idioma->idioma]['ajustador']) ? $carrec_tarifa['traductor'][$idioma->idioma]['ajustador']['preu_carrec'] : ''}}">
+                                                    <input type="number" step="any" class="form-control" id="preu_traductor_{{$idioma->idioma}}_ajustador" placeholder="Tarifa ajustador" name="preu_traductor_{{$idioma->idioma}}_ajustador" value="{{ isset($carrec_tarifa['traductor'][$idioma->idioma]['ajustador']) ? $carrec_tarifa['traductor'][$idioma->idioma]['ajustador']['preu_carrec'] : ''}}">
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div id="tarifa_traductor3_{{$idioma->idioma}}">
                                                     <label for="preu_traductor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa lingüista:</label>                                        
-                                                    <input type="number" class="form-control" id="preu_traductor_{{$idioma->idioma}}_linguista" placeholder="Trifa lingüista" name="preu_traductor_{{$idioma->idioma}}_linguista" value="{{ isset($carrec_tarifa['traductor'][$idioma->idioma]['linguista']) ? $carrec_tarifa['traductor'][$idioma->idioma]['linguista']['preu_carrec'] : ''}}">
+                                                    <input type="number" step="any" class="form-control" id="preu_traductor_{{$idioma->idioma}}_linguista" placeholder="Trifa lingüista" name="preu_traductor_{{$idioma->idioma}}_linguista" value="{{ isset($carrec_tarifa['traductor'][$idioma->idioma]['linguista']) ? $carrec_tarifa['traductor'][$idioma->idioma]['linguista']['preu_carrec'] : ''}}">
                                                 </div>
                                                 <div id="tarifa_traductor4_{{$idioma->idioma}}">
                                                     <label for="preu_traductor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa sinopsi:</label>
-                                                    <input type="number" class="form-control" id="preu_traductor_{{$idioma->idioma}}_sinopsi" placeholder="Tarifa sinopsi" name="preu_traductor_{{$idioma->idioma}}_sinopsi" value="{{ isset($carrec_tarifa['traductor'][$idioma->idioma]['sinopsi']) ? $carrec_tarifa['traductor'][$idioma->idioma]['sinopsi']['preu_carrec'] : ''}}">
+                                                    <input type="number" step="any" class="form-control" id="preu_traductor_{{$idioma->idioma}}_sinopsi" placeholder="Tarifa sinopsi" name="preu_traductor_{{$idioma->idioma}}_sinopsi" value="{{ isset($carrec_tarifa['traductor'][$idioma->idioma]['sinopsi']) ? $carrec_tarifa['traductor'][$idioma->idioma]['sinopsi']['preu_carrec'] : ''}}">
                                                 </div>  
                                             </div>
                                         </div>
@@ -329,6 +318,36 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                     </div>
                 </div>
             </div>
+            <div class="row container">
+                <div id="colTecnicSala" style="width: 100%; margin-left: 15px; display:{{ isset($carrecs['tecnic_sala']) ? '' : 'none'}}"> 
+                    <div class="form-group">
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr class="row">
+                                    <th class="col">Tècnic</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="row">
+                                    <td class="col">
+                                        <div>
+                                            <div id="tarifa_tecnic1">
+                                                <label for="tarifa_tecnic1_inp" style="font-weight: bold">Tarifa sala:</label>
+                                                <input type="number" step="any" class="form-control" id="tarifa_tecnic1_inp" placeholder="Tarifa sala" name="preu_tecnic_sala_sala" value="{{ isset($carrecs['tecnic_sala']['sala']) ? $carrecs['tecnic_sala']['sala']['preu_carrec'] : ''}}">
+                                            </div>
+                                            <div id="tarifa_tecnic2">
+                                                <label for="tarifa_tecnic2_inp" style="font-weight: bold">Tarifa mix:</label>                                        
+                                                <input type="number" step="any" class="form-control" id="tarifa_tecnic2_inp" placeholder="Tarifa mix" name="preu_tecnic_sala_mix" value="{{ isset($carrecs['tecnic_sala']['mix']) ? $carrecs['tecnic_sala']['mix']['preu_carrec'] : ''}}">
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>       
+                </div>
+            </div>
+
         </fieldset>
 
         <br>

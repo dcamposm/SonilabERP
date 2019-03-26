@@ -45,7 +45,6 @@ Route::middleware(['role: 1, 2, 4'])->group(function () {
 Route::middleware(['role: 1, 2, 4'])->group(function () {
     Route::get('/registreEntrada', 'RegistreEntradaController@index')->name('indexRegistreEntrada');
     Route::get('/registreEntrada/buscar', 'RegistreEntradaController@find')->name('registreEntradaFind');
-    Route::get('/registreEntrada/ordenar/{by}/{order?}', 'RegistreEntradaController@order')->name('registreEntradaOrder');
     Route::get('/registreEntrada/mostrar/{id}', 'RegistreEntradaController@show')->name('mostrarRegistreEntrada');
     Route::middleware(['role: 1, 4'])->group(function () {
         Route::get('/registreEntrada/crear', 'RegistreEntradaController@insertView')->name('registreEntradaInsertView');

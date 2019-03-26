@@ -35,6 +35,19 @@
                     <option value="7">Tipus</option>
                     <option value="8">Minuts</option>
                 </select>
+                <select class="custom-select" id='orderBy' name="orderBy" form="search">
+                    <option value="id_registre_entrada" selected>Ordenar per...</option>
+                    <option value="id_registre_entrada">Referencia</option>
+                    <option value="titol">Titol</option>
+                    <option value="id_client">Client</option>
+                    <option value="estat">Estat</option>
+                    <option value="entrada">Entrada</option>
+                    <option value="sortida">Sortida</option>
+                    <option value="id_servei">Servei</option>
+                    <option value="id_idioma">Idioma</option>
+                    <option value="id_media">Tipus</option>
+                    <option value="minuts">Minuts</option>
+                </select>
                 <input type="text" id="search_term" class="form-control" name="search_term" placeholder="Buscar registre...">
                 <input type="date" class="form-control" id="searchDate" name="searchDate" style="display: none;">
                 <input type="number" class="form-control" id="searchMin" name="searchDate" style="display: none;">
@@ -105,7 +118,7 @@
     <table class="table" style="margin-top: 10px;">
         <thead>
             <tr>
-                <th class="cursor" style="vertical-align: middle;" onclick="self.mostrarRegistreEntrada('{{ route('registreEntradaOrder', array('by' => 'id_registre_entrada')) }}')">REF</th> 
+                <th>REF</th> 
                 <th>Títol</th>
                 <th>Entrada</th>
                 <th>Sortida</th>
