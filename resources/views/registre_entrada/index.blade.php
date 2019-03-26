@@ -25,14 +25,37 @@
                 <select class="custom-select" id='searchBy' name="searchBy" form="search">
                     <option selected>Buscar per...</option>
                     <option>Referencia</option>
+                    <option>Titol</option>
                     <option value="1">Client</option>
                     <option value="2">Estat</option>
+                    <option value="3">Entrada</option>
+                    <option value="4">Sortida</option>
+                    <option value="5">Servei</option>
+                    <option value="6">Idioma</option>
+                    <option value="7">Tipus</option>
+                    <option value="8">Minuts</option>
                 </select>
                 <input type="text" id="search_term" class="form-control" name="search_term" placeholder="Buscar registre...">
-
+                <input type="date" class="form-control" id="searchDate" name="searchDate" style="display: none;">
+                <input type="number" class="form-control" id="searchMin" name="searchDate" style="display: none;">
                 <select class="custom-select" id='search_Client' name="search_Client" form="search" style="display: none;">
                     @foreach( $clients as $key => $client )
                         <option value="{{$client['id_client']}}">{{$client['nom_client']}}</option>
+                    @endforeach
+                </select>
+                <select class="custom-select" id='search_Servei' name="search_Servei" form="search" style="display: none;">
+                    @foreach( $serveis as $key => $servei )
+                        <option value="{{$servei['id_servei']}}">{{$servei['nom_servei']}}</option>
+                    @endforeach
+                </select>
+                <select class="custom-select" id='search_Idioma' name="search_Idioma" form="search" style="display: none;">
+                    @foreach( $idiomes as $key => $idioma )
+                        <option value="{{$idioma['id_idioma']}}">{{$idioma['idioma']}}</option>
+                    @endforeach
+                </select>
+                <select class="custom-select" id='search_Media' name="search_Media" form="search" style="display: none;">
+                    @foreach( $medies as $key => $media )
+                        <option value="{{$media['id_media']}}">{{$media['nom_media']}}</option>
                     @endforeach
                 </select>
                 <select class="custom-select" id='search_Estat' name="search_Estat" form="search" style="display: none;">
@@ -82,7 +105,7 @@
     <table class="table" style="margin-top: 10px;">
         <thead>
             <tr>
-                <th>REF</th> 
+                <th class="cursor" style="vertical-align: middle;" onclick="self.mostrarRegistreEntrada('{{ route('registreEntradaOrder', array('by' => 'id_registre_entrada')) }}')">REF</th> 
                 <th>Títol</th>
                 <th>Entrada</th>
                 <th>Sortida</th>
@@ -181,17 +204,77 @@
         //alert(value);
         if ($('#searchBy').val() == '1') {
             $('#search_term').hide();
+            $('#searchDate').hide();
             $('#search_Client').show();
             $('#search_Estat').hide();
+            $('#search_Servei').hide();
+            $('#search_Idioma').hide();
+            $('#search_Media').hide();
+            $('#searchMin').hide();
         } else if ($('#searchBy').val() == '2'){
             $('#search_term').hide();
+            $('#searchDate').hide();
             $('#search_Client').hide();
             $('#search_Estat').show();
+            $('#search_Servei').hide();
+            $('#search_Idioma').hide();
+            $('#search_Media').hide();
+            $('#searchMin').hide();
+        } else if ($('#searchBy').val() == '3' || $('#searchBy').val() == '4'){
+            $('#search_term').hide();
+            $('#searchDate').show();
+            $('#search_Client').hide();
+            $('#search_Estat').hide();
+            $('#search_Servei').hide();
+            $('#search_Idioma').hide();
+            $('#search_Media').hide();
+            $('#searchMin').hide();
+        } else if ($('#searchBy').val() == '5'){
+            $('#search_term').hide();
+            $('#searchDate').hide();
+            $('#search_Client').hide();
+            $('#search_Estat').hide();
+            $('#search_Servei').show();
+            $('#search_Idioma').hide();
+            $('#search_Media').hide();
+            $('#searchMin').hide();
+        } else if ($('#searchBy').val() == '6'){
+            $('#search_term').hide();
+            $('#searchDate').hide();
+            $('#search_Client').hide();
+            $('#search_Estat').hide();
+            $('#search_Servei').hide();
+            $('#search_Idioma').show();
+            $('#search_Media').hide();
+            $('#searchMin').hide();
+        } else if ($('#searchBy').val() == '7'){
+            $('#search_term').hide();
+            $('#searchDate').hide();
+            $('#search_Client').hide();
+            $('#search_Estat').hide();
+            $('#search_Servei').hide();
+            $('#search_Idioma').hide();
+            $('#search_Media').show();
+            $('#searchMin').hide();
+        } else if ($('#searchBy').val() == '8'){
+            $('#search_term').hide();
+            $('#searchDate').hide();
+            $('#search_Client').hide();
+            $('#search_Estat').hide();
+            $('#search_Servei').hide();
+            $('#search_Idioma').hide();
+            $('#search_Media').hide();
+            $('#searchMin').show();
         } 
         else {
             $('#search_term').show();
+            $('#searchDate').hide();
             $('#search_Client').hide();
             $('#search_Estat').hide();
+            $('#search_Servei').hide();
+            $('#search_Idioma').hide();
+            $('#search_Media').hide();
+            $('#searchMin').hide();
         }
     }
     

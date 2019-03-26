@@ -45,6 +45,7 @@ Route::middleware(['role: 1, 2, 4'])->group(function () {
 Route::middleware(['role: 1, 2, 4'])->group(function () {
     Route::get('/registreEntrada', 'RegistreEntradaController@index')->name('indexRegistreEntrada');
     Route::get('/registreEntrada/buscar', 'RegistreEntradaController@find')->name('registreEntradaFind');
+    Route::get('/registreEntrada/ordenar/{by}/{order?}', 'RegistreEntradaController@order')->name('registreEntradaOrder');
     Route::get('/registreEntrada/mostrar/{id}', 'RegistreEntradaController@show')->name('mostrarRegistreEntrada');
     Route::middleware(['role: 1, 4'])->group(function () {
         Route::get('/registreEntrada/crear', 'RegistreEntradaController@insertView')->name('registreEntradaInsertView');
@@ -75,7 +76,7 @@ Route::get('/idiomes/modificar/{id}', 'IdiomaController@updateView')->name('idio
 Route::post('/idiomes/modificar/{id}', 'IdiomaController@update')->name('idiomaUpdate');
 Route::post('/idiomes/esborrar', 'IdiomaController@delete')->name('idiomaDelete');
 //------------------Rutes registre producció------------------
-Route::middleware(['role: 1, 2,3,4'])->group(function () {
+Route::middleware(['role: 1,2,3,4'])->group(function () {
     Route::get('/registreProduccio', 'RegistreProduccioController@getIndex')->name('indexRegistreProduccio');
     Route::get('/registreProduccio/buscar', 'RegistreProduccioController@find')->name('registreProduccioFind');
     Route::get('/registreProduccio/crear', 'RegistreProduccioController@createView')->name('createRegistreProduccio');
@@ -98,19 +99,26 @@ Route::middleware(['role: 1, 2,3,4'])->group(function () {
 });
 
 //------------------Rutes estadillo------------------
-Route::get('/estadillos', 'EstadilloController@index')->name('indexEstadillos');
-Route::get('/estadillos/buscar', 'EstadilloController@find')->name('estadilloFind');
-Route::get('/estadillos/mostrar/{id}/{id_setmana?}', 'EstadilloController@show')->name('estadilloShow');
-Route::get('/estadillos/mostrar/setmana/{id}/{id_setmana}', 'EstadilloController@showSetmana')->name('estadilloShowSetmana');
-Route::post('/estadillos/import', 'EstadilloController@import')->name('estadilloImport');
-Route::get('/estadillos/crear', 'EstadilloController@insertView')->name('estadilloInsertView');
-Route::get('/estadillos/actor/crear/{id}/{setmana?}', 'EstadilloController@insertActorView')->name('estadilloActorInsertView');
-Route::post('/estadillos/crear', 'EstadilloController@insert')->name('estadilloInsert');
-Route::post('/estadillos/actor/crear/{setmana?}', 'EstadilloController@insertActor')->name('estadilloActorInsert');
-Route::get('/estadillos/modificar/{id}', 'EstadilloController@updateView')->name('estadilloUpdateView');
-Route::get('/estadillos/modificar/actor/{id}/{id_actor}/{setmana?}', 'EstadilloController@updateActorView')->name('estadilloActorUpdateView');
-Route::post('/estadillos/modificar/{id}', 'EstadilloController@update')->name('estadilloUpdate');
-Route::post('/estadillos/modificar/actor/{id}/{id_actor}/{setmana?}', 'EstadilloController@updateActor')->name('estadilloActorUpdate');
-Route::post('/estadillos/esborrar', 'EstadilloController@delete')->name('esborrarEstadillo');
-Route::post('/estadillos/esborrar/actor', 'EstadilloController@deleteActor')->name('esborrarEstadilloActor');
-Route::get('/estadillos/buscar/actor/{id}/{id_setmana?}', 'EstadilloController@findActor')->name('actorFind');
+Route::middleware(['role: 1,2,4'])->group(function () {
+    Route::get('/estadillos', 'EstadilloController@index')->name('indexEstadillos');
+    Route::get('/estadillos/buscar', 'EstadilloController@find')->name('estadilloFind');
+    Route::get('/estadillos/buscar/actor/{id}/{id_setmana?}', 'EstadilloController@findActor')->name('actorFind');
+        
+    Route::get('/estadillos/mostrar/{id}/{id_setmana?}', 'EstadilloController@show')->name('estadilloShow');
+    Route::get('/estadillos/mostrar/setmana/{id}/{id_setmana}', 'EstadilloController@showSetmana')->name('estadilloShowSetmana');
+    
+    Route::post('/estadillos/import', 'EstadilloController@import')->name('estadilloImport');
+    
+    Route::get('/estadillos/crear', 'EstadilloController@insertView')->name('estadilloInsertView');
+    Route::get('/estadillos/actor/crear/{id}/{setmana?}', 'EstadilloController@insertActorView')->name('estadilloActorInsertView');
+    Route::post('/estadillos/crear', 'EstadilloController@insert')->name('estadilloInsert');
+    Route::post('/estadillos/actor/crear/{setmana?}', 'EstadilloController@insertActor')->name('estadilloActorInsert');
+    
+    Route::get('/estadillos/modificar/{id}', 'EstadilloController@updateView')->name('estadilloUpdateView');
+    Route::get('/estadillos/modificar/actor/{id}/{id_actor}/{setmana?}', 'EstadilloController@updateActorView')->name('estadilloActorUpdateView');
+    Route::post('/estadillos/modificar/{id}', 'EstadilloController@update')->name('estadilloUpdate');
+    Route::post('/estadillos/modificar/actor/{id}/{id_actor}/{setmana?}', 'EstadilloController@updateActor')->name('estadilloActorUpdate');
+    
+    Route::post('/estadillos/esborrar', 'EstadilloController@delete')->name('esborrarEstadillo');
+    Route::post('/estadillos/esborrar/actor', 'EstadilloController@deleteActor')->name('esborrarEstadilloActor');
+});
