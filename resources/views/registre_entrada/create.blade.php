@@ -27,9 +27,13 @@
                 </div>
                 <div class="col-6">
                     <div class="form-group">
-                        <label for="entrada" style="font-weight: bold">Data Entrada:</label>
-                        <input type="date" class="form-control" id="entrada" placeholder="Entrar data Entrada" name="entrada" value="{{!empty($registreEntrada) ? explode(' ',$registreEntrada->entrada)[0] : old('entrada')}}">
-                        <span class="text-danger">{{ $errors->first('entrada') }}</span>
+                        <label for="client" style="font-weight: bold">Selecciona client:</label>
+                        <select class="form-control" name="id_client">
+                            @foreach( $clients as $client )
+                                <option value="{{$client['id_client']}}" {{(!empty($registreEntrada) && $registreEntrada->id_client == $client['id_client']) || (old('id_client') == $client['id_client']) ? 'selected' : ''}} >{{$client['nom_client']}}</option>
+                            @endforeach
+                        </select>
+                        <span class="text-danger">{{ $errors->first('id_client') }}</span>
                     </div>
                 </div>
             </div>
@@ -52,24 +56,18 @@
             <div class="row">
                 <div class="col-6">
                     <div class="form-group">
+                        <label for="entrada" style="font-weight: bold">Data Entrada:</label>
+                        <input type="date" class="form-control" id="entrada" placeholder="Entrar data Entrada" name="entrada" value="{{!empty($registreEntrada) ? explode(' ',$registreEntrada->entrada)[0] : old('entrada')}}">
+                        <span class="text-danger">{{ $errors->first('entrada') }}</span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
                         <label for="sortida" style="font-weight: bold">Data Sortida:</label>
                         <input type="date" class="form-control" id="sortida" placeholder="Entrar data Sortida" name="sortida" value="{{!empty($registreEntrada) ? explode(' ',$registreEntrada->sortida)[0] : ''}}">
                         <span class="text-danger">{{ $errors->first('sortida') }}</span>
                     </div>
                 </div>
-
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="client" style="font-weight: bold">Selecciona client:</label>
-                        <select class="form-control" name="id_client">
-                            @foreach( $clients as $client )
-                                <option value="{{$client['id_client']}}" {{(!empty($registreEntrada) && $registreEntrada->id_client == $client['id_client']) || (old('id_client') == $client['id_client']) ? 'selected' : ''}} >{{$client['nom_client']}}</option>
-                            @endforeach
-                        </select>
-                        <span class="text-danger">{{ $errors->first('id_client') }}</span>
-                    </div>
-                </div>
-
             </div>
 
             <div class="row">
