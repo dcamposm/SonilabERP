@@ -57,7 +57,9 @@
     .table td {
         padding: .50rem !important;
     }
-
+    .table tbody  {
+        font-size: 13px !important;
+    }
     </style>
 
 </head>

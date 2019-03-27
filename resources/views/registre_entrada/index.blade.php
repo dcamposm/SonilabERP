@@ -136,10 +136,10 @@
             @foreach( $registreEntrades as $key => $registreEntrada )
             <tr class="table-selected {{ ($registreEntrada->estat == 'Pendent') ? 'border-warning' : (($registreEntrada->estat == 'Finalitzada') ? 'border-success' : 'border-danger') }}">
                 <td class="cursor" style="vertical-align: middle;" onclick="self.mostrarRegistreEntrada('{{ route('mostrarRegistreEntrada', array('id' => $registreEntrada->id_registre_entrada)) }}')">
-                    <span class="font-weight-bold" style="font-size: 1rem;">{{ $registreEntrada->id_registre_entrada }}</span>
+                    <span class="font-weight-bold">{{ $registreEntrada->id_registre_entrada }}</span>
                 </td>
                 <td class="cursor" style="vertical-align: middle;" onclick="self.mostrarRegistreEntrada('{{ route('mostrarRegistreEntrada', array('id' => $registreEntrada->id_registre_entrada)) }}')">
-                    <span class="font-weight-bold" style="font-size: 1rem;">{{ $registreEntrada->titol }}</span>
+                    <span class="font-weight-bold">{{ $registreEntrada->titol }}</span>
                 </td>
                 <td style="vertical-align: middle;">{{ date('d/m/Y', strtotime($registreEntrada->entrada)) }}</td>
                 <td style="vertical-align: middle;">{{ date('d/m/Y', strtotime($registreEntrada->sortida)) }}</td>
