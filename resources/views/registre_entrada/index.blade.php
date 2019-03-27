@@ -119,16 +119,16 @@
         <thead>
             <tr>
                 <th>REF</th> 
-                <th>Títol</th>
-                <th>Entrada</th>
-                <th>Sortida</th>
-                <th>Client</th>
-                <th>Servei</th>
-                <th>Idioma</th>
-                <th>Tipus</th>
-                <th>Minuts</th>
+                <th>TÍTOL</th>
+                <th>PRIMERA ENTRAGA</th>
+                <th>RESPONSABLE</th>
+                <th>CLIENT</th>
+                <th>SERVEI</th>
+                <th>IDIOMA</th>
+                <th>TIPUS</th>
+                <th>MINUTS</th>
                 @if (Auth::user()->hasAnyRole(['1', '4']))
-                <th>Accions</th>
+                <th>ACCIONS</th>
                 @endif
             </tr>
         </thead>
@@ -141,8 +141,9 @@
                 <td class="cursor" style="vertical-align: middle;" onclick="self.mostrarRegistreEntrada('{{ route('mostrarRegistreEntrada', array('id' => $registreEntrada->id_registre_entrada)) }}')">
                     <span class="font-weight-bold">{{ $registreEntrada->titol }}</span>
                 </td>
-                <td style="vertical-align: middle;">{{ date('d/m/Y', strtotime($registreEntrada->entrada)) }}</td>
+                
                 <td style="vertical-align: middle;">{{ date('d/m/Y', strtotime($registreEntrada->sortida)) }}</td>
+                <td style="vertical-align: middle;">{{ isset($registreEntrada->usuari) ? $registreEntrada->usuari->nom_usuari :  ''}}</td>
                 <td style="vertical-align: middle;">{{ $registreEntrada->client->nom_client }}</td>
                 <td style="vertical-align: middle;">{{ $registreEntrada->servei->nom_servei }}</td>
                 <td style="vertical-align: middle;">{{ $registreEntrada->idioma->idioma }}</td>
@@ -151,11 +152,13 @@
                 @if (Auth::user()->hasAnyRole(['1', '4']))
                 <td style="vertical-align: middle;">
                     <a href="{{ route('registreEntradaUpdateView', array('id' => $registreEntrada['id_registre_entrada'])) }}" class="btn btn-primary">Modificar</a>
+                    @if (Auth::user()->hasAnyRole(['4']))
                     <button class="btn btn-danger" onclick="self.seleccionarRegistreEntrada({{ $registreEntrada['id_registre_entrada'] }}, '{{ $registreEntrada['titol'] }}')" data-toggle="modal" data-target="#exampleModalCenter">Esborrar</button>
                     <form id="delete-{{ $registreEntrada['id_registre_entrada'] }}" action="{{ route('esborrarRegistreEntrada') }}" method="POST">
                         @csrf
                         <input type="hidden" readonly name="id" value="{{ $registreEntrada['id_registre_entrada'] }}">
                     </form>
+                    @endif
                 </td>
                 @endif
             </tr>

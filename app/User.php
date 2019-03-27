@@ -64,6 +64,10 @@ class User extends Authenticatable
         return $this->belongsTo('App\Departament', 'id_departament', 'id_departament');
     }
     
+    public function registreEntrada()
+    {
+        return $this->hasMany('App\RegistreEntrada', 'id_usuari', 'id_usuari');
+    }
         
     //Metodos para los roles del usuario
     public function authorizeRoles($roles)
