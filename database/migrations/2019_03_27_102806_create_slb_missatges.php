@@ -14,7 +14,12 @@ class CreateSlbMissatges extends Migration
     public function up()
     {
         Schema::create('slb_missatges', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('id_missatge');
+            $table->integer('id_usuari');
+            $table->text('missatge');
+            $table->string('referencia', 100);
+            $table->integer('id_referencia');
+            $table->date('data_final');
             $table->timestamps();
         });
     }
