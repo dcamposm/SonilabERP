@@ -50,12 +50,12 @@
     <table class="table" style="margin-top: 10px;">
         <thead>
             <tr>
-                <th>Nom</th> 
-                <th>Cognoms</th>
-                <th>Telefon</th>
-                <th>Carrecs</th>
+                <th>NOM</th> 
+                <th>COGNOMS</th>
+                <th>TELÈFON</th>
+                <th>CARRECS</th>
                 @if (Auth::user()->hasAnyRole(['1', '4']))
-                <th>Accions</th>
+                <th>ACCIONS</th>
                 @endif
             </tr>
         </thead>

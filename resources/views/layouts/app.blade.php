@@ -54,10 +54,14 @@
     .table-selected:hover {
         background-color: #E3E3E3;
     }
+    
     .table td {
         padding: .50rem !important;
     }
-
+    
+    .table tbody  {
+        font-size: 14 px !important;
+    }
     </style>
 
 </head>

@@ -63,7 +63,7 @@ class slb_tarifasTableSeeder extends Seeder
         ));
         Tarifa::create(array(
             'id' => '9',
-            'nombre' => 'Tarifa canso',
+            'nombre' => 'Tarifa canço',
             'id_carrec' => '1',
             'nombre_corto' => 'canso',
         ));

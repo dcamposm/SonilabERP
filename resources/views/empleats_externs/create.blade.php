@@ -242,7 +242,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                                             </div>
                                             <div class="col">
                                                 <div id="tarifa_actor5_{{$idioma->idioma}}">
-                                                    <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa canso:</label>
+                                                    <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">Tarifa canço:</label>
                                                     <input type="number" step="any" class="form-control" id="preu_actor_{{$idioma->idioma}}_canso" placeholder="Tarifa canso" name="preu_actor_{{$idioma->idioma}}_canso" value="{{ isset($carrecs['actor'][$idioma->idioma]['canso']) ? $carrecs['actor'][$idioma->idioma]['canso']['preu_carrec'] : ''}}">
                                                 </div>
                                                 <div id="tarifa_actor6_{{$idioma->idioma}}">

@@ -9,6 +9,7 @@ use App\Idioma;
 use App\Client;
 use App\Servei;
 use App\TipusMedia;
+use App\User;
 
 class RegistreEntradaController extends Controller
 {
@@ -21,6 +22,7 @@ class RegistreEntradaController extends Controller
     public function index()
     {
         $registreEntrades = RegistreEntrada::with('client')
+                                ->with('usuari')
                                 ->with('servei')
                                 ->with('idioma')
                                 ->with('media')->orderBy("estat")->get();
@@ -28,6 +30,7 @@ class RegistreEntradaController extends Controller
         $serveis = Servei::all();
         $idiomes = Idioma::all();
         $medies = TipusMedia::all();
+        //return response()->json($registreEntrades);
         return View('registre_entrada.index', array('registreEntrades' => $registreEntrades, 'clients' => $clients,
                                                     'serveis' => $serveis, 'idiomes' => $idiomes, 'medies' => $medies));
     }
@@ -80,15 +83,19 @@ class RegistreEntradaController extends Controller
         $idiomes = Idioma::all();
         $serveis = Servei::all();
         $medias = TipusMedia::all();
-        return View('registre_entrada.create', array('idiomes' => $idiomes, 'clients' => $clients,'serveis'=>$serveis,'medias'=>$medias));
+        $usuaris = User::where('id_departament', '2')->get();
+        return View('registre_entrada.create', array('idiomes' => $idiomes, 'clients' => $clients,'serveis'=>$serveis
+                                                    ,'medias'=>$medias,'usuaris'=>$usuaris));
     }
 
     public function insert()
     {
+        //return response()->json(request()->all());
         $v = Validator::make(request()->all(), [
             'titol'               => 'required',
             'entrada'             => 'required',
             'sortida'             => 'required',
+            'id_usuari'             => 'required',
             'id_client'           => 'required',
             'id_servei'           => 'required',
             'id_idioma'           => 'required',
@@ -141,12 +148,14 @@ class RegistreEntradaController extends Controller
         $idiomes = Idioma::all();
         $serveis = Servei::all();
         $medias = TipusMedia::all();
+        $usuaris = User::where('id_departament', '2')->get();
         return view('registre_entrada.create', array(
             'registreEntrada' => $registreEntrada,
             'clients'         => $clients,
             'idiomes'         => $idiomes,
             'serveis'         => $serveis,
             'medias'          => $medias,
+            'usuaris'          => $usuaris,
         ));
     }
 
@@ -155,8 +164,8 @@ class RegistreEntradaController extends Controller
         if ($registreEntrada) {
             $v = Validator::make(request()->all(), [
                 'titol'           => 'required',
-                'entrada'             => 'required',
                 'sortida'             => 'required',
+                'id_usuari'             => 'required',
                 'id_client'           => 'required',
                 'id_servei'           => 'required',
                 'id_idioma'           => 'required',

@@ -57,7 +57,7 @@
             </div>
 
             <div class="col-6">
-                <label for="cpass" style="font-weight: bold">Selecciona departament:</label>
+                <label for="cpass" style="font-weight: bold">Departament:</label>
                 <select class="form-control" name="id_departament">
                 @foreach( $departaments as $departament )
                     <option value="{{$departament['id_departament']}}" {{((!empty($usuario) && $usuario->id_departament == $departament['id_departament'])) || (old('id_departament') == $departament['id_departament']) ? 'selected' : ''}} >{{$departament['nom_departament']}}</option>

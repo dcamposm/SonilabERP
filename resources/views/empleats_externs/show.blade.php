@@ -21,29 +21,29 @@
 
         <tbody>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Imatge:</td>
+                <td class="font-weight-bold col-sm-3">IMATGE:</td>
                 <td class="col">
                     <img src="data:image/jpg;base64,{{$empleat['imatge_empleat']}}" class="rounded" style="height:100px"/>
                 </td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Nom:</td>
+                <td class="font-weight-bold col-sm-3">NOM:</td>
                 <td class="col">{{ $empleat['nom_empleat']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Cognoms:</td>
+                <td class="font-weight-bold col-sm-3">COGNOMS:</td>
                 <td class="col">{{ $empleat['cognom1_empleat']}} {{ $empleat['cognom2_empleat']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Sexe:</td>
+                <td class="font-weight-bold col-sm-3">SEXE:</td>
                 <td class="col">{{ $empleat['sexe_empleat']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Nacionalitat:</td>
+                <td class="font-weight-bold col-sm-3">NACIONALITAT:</td>
                 <td class="col">{{ $empleat['nacionalitat_empleat']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">E-mail:</td>
+                <td class="font-weight-bold col-sm-3">E-MAIL:</td>
                 <td class="col">{{ $empleat['email_empleat']}}</td>
             </tr>
             <tr class="row">
@@ -51,19 +51,19 @@
                 <td class="col">{{ $empleat['dni_empleat']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Telèfon:</td>
+                <td class="font-weight-bold col-sm-3">TELÈFON:</td>
                 <td class="col">{{ $empleat['telefon_empleat']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Direcció:</td>
+                <td class="font-weight-bold col-sm-3">DIRECCIÓ:</td>
                 <td class="col">{{ $empleat['direccio_empleat']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Codi postal:</td>
+                <td class="font-weight-bold col-sm-3">CODI POSTAL:</td>
                 <td class="col">{{ $empleat['codi_postal_empleat']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Naixement:</td>
+                <td class="font-weight-bold col-sm-3">NAIXEMENT:</td>
                 <td class="col">{{ $empleat['naixement_empleat']}}</td>
             </tr>
             <tr class="row">
@@ -75,11 +75,11 @@
                 <td class="col">{{ $empleat['iban_empleat']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Data de creació:</td>
+                <td class="font-weight-bold col-sm-3">DATA DE CREACIÓ:</td>
                 <td class="col">{{ $empleat['created_at']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Última data de modificació:</td>
+                <td class="font-weight-bold col-sm-3">ÚLTIMA MODIFICACIÓ:</td>
                 <td class="col">{{ $empleat['updated_at']}}</td>
             </tr>
         </tbody>
@@ -93,7 +93,7 @@
             <table class="table">
                 <thead class="thead-dark" style="border-left: 3px solid white">
                     <tr class="row">
-                        <th class="col">{{ $key != 'Traductor' ? $key : 'Traductor & Subtitulació' }}</th>
+                        <th class="col">{{ $key != 'Traductor' ? 'TARIFA '.strtoupper($key) : 'TARIFA TRADUCTOR/AJUSTADOR/LINGÜISTA' }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -186,7 +186,7 @@
                                             </td>
                                             <td class="col">
                                                 @foreach ($info as $key2 => $infoTarifa) 
-                                                    @if ($infoTarifa['tarifa'] == 'Tarifa canso')
+                                                    @if ($infoTarifa['tarifa'] == 'Tarifa canço')
                                                         {{ $infoTarifa['preu_carrec'] }}€
                                                     @endif
                                                 @endforeach
