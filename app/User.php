@@ -68,7 +68,11 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\RegistreEntrada', 'id_usuari', 'id_usuari');
     }
-        
+    
+    public function missatge()
+    {
+        return $this->hasMany('App\Missatge', 'id_usuari', 'id_usuari');
+    }    
     //Metodos para los roles del usuario
     public function authorizeRoles($roles)
     {
