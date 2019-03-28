@@ -52,7 +52,7 @@
 
             {{-- NOTA: data_mix NO EXISTE todavía en la base de datos --}}
             <div class="form-group col-12 col-sm-6">
-              <label for="data_mix">Data Mix</label>
+              <label for="data_mix" title="data en que la mescla ha d'estar acabada">Data mix</label>
               <input type="date" name="data_mix" id="data_mix" class="form-control" value="{{!empty($registreProduccio) ? explode(' ',$registreProduccio->data_tecnic_mix)[0] : ''}}">
             </div>
 
@@ -111,7 +111,7 @@
             </div>
 
             <div class="form-group col-12 col-sm-6">
-              <label for="qc_mix">QC MIX</label>
+              <label for="qc_mix" title="control de qualitat de la mescla">QC MIX</label>
               <select name="qc_mix" id="qc_mix" class="form-control">
                 <option value="0" {{(!empty($registreProduccio) && "0" == $registreProduccio->qc_mix) ? 'selected' : '' }}>No</option>
                 <option value="1" {{(!empty($registreProduccio) && "1" == $registreProduccio->qc_mix) ? 'selected' : '' }}>Sí</option>
@@ -119,7 +119,7 @@
             </div>
 
             <div class="form-group col-12 col-sm-6">
-              <label for="ppe">PPE</label>
+              <label for="ppe" title="Preparat per entregar">PPE</label>
               <select name="ppe" id="ppe" class="form-control">
                 <option value="0" {{(!empty($registreProduccio) && "0" == $registreProduccio->ppe) ? 'selected' : '' }}>No</option>
                 <option value="1" {{(!empty($registreProduccio) && "1" == $registreProduccio->ppe) ? 'selected' : '' }}>Sí</option>
@@ -224,7 +224,7 @@
           </div>
           <div class="card-body row">
             <div class="form-group col-12 col-sm-6">
-              <label for="qc_vo">QC VO</label>
+                <label for="qc_vo" title="control de qualitat de la versió original">QC VO</label>
               <select name="qc_vo" id="qc_vo" class="form-control">
                 <option value="0" {{(!empty($registreProduccio) && "0" == $registreProduccio->qc_vo) ? 'selected' : '' }}>No</option>
                 <option value="1" {{(!empty($registreProduccio) && "1" == $registreProduccio->qc_vo) ? 'selected' : '' }}>Sí</option>
@@ -232,7 +232,7 @@
             </div>
 
             <div class="form-group col-12 col-sm-6">
-              <label for="qc_me">QC M&E</label>
+              <label for="qc_me" title="control de qualitat del soundtrack">QC M&E</label>
               <select name="qc_me" id="qc_me" class="form-control">
                 <option value="0" {{(!empty($registreProduccio) && "0" == $registreProduccio->qc_me) ? 'selected' : '' }}>No</option>
                 <option value="1" {{(!empty($registreProduccio) && "1" == $registreProduccio->qc_me) ? 'selected' : '' }}>Sí</option>
@@ -240,7 +240,7 @@
             </div>
 
             <div class="form-group col-12 col-sm-6">
-              <label for="ppp">PPP</label>
+              <label for="ppp" title="preparat per producció">PPP</label>
               <select name="ppp" id="ppp" class="form-control">
                 <option value="0" {{(!empty($registreProduccio) && "0" == $registreProduccio->ppp) ? 'selected' : '' }}>No</option>
                 <option value="1" {{(!empty($registreProduccio) && "1" == $registreProduccio->ppp) ? 'selected' : '' }}>Sí</option>
@@ -265,7 +265,7 @@
             </div>
 
             <div class="form-group col-12 col-sm-6">
-              <label for="vec">VEC</label>
+              <label for="vec" title="valoració econòmica">VEC</label>
               <select name="vec" id="vec" class="form-control">
                 <option value="0" {{(!empty($registreProduccio) && "0" == $registreProduccio->vec) ? 'selected' : '' }}>No</option>
                 <option value="1" {{(!empty($registreProduccio) && "1" == $registreProduccio->vec) ? 'selected' : '' }}>Sí</option>
@@ -289,7 +289,7 @@
           </div>
           <div class="card-body row">
             <div class="form-group col-12 col-sm-6">
-              <label for="convos">Convos</label>
+              <label for="convos" title="Activar quan s'hagin convocat tots els actors">Convos</label>
               <select name="convos" id="convos" class="form-control">
                 <option value="0" {{(!empty($registreProduccio) && "0" == $registreProduccio->convos) ? 'selected' : '' }}>No</option>
                 <option value="1" {{(!empty($registreProduccio) && "1" == $registreProduccio->convos) ? 'selected' : '' }}>Sí</option>
