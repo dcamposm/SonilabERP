@@ -40,14 +40,14 @@
             <div class="row">
                 <div class="col-6">
                     <div class="form-group">
-                        <label for="ot" style="font-weight: bold">OT:</label>
+                        <label for="ot" style="font-weight: bold" title=' referència específica del client CCMA.'>OT:</label>
                         <input type="text" class="form-control" id="ot" placeholder="Entrar ot" name="ot" value="{{!empty($registreEntrada) ? $registreEntrada->ot : old('ot')}}">
                         <span class="text-danger">{{ $errors->first('ot') }}</span>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="form-group">
-                        <label for="oc" style="font-weight: bold">OC:</label>
+                        <label for="oc" style="font-weight: bold" title=" referència específica del client CCMA.">OC:</label>
                         <input type="text" class="form-control" id="oc" placeholder="Entrar oc" name="oc" value="{{!empty($registreEntrada) ? $registreEntrada->oc : old('oc')}}">
                         <span class="text-danger">{{ $errors->first('oc') }}</span>
                     </div>
