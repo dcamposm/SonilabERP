@@ -71,7 +71,7 @@
                     <span class="font-weight-bold" style="font-size: 1rem;">{{ $registreProduccio->id_registre_entrada }}</span>    
                 </td>
                 <td class="cursor" title='Veure producció' style="vertical-align: middle;" onclick="self.mostrarRegistreProduccio('{{ route('mostrarRegistreProduccio', array('id' => $registreProduccio->id)) }}')">
-                    <span class="font-weight-bold" style="font-size: 1rem;">{{ $registreProduccio->id }}</span>
+                    <span class="font-weight-bold" style="font-size: 1rem;">{{ $registreProduccio->subreferencia }}</span>
                 </td>
                 <td style="vertical-align: middle;">{{ date('d/m/Y', strtotime($registreProduccio->data_entrega)) }}</td>
                 <td style="vertical-align: middle;">{{$registreProduccio->setmana}}</td>

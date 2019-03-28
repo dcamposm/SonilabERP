@@ -4,6 +4,10 @@
 
 <div class="container">
     <div>
+        <a href="{{ url('/registreEntrada') }}" class="btn btn-primary col-2">
+            <span class="fas fa-angle-double-left"></span>
+            Tornar enrera
+        </a>
         <a href="{{ url('/clients/crear') }}" class="btn btn-success">
             <span class="fas fa-atlas"></span>
             Afegir client
@@ -32,7 +36,7 @@
                 <td style="vertical-align: middle;">{{ $client->direccio_client }}</td>
                 <td style="vertical-align: middle;">
                     <a href="{{ route('clientUpdateView', array('id' => $client['id_client'])) }}" class="btn btn-primary">Modificar</a>
-                    <button class="btn btn-danger" onclick="self.seleccionarClient({{ $client['id_client'] }}, '{{ $client['nom_client'] }}')" data-toggle="modal" data-target="#exampleModalCenter">Esborrar</button>
+                    <button class="btn btn-danger" onclick="self.seleccionarClient({{ $client['id_client'] }}, '{{ $client['nom_client'] }}')" data-toggle="modal" data-target="#exampleModalCenter"><i class="far fa-trash-alt"></i>Esborrar</button>
                     <form id="delete-{{ $client['id_client'] }}" action="{{ route('esborrarClient') }}" method="POST">
                         @csrf
                         <input type="hidden" readonly name="id" value="{{ $client['id_client'] }}">

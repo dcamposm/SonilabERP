@@ -104,7 +104,7 @@
     <div>
         <a href="/estadillos/mostrar/{{ isset($estadillos) ? $estadillos->id_estadillo : $registreProduccio[0]["id_registre_entrada"]."/".$registreProduccio[0]["setmana"] }}" class="btn btn-primary">
             <span class="fas fa-angle-double-left"></span>
-            Tornar enrere
+            Tornar enrera
         </a>
     </div>
 </div>

@@ -3,12 +3,29 @@
 @section('content')
 
 <div class="container">
+
     <div class="row">
-        <div class="col-3">
+        <div class="col">
             <a href="{{ !isset($registreProduccio) ? route('estadilloActorInsertView', array('id' => $estadillos->id_estadillo)) :  route('estadilloActorInsertView', array('id' => $registreProduccio->id_registre_entrada, 'setmana'=>$registreProduccio->setmana))}}" class="btn btn-success">
                 <span class="fas fa-user-tie"></span>
                 Afegir actor
             </a>
+        </div>
+
+        <!-- FILTRA Estadillo -->
+        <div class="row">
+            <div class="col">
+                <form method = "GET" action= '{{ !isset($registreProduccio) ? route('actorFind', array('id' => $estadillos->id_estadillo)) :  route('actorFind', array('id' => $registreProduccio->id_registre_entrada, 'setmana'=>$registreProduccio->setmana))}}' id='search'>
+                    @csrf
+                <div class="input-group">                 
+                    <input type="text" id="search_term" class="form-control" name="search_term" placeholder="Buscar actor...">
+
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-default" type="button"><span class="fas fa-search"></span></button>
+                    </span>
+                </div>
+                </form>
+            </div>
         </div>
     </div>
     
@@ -28,34 +45,36 @@
         <tbody>
             @foreach( $actors as $key => $actor )
             <tr class="table-selected">
-                <td style="vertical-align: middle;">
-                    @foreach ($empleats as $empleat)
-                        @if ($actor['id_actor'] == $empleat->id_empleat)
-                            <span class="font-weight-bold" style="font-size: 1rem;">{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }}</span>
-                        @endif
-                    @endforeach
-                </td>
-                <td style="vertical-align: middle;">{{ $actor['cg_estadillo']}}</td>
-                <td style="vertical-align: middle;">{{ $actor['take_estadillo']}}</td>
-                <td style="vertical-align: middle;">
-                    <a href="{{ !isset($registreProduccio) ? route('estadilloActorUpdateView', array('id' => $estadillos->id_estadillo, 'id_actor' => $actor['id_actor'])) : route('estadilloActorUpdateView', array('id' => $registreProduccio->id_registre_entrada, 'id_actor'=>$actor['id_actor'], 'setmana'=>$registreProduccio->setmana))  }}" class="btn btn-primary">Modificar</a>
-                    @if (isset($actor['id']))
-                    <button class="btn btn-danger" onclick="self.seleccionarActor({{ $actor['id'] }}, '{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }}')" data-toggle="modal" data-target="#exampleModalCenter">Esborrar</button>
-                        <form id="delete-{{ $actor['id'] }}" action="{{ route('esborrarEstadilloActor') }}" method="POST">
-                            @csrf
-                            <input type="hidden" readonly name="id" value="{{ $actor['id'] }}">
-                        </form>
+                @foreach ($empleats as $empleat)
+                    @if ($actor['id_actor'] == $empleat->id_empleat)
+                        <td style="vertical-align: middle;">
+
+                                    <span class="font-weight-bold" style="font-size: 1rem;">{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }}</span>
+
+                        </td>
+                        <td style="vertical-align: middle;">{{ $actor['cg_estadillo']}}</td>
+                        <td style="vertical-align: middle;">{{ $actor['take_estadillo']}}</td>
+                        <td style="vertical-align: middle;">
+                            <a href="{{ !isset($registreProduccio) ? route('estadilloActorUpdateView', array('id' => $estadillos->id_estadillo, 'id_actor' => $actor['id_actor'])) : route('estadilloActorUpdateView', array('id' => $registreProduccio->id_registre_entrada, 'id_actor'=>$actor['id_actor'], 'setmana'=>$registreProduccio->setmana))  }}" class="btn btn-primary">Modificar</a>
+                            @if (isset($actor['id']))
+                            <button class="btn btn-danger" onclick="self.seleccionarActor({{ $actor['id'] }}, '{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }}')" data-toggle="modal" data-target="#exampleModalCenter">Esborrar</button>
+                                <form id="delete-{{ $actor['id'] }}" action="{{ route('esborrarEstadilloActor') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" readonly name="id" value="{{ $actor['id'] }}">
+                                </form>
+                            @endif
+                        </td>
                     @endif
-                </td>
+                @endforeach
             </tr>
             @endforeach
         </tbody>
     </table>
     <br>
     <div>
-        <a href="{{ URL::previous() }}" class="btn btn-primary">
+        <a href="{{ url('/estadillos') }}" class="btn btn-primary">
             <span class="fas fa-angle-double-left"></span>
-            Tornar enrere
+            Tornar enrera
         </a>
     </div>
     <!-- MODAL ESBORRAR ACTOR ESTADILLO -->
