@@ -122,6 +122,8 @@ class EmpleatExternController extends Controller
         foreach ($carrecs as $key => $carrec) {
             $idioma = $carrec->idioma;
             $tarifa = $carrec->tarifa;
+            //return response()->json($carrec);
+            $carrecsEmpelat[$carrec->carrec->nom_carrec]['contracta'] = $carrec->contracta;
             $carrecsEmpelat[$carrec->carrec->nom_carrec][(empty($idioma)) ? 0 : $idioma->idioma][$carrec->id] = array(
                 //'idioma' => (empty($idioma)) ? '' : $idioma->idioma,
                 'nomCarrec' => $carrec->carrec->nom_carrec,
@@ -132,7 +134,7 @@ class EmpleatExternController extends Controller
                 'tarifa' => $tarifa->nombre,
             );
         }
-        
+        //return response()->json($carrecsEmpelat);
         //$idioma = Idioma::all();
         
         return View('empleats_externs.show', array(
@@ -166,17 +168,20 @@ class EmpleatExternController extends Controller
                 $carrecsData[$carrecEmp->carrec->input_name][$carrecEmp->tarifa->nombre_corto] = array(
                     'preu_carrec' => $carrecEmp->preu_carrec,
                 );
+                $carrecsData[$carrecEmp->carrec->input_name]['contracta'] = $carrecEmp->contracta;
             } else {
                 if ($carrecEmp->id_carrec == 1) {       
                     $carrecsData[$carrecEmp->carrec->input_name][$carrecEmp->idioma->idioma][$carrecEmp->tarifa->nombre_corto] = array(
                         'preu_carrec' => $carrecEmp->preu_carrec,
                     );    
+                    $carrecsData[$carrecEmp->carrec->input_name]['contracta'] = $carrecEmp->contracta;
                 }
                 else {
                     $carrecsData[$carrecEmp->carrec->input_name][$carrecEmp->idioma->idioma] = array(
                         'empleat_homologat' => $carrecEmp->empleat_homologat,
                         'rotllo' => $carrecEmp->rotllo,
                     );
+                    $carrecsData[$carrecEmp->carrec->input_name]['contracta'] = $carrecEmp->contracta;
                     $carrecTarifes[$carrecEmp->carrec->input_name][$carrecEmp->idioma->idioma][$carrecEmp->tarifa->nombre_corto] = array(
                         'preu_carrec' => $carrecEmp->preu_carrec,
                     ); 
@@ -184,7 +189,7 @@ class EmpleatExternController extends Controller
             }
         }
 
-        //return response()->json($carrecTarifes);
+       //return response()->json($carrecsData);
 
         return View('empleats_externs.create', array(
             'empleat' => $empleat,
@@ -269,6 +274,7 @@ class EmpleatExternController extends Controller
                                 $datos["id_idioma"] = 0;
                                 $datos["empleat_homologat"] = 0;
                                 $datos["rotllo"] = 0;
+                                $datos["contracta"] = request()->input('contracta_'.$nomCarrec);
                                 $datos["preu_carrec"] = request()->input("preu_$nomCarrec"."_$nombre_corto");//coge el valor mandado del input
                                 $datos["id_tarifa"] = $tarifa->id;
 
@@ -284,13 +290,14 @@ class EmpleatExternController extends Controller
                                 $id_tarifa = $tarifa->id_tarifa;
                                 $id_idioma = $idioma->id_idioma;
                                 $nom_idioma = $idioma->idioma;
-
+                                
                                 if (request()->has("idioma_$nomCarrec" . "_$nom_idioma") && (request()->has("preu_$nomCarrec" . "_$nom_idioma" . "_$nombre_corto"))) {
                                     $datos["id_empleat"] = $empleat->id_empleat;
                                     $datos["id_carrec"] = $id_carrec;
                                     $datos["id_idioma"] = $id_idioma;
                                     $datos["empleat_homologat"] = (request()->has("homologat_$nomCarrec" . "_$nom_idioma")) ? request()->input("homologat_$nomCarrec" . "_$nom_idioma") : 0;
                                     $datos["rotllo"] = (request()->has("rotllo_$nomCarrec" . "_$nom_idioma")) ? request()->input("rotllo_$nomCarrec" . "_$nom_idioma") : 0;
+                                    $datos["contracta"] = request()->input('contracta_'.$nomCarrec);
                                     $datos["preu_carrec"] = request()->input("preu_$nomCarrec" . "_$nom_idioma" . "_$nombre_corto");
                                     $datos["id_tarifa"] = $tarifa->id;
                                     //(Tarifa::select('id')->where('id_carrec',$id_carrec)->first())->id;
@@ -313,6 +320,7 @@ class EmpleatExternController extends Controller
 
     public function update($id)
     {
+        //return response()->json(request()->all());
         $empleat = EmpleatExtern::find($id);
 
         if ($empleat) {
@@ -369,6 +377,7 @@ class EmpleatExternController extends Controller
                     $nomCarrec = $carrec->input_name;
                     
                     if (($nomCarrec == "director" || $nomCarrec == "tecnic_sala") && request()->has($nomCarrec)) {
+                        //return response()->json(request()->all());
                         foreach ($tarifas as $key => $tarifa) {
                             $nombre_corto = $tarifa->nombre_corto;
                             $id_tarifa = $tarifa->id_tarifa;
@@ -380,6 +389,7 @@ class EmpleatExternController extends Controller
                                 $datos["id_idioma"] = 0;
                                 $datos["empleat_homologat"] = 0;
                                 $datos["rotllo"] = 0;
+                                $datos["contracta"] =(int) request()->input("contracta_$nomCarrec");
                                 $datos["preu_carrec"] = request()->input("preu_$nomCarrec"."_$nombre_corto");//coge el valor mandado del input
                                 $datos["id_tarifa"] = $tarifa->id;
                                 //return response()->json($datos);
@@ -416,6 +426,7 @@ class EmpleatExternController extends Controller
                                     $datos["id_idioma"] = $id_idioma;
                                     $datos["empleat_homologat"] = (request()->has("homologat_$nomCarrec" . "_$nom_idioma")) ? request()->input("homologat_$nomCarrec" . "_$nom_idioma") : 0;
                                     $datos["rotllo"] = (request()->has("rotllo_$nomCarrec" . "_$nom_idioma")) ? request()->input("rotllo_$nomCarrec" . "_$nom_idioma") : 0;
+                                    $datos["contracta"] = request()->input('contracta_'.$nomCarrec);
                                     $datos["preu_carrec"] = request()->input("preu_$nomCarrec" . "_$nom_idioma" . "_$nombre_corto");
                                     $datos["id_tarifa"] = $tarifa->id;
                                     //(Tarifa::select('id')->where('id_carrec',$id_carrec)->first())->id;

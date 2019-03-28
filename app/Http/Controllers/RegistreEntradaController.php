@@ -9,6 +9,8 @@ use App\Idioma;
 use App\Client;
 use App\Servei;
 use App\TipusMedia;
+use App\User;
+use App\Missatge;
 
 class RegistreEntradaController extends Controller
 {
@@ -21,6 +23,7 @@ class RegistreEntradaController extends Controller
     public function index()
     {
         $registreEntrades = RegistreEntrada::with('client')
+                                ->with('usuari')
                                 ->with('servei')
                                 ->with('idioma')
                                 ->with('media')->orderBy("estat")->get();
@@ -28,8 +31,11 @@ class RegistreEntradaController extends Controller
         $serveis = Servei::all();
         $idiomes = Idioma::all();
         $medies = TipusMedia::all();
+        $usuaris = User::where('id_departament', '2')->get();
+        //return response()->json($registreEntrades);
         return View('registre_entrada.index', array('registreEntrades' => $registreEntrades, 'clients' => $clients,
-                                                    'serveis' => $serveis, 'idiomes' => $idiomes, 'medies' => $medies));
+                                                    'serveis' => $serveis, 'idiomes' => $idiomes,
+                                                    'medies' => $medies, 'usuaris' => $usuaris));
     }
     
     public function find()
@@ -42,8 +48,8 @@ class RegistreEntradaController extends Controller
             $registreEntrades = RegistreEntrada::where('estat', request()->input("search_Estat"))
                                                     ->orderBy(request()->input("orderBy"))->get();
         } else if (request()->input("searchBy") == '3'){
-            $registreEntrades = RegistreEntrada::where('entrada', request()->input("searchDate"))
-                                                            ->orderBy(request()->input("orderBy"))->get();
+            $registreEntrades = RegistreEntrada::where('id_usuari', request()->input("search_Resp"))
+                                                    ->orderBy(request()->input("orderBy"))->get();
         } else if (request()->input("searchBy") == '4'){
             $registreEntrades = RegistreEntrada::where('sortida', request()->input("searchDate"))
                                                             ->orderBy(request()->input("orderBy"))->get();
@@ -70,9 +76,11 @@ class RegistreEntradaController extends Controller
         $serveis = Servei::all();
         $idiomes = Idioma::all();
         $medies = TipusMedia::all();
+        $usuaris = User::where('id_departament', '2')->get();
         //return redirect()->route('empleatIndex')->with('success', request()->input("searchBy").'-'.request()->input("search_term"));
         return view('registre_entrada.index',array('registreEntrades' => $registreEntrades, 'clients' => $clients,
-                                                    'serveis' => $serveis, 'idiomes' => $idiomes, 'medies' => $medies));
+                                                    'serveis' => $serveis, 'idiomes' => $idiomes,
+                                                    'medies' => $medies, 'usuaris' => $usuaris));
     }
 
     public function insertView(){
@@ -80,15 +88,18 @@ class RegistreEntradaController extends Controller
         $idiomes = Idioma::all();
         $serveis = Servei::all();
         $medias = TipusMedia::all();
-        return View('registre_entrada.create', array('idiomes' => $idiomes, 'clients' => $clients,'serveis'=>$serveis,'medias'=>$medias));
+        $usuaris = User::where('id_departament', '2')->get();
+        return View('registre_entrada.create', array('idiomes' => $idiomes, 'clients' => $clients,'serveis'=>$serveis
+                                                    ,'medias'=>$medias,'usuaris'=>$usuaris));
     }
 
     public function insert()
     {
+        //return response()->json(request()->all());
         $v = Validator::make(request()->all(), [
             'titol'               => 'required',
-            'entrada'             => 'required',
             'sortida'             => 'required',
+            'id_usuari'             => 'required',
             'id_client'           => 'required',
             'id_servei'           => 'required',
             'id_idioma'           => 'required',
@@ -110,8 +121,8 @@ class RegistreEntradaController extends Controller
                 $registreEntrada->ot = request()->input('ot') ? request()->input('ot') : '';
                 $registreEntrada->oc =request()->input('oc') ? request()->input('oc') : '';
                 $registreEntrada->titol =request()->input('titol');
-                $registreEntrada->entrada =request()->input('entrada');
                 $registreEntrada->sortida =request()->input('sortida');
+                $registreEntrada->id_usuari =request()->input('id_usuari');
                 $registreEntrada->id_client =request()->input('id_client');
                 $registreEntrada->id_servei =request()->input('id_servei');
                 $registreEntrada->id_idioma =request()->input('id_idioma');
@@ -121,16 +132,25 @@ class RegistreEntradaController extends Controller
                 $registreEntrada->episodis_setmanals =request()->input('total_episodis') ? request()->input('total_episodis') : '1';
                 $registreEntrada->entregues_setmanals =request()->input('total_episodis') ? request()->input('total_episodis') : '1';
                 $registreEntrada->estat =request()->input('estat');
-                $registreEntrada->save();
+                //$registreEntrada->save();
             }
-                           
-
+            
+            
             try {
                 $registreEntrada->save(); 
             } catch (\Exception $ex) {
                 return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut crear el registre d\'entrada.'));
             }
-
+            $fecha_actual = date("d-m-Y");
+            //return response()->json(date("d-m-Y",strtotime($fecha_actual."+ 7 days")));               
+            $missatge = new Missatge;
+            $missatge->id_usuari = request()->input('id_usuari');
+            $missatge->missatge = "S'ha creat el registre d'entrada: ".$registreEntrada->id_registre_entrada." ".$registreEntrada->titol;
+            $missatge->referencia ='registreEntrada';
+            $missatge->id_referencia =$registreEntrada->id_registre_entrada;
+            $missatge->data_final =date("Y-m-d",strtotime($fecha_actual."+ 7 days"));
+            $missatge->save(); 
+            
             return redirect()->back()->with('success', 'Registre d\'entrada creat correctament.');
         }
     }
@@ -141,12 +161,14 @@ class RegistreEntradaController extends Controller
         $idiomes = Idioma::all();
         $serveis = Servei::all();
         $medias = TipusMedia::all();
+        $usuaris = User::where('id_departament', '2')->get();
         return view('registre_entrada.create', array(
             'registreEntrada' => $registreEntrada,
             'clients'         => $clients,
             'idiomes'         => $idiomes,
             'serveis'         => $serveis,
             'medias'          => $medias,
+            'usuaris'          => $usuaris,
         ));
     }
 
@@ -155,8 +177,8 @@ class RegistreEntradaController extends Controller
         if ($registreEntrada) {
             $v = Validator::make(request()->all(), [
                 'titol'           => 'required',
-                'entrada'             => 'required',
                 'sortida'             => 'required',
+                'id_usuari'             => 'required',
                 'id_client'           => 'required',
                 'id_servei'           => 'required',
                 'id_idioma'           => 'required',

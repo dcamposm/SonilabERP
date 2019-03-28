@@ -28,7 +28,7 @@
                     <option>Titol</option>
                     <option value="1">Client</option>
                     <option value="2">Estat</option>
-                    <option value="3">Entrada</option>
+                    <option value="3">Responsable</option>
                     <option value="4">Sortida</option>
                     <option value="5">Servei</option>
                     <option value="6">Idioma</option>
@@ -41,7 +41,7 @@
                     <option value="titol">Titol</option>
                     <option value="id_client">Client</option>
                     <option value="estat">Estat</option>
-                    <option value="entrada">Entrada</option>
+                    <option value="responsable">Responsable</option>
                     <option value="sortida">Sortida</option>
                     <option value="id_servei">Servei</option>
                     <option value="id_idioma">Idioma</option>
@@ -69,6 +69,11 @@
                 <select class="custom-select" id='search_Media' name="search_Media" form="search" style="display: none;">
                     @foreach( $medies as $key => $media )
                         <option value="{{$media['id_media']}}">{{$media['nom_media']}}</option>
+                    @endforeach
+                </select>
+                <select class="custom-select" id='search_Resp' name="search_Resp" form="search" style="display: none;">
+                    @foreach( $usuaris as $usuari )
+                        <option value="{{$usuari['id_usuari']}}">{{$usuari['nom_usuari']}}</option>
                     @endforeach
                 </select>
                 <select class="custom-select" id='search_Estat' name="search_Estat" form="search" style="display: none;">
@@ -119,16 +124,16 @@
         <thead>
             <tr>
                 <th>REF</th> 
-                <th>Títol</th>
-                <th>Entrada</th>
-                <th>Sortida</th>
-                <th>Client</th>
-                <th>Servei</th>
-                <th>Idioma</th>
-                <th>Tipus</th>
-                <th>Minuts</th>
+                <th>TÍTOL</th>
+                <th>PRIMERA ENTRAGA</th>
+                <th>RESPONSABLE</th>
+                <th>CLIENT</th>
+                <th>SERVEI</th>
+                <th>IDIOMA</th>
+                <th>TIPUS</th>
+                <th>MINUTS</th>
                 @if (Auth::user()->hasAnyRole(['1', '4']))
-                <th>Accions</th>
+                <th>ACCIONS</th>
                 @endif
             </tr>
         </thead>
@@ -136,13 +141,14 @@
             @foreach( $registreEntrades as $key => $registreEntrada )
             <tr class="table-selected {{ ($registreEntrada->estat == 'Pendent') ? 'border-warning' : (($registreEntrada->estat == 'Finalitzada') ? 'border-success' : 'border-danger') }}">
                 <td class="cursor" style="vertical-align: middle;" onclick="self.mostrarRegistreEntrada('{{ route('mostrarRegistreEntrada', array('id' => $registreEntrada->id_registre_entrada)) }}')">
-                    <span class="font-weight-bold" style="font-size: 1rem;">{{ $registreEntrada->id_registre_entrada }}</span>
+                    <span class="font-weight-bold">{{ $registreEntrada->id_registre_entrada }}</span>
                 </td>
                 <td class="cursor" style="vertical-align: middle;" onclick="self.mostrarRegistreEntrada('{{ route('mostrarRegistreEntrada', array('id' => $registreEntrada->id_registre_entrada)) }}')">
-                    <span class="font-weight-bold" style="font-size: 1rem;">{{ $registreEntrada->titol }}</span>
+                    <span class="font-weight-bold">{{ $registreEntrada->titol }}</span>
                 </td>
-                <td style="vertical-align: middle;">{{ date('d/m/Y', strtotime($registreEntrada->entrada)) }}</td>
+                
                 <td style="vertical-align: middle;">{{ date('d/m/Y', strtotime($registreEntrada->sortida)) }}</td>
+                <td style="vertical-align: middle;">{{ isset($registreEntrada->usuari) ? $registreEntrada->usuari->nom_usuari :  ''}}</td>
                 <td style="vertical-align: middle;">{{ $registreEntrada->client->nom_client }}</td>
                 <td style="vertical-align: middle;">{{ $registreEntrada->servei->nom_servei }}</td>
                 <td style="vertical-align: middle;">{{ $registreEntrada->idioma->idioma }}</td>
@@ -151,11 +157,13 @@
                 @if (Auth::user()->hasAnyRole(['1', '4']))
                 <td style="vertical-align: middle;">
                     <a href="{{ route('registreEntradaUpdateView', array('id' => $registreEntrada['id_registre_entrada'])) }}" class="btn btn-primary">Modificar</a>
+                    @if (Auth::user()->hasAnyRole(['4']))
                     <button class="btn btn-danger" onclick="self.seleccionarRegistreEntrada({{ $registreEntrada['id_registre_entrada'] }}, '{{ $registreEntrada['titol'] }}')" data-toggle="modal" data-target="#exampleModalCenter">Esborrar</button>
                     <form id="delete-{{ $registreEntrada['id_registre_entrada'] }}" action="{{ route('esborrarRegistreEntrada') }}" method="POST">
                         @csrf
                         <input type="hidden" readonly name="id" value="{{ $registreEntrada['id_registre_entrada'] }}">
                     </form>
+                    @endif
                 </td>
                 @endif
             </tr>
@@ -223,6 +231,7 @@
             $('#search_Servei').hide();
             $('#search_Idioma').hide();
             $('#search_Media').hide();
+            $('#search_Resp').hide();
             $('#searchMin').hide();
         } else if ($('#searchBy').val() == '2'){
             $('#search_term').hide();
@@ -232,8 +241,19 @@
             $('#search_Servei').hide();
             $('#search_Idioma').hide();
             $('#search_Media').hide();
+            $('#search_Resp').hide();
             $('#searchMin').hide();
-        } else if ($('#searchBy').val() == '3' || $('#searchBy').val() == '4'){
+        } else if ($('#searchBy').val() == '3'){
+            $('#search_term').hide();
+            $('#searchDate').hide();
+            $('#search_Client').hide();
+            $('#search_Estat').hide();
+            $('#search_Servei').hide();
+            $('#search_Idioma').hide();
+            $('#search_Media').hide();
+            $('#search_Resp').show();
+            $('#searchMin').hide();
+        }  else if ($('#searchBy').val() == '4'){
             $('#search_term').hide();
             $('#searchDate').show();
             $('#search_Client').hide();
@@ -241,6 +261,7 @@
             $('#search_Servei').hide();
             $('#search_Idioma').hide();
             $('#search_Media').hide();
+            $('#search_Resp').hide();
             $('#searchMin').hide();
         } else if ($('#searchBy').val() == '5'){
             $('#search_term').hide();
@@ -259,6 +280,7 @@
             $('#search_Servei').hide();
             $('#search_Idioma').show();
             $('#search_Media').hide();
+            $('#search_Resp').hide();
             $('#searchMin').hide();
         } else if ($('#searchBy').val() == '7'){
             $('#search_term').hide();
@@ -268,6 +290,7 @@
             $('#search_Servei').hide();
             $('#search_Idioma').hide();
             $('#search_Media').show();
+            $('#search_Resp').hide();
             $('#searchMin').hide();
         } else if ($('#searchBy').val() == '8'){
             $('#search_term').hide();
@@ -277,6 +300,7 @@
             $('#search_Servei').hide();
             $('#search_Idioma').hide();
             $('#search_Media').hide();
+            $('#search_Resp').hide();
             $('#searchMin').show();
         } 
         else {
@@ -287,6 +311,7 @@
             $('#search_Servei').hide();
             $('#search_Idioma').hide();
             $('#search_Media').hide();
+            $('#search_Resp').hide();
             $('#searchMin').hide();
         }
     }

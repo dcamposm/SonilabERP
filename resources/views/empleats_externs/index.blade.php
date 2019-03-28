@@ -8,7 +8,7 @@
             @if (Auth::user()->hasAnyRole(['1', '4']))
             <a href="{{ url('/empleats/crear') }}" class="btn btn-success">
                 <span class="fas fa-user-plus"></span>
-                Afegir treballador
+                AFEGIR TREBALLADOR
             </a>
             @endif
         </div>
@@ -20,23 +20,23 @@
                     @csrf
                 <div class="input-group">
                     <select class="custom-select" id='searchBy' name="searchBy" form="search">
-                        <option selected>Buscar per...</option>
-                        <option>Nom o cognoms</option>
-                        <option value="1">Càrrec</option>
-                        <option value="2">Sexe</option>
-                        <option value="3">Nacionalitat</option>
+                        <option selected>BUSCAR PER...</option>
+                        <option>NOM O COGNOM</option>
+                        <option value="1">CÀRREC</option>
+                        <option value="2">SEXE</option>
+                        <option value="3">NACIONALITAT</option>
                     </select>
 
                     <input type="text" id="search_term" class="form-control" name="search_term" placeholder="Buscar treballador...">
 
                     <select class="custom-select" id='search_Carrec' name="search_Carrec" form="search" style="display: none;">
                         @foreach( $carrecs as $key => $carrec )
-                          <option value="{{$carrec['id_carrec']}}">{{$carrec['descripcio_carrec']}}</option>
+                          <option value="{{$carrec['id_carrec']}}">{{strtr(strtoupper($carrec['descripcio_carrec']), "àáèéíóúüç", "ÀÁÈÉÍÓÚÜÇ")}}</option>
                         @endforeach
                     </select>
                     <select class="custom-select" id='search_Sexe' name="search_Sexe" form="search" style="display: none;">
-                          <option value="Dona">Dona</option>
-                          <option value="Home">Home</option>
+                          <option value="Dona">DONA</option>
+                          <option value="Home">HOME</option>
                     </select>
                     <span class="input-group-btn">
                         <button type="submit" class="btn btn-default" type="button"><span class="fas fa-search"></span></button>
@@ -50,12 +50,12 @@
     <table class="table" style="margin-top: 10px;">
         <thead>
             <tr>
-                <th>Nom</th> 
-                <th>Cognoms</th>
-                <th>Telefon</th>
-                <th>Carrecs</th>
+                <th>NOM</th> 
+                <th>COGNOMS</th>
+                <th>TELÈFON</th>
+                <th>CARRECS</th>
                 @if (Auth::user()->hasAnyRole(['1', '4']))
-                <th>Accions</th>
+                <th>ACCIONS</th>
                 @endif
             </tr>
         </thead>
@@ -78,8 +78,8 @@
                     </td>
                     @if (Auth::user()->hasAnyRole(['1', '4']))
                         <td style="vertical-align: middle;">
-                            <a href="{{ route('empleatUpdateView', ['id' => $empleat['id_empleat']]) }}" class="btn btn-primary"> Editar </a>
-                            <button onclick="setEmpleatPerEsborrar({{$empleat['id_empleat']}}, '{{$empleat['nom_empleat']}} {{$empleat['cognom1_empleat']}} {{$empleat['cognom2_empleat']}}')" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">Esborrar</button>
+                            <a href="{{ route('empleatUpdateView', ['id' => $empleat['id_empleat']]) }}" class="btn btn-primary"> EDITAR </a>
+                            <button onclick="setEmpleatPerEsborrar({{$empleat['id_empleat']}}, '{{$empleat['nom_empleat']}} {{$empleat['cognom1_empleat']}} {{$empleat['cognom2_empleat']}}')" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">ESBORRAR</button>
                             <form id="delete-{{ $empleat['id_empleat'] }}" action="{{ route('empleatDelete') }}" method="POST">
                                 @csrf
                                 <input type="hidden" readonly name="id" value="{{$empleat['id_empleat']}}">
@@ -97,7 +97,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Esborrar empleat</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">ESBORRAR EMPLEAT</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -106,8 +106,8 @@
                 <span id="delete-message">...</span>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="setEmpleatPerEsborrar(0)">Tancar</button>
-                <button type="button" class="btn btn-danger" onclick="deleteEmpleat()">Esborrar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="setEmpleatPerEsborrar(0)">TANCAR</button>
+                <button type="button" class="btn btn-danger" onclick="deleteEmpleat()">ESBORRAR</button>
             </div>
             </div>
         </div>
