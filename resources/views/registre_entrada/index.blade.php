@@ -28,7 +28,7 @@
                     <option>Titol</option>
                     <option value="1">Client</option>
                     <option value="2">Estat</option>
-                    <option value="3">Entrada</option>
+                    <option value="3">Responsable</option>
                     <option value="4">Sortida</option>
                     <option value="5">Servei</option>
                     <option value="6">Idioma</option>
@@ -41,7 +41,7 @@
                     <option value="titol">Titol</option>
                     <option value="id_client">Client</option>
                     <option value="estat">Estat</option>
-                    <option value="entrada">Entrada</option>
+                    <option value="responsable">Responsable</option>
                     <option value="sortida">Sortida</option>
                     <option value="id_servei">Servei</option>
                     <option value="id_idioma">Idioma</option>
@@ -69,6 +69,11 @@
                 <select class="custom-select" id='search_Media' name="search_Media" form="search" style="display: none;">
                     @foreach( $medies as $key => $media )
                         <option value="{{$media['id_media']}}">{{$media['nom_media']}}</option>
+                    @endforeach
+                </select>
+                <select class="custom-select" id='search_Resp' name="search_Resp" form="search" style="display: none;">
+                    @foreach( $usuaris as $usuari )
+                        <option value="{{$usuari['id_usuari']}}">{{$usuari['nom_usuari']}}</option>
                     @endforeach
                 </select>
                 <select class="custom-select" id='search_Estat' name="search_Estat" form="search" style="display: none;">
@@ -226,6 +231,7 @@
             $('#search_Servei').hide();
             $('#search_Idioma').hide();
             $('#search_Media').hide();
+            $('#search_Resp').hide();
             $('#searchMin').hide();
         } else if ($('#searchBy').val() == '2'){
             $('#search_term').hide();
@@ -235,8 +241,19 @@
             $('#search_Servei').hide();
             $('#search_Idioma').hide();
             $('#search_Media').hide();
+            $('#search_Resp').hide();
             $('#searchMin').hide();
-        } else if ($('#searchBy').val() == '3' || $('#searchBy').val() == '4'){
+        } else if ($('#searchBy').val() == '3'){
+            $('#search_term').hide();
+            $('#searchDate').hide();
+            $('#search_Client').hide();
+            $('#search_Estat').hide();
+            $('#search_Servei').hide();
+            $('#search_Idioma').hide();
+            $('#search_Media').hide();
+            $('#search_Resp').show();
+            $('#searchMin').hide();
+        }  else if ($('#searchBy').val() == '4'){
             $('#search_term').hide();
             $('#searchDate').show();
             $('#search_Client').hide();
@@ -244,6 +261,7 @@
             $('#search_Servei').hide();
             $('#search_Idioma').hide();
             $('#search_Media').hide();
+            $('#search_Resp').hide();
             $('#searchMin').hide();
         } else if ($('#searchBy').val() == '5'){
             $('#search_term').hide();
@@ -262,6 +280,7 @@
             $('#search_Servei').hide();
             $('#search_Idioma').show();
             $('#search_Media').hide();
+            $('#search_Resp').hide();
             $('#searchMin').hide();
         } else if ($('#searchBy').val() == '7'){
             $('#search_term').hide();
@@ -271,6 +290,7 @@
             $('#search_Servei').hide();
             $('#search_Idioma').hide();
             $('#search_Media').show();
+            $('#search_Resp').hide();
             $('#searchMin').hide();
         } else if ($('#searchBy').val() == '8'){
             $('#search_term').hide();
@@ -280,6 +300,7 @@
             $('#search_Servei').hide();
             $('#search_Idioma').hide();
             $('#search_Media').hide();
+            $('#search_Resp').hide();
             $('#searchMin').show();
         } 
         else {
@@ -290,6 +311,7 @@
             $('#search_Servei').hide();
             $('#search_Idioma').hide();
             $('#search_Media').hide();
+            $('#search_Resp').hide();
             $('#searchMin').hide();
         }
     }

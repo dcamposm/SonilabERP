@@ -7,7 +7,7 @@
 <div class="container">
     <a href="{{ url('/empleats') }}" class="btn btn-primary col-2">
         <span class="fas fa-angle-double-left"></span>
-        Tornar enrera
+        TORNAR ENRERA
     </a>
     <br>
     <br>
@@ -15,7 +15,7 @@
     <table class="table table-striped">
         <thead class="thead-dark">
             <tr class="row">
-                <th class="col">Dades personals</th>
+                <th class="col">DADES PERSONALS</th>
             </tr>
         </thead>
 
@@ -93,7 +93,7 @@
             <table class="table">
                 <thead class="thead-dark" style="border-left: 3px solid white">
                     <tr class="row">
-                        <th class="col">{{ $key != 'Traductor' ? 'TARIFA '.strtoupper($key) : 'TARIFA TRADUCTOR/AJUSTADOR/LINGÜISTA' }}</th>
+                        <th class="col">{{ $key != 'Traductor' ? 'TARIFA '.strtr(strtoupper($key), "àáèéíóúüç", "ÀÁÈÉÍÓÚÜÇ") : 'TARIFA TRADUCTOR/AJUSTADOR/LINGÜISTA' }}</th>
                         <th class="col">{{ $carrec['contracta'] == 0 ? 'FACTURA' : 'ALTA I BAIXA'}}</th>
                     </tr>
                 </thead>
@@ -103,7 +103,7 @@
                             @if(Auth::user()->hasRole('1') OR Auth::user()->hasRole('4'))
                             <tr class="row">
                                 @foreach ($info as $key => $tarifa) 
-                                    <td class="col">{{ strtoupper($tarifa['tarifa']) }}</td>
+                                    <td class="col">{{ strtr(strtoupper($tarifa['tarifa']), "àáèéíóúüç", "ÀÁÈÉÍÓÚÜÇ") }}</td>
                                 @endforeach
                             </tr>
                             
@@ -115,7 +115,7 @@
                             @endif
                         @elseif ($key2 !== 'contracta')
                             <tr class="row table-active">
-                                <td class="col"><img src="{{url('/')}}/img/flags/{{$key2}}.png" class="rounded"> {{ $key2 }}</td>                   
+                                <td class="col"><img src="{{url('/')}}/img/flags/{{$key2}}.png" class="rounded"> {{ strtr(strtoupper($key2), "àáèéíóúüç", "ÀÁÈÉÍÓÚÜÇ") }}</td>                   
                                 <td class="col">
                                 @foreach ($info as $key3 => $tarifa) 
                                     @if ($tarifa['empleat_homologat'] == '1')
@@ -139,14 +139,14 @@
                                         @if ($infoTarifa['nomCarrec'] == 'Actor')
                                             @foreach( $tarifas as $key3 => $tarifa)
                                                 @if($tarifa->id_carrec == 1)
-                                                    <td class="col">{{strtoupper($tarifa->nombre)}}</td>
+                                                    <td class="col">{{strtr(strtoupper($tarifa->nombre), "àáèéíóúüç", "ÀÁÈÉÍÓÚÜÇ")}}</td>
                                                 @endif
                                             @endforeach
                                         @break
                                         @else
                                             @foreach( $tarifas as $key3 => $tarifa)
                                                 @if($tarifa->id_carrec == 4 )
-                                                    <td class="col text-left">{{$tarifa->nombre}}</td>
+                                                    <td class="col text-left">{{strtr(strtoupper($tarifa->nombre), "àáèéíóúüç", "ÀÁÈÉÍÓÚÜÇ")}}</td>
                                                 @endif
                                             @endforeach
                                         @break

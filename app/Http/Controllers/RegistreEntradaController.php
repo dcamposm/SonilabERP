@@ -31,9 +31,11 @@ class RegistreEntradaController extends Controller
         $serveis = Servei::all();
         $idiomes = Idioma::all();
         $medies = TipusMedia::all();
+        $usuaris = User::where('id_departament', '2')->get();
         //return response()->json($registreEntrades);
         return View('registre_entrada.index', array('registreEntrades' => $registreEntrades, 'clients' => $clients,
-                                                    'serveis' => $serveis, 'idiomes' => $idiomes, 'medies' => $medies));
+                                                    'serveis' => $serveis, 'idiomes' => $idiomes,
+                                                    'medies' => $medies, 'usuaris' => $usuaris));
     }
     
     public function find()
@@ -46,8 +48,8 @@ class RegistreEntradaController extends Controller
             $registreEntrades = RegistreEntrada::where('estat', request()->input("search_Estat"))
                                                     ->orderBy(request()->input("orderBy"))->get();
         } else if (request()->input("searchBy") == '3'){
-            $registreEntrades = RegistreEntrada::where('entrada', request()->input("searchDate"))
-                                                            ->orderBy(request()->input("orderBy"))->get();
+            $registreEntrades = RegistreEntrada::where('id_usuari', request()->input("search_Resp"))
+                                                    ->orderBy(request()->input("orderBy"))->get();
         } else if (request()->input("searchBy") == '4'){
             $registreEntrades = RegistreEntrada::where('sortida', request()->input("searchDate"))
                                                             ->orderBy(request()->input("orderBy"))->get();
@@ -74,9 +76,11 @@ class RegistreEntradaController extends Controller
         $serveis = Servei::all();
         $idiomes = Idioma::all();
         $medies = TipusMedia::all();
+        $usuaris = User::where('id_departament', '2')->get();
         //return redirect()->route('empleatIndex')->with('success', request()->input("searchBy").'-'.request()->input("search_term"));
         return view('registre_entrada.index',array('registreEntrades' => $registreEntrades, 'clients' => $clients,
-                                                    'serveis' => $serveis, 'idiomes' => $idiomes, 'medies' => $medies));
+                                                    'serveis' => $serveis, 'idiomes' => $idiomes,
+                                                    'medies' => $medies, 'usuaris' => $usuaris));
     }
 
     public function insertView(){
