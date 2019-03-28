@@ -170,7 +170,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                 </div> 
             </div>
 
-            <!-- CARGOS: DIRECTOR, TÉCNICO DE SALA -->
+            <!-- CARGOS: DIRECTOR -->
             <div class="row container">
                 <div id="colDirector" style="width: 100%; margin-left: 15px; display:{{ isset($carrecs['director']) ? '' : 'none'}}">
                     <div class="form-group">
@@ -183,12 +183,19 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                             <tbody>
                                 <tr class="row">
                                     <td class="col">
-                                        <div>
-                                            <div id="tarifa_director1">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <label for="contracta_director" style="font-weight: bold">FRA/AB:</label>
+                                                <select class="form-control" id="contracta_director" name="contracta_director">
+                                                    <option value="0" {{ (isset($carrecs['director']['contracta']) && $carrecs['director']['contracta'] == '0') ? 'selected' : ''}}>FACTURA</option>
+                                                    <option value="1" {{ (isset($carrecs['director']['contracta']) && $carrecs['director']['contracta'] == '1') ? 'selected' : ''}}>ALTA I BAIXA</option>
+                                                </select>
+                                            </div>
+                                            <div class="col" id="tarifa_director1">
                                                 <label for="tarifa_director1" style="font-weight: bold">Preu rotllo:</label>
                                                 <input type="number" step="any" class="form-control" id="tarifa_director1_inp" placeholder="Preu rotllo" name="preu_director_rotllo" value="{{ isset($carrecs['director']['rotllo']) ? $carrecs['director']['rotllo']['preu_carrec'] : ''}}">
                                             </div>
-                                            <div id="tarifa_director2">
+                                            <div class="col" id="tarifa_director2">
                                                 <label for="tarifa_director2" style="font-weight: bold">Preu minut:</label>                                        
                                                 <input type="number" step="any" class="form-control" id="tarifa_director2_inp" placeholder="Preu minut" name="preu_director_minut" value="{{ isset($carrecs['director']['minut']) ? $carrecs['director']['minut']['preu_carrec'] : ''}}">
                                             </div>
@@ -211,11 +218,20 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                                 </tr>
                             </thead>
                             <tbody>
+                                <tr class="row"> 
+                                    <td class="col-3">
+                                        <label for="contracta_actor" style="font-weight: bold">FRA/AB:</label>
+                                        <select class="form-control" id="contracta_actor" name="contracta_actor">
+                                            <option value="1" {{ (isset($carrecs['actor']['contracta']) && $carrecs['actor']['contracta'] == '1') ? 'selected' : ''}}>ALTA I BAIXA</option>
+                                            <option value="0" {{ (isset($carrecs['actor']['contracta']) && $carrecs['actor']['contracta'] == '0') ? 'selected' : ''}}>FACTURA</option>
+                                        </select>
+                                    </td>
+                                </tr>
                             @foreach( $idiomes as $key => $idioma)
                                 <tr class="row">
                                     <td class="col-2">
                                         <div class="form-group">
-                                            <label for="idioma_actor_{{$idioma->idioma}}" style="font-weight: bold">{{$idioma->idioma}}:</label>
+                                            <label for="idioma_actor_{{$idioma->idioma}}" style="font-weight: bold">{{strtoupper($idioma->idioma)}}:</label>
                                             <input type="checkbox" class="form-control" id="idioma_actor_{{$idioma->idioma}}" onchange="mostrarSubMenus('{{$idioma->idioma}}','actor', 1)" name="idioma_actor_{{$idioma->idioma}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? 'checked': '' }} value="1">
                                         </div>
                                     </td>
@@ -272,6 +288,15 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                                 </tr>
                             </thead>
                             <tbody>
+                                <tr class="row"> 
+                                    <td class="col-3">
+                                        <label for="contracta_traductor" style="font-weight: bold">FRA/AB:</label>
+                                        <select class="form-control" id="contracta_traductor" name="contracta_traductor">
+                                            <option value="0" {{ (isset($carrecs['traductor']['contracta']) && $carrecs['traductor']['contracta'] == '0') ? 'selected' : ''}}>FACTURA</option>
+                                            <option value="1" {{ (isset($carrecs['traductor']['contracta']) && $carrecs['traductor']['contracta'] == '1') ? 'selected' : ''}}>ALTA I BAIXA</option>
+                                        </select>
+                                    </td>
+                                </tr>
                             @foreach( $idiomes as $key => $idioma)
                                 <tr class="row">
                                     <td class="col-2">
@@ -318,6 +343,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                     </div>
                 </div>
             </div>
+            <!-- CARGOS: TÈCNIC SALA -->
             <div class="row container">
                 <div id="colTecnicSala" style="width: 100%; margin-left: 15px; display:{{ isset($carrecs['tecnic_sala']) ? '' : 'none'}}"> 
                     <div class="form-group">
@@ -330,12 +356,19 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                             <tbody>
                                 <tr class="row">
                                     <td class="col">
-                                        <div>
-                                            <div id="tarifa_tecnic1">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <label for="contracta_tecnic" style="font-weight: bold">FRA/AB:</label>
+                                                <select class="form-control" id="contracta_tecnic" name="contracta_tecnic">
+                                                    <option value="0" {{ (isset($carrecs['tecnic']['contracta']) && $carrecs['tecnic']['contracta'] == '0') ? 'selected' : ''}}>FACTURA</option>
+                                                    <option value="1" {{ (isset($carrecs['tecnic']['contracta']) && $carrecs['tecnic']['contracta'] == '1') ? 'selected' : ''}}>ALTA I BAIXA</option>
+                                                </select>
+                                            </div>
+                                            <div class="col" id="tarifa_tecnic1">
                                                 <label for="tarifa_tecnic1_inp" style="font-weight: bold">Tarifa sala:</label>
                                                 <input type="number" step="any" class="form-control" id="tarifa_tecnic1_inp" placeholder="Tarifa sala" name="preu_tecnic_sala_sala" value="{{ isset($carrecs['tecnic_sala']['sala']) ? $carrecs['tecnic_sala']['sala']['preu_carrec'] : ''}}">
                                             </div>
-                                            <div id="tarifa_tecnic2">
+                                            <div class="col" id="tarifa_tecnic2">
                                                 <label for="tarifa_tecnic2_inp" style="font-weight: bold">Tarifa mix:</label>                                        
                                                 <input type="number" step="any" class="form-control" id="tarifa_tecnic2_inp" placeholder="Tarifa mix" name="preu_tecnic_sala_mix" value="{{ isset($carrecs['tecnic_sala']['mix']) ? $carrecs['tecnic_sala']['mix']['preu_carrec'] : ''}}">
                                             </div>

@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
+use App\User;
 class HomeController extends Controller
 {
     /**
@@ -23,6 +24,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $auth = Auth::user();
+        $user = User::with('missatgeDay')->find($auth->id_usuari);
+        //return response()->json($user);
+        return view('home', array('user' => $user));
     }
 }
