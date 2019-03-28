@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col">
             <a href="{{ url('/usuaris/interns/crear') }}" class="btn btn-success">
                 <span class="fas fa-user-plus"></span>
-                Crear nou usuari
+                CREAR NOU USUARI
             </a>
         </div>
 
@@ -17,13 +17,13 @@
                     @csrf
                 <div class="input-group">
                     <select class="custom-select" id='searchBy' name="searchBy" form="search">
-                        <option selected>Buscar per...</option>
-                        <option>Nom o cognoms</option>
-                        <option value="1">Departament</option>
-                        <option value="2">Àlies</option>
+                        <option selected>BUSCAR PER...</option>
+                        <option>NOM O COGNOM</option>
+                        <option value="1">DEPARTAMENT</option>
+                        <option value="2">ÀLIES</option>
                     </select>
 
-                    <input type="text" id="search_term" class="form-control" name="search_term" placeholder="Buscar usuari...">
+                    <input type="text" id="search_term" class="form-control" name="search_term" placeholder="BUSCAR USUARI...">
 
                     <select class="custom-select" id='search_Dep' name="search_Dep" form="search" style="display: none;">
                         @foreach( $departaments as $key => $departament )
@@ -53,11 +53,11 @@
                     </a>
                 </h4>
                 <div class="row">
-                    <div class="col-6" style="padding: 0px;">
-                        <a href="{{ route('editarUsuariIntern', ['id' => $usuaris['id_usuari']]) }}" class="btn btn-outline-primary" style="width: 75%;"> Editar </a>
+                    <div class="col-5" style="padding: 0px;">
+                        <a href="{{ route('editarUsuariIntern', ['id' => $usuaris['id_usuari']]) }}" class="btn btn-outline-primary" style="width: 75%;"> EDITAR </a>
                     </div>
-                    <div class="col-6" style="padding: 0px;">
-                        <button onclick="setUsuariPerEsborrar({{$usuaris['id_usuari']}}, '{{$usuaris['alias_usuari']}}')" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModalCenter"  style="width: 75%;">Esborrar</button>
+                    <div class="col-7" style="padding: 0px;">
+                        <button onclick="setUsuariPerEsborrar({{$usuaris['id_usuari']}}, '{{$usuaris['alias_usuari']}}')" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModalCenter"  style="width: 75%;">ESBORRAR</button>
                         <form id="delete-{{ $usuaris['id_usuari'] }}" action="{{ route('esborrarUsuariIntern') }}" method="POST">
                             @csrf
                             <input type="hidden" readonly name="id" value="{{$usuaris['id_usuari']}}">
@@ -74,7 +74,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Esborrar usuari</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">ESBORRAR USUARI</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -83,8 +83,8 @@
                     <span id="delete-message">Vols esborrar l'usuari </span>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="setUsuariPerEsborrar(0)">Tancar</button>
-                    <button type="button" class="btn btn-danger" onclick="deleteUsuari()">Esborrar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="setUsuariPerEsborrar(0)">TANCAR</button>
+                    <button type="button" class="btn btn-danger" onclick="deleteUsuari()">ESBORRAR</button>
                 </div>
                 </div>
             </div>

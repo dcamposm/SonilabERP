@@ -94,12 +94,12 @@ class UserController extends Controller
             'nom_usuari.required' => ' No s\'ha posat el nom d\'usuari.',
             'cognom1_usuari.required' => ' No s\'ha posat el primer cognom.',
             'cognom2_usuari.required' => ' No s\'ha posat el segon cognom.',
-            'email_usuari.required' => ' No s\'ha posat el email.',
+            'email_usuari.required' => ' No s\'ha posat el email.', 
             'alias_usuari.required' => ' No s\'ha posat el àlies.',
             'contrasenya_usuari.required' => ' No s\'ha posat la contrasenya.',
             'id_departament.required' => ' No s\'ha seleccionat el departament.',
-            '*.max' => ' El tamany maxim és de 35 caracters.',
-            '*.min' => ' El tamany minim és de 4 caracters.',
+            '*.max' => ' El tamany màxim és de 35 caracters.',
+            '*.min' => ' El tamany mínim és de 4 caracters.',
         ]);
         
         //En cas que no, se renvia cap al formulari amb un missatge de error

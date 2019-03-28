@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Dashboard</div>
+                <div class="card-header">ÚLTIMS MISSATGES</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -13,8 +13,17 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-                    You are logged in!
+                    
+                    @if (!empty($user->missatgeDay[0]))
+                        @foreach($user->missatgeDay as $missatge)
+                            @if ($missatge->referencia == 'registreEntrada')
+                                <div class="alert alert-success" role="alert"> <a class="alert-link" href="{{route('mostrarRegistreEntrada', array('id' => $missatge->id_referencia))}}">{{$missatge->missatge}}</a></div>
+                            @endif
+                        @endforeach
+                    @else
+                        No tens missatges.
+                    @endif
+                    
                 </div>
             </div>
         </div>

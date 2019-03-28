@@ -12,7 +12,7 @@
 
         <tbody>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Títol:</td>
+                <td class="font-weight-bold col-sm-3">TÍTOL:</td>
                 <td class="col">{{ $registreEntrada['titol']}}</td>
             </tr>
             <tr class="row">
@@ -24,59 +24,60 @@
                 <td class="col">{{ $registreEntrada['OC']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Entrada:</td>
-                <td class="col">{{ $registreEntrada['entrada']}}</td>
-            </tr>
-            <tr class="row">
-                <td class="font-weight-bold col-sm-3">Sortida:</td>
+                <td class="font-weight-bold col-sm-3">PRIMERA ENTREGA:</td>
                 <td class="col">{{ $registreEntrada['sortida']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Client:</td>
+                <td class="font-weight-bold col-sm-3">CLIENT:</td>
                 <td class="col">{{ $client['nom_client']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Servei:</td>
+                <td class="font-weight-bold col-sm-3">SERVEI:</td>
                 <td class="col">{{ $servei['nom_servei']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Idioma:</td>
+                <td class="font-weight-bold col-sm-3">IDIOMA:</td>
                 <td class="col">{{ $idioma['idioma']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Tipus:</td>
+                <td class="font-weight-bold col-sm-3">TIPUS:</td>
                 <td class="col">{{ $media['nom_media']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Minuts:</td>
+                <td class="font-weight-bold col-sm-3">MINUTS:</td>
                 <td class="col">{{ $registreEntrada['minuts']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Número d'episodis:</td>
+                <td class="font-weight-bold col-sm-3">NÚMERO D'EPISODIS:</td>
                 <td class="col">{{ $registreEntrada['total_episodis']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Episodis setmanals:</td>
+                <td class="font-weight-bold col-sm-3">EPISODIS SETMANALS:</td>
                 <td class="col">{{ $registreEntrada['episodis_setmanals']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Entregues setmanals:</td>
+                <td class="font-weight-bold col-sm-3">ENTREGUES SETMANALS:</td>
                 <td class="col">{{ $registreEntrada['entregues_setmanals']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Estat:</td>
+                <td class="font-weight-bold col-sm-3">ESTAT:</td>
                 <td class="col">{{ $registreEntrada['estat']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Data de creació:</td>
+                <td class="font-weight-bold col-sm-3">DATA DE CREACIÓ:</td>
                 <td class="col">{{ $registreEntrada['created_at']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Última actualització:</td>
+                <td class="font-weight-bold col-sm-3">ÚLTIMA ACTUALITZACIÓ:</td>
                 <td class="col">{{ $registreEntrada['updated_at']}}</td>
             </tr>
         </tbody>
     </table>
+    
+    <a href="{{ url('/registreEntrada') }}" class="btn btn-primary col-2">
+        <span class="fas fa-angle-double-left"></span>
+        Tornar enrera
+    </a>
 </div>
 
 @stop

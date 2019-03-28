@@ -54,10 +54,14 @@
     .table-selected:hover {
         background-color: #E3E3E3;
     }
+    
     .table td {
         padding: .50rem !important;
     }
-
+    
+    .table tbody  {
+        font-size: 14 px !important;
+    }
     </style>
 
 </head>
@@ -77,6 +81,7 @@
                 <a class="nav-link" href="{{ route('logout') }}"
                     onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();">
+                    <i class="fas fa-sign-out-alt mr-0"></i> 
                     {{ __('Tancar la sessió') }}
                 </a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
   <div class="row">
       
         <div class="col">
             @if (Auth::user()->hasAnyRole(['1', '4']))
             <a href="{{ url('/empleats/crear') }}" class="btn btn-success">
                 <span class="fas fa-user-plus"></span>
-                Afegir treballador
+                AFEGIR TREBALLADOR
             </a>
             @endif
         </div>
@@ -20,23 +20,23 @@
                     @csrf
                 <div class="input-group">
                     <select class="custom-select" id='searchBy' name="searchBy" form="search">
-                        <option selected>Buscar per...</option>
-                        <option>Nom o cognoms</option>
-                        <option value="1">Càrrec</option>
-                        <option value="2">Sexe</option>
-                        <option value="3">Nacionalitat</option>
+                        <option selected>BUSCAR PER...</option>
+                        <option>NOM O COGNOM</option>
+                        <option value="1">CÀRREC</option>
+                        <option value="2">SEXE</option>
+                        <option value="3">NACIONALITAT</option>
                     </select>
 
                     <input type="text" id="search_term" class="form-control" name="search_term" placeholder="Buscar treballador...">
 
                     <select class="custom-select" id='search_Carrec' name="search_Carrec" form="search" style="display: none;">
                         @foreach( $carrecs as $key => $carrec )
-                          <option value="{{$carrec['id_carrec']}}">{{$carrec['descripcio_carrec']}}</option>
+                          <option value="{{$carrec['id_carrec']}}">{{strtr(strtoupper($carrec['descripcio_carrec']), "àáèéíóúüç", "ÀÁÈÉÍÓÚÜÇ")}}</option>
                         @endforeach
                     </select>
                     <select class="custom-select" id='search_Sexe' name="search_Sexe" form="search" style="display: none;">
-                          <option value="Dona">Dona</option>
-                          <option value="Home">Home</option>
+                          <option value="Dona">DONA</option>
+                          <option value="Home">HOME</option>
                     </select>
                     <span class="input-group-btn">
                         <button type="submit" class="btn btn-default" type="button"><span class="fas fa-search"></span></button>
@@ -46,62 +46,72 @@
             </div>
         </div>
   </div>
+    
+    <table class="table" style="margin-top: 10px;">
+        <thead>
+            <tr>
+                <th>NOM</th> 
+                <th>COGNOMS</th>
+                <th>TELÈFON</th>
+                <th>CARRECS</th>
+                @if (Auth::user()->hasAnyRole(['1', '4']))
+                <th>ACCIONS</th>
+                @endif
+            </tr>
+        </thead>
+        <tbody>
+            @foreach( $empleats as $key => $empleat )
+                <tr>
+                    <td style="vertical-align: middle;"><a class="font-weight-bold" href="{{ route('empleatShow', ['id' => $empleat['id_empleat']]) }}" style="text-decoration:none; color:black;">{{$empleat['nom_empleat']}} </a></td>
+                    <td style="vertical-align: middle;">{{$empleat['cognom1_empleat']}} {{$empleat['cognom2_empleat']}}</td>
+                    <td style="vertical-align: middle;">{{$empleat['telefon_empleat']}}</td>
+                    <td style="padding: 0px;">
+                        <ul class="list-group list-group-horizontal-sm" style="flex-direction: row;">
+                        @foreach( $empleatsArray as $key => $empCarrec )
+                            @if ($key == $empleat->id_empleat)
+                                @foreach( $empCarrec as $key2 => $carrec )
+                                    <li class="list-group-item" style="border-top: none; border-bottom: none;">{{$carrec}}</li>
+                                @endforeach
+                            @endif
+                        @endforeach
+                        </ul>
+                    </td>
+                    @if (Auth::user()->hasAnyRole(['1', '4']))
+                        <td style="vertical-align: middle;">
+                            <a href="{{ route('empleatUpdateView', ['id' => $empleat['id_empleat']]) }}" class="btn btn-primary"> EDITAR </a>
+                            <button onclick="setEmpleatPerEsborrar({{$empleat['id_empleat']}}, '{{$empleat['nom_empleat']}} {{$empleat['cognom1_empleat']}} {{$empleat['cognom2_empleat']}}')" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">ESBORRAR</button>
+                            <form id="delete-{{ $empleat['id_empleat'] }}" action="{{ route('empleatDelete') }}" method="POST">
+                                @csrf
+                                <input type="hidden" readonly name="id" value="{{$empleat['id_empleat']}}">
+                            </form>
+                        </td>
+                    @endif
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+    
 
-  <div class="row">
-
-      @foreach( $empleats as $key => $empleat )
-
-      <div class="card card-shadow text-center m-3" style="min-width: 250px;">
-
-          <div class="card-body">
-              <img src="data:image/jpg;base64,{{$empleat['imatge_empleat']}}" class="rounded-circle" style="height:150px"/>
-
-              <h4 style="min-height:45px;margin:5px 0 10px 0">
-                  <a href="{{ route('empleatShow', ['id' => $empleat['id_empleat']]) }}" style="text-decoration:none; color:black; font-size: 1.35rem;">
-                      {{$empleat['nom_empleat']}} {{$empleat['cognom1_empleat']}}
-                  </a>
-              </h4>
-              @if (Auth::user()->hasAnyRole(['1', '4']))
-              <div class="row">
-                  <div class="col-6" style="padding: 0px;">
-                      <a href="{{ route('empleatUpdateView', ['id' => $empleat['id_empleat']]) }}" class="btn btn-outline-primary" style="width: 75%;"> Editar </a>
-                  </div>
-                  <div class="col-6" style="padding: 0px;">
-                      <button onclick="setEmpleatPerEsborrar({{$empleat['id_empleat']}}, '{{$empleat['nom_empleat']}} {{$empleat['cognom1_empleat']}} {{$empleat['cognom2_empleat']}}')" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModalCenter"  style="width: 75%;">Esborrar</button>
-                      <form id="delete-{{ $empleat['id_empleat'] }}" action="{{ route('empleatDelete') }}" method="POST">
-                          @csrf
-                          <input type="hidden" readonly name="id" value="{{$empleat['id_empleat']}}">
-                      </form>
-                  </div>
-              </div>
-              @endif
-          </div>
-      </div>
-
-      @endforeach
-
-      <!-- MODAL ESBORRAR EMPLEAT -->
-      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered" role="document">
-                  <div class="modal-content">
-                  <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLongTitle">Esborrar empleat</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                      </button>
-                  </div>
-                  <div class="modal-body">
-                      <span id="delete-message">...</span>
-                  </div>
-                  <div class="modal-footer">
-                      <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="setEmpleatPerEsborrar(0)">Tancar</button>
-                      <button type="button" class="btn btn-danger" onclick="deleteEmpleat()">Esborrar</button>
-                  </div>
-                  </div>
-              </div>
-          </div>
-
-  </div>
+    <!-- MODAL ESBORRAR EMPLEAT -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">ESBORRAR EMPLEAT</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span id="delete-message">...</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="setEmpleatPerEsborrar(0)">TANCAR</button>
+                <button type="button" class="btn btn-danger" onclick="deleteEmpleat()">ESBORRAR</button>
+            </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>

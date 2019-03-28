@@ -101,7 +101,7 @@ class EstadilloController extends Controller
         
         foreach ($registresProduccio as $registre) {
             $estadillo = Estadillo::where('id_registre_produccio', $registre['id'])->first();
-            //return response()->json($estadillos);
+            //return response()->json($estadillo);
             if ($estadillo){
                 //return response()->json($estadillos);
                 $actors = ActorEstadillo::where('id_produccio', $estadillo['id_estadillo'])->get();
@@ -115,7 +115,7 @@ class EstadilloController extends Controller
                             'take_estadillo' => $actor['take_estadillo']
                         );
                     } else {
-                        $arrayActors[$actor['id_actor']]['cg_estadillo']+=$actor['cg_estadillo'];
+                        $arrayActors[$actor['id_actor']]['cg_estadillo']+=($actor['cg_estadillo'] != null  ? $actor['cg_estadillo'] : 0);
                         $arrayActors[$actor['id_actor']]['take_estadillo']+=$actor['take_estadillo'];
                         //return response()->json($arrayActors);
                     }
@@ -456,7 +456,7 @@ class EstadilloController extends Controller
                 return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
             } else {
                 $estadillos= Estadillo::all();
-                
+                //return response()->json($estadillos);
                 foreach ($estadillos as $estadillo){
                     //return response()->json($estadillo->id_registre_produccio);
                     if (request()->has('take_estadillo_'.$estadillo->id_registre_produccio)){
@@ -607,17 +607,194 @@ class EstadilloController extends Controller
 
     public function find()
     {
+        //return response()->json(request()->all());
         if (request()->input("searchBy") == '1'){
-            $estadillos = Estadillo::where('estat', request()->input("search_Validat"))->get();
+            $estadillos = Estadillo::all()->sortBy("id_registre_produccio");
+            //return response()->json($estadillos[1]->registreProduccio);
+            //$registreProduccio = Projecte::all();
+            $showEstadillos = array();
+
+            foreach ($estadillos as $estadillo){
+                //$projecte = RegistreProduccio::find($estadillo['id_registre_produccio']);
+                //return response()->json($projecte);
+                if ($estadillo->registreProduccio->estadillo == request()->input("search_Validat")) {
+                    if ($estadillo->registreProduccio->subreferencia!=0){
+                        //return response()->json($estadillo);
+                        if (!isset($showEstadillos[$estadillo->registreProduccio->id_registre_entrada])){
+                            $showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]= array(
+                                'titol'=>$estadillo->registreProduccio->titol,
+                                'setmana' => $estadillo->registreProduccio->setmana,
+                                'min'=>$estadillo->registreProduccio->subreferencia,
+                                'max'=>$estadillo->registreProduccio->subreferencia,
+                                'validat'=>$estadillo->registreProduccio->estadillo
+                            );
+                            //return response()->json($showEstadillos);
+                        } else {
+                            if(!isset($showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana])){
+                                $showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]= array(
+                                    'titol'=>$estadillo->registreProduccio->titol,
+                                    'setmana' => $estadillo->registreProduccio->setmana,
+                                    'min'=>$estadillo->registreProduccio->subreferencia,
+                                    'max'=>$estadillo->registreProduccio->subreferencia,
+                                    'validat'=>$estadillo->registreProduccio->estadillo
+                                );
+                            } else {
+                                //return response()->json($estadillo);
+                                if ($showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]['max']<$estadillo->registreProduccio->subreferencia){
+                                    $showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]['max'] = $estadillo->registreProduccio->subreferencia;
+                                } else if ($showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]['min']>$estadillo->registreProduccio->subreferencia){
+                                    $showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]['min'] = $estadillo->registreProduccio->subreferencia;
+                                }
+                                if ($estadillo->registreProduccio->estadillo == 0){
+                                    $showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]['validat'] = $estadillo->registreProduccio->estadillo;
+                                }
+                            }
+                        }
+                    } else {
+                        //return response()->json($estadillo);
+                        $showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]= array(
+                            'id_estadillo'=>$estadillo->id_estadillo,
+                            'setmana' => $estadillo->registreProduccio->setmana,
+                            'titol'=>$estadillo->registreProduccio->titol,
+                            'validat'=>$estadillo->registreProduccio->estadillo
+                        );
+                        //return response()->json($showEstadillos);
+                    }
+                }
+            }
+            
         }  else {
-            $estadillos = RegistreEntrada::where('titol', request()->input("search_term"))
-                    ->orWhere('id_registre_entrada', request()->input("search_term"))->get();
+            $estadillos = Estadillo::all()->sortBy("id_registre_produccio");
+            //return response()->json($estadillos[1]->registreProduccio);
+            //$registreProduccio = Projecte::all();
+            $showEstadillos = array();
+
+            foreach ($estadillos as $estadillo){
+                //$projecte = RegistreProduccio::find($estadillo['id_registre_produccio']);
+                //return response()->json($projecte);
+                if ($estadillo->registreProduccio->id_registre_entrada == request()->input("search_term") || preg_match('/'.request()->input("search_term").'/i' , $estadillo->registreProduccio->titol)) {
+                    if ($estadillo->registreProduccio->subreferencia!=0){
+                        //return response()->json($estadillo);
+                        if (!isset($showEstadillos[$estadillo->registreProduccio->id_registre_entrada])){
+                            $showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]= array(
+                                'titol'=>$estadillo->registreProduccio->titol,
+                                'setmana' => $estadillo->registreProduccio->setmana,
+                                'min'=>$estadillo->registreProduccio->subreferencia,
+                                'max'=>$estadillo->registreProduccio->subreferencia,
+                                'validat'=>$estadillo->registreProduccio->estadillo
+                            );
+                            //return response()->json($showEstadillos);
+                        } else {
+                            if(!isset($showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana])){
+                                $showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]= array(
+                                    'titol'=>$estadillo->registreProduccio->titol,
+                                    'setmana' => $estadillo->registreProduccio->setmana,
+                                    'min'=>$estadillo->registreProduccio->subreferencia,
+                                    'max'=>$estadillo->registreProduccio->subreferencia,
+                                    'validat'=>$estadillo->registreProduccio->estadillo
+                                );
+                            } else {
+                                //return response()->json($estadillo);
+                                if ($showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]['max']<$estadillo->registreProduccio->subreferencia){
+                                    $showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]['max'] = $estadillo->registreProduccio->subreferencia;
+                                } else if ($showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]['min']>$estadillo->registreProduccio->subreferencia){
+                                    $showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]['min'] = $estadillo->registreProduccio->subreferencia;
+                                }
+                                if ($estadillo->registreProduccio->estadillo == 0){
+                                    $showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]['validat'] = $estadillo->registreProduccio->estadillo;
+                                }
+                            }
+                        }
+                    } else {
+                        //return response()->json($estadillo);
+                        $showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]= array(
+                            'id_estadillo'=>$estadillo->id_estadillo,
+                            'setmana' => $estadillo->registreProduccio->setmana,
+                            'titol'=>$estadillo->registreProduccio->titol,
+                            'validat'=>$estadillo->registreProduccio->estadillo
+                        );
+                        //return response()->json($showEstadillos);
+                    }
+                }
+            }
         }
         
-        $clients = Client::all();
-        //return redirect()->route('empleatIndex')->with('success', request()->input("searchBy").'-'.request()->input("search_term"));
-        return view('registre_entrada.index',array('registreEntrades' => $registreEntrades, 'clients' => $clients));
+        return View('estadillos.index', array('showEstadillos' => $showEstadillos));
     }
+    
+    public function findActor($id, $id_setmana = 0){
+        $empleats = EmpleatExtern::whereRaw('LOWER(nom_empleat) like "%'. strtolower(request()->input("search_term")).'%"'
+                                    . 'OR LOWER(cognom1_empleat) like "%'. strtolower(request()->input("search_term")).'%"'
+                                    . 'OR LOWER(cognom2_empleat) like "%'. strtolower(request()->input("search_term")).'%"')->get();
+        if ($id_setmana == 0){
+            $actors = ActorEstadillo::where('id_produccio', $id)->get(); 
+            //return response()->json($empleats);
+            $estadillos = Estadillo::find($id);
+            $estadillos->registreProduccio;
+            //return response()->json($estadillos);
+            //return response()->json($estadillos);//['registre_produccio']
+            //$registreProduccio = Projecte::find($estadillos['id_registre_produccio']);
+            //return response()->json($estadillos);
+            return view('estadillos.showActor', array(
+                'actors'    => $actors,
+                'empleats'    => $empleats,
+                'estadillos' => $estadillos
+            ));
+        } 
+        
+        $arrayActors = array();
+        $registresProduccio = RegistreProduccio::where('id_registre_entrada', $id)->where('setmana', $id_setmana)->get();
+        
+        //return response()->json($registresProduccio);
+        
+        foreach ($registresProduccio as $registre) {
+            $estadillo = Estadillo::where('id_registre_produccio', $registre['id'])->first();
+            //return response()->json($estadillos);
+            if ($estadillo){
+                //return response()->json($estadillos);
+                $actors = ActorEstadillo::where('id_produccio', $estadillo['id_estadillo'])->get();
+                //return response()->json($actors);
+                
+                foreach ($actors as $actor) {  
+                    if (!isset($arrayActors[$actor['id_actor']])){
+                        $arrayActors[$actor['id_actor']] = array(
+                            'id_actor' => $actor['id_actor'],
+                            'cg_estadillo' =>  $actor['cg_estadillo'],
+                            'take_estadillo' => $actor['take_estadillo']
+                        );
+                    } else {
+                        $arrayActors[$actor['id_actor']]['cg_estadillo']+=$actor['cg_estadillo'];
+                        $arrayActors[$actor['id_actor']]['take_estadillo']+=$actor['take_estadillo'];
+                        //return response()->json($arrayActors);
+                    }
+                    //return response()->json($arrayActors);
+                }  
+                
+                if (!isset($min)) {
+                    $min = $registre['subreferencia'];
+                    $max = $registre['subreferencia'];
+                } else {
+                    if ($registre['subreferencia'] < $min){
+                        $min = $registre['subreferencia'];
+                    } else if ($registre['subreferencia'] > $max) {
+                        $max = $registre['subreferencia'];
+                    }
+                }
+                $estadillos = Estadillo::where('id_registre_produccio', $registre['id'])->first()->registreProduccio;
+            }
+        }
+        $registreProduccio = RegistreProduccio::where('id_registre_entrada', $id)->where('setmana', $id_setmana)->first();
+        
+        return view('estadillos.showActor', array(
+                'actors'    => $arrayActors,
+                'empleats'    => $empleats,
+                'estadillos' => $estadillos,
+                'registreProduccio' => $registreProduccio,
+                'min' => $min,
+                'max' => $max
+            ));
+    }
+    
     public function delete(Request $request)
     {
         ActorEstadillo::where('id_produccio', $request["id"])->delete();

@@ -14,8 +14,8 @@ class RegistreEntrada extends Model
         'ot',
         'oc',
         'titol',
-        'entrada',
         'sortida',
+        'id_usuari',
         'id_client',
         'id_servei',
         'id_idioma',
@@ -26,7 +26,12 @@ class RegistreEntrada extends Model
         'entregues_setmanals',
         'estat'
     ];
-
+    
+     public function usuari()
+    {
+        return $this->belongsTo('App\User', 'id_usuari', 'id_usuari');
+    }
+    
     public function client()
     {
         return $this->belongsTo('App\Client', 'id_client', 'id_client');
@@ -45,5 +50,10 @@ class RegistreEntrada extends Model
     public function media()
     {
         return $this->belongsTo('App\TipusMedia', 'id_media', 'id_media');
+    }
+
+    public function registreProduccio()
+    {
+        return $this->hasMany('App\RegistreProduccio', 'id_registre_entrada', 'id_registre_entrada');
     }
 }

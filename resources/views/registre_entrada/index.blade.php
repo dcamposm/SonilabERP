@@ -2,69 +2,123 @@
 
 @section('content')
 
-<div class="container">
-    <div class="row">
+<div class="container-fluid">
+    <div class="row justify-content-between">
+        
+        <div>
         @if (Auth::user()->hasAnyRole(['1', '4']))
-        <div class="col-3">
             <a href="{{ url('/registreEntrada/crear') }}" class="btn btn-success">
                 <span class="fas fa-atlas"></span>
-                Afegir registre d'entrada
+                AFAGIR REGISTRE D'ENTRADA
             </a>
-        </div>
         @endif
-        <div class="col">
             <a href="{{ url('/clients') }}" class="btn btn-success">
                 <span class="fas fa-address-book"></span>
-                Gestionar Clients
+                GESTIONAR CLIENTS
             </a>
         </div>
         <!-- FILTRA REGISTRE ENTRADA -->
-        <div class="row">
-            <div class="col">
-                <form method = "GET" action= '{{ route('registreEntradaFind') }}' id='search'>
-                    @csrf
-                <div class="input-group">
-                    <select class="custom-select" id='searchBy' name="searchBy" form="search">
-                        <option selected>Buscar per...</option>
-                        <option>Referencia</option>
-                        <option value="1">Client</option>
-                        <option value="2">Estat</option>
-                    </select>
-                    <input type="text" id="search_term" class="form-control" name="search_term" placeholder="Buscar registre...">
-                    
-                    <select class="custom-select" id='search_Client' name="search_Client" form="search" style="display: none;">
-                        @foreach( $clients as $key => $client )
-                          <option value="{{$client['id_client']}}">{{$client['nom_client']}}</option>
-                        @endforeach
-                    </select>
-                    <select class="custom-select" id='search_Estat' name="search_Estat" form="search" style="display: none;">
-                          <option value="Pendent">Pendent</option>
-                          <option value="Finalitzada">Finalitzada</option>
-                          <option value="Cancel·lada">Cancel·lada</option>
-                    </select>
-                    
-                    <span class="input-group-btn">
-                        <button type="submit" class="btn btn-default" type="button"><span class="fas fa-search"></span></button>
-                    </span>
-                </div>
-                </form>
+        <div>
+            <form method = "GET" action= "{{ route('registreEntradaFind') }}" id='search'>
+                @csrf
+            <div class="input-group row">
+                <select class="custom-select" id='searchBy' name="searchBy" form="search">
+                    <option selected>BUSCAR PER...</option>
+                    <option>REFERENCIA</option>
+                    <option>TÍTOL</option>
+                    <option value="1">CLIENT</option>
+                    <option value="2">ESTAT</option>
+                    <option value="3">RESPONSABLE</option>
+                    <option value="4">SORITDA</option>
+                    <option value="5">SERVEI</option>
+                    <option value="6">IDIOMA</option>
+                    <option value="7">TIPUS</option>
+                    <option value="8">MINUTS</option>
+                </select>
+                <select class="custom-select" id='orderBy' name="orderBy" form="search">
+                    <option value="id_registre_entrada" selected>ORDENAR PER...</option>
+                    <option value="id_registre_entrada">REFERENCIA</option>
+                    <option value="titol">TÍTOL</option>
+                    <option value="id_client">CLIENT</option>
+                    <option value="estat">ESTAT</option>
+                    <option value="responsable">RESPONSABLE</option>
+                    <option value="sortida">SORTIDA</option>
+                    <option value="id_servei">SERVEI</option>
+                    <option value="id_idioma">IDIOMA</option>
+                    <option value="id_media">TIPUS</option>
+                    <option value="minuts">MINUTS</option>
+                </select>
+                <input type="text" id="search_term" class="form-control" name="search_term" placeholder="Buscar registre...">
+                <input type="date" class="form-control" id="searchDate" name="searchDate" style="display: none;">
+                <input type="number" class="form-control" id="searchMin" name="searchDate" style="display: none;">
+                <select class="custom-select" id='search_Client' name="search_Client" form="search" style="display: none;">
+                    @foreach( $clients as $key => $client )
+                        <option value="{{$client['id_client']}}">{{ mb_strtoupper( $client['nom_client'] ) }}</option>
+                    @endforeach
+                </select>
+                <select class="custom-select" id='search_Servei' name="search_Servei" form="search" style="display: none;">
+                    @foreach( $serveis as $key => $servei )
+                        <option value="{{$servei['id_servei']}}">{{ mb_strtoupper( $servei['nom_servei'] ) }}</option>
+                    @endforeach
+                </select>
+                <select class="custom-select" id='search_Idioma' name="search_Idioma" form="search" style="display: none;">
+                    @foreach( $idiomes as $key => $idioma )
+                        <option value="{{$idioma['id_idioma']}}">{{ mb_strtoupper( $idioma['idioma'] ) }}</option>
+                    @endforeach
+                </select>
+                <select class="custom-select" id='search_Media' name="search_Media" form="search" style="display: none;">
+                    @foreach( $medies as $key => $media )
+                        <option value="{{$media['id_media']}}">{{ mb_strtoupper( $media['nom_media'] ) }}</option>
+                    @endforeach
+                </select>
+                <select class="custom-select" id='search_Resp' name="search_Resp" form="search" style="display: none;">
+                    @foreach( $usuaris as $usuari )
+                        <option value="{{$usuari['id_usuari']}}">{{ mb_strtoupper( $usuari['nom_usuari'] ) }}</option>
+                    @endforeach
+                </select>
+                <select class="custom-select" id='search_Estat' name="search_Estat" form="search" style="display: none;">
+                      <option value="Finalitzada">FINALITZADA</option>
+                      <option value="Pendent">PENDENT</option>
+                      <option value="Cancel·lada">CANCEL·LADA</option>
+                </select>
+
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-default" type="button"><span class="fas fa-search"></span></button>
+                </span>
             </div>
+            </form>
         </div>
     </div>
     
     {{-- LEYENDA DE COLORES DE ESTADO --}}
     <div style="margin-top: 10px;">
         <div class="llegenda">
-            <span style="color: lawngreen; font-size: 30px;">&#9646;</span>
-            <span>Finalitzat</span>
+            <form method = "GET" action= '{{ route('registreEntradaFind') }}' id='search'>
+                @csrf
+                <input type="hidden" id="searchBy" class="form-control" name="searchBy" value="2">
+                <input type="hidden" id="search_Estat" class="form-control" name="search_Estat" value="Finalitzada">
+                <input type="hidden" id="orderBy" class="form-control" name="orderBy" value="id_registre_entrada">
+
+                <span style="color: lawngreen; font-size: 30px;">&#9646;</span><button type="submit" class="btn btn-link" style="text-decoration: none; color: black;">FINALITZAT</button>
+            </form>
         </div>
         <div class="llegenda">
-            <span style="color: darkorange; font-size: 30px;">&#9646;</span>
-            <span>Pendent</span>
+            <form method = "GET" action= '{{ route('registreEntradaFind') }}' id='search'>
+                @csrf
+                <input type="hidden" id="searchBy" class="form-control" name="searchBy" value="2">
+                <input type="hidden" id="search_Estat" class="form-control" name="search_Estat" value="Pendent">
+                <input type="hidden" id="orderBy" class="form-control" name="orderBy" value="id_registre_entrada">
+                <span style="color: darkorange; font-size: 30px;">&#9646;</span><button type="submit" class="btn btn-link" style="text-decoration: none; color: black;">PENDENT</button>
+            </form>
         </div>
         <div class="llegenda">
-            <span style="color: red; font-size: 30px;">&#9646;</span>
-            <span>Cancel·lat</span>
+            <form method = "GET" action= '{{ route('registreEntradaFind') }}' id='search'>
+                @csrf
+                <input type="hidden" id="searchBy" class="form-control" name="searchBy" value="2">
+                <input type="hidden" id="search_Estat" class="form-control" name="search_Estat" value="Cancel·lada">
+                <input type="hidden" id="orderBy" class="form-control" name="orderBy" value="id_registre_entrada">
+                <span style="color: red; font-size: 30px;">&#9646;</span><button type="submit" class="btn btn-link" style="text-decoration: none; color: black;">CANCEL·LAT</button>
+            </form>
         </div>
         <div style="clear:both;"></div>
     </div>
@@ -74,16 +128,16 @@
         <thead>
             <tr>
                 <th>REF</th> 
-                <th>Títol</th>
-                <th>Entrada</th>
-                <th>Sortida</th>
-                <th>Client</th>
-                <th>Servei</th>
-                <th>Idioma</th>
-                <th>Tipus</th>
-                <th>Minuts</th>
+                <th>TÍTOL</th>
+                <th>PRIMERA ENTRAGA</th>
+                <th>RESPONSABLE</th>
+                <th>CLIENT</th>
+                <th>SERVEI</th>
+                <th>IDIOMA</th>
+                <th>TIPUS</th>
+                <th>MINUTS</th>
                 @if (Auth::user()->hasAnyRole(['1', '4']))
-                <th>Accions</th>
+                <th>ACCIONS</th>
                 @endif
             </tr>
         </thead>
@@ -91,13 +145,14 @@
             @foreach( $registreEntrades as $key => $registreEntrada )
             <tr class="table-selected {{ ($registreEntrada->estat == 'Pendent') ? 'border-warning' : (($registreEntrada->estat == 'Finalitzada') ? 'border-success' : 'border-danger') }}">
                 <td class="cursor" style="vertical-align: middle;" onclick="self.mostrarRegistreEntrada('{{ route('mostrarRegistreEntrada', array('id' => $registreEntrada->id_registre_entrada)) }}')">
-                    <span class="font-weight-bold" style="font-size: 1rem;">{{ $registreEntrada->id_registre_entrada }}</span>
+                    <span class="font-weight-bold">{{ $registreEntrada->id_registre_entrada }}</span>
                 </td>
                 <td class="cursor" style="vertical-align: middle;" onclick="self.mostrarRegistreEntrada('{{ route('mostrarRegistreEntrada', array('id' => $registreEntrada->id_registre_entrada)) }}')">
-                    <span class="font-weight-bold" style="font-size: 1rem;">{{ $registreEntrada->titol }}</span>
+                    <span class="font-weight-bold">{{ $registreEntrada->titol }}</span>
                 </td>
-                <td style="vertical-align: middle;">{{ date('d/m/Y', strtotime($registreEntrada->entrada)) }}</td>
+                
                 <td style="vertical-align: middle;">{{ date('d/m/Y', strtotime($registreEntrada->sortida)) }}</td>
+                <td style="vertical-align: middle;">{{ isset($registreEntrada->usuari) ? $registreEntrada->usuari->nom_usuari :  ''}}</td>
                 <td style="vertical-align: middle;">{{ $registreEntrada->client->nom_client }}</td>
                 <td style="vertical-align: middle;">{{ $registreEntrada->servei->nom_servei }}</td>
                 <td style="vertical-align: middle;">{{ $registreEntrada->idioma->idioma }}</td>
@@ -105,12 +160,14 @@
                 <td style="vertical-align: middle;">{{ $registreEntrada->minuts }}</td>
                 @if (Auth::user()->hasAnyRole(['1', '4']))
                 <td style="vertical-align: middle;">
-                    <a href="{{ route('registreEntradaUpdateView', array('id' => $registreEntrada['id_registre_entrada'])) }}" class="btn btn-primary">Modificar</a>
-                    <button class="btn btn-danger" onclick="self.seleccionarRegistreEntrada({{ $registreEntrada['id_registre_entrada'] }}, '{{ $registreEntrada['titol'] }}')" data-toggle="modal" data-target="#exampleModalCenter">Esborrar</button>
-                    <form id="delete-{{ $registreEntrada['id_registre_entrada'] }}" action="{{ route('esborrarRegistreEntrada') }}" method="POST">
-                        @csrf
-                        <input type="hidden" readonly name="id" value="{{ $registreEntrada['id_registre_entrada'] }}">
-                    </form>
+                    <a href="{{ route('registreEntradaUpdateView', array('id' => $registreEntrada['id_registre_entrada'])) }}" class="btn btn-primary">MODIFICAR</a>
+                    @if (Auth::user()->hasAnyRole(['4']))
+                        <button class="btn btn-danger" onclick="self.seleccionarRegistreEntrada({{ $registreEntrada['id_registre_entrada'] }}, '{{ $registreEntrada['titol'] }}')" data-toggle="modal" data-target="#exampleModalCenter">ESBORRAR</button>
+                        <form id="delete-{{ $registreEntrada['id_registre_entrada'] }}" action="{{ route('esborrarRegistreEntrada') }}" method="POST">
+                            @csrf
+                            <input type="hidden" readonly name="id" value="{{ $registreEntrada['id_registre_entrada'] }}">
+                        </form>
+                    @endif
                 </td>
                 @endif
             </tr>
@@ -123,7 +180,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Esborrar registre d'entrada</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">ESBORRAR REGISTRE D'ENTRADA</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -132,8 +189,8 @@
                     <span id="delete-message">...</span>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="self.seleccionarRegistreEntrada(0)">Tancar</button>
-                    <button type="button" class="btn btn-danger" onclick="self.esborrarRegistreEntrada()">Esborrar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="self.seleccionarRegistreEntrada(0)">TANCAR</button>
+                    <button type="button" class="btn btn-danger" onclick="self.esborrarRegistreEntrada()">ESBORRAR</button>
                 </div>
             </div>
         </div>
@@ -172,17 +229,94 @@
         //alert(value);
         if ($('#searchBy').val() == '1') {
             $('#search_term').hide();
+            $('#searchDate').hide();
             $('#search_Client').show();
             $('#search_Estat').hide();
+            $('#search_Servei').hide();
+            $('#search_Idioma').hide();
+            $('#search_Media').hide();
+            $('#search_Resp').hide();
+            $('#searchMin').hide();
         } else if ($('#searchBy').val() == '2'){
             $('#search_term').hide();
+            $('#searchDate').hide();
             $('#search_Client').hide();
             $('#search_Estat').show();
+            $('#search_Servei').hide();
+            $('#search_Idioma').hide();
+            $('#search_Media').hide();
+            $('#search_Resp').hide();
+            $('#searchMin').hide();
+        } else if ($('#searchBy').val() == '3'){
+            $('#search_term').hide();
+            $('#searchDate').hide();
+            $('#search_Client').hide();
+            $('#search_Estat').hide();
+            $('#search_Servei').hide();
+            $('#search_Idioma').hide();
+            $('#search_Media').hide();
+            $('#search_Resp').show();
+            $('#searchMin').hide();
+        }  else if ($('#searchBy').val() == '4'){
+            $('#search_term').hide();
+            $('#searchDate').show();
+            $('#search_Client').hide();
+            $('#search_Estat').hide();
+            $('#search_Servei').hide();
+            $('#search_Idioma').hide();
+            $('#search_Media').hide();
+            $('#search_Resp').hide();
+            $('#searchMin').hide();
+        } else if ($('#searchBy').val() == '5'){
+            $('#search_term').hide();
+            $('#searchDate').hide();
+            $('#search_Client').hide();
+            $('#search_Estat').hide();
+            $('#search_Servei').show();
+            $('#search_Idioma').hide();
+            $('#search_Media').hide();
+            $('#searchMin').hide();
+        } else if ($('#searchBy').val() == '6'){
+            $('#search_term').hide();
+            $('#searchDate').hide();
+            $('#search_Client').hide();
+            $('#search_Estat').hide();
+            $('#search_Servei').hide();
+            $('#search_Idioma').show();
+            $('#search_Media').hide();
+            $('#search_Resp').hide();
+            $('#searchMin').hide();
+        } else if ($('#searchBy').val() == '7'){
+            $('#search_term').hide();
+            $('#searchDate').hide();
+            $('#search_Client').hide();
+            $('#search_Estat').hide();
+            $('#search_Servei').hide();
+            $('#search_Idioma').hide();
+            $('#search_Media').show();
+            $('#search_Resp').hide();
+            $('#searchMin').hide();
+        } else if ($('#searchBy').val() == '8'){
+            $('#search_term').hide();
+            $('#searchDate').hide();
+            $('#search_Client').hide();
+            $('#search_Estat').hide();
+            $('#search_Servei').hide();
+            $('#search_Idioma').hide();
+            $('#search_Media').hide();
+            $('#search_Resp').hide();
+            $('#searchMin').show();
         } 
         else {
             $('#search_term').show();
+            $('#searchDate').hide();
             $('#search_Client').hide();
             $('#search_Estat').hide();
+            $('#search_Servei').hide();
+            $('#search_Idioma').hide();
+            $('#search_Media').hide();
+            $('#search_Resp').hide();
+            $('#searchMin').hide();
         }
     }
     
