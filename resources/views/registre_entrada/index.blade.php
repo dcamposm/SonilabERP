@@ -97,6 +97,8 @@
                 @csrf
                 <input type="hidden" id="searchBy" class="form-control" name="searchBy" value="2">
                 <input type="hidden" id="search_Estat" class="form-control" name="search_Estat" value="Finalitzada">
+                <input type="hidden" id="orderBy" class="form-control" name="orderBy" value="id_registre_entrada">
+
                 <span style="color: lawngreen; font-size: 30px;">&#9646;</span><button type="submit" class="btn btn-link" style="text-decoration: none; color: black;">Finalitzat</button>
             </form>
         </div>
@@ -105,6 +107,7 @@
                 @csrf
                 <input type="hidden" id="searchBy" class="form-control" name="searchBy" value="2">
                 <input type="hidden" id="search_Estat" class="form-control" name="search_Estat" value="Pendent">
+                <input type="hidden" id="orderBy" class="form-control" name="orderBy" value="id_registre_entrada">
                 <span style="color: darkorange; font-size: 30px;">&#9646;</span><button type="submit" class="btn btn-link" style="text-decoration: none; color: black;">Pendent</button>
             </form>
         </div>
@@ -113,6 +116,7 @@
                 @csrf
                 <input type="hidden" id="searchBy" class="form-control" name="searchBy" value="2">
                 <input type="hidden" id="search_Estat" class="form-control" name="search_Estat" value="Cancel·lada">
+                <input type="hidden" id="orderBy" class="form-control" name="orderBy" value="id_registre_entrada">
                 <span style="color: red; font-size: 30px;">&#9646;</span><button type="submit" class="btn btn-link" style="text-decoration: none; color: black;">Cancel·lat</button>
             </form>
         </div>
