@@ -6,7 +6,7 @@
     <table class="table table-striped">
         <thead class="thead-dark">
             <tr class="row">
-                <th class="col">Dades personals</th>
+                <th class="col">DADES PERSONALS</th>
             </tr>
         </thead>
 
@@ -49,7 +49,7 @@
     </table>
     <a href="{{ url('/usuaris/interns/index') }}" class="btn btn-primary col-2">
         <span class="fas fa-angle-double-left"></span>
-        Tornar enrera
+        TORNAR ENRERA
     </a>
 </div>
 
