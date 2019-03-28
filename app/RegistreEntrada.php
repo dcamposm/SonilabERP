@@ -51,4 +51,5 @@ class RegistreEntrada extends Model
     {
         return $this->belongsTo('App\TipusMedia', 'id_media', 'id_media');
     }
+    
 }
