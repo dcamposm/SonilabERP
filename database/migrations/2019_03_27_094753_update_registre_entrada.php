@@ -14,7 +14,7 @@ class UpdateRegistreEntrada extends Migration
     public function up()
     {
         Schema::table('slb_registre_entrades', function (Blueprint $table) {
-            $table->integer('id_usuari')->after('titol');
+            $table->integer('id_usuari')->after('titol')->nullable();
         });
     }
 
