@@ -46,7 +46,7 @@
             </div>
 
             <div class="form-group col-12 col-sm-6">
-              <label for="titol_traduit">TÍTOL TRADUIT</label>
+              <label for="titol_traduit">TÍTOL TRADUÏT</label>
               <input type="text" name="titol_traduit" id="titol_traduit" class="form-control" value="{{!empty($registreProduccio) ? $registreProduccio->titol_traduit : ''}}">
             </div>
 
