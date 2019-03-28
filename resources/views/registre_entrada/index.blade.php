@@ -9,77 +9,77 @@
         @if (Auth::user()->hasAnyRole(['1', '4']))
             <a href="{{ url('/registreEntrada/crear') }}" class="btn btn-success">
                 <span class="fas fa-atlas"></span>
-                Afegir registre d'entrada
+                AFAGIR REGISTRE D'ENTRADA
             </a>
         @endif
             <a href="{{ url('/clients') }}" class="btn btn-success">
                 <span class="fas fa-address-book"></span>
-                Gestionar Clients
+                GESTIONAR CLIENTS
             </a>
         </div>
         <!-- FILTRA REGISTRE ENTRADA -->
         <div>
-            <form method = "GET" action= '{{ route('registreEntradaFind') }}' id='search'>
+            <form method = "GET" action= "{{ route('registreEntradaFind') }}" id='search'>
                 @csrf
             <div class="input-group row">
                 <select class="custom-select" id='searchBy' name="searchBy" form="search">
-                    <option selected>Buscar per...</option>
-                    <option>Referencia</option>
-                    <option>Titol</option>
-                    <option value="1">Client</option>
-                    <option value="2">Estat</option>
-                    <option value="3">Responsable</option>
-                    <option value="4">Sortida</option>
-                    <option value="5">Servei</option>
-                    <option value="6">Idioma</option>
-                    <option value="7">Tipus</option>
-                    <option value="8">Minuts</option>
+                    <option selected>BUSCAR PER...</option>
+                    <option>REFERENCIA</option>
+                    <option>TÍTOL</option>
+                    <option value="1">CLIENT</option>
+                    <option value="2">ESTAT</option>
+                    <option value="3">RESPONSABLE</option>
+                    <option value="4">SORITDA</option>
+                    <option value="5">SERVEI</option>
+                    <option value="6">IDIOMA</option>
+                    <option value="7">TIPUS</option>
+                    <option value="8">MINUTS</option>
                 </select>
                 <select class="custom-select" id='orderBy' name="orderBy" form="search">
-                    <option value="id_registre_entrada" selected>Ordenar per...</option>
-                    <option value="id_registre_entrada">Referencia</option>
-                    <option value="titol">Titol</option>
-                    <option value="id_client">Client</option>
-                    <option value="estat">Estat</option>
-                    <option value="responsable">Responsable</option>
-                    <option value="sortida">Sortida</option>
-                    <option value="id_servei">Servei</option>
-                    <option value="id_idioma">Idioma</option>
-                    <option value="id_media">Tipus</option>
-                    <option value="minuts">Minuts</option>
+                    <option value="id_registre_entrada" selected>ORDENAR PER...</option>
+                    <option value="id_registre_entrada">REFERENCIA</option>
+                    <option value="titol">TÍTOL</option>
+                    <option value="id_client">CLIENT</option>
+                    <option value="estat">ESTAT</option>
+                    <option value="responsable">RESPONSABLE</option>
+                    <option value="sortida">SORTIDA</option>
+                    <option value="id_servei">SERVEI</option>
+                    <option value="id_idioma">IDIOMA</option>
+                    <option value="id_media">TIPUS</option>
+                    <option value="minuts">MINUTS</option>
                 </select>
                 <input type="text" id="search_term" class="form-control" name="search_term" placeholder="Buscar registre...">
                 <input type="date" class="form-control" id="searchDate" name="searchDate" style="display: none;">
                 <input type="number" class="form-control" id="searchMin" name="searchDate" style="display: none;">
                 <select class="custom-select" id='search_Client' name="search_Client" form="search" style="display: none;">
                     @foreach( $clients as $key => $client )
-                        <option value="{{$client['id_client']}}">{{$client['nom_client']}}</option>
+                        <option value="{{$client['id_client']}}">{{ mb_strtoupper( $client['nom_client'] ) }}</option>
                     @endforeach
                 </select>
                 <select class="custom-select" id='search_Servei' name="search_Servei" form="search" style="display: none;">
                     @foreach( $serveis as $key => $servei )
-                        <option value="{{$servei['id_servei']}}">{{$servei['nom_servei']}}</option>
+                        <option value="{{$servei['id_servei']}}">{{ mb_strtoupper( $servei['nom_servei'] ) }}</option>
                     @endforeach
                 </select>
                 <select class="custom-select" id='search_Idioma' name="search_Idioma" form="search" style="display: none;">
                     @foreach( $idiomes as $key => $idioma )
-                        <option value="{{$idioma['id_idioma']}}">{{$idioma['idioma']}}</option>
+                        <option value="{{$idioma['id_idioma']}}">{{ mb_strtoupper( $idioma['idioma'] ) }}</option>
                     @endforeach
                 </select>
                 <select class="custom-select" id='search_Media' name="search_Media" form="search" style="display: none;">
                     @foreach( $medies as $key => $media )
-                        <option value="{{$media['id_media']}}">{{$media['nom_media']}}</option>
+                        <option value="{{$media['id_media']}}">{{ mb_strtoupper( $media['nom_media'] ) }}</option>
                     @endforeach
                 </select>
                 <select class="custom-select" id='search_Resp' name="search_Resp" form="search" style="display: none;">
                     @foreach( $usuaris as $usuari )
-                        <option value="{{$usuari['id_usuari']}}">{{$usuari['nom_usuari']}}</option>
+                        <option value="{{$usuari['id_usuari']}}">{{ mb_strtoupper( $usuari['nom_usuari'] ) }}</option>
                     @endforeach
                 </select>
                 <select class="custom-select" id='search_Estat' name="search_Estat" form="search" style="display: none;">
-                      <option value="Pendent">Pendent</option>
-                      <option value="Finalitzada">Finalitzada</option>
-                      <option value="Cancel·lada">Cancel·lada</option>
+                      <option value="Finalitzada">FINALITZADA</option>
+                      <option value="Pendent">PENDENT</option>
+                      <option value="Cancel·lada">CANCEL·LADA</option>
                 </select>
 
                 <span class="input-group-btn">
@@ -97,7 +97,9 @@
                 @csrf
                 <input type="hidden" id="searchBy" class="form-control" name="searchBy" value="2">
                 <input type="hidden" id="search_Estat" class="form-control" name="search_Estat" value="Finalitzada">
-                <span style="color: lawngreen; font-size: 30px;">&#9646;</span><button type="submit" class="btn btn-link" style="text-decoration: none; color: black;">Finalitzat</button>
+                <input type="hidden" id="orderBy" class="form-control" name="orderBy" value="id_registre_entrada">
+
+                <span style="color: lawngreen; font-size: 30px;">&#9646;</span><button type="submit" class="btn btn-link" style="text-decoration: none; color: black;">FINALITZAT</button>
             </form>
         </div>
         <div class="llegenda">
@@ -105,7 +107,8 @@
                 @csrf
                 <input type="hidden" id="searchBy" class="form-control" name="searchBy" value="2">
                 <input type="hidden" id="search_Estat" class="form-control" name="search_Estat" value="Pendent">
-                <span style="color: darkorange; font-size: 30px;">&#9646;</span><button type="submit" class="btn btn-link" style="text-decoration: none; color: black;">Pendent</button>
+                <input type="hidden" id="orderBy" class="form-control" name="orderBy" value="id_registre_entrada">
+                <span style="color: darkorange; font-size: 30px;">&#9646;</span><button type="submit" class="btn btn-link" style="text-decoration: none; color: black;">PENDENT</button>
             </form>
         </div>
         <div class="llegenda">
@@ -113,7 +116,8 @@
                 @csrf
                 <input type="hidden" id="searchBy" class="form-control" name="searchBy" value="2">
                 <input type="hidden" id="search_Estat" class="form-control" name="search_Estat" value="Cancel·lada">
-                <span style="color: red; font-size: 30px;">&#9646;</span><button type="submit" class="btn btn-link" style="text-decoration: none; color: black;">Cancel·lat</button>
+                <input type="hidden" id="orderBy" class="form-control" name="orderBy" value="id_registre_entrada">
+                <span style="color: red; font-size: 30px;">&#9646;</span><button type="submit" class="btn btn-link" style="text-decoration: none; color: black;">CANCEL·LAT</button>
             </form>
         </div>
         <div style="clear:both;"></div>
@@ -156,13 +160,13 @@
                 <td style="vertical-align: middle;">{{ $registreEntrada->minuts }}</td>
                 @if (Auth::user()->hasAnyRole(['1', '4']))
                 <td style="vertical-align: middle;">
-                    <a href="{{ route('registreEntradaUpdateView', array('id' => $registreEntrada['id_registre_entrada'])) }}" class="btn btn-primary">Modificar</a>
+                    <a href="{{ route('registreEntradaUpdateView', array('id' => $registreEntrada['id_registre_entrada'])) }}" class="btn btn-primary">MODIFICAR</a>
                     @if (Auth::user()->hasAnyRole(['4']))
-                    <button class="btn btn-danger" onclick="self.seleccionarRegistreEntrada({{ $registreEntrada['id_registre_entrada'] }}, '{{ $registreEntrada['titol'] }}')" data-toggle="modal" data-target="#exampleModalCenter">Esborrar</button>
-                    <form id="delete-{{ $registreEntrada['id_registre_entrada'] }}" action="{{ route('esborrarRegistreEntrada') }}" method="POST">
-                        @csrf
-                        <input type="hidden" readonly name="id" value="{{ $registreEntrada['id_registre_entrada'] }}">
-                    </form>
+                        <button class="btn btn-danger" onclick="self.seleccionarRegistreEntrada({{ $registreEntrada['id_registre_entrada'] }}, '{{ $registreEntrada['titol'] }}')" data-toggle="modal" data-target="#exampleModalCenter">ESBORRAR</button>
+                        <form id="delete-{{ $registreEntrada['id_registre_entrada'] }}" action="{{ route('esborrarRegistreEntrada') }}" method="POST">
+                            @csrf
+                            <input type="hidden" readonly name="id" value="{{ $registreEntrada['id_registre_entrada'] }}">
+                        </form>
                     @endif
                 </td>
                 @endif
@@ -176,7 +180,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Esborrar registre d'entrada</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">ESBORRAR REGISTRE D'ENTRADA</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -185,8 +189,8 @@
                     <span id="delete-message">...</span>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="self.seleccionarRegistreEntrada(0)">Tancar</button>
-                    <button type="button" class="btn btn-danger" onclick="self.esborrarRegistreEntrada()">Esborrar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="self.seleccionarRegistreEntrada(0)">TANCAR</button>
+                    <button type="button" class="btn btn-danger" onclick="self.esborrarRegistreEntrada()">ESBORRAR</button>
                 </div>
             </div>
         </div>

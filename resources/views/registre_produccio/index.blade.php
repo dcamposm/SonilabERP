@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         @if(Auth::user()->hasAnyRole(['1','2','4']))
         <div class="col">
@@ -58,10 +58,11 @@
         <thead>
             <tr>
                 <th>REF</th> 
-                <th>Sub.Ref</th> 
-                <th>Data d'entrega</th>
-                <th>Setmana</th>
-                <th>Títol Original</th>
+                <th>SUB.REF</th> 
+                <th>DATA D'ENTRADA</th>
+                <th>SETMANA</th>
+                <th>TÍTOL ORIGINAL</th>
+                <th>ACCIONS</th>
             </tr>
         </thead>
         <tbody>
@@ -77,10 +78,10 @@
                 <td style="vertical-align: middle;">{{$registreProduccio->setmana}}</td>
                 <td style="vertical-align: middle;">{{$registreProduccio->titol}}</td>
                 <td style="vertical-align: middle;">
-                    <a href="{{ route('updateRegistreProduccio', array('id' => $registreProduccio->id )) }}" class="btn btn-primary">Modificar</a>
 
                     <form action="{{ route('deleteRegistre',['id' => $registreProduccio->id]) }}" method="POST">
                         @csrf
+                        <a href="{{ route('updateRegistreProduccio', array('id' => $registreProduccio->id )) }}" class="btn btn-primary">Modificar</a>
                         <input type="hidden" readonly name="id" value="{{ $registreProduccio->id }}">
                         <button type="submit" class="btn btn-danger" >Esborrar</button>
                     </form>
