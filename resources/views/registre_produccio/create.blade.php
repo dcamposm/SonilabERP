@@ -46,13 +46,13 @@
             </div>
 
             <div class="form-group col-12 col-sm-6">
-              <label for="titol_traduit">Títol traduit</label>
+              <label for="titol_traduit">Títol traduït</label>
               <input type="text" name="titol_traduit" id="titol_traduit" class="form-control" value="{{!empty($registreProduccio) ? $registreProduccio->titol_traduit : ''}}">
             </div>
 
             {{-- NOTA: data_mix NO EXISTE todavía en la base de datos --}}
             <div class="form-group col-12 col-sm-6">
-              <label for="data_mix">Data mix</label>
+              <label for="data_mix">Data Mix</label>
               <input type="date" name="data_mix" id="data_mix" class="form-control" value="{{!empty($registreProduccio) ? explode(' ',$registreProduccio->data_tecnic_mix)[0] : ''}}">
             </div>
 
