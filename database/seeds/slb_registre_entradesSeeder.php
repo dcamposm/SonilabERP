@@ -16,7 +16,7 @@ class slb_registre_entradesSeeder extends Seeder
         RegistreEntrada:: create(array(
             'id_registre_entrada'         => 1,
             'ot'        => '',
-            'oc' => '',
+            'oc'        => '',
             'titol'        => 'Registre de prova',
             'id_client'        => 1,
             'id_servei'        => 1,

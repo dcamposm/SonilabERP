@@ -101,7 +101,7 @@ class EstadilloController extends Controller
         
         foreach ($registresProduccio as $registre) {
             $estadillo = Estadillo::where('id_registre_produccio', $registre['id'])->first();
-            //return response()->json($estadillos);
+            //return response()->json($estadillo);
             if ($estadillo){
                 //return response()->json($estadillos);
                 $actors = ActorEstadillo::where('id_produccio', $estadillo['id_estadillo'])->get();
@@ -115,7 +115,7 @@ class EstadilloController extends Controller
                             'take_estadillo' => $actor['take_estadillo']
                         );
                     } else {
-                        $arrayActors[$actor['id_actor']]['cg_estadillo']+=$actor['cg_estadillo'];
+                        $arrayActors[$actor['id_actor']]['cg_estadillo']+=($actor['cg_estadillo'] != null  ? $actor['cg_estadillo'] : 0);
                         $arrayActors[$actor['id_actor']]['take_estadillo']+=$actor['take_estadillo'];
                         //return response()->json($arrayActors);
                     }
@@ -456,7 +456,7 @@ class EstadilloController extends Controller
                 return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
             } else {
                 $estadillos= Estadillo::all();
-                
+                //return response()->json($estadillos);
                 foreach ($estadillos as $estadillo){
                     //return response()->json($estadillo->id_registre_produccio);
                     if (request()->has('take_estadillo_'.$estadillo->id_registre_produccio)){

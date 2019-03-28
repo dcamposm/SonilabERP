@@ -7,7 +7,7 @@
 <div class="container">
     <a href="{{ url('/empleats') }}" class="btn btn-primary col-2">
         <span class="fas fa-angle-double-left"></span>
-        Tornar enrera
+        TORNAR ENRERA
     </a>
     <br>
     <br>
@@ -15,35 +15,35 @@
     <table class="table table-striped">
         <thead class="thead-dark">
             <tr class="row">
-                <th class="col">Dades personals</th>
+                <th class="col">DADES PERSONALS</th>
             </tr>
         </thead>
 
         <tbody>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Imatge:</td>
+                <td class="font-weight-bold col-sm-3">IMATGE:</td>
                 <td class="col">
                     <img src="data:image/jpg;base64,{{$empleat['imatge_empleat']}}" class="rounded" style="height:100px"/>
                 </td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Nom:</td>
+                <td class="font-weight-bold col-sm-3">NOM:</td>
                 <td class="col">{{ $empleat['nom_empleat']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Cognoms:</td>
+                <td class="font-weight-bold col-sm-3">COGNOMS:</td>
                 <td class="col">{{ $empleat['cognom1_empleat']}} {{ $empleat['cognom2_empleat']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Sexe:</td>
+                <td class="font-weight-bold col-sm-3">SEXE:</td>
                 <td class="col">{{ $empleat['sexe_empleat']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Nacionalitat:</td>
+                <td class="font-weight-bold col-sm-3">NACIONALITAT:</td>
                 <td class="col">{{ $empleat['nacionalitat_empleat']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">E-mail:</td>
+                <td class="font-weight-bold col-sm-3">E-MAIL:</td>
                 <td class="col">{{ $empleat['email_empleat']}}</td>
             </tr>
             <tr class="row">
@@ -51,19 +51,19 @@
                 <td class="col">{{ $empleat['dni_empleat']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Telèfon:</td>
+                <td class="font-weight-bold col-sm-3">TELÈFON:</td>
                 <td class="col">{{ $empleat['telefon_empleat']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Direcció:</td>
+                <td class="font-weight-bold col-sm-3">DIRECCIÓ:</td>
                 <td class="col">{{ $empleat['direccio_empleat']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Codi postal:</td>
+                <td class="font-weight-bold col-sm-3">CODI POSTAL:</td>
                 <td class="col">{{ $empleat['codi_postal_empleat']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Naixement:</td>
+                <td class="font-weight-bold col-sm-3">NAIXEMENT:</td>
                 <td class="col">{{ $empleat['naixement_empleat']}}</td>
             </tr>
             <tr class="row">
@@ -75,11 +75,11 @@
                 <td class="col">{{ $empleat['iban_empleat']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Data de creació:</td>
+                <td class="font-weight-bold col-sm-3">DATA DE CREACIÓ:</td>
                 <td class="col">{{ $empleat['created_at']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">Última data de modificació:</td>
+                <td class="font-weight-bold col-sm-3">ÚLTIMA MODIFICACIÓ:</td>
                 <td class="col">{{ $empleat['updated_at']}}</td>
             </tr>
         </tbody>
@@ -93,7 +93,8 @@
             <table class="table">
                 <thead class="thead-dark" style="border-left: 3px solid white">
                     <tr class="row">
-                        <th class="col">{{ $key != 'Traductor' ? $key : 'Traductor & Subtitulació' }}</th>
+                        <th class="col">{{ $key != 'Traductor' ? 'TARIFA '.strtr(strtoupper($key), "àáèéíóúüç", "ÀÁÈÉÍÓÚÜÇ") : 'TARIFA TRADUCTOR/AJUSTADOR/LINGÜISTA' }}</th>
+                        <th class="col">{{ $carrec['contracta'] == 0 ? 'FACTURA' : 'ALTA I BAIXA'}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -102,7 +103,7 @@
                             @if(Auth::user()->hasRole('1') OR Auth::user()->hasRole('4'))
                             <tr class="row">
                                 @foreach ($info as $key => $tarifa) 
-                                    <td class="col">{{ $tarifa['tarifa'] }}</td>
+                                    <td class="col">{{ strtr(strtoupper($tarifa['tarifa']), "àáèéíóúüç", "ÀÁÈÉÍÓÚÜÇ") }}</td>
                                 @endforeach
                             </tr>
                             
@@ -112,13 +113,13 @@
                                     @endforeach
                                 </tr>  
                             @endif
-                        @else
+                        @elseif ($key2 !== 'contracta')
                             <tr class="row table-active">
-                                <td class="col"><img src="{{url('/')}}/img/flags/{{$key2}}.png" class="rounded"> {{ $key2 }}</td>                   
+                                <td class="col"><img src="{{url('/')}}/img/flags/{{$key2}}.png" class="rounded"> {{ strtr(strtoupper($key2), "àáèéíóúüç", "ÀÁÈÉÍÓÚÜÇ") }}</td>                   
                                 <td class="col">
                                 @foreach ($info as $key3 => $tarifa) 
                                     @if ($tarifa['empleat_homologat'] == '1')
-                                        Homologat
+                                        HOMOLOGAT
                                         @break
                                     @endif
                                 @endforeach
@@ -138,14 +139,14 @@
                                         @if ($infoTarifa['nomCarrec'] == 'Actor')
                                             @foreach( $tarifas as $key3 => $tarifa)
                                                 @if($tarifa->id_carrec == 1)
-                                                    <td class="col">{{$tarifa->nombre}}</td>
+                                                    <td class="col">{{strtr(strtoupper($tarifa->nombre), "àáèéíóúüç", "ÀÁÈÉÍÓÚÜÇ")}}</td>
                                                 @endif
                                             @endforeach
                                         @break
                                         @else
                                             @foreach( $tarifas as $key3 => $tarifa)
                                                 @if($tarifa->id_carrec == 4 )
-                                                    <td class="col text-left">{{$tarifa->nombre}}</td>
+                                                    <td class="col text-left">{{strtr(strtoupper($tarifa->nombre), "àáèéíóúüç", "ÀÁÈÉÍÓÚÜÇ")}}</td>
                                                 @endif
                                             @endforeach
                                         @break
@@ -186,7 +187,7 @@
                                             </td>
                                             <td class="col">
                                                 @foreach ($info as $key2 => $infoTarifa) 
-                                                    @if ($infoTarifa['tarifa'] == 'Tarifa canso')
+                                                    @if ($infoTarifa['tarifa'] == 'Tarifa canço')
                                                         {{ $infoTarifa['preu_carrec'] }}€
                                                     @endif
                                                 @endforeach
