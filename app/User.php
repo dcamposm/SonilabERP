@@ -72,7 +72,12 @@ class User extends Authenticatable
     public function missatge()
     {
         return $this->hasMany('App\Missatge', 'id_usuari', 'id_usuari');
-    }    
+    } 
+    
+    public function missatgeDay()
+    {
+        return $this->hasMany('App\Missatge', 'id_usuari', 'id_usuari')->where('data_final','>',date("Y-m-d"));
+    } 
     //Metodos para los roles del usuario
     public function authorizeRoles($roles)
     {

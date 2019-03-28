@@ -94,6 +94,7 @@
                 <thead class="thead-dark" style="border-left: 3px solid white">
                     <tr class="row">
                         <th class="col">{{ $key != 'Traductor' ? 'TARIFA '.strtoupper($key) : 'TARIFA TRADUCTOR/AJUSTADOR/LINGÜISTA' }}</th>
+                        <th class="col">{{ $carrec['contracta'] == 0 ? 'FACTURA' : 'ALTA I BAIXA'}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -102,7 +103,7 @@
                             @if(Auth::user()->hasRole('1') OR Auth::user()->hasRole('4'))
                             <tr class="row">
                                 @foreach ($info as $key => $tarifa) 
-                                    <td class="col">{{ $tarifa['tarifa'] }}</td>
+                                    <td class="col">{{ strtoupper($tarifa['tarifa']) }}</td>
                                 @endforeach
                             </tr>
                             
@@ -112,13 +113,13 @@
                                     @endforeach
                                 </tr>  
                             @endif
-                        @else
+                        @elseif ($key2 !== 'contracta')
                             <tr class="row table-active">
                                 <td class="col"><img src="{{url('/')}}/img/flags/{{$key2}}.png" class="rounded"> {{ $key2 }}</td>                   
                                 <td class="col">
                                 @foreach ($info as $key3 => $tarifa) 
                                     @if ($tarifa['empleat_homologat'] == '1')
-                                        Homologat
+                                        HOMOLOGAT
                                         @break
                                     @endif
                                 @endforeach
@@ -138,7 +139,7 @@
                                         @if ($infoTarifa['nomCarrec'] == 'Actor')
                                             @foreach( $tarifas as $key3 => $tarifa)
                                                 @if($tarifa->id_carrec == 1)
-                                                    <td class="col">{{$tarifa->nombre}}</td>
+                                                    <td class="col">{{strtoupper($tarifa->nombre)}}</td>
                                                 @endif
                                             @endforeach
                                         @break

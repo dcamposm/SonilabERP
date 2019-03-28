@@ -10,6 +10,7 @@ use App\Client;
 use App\Servei;
 use App\TipusMedia;
 use App\User;
+use App\Missatge;
 
 class RegistreEntradaController extends Controller
 {
@@ -93,7 +94,6 @@ class RegistreEntradaController extends Controller
         //return response()->json(request()->all());
         $v = Validator::make(request()->all(), [
             'titol'               => 'required',
-            'entrada'             => 'required',
             'sortida'             => 'required',
             'id_usuari'             => 'required',
             'id_client'           => 'required',
@@ -117,8 +117,8 @@ class RegistreEntradaController extends Controller
                 $registreEntrada->ot = request()->input('ot') ? request()->input('ot') : '';
                 $registreEntrada->oc =request()->input('oc') ? request()->input('oc') : '';
                 $registreEntrada->titol =request()->input('titol');
-                $registreEntrada->entrada =request()->input('entrada');
                 $registreEntrada->sortida =request()->input('sortida');
+                $registreEntrada->id_usuari =request()->input('id_usuari');
                 $registreEntrada->id_client =request()->input('id_client');
                 $registreEntrada->id_servei =request()->input('id_servei');
                 $registreEntrada->id_idioma =request()->input('id_idioma');
@@ -128,16 +128,25 @@ class RegistreEntradaController extends Controller
                 $registreEntrada->episodis_setmanals =request()->input('total_episodis') ? request()->input('total_episodis') : '1';
                 $registreEntrada->entregues_setmanals =request()->input('total_episodis') ? request()->input('total_episodis') : '1';
                 $registreEntrada->estat =request()->input('estat');
-                $registreEntrada->save();
+                //$registreEntrada->save();
             }
-                           
-
+            
+            
             try {
                 $registreEntrada->save(); 
             } catch (\Exception $ex) {
                 return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut crear el registre d\'entrada.'));
             }
-
+            $fecha_actual = date("d-m-Y");
+            //return response()->json(date("d-m-Y",strtotime($fecha_actual."+ 7 days")));               
+            $missatge = new Missatge;
+            $missatge->id_usuari = request()->input('id_usuari');
+            $missatge->missatge = "S'ha creat el registre d'entrada: ".$registreEntrada->id_registre_entrada." ".$registreEntrada->titol;
+            $missatge->referencia ='registreEntrada';
+            $missatge->id_referencia =$registreEntrada->id_registre_entrada;
+            $missatge->data_final =date("Y-m-d",strtotime($fecha_actual."+ 7 days"));
+            $missatge->save(); 
+            
             return redirect()->back()->with('success', 'Registre d\'entrada creat correctament.');
         }
     }
