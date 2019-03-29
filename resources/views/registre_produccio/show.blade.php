@@ -12,12 +12,12 @@
 
     <tbody>
         <tr class="row">
-            <td class="font-weight-bold col-sm-3">SUBREFERENCIA:</td>
-            <td class="col">{{ $registreProduccio['subreferencia']}}</td>
+          <td class="font-weight-bold col-sm-3">REFERENCIA:</td>
+          <td class="col">{{ $registreProduccio['id_registre_entrada']}}</td>
         </tr>
         <tr class="row">
-          <td class="font-weight-bold col-sm-3">ID REGISTRE ENTRADA:</td>
-          <td class="col">{{ $registreProduccio['id_registre_entrada']}}</td>
+            <td class="font-weight-bold col-sm-3">SUBREFERENCIA:</td>
+            <td class="col">{{ $registreProduccio['subreferencia']}}</td>
         </tr>
         <tr class="row">
           <td class="font-weight-bold col-sm-3">DATA ENTREGA:</td>
@@ -33,13 +33,13 @@
           <td class="col">{{ $registreProduccio['titol_traduit']}}</td>
         </tr><tr class="row">
           <td class="font-weight-bold col-sm-3">QC VO:</td>
-          <td class="col">{{ $registreProduccio['qc_vo']}}</td>
+          <td class="col">{{ $registreProduccio['qc_vo'] == 0 ? 'No Fet' : 'Fet'}}</td>
         </tr><tr class="row">
           <td class="font-weight-bold col-sm-3">QC ME:</td>
-          <td class="col">{{ $registreProduccio['qc_me']}}</td>
+          <td class="col">{{ $registreProduccio['qc_me'] == 0 ? 'No Fet' : 'Fet'}}</td>
         </tr><tr class="row">
           <td class="font-weight-bold col-sm-3">PPP:</td>
-          <td class="col">{{ $registreProduccio['ppp']}}</td>
+          <td class="col">{{ $registreProduccio['ppp'] == 0 ? 'No Fet' : 'Fet'}}</td>
         </tr>
         </tr><tr class="row">
           <td class="font-weight-bold col-sm-3">TRADUCTOR:</td>
@@ -71,15 +71,11 @@
         </tr>
         </tr><tr class="row">
           <td class="font-weight-bold col-sm-3">CASTING:</td>
-          <td class="col">{{ $registreProduccio['casting']}}</td>
+          <td class="col">{{ $registreProduccio['casting'] == 0 ? 'No Fet' : 'Fet'}}</td>
         </tr>
         </tr><tr class="row">
           <td class="font-weight-bold col-sm-3">PROPOSTES:</td>
-          <td class="col">{{ $registreProduccio['propostes']}}</td>
-        </tr>
-        </tr><tr class="row">
-          <td class="font-weight-bold col-sm-3">SUBTÍTOL:</td>
-          <td class="col">{{ $registreProduccio['subtitol']}}</td>
+          <td class="col">{{ $registreProduccio['propostes'] == 0 ? 'No Fet' : 'Fet'}}</td>
         </tr>
         </tr><tr class="row">
           <td class="font-weight-bold col-sm-3">INSERTS:</td>
@@ -87,19 +83,27 @@
         </tr>
         </tr><tr class="row">
           <td class="font-weight-bold col-sm-3">ESTADILLO:</td>
-          <td class="col">{{ $registreProduccio['estadillo']}}</td>
+          <td class="col">{{ $registreProduccio['estadillo'] == 0 ? 'No Fet' : 'Fet'}}</td>
         </tr>
         </tr><tr class="row">
           <td class="font-weight-bold col-sm-3">VEC:</td>
-          <td class="col">{{ $registreProduccio['vec']}}</td>
+          <td class="col">{{ $registreProduccio['vec'] == 0 ? 'No Fet' : 'Fet'}}</td>
         </tr>
         </tr><tr class="row">
           <td class="font-weight-bold col-sm-3">CONVOS:</td>
-          <td class="col">{{ $registreProduccio['convos']}}</td>
+          <td class="col">{{ $registreProduccio['convos'] == 0 ? 'No Fet' : 'Fet'}}</td>
         </tr>
         </tr><tr class="row">
           <td class="font-weight-bold col-sm-3">INICI SALA:</td>
           <td class="col">{{ $registreProduccio['inici_sala']}}</td>
+        </tr>
+        </tr><tr class="row">
+          <td class="font-weight-bold col-sm-3">PPS:</td>
+          <td class="col">{{ $registreProduccio['pps'] == 0 ? 'No Fet' : 'Fet'}}</td>
+        </tr>
+        </tr><tr class="row">
+          <td class="font-weight-bold col-sm-3">FIANL SALA:</td>
+          <td class="col">{{ $registreProduccio['final_sala']}}</td>
         </tr>
         </tr><tr class="row">
           <td class="font-weight-bold col-sm-3">TÉCNIC MIX:</td>
@@ -115,11 +119,11 @@
         </tr>
         </tr><tr class="row">
           <td class="font-weight-bold col-sm-3">QC MIX:</td>
-          <td class="col">{{ $registreProduccio['qc_mix']}}</td>
+          <td class="col">{{ $registreProduccio['qc_mix'] == 0 ? 'No Fet' : 'Fet'}}</td>
         </tr>
         </tr><tr class="row">
           <td class="font-weight-bold col-sm-3">PPE:</td>
-          <td class="col">{{ $registreProduccio['ppe']}}</td>
+          <td class="col">{{ $registreProduccio['ppe'] == 0 ? 'No Fet' : 'Fet'}}</td>
         </tr>
         </tr><tr class="row">
           <td class="font-weight-bold col-sm-3">ESTAT:</td>
