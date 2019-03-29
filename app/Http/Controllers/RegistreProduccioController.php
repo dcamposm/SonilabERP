@@ -75,8 +75,6 @@ class RegistreProduccioController extends Controller {
             'data_entrega'           => 'required',
             'setmana'                => 'required',
             'titol'                  => 'required',
-            'titol_traduit'          => 'required',
-            //'data_mix'             => 'required',
             'estat'                  => 'required',
         ]);
 
@@ -102,13 +100,11 @@ class RegistreProduccioController extends Controller {
         $prod = RegistreProduccio::find($id);
 
         $v = Validator::make(request()->all(), [
-            'estadillo' => 'required',
-            'propostes' => 'required',
-            'retakes'   => 'required',
-            'subtitol'  => 'required',
-            'qc_mix'    => 'required',
-            'ppe'       => 'required',
-            
+            'estadillo'         => 'required',
+            'propostes'         => 'required',
+            'inserts'           => 'required',
+            'titol_traduit'     => 'required',
+            'vec'               => 'required',            
         ]);
 
         if ($v->fails()) {
@@ -139,9 +135,8 @@ class RegistreProduccioController extends Controller {
             'data_ajustador'  => 'required',
             'id_linguista'    => 'required',
             'data_linguista'  => 'required',
-            'id_tecnic_mix'   => 'required',
-            'data_tecnic_mix' => 'required',
             'id_director'     => 'required',
+            'casting'         => 'required',
         ]);
 
         if ($v->fails()) {
@@ -166,12 +161,14 @@ class RegistreProduccioController extends Controller {
         $prod = RegistreProduccio::find($id);
 
         $v = Validator::make(request()->all(), [
-            'qc_vo'      => 'required',
-            'qc_me'      => 'required',
-            'ppp'        => 'required',
-            'casting'    => 'required',
-            'inserts'    => 'required',
-            'vec'        => 'required',
+            'qc_vo'                 => 'required',
+            'qc_me'                 => 'required',
+            'qc_mix'                => 'required',
+            'ppp'                   => 'required',
+            'pps'                   => 'required',
+            'ppe'                   => 'required',
+            'id_tecnic'             => 'required',
+            'data_tecnic_mix'       => 'required',
         ]);
 
         if ($v->fails()) {
@@ -198,6 +195,8 @@ class RegistreProduccioController extends Controller {
         $v = Validator::make(request()->all(), [
             'convos'            => 'required',
             'inici_sala'        => 'required',
+            'final_sala'        => 'required',
+            'retakes'           => 'required',
         ]);
 
         if ($v->fails()) {
@@ -237,8 +236,6 @@ class RegistreProduccioController extends Controller {
             'data_entrega'           => 'required',
             'setmana'                => 'required',
             'titol'                  => 'required',
-            'titol_traduit'          => 'required',
-            //'data_mix'             => 'required',
             'estat'                  => 'required',
         ]);
 
@@ -259,13 +256,11 @@ class RegistreProduccioController extends Controller {
 
     public function createComanda(){
         $v = Validator::make(request()->all(), [
-            'estadillo' => 'required',
-            'propostes' => 'required',
-            'retakes'   => 'required',
-            'subtitol'  => 'required',
-            'qc_mix'    => 'required',
-            'ppe'       => 'required',
-            
+            'estadillo'         => 'required',
+            'propostes'         => 'required',
+            'inserts'           => 'required',
+            'titol_traduit'     => 'required',
+            'vec'               => 'required', 
         ]);
 
         if ($v->fails()) {
@@ -291,9 +286,8 @@ class RegistreProduccioController extends Controller {
             'data_ajustador'  => 'required',
             'id_linguista'    => 'required',
             'data_linguista'  => 'required',
-            'id_tecnic_mix'   => 'required',
-            'data_tecnic_mix' => 'required',
             'id_director'     => 'required',
+            'casting'         => 'required',
         ]);
 
         if ($v->fails()) {
@@ -313,12 +307,14 @@ class RegistreProduccioController extends Controller {
 
     public function createPreparacio(){
         $v = Validator::make(request()->all(), [
-            'qc_vo'      => 'required',
-            'qc_me'      => 'required',
-            'ppp'        => 'required',
-            'casting'    => 'required',
-            'inserts'    => 'required',
-            'vec'        => 'required',
+            'qc_vo'                 => 'required',
+            'qc_me'                 => 'required',
+            'qc_mix'                => 'required',
+            'ppp'                   => 'required',
+            'pps'                   => 'required',
+            'ppe'                   => 'required',
+            'id_tecnic'             => 'required',
+            'data_tecnic_mix'       => 'required',
         ]);
 
         if ($v->fails()) {
@@ -340,6 +336,8 @@ class RegistreProduccioController extends Controller {
         $v = Validator::make(request()->all(), [
             'convos'            => 'required',
             'inici_sala'        => 'required',
+            'final_sala'        => 'required',
+            'retakes'           => 'required',
         ]);
 
         if ($v->fails()) {

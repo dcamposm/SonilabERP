@@ -8,7 +8,7 @@
         <div class="col">
             <a href="{{ url('/registreProduccio/crear') }}" class="btn btn-success">
                 <span class="fas fa-atlas"></span>
-                AFAGIR REGISTRE DE PRODUCCIÓ
+                AFEGIR REGISTRE DE PRODUCCIÓ
             </a>
         </div>
         @endif

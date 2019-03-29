@@ -34,6 +34,8 @@ class RegistreProduccio extends Model
         'vec',
         'convos',
         'inici_sala',
+        'pps',
+        'final_sala',
         'id_tecnic_mix',
         'data_tecnic_mix',
         'retakes',
