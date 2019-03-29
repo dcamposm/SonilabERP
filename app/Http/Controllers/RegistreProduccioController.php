@@ -76,10 +76,13 @@ class RegistreProduccioController extends Controller {
             'setmana'                => 'required',
             'titol'                  => 'required',
             'estat'                  => 'required',
+        ],[
+            'required' => 'No s\'ha introduït aquesta dada.',
         ]);
 
         if ($v->fails()) {
-            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
+            return redirect()->back()->withErrors($v)->withInput();
+            //return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
         } else {
             $prod->fill(request()->all());               
 
@@ -105,10 +108,13 @@ class RegistreProduccioController extends Controller {
             'inserts'           => 'required',
             'titol_traduit'     => 'required',
             'vec'               => 'required',            
+        ],[
+            'required' => 'No s\'ha introduït aquesta dada.',
         ]);
 
         if ($v->fails()) {
-            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
+            return redirect()->back()->withErrors($v)->withInput();
+            //return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
         } else {
             $prod->fill(request()->all());               
 
@@ -137,10 +143,13 @@ class RegistreProduccioController extends Controller {
             'data_linguista'  => 'required',
             'id_director'     => 'required',
             'casting'         => 'required',
+        ],[
+            'required' => 'No s\'ha introduït aquesta dada.',
         ]);
 
         if ($v->fails()) {
-            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
+            return redirect()->back()->withErrors($v)->withInput();
+            //return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
         } else {
             $prod->fill(request()->all());               
 
@@ -167,12 +176,15 @@ class RegistreProduccioController extends Controller {
             'ppp'                   => 'required',
             'pps'                   => 'required',
             'ppe'                   => 'required',
-            'id_tecnic'             => 'required',
+            'id_tecnic_mix'             => 'required',
             'data_tecnic_mix'       => 'required',
+        ],[
+            'required' => 'No s\'ha introduït aquesta dada.',
         ]);
 
         if ($v->fails()) {
-            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
+            return redirect()->back()->withErrors($v)->withInput();
+            //return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
         } else {
             $prod->fill(request()->all());               
 
@@ -197,10 +209,13 @@ class RegistreProduccioController extends Controller {
             'inici_sala'        => 'required',
             'final_sala'        => 'required',
             'retakes'           => 'required',
+        ],[
+            'required' => 'No s\'ha introduït aquesta dada.',
         ]);
 
         if ($v->fails()) {
-            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
+            return redirect()->back()->withErrors($v)->withInput();
+            //return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
         } else {
             $prod->fill(request()->all());               
 
@@ -237,10 +252,13 @@ class RegistreProduccioController extends Controller {
             'setmana'                => 'required',
             'titol'                  => 'required',
             'estat'                  => 'required',
+        ],[
+            'required' => 'No s\'ha introduït aquesta dada.',
         ]);
 
         if ($v->fails()) {
-            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
+            return redirect()->back()->withErrors($v)->withInput();
+            //return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
         } else {
             $prod = new RegistreProduccio(request()->all());               
 
@@ -261,10 +279,13 @@ class RegistreProduccioController extends Controller {
             'inserts'           => 'required',
             'titol_traduit'     => 'required',
             'vec'               => 'required', 
+        ],[
+            'required' => 'No s\'ha introduït aquesta dada.',
         ]);
 
         if ($v->fails()) {
-            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
+            return redirect()->back()->withErrors($v)->withInput();
+            //return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
         } else {
             $prod = new RegistreProduccio(request()->all());               
 
@@ -288,11 +309,14 @@ class RegistreProduccioController extends Controller {
             'data_linguista'  => 'required',
             'id_director'     => 'required',
             'casting'         => 'required',
+        ],[
+            'required' => 'No s\'ha introduït aquesta dada.',
         ]);
 
         if ($v->fails()) {
-            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
-        } else {
+            return redirect()->back()->withErrors($v)->withInput();
+            //return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
+        }  else {
             $prod = new RegistreProduccio(request()->all());               
 
             try {
@@ -313,12 +337,15 @@ class RegistreProduccioController extends Controller {
             'ppp'                   => 'required',
             'pps'                   => 'required',
             'ppe'                   => 'required',
-            'id_tecnic'             => 'required',
+            'id_tecnic_mix'         => 'required',
             'data_tecnic_mix'       => 'required',
+        ],[
+            'required' => 'No s\'ha introduït aquesta dada.',
         ]);
 
         if ($v->fails()) {
-            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
+            return redirect()->back()->withErrors($v)->withInput();
+            //return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
         } else {
             $prod = new RegistreProduccio(request()->all());               
 
@@ -338,10 +365,13 @@ class RegistreProduccioController extends Controller {
             'inici_sala'        => 'required',
             'final_sala'        => 'required',
             'retakes'           => 'required',
+        ],[
+            'required' => 'No s\'ha introduït aquesta dada.',
         ]);
 
         if ($v->fails()) {
-            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
+            return redirect()->back()->withErrors($v)->withInput();
+            //return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
         } else {
             $prod = new RegistreProduccio(request()->all());               
 
