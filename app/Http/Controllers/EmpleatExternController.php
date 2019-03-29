@@ -29,6 +29,7 @@ class EmpleatExternController extends Controller
         $empleatsArray = array();
         $idiomes = Idioma::all();
         $carrecs = Carrec::all();
+        return response()->json(EmpleatExtern::with('carrec')->get());
         $empleats = EmpleatExtern::with('carrec')->get();
         foreach ($empleats as $empleat) {
             foreach( $empleat->carrec as $empleatCarrec ){

@@ -51,4 +51,10 @@ class RegistreEntrada extends Model
     {
         return $this->belongsTo('App\TipusMedia', 'id_media', 'id_media');
     }
+
+    public function registreProduccio()
+    {
+        return $this->hasMany('App\RegistreProduccio', 'id_registre_entrada', 'id_registre_entrada');
+    }
+
 }

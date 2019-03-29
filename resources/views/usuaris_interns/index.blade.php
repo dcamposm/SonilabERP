@@ -27,7 +27,7 @@
 
                     <select class="custom-select" id='search_Dep' name="search_Dep" form="search" style="display: none;">
                         @foreach( $departaments as $key => $departament )
-                          <option value="{{$departament['id_departament']}}">{{$departament['nom_departament']}}</option>
+                          <option value="{{$departament['id_departament']}}">{{ mb_strtoupper( $departament['nom_departament'] ) }}</option>
                         @endforeach
                     </select>
 

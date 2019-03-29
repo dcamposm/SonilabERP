@@ -11,7 +11,7 @@ use App\Servei;
 use App\TipusMedia;
 use App\User;
 use App\Missatge;
-
+use App\RegistreProduccio;
 class RegistreEntradaController extends Controller
 {
     
@@ -116,6 +116,8 @@ class RegistreEntradaController extends Controller
         } else {
             if (request()->input('id_registre_entrada')){
                 $registreEntrada = new RegistreEntrada(request()->all());
+                
+                //if ()
             } else {
                 $registreEntrada = new RegistreEntrada;
                 $registreEntrada->ot = request()->input('ot') ? request()->input('ot') : '';
@@ -133,14 +135,55 @@ class RegistreEntradaController extends Controller
                 $registreEntrada->entregues_setmanals =request()->input('total_episodis') ? request()->input('total_episodis') : '1';
                 $registreEntrada->estat =request()->input('estat');
                 //$registreEntrada->save();
+                
             }
-            
-            
+            //return response()->json(date("Y-m-d",strtotime($registreEntrada->sortida."+ 7 days")));
+            //return response()->json($registreEntrada->episodis_setmanals);
             try {
-                $registreEntrada->save(); 
+                $registreEntrada->save();                 
             } catch (\Exception $ex) {
                 return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut crear el registre d\'entrada.'));
             }
+            if ($registreEntrada->id_media>1 && $registreEntrada->id_media<5) {
+                $registreProduccio = new RegistreProduccio;
+                $registreProduccio->subreferencia = 0;
+                $registreProduccio->id_registre_entrada = $registreEntrada->id_registre_entrada;
+                $registreProduccio->data_entrega = $registreEntrada->sortida;
+                $registreProduccio->setmana = 1;
+                $registreProduccio->titol = $registreEntrada->titol;
+                $registreProduccio->save(); 
+            } else {
+                $contSet = 1;
+                $contNextSet = 0;
+                $contData = 0; 
+                $contNextData = 0;
+                for ($i=1; $i<=$registreEntrada->total_episodis; $i++){
+                    $registreProduccio = new RegistreProduccio;
+                    $registreProduccio->subreferencia = $i;
+                    $registreProduccio->id_registre_entrada = $registreEntrada->id_registre_entrada;
+                    
+                    if ($contNextData <  $registreEntrada->entregues_setmanals){
+                        $registreProduccio->data_entrega = date("Y-m-d",strtotime($registreEntrada->sortida."+ $contData days"));
+                        $contNextData++;
+                    } else {
+                        $contData+=7;
+                        $contNextData = 1;
+                        $registreProduccio->data_entrega = date("Y-m-d",strtotime($registreEntrada->sortida."+ $contData days"));
+                    }
+                    //$registreProduccio->data_entrega = $registreEntrada->sortida;
+                    if ($contNextSet <  $registreEntrada->episodis_setmanals){
+                        $registreProduccio->setmana = $contSet;
+                        $contNextSet++;
+                    } else {
+                        $contSet++;
+                        $contNextSet = 1;
+                        $registreProduccio->setmana = $contSet;
+                    }
+                    $registreProduccio->titol = $registreEntrada->titol;
+                    $registreProduccio->save();
+                }
+            }
+            
             $fecha_actual = date("d-m-Y");
             //return response()->json(date("d-m-Y",strtotime($fecha_actual."+ 7 days")));               
             $missatge = new Missatge;

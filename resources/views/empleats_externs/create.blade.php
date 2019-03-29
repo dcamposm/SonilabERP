@@ -234,7 +234,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                                             <label for="idioma_actor_{{$idioma->idioma}}" style="font-weight: bold">{{strtr(strtoupper($idioma->idioma), "àáèéíóúç", "ÀÁÈÉÍÓÚÇ")}}:</label>
                                             <input type="checkbox" class="form-control" id="idioma_actor_{{$idioma->idioma}}" onchange="mostrarSubMenus('{{$idioma->idioma}}','actor', 1)" name="idioma_actor_{{$idioma->idioma}}" {{ isset($carrecs['actor'][$idioma->idioma]) ? 'checked': '' }} value="1">
                                         </div>
-                                    </td>
+                                    </td>                                  
                                     <td class="col">
                                         <div class="row" id="tarifes_actor_{{$idioma->idioma}}" style="display: {{ isset($carrecs['actor'][$idioma->idioma]) ? '' : 'none;' }}">
                                             <div class="col">

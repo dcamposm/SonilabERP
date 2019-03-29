@@ -51,4 +51,9 @@ class RegistreProduccio extends Model
     {
         return $this->belongTo('App\Estadillo');
     }
+
+    public function registreEntrada()
+    {
+        return $this->belongTo('App\RegistreEntrada', 'id_registre_entrada', 'id_registre_entrada');
+    }
 }
