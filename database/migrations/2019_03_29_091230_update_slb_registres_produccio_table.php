@@ -14,7 +14,7 @@ class UpdateSlbRegistresProduccioTable extends Migration
     public function up()
     {
         Schema::table('slb_registres_produccio', function (Blueprint $table) {
-            $table->timestamp('final_sala')->after('inici_sala');
+            $table->timestamp('final_sala')->after('inici_sala')->nullable();
             $table->boolean('pps')->default(false)->after('inici_sala');
         });
     }
