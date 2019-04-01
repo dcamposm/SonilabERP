@@ -15,7 +15,7 @@ class RegistreProduccioController extends Controller {
     }
 
     public function getIndex() {
-        $registreProduccio = RegistreProduccio::all();
+        $registreProduccio = RegistreProduccio::orderBy('estat')->orderBy('data_entrega')->get();
         $registreEntrada = RegistreEntrada::all();
         return View('registre_produccio.index', array('registreProduccions' => $registreProduccio, 'registreEntrades' => $registreEntrada));
     }
@@ -92,7 +92,7 @@ class RegistreProduccioController extends Controller {
                 return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar.'));
             }
 
-            return redirect()->route('indexRegistreProduccio')->with('success', 'Registre de producció modificat correctament.');
+            return redirect()->back()->with('success', 'Registre de producció modificat correctament.');
         }
         getIndex();
         
@@ -124,7 +124,7 @@ class RegistreProduccioController extends Controller {
                 return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar.'));
             }
 
-            return redirect()->route('indexRegistreProduccio')->with('success', 'Registre de producció modificat correctament.');
+            return redirect()->back()->with('success', 'Registre de producció modificat correctament.');
         }
         getIndex();
         
@@ -136,15 +136,16 @@ class RegistreProduccioController extends Controller {
 
         $v = Validator::make(request()->all(), [
             'id_traductor'    => 'required',
-            'data_traductor'  => 'required',
+            'data_traductor'  => 'date',
             'id_ajustador'    => 'required',
-            'data_ajustador'  => 'required',
+            'data_ajustador'  => 'date',
             'id_linguista'    => 'required',
-            'data_linguista'  => 'required',
+            'data_linguista'  => 'date',
             'id_director'     => 'required',
             'casting'         => 'required',
         ],[
             'required' => 'No s\'ha introduït aquesta dada.',
+            'date' => 'Aquesta dada te que ser una data.'
         ]);
 
         if ($v->fails()) {
@@ -159,7 +160,7 @@ class RegistreProduccioController extends Controller {
                 return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar.'));
             }
 
-            return redirect()->route('indexRegistreProduccio')->with('success', 'Registre de producció modificat correctament.');
+            return redirect()->back()->with('success', 'Registre de producció modificat correctament.');
         }
         getIndex();
         
@@ -177,9 +178,10 @@ class RegistreProduccioController extends Controller {
             'pps'                   => 'required',
             'ppe'                   => 'required',
             'id_tecnic_mix'             => 'required',
-            'data_tecnic_mix'       => 'required',
+            'data_tecnic_mix'       => 'date',
         ],[
             'required' => 'No s\'ha introduït aquesta dada.',
+            'date' => 'Aquesta dada te que ser una data.'
         ]);
 
         if ($v->fails()) {
@@ -194,7 +196,7 @@ class RegistreProduccioController extends Controller {
                 return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar.'));
             }
 
-            return redirect()->route('indexRegistreProduccio')->with('success', 'Registre de producció modificat correctament.');
+            return redirect()->back()->with('success', 'Registre de producció modificat correctament.');
         }
         getIndex();
         
@@ -206,11 +208,12 @@ class RegistreProduccioController extends Controller {
         //return response()->json($prod);
         $v = Validator::make(request()->all(), [
             'convos'            => 'required',
-            'inici_sala'        => 'required',
-            'final_sala'        => 'required',
+            'inici_sala'        => 'date',
+            'final_sala'        => 'date',
             'retakes'           => 'required',
         ],[
             'required' => 'No s\'ha introduït aquesta dada.',
+            'date' => 'Aquesta dada te que ser una data.'
         ]);
 
         if ($v->fails()) {
@@ -225,7 +228,7 @@ class RegistreProduccioController extends Controller {
                 return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar.'));
             }
 
-            return redirect()->route('indexRegistreProduccio')->with('success', 'Registre de producció modificat correctament.');
+            return redirect()->back()->with('success', 'Registre de producció modificat correctament.');
         }
         getIndex();
         
@@ -241,7 +244,8 @@ class RegistreProduccioController extends Controller {
                             ->orWhere('id_registre_entrada', request()->input("search_term"))->get();
         }
 
-        return view('registre_produccio.index', array('registreProduccions' => $registreProduccio));
+        return view('registre_produccio.index', array('registreProduccions' => $registreProduccio,
+                                                        'return' => 1));
     }
 
     public function createBasic(){
@@ -302,15 +306,16 @@ class RegistreProduccioController extends Controller {
     public function createEmpleats(){
         $v = Validator::make(request()->all(), [
             'id_traductor'    => 'required',
-            'data_traductor'  => 'required',
+            'data_traductor'  => 'date',
             'id_ajustador'    => 'required',
-            'data_ajustador'  => 'required',
+            'data_ajustador'  => 'date',
             'id_linguista'    => 'required',
-            'data_linguista'  => 'required',
+            'data_linguista'  => 'date',
             'id_director'     => 'required',
             'casting'         => 'required',
         ],[
             'required' => 'No s\'ha introduït aquesta dada.',
+            'date' => 'Aquesta dada te que ser una data.'
         ]);
 
         if ($v->fails()) {
@@ -338,9 +343,10 @@ class RegistreProduccioController extends Controller {
             'pps'                   => 'required',
             'ppe'                   => 'required',
             'id_tecnic_mix'         => 'required',
-            'data_tecnic_mix'       => 'required',
+            'data_tecnic_mix'       => 'date',
         ],[
             'required' => 'No s\'ha introduït aquesta dada.',
+            'date' => 'Aquesta dada te que ser una data.'
         ]);
 
         if ($v->fails()) {
@@ -362,11 +368,12 @@ class RegistreProduccioController extends Controller {
     public function createConvocatoria(){
         $v = Validator::make(request()->all(), [
             'convos'            => 'required',
-            'inici_sala'        => 'required',
-            'final_sala'        => 'required',
+            'inici_sala'        => 'date',
+            'final_sala'        => 'date',
             'retakes'           => 'required',
         ],[
             'required' => 'No s\'ha introduït aquesta dada.',
+            'date' => 'Aquesta dada te que ser una data.'
         ]);
 
         if ($v->fails()) {
