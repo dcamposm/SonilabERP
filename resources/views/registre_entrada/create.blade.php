@@ -8,8 +8,9 @@
         @csrf
         <fieldset class="border p-2">
             <legend class="w-auto">DADES:</legend>
+            {{--<!--
             <div class="row">
-            <div class="col-6">
+                <div class="col-6">
                     <div class="form-group">
                         <label for="id_registre_entrada" style="font-weight: bold">REFERENCIA:</label>
                         <input type="number" class="form-control" id="id_registre_entrada" placeholder="Entrar referencia" name="id_registre_entrada" value="{{!empty($registreEntrada) ? $registreEntrada->id_registre_entrada : old('id_registre_entrada')}}">
@@ -17,6 +18,7 @@
                     </div>
                 </div>
             </div>
+            -->--}}
             <div class="row">
                 <div class="col-6">
                     <div class="form-group">

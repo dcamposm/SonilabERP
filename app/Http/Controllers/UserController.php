@@ -64,7 +64,9 @@ class UserController extends Controller
         
         $departaments = Departament::all();
         //return redirect()->route('empleatIndex')->with('success', request()->input("searchBy").'-'.request()->input("search_term"));
-        return view('usuaris_interns.index',array('arrayUsuaris' => $users, 'departaments' => $departaments));
+        return view('usuaris_interns.index',array('arrayUsuaris' => $users,
+                                                    'departaments' => $departaments,
+                                                    'return' => 1));
     }
     /*
         *funcio per retornar la vista de un usuari intern

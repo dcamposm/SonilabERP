@@ -109,7 +109,10 @@ class EmpleatExternController extends Controller
             }
         }
         //return redirect()->route('empleatIndex')->with('success', request()->input("searchBy").'-'.request()->input("search_term"));
-        return View('empleats_externs.index', array('empleats' => $empleats, 'carrecs' => $carrecs,'empleatsArray' => $empleatsArray));
+        return View('empleats_externs.index', array('empleats' => $empleats,
+                                                    'carrecs' => $carrecs,
+                                                    'empleatsArray' => $empleatsArray,
+                                                    'return' => 1));
     }
     
     public function show($id)

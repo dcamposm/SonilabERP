@@ -195,7 +195,12 @@
             </div>
         </div>
     </div>
-
+    @if (isset($return))
+        <a href="{{ url('/registreEntrada') }}" class="btn btn-primary">
+            <span class="fas fa-angle-double-left"></span>
+            TORNAR ENRERA
+        </a> 
+    @endif
 </div>
 
 <script>
