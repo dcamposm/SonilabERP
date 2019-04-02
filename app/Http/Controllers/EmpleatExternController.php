@@ -29,7 +29,9 @@ class EmpleatExternController extends Controller
         $empleatsArray = array();
         $idiomes = Idioma::all();
         $carrecs = Carrec::all();
-        $empleats = EmpleatExtern::with('carrec')->get();
+        $empleats = EmpleatExtern::with(['carrec' => function($query){
+                                        $query->orderBy('id_carrec');
+                                    }])->get();
         foreach ($empleats as $empleat) {
             foreach( $empleat->carrec as $empleatCarrec ){
                     $empleatCarrec->carrec;

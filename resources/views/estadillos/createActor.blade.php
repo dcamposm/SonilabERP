@@ -3,11 +3,11 @@
 @section('content')
 
 <div class="container">
-    <h2 style="font-weight: bold">{{!empty($actor) ? 'Editar actor' : 'Afegir actor'}}</h2>
+    <h2 style="font-weight: bold">{{!empty($actor) ? 'EDITAR ACTOR' : 'AFEGIR ACTOR'}}</h2>
     <form method = "POST" action="{{ !empty($actor) ? ( !isset($registreProduccio[0]['setmana']) ? route('estadilloActorUpdate', array('id' => $estadillos['id_estadillo'], 'id_actor' => $actor['id_actor'])) : route('estadilloActorUpdate', array('id' => $registreProduccio[0]['id_registre_entrada'],'id_actor' => $actor[0]['id'], 'setmana' => $registreProduccio[0]['setmana']))) : ( !isset($registreProduccio[0]['setmana']) ? route('estadilloActorInsert') : route('estadilloActorInsert', array('setmana' => $registreProduccio[0]['setmana']))) }}" enctype="multipart/form-data">
         @csrf
         <fieldset class="border p-2">
-            <legend class="w-auto">Dades:</legend>
+            <legend class="w-auto">DADES:</legend>
             <div class="row">
                 @if (isset($estadillos))
                     <div>
@@ -15,7 +15,7 @@
                     </div>
                 @endif
                 <div class="col-6">
-                    <label for="id_actor" style="font-weight: bold">Selecciona actor:</label>
+                    <label for="id_actor" style="font-weight: bold">ACTOR:</label>
                     <select class="form-control" name="id_actor">
                         @foreach( $empleats as $empleat )
                             <option value="{{$empleat['id_empleat']}}" {{(!empty($actor) && ($actor[0]->id_actor ?? $actor->id_actor) == $empleat['id_empleat']) ? 'selected' : ''}} >{{$empleat['nom_empleat']}} {{$empleat['cognom1_empleat']}}</option>
@@ -95,7 +95,7 @@
         <!-- BOTÓN DE CREAR O ACTUALIZAR -->
         <div class="row">
             <div class="col-6">
-                <button type="submit" class="btn btn-success col-4">{{!empty($actor) ? 'Desar canvis' : 'Crear'}}</button>
+                <button type="submit" class="btn btn-success col-4">{{!empty($actor) ? 'DESAR' : 'CREAR'}}</button>
             </div>
         </div>
         <br>
@@ -104,7 +104,7 @@
     <div>
         <a href="/estadillos/mostrar/{{ isset($estadillos) ? $estadillos->id_estadillo : $registreProduccio[0]["id_registre_entrada"]."/".$registreProduccio[0]["setmana"] }}" class="btn btn-primary">
             <span class="fas fa-angle-double-left"></span>
-            Tornar enrera
+            TORNAR ENRERA
         </a>
     </div>
 </div>

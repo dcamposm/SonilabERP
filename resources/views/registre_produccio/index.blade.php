@@ -10,6 +10,12 @@
                 <span class="fas fa-atlas"></span>
                 AFEGIR REGISTRE DE PRODUCCIÓ
             </a>
+            @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+            <a href="{{ url('/estadillos') }}" class="btn btn-success">
+                <span class="fas fa-clipboard-list"></span>
+                ESTADILLOS
+            </a>
+            @endif
         </div>
         @endif
         <!-- FILTRA REGISTRE PRODUCCIO -->
@@ -78,18 +84,41 @@
                 <td style="vertical-align: middle;">{{$registreProduccio->setmana}}</td>
                 <td style="vertical-align: middle;">{{$registreProduccio->titol}}</td>
                 <td style="vertical-align: middle;">
-
-                    <form action="{{ route('deleteRegistre',['id' => $registreProduccio->id]) }}" method="POST">
-                        @csrf
-                        <a href="{{ route('updateRegistreProduccio', array('id' => $registreProduccio->id )) }}" class="btn btn-primary">MODIFICAR</a>
-                        <input type="hidden" readonly name="id" value="{{ $registreProduccio->id }}">
-                        <button type="submit" class="btn btn-danger">ESBORRAR</button>
-                    </form>
+                    <a href="{{ route('updateRegistreProduccio', array('id' => $registreProduccio->id )) }}" class="btn btn-primary">MODIFICAR</a>
+                    @if (Auth::user()->hasAnyRole(['4']))
+                        <button class="btn btn-danger" onclick="self.seleccionarRegistreProduccio({{ $registreProduccio->id }}, '{{ $registreProduccio->id_registre_entrada.' '.$registreProduccio->titol.' '.$registreProduccio->subreferencia }}')" data-toggle="modal" data-target="#exampleModalCenter">ESBORRAR</button>
+                        <form id="delete-{{ $registreProduccio->id }}" action="{{ route('deleteRegistre') }}" method="POST">
+                            @csrf
+                            <input type="hidden" readonly name="id" value="{{ $registreProduccio->id }}">
+                        </form>
+                    @endif
                 </td>
             </tr>
             @endforeach
         </tbody>
     </table>
+    
+    <!-- MODAL ESBORRAR REGISTRE ENTRADA -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">ESBORRAR REGISTRE PRODUCCIO</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <span id="delete-message">...</span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="self.seleccionarRegistreProduccio(0)">TANCAR</button>
+                    <button type="button" class="btn btn-danger" onclick="self.deleteRegistre()">ESBORRAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     @if (isset($return))
         <a href="{{ url('/registreProduccio') }}" class="btn btn-primary">
             <span class="fas fa-angle-double-left"></span>
@@ -101,9 +130,26 @@
 <script>
 
     var self = this;
+    self.registrePerEsborrar = 0;
+
     // Executa el formulari per mostrar la vista d'un registre d'entrada.
     self.mostrarRegistreProduccio = function (urlShow) {
-    window.location.replace(urlShow);
+        window.location.replace(urlShow);
+    }
+
+    // Emmagatzema l'identificador d'un registre d'entrada i mostra un missatge en el modal d'esborrar.
+    self.seleccionarRegistreProduccio = function (registreProduccioId, registreProduccioAlias) {
+        self.registrePerEsborrar = registreProduccioId;
+        if (registreProduccioAlias != undefined) {
+            document.getElementById('delete-message').innerHTML = 'Vols esborrar el registre de producció <b>' + registreProduccioAlias + '</b>?';
+        }
+    }
+
+    // Esborra el registre d'entrada seleccionat.
+    self.deleteRegistre = function () {
+        if (self.registrePerEsborrar != 0) {
+            document.all["delete-" + self.registrePerEsborrar].submit(); 
+        }
     }
 
 //--------Funcions per el filtra-----------
@@ -112,12 +158,12 @@
 
     //alert(value);
     if ($('#searchBy').val() == '3') {
-    $('#search_term').hide();
-    $('#search_Estat').show();
+        $('#search_term').hide();
+        $('#search_Estat').show();
     }
     else {
-    $('#search_term').show();
-    $('#search_Estat').hide();
+        $('#search_term').show();
+        $('#search_Estat').hide();
     }
     }
 

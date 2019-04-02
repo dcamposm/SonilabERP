@@ -392,11 +392,8 @@ class RegistreProduccioController extends Controller {
         }
     }
 
-    public function delete() {
+    public function delete(Request $request) {
         RegistreProduccio::where('id', request()->input("id"))->delete();
         return redirect()->route('indexRegistreProduccio');
     }
-
-
-
 }

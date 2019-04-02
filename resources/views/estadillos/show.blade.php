@@ -7,9 +7,9 @@
     <table class="table" style="margin-top: 10px;">
         <thead>
             <tr>
-                <th>Estadillo</th> 
-                <th>Validat</th>
-                <th>Accions</th>
+                <th>ESTADILLOS</th> 
+                <th>VALIDAT</th>
+                <th>ACCIONS</th>
             </tr>
         </thead>
         <tbody>
@@ -21,8 +21,8 @@
                             </td>
                             <td style="vertical-align: middle;">{{ $registre->estadillo == 0 ? 'No' : 'Si' }}</td>
                             <td style="vertical-align: middle;">
-                                <a href="{{ route('estadilloUpdateView', array('id' => $registre->getEstadillo->id_estadillo)) }}" class="btn btn-primary">Modificar</a>
-                                <button class="btn btn-danger" onclick="self.seleccionarEstadillo({{ $registre->getEstadillo->id_estadillo }}, '{{ $registre->id_registre_entrada }} {{ $registre->titol }} {{ $registre->subreferencia }}')" data-toggle="modal" data-target="#exampleModalCenter">Esborrar</button>
+                                <a href="{{ route('estadilloUpdateView', array('id' => $registre->getEstadillo->id_estadillo)) }}" class="btn btn-primary">MODIFICAR</a>
+                                <button class="btn btn-danger" onclick="self.seleccionarEstadillo({{ $registre->getEstadillo->id_estadillo }}, '{{ $registre->id_registre_entrada }} {{ $registre->titol }} {{ $registre->subreferencia }}')" data-toggle="modal" data-target="#exampleModalCenter">ESBORRAR</button>
                                 <form id="delete-{{ $registre->getEstadillo->id_estadillo }}" action="{{ route('esborrarEstadillo') }}" method="POST">
                                     @csrf
                                     <input type="hidden" readonly name="id" value="{{ $registre->getEstadillo->id_estadillo }}">
@@ -37,7 +37,7 @@
     <div>
         <a href="/estadillos" class="btn btn-primary">
             <span class="fas fa-angle-double-left"></span>
-            Tornar enrera
+            TONAR ENRERA
         </a>
     </div>
     <!-- MODAL ESBORRAR ESTADILLO -->
@@ -45,7 +45,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Esborrar estadillo</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">ESBORRAR ESTADILLO</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -54,8 +54,8 @@
                     <span id="delete-message">...</span>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="self.seleccionarEstadillo(0)">Tancar</button>
-                    <button type="button" class="btn btn-danger" onclick="self.esborrarEstadillo()">Esborrar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="self.seleccionarEstadillo(0)">TANCAR</button>
+                    <button type="button" class="btn btn-danger" onclick="self.esborrarEstadillo()">ESBORRAR</button>
                 </div>
             </div>
         </div>
