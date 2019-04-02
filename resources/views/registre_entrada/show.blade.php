@@ -6,11 +6,15 @@
     <table class="table table-striped">
         <thead class="thead-dark">
             <tr class="row">
-                <th class="col">Registre d'Entrada</th>
+                <th class="col">REGISTRES D'ENTRADA</th>
             </tr>
         </thead>
 
         <tbody>
+            <tr class="row">
+                <td class="font-weight-bold col-sm-3">REFERENCIA:</td>
+                <td class="col">{{ $registreEntrada['id_registre_entrada']}}</td>
+            </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-3">TÍTOL:</td>
                 <td class="col">{{ $registreEntrada['titol']}}</td>
@@ -25,7 +29,7 @@
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-3">PRIMERA ENTREGA:</td>
-                <td class="col">{{ $registreEntrada['sortida']}}</td>
+                <td class="col">{{ date('d-m-Y', strtotime($registreEntrada['sortida']))}}</td>
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-3">CLIENT:</td>
