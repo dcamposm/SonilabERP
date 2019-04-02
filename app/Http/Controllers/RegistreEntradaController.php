@@ -200,7 +200,7 @@ class RegistreEntradaController extends Controller
             $missatge->data_final =date("Y-m-d",strtotime($fecha_actual."+ 7 days"));
             $missatge->save(); 
 //-------------------------------Email----------------------------------
-            // Create the Transport
+            /*// Create the Transport
             $transport = (new Swift_SmtpTransport('smtp-mail.outlook.com', 587, 'tls'))
               ->setUsername('dcampos@paycom.es')
               ->setPassword('')//Posar contrasenya de la conta
@@ -230,7 +230,7 @@ class RegistreEntradaController extends Controller
               ;
 
             // Send the message
-            $result = $mailer->send($message);
+            $result = $mailer->send($message);*/
             
             return redirect()->back()->with('success', 'Registre d\'entrada creat correctament.');
         }
