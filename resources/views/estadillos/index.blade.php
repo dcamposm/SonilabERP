@@ -7,7 +7,7 @@
 
         <a href="{{ url('/estadillos/crear') }}" class="btn btn-success">
             <span class="fas fa-clipboard-list"></span>
-            Crear estadillo
+            CREAR ESTADILLO
         </a>
 
         <div class="col-5">
@@ -19,7 +19,7 @@
                       <label class="custom-file-label" for="inputGroupFile">Importar Estadillo</label>
                     </div>
                     <div class="input-group-append">
-                      <button class="btn btn-outline-secondary" type="submit" id="inputGroupFileAddon">Importar</button>
+                      <button class="btn btn-outline-secondary" type="submit" id="inputGroupFileAddon">IMPORTAR</button>
                     </div>
                 </div>
             </form>
@@ -29,14 +29,14 @@
                 @csrf
             <div class="input-group">
                 <select class="custom-select" id='searchBy' name="searchBy" form="search">
-                    <option selected>Buscar per...</option>
-                    <option>Referencia</option>
-                    <option value="1">Validat </option>
+                    <option selected>BUSCAR PER...</option>
+                    <option>REFERENCIA</option>
+                    <option value="1">VALIDAT</option>
                 </select>
                 <input type="text" id="search_term" class="form-control" name="search_term" placeholder="Buscar Estadillo...">
                 <select class="custom-select" id='search_Validat' name="search_Validat" form="search" style="display: none;">
-                      <option value="1">Si</option>
-                      <option value="0">No</option>
+                      <option value="1">SI</option>
+                      <option value="0">NO</option>
                 </select>
 
                 <span class="input-group-btn">
@@ -51,9 +51,9 @@
     <table class="table" style="margin-top: 10px;">
         <thead>
             <tr>
-                <th>Estadillo</th> 
-                <th>Validat</th>
-                <th>Accions</th>
+                <th>ESTADILLO</th> 
+                <th>VALIDAT</th>
+                <th>ACCIONS</th>
             </tr>
         </thead>
         <tbody>
@@ -66,8 +66,8 @@
                         <td style="vertical-align: middle;">{{ $estadillo['validat'] == 0 ? 'No' : 'Si' }}</td>
                         @if (isset($estadillo['id_estadillo']))
                             <td style="vertical-align: middle;">
-                                <a href="{{ route('estadilloUpdateView', array('id' => $estadillo['id_estadillo'])) }}" class="btn btn-primary">Modificar</a>
-                                <button class="btn btn-danger" onclick="self.seleccionarEstadillo({{ $key }}, '{{ $estadillo['titol'] }}')" data-toggle="modal" data-target="#exampleModalCenter">Esborrar</button>
+                                <a href="{{ route('estadilloUpdateView', array('id' => $estadillo['id_estadillo'])) }}" class="btn btn-primary">MODIFICAR</a>
+                                <button class="btn btn-danger" onclick="self.seleccionarEstadillo({{ $key }}, '{{ $estadillo['titol'] }}')" data-toggle="modal" data-target="#exampleModalCenter">ESBORRAR</button>
                                 <form id="delete-{{ $estadillo['id_estadillo'] }}" action="{{ route('esborrarEstadillo') }}" method="POST">
                                     @csrf
                                     <input type="hidden" readonly name="id" value="{{ $estadillo['id_estadillo'] }}">
@@ -75,8 +75,8 @@
                             </td>
                         @else
                             <td style="vertical-align: middle;">
-                                 <a href="{{ route('estadilloShowSetmana', array($key, 'id_setmana' => $estadillo['setmana'])) }}" class="btn btn-primary">Veure estadillos</a>
-                                 <a href="{{ route('estadilloShow', array($key, 'id_setmana' => $estadillo['setmana'])) }}" class="btn btn-primary">Veure actors</a>
+                                 <a href="{{ route('estadilloShowSetmana', array($key, 'id_setmana' => $estadillo['setmana'])) }}" class="btn btn-primary">VEURE ESTADILLO</a>
+                                 <a href="{{ route('estadilloShow', array($key, 'id_setmana' => $estadillo['setmana'])) }}" class="btn btn-primary">VEURE ACTORS</a>
                             </td>
                         @endif
                     </tr>
@@ -90,7 +90,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Esborrar estadillo</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">ESBORRAR ESTADILLO</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -99,8 +99,8 @@
                     <span id="delete-message">...</span>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="self.seleccionarEstadillo(0)">Tancar</button>
-                    <button type="button" class="btn btn-danger" onclick="self.esborrarEstadillo()">Esborrar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="self.seleccionarEstadillo(0)">TANCAR</button>
+                    <button type="button" class="btn btn-danger" onclick="self.esborrarEstadillo()">ESBORRAR</button>
                 </div>
             </div>
         </div>

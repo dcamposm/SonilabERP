@@ -8,7 +8,7 @@
         <div class="col">
             <a href="{{ !isset($registreProduccio) ? route('estadilloActorInsertView', array('id' => $estadillos->id_estadillo)) :  route('estadilloActorInsertView', array('id' => $registreProduccio->id_registre_entrada, 'setmana'=>$registreProduccio->setmana))}}" class="btn btn-success">
                 <span class="fas fa-user-tie"></span>
-                Afegir actor
+                AFEGIR ACTOR
             </a>
         </div>
 
@@ -36,10 +36,10 @@
     <table class="table" style="margin-top: 10px;">
         <thead>
             <tr>
-                <th>Actor</th> 
+                <th>ACTOR</th> 
                 <th>CGs</th>
-                <th>{{isset($actor['id']) ? 'TKs' : 'TKs Totals'}}</th>
-                <th>Accions</th>
+                <th>{{isset($actor['id']) ? 'TKs' : 'TKs TOTALS'}}</th>
+                <th>ACCIONS</th>
             </tr>
         </thead>
         <tbody>
@@ -55,7 +55,7 @@
                         <td style="vertical-align: middle;">{{ $actor['cg_estadillo']}}</td>
                         <td style="vertical-align: middle;">{{ $actor['take_estadillo']}}</td>
                         <td style="vertical-align: middle;">
-                            <a href="{{ !isset($registreProduccio) ? route('estadilloActorUpdateView', array('id' => $estadillos->id_estadillo, 'id_actor' => $actor['id_actor'])) : route('estadilloActorUpdateView', array('id' => $registreProduccio->id_registre_entrada, 'id_actor'=>$actor['id_actor'], 'setmana'=>$registreProduccio->setmana))  }}" class="btn btn-primary">Modificar</a>
+                            <a href="{{ !isset($registreProduccio) ? route('estadilloActorUpdateView', array('id' => $estadillos->id_estadillo, 'id_actor' => $actor['id_actor'])) : route('estadilloActorUpdateView', array('id' => $registreProduccio->id_registre_entrada, 'id_actor'=>$actor['id_actor'], 'setmana'=>$registreProduccio->setmana))  }}" class="btn btn-primary">MODIFICAR</a>
                             @if (isset($actor['id']))
                             <button class="btn btn-danger" onclick="self.seleccionarActor({{ $actor['id'] }}, '{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }}')" data-toggle="modal" data-target="#exampleModalCenter">Esborrar</button>
                                 <form id="delete-{{ $actor['id'] }}" action="{{ route('esborrarEstadilloActor') }}" method="POST">
@@ -74,7 +74,7 @@
     <div>
         <a href="{{ url('/estadillos') }}" class="btn btn-primary">
             <span class="fas fa-angle-double-left"></span>
-            Tornar enrera
+            TORNAR ENRERA
         </a>
     </div>
     <!-- MODAL ESBORRAR ACTOR ESTADILLO -->
@@ -82,7 +82,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Esborrar actor</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">ESBORRAR ACTOR</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -91,8 +91,8 @@
                     <span id="delete-message">...</span>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="self.seleccionarActor(0)">Tancar</button>
-                    <button type="button" class="btn btn-danger" onclick="self.esborrarActor()">Esborrar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="self.seleccionarActor(0)">TANCAR</button>
+                    <button type="button" class="btn btn-danger" onclick="self.esborrarActor()">ESBORRAR</button>
                 </div>
             </div>
         </div>

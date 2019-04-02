@@ -123,11 +123,6 @@
                         <li class="nav-item">
                                 <a class="{{ Request::is('registreEntrada*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('indexRegistreEntrada')}}"><span class="fas fa-atlas"></span><span class="sidebar-link underline">Registre d'entrada</span></a>
                         </li>
-                        @if (Auth::user()->hasAnyRole(['1', '2', '4']))
-                        <li class="nav-item">
-                                <a class="{{ Request::is('estadillos*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('indexEstadillos')}}"> <span class="fas fa-clipboard-list"></span><span class="sidebar-link underline">Estadillo</span></a>
-                        </li>
-                        @endif
                     </ul>
 
 <!--
