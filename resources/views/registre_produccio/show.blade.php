@@ -136,4 +136,8 @@
     </tbody>
   </table>
 </div>
+    <a href="{{ url('/registreProduccio') }}" class="btn btn-primary">
+      <span class="fas fa-angle-double-left"></span>
+      TORNAR
+    </a>
 @stop

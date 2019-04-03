@@ -121,8 +121,6 @@ class RegistreEntradaController extends Controller
         } else {
             if (request()->input('id_registre_entrada')){
                 $registreEntrada = new RegistreEntrada(request()->all());
-                
-                //if ()
             } else {
                 $registreEntrada = new RegistreEntrada;
                 $registreEntrada->ot = request()->input('ot') ? request()->input('ot') : '';
@@ -243,6 +241,7 @@ class RegistreEntradaController extends Controller
         $serveis = Servei::all();
         $medias = TipusMedia::all();
         $usuaris = User::where('id_departament', '2')->get();
+        //return response()->json($registreEntrada); 
         return view('registre_entrada.create', array(
             'registreEntrada' => $registreEntrada,
             'clients'         => $clients,
