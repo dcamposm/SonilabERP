@@ -115,7 +115,7 @@
     @if (isset($return))
         <a href="{{ url('/empleats') }}" class="btn btn-primary">
             <span class="fas fa-angle-double-left"></span>
-            TORNAR ENRERA
+            TORNAR
         </a> 
     @endif
 </div>

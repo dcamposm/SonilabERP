@@ -121,8 +121,6 @@ class RegistreEntradaController extends Controller
         } else {
             if (request()->input('id_registre_entrada')){
                 $registreEntrada = new RegistreEntrada(request()->all());
-                
-                //if ()
             } else {
                 $registreEntrada = new RegistreEntrada;
                 $registreEntrada->ot = request()->input('ot') ? request()->input('ot') : '';
@@ -200,7 +198,7 @@ class RegistreEntradaController extends Controller
             $missatge->data_final =date("Y-m-d",strtotime($fecha_actual."+ 7 days"));
             $missatge->save(); 
 //-------------------------------Email----------------------------------
-            // Create the Transport
+            /*// Create the Transport
             $transport = (new Swift_SmtpTransport('smtp-mail.outlook.com', 587, 'tls'))
               ->setUsername('dcampos@paycom.es')
               ->setPassword('')//Posar contrasenya de la conta
@@ -230,7 +228,7 @@ class RegistreEntradaController extends Controller
               ;
 
             // Send the message
-            $result = $mailer->send($message);
+            $result = $mailer->send($message);*/
             
             return redirect()->back()->with('success', 'Registre d\'entrada creat correctament.');
         }
@@ -243,6 +241,7 @@ class RegistreEntradaController extends Controller
         $serveis = Servei::all();
         $medias = TipusMedia::all();
         $usuaris = User::where('id_departament', '2')->get();
+        //return response()->json($registreEntrada); 
         return view('registre_entrada.create', array(
             'registreEntrada' => $registreEntrada,
             'clients'         => $clients,

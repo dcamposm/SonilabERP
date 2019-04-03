@@ -37,7 +37,7 @@
     <div>
         <a href="/estadillos" class="btn btn-primary">
             <span class="fas fa-angle-double-left"></span>
-            TONAR ENRERA
+            TONAR
         </a>
     </div>
     <!-- MODAL ESBORRAR ESTADILLO -->

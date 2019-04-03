@@ -55,6 +55,10 @@
         background-color: #E3E3E3;
     }
     
+    .table th {
+        padding: .50rem !important;
+    }
+    
     .table td {
         padding: .50rem !important;
     }
@@ -166,7 +170,7 @@
                <!-- <a class="btn-floating btn-lg purple-gradient"><i class="fa fa-bolt"></i></a>-->
 
             </nav>
-        </div>
+       </div>
 
     </div>
     @endguest
@@ -174,6 +178,11 @@
     <!-- Page Content -->
 
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+         <!-- <a class="btn btn-outline-info btn-sm" style="padding-bottom: 0px;" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            <i class="fas fa-bars" style="margin-right: 0px;"></i>
+        </a>
+        <br>
+        <br> -->
         @if (session('success'))
             <div class="alert alert-success" role="alert">
                 <span class="fas fa-check"></span>{{ session('success') }}

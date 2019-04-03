@@ -74,7 +74,7 @@
     <div>
         <a href="{{ url('/estadillos') }}" class="btn btn-primary">
             <span class="fas fa-angle-double-left"></span>
-            TORNAR ENRERA
+            TORNAR
         </a>
     </div>
     <!-- MODAL ESBORRAR ACTOR ESTADILLO -->
