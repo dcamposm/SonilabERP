@@ -48,7 +48,7 @@
                 <td class="col">{{ $media['nom_media']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">MINUTS:</td>
+                <td class="font-weight-bold col-sm-3">MINUTS TOTALS:</td>
                 <td class="col">{{ $registreEntrada['minuts']}}</td>
             </tr>
             <tr class="row">
@@ -80,7 +80,7 @@
     
     <a href="{{ url('/registreEntrada') }}" class="btn btn-primary col-2">
         <span class="fas fa-angle-double-left"></span>
-        Tornar enrera
+        TORNAR
     </a>
 </div>
 

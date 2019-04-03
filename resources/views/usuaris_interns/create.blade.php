@@ -93,7 +93,7 @@
         <div class="row justify-content-between">
             <a href="{{ url('/usuaris/interns/index') }}" class="btn btn-primary col-2">
                 <span class="fas fa-angle-double-left"></span>
-                TORNAR ENRERA
+                TORNAR
             </a> 
             <button type="submit" class="btn btn-success col-2">{{!empty($usuario) ? 'GUARDAR' : 'CREAR'}} <i class="fas fa-save"></i></i></button>     
         </div>

@@ -47,14 +47,14 @@
     </div>
 
     {{-- LEYENDA DE COLORES DE ESTADO --}}
-    <div style="margin-top: 10px;">
+    <div class="d-flex justify-content-end" style="margin-top: 10px;">
         <div class="llegenda">
-            <span style="color: lawngreen; font-size: 30px;">&#9646;</span>
-            <span>FINALITZAT</span>
+            <span style="color: lawngreen; font-size: 15px;">&#9646;</span>
+            <span style="font-size: 11px; padding: 1px;">FINALITZAT</span>
         </div>
         <div class="llegenda">
-            <span style="color: darkorange; font-size: 30px;">&#9646;</span>
-            <span>PENDENT</span>
+            <span style="color: darkorange; font-size: 15px;">&#9646;</span>
+            <span style="font-size: 11px; padding: 1px;">PENDENT</span>
         </div>
         <div style="clear:both;"></div>
     </div>
@@ -63,8 +63,8 @@
     <table class="table" style="margin-top: 10px;">
         <thead>
             <tr>
-                <th>REF</th> 
-                <th>SUB.REF</th> 
+                <th>REF.</th> 
+                <th>SUB-REF</th> 
                 <th>DATA D'ENTRADA</th>
                 <th>SETMANA</th>
                 <th>TÍTOL ORIGINAL</th>

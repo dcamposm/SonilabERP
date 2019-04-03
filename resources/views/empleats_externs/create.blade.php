@@ -389,7 +389,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
         <div class="row justify-content-between">
             <a href="{{ url('/empleats') }}" class="btn btn-primary col-2">
                 <span class="fas fa-angle-double-left"></span>
-                TORNAR ENRERA
+                TORNAR
             </a>
             <button type="submit" class="btn btn-success col-2">{{!empty($empleat) ? 'DESAR CANVIS' : 'CREAR'}} <i class="fas fa-save"></i></button>
 

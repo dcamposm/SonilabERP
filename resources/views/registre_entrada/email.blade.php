@@ -79,7 +79,7 @@ and open the template in the editor.
 	                <td>{{ $media['nom_media']}}</td>
 	            </tr>
 	            <tr>
-	                <td style="font-weight: bold; width: 25%">MINUTS:</td>
+	                <td style="font-weight: bold; width: 25%">MINUTS TOTALS:</td>
 	                <td>{{ $registreEntrada['minuts']}}</td>
 	            </tr>
 	            <tr>

@@ -4,9 +4,9 @@
 
 <div class="container-fluid">
     <div>
-        <a href="{{ url('/registreEntrada') }}" class="btn btn-primary col-2">
+        <a href="{{ url('/registreEntrada') }}" class="btn btn-primary">
             <span class="fas fa-angle-double-left"></span>
-            Tornar enrera
+            Tornar
         </a>
         <a href="{{ url('/clients/crear') }}" class="btn btn-success">
             <span class="fas fa-atlas"></span>
