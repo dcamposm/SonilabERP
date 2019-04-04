@@ -37,7 +37,6 @@ class IdiomaController extends Controller
             //return response()->json(["error" => true], 400);
         } else {            
             if ($_FILES["img_idioma"]["tmp_name"]!=""){
-                //move_uploaded_file($_FILES["img_idioma"]["tmp_name"], "../../public/img/");
             }
             try{
                 $idioma->save();

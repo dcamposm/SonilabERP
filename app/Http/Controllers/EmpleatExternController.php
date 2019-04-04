@@ -41,7 +41,6 @@ class EmpleatExternController extends Controller
                     //return response()->json($empleatsArray);
             }
         }
-        //$empleats['carrec']->with('idioma')->get();
         //return response()->json($empleatsArray);
         
         return View('empleats_externs.index', array('empleats' => $empleats, 'carrecs' => $carrecs,
@@ -95,8 +94,7 @@ class EmpleatExternController extends Controller
                         . 'OR LOWER(cognom1_empleat) like "%'. strtolower(request()->input("search_term")).'%"'
                         . 'OR LOWER(cognom2_empleat) like "%'. strtolower(request()->input("search_term")).'%"')->with('carrec')->get();
                     
-                    /*->orWhere('cognom1_empleat', request()->input("search_term"))
-                    ->orWhere('cognom2_empleat', request()->input("search_term"))->get();*/
+                    
         }
         //return response()->json($empleats);
         $carrecs = Carrec::all();
@@ -110,7 +108,6 @@ class EmpleatExternController extends Controller
                     //return response()->json($empleatsArray);
             }
         }
-        //return redirect()->route('empleatIndex')->with('success', request()->input("searchBy").'-'.request()->input("search_term"));
         return View('empleats_externs.index', array('empleats' => $empleats,
                                                     'carrecs' => $carrecs,
                                                     'empleatsArray' => $empleatsArray,
@@ -122,15 +119,14 @@ class EmpleatExternController extends Controller
         $empleat = EmpleatExtern::find($id);
         $carrecs = $empleat->carrec;
         $tarifas = Tarifa::all();
-        // Crea el objeto "carrecsEmpelat" para mostrar las tablas de cargos en el frontend
         $carrecsEmpelat = array();
+                // Crea el objeto "carrecsEmpelat" para mostrar las tablas de cargos en el frontend
         foreach ($carrecs as $key => $carrec) {
             $idioma = $carrec->idioma;
             $tarifa = $carrec->tarifa;
             //return response()->json($carrec);
             $carrecsEmpelat[$carrec->carrec->nom_carrec]['contracta'] = $carrec->contracta;
             $carrecsEmpelat[$carrec->carrec->nom_carrec][(empty($idioma)) ? 0 : $idioma->idioma][$carrec->id] = array(
-                //'idioma' => (empty($idioma)) ? '' : $idioma->idioma,
                 'nomCarrec' => $carrec->carrec->nom_carrec,
                 'empleat_homologat' => $carrec->empleat_homologat,
                 'rotllo' => $carrec->rotllo,
@@ -140,7 +136,6 @@ class EmpleatExternController extends Controller
             );
         }
         //return response()->json($carrecsEmpelat);
-        //$idioma = Idioma::all();
         
         return View('empleats_externs.show', array(
             'empleat' => $empleat,
