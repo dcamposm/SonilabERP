@@ -27,7 +27,7 @@ class EstadilloController extends Controller
         
         foreach ($estadillos as $estadillo){
             //$projecte = RegistreProduccio::find($estadillo['id_registre_produccio']);
-            //return response()->json($projecte);
+            //return response()->json($estadillo->registreProduccio);
             
             if ($estadillo->registreProduccio->subreferencia!=0){
                 //return response()->json($estadillo);
