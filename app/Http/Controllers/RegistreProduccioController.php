@@ -137,8 +137,10 @@ class RegistreProduccioController extends Controller {
         
     }
 
-    public function updateEmpleats($id){
+    public function updateEmpleats($id){ //Funcio que actualitza un empleat
+        
         //pongo esto de relleno
+        //El que lo lea me tiene que comer los cojones: Andres Baco <3
         $prod = RegistreProduccio::find($id);
 
         $v = Validator::make(request()->all(), [
