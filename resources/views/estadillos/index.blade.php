@@ -4,11 +4,10 @@
 
 <div class="container-fluid">
     <div class="row justify-content-between">
-
-        <a href="{{ url('/estadillos/crear') }}" class="btn btn-success">
-            <span class="fas fa-clipboard-list"></span>
-            CREAR ESTADILLO
-        </a>
+        
+        <button class="btn btn-success" data-toggle="modal" data-target="#ModalInsert">
+            <span class="fas fa-clipboard-list"></span>CREAR ESTADILLO
+        </button>
 
         <div class="col-5">
             <form action="{{ route('estadilloImport') }}" method="POST" enctype="multipart/form-data">
@@ -102,6 +101,50 @@
                     <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="self.seleccionarEstadillo(0)">TANCAR</button>
                     <button type="button" class="btn btn-danger" onclick="self.esborrarEstadillo()">ESBORRAR</button>
                 </div>
+            </div>
+        </div>
+    </div>
+    @if (isset($return))
+        <a href="{{ route('indexEstadillos') }}" class="btn btn-primary">
+            <span class="fas fa-angle-double-left"></span>
+            TORNAR
+        </a> 
+    @endif
+</div>
+
+<!-- MODAL CREAR ESTADILLO -->
+    <div class="modal fade" id="ModalInsert" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">CREAR ESTADILLO</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method = "POST" action="{{ route('estadilloInsert') }}" enctype="multipart/form-data">
+                    @csrf
+                    <fieldset class="border p-2">
+                        <legend class="w-auto">DADES:</legend>
+                        <div class="row">
+                            <div class="col">
+                                <label for="id_registre_produccio" style="font-weight: bold">REGISTRE:</label>
+                                <select class="form-control" name="id_registre_produccio">
+                                    @foreach( $registreProduccio as $projecte )
+                                        <option value="{{$projecte['id']}}">{{$projecte['id_registre_entrada']}} {{$projecte['titol']}} {{$projecte['subreferencia']}} </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </fieldset>
+                
+                </div>
+                <div class="modal-footer justify-content-between mt-3">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">TANCAR</button>
+                    <button type="submit" class="btn btn-success col-4">CREAR</button>
+                </div>
+                </form>
             </div>
         </div>
     </div>
