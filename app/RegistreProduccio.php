@@ -51,11 +51,36 @@ class RegistreProduccio extends Model
     
     public function estadillo()
     {
-        return $this->belongTo('App\Estadillo');
+        return $this->belongsTo('App\Estadillo', 'id', 'id_registre_produccio');
     }
 
     public function registreEntrada()
     {
-        return $this->belongTo('App\RegistreEntrada', 'id_registre_entrada', 'id_registre_entrada');
+        return $this->belongsTo('App\RegistreEntrada', 'id_registre_entrada', 'id_registre_entrada');
+    }
+    
+    public function traductor()
+    {
+        return $this->belongsTo('App\EmpleatExtern', 'id_traductor', 'id_empleat');
+    }
+    
+    public function ajustador()
+    {
+        return $this->belongsTo('App\EmpleatExtern', 'id_ajustador', 'id_empleat');
+    }
+    
+    public function linguista()
+    {
+        return $this->belongsTo('App\EmpleatExtern', 'id_linguista', 'id_empleat');
+    }
+    
+    public function director()
+    {
+        return $this->belongsTo('App\EmpleatExtern', 'id_director', 'id_empleat');
+    }
+    
+    public function tecnic()
+    {
+        return $this->belongsTo('App\EmpleatExtern', 'id_tecnic_mix', 'id_empleat');
     }
 }

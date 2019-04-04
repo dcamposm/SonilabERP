@@ -25,6 +25,6 @@ class Estadillo extends Model
     
     public function registres()
     {
-        return $this->belongTo('App\RegistreProduccio');
+        return $this->belongsTo('App\RegistreProduccio');
     }
 }

@@ -2,19 +2,21 @@
 
 @section('content')
 
-<div class="container">
+<div class="container-fluid">
   <h2 class="mb-4">{{!empty($registreProduccio) ? 'Modificació' : 'Creació' }} de registre de producció</h2>
   <div class="row">
-      
+    
     {{-- DADES BÀSIQUES --}}
     <div class="col-12 col-xl-6 mb-3">
       <div class="card">
         <form method="POST" action="{{!empty($registreProduccio) ? route('updateRegistreBasic',array('id' => $registreProduccio->id)) : route('createRegistreBasic')}}"> {{-- init form --}}
           <div class="card-header">
             <span class="h3">DADES BÀSIQUES</span>
+            @if (Auth::user()->hasAnyRole(['1', '2', '4']))
             <button class="btn btn-success float-right">
               <span class="fas fa-save"></span>DESAR
             </button>
+            @endif
           </div>
           <div class="card-body row">
             <div class="form-group col-12 col-sm-6">
@@ -65,6 +67,7 @@
       </div>
     </div>
 
+    @if (Auth::user()->hasAnyRole(['1', '2', '4']))
     {{-- COMANDA --}}
     <div class="col-12 col-xl-6 mb-3">
       <div class="card">
@@ -119,11 +122,17 @@
               </select>
               <span class="text-danger">{{ $errors->first('vec') }}</span>
             </div>
+            
+            <div class="form-group col-12 col-sm-6">
+              <label for="data_tecnic_mix">DATA MIX</label>
+              <input type="date" name="data_tecnic_mix" id="data_tecnic_mix" class="form-control" value="{{!empty($registreProduccio) ? explode(' ', $registreProduccio->data_tecnic_mix)[0] : old('data_tecnic_mix')}}">
+              <span class="text-danger">{{ $errors->first('data_tecnic_mix') }}</span>
+            </div>
           </div>
         </form> {{-- end form --}}
       </div>
     </div>
-
+    
     {{-- EMPLEATS --}}
     <div class="col-12 col-xl-6 mb-3">
       <div class="card">
@@ -139,7 +148,11 @@
               <label for="id_traductor">TRADUCTOR</label>
               <select name="id_traductor" id="id_traductor" class="form-control">
                 @foreach ($empleats as $key => $empleat) 
-                  <option value="{{ $empleat->id_empleat }}" {{(!empty($registreProduccio) && $empleat->id_empleat == $registreProduccio->id_traductor) || old('id_traductor') ? 'selected' : '' }}>{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }} {{ $empleat->cognom2_empleat }}</option>
+                    @foreach ($empleat->carrec as $key => $carrec) 
+                        @if ($carrec->id_tarifa == 12)
+                            <option value="{{ $empleat->id_empleat }}" {{(!empty($registreProduccio) && $empleat->id_empleat == $registreProduccio->id_traductor) || old('id_traductor') ? 'selected' : '' }}>{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }} {{ $empleat->cognom2_empleat }}</option>
+                        @endif
+                    @endforeach
                 @endforeach
               </select>
               <span class="text-danger">{{ $errors->first('id_traductor') }}</span>
@@ -154,8 +167,12 @@
             <div class="form-group col-12 col-sm-6">
               <label for="id_ajustador">AJUSTADOR</label>
               <select name="id_ajustador" id="id_ajustador" class="form-control">
-                @foreach ($empleats as $key => $empleat) 
-                  <option value="{{ $empleat->id_empleat }}" {{(!empty($registreProduccio) && $empleat->id_empleat == $registreProduccio->id_ajustador) || old('id_ajustador') ? 'selected' : '' }}>{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }} {{ $empleat->cognom2_empleat }}</option>
+                @foreach ($empleats as $key => $empleat)
+                    @foreach ($empleat->carrec as $key => $carrec) 
+                        @if ($carrec->id_tarifa == 13)
+                            <option value="{{ $empleat->id_empleat }}" {{(!empty($registreProduccio) && $empleat->id_empleat == $registreProduccio->id_ajustador) || old('id_ajustador') ? 'selected' : '' }}>{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }} {{ $empleat->cognom2_empleat }}</option>
+                        @endif
+                    @endforeach
                 @endforeach
               </select>
               <span class="text-danger">{{ $errors->first('id_ajustador') }}</span>
@@ -171,7 +188,11 @@
               <label for="id_linguista">LINGÜISTA</label>
               <select name="id_linguista" id="id_linguista" class="form-control">
                 @foreach ($empleats as $key => $empleat) 
-                  <option value="{{ $empleat->id_empleat }}" {{(!empty($registreProduccio) && $empleat->id_empleat == $registreProduccio->id_linguista) || old('id_linguista') ? 'selected' : '' }}>{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }} {{ $empleat->cognom2_empleat }}</option>
+                    @foreach ($empleat->carrec as $key => $carrec) 
+                        @if ($carrec->id_tarifa == 14)
+                            <option value="{{ $empleat->id_empleat }}" {{(!empty($registreProduccio) && $empleat->id_empleat == $registreProduccio->id_linguista) || old('id_linguista') ? 'selected' : '' }}>{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }} {{ $empleat->cognom2_empleat }}</option>
+                        @endif
+                    @endforeach
                 @endforeach
               </select>
               <span class="text-danger">{{ $errors->first('id_linguista') }}</span>
@@ -186,8 +207,13 @@
             <div class="form-group col-12 col-sm-6">
               <label for="id_director">DIRECTOR</label>
               <select name="id_director" id="id_director" class="form-control">
-                @foreach ($empleats as $key => $empleat) 
-                  <option value="{{ $empleat->id_empleat }}" {{(!empty($registreProduccio) && $empleat->id_empleat == $registreProduccio->id_director) || old('id_director') ? 'selected' : '' }}>{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }} {{ $empleat->cognom2_empleat }}</option>
+                @foreach ($empleats as $key => $empleat)
+                    @foreach ($empleat->carrec as $key => $carrec) 
+                        @if ($carrec->id_tarifa == 1 || $carrec->id_tarifa == 2)
+                            <option value="{{ $empleat->id_empleat }}" {{(!empty($registreProduccio) && $empleat->id_empleat == $registreProduccio->id_director) || old('id_director') ? 'selected' : '' }}>{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }} {{ $empleat->cognom2_empleat }}</option>
+                            @break
+                        @endif
+                    @endforeach
                 @endforeach
               </select>
               <span class="text-danger">{{ $errors->first('id_director') }}</span>
@@ -206,7 +232,8 @@
         </form> {{-- end form --}}
       </div>
     </div>
-
+    @endif
+    @if (Auth::user()->hasAnyRole(['1', '3', '4']))
     {{-- PREPARACIÓ --}}
     <div class="col-12 col-xl-6 mb-3">
       <div class="card">
@@ -276,22 +303,22 @@
               <label for="id_tecnic_mix">TÈCNIC MIX</label>
               <select name="id_tecnic_mix" id="id_tecnic_mix" class="form-control">
                 @foreach ($empleats as $key => $empleat) 
-                  <option value="{{ $empleat->id_empleat }}" {{(!empty($registreProduccio) && $empleat->id_empleat == $registreProduccio->id_tecnic_mix) || old('id_tecnic_mix') ? 'selected' : '' }}>{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }} {{ $empleat->cognom2_empleat }}</option>
+                    @foreach ($empleat->carrec as $key => $carrec) 
+                        @if ($carrec->id_tarifa == 3 || $carrec->id_tarifa == 4)
+                            <option value="{{ $empleat->id_empleat }}" {{(!empty($registreProduccio) && $empleat->id_empleat == $registreProduccio->id_tecnic_mix) || old('id_tecnic_mix') ? 'selected' : '' }}>{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }} {{ $empleat->cognom2_empleat }}</option>
+                            @break
+                        @endif
+                    @endforeach
                 @endforeach
               </select>
               <span class="text-danger">{{ $errors->first('id_tecnic_mix') }}</span>
-            </div>
-
-            <div class="form-group col-12 col-sm-6">
-              <label for="data_tecnic_mix">DATA MIX</label>
-              <input type="date" name="data_tecnic_mix" id="data_tecnic_mix" class="form-control" value="{{!empty($registreProduccio) ? explode(' ', $registreProduccio->data_tecnic_mix)[0] : old('data_tecnic_mix')}}">
-              <span class="text-danger">{{ $errors->first('data_tecnic_mix') }}</span>
             </div>
           </div>
         </form> {{-- end form --}}
       </div>
     </div>
-
+    @endif
+    @if (Auth::user()->hasAnyRole(['1', '2', '4']))
     {{-- CONVOCATORIA --}}
     <div class="col-12 col-xl-6 mb-3">
       <div class="card">
@@ -339,7 +366,7 @@
         </form> {{-- end form --}}
       </div>
     </div>
-
+    @endif
   </div>
     <a href="{{ url('/registreProduccio') }}" class="btn btn-primary">
       <span class="fas fa-angle-double-left"></span>
