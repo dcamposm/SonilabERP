@@ -134,8 +134,8 @@ class RegistreEntradaController extends Controller
                 $registreEntrada->id_media =request()->input('id_media');
                 $registreEntrada->minuts =request()->input('minuts');
                 $registreEntrada->total_episodis =request()->input('total_episodis') ? request()->input('total_episodis') : '1';
-                $registreEntrada->episodis_setmanals =request()->input('total_episodis') ? request()->input('total_episodis') : '1';
-                $registreEntrada->entregues_setmanals =request()->input('total_episodis') ? request()->input('total_episodis') : '1';
+                $registreEntrada->episodis_setmanals =request()->input('episodis_setmanals') ? request()->input('episodis_setmanals') : '1';
+                $registreEntrada->entregues_setmanals =request()->input('entregues_setmanals') ? request()->input('entregues_setmanals') : '1';
                 $registreEntrada->estat =request()->input('estat');
                 //$registreEntrada->save();
                 
