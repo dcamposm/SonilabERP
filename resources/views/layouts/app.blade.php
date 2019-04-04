@@ -75,7 +75,7 @@
 
     <!--navbar-->
 
-    <nav class="navbar navbar-dark sticky-top bg-dark navbar-sonilab flex-md-nowrap p-0">
+    <nav class="navbar navbar-dark fixed-top bg-dark navbar-sonilab flex-md-nowrap p-0">
 
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{ route('home') }}"><img src="http://sonilab.com.mialias.net/wp-content/uploads/2016/11/SONILAB_logo41-300x65-300x75.png" width="120" height="30" class="d-inline-block align-top" alt=""></a>
         @auth
@@ -177,7 +177,7 @@
 
     <!-- Page Content -->
 
-    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10" style="padding-top: 50px;">
          <!-- <a class="btn btn-outline-info btn-sm" style="padding-bottom: 0px;" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
             <i class="fas fa-bars" style="margin-right: 0px;"></i>
         </a>

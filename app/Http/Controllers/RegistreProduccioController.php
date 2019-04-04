@@ -15,13 +15,19 @@ class RegistreProduccioController extends Controller {
     }
 
     public function getIndex() {
-        $registreProduccio = RegistreProduccio::orderBy('estat')->orderBy('data_entrega')->get();
+        //$empleats = EmpleatExtern::with('produccioTraductor')->get();
+        //
+        $registreProduccio = RegistreProduccio::with('traductor')->with('ajustador')
+                ->with('linguista')->with('director')->with('tecnic')
+                ->orderBy('estat')->orderBy('data_entrega')->get();
         $registreEntrada = RegistreEntrada::all();
+        //return response()->json($registreProduccio);
         return View('registre_produccio.index', array('registreProduccions' => $registreProduccio, 'registreEntrades' => $registreEntrada));
     }
 
     public function createView() {
-        $empleats = EmpleatExtern::all();
+        $empleats = EmpleatExtern::with('carrec')->get();
+        //return response()->json($empleats);
         // Solamente tenemos que cargar los registros de entrada pendientes.
         $regEntrades = RegistreEntrada::where('estat', '=', 'Pendent')->get();
 
@@ -107,7 +113,8 @@ class RegistreProduccioController extends Controller {
             'propostes'         => 'required',
             'inserts'           => 'required',
             'titol_traduit'     => 'required',
-            'vec'               => 'required',            
+            'vec'               => 'required',
+            'data_tecnic_mix'       => 'date',            
         ],[
             'required' => 'No s\'ha introduït aquesta dada.',
         ]);
@@ -178,7 +185,6 @@ class RegistreProduccioController extends Controller {
             'pps'                   => 'required',
             'ppe'                   => 'required',
             'id_tecnic_mix'             => 'required',
-            'data_tecnic_mix'       => 'date',
         ],[
             'required' => 'No s\'ha introduït aquesta dada.',
             'date' => 'Aquesta dada te que ser una data.'
@@ -282,7 +288,8 @@ class RegistreProduccioController extends Controller {
             'propostes'         => 'required',
             'inserts'           => 'required',
             'titol_traduit'     => 'required',
-            'vec'               => 'required', 
+            'vec'               => 'required',
+            'data_tecnic_mix'       => 'date',
         ],[
             'required' => 'No s\'ha introduït aquesta dada.',
         ]);
