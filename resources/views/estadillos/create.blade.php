@@ -32,22 +32,24 @@
 
 
         <br>
+        <div class="row justify-content-between mt-5">
 
-        <!-- BOTÓN DE CREAR O ACTUALIZAR -->
-        <div class="row">
-            <div class="col-6">
-                <button type="submit" class="btn btn-success col-4">{{!empty($estadillos) ? 'DESAR' : 'CREAR'}}</button>
-            </div>
+            <!-- BOTÓN DE CREAR O ACTUALIZAR -->
+            
+            <button type="submit" class="btn btn-success ml-4">{{!empty($estadillos) ? 'DESAR' : 'CREAR'}}</button>
+        
+        
+        
+            <a href="{{ route('indexEstadillos') }}" class="btn btn-primary mr-4">
+                <span class="fas fa-angle-double-left"></span>
+                TORNAR
+            </a>
+            
         </div>
-        <br>
+        
     </form>
     
-    <div>
-        <a href="{{ route('indexEstadillos') }}" class="btn btn-primary">
-            <span class="fas fa-angle-double-left"></span>
-            TORNAR
-        </a>
-    </div>
+        
 </div>
 
 
