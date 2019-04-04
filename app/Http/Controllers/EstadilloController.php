@@ -18,11 +18,11 @@ class EstadilloController extends Controller
         $this->middleware('auth');
     }
     
-    public function index()
+    public function index() //Funcio que crea la pagina de index 
     {
-        $estadillos = Estadillo::all()->sortBy("id_registre_produccio");
-        //return response()->json($estadillos[1]->registreProduccio);
-        //$registreProduccio = Projecte::all();
+        $estadillos = Estadillo::all()->sortBy("id_registre_produccio"); //Agafa tots els estadillos i els ordena per registre de producció
+
+        
         $showEstadillos = array();
         
         foreach ($estadillos as $estadillo){
@@ -99,18 +99,19 @@ class EstadilloController extends Controller
         return View('estadillos.index', array('showEstadillos' => $showEstadillos, 'registreProduccio'=>$arrayProjectes));
     }
     
-    public function show($id, $id_setmana = 0){
+    public function show($id, $id_setmana = 0){ //Funcio que mostra l'informació s'un estadillo
         $empleats = EmpleatExtern::all();
         if ($id_setmana == 0){
-            $actors = ActorEstadillo::where('id_produccio', $id)->get(); 
-            //return response()->json($actors);
-            $estadillos = Estadillo::find($id);
+            $actors = ActorEstadillo::where('id_produccio', $id)->get(); //Busca tots els actors que participin amb l'estadillo
+
+
+            $estadillos = Estadillo::find($id); //Busca l'estadillo
             $estadillos->registreProduccio;
             //return response()->json($estadillos);
             //return response()->json($estadillos);//['registre_produccio']
             //$registreProduccio = Projecte::find($estadillos['id_registre_produccio']);
             //return response()->json($estadillos);
-            return view('estadillos.showActor', array(
+            return view('estadillos.showActor', array( //Retorna a la vista showActor
                 'actors'    => $actors,
                 'empleats'    => $empleats,
                 'estadillos' => $estadillos
@@ -170,7 +171,7 @@ class EstadilloController extends Controller
             ));
     }
     
-    public function showSetmana($id, $id_setmana) {
+    public function showSetmana($id, $id_setmana) { //Funcio que mostra els etadillos per una setmana
         $registreProduccio = RegistreProduccio::where('id_registre_entrada', $id)->where('setmana', $id_setmana)->get();
         //return response()->json($registreProduccio);
         
@@ -721,7 +722,7 @@ class EstadilloController extends Controller
                                                 'return' => 1));
     }
     
-    public function findActor($id, $id_setmana = 0){
+    public function findActor($id, $id_setmana = 0){ //Funció per trobar a un actor
         $empleats = EmpleatExtern::whereRaw('LOWER(nom_empleat) like "%'. strtolower(request()->input("search_term")).'%"'
                                     . 'OR LOWER(cognom1_empleat) like "%'. strtolower(request()->input("search_term")).'%"'
                                     . 'OR LOWER(cognom2_empleat) like "%'. strtolower(request()->input("search_term")).'%"')->get();
@@ -794,14 +795,14 @@ class EstadilloController extends Controller
             ));
     }
     
-    public function delete(Request $request)
+    public function delete(Request $request) //Funcio per esborrar un estadillo
     {
         ActorEstadillo::where('id_produccio', $request["id"])->delete();
         Estadillo::where('id_estadillo', $request["id"])->delete();
         return redirect()->back()->with('success', 'Estadillo eliminat correctament.');
     }
     
-    public function deleteActor(Request $request)
+    public function deleteActor(Request $request) //Funcio per esborrar un actor
     {
         ActorEstadillo::where('id', $request["id"])->delete();
         return redirect()->back()->with('success', 'Actor eliminat correctament.');
