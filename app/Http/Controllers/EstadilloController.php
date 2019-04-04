@@ -261,32 +261,7 @@ class EstadilloController extends Controller
         }
         return redirect()->back()->with('success', 'Estadillo importat correctament.');  
     }
-    /*
-    public function insertView(){
-        $estadillos = Estadillo::all();
-        $registreProduccio = RegistreProduccio::all();
-        
-        $arrayProjectes = array();
-        $cont = 0;
-        $exist = false;
-        
-        foreach ($registreProduccio as $projecte){
-            foreach ($estadillos as $estadillo) {
-                if ($projecte->id == $estadillo->id_registre_produccio){
-                    $exist = true;
-                }
-            }
-            if ($exist == false) {
-                $arrayProjectes[$cont] = $projecte;
-                $cont++;
-            } else {
-                $exist = false;
-            }
-        }
-        
-        return View('estadillos.create', array('registreProduccio'=>$arrayProjectes));
-    }
-    */
+    
     public function insert()
     {
         //return response()->json(request()->all());
