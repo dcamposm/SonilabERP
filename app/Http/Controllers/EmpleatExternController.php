@@ -29,7 +29,9 @@ class EmpleatExternController extends Controller
         $empleatsArray = array();
         $idiomes = Idioma::all();
         $carrecs = Carrec::all();
-        $empleats = EmpleatExtern::with('carrec')->get();
+        $empleats = EmpleatExtern::with(['carrec' => function($query){
+                                        $query->orderBy('id_carrec');
+                                    }])->get();
         foreach ($empleats as $empleat) {
             foreach( $empleat->carrec as $empleatCarrec ){
                     $empleatCarrec->carrec;
@@ -109,7 +111,10 @@ class EmpleatExternController extends Controller
             }
         }
         //return redirect()->route('empleatIndex')->with('success', request()->input("searchBy").'-'.request()->input("search_term"));
-        return View('empleats_externs.index', array('empleats' => $empleats, 'carrecs' => $carrecs,'empleatsArray' => $empleatsArray));
+        return View('empleats_externs.index', array('empleats' => $empleats,
+                                                    'carrecs' => $carrecs,
+                                                    'empleatsArray' => $empleatsArray,
+                                                    'return' => 1));
     }
     
     public function show($id)

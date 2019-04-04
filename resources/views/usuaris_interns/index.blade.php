@@ -27,7 +27,7 @@
 
                     <select class="custom-select" id='search_Dep' name="search_Dep" form="search" style="display: none;">
                         @foreach( $departaments as $key => $departament )
-                          <option value="{{$departament['id_departament']}}">{{$departament['nom_departament']}}</option>
+                          <option value="{{$departament['id_departament']}}">{{ mb_strtoupper( $departament['nom_departament'] ) }}</option>
                         @endforeach
                     </select>
 
@@ -91,6 +91,12 @@
         </div>
 
     </div>
+    @if (isset($return))
+        <a href="{{ url('/usuaris/interns/index') }}" class="btn btn-primary">
+            <span class="fas fa-angle-double-left"></span>
+            TORNAR ENRERA
+        </a> 
+    @endif
 </div>
 
 <script>

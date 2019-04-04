@@ -12,6 +12,10 @@ use App\TipusMedia;
 use App\User;
 use App\Missatge;
 use App\RegistreProduccio;
+use Swift_Message;
+use Swift_SmtpTransport;
+use Swift_Mailer;
+use View;
 class RegistreEntradaController extends Controller
 {
     
@@ -80,7 +84,8 @@ class RegistreEntradaController extends Controller
         //return redirect()->route('empleatIndex')->with('success', request()->input("searchBy").'-'.request()->input("search_term"));
         return view('registre_entrada.index',array('registreEntrades' => $registreEntrades, 'clients' => $clients,
                                                     'serveis' => $serveis, 'idiomes' => $idiomes,
-                                                    'medies' => $medies, 'usuaris' => $usuaris));
+                                                    'medies' => $medies, 'usuaris' => $usuaris,
+                                                    'return' => 1));
     }
 
     public function insertView(){
@@ -116,8 +121,6 @@ class RegistreEntradaController extends Controller
         } else {
             if (request()->input('id_registre_entrada')){
                 $registreEntrada = new RegistreEntrada(request()->all());
-                
-                //if ()
             } else {
                 $registreEntrada = new RegistreEntrada;
                 $registreEntrada->ot = request()->input('ot') ? request()->input('ot') : '';
@@ -144,6 +147,7 @@ class RegistreEntradaController extends Controller
             } catch (\Exception $ex) {
                 return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut crear el registre d\'entrada.'));
             }
+//---------------------Creador registres de produccio-------------------            
             if ($registreEntrada->id_media>1 && $registreEntrada->id_media<5) {
                 $registreProduccio = new RegistreProduccio;
                 $registreProduccio->subreferencia = 0;
@@ -183,7 +187,7 @@ class RegistreEntradaController extends Controller
                     $registreProduccio->save();
                 }
             }
-            
+//--------------------Misstage per el responsable-----------------------
             $fecha_actual = date("d-m-Y");
             //return response()->json(date("d-m-Y",strtotime($fecha_actual."+ 7 days")));               
             $missatge = new Missatge;
@@ -193,6 +197,38 @@ class RegistreEntradaController extends Controller
             $missatge->id_referencia =$registreEntrada->id_registre_entrada;
             $missatge->data_final =date("Y-m-d",strtotime($fecha_actual."+ 7 days"));
             $missatge->save(); 
+//-------------------------------Email----------------------------------
+            /*// Create the Transport
+            $transport = (new Swift_SmtpTransport('smtp-mail.outlook.com', 587, 'tls'))
+              ->setUsername('dcampos@paycom.es')
+              ->setPassword('')//Posar contrasenya de la conta
+            ;            
+            // Create the Mailer using your created Transport
+            $mailer = new Swift_Mailer($transport);
+                     
+            $registreEntrada = RegistreEntrada::find($registreEntrada->id_registre_entrada);
+            $idioma = Idioma::find($registreEntrada['id_idioma']);
+            $client = Client::find($registreEntrada['id_client']);
+            $servei = Servei::find($registreEntrada['id_servei']);
+            $media = TipusMedia::find($registreEntrada['id_media']);
+            
+            $view = View::make('registre_entrada.email', array(
+                'registreEntrada' => $registreEntrada,
+                'client'          => $client,
+                'servei'          => $servei,
+                'media'           => $media,
+                'idioma'          => $idioma
+            ));
+            $html = $view->render();
+            // Create a message
+            $message = (new Swift_Message('Wonderful Subject'))
+              ->setFrom('dcampos@paycom.es')
+              ->setTo('dcampos@paycom.es')
+              ->setBody($html, 'text/html')
+              ;
+
+            // Send the message
+            $result = $mailer->send($message);*/
             
             return redirect()->back()->with('success', 'Registre d\'entrada creat correctament.');
         }
@@ -205,6 +241,7 @@ class RegistreEntradaController extends Controller
         $serveis = Servei::all();
         $medias = TipusMedia::all();
         $usuaris = User::where('id_departament', '2')->get();
+        //return response()->json($registreEntrada); 
         return view('registre_entrada.create', array(
             'registreEntrada' => $registreEntrada,
             'clients'         => $clients,
@@ -265,6 +302,11 @@ class RegistreEntradaController extends Controller
     }
     public function delete(Request $request) {
         RegistreEntrada::where('id_registre_entrada', $request["id"])->delete();
+        RegistreProduccio::where('id_registre_entrada', $request["id"])->delete();
+        \App\Estadillo::with(['registres' => function($query){
+                                        $query->where('id_registre_entrada', $request["id"]);
+                                    }])->delete();
+        Missatge::where('id_referencia', $request["id"])->where('referencia', 'registreEntrada')->delete();
         return redirect()->route('indexRegistreEntrada');
     }
 }

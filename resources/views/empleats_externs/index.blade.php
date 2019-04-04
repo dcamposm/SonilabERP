@@ -31,7 +31,7 @@
 
                     <select class="custom-select" id='search_Carrec' name="search_Carrec" form="search" style="display: none;">
                         @foreach( $carrecs as $key => $carrec )
-                          <option value="{{$carrec['id_carrec']}}">{{strtr(strtoupper($carrec['descripcio_carrec']), "àáèéíóúüç", "ÀÁÈÉÍÓÚÜÇ")}}</option>
+                          <option value="{{$carrec['id_carrec']}}">{{ mb_strtoupper( $carrec['descripcio_carrec'] ) }}</option>
                         @endforeach
                     </select>
                     <select class="custom-select" id='search_Sexe' name="search_Sexe" form="search" style="display: none;">
@@ -112,6 +112,12 @@
             </div>
         </div>
     </div>
+    @if (isset($return))
+        <a href="{{ url('/empleats') }}" class="btn btn-primary">
+            <span class="fas fa-angle-double-left"></span>
+            TORNAR
+        </a> 
+    @endif
 </div>
 
 <script>

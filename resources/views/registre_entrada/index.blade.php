@@ -9,7 +9,7 @@
         @if (Auth::user()->hasAnyRole(['1', '4']))
             <a href="{{ url('/registreEntrada/crear') }}" class="btn btn-success">
                 <span class="fas fa-atlas"></span>
-                AFAGIR REGISTRE D'ENTRADA
+                NOVA REFERÈNCIA
             </a>
         @endif
             <a href="{{ url('/clients') }}" class="btn btn-success">
@@ -91,7 +91,7 @@
     </div>
     
     {{-- LEYENDA DE COLORES DE ESTADO --}}
-    <div style="margin-top: 10px;">
+    <div class="d-flex justify-content-end" style="margin-top: 10px;">
         <div class="llegenda">
             <form method = "GET" action= '{{ route('registreEntradaFind') }}' id='search'>
                 @csrf
@@ -99,7 +99,7 @@
                 <input type="hidden" id="search_Estat" class="form-control" name="search_Estat" value="Finalitzada">
                 <input type="hidden" id="orderBy" class="form-control" name="orderBy" value="id_registre_entrada">
 
-                <span style="color: lawngreen; font-size: 30px;">&#9646;</span><button type="submit" class="btn btn-link" style="text-decoration: none; color: black;">FINALITZAT</button>
+                <span style="color: lawngreen; font-size: 15px;">&#9646;</span><button type="submit" class="btn btn-link" style="text-decoration: none; color: black; font-size: 11px; padding: 1px;">FINALITZAT</button>
             </form>
         </div>
         <div class="llegenda">
@@ -108,7 +108,7 @@
                 <input type="hidden" id="searchBy" class="form-control" name="searchBy" value="2">
                 <input type="hidden" id="search_Estat" class="form-control" name="search_Estat" value="Pendent">
                 <input type="hidden" id="orderBy" class="form-control" name="orderBy" value="id_registre_entrada">
-                <span style="color: darkorange; font-size: 30px;">&#9646;</span><button type="submit" class="btn btn-link" style="text-decoration: none; color: black;">PENDENT</button>
+                <span style="color: darkorange; font-size: 15px;">&#9646;</span><button type="submit" class="btn btn-link" style="text-decoration: none; color: black; font-size: 11px; padding: 1px;">PENDENT</button>
             </form>
         </div>
         <div class="llegenda">
@@ -117,17 +117,17 @@
                 <input type="hidden" id="searchBy" class="form-control" name="searchBy" value="2">
                 <input type="hidden" id="search_Estat" class="form-control" name="search_Estat" value="Cancel·lada">
                 <input type="hidden" id="orderBy" class="form-control" name="orderBy" value="id_registre_entrada">
-                <span style="color: red; font-size: 30px;">&#9646;</span><button type="submit" class="btn btn-link" style="text-decoration: none; color: black;">CANCEL·LAT</button>
+                <span style="color: red; font-size: 15px;">&#9646;</span><button type="submit" class="btn btn-link" style="text-decoration: none; color: black; font-size: 11px; padding: 1px;">CANCEL·LAT</button>
             </form>
         </div>
         <div style="clear:both;"></div>
     </div>
 
     {{-- TABLA DE REGISTROS DE ENTRADA --}}
-    <table class="table" style="margin-top: 10px;">
+    <table class="table" style="margin-top: 10px; min-width: 1200px; font-size: 11px;">
         <thead>
             <tr>
-                <th>REF</th> 
+                <th>REF.</th> 
                 <th>TÍTOL</th>
                 <th>PRIMERA ENTRAGA</th>
                 <th>RESPONSABLE</th>
@@ -135,7 +135,8 @@
                 <th>SERVEI</th>
                 <th>IDIOMA</th>
                 <th>TIPUS</th>
-                <th>MINUTS</th>
+                <th>MINUTS TOTALS</th>
+                <th>EPISODIS TOTALS</th>
                 @if (Auth::user()->hasAnyRole(['1', '4']))
                 <th>ACCIONS</th>
                 @endif
@@ -157,12 +158,13 @@
                 <td style="vertical-align: middle;">{{ $registreEntrada->servei->nom_servei }}</td>
                 <td style="vertical-align: middle;">{{ $registreEntrada->idioma->idioma }}</td>
                 <td style="vertical-align: middle;">{{ $registreEntrada->media->nom_media }}</td>
-                <td style="vertical-align: middle;">{{ $registreEntrada->minuts }}</td>
+                <td style="vertical-align: middle; text-align: center;">{{ $registreEntrada->minuts }}</td>
+                <td style="vertical-align: middle; text-align: center;">{{ $registreEntrada->total_episodis }}</td>
                 @if (Auth::user()->hasAnyRole(['1', '4']))
                 <td style="vertical-align: middle;">
-                    <a href="{{ route('registreEntradaUpdateView', array('id' => $registreEntrada['id_registre_entrada'])) }}" class="btn btn-primary">MODIFICAR</a>
+                    <a href="{{ route('registreEntradaUpdateView', array('id' => $registreEntrada['id_registre_entrada'])) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">MODIFICAR</a>
                     @if (Auth::user()->hasAnyRole(['4']))
-                        <button class="btn btn-danger" onclick="self.seleccionarRegistreEntrada({{ $registreEntrada['id_registre_entrada'] }}, '{{ $registreEntrada['titol'] }}')" data-toggle="modal" data-target="#exampleModalCenter">ESBORRAR</button>
+                        <button class="btn btn-danger btn-sm" onclick="self.seleccionarRegistreEntrada({{ $registreEntrada['id_registre_entrada'] }}, '{{ $registreEntrada['titol'] }}')" data-toggle="modal" data-target="#exampleModalCenter" style="font-size: 11px;">ESBORRAR</button>
                         <form id="delete-{{ $registreEntrada['id_registre_entrada'] }}" action="{{ route('esborrarRegistreEntrada') }}" method="POST">
                             @csrf
                             <input type="hidden" readonly name="id" value="{{ $registreEntrada['id_registre_entrada'] }}">
@@ -195,7 +197,12 @@
             </div>
         </div>
     </div>
-
+    @if (isset($return))
+        <a href="{{ url('/registreEntrada') }}" class="btn btn-primary">
+            <span class="fas fa-angle-double-left"></span>
+            TORNAR ENRERA
+        </a> 
+    @endif
 </div>
 
 <script>

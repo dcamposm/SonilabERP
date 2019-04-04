@@ -719,7 +719,8 @@ class EstadilloController extends Controller
             }
         }
         
-        return View('estadillos.index', array('showEstadillos' => $showEstadillos));
+        return View('estadillos.index', array('showEstadillos' => $showEstadillos,
+                                                'return' => 1));
     }
     
     public function findActor($id, $id_setmana = 0){

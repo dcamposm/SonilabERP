@@ -6,11 +6,15 @@
     <table class="table table-striped">
         <thead class="thead-dark">
             <tr class="row">
-                <th class="col">Registre d'Entrada</th>
+                <th class="col">REGISTRES D'ENTRADA</th>
             </tr>
         </thead>
 
         <tbody>
+            <tr class="row">
+                <td class="font-weight-bold col-sm-3">REFERENCIA:</td>
+                <td class="col">{{ $registreEntrada['id_registre_entrada']}}</td>
+            </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-3">TÍTOL:</td>
                 <td class="col">{{ $registreEntrada['titol']}}</td>
@@ -25,7 +29,7 @@
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-3">PRIMERA ENTREGA:</td>
-                <td class="col">{{ $registreEntrada['sortida']}}</td>
+                <td class="col">{{ date('d-m-Y', strtotime($registreEntrada['sortida']))}}</td>
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-3">CLIENT:</td>
@@ -44,7 +48,7 @@
                 <td class="col">{{ $media['nom_media']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">MINUTS:</td>
+                <td class="font-weight-bold col-sm-3">MINUTS TOTALS:</td>
                 <td class="col">{{ $registreEntrada['minuts']}}</td>
             </tr>
             <tr class="row">
@@ -76,7 +80,7 @@
     
     <a href="{{ url('/registreEntrada') }}" class="btn btn-primary col-2">
         <span class="fas fa-angle-double-left"></span>
-        Tornar enrera
+        TORNAR
     </a>
 </div>
 

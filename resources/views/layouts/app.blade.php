@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Sonilab') }}</title>
+    <title>SonilabERP</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -55,6 +55,10 @@
         background-color: #E3E3E3;
     }
     
+    .table th {
+        padding: .50rem !important;
+    }
+    
     .table td {
         padding: .50rem !important;
     }
@@ -71,7 +75,7 @@
 
     <!--navbar-->
 
-    <nav class="navbar navbar-dark sticky-top bg-dark navbar-sonilab flex-md-nowrap p-0">
+    <nav class="navbar navbar-dark fixed-top bg-dark navbar-sonilab flex-md-nowrap p-0">
 
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{{ route('home') }}"><img src="http://sonilab.com.mialias.net/wp-content/uploads/2016/11/SONILAB_logo41-300x65-300x75.png" width="120" height="30" class="d-inline-block align-top" alt=""></a>
         @auth
@@ -123,11 +127,6 @@
                         <li class="nav-item">
                                 <a class="{{ Request::is('registreEntrada*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('indexRegistreEntrada')}}"><span class="fas fa-atlas"></span><span class="sidebar-link underline">Registre d'entrada</span></a>
                         </li>
-                        @if (Auth::user()->hasAnyRole(['1', '2', '4']))
-                        <li class="nav-item">
-                                <a class="{{ Request::is('estadillos*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('indexEstadillos')}}"> <span class="fas fa-clipboard-list"></span><span class="sidebar-link underline">Estadillo</span></a>
-                        </li>
-                        @endif
                     </ul>
 
 <!--
@@ -171,14 +170,19 @@
                <!-- <a class="btn-floating btn-lg purple-gradient"><i class="fa fa-bolt"></i></a>-->
 
             </nav>
-        </div>
+       </div>
 
     </div>
     @endguest
 
     <!-- Page Content -->
 
-    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10" style="padding-top: 50px;">
+         <!-- <a class="btn btn-outline-info btn-sm" style="padding-bottom: 0px;" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            <i class="fas fa-bars" style="margin-right: 0px;"></i>
+        </a>
+        <br>
+        <br> -->
         @if (session('success'))
             <div class="alert alert-success" role="alert">
                 <span class="fas fa-check"></span>{{ session('success') }}
