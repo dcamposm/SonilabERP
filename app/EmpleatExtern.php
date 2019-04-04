@@ -29,5 +29,34 @@ class EmpleatExtern extends Model
     {
         return $this->hasMany('App\CarrecEmpleat', 'id_empleat', 'id_empleat');
     }
-
+    
+    public function estadillo()
+    {
+        return $this->hasMany('App\ActorEstadillo', 'id_actor', 'id_empleat');
+    }
+    
+    public function produccioTraductor()
+    {
+        return $this->hasMany('App\RegistreProduccio', 'id_traductor', 'id_empleat');
+    }
+    
+    public function produccioAjustador()
+    {
+        return $this->hasMany('App\RegistreProduccio', 'id_ajustador', 'id_empleat');
+    }
+    
+    public function produccioLinguista()
+    {
+        return $this->hasMany('App\RegistreProduccio', 'id_linguista', 'id_empleat');
+    }
+    
+    public function produccioDirector()
+    {
+        return $this->hasMany('App\RegistreProduccio', 'id_director', 'id_empleat');
+    }
+    
+    public function produccioTecnic()
+    {
+        return $this->hasMany('App\RegistreProduccio', 'id_tecnic_mix', 'id_empleat');
+    }
 }
