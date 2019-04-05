@@ -133,6 +133,8 @@
                         <td style="vertical-align: middle;">
                             @if ($registreProduccio->estadillo != 1)
                                 <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $registreProduccio->id }}, '{{ $registreProduccio->id_registre_entrada.' '.$registreProduccio->titol.' '.$registreProduccio->subreferencia }}')" data-toggle="modal" data-target="#exampleModalCenter">ESTADILLO</button>
+                            @else
+                                <a href="{{ $registreProduccio->subreferencia==0 ? route('estadilloShow', array('id' => $registreProduccio->estadillo->id_estadillo )) : route('estadilloShow', array('id' => $registreProduccio->id_registre_entrada, 'id_setmana' => $registreProduccio->setmana )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">ESTADILLO</a>
                             @endif
                         </td>
                         <td style="vertical-align: middle;">{{ $registreProduccio->convos == 0 ? '' : 'FET' }}</td>
@@ -144,6 +146,8 @@
                         <td style="vertical-align: middle;">
                             @if ($registreProduccio->estadillo != 1)
                                 <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $registreProduccio->id }}, '{{ $registreProduccio->id_registre_entrada.' '.$registreProduccio->titol.' '.$registreProduccio->subreferencia }}')" data-toggle="modal" data-target="#exampleModalCenter">ESTADILLO</button>
+                            @else
+                                <a href="{{ $registreProduccio->subreferencia==0 ? route('estadilloShow', array('id' => $registreProduccio->getEstadillo->id_estadillo )) : route('estadilloShow', array('id' => $registreProduccio->id_registre_entrada, 'id_setmana' => $registreProduccio->setmana )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">ESTADILLO</a>
                             @endif
                         </td>
                     @endif
@@ -257,7 +261,7 @@
     self.seleccionarEstadillo = function (registreProduccioId, registreProduccioAlias) {
         self.registrePerEsborrar = registreProduccioId;
         if (registreProduccioAlias != undefined) {
-            $('#id_estadillo').attr('value', registreProduccioId+' '+registreProduccioAlias);
+            $('#id_estadillo').attr('value', registreProduccioId);
             document.getElementById('message').innerHTML = 'Importar estadillo de <b>' + registreProduccioAlias + '</b>:';
         }
     }

@@ -18,10 +18,10 @@ class RegistreProduccioController extends Controller {
         //$empleats = EmpleatExtern::with('produccioTraductor')->get();
         //
         $registreProduccio = RegistreProduccio::with('traductor')->with('ajustador')
-                ->with('linguista')->with('director')->with('tecnic')
+                ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
                 ->orderBy('estat')->orderBy('data_entrega')->get();
         $registreEntrada = RegistreEntrada::all();
-        //return response()->json($registreProduccio);
+        //return response()->json($registreProduccio[0]->getEstadillo);
         return View('registre_produccio.index', array('registreProduccions' => $registreProduccio, 'registreEntrades' => $registreEntrada));
     }
 
@@ -137,8 +137,10 @@ class RegistreProduccioController extends Controller {
         
     }
 
-    public function updateEmpleats($id){
+    public function updateEmpleats($id){ //Funcio que actualitza un empleat
+        
         //pongo esto de relleno
+        //El que lo lea me tiene que comer los cojones: Andres Baco <3
         $prod = RegistreProduccio::find($id);
 
         $v = Validator::make(request()->all(), [

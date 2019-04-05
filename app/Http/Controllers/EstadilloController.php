@@ -18,16 +18,16 @@ class EstadilloController extends Controller
         $this->middleware('auth');
     }
     
-    public function index()
+    public function index() //Funcio que crea la pagina de index 
     {
-        $estadillos = Estadillo::all()->sortBy("id_registre_produccio");
-        //return response()->json($estadillos[1]->registreProduccio);
-        //$registreProduccio = Projecte::all();
+        $estadillos = Estadillo::all()->sortBy("id_registre_produccio"); //Agafa tots els estadillos i els ordena per registre de producció
+
+        
         $showEstadillos = array();
         
         foreach ($estadillos as $estadillo){
-            //$projecte = RegistreProduccio::find($estadillo['id_registre_produccio']);
             //return response()->json($projecte);
+
             
             if ($estadillo->registreProduccio->subreferencia!=0){
                 //return response()->json($estadillo);
@@ -73,21 +73,44 @@ class EstadilloController extends Controller
             }
         }
         //return response()->json($showEstadillos);
-        return View('estadillos.index', array('showEstadillos' => $showEstadillos));
+
+        //select crear estadillo
+        $estadillos = Estadillo::all();
+        $registreProduccio = RegistreProduccio::all();
+        
+        $arrayProjectes = array();
+        $cont = 0;
+        $exist = false;
+        
+        foreach ($registreProduccio as $projecte){
+            foreach ($estadillos as $estadillo) {
+                if ($projecte->id == $estadillo->id_registre_produccio){
+                    $exist = true;
+                }
+            }
+            if ($exist == false) {
+                $arrayProjectes[$cont] = $projecte;
+                $cont++;
+            } else {
+                $exist = false;
+            }
+        }
+
+        return View('estadillos.index', array('showEstadillos' => $showEstadillos, 'registreProduccio'=>$arrayProjectes));
     }
     
-    public function show($id, $id_setmana = 0){
+    public function show($id, $id_setmana = 0){ //Funcio que mostra l'informació s'un estadillo
         $empleats = EmpleatExtern::all();
         if ($id_setmana == 0){
-            $actors = ActorEstadillo::where('id_produccio', $id)->get(); 
-            //return response()->json($actors);
-            $estadillos = Estadillo::find($id);
+            $actors = ActorEstadillo::where('id_produccio', $id)->get(); //Busca tots els actors que participin amb l'estadillo
+
+
+            $estadillos = Estadillo::find($id); //Busca l'estadillo
             $estadillos->registreProduccio;
             //return response()->json($estadillos);
             //return response()->json($estadillos);//['registre_produccio']
-            //$registreProduccio = Projecte::find($estadillos['id_registre_produccio']);
             //return response()->json($estadillos);
-            return view('estadillos.showActor', array(
+            return view('estadillos.showActor', array( //Retorna a la vista showActor
                 'actors'    => $actors,
                 'empleats'    => $empleats,
                 'estadillos' => $estadillos
@@ -147,7 +170,7 @@ class EstadilloController extends Controller
             ));
     }
     
-    public function showSetmana($id, $id_setmana) {
+    public function showSetmana($id, $id_setmana) { //Funcio que mostra els etadillos per una setmana
         $registreProduccio = RegistreProduccio::where('id_registre_entrada', $id)->where('setmana', $id_setmana)->get();
         //return response()->json($registreProduccio);
         
@@ -161,39 +184,47 @@ class EstadilloController extends Controller
     
     public function import() 
     {
-        if (request()->has('import_file')) {
+        //return response()->json(request()->input('id_estadillo'));
+        if (!request()->input('id_estadillo')){
+            if (request()->has('import_file')) {
             $titol = request()->file('import_file')->getClientOriginalName();
+            } else {
+                return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha introduit un excel'));
+            }
+
+            $arrayTitol = explode('_', $titol);
+            $idRegEntrada = $arrayTitol[0];
+            $arrayRegProd = explode(' ', $arrayTitol[count($arrayTitol)-1]);
+            $idRegProduccio = $arrayRegProd[0];
+            //return response()->json(Projecte::where('id_registre_entrada', $idRegEntrada)->where('id', $idRegProduccio)->get());
+
+            $projecte = RegistreProduccio::where('id_registre_entrada', $idRegEntrada)
+                    ->where('subreferencia', $idRegProduccio)->first();
         } else {
-            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha introduit un excel'));
+            $projecte = RegistreProduccio::where('id', request()->input('id_estadillo'))->first();
         }
         
-        $arrayTitol = explode('_', $titol);
-        $idRegEntrada = $arrayTitol[0];
-        $arrayRegProd = explode(' ', $arrayTitol[count($arrayTitol)-1]);
-        $idRegProduccio = $arrayRegProd[0];
-        //return response()->json(Projecte::where('id_registre_entrada', $idRegEntrada)->where('id', $idRegProduccio)->get());
-        //CREACIO ESTADILLO
-        $projecte = RegistreProduccio::where('id_registre_entrada', $idRegEntrada)
-                ->where('subreferencia', $idRegProduccio)->first();
         $estadillo = Estadillo::where('id_registre_produccio', $projecte['id'])->first();
+        //CREACIO ESTADILLO
         if ($projecte){
             if ($estadillo){
                return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut importar l\'estadillo. Aquest estadillo ja existeix'));
             } else {
+                $projecte->estadillo = true;
+                $projecte->save();
                 $estadillo = new Estadillo;
                 $estadillo->id_registre_produccio = $projecte['id'];
                 $estadillo->save();
                 //return response()->json('Estadillo creado');
             }
         } else {
-            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut importar l\'estadillo. Comprova el numero de referencia del nom del fitxer'));
+            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut importar l\'estadillo. Comprova el número de referència del nom del fitxer'));
         }
         //CREACIO ACTORS ESTADILLO
         $excel = Excel::toArray(new Estadillo,request()->file('import_file'));
         $arrayEstadillo = $excel[1];
         //return response()->json($arrayEstadillo);
-        /*$arrayActors = array();
-        $cont = 0;*/
+
         
         for ($i = 3; $i < count($arrayEstadillo); $i++){
             $nomCognom = explode(' ', $arrayEstadillo[$i][0]);
@@ -228,8 +259,7 @@ class EstadilloController extends Controller
                         . 'Comprova si existeixen en \'GESTIÓ DE PERSONAL\'.';
                 //return response()->json('ERROR. No existeix '.$nomCognom[1].' '.$nomCognom[0]);
             }
-            //$arrayActors[$cont]=$arrayEstadillo[$i];
-            //$cont++;
+
             
         }
         
@@ -239,31 +269,6 @@ class EstadilloController extends Controller
         return redirect()->back()->with('success', 'Estadillo importat correctament.');  
     }
     
-    public function insertView(){
-        $estadillos = Estadillo::all();
-        $registreProduccio = RegistreProduccio::all();
-        
-        $arrayProjectes = array();
-        $cont = 0;
-        $exist = false;
-        
-        foreach ($registreProduccio as $projecte){
-            foreach ($estadillos as $estadillo) {
-                if ($projecte->id == $estadillo->id_registre_produccio){
-                    $exist = true;
-                }
-            }
-            if ($exist == false) {
-                $arrayProjectes[$cont] = $projecte;
-                $cont++;
-            } else {
-                $exist = false;
-            }
-        }
-        
-        return View('estadillos.create', array('registreProduccio'=>$arrayProjectes));
-    }
-
     public function insert()
     {
         //return response()->json(request()->all());
@@ -395,27 +400,7 @@ class EstadilloController extends Controller
         foreach ($registreProduccio as $projecte){
             $projecte->getEstadillo;
         }
-        
-        //$estadillos = Estadillo::all();        
-        /*$arrayProjectes = array();
-        $i = 0;
-        
-        foreach ($registreProduccio as $projecte){
-            $exist = true;
-            //return response()->json($projecte);
-            foreach ($estadillos as $estadillo) {
-                
-                if ($projecte->id == $estadillo->id_registre_produccio){
-                    $exist = false;
-                }
-            }
-            if ($exist == false) {
-                //return response()->json($projecte);
-                $arrayProjectes[$i] = $projecte;
-                $i++;
-            }
-        }*/
-        
+
         //return response()->json($registreProduccio);
         return View('estadillos.createActor', array('empleats'=>$empleats, 'registreProduccio' => $registreProduccio));
         
@@ -611,11 +596,9 @@ class EstadilloController extends Controller
         if (request()->input("searchBy") == '1'){
             $estadillos = Estadillo::all()->sortBy("id_registre_produccio");
             //return response()->json($estadillos[1]->registreProduccio);
-            //$registreProduccio = Projecte::all();
             $showEstadillos = array();
 
             foreach ($estadillos as $estadillo){
-                //$projecte = RegistreProduccio::find($estadillo['id_registre_produccio']);
                 //return response()->json($projecte);
                 if ($estadillo->registreProduccio->estadillo == request()->input("search_Validat")) {
                     if ($estadillo->registreProduccio->subreferencia!=0){
@@ -666,11 +649,9 @@ class EstadilloController extends Controller
         }  else {
             $estadillos = Estadillo::all()->sortBy("id_registre_produccio");
             //return response()->json($estadillos[1]->registreProduccio);
-            //$registreProduccio = Projecte::all();
             $showEstadillos = array();
 
             foreach ($estadillos as $estadillo){
-                //$projecte = RegistreProduccio::find($estadillo['id_registre_produccio']);
                 //return response()->json($projecte);
                 if ($estadillo->registreProduccio->id_registre_entrada == request()->input("search_term") || preg_match('/'.request()->input("search_term").'/i' , $estadillo->registreProduccio->titol)) {
                     if ($estadillo->registreProduccio->subreferencia!=0){
@@ -723,7 +704,7 @@ class EstadilloController extends Controller
                                                 'return' => 1));
     }
     
-    public function findActor($id, $id_setmana = 0){
+    public function findActor($id, $id_setmana = 0){ //Funció per trobar a un actor
         $empleats = EmpleatExtern::whereRaw('LOWER(nom_empleat) like "%'. strtolower(request()->input("search_term")).'%"'
                                     . 'OR LOWER(cognom1_empleat) like "%'. strtolower(request()->input("search_term")).'%"'
                                     . 'OR LOWER(cognom2_empleat) like "%'. strtolower(request()->input("search_term")).'%"')->get();
@@ -734,7 +715,6 @@ class EstadilloController extends Controller
             $estadillos->registreProduccio;
             //return response()->json($estadillos);
             //return response()->json($estadillos);//['registre_produccio']
-            //$registreProduccio = Projecte::find($estadillos['id_registre_produccio']);
             //return response()->json($estadillos);
             return view('estadillos.showActor', array(
                 'actors'    => $actors,
@@ -796,14 +776,19 @@ class EstadilloController extends Controller
             ));
     }
     
-    public function delete(Request $request)
+    public function delete(Request $request) //Funcio per esborrar un estadillo
     {
         ActorEstadillo::where('id_produccio', $request["id"])->delete();
-        Estadillo::where('id_estadillo', $request["id"])->delete();
+        $estadillo = Estadillo::where('id_estadillo', $request["id"])->first();
+        //return response()->json($estadillo);
+        $produccio = RegistreProduccio::find($estadillo->id_registre_produccio);
+        $produccio->estadillo = false;
+        $produccio->save();
+        $estadillo->delete();
         return redirect()->back()->with('success', 'Estadillo eliminat correctament.');
     }
     
-    public function deleteActor(Request $request)
+    public function deleteActor(Request $request) //Funcio per esborrar un actor
     {
         ActorEstadillo::where('id', $request["id"])->delete();
         return redirect()->back()->with('success', 'Actor eliminat correctament.');
