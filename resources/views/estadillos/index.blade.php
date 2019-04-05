@@ -128,7 +128,7 @@
                     <fieldset class="border p-2">
                         <legend class="w-auto">DADES:</legend>
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col">
                                 <label for="id_registre_produccio" style="font-weight: bold">REGISTRE:</label>
                                 <select class="form-control" name="id_registre_produccio">
                                     @foreach( $registreProduccio as $projecte )
@@ -138,23 +138,13 @@
                             </div>
                         </div>
                     </fieldset>
-
-
-                    <br>
-
-                    <!-- BOTÓN DE CREAR O ACTUALIZAR -->
-                    <div class="row">
-                        <div class="col-6">
-                            <button type="submit" class="btn btn-success col-4">{{!empty($estadillos) ? 'DESAR' : 'CREAR'}}</button>
-                        </div>
-                    </div>
-                    <br>
+                
+                </div>
+                <div class="modal-footer justify-content-between mt-3">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">TANCAR</button>
+                    <button type="submit" class="btn btn-success col-4">CREAR</button>
+                </div>
                 </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="self.seleccionarEstadillo(0)">TANCAR</button>
-                    <button type="button" class="btn btn-danger" onclick="self.esborrarEstadillo()">ESBORRAR</button>
-                </div>
             </div>
         </div>
     </div>
