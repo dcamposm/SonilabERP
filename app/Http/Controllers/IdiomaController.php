@@ -13,17 +13,17 @@ class IdiomaController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index() //Retorna tots els idiomes de la BBDD
     {
         $idiomes = Idioma::all();
         return View('idiomes.index', array('idiomes' => $idiomes));
     }
     
-    public function insertView(){
+    public function insertView(){ //Retorna el formulari per crear un idioma
         return View('idiomes.create');
     }
     
-    function insert(){
+    function insert(){ //Inserta un nou idioma a la BBDD
         
         $idioma = new Idioma();
         $idioma->idioma = request()->input('idioma');
@@ -48,7 +48,7 @@ class IdiomaController extends Controller
         }
     }
     
-    public function delete(Request $request) {
+    public function delete(Request $request) { //Funcio per esborrar un idioma
         Idioma::where('id_idioma', $request["id"])->delete();
         return redirect()->route('indexIdioma');
     }

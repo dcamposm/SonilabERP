@@ -31,12 +31,14 @@ class RegistreEntradaController extends Controller
                                 ->with('servei')
                                 ->with('idioma')
                                 ->with('media')->orderBy("estat")->get();
+        //Agafem tots els camps necessaris de la BBDD
         $clients = Client::all();
         $serveis = Servei::all();
         $idiomes = Idioma::all();
         $medies = TipusMedia::all();
         $usuaris = User::where('id_departament', '2')->get();
-        //return response()->json($registreEntrades);
+        
+        //Executem la vista i ens emportem les variables anteriors com a arrays
         return View('registre_entrada.index', array('registreEntrades' => $registreEntrades, 'clients' => $clients,
                                                     'serveis' => $serveis, 'idiomes' => $idiomes,
                                                     'medies' => $medies, 'usuaris' => $usuaris));
@@ -134,8 +136,8 @@ class RegistreEntradaController extends Controller
                 $registreEntrada->id_media =request()->input('id_media');
                 $registreEntrada->minuts =request()->input('minuts');
                 $registreEntrada->total_episodis =request()->input('total_episodis') ? request()->input('total_episodis') : '1';
-                $registreEntrada->episodis_setmanals =request()->input('episodis_setmanals') ? request()->input('total_episodis') : '1';
-                $registreEntrada->entregues_setmanals =request()->input('entregues_setmanals') ? request()->input('total_episodis') : '1';
+                $registreEntrada->episodis_setmanals =request()->input('episodis_setmanals') ? request()->input('episodis_setmanals') : '1';
+                $registreEntrada->entregues_setmanals =request()->input('entregues_setmanals') ? request()->input('entregues_setmanals') : '1';
                 $registreEntrada->estat =request()->input('estat');
                 //$registreEntrada->save();
                 
