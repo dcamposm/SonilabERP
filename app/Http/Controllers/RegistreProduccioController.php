@@ -18,10 +18,10 @@ class RegistreProduccioController extends Controller {
         //$empleats = EmpleatExtern::with('produccioTraductor')->get();
         //
         $registreProduccio = RegistreProduccio::with('traductor')->with('ajustador')
-                ->with('linguista')->with('director')->with('tecnic')
+                ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
                 ->orderBy('estat')->orderBy('data_entrega')->get();
         $registreEntrada = RegistreEntrada::all();
-        //return response()->json($registreProduccio);
+        //return response()->json($registreProduccio[0]->getEstadillo);
         return View('registre_produccio.index', array('registreProduccions' => $registreProduccio, 'registreEntrades' => $registreEntrada));
     }
 

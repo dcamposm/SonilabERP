@@ -134,8 +134,8 @@ class RegistreEntradaController extends Controller
                 $registreEntrada->id_media =request()->input('id_media');
                 $registreEntrada->minuts =request()->input('minuts');
                 $registreEntrada->total_episodis =request()->input('total_episodis') ? request()->input('total_episodis') : '1';
-                $registreEntrada->episodis_setmanals =request()->input('total_episodis') ? request()->input('total_episodis') : '1';
-                $registreEntrada->entregues_setmanals =request()->input('total_episodis') ? request()->input('total_episodis') : '1';
+                $registreEntrada->episodis_setmanals =request()->input('episodis_setmanals') ? request()->input('total_episodis') : '1';
+                $registreEntrada->entregues_setmanals =request()->input('entregues_setmanals') ? request()->input('total_episodis') : '1';
                 $registreEntrada->estat =request()->input('estat');
                 //$registreEntrada->save();
                 
@@ -303,7 +303,7 @@ class RegistreEntradaController extends Controller
     public function delete(Request $request) {
         RegistreEntrada::where('id_registre_entrada', $request["id"])->delete();
         RegistreProduccio::where('id_registre_entrada', $request["id"])->delete();
-        \App\Estadillo::with(['registres' => function($query){
+        \App\Estadillo::with(['registreProduccio' => function($query){
                                         $query->where('id_registre_entrada', $request["id"]);
                                     }])->delete();
         Missatge::where('id_referencia', $request["id"])->where('referencia', 'registreEntrada')->delete();

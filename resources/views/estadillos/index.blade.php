@@ -67,7 +67,7 @@
                         @if (isset($estadillo['id_estadillo']))
                             <td style="vertical-align: middle;">
                                 <a href="{{ route('estadilloUpdateView', array('id' => $estadillo['id_estadillo'])) }}" class="btn btn-primary">MODIFICAR</a>
-                                <button class="btn btn-danger" onclick="self.seleccionarEstadillo({{ $key }}, '{{ $estadillo['titol'] }}')" data-toggle="modal" data-target="#exampleModalCenter">ESBORRAR</button>
+                                <button class="btn btn-danger" onclick="self.seleccionarEstadillo({{ $estadillo['id_estadillo'] }}, '{{ $estadillo['titol'] }}')" data-toggle="modal" data-target="#exampleModalCenter">ESBORRAR</button>
                                 <form id="delete-{{ $estadillo['id_estadillo'] }}" action="{{ route('esborrarEstadillo') }}" method="POST">
                                     @csrf
                                     <input type="hidden" readonly name="id" value="{{ $estadillo['id_estadillo'] }}">
@@ -126,7 +126,7 @@
     self.seleccionarEstadillo = function (estadilloId, estadilloAlias) {
         self.estadilloPerEsborrar = estadilloId;
         if (estadilloAlias != undefined) {
-            document.getElementById('delete-message').innerHTML = 'Vols esborrar el estadillo <b>' + estadilloAlias + '</b>?';
+            document.getElementById('delete-message').innerHTML = 'Vols esborrar el estadillo <b>' + estadilloId + '</b>?';
         }
     }
 

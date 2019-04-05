@@ -161,32 +161,41 @@ class EstadilloController extends Controller
     
     public function import() 
     {
-        if (request()->has('import_file')) {
+        //return response()->json(request()->input('id_estadillo'));
+        if (!request()->input('id_estadillo')){
+            if (request()->has('import_file')) {
             $titol = request()->file('import_file')->getClientOriginalName();
+            } else {
+                return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha introduit un excel'));
+            }
+
+            $arrayTitol = explode('_', $titol);
+            $idRegEntrada = $arrayTitol[0];
+            $arrayRegProd = explode(' ', $arrayTitol[count($arrayTitol)-1]);
+            $idRegProduccio = $arrayRegProd[0];
+            //return response()->json(Projecte::where('id_registre_entrada', $idRegEntrada)->where('id', $idRegProduccio)->get());
+
+            $projecte = RegistreProduccio::where('id_registre_entrada', $idRegEntrada)
+                    ->where('subreferencia', $idRegProduccio)->first();
         } else {
-            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha introduit un excel'));
+            $projecte = RegistreProduccio::where('id', request()->input('id_estadillo'))->first();
         }
         
-        $arrayTitol = explode('_', $titol);
-        $idRegEntrada = $arrayTitol[0];
-        $arrayRegProd = explode(' ', $arrayTitol[count($arrayTitol)-1]);
-        $idRegProduccio = $arrayRegProd[0];
-        //return response()->json(Projecte::where('id_registre_entrada', $idRegEntrada)->where('id', $idRegProduccio)->get());
-        //CREACIO ESTADILLO
-        $projecte = RegistreProduccio::where('id_registre_entrada', $idRegEntrada)
-                ->where('subreferencia', $idRegProduccio)->first();
         $estadillo = Estadillo::where('id_registre_produccio', $projecte['id'])->first();
+        //CREACIO ESTADILLO
         if ($projecte){
             if ($estadillo){
                return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut importar l\'estadillo. Aquest estadillo ja existeix'));
             } else {
+                $projecte->estadillo = true;
+                $projecte->save();
                 $estadillo = new Estadillo;
                 $estadillo->id_registre_produccio = $projecte['id'];
                 $estadillo->save();
                 //return response()->json('Estadillo creado');
             }
         } else {
-            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut importar l\'estadillo. Comprova el numero de referencia del nom del fitxer'));
+            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut importar l\'estadillo. Comprova el número de referència del nom del fitxer'));
         }
         //CREACIO ACTORS ESTADILLO
         $excel = Excel::toArray(new Estadillo,request()->file('import_file'));
@@ -799,7 +808,12 @@ class EstadilloController extends Controller
     public function delete(Request $request)
     {
         ActorEstadillo::where('id_produccio', $request["id"])->delete();
-        Estadillo::where('id_estadillo', $request["id"])->delete();
+        $estadillo = Estadillo::where('id_estadillo', $request["id"])->first();
+        //return response()->json($estadillo);
+        $produccio = RegistreProduccio::find($estadillo->id_registre_produccio);
+        $produccio->estadillo = false;
+        $produccio->save();
+        $estadillo->delete();
         return redirect()->back()->with('success', 'Estadillo eliminat correctament.');
     }
     
