@@ -93,6 +93,7 @@ Route::middleware(['role: 1,2,3,4'])->group(function () {
     Route::post('/registreProduccio/modificarEmpleats/{id}', 'RegistreProduccioController@updateEmpleats')->name('updateRegistreEmpleats');
     Route::post('/registreProduccio/modificarPreparacio/{id}', 'RegistreProduccioController@updatePreparacio')->name('updateRegistrePreparacio');
     Route::post('/registreProduccio/modificarConvocatoria/{id}', 'RegistreProduccioController@updateConvocatoria')->name('updateRegistreConvocatoria');
+    Route::post('/registreProduccio/modificarAll/{id}', 'RegistreProduccioController@update')->name('updateRegistreProduccio');
 
     Route::post('/registreProduccio/delete', 'RegistreProduccioController@delete')->name('deleteRegistre');
 });

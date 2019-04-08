@@ -38,8 +38,12 @@ class RegistreProduccioController extends Controller {
     }
 
     public function show($id) {
-        $registreProduccio = RegistreProduccio::find($id);
-
+        $empleatsCarrec = EmpleatExtern::with('carrec')->get();
+        //return response()->json($empleats);
+        // Solamente tenemos que cargar los registros de entrada pendientes.
+        $regEntrades = RegistreEntrada::where('estat', '=', 'Pendent')->get();
+        $registreProduccio = RegistreProduccio::with('registreEntrada')->find($id);
+        //return response()->json($registreProduccio);
         $empleados   = [];
         $traductor   = EmpleatExtern::find($registreProduccio["id_traductor"]);
         $ajustador   = EmpleatExtern::find($registreProduccio->id_ajustador);
@@ -55,7 +59,9 @@ class RegistreProduccioController extends Controller {
 
         return view('registre_produccio.show', array(
             'registreProduccio' => $registreProduccio,
-            'empleats'          => $empleados
+            'empleats'          => $empleados,
+            'empleatsCarrec' => $empleatsCarrec,
+            'regEntrades' => $regEntrades
         ));
     }
 
@@ -69,6 +75,21 @@ class RegistreProduccioController extends Controller {
             'empleats'          => $empleats,
             'regEntrades'       => $regEntrades
         ));
+    }
+    
+    public function update($id){
+        //pongo esto de relleno
+        $prod = RegistreProduccio::find($id);
+        //return response()->json(request()->all());
+        $prod->fill(request()->all());               
+
+        try {
+            $prod->save(); 
+        } catch (\Exception $ex) {
+            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar.'));
+        }
+
+        return redirect()->back()->with('success', 'Registre de producció modificat correctament.');        
     }
     
     public function updateBasic($id){
@@ -144,13 +165,9 @@ class RegistreProduccioController extends Controller {
         $prod = RegistreProduccio::find($id);
 
         $v = Validator::make(request()->all(), [
-            'id_traductor'    => 'required',
             'data_traductor'  => 'date',
-            'id_ajustador'    => 'required',
             'data_ajustador'  => 'date',
-            'id_linguista'    => 'required',
             'data_linguista'  => 'date',
-            'id_director'     => 'required',
             'casting'         => 'required',
         ],[
             'required' => 'No s\'ha introduït aquesta dada.',
@@ -314,13 +331,9 @@ class RegistreProduccioController extends Controller {
 
     public function createEmpleats(){
         $v = Validator::make(request()->all(), [
-            'id_traductor'    => 'required',
             'data_traductor'  => 'date',
-            'id_ajustador'    => 'required',
             'data_ajustador'  => 'date',
-            'id_linguista'    => 'required',
             'data_linguista'  => 'date',
-            'id_director'     => 'required',
             'casting'         => 'required',
         ],[
             'required' => 'No s\'ha introduït aquesta dada.',

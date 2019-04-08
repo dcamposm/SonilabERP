@@ -2,13 +2,11 @@
 
 @section('content')
 <div class="container-fluid">
-    <div class="row">
-        <div class="col">
-            <a href="{{ url('/usuaris/interns/crear') }}" class="btn btn-success">
-                <span class="fas fa-user-plus"></span>
-                CREAR NOU USUARI
-            </a>
-        </div>
+    <div class="row justify-content-between">
+        <a href="{{ url('/usuaris/interns/crear') }}" class="btn btn-success mb-2">
+            <span class="fas fa-user-plus"></span>
+            CREAR USUARI
+        </a>
 
         <!-- FILTRA USUARI -->
         <div class="row">
@@ -40,7 +38,6 @@
         </div>
     </div>
     <div class="row">
-
         @foreach( $arrayUsuaris as $key => $usuaris )
         <div class="card card-shadow text-center m-3" style="min-width: 250px;">
 
