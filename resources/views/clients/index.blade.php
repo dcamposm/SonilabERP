@@ -6,11 +6,11 @@
     <div>
         <a href="{{ url('/registreEntrada') }}" class="btn btn-primary">
             <span class="fas fa-angle-double-left"></span>
-            Tornar
+            TORNAR
         </a>
         <a href="{{ url('/clients/crear') }}" class="btn btn-success">
-            <span class="fas fa-atlas"></span>
-            Afegir client
+            <span class="fas fa-address-book"></span>
+            AFEGIR CLIENT
         </a>
     </div>
     <br>
@@ -18,11 +18,11 @@
     <table class="table" style="margin-top: 10px;">
         <thead>
             <tr>
-                <th>Nom</th> 
-                <th>Email</th>
-                <th>Telefon</th>
-                <th>Direcció</th>
-                <th>Accions</th>
+                <th>NOM</th> 
+                <th>EMAIL</th>
+                <th>TELÈFON</th>
+                <th>DIRECCIÓ</th>
+                <th>ACCIONS</th>
             </tr>
         </thead>
         <tbody>
@@ -35,8 +35,8 @@
                 <td style="vertical-align: middle;">{{ $client->telefon_client }}</td>
                 <td style="vertical-align: middle;">{{ $client->direccio_client }}</td>
                 <td style="vertical-align: middle;">
-                    <a href="{{ route('clientUpdateView', array('id' => $client['id_client'])) }}" class="btn btn-primary">Modificar</a>
-                    <button class="btn btn-danger" onclick="self.seleccionarClient({{ $client['id_client'] }}, '{{ $client['nom_client'] }}')" data-toggle="modal" data-target="#exampleModalCenter">Esborrar</button>
+                    <a href="{{ route('clientUpdateView', array('id' => $client['id_client'])) }}" class="btn btn-primary">MODIFICAR</a>
+                    <button class="btn btn-danger" onclick="self.seleccionarClient({{ $client['id_client'] }}, '{{ $client['nom_client'] }}')" data-toggle="modal" data-target="#exampleModalCenter">ESBORRAR</button>
                     <form id="delete-{{ $client['id_client'] }}" action="{{ route('esborrarClient') }}" method="POST">
                         @csrf
                         <input type="hidden" readonly name="id" value="{{ $client['id_client'] }}">

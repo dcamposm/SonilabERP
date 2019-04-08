@@ -14,7 +14,7 @@
         @endif
             <a href="{{ url('/clients') }}" class="btn btn-success">
                 <span class="fas fa-address-book"></span>
-                GESTIONAR CLIENTS
+                CLIENTS
             </a>
         </div>
         <!-- FILTRA REGISTRE ENTRADA -->

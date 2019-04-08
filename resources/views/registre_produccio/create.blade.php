@@ -48,7 +48,7 @@
             </div>
 
             <div class="form-group col-12 col-sm-6">
-              <label for="titol">TÍTOL</label>
+              <label for="titol">TÍTOL ORIGINAL</label>
               <input type="text" name="titol" id="titol" class="form-control" value="{{!empty($registreProduccio) ? $registreProduccio->titol : old('titol')}}">
               <span class="text-danger">{{ $errors->first('titol') }}</span>
             </div>
@@ -348,7 +348,7 @@
                 
             <div class="form-group col-12 col-sm-6">
               <label for="final_sala">FINAL SALA</label>
-              <input type="date" name="final_sala" id="inici_sala" class="form-control" value={{!empty($registreProduccio) ? explode(' ', $registreProduccio->final_sala)[0] : old('final_sala')}}>
+              <input type="date" name="final_sala" id="final_sala" class="form-control" value={{!empty($registreProduccio) ? explode(' ', $registreProduccio->final_sala)[0] : old('final_sala')}}>
               <span class="text-danger">{{ $errors->first('final_sala') }}</span>
             </div>           
 
