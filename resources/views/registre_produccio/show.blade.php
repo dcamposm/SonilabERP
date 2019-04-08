@@ -405,31 +405,45 @@
             } else if (content.attr('id') == 'data_entrega-T'){
                 var value = content.text();
                 content.text('');
-                content.append('<input type="date" name="'+content.attr('id')+'" id="'+content.attr('id')+'" class="form-control" value="'+"{{explode(' ',$registreProduccio->data_entrega)[0]}}"+'">');
+                var id = content.attr('id');
+                var idArray = id.split("-");
+                content.append('<input type="date" name="'+idArray[0]+'" id="'+idArray[0]+'" class="form-control" value="'+"{{explode(' ',$registreProduccio->data_entrega)[0]}}"+'">');
             } else if (content.attr('id') == 'data_traductor-T'){
                 var value = content.text();
                 content.text('');
-                content.append('<input type="date" name="'+content.attr('id')+'" id="'+content.attr('id')+'" class="form-control" value="'+"{{explode(' ',$registreProduccio->data_traductor)[0]}}"+'">');
+                var id = content.attr('id');
+                var idArray = id.split("-");
+                content.append('<input type="date" name="'+idArray[0]+'" id="'+idArray[0]+'" class="form-control" value="'+"{{explode(' ',$registreProduccio->data_traductor)[0]}}"+'">');
             } else if (content.attr('id') == 'data_ajustador-T'){
                 var value = content.text();
                 content.text('');
-                content.append('<input type="date" name="'+content.attr('id')+'" id="'+content.attr('id')+'" class="form-control" value="'+"{{explode(' ',$registreProduccio->data_ajustador)[0]}}"+'">');
+                var id = content.attr('id');
+                var idArray = id.split("-");
+                content.append('<input type="date" name="'+idArray[0]+'" id="'+idArray[0]+'" class="form-control" value="'+"{{explode(' ',$registreProduccio->data_ajustador)[0]}}"+'">');
             } else if (content.attr('id') == 'data_linguista-T'){
                 var value = content.text();
                 content.text('');
-                content.append('<input type="date" name="'+content.attr('id')+'" id="'+content.attr('id')+'" class="form-control" value="'+"{{explode(' ',$registreProduccio->data_linguista)[0]}}"+'">');
+                var id = content.attr('id');
+                var idArray = id.split("-");
+                content.append('<input type="date" name="'+idArray[0]+'" id="'+idArray[0]+'" class="form-control" value="'+"{{explode(' ',$registreProduccio->data_linguista)[0]}}"+'">');
             } else if (content.attr('id') == 'inici_sala-T'){
                 var value = content.text();
                 content.text('');
-                content.append('<input type="date" name="'+content.attr('id')+'" id="'+content.attr('id')+'" class="form-control" value="'+"{{explode(' ',$registreProduccio->inici_sala)[0]}}"+'">');
+                var id = content.attr('id');
+                var idArray = id.split("-");
+                content.append('<input type="date" name="'+idArray[0]+'" id="'+idArray[0]+'" class="form-control" value="'+"{{explode(' ',$registreProduccio->inici_sala)[0]}}"+'">');
             } else if (content.attr('id') == 'final_sala-T'){
                 var value = content.text();
                 content.text('');
-                content.append('<input type="date" name="'+content.attr('id')+'" id="'+content.attr('id')+'" class="form-control" value="'+"{{explode(' ',$registreProduccio->final_sala)[0]}}"+'">');
+                var id = content.attr('id');
+                var idArray = id.split("-");
+                content.append('<input type="date" name="'+idArray[0]+'" id="'+idArray[0]+'" class="form-control" value="'+"{{explode(' ',$registreProduccio->final_sala)[0]}}"+'">');
             } else if (content.attr('id') == 'data_tecnic_mix-T'){
                 var value = content.text();
                 content.text('');
-                content.append('<input type="date" name="'+content.attr('id')+'" id="'+content.attr('id')+'" class="form-control" value="'+"{{explode(' ',$registreProduccio->data_tecnic_mix)[0]}}"+'">');
+                var id = content.attr('id');
+                var idArray = id.split("-");
+                content.append('<input type="date" name="'+idArray[0]+'" id="'+idArray[0]+'" class="form-control" value="'+"{{explode(' ',$registreProduccio->data_tecnic_mix)[0]}}"+'">');
             }
             else {
                 var value = content.text();
