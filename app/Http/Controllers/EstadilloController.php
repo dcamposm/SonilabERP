@@ -26,8 +26,8 @@ class EstadilloController extends Controller
         $showEstadillos = array();
         
         foreach ($estadillos as $estadillo){
-            //$projecte = RegistreProduccio::find($estadillo['id_registre_produccio']);
-            //return response()->json($estadillo->registreProduccio);
+            //return response()->json($projecte);
+
             
             if ($estadillo->registreProduccio->subreferencia!=0){
                 //return response()->json($estadillo);
@@ -109,7 +109,6 @@ class EstadilloController extends Controller
             $estadillos->registreProduccio;
             //return response()->json($estadillos);
             //return response()->json($estadillos);//['registre_produccio']
-            //$registreProduccio = Projecte::find($estadillos['id_registre_produccio']);
             //return response()->json($estadillos);
             return view('estadillos.showActor', array( //Retorna a la vista showActor
                 'actors'    => $actors,
@@ -225,8 +224,7 @@ class EstadilloController extends Controller
         $excel = Excel::toArray(new Estadillo,request()->file('import_file'));
         $arrayEstadillo = $excel[1];
         //return response()->json($arrayEstadillo);
-        /*$arrayActors = array();
-        $cont = 0;*/
+
         
         for ($i = 3; $i < count($arrayEstadillo); $i++){
             $nomCognom = explode(' ', $arrayEstadillo[$i][0]);
@@ -261,8 +259,7 @@ class EstadilloController extends Controller
                         . 'Comprova si existeixen en \'GESTIÓ DE PERSONAL\'.';
                 //return response()->json('ERROR. No existeix '.$nomCognom[1].' '.$nomCognom[0]);
             }
-            //$arrayActors[$cont]=$arrayEstadillo[$i];
-            //$cont++;
+
             
         }
         
@@ -403,27 +400,7 @@ class EstadilloController extends Controller
         foreach ($registreProduccio as $projecte){
             $projecte->getEstadillo;
         }
-        
-        //$estadillos = Estadillo::all();        
-        /*$arrayProjectes = array();
-        $i = 0;
-        
-        foreach ($registreProduccio as $projecte){
-            $exist = true;
-            //return response()->json($projecte);
-            foreach ($estadillos as $estadillo) {
-                
-                if ($projecte->id == $estadillo->id_registre_produccio){
-                    $exist = false;
-                }
-            }
-            if ($exist == false) {
-                //return response()->json($projecte);
-                $arrayProjectes[$i] = $projecte;
-                $i++;
-            }
-        }*/
-        
+
         //return response()->json($registreProduccio);
         return View('estadillos.createActor', array('empleats'=>$empleats, 'registreProduccio' => $registreProduccio));
         
@@ -619,11 +596,9 @@ class EstadilloController extends Controller
         if (request()->input("searchBy") == '1'){
             $estadillos = Estadillo::all()->sortBy("id_registre_produccio");
             //return response()->json($estadillos[1]->registreProduccio);
-            //$registreProduccio = Projecte::all();
             $showEstadillos = array();
 
             foreach ($estadillos as $estadillo){
-                //$projecte = RegistreProduccio::find($estadillo['id_registre_produccio']);
                 //return response()->json($projecte);
                 if ($estadillo->registreProduccio->estadillo == request()->input("search_Validat")) {
                     if ($estadillo->registreProduccio->subreferencia!=0){
@@ -674,11 +649,9 @@ class EstadilloController extends Controller
         }  else {
             $estadillos = Estadillo::all()->sortBy("id_registre_produccio");
             //return response()->json($estadillos[1]->registreProduccio);
-            //$registreProduccio = Projecte::all();
             $showEstadillos = array();
 
             foreach ($estadillos as $estadillo){
-                //$projecte = RegistreProduccio::find($estadillo['id_registre_produccio']);
                 //return response()->json($projecte);
                 if ($estadillo->registreProduccio->id_registre_entrada == request()->input("search_term") || preg_match('/'.request()->input("search_term").'/i' , $estadillo->registreProduccio->titol)) {
                     if ($estadillo->registreProduccio->subreferencia!=0){
@@ -742,7 +715,6 @@ class EstadilloController extends Controller
             $estadillos->registreProduccio;
             //return response()->json($estadillos);
             //return response()->json($estadillos);//['registre_produccio']
-            //$registreProduccio = Projecte::find($estadillos['id_registre_produccio']);
             //return response()->json($estadillos);
             return view('estadillos.showActor', array(
                 'actors'    => $actors,
