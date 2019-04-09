@@ -133,7 +133,6 @@ class RegistreProduccioController extends Controller {
             'estadillo'         => 'required',
             'propostes'         => 'required',
             'inserts'           => 'required',
-            'titol_traduit'     => 'required',
             'vec'               => 'required',
             'data_tecnic_mix'       => 'date',            
         ],[
@@ -157,41 +156,7 @@ class RegistreProduccioController extends Controller {
         getIndex();
         
     }
-
-    public function updateEmpleats($id){ //Funcio que actualitza un empleat
-        
-        //pongo esto de relleno
-        //El que lo lea me tiene que comer los cojones: Andres Baco <3
-        $prod = RegistreProduccio::find($id);
-
-        $v = Validator::make(request()->all(), [
-            'data_traductor'  => 'date',
-            'data_ajustador'  => 'date',
-            'data_linguista'  => 'date',
-            'casting'         => 'required',
-        ],[
-            'required' => 'No s\'ha introduït aquesta dada.',
-            'date' => 'Aquesta dada te que ser una data.'
-        ]);
-
-        if ($v->fails()) {
-            return redirect()->back()->withErrors($v)->withInput();
-            //return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
-        } else {
-            $prod->fill(request()->all());               
-
-            try {
-                $prod->save(); 
-            } catch (\Exception $ex) {
-                return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar.'));
-            }
-
-            return redirect()->back()->with('success', 'Registre de producció modificat correctament.');
-        }
-        getIndex();
-        
-    }
-
+    
     public function updatePreparacio($id){
         //pongo esto de relleno
         $prod = RegistreProduccio::find($id);
@@ -203,7 +168,6 @@ class RegistreProduccioController extends Controller {
             'ppp'                   => 'required',
             'pps'                   => 'required',
             'ppe'                   => 'required',
-            'id_tecnic_mix'             => 'required',
         ],[
             'required' => 'No s\'ha introduït aquesta dada.',
             'date' => 'Aquesta dada te que ser una data.'
@@ -329,33 +293,6 @@ class RegistreProduccioController extends Controller {
         }
     }
 
-    public function createEmpleats(){
-        $v = Validator::make(request()->all(), [
-            'data_traductor'  => 'date',
-            'data_ajustador'  => 'date',
-            'data_linguista'  => 'date',
-            'casting'         => 'required',
-        ],[
-            'required' => 'No s\'ha introduït aquesta dada.',
-            'date' => 'Aquesta dada te que ser una data.'
-        ]);
-
-        if ($v->fails()) {
-            return redirect()->back()->withErrors($v)->withInput();
-            //return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
-        }  else {
-            $prod = new RegistreProduccio(request()->all());               
-
-            try {
-                $prod->save(); 
-            } catch (\Exception $ex) {
-                return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut crear el client.'));
-            }
-
-            return redirect()->route('indexRegistreProduccio')->with('success', 'Registre de producció creat correctament.');
-        }
-    }
-
     public function createPreparacio(){
         $v = Validator::make(request()->all(), [
             'qc_vo'                 => 'required',
@@ -364,8 +301,6 @@ class RegistreProduccioController extends Controller {
             'ppp'                   => 'required',
             'pps'                   => 'required',
             'ppe'                   => 'required',
-            'id_tecnic_mix'         => 'required',
-            'data_tecnic_mix'       => 'date',
         ],[
             'required' => 'No s\'ha introduït aquesta dada.',
             'date' => 'Aquesta dada te que ser una data.'
