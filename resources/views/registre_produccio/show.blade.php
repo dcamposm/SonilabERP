@@ -384,14 +384,41 @@
         </tbody>
     </table>
     <div class="row justify-content-between">
-        <a href="{{ url('/registreProduccio') }}" class="btn btn-primary col-2">
+        <a href="{{ url('/registreProduccio') }}" id="botoTornar" class="btn btn-primary col-2">
             <span class="fas fa-angle-double-left"></span>
             TORNAR
         </a>
         <button id="botonForm" style="display: none;" type="submit" class="btn btn-success col-2">DESAR <i class="fas fa-save"></i></button>
     </div>
+    
+    <!-- MODAL TORNAR -->
+    <div class="modal fade" id="modalTornar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">No s'ha guardat els canvis</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <span id="delete-message">Vols tornar enrere sense desar?</span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="self.seleccionarRegistreProduccio(0)">TANCAR</button>
+                    <a href="{{ url('/registreProduccio') }}" class="btn btn-danger">
+                        <span class="fas fa-angle-double-left"></span>
+                        TORNAR SENSE DESAR
+                    </a>
+                    <button type="submit" class="btn btn-success">DESAR <i class="fas fa-save"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
 </form>
 </div>
+
+
 
 <script>
     function formTable(){
@@ -453,6 +480,10 @@
                 content.append('<input type="text" name="'+idArray[0]+'" id="'+idArray[0]+'" class="form-control" value="'+value+'">');
             }
             //alert(textArray[0]);
+            $('#botoTornar').attr('href', '#');
+            $('#botoTornar').attr('data-toggle', 'modal');
+            $('#botoTornar').attr('data-target', '#modalTornar');
+            
             $('#botonForm').show();
         }
     };
