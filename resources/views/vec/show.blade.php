@@ -55,6 +55,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @if (isset($empleatsInfo['Actor']))
                     @foreach ($empleatsInfo['Actor'] as $actor)
                         <tr class="row">
                             <td class="col">{{$actor['nom']}}</td>
@@ -63,6 +64,7 @@
                             <td class="col">{{$actor['total']}}€</td>
                         </tr>
                     @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>
