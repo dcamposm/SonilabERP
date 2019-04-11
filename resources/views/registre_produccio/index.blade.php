@@ -16,6 +16,12 @@
                 ESTADILLOS
             </a>
             @endif
+            @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+            <a href="{{ url('/vec') }}" class="btn btn-success">
+                <i class="fas fa-calculator"></i>
+                VEC
+            </a>
+            @endif
         </div>
         @endif
         <!-- FILTRA REGISTRE PRODUCCIO -->
@@ -82,6 +88,7 @@
                         <th>PROPOSTES</th>
                         <th>INSERTS</th>
                         <th>ESTADILLO</th>
+                        <th>VEC</th>
                         <th>CONVOS</th>
                         <th>INICI SALA</th>
                         <th>FINAL SALA</th>
@@ -89,6 +96,7 @@
                         <th>RETAKES</th>
                     @else
                         <th>ESTADILLO</th>
+                        <th>VEC</th>
                     @endif
                     
                 @elseif (Auth::user()->hasAnyRole(['3']))
@@ -131,10 +139,17 @@
                         <td style="vertical-align: middle;">{{ $registreProduccio->propostes == 0 ? '' : 'FET' }}</td>
                         <td style="vertical-align: middle;">{{ $registreProduccio->inserts }}</td>
                         <td style="vertical-align: middle;">
-                            @if ($registreProduccio->estadillo != 1)
+                            @if ($registreProduccio->estadillo != 1 || empty($registreProduccio->getEstadillo))
                                 <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $registreProduccio->id }}, '{{ $registreProduccio->id_registre_entrada.' '.$registreProduccio->titol.' '.$registreProduccio->subreferencia }}')" data-toggle="modal" data-target="#exampleModalCenter">ESTADILLO</button>
                             @else
                                 <a href="{{ $registreProduccio->subreferencia==0 ? route('estadilloShow', array('id' => $registreProduccio->getEstadillo->id_estadillo )) : route('estadilloShow', array('id' => $registreProduccio->id_registre_entrada, 'id_setmana' => $registreProduccio->setmana )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">ESTADILLO</a>
+                            @endif
+                        </td>
+                        <td style="vertical-align: middle;">
+                            @if ($registreProduccio->vec != 1)
+                                <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $registreProduccio->id }}, '{{ $registreProduccio->id_registre_entrada.' '.$registreProduccio->titol.' '.$registreProduccio->subreferencia }}')" data-toggle="modal" data-target="#exampleModalCenter">GENERAR</button>
+                            @else
+                                <a href="{{ $registreProduccio->subreferencia==0 ? route('estadilloShow', array('id' => $registreProduccio->getEstadillo->id_estadillo )) : route('estadilloShow', array('id' => $registreProduccio->id_registre_entrada, 'id_setmana' => $registreProduccio->setmana )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">MOSTRAR</a>
                             @endif
                         </td>
                         <td style="vertical-align: middle;">{{ $registreProduccio->convos == 0 ? '' : 'FET' }}</td>
@@ -144,10 +159,17 @@
                         <td style="vertical-align: middle;">{{ $registreProduccio->retakes }}</td>
                     @else
                         <td style="vertical-align: middle;">
-                            @if ($registreProduccio->estadillo != 1)
+                            @if ($registreProduccio->estadillo != 1  || empty($registreProduccio->getEstadillo))
                                 <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $registreProduccio->id }}, '{{ $registreProduccio->id_registre_entrada.' '.$registreProduccio->titol.' '.$registreProduccio->subreferencia }}')" data-toggle="modal" data-target="#exampleModalCenter">ESTADILLO</button>
                             @else
                                 <a href="{{ $registreProduccio->subreferencia==0 ? route('estadilloShow', array('id' => $registreProduccio->getEstadillo->id_estadillo )) : route('estadilloShow', array('id' => $registreProduccio->id_registre_entrada, 'id_setmana' => $registreProduccio->setmana )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">ESTADILLO</a>
+                            @endif
+                        </td>
+                        <td style="vertical-align: middle;">
+                            @if ($registreProduccio->vec != 1)
+                                <a href="{{ route('vecGenerar', array('id' => $registreProduccio->id)) }}" class="btn btn-primary btn-sm">GENERAR</a>
+                            @else
+                                
                             @endif
                         </td>
                     @endif

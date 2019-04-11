@@ -10,11 +10,23 @@ class Tarifa extends Model
     protected $primaryKey = 'id';
     
     protected $fillable = [
-        "nombre"
+        "nombre",
+        "id_carrec",
+        "nombre_corto"
     ];
     
     public function carrecs()
     {
-        return $this->hasMany('App\CarrecEmpleat', 'id', 'id_tarifa');
+        return $this->hasMany('App\CarrecEmpleat', 'id_carrec', 'id_carrec');
+    }
+    
+    public function carrec()
+    {
+        return $this->belongsTo('App\Carrec', 'id_carrec', 'id_carrec');
+    }
+    
+    public function costos()
+    {
+        return $this->hasMany('App\EmpleatCostos', 'id', 'id_tarifa');
     }
 }

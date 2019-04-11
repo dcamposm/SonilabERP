@@ -122,3 +122,28 @@ Route::middleware(['role: 1,2,4'])->group(function () {
     Route::post('/estadillos/esborrar', 'EstadilloController@delete')->name('esborrarEstadillo');
     Route::post('/estadillos/esborrar/actor', 'EstadilloController@deleteActor')->name('esborrarEstadilloActor');
 });
+
+//------------------Rutes vec------------------
+Route::middleware(['role: 1,2,4'])->group(function () {
+    Route::get('/vec', 'CostController@index')->name('indexVec');
+    //Route::get('/estadillos/buscar', 'EstadilloController@find')->name('estadilloFind');
+    //Route::get('/estadillos/buscar/actor/{id}/{id_setmana?}', 'EstadilloController@findActor')->name('actorFind');
+        
+    Route::get('/vec/mostrar/{id}', 'CostController@show')->name('mostrarVec');
+    //Route::get('/estadillos/mostrar/setmana/{id}/{id_setmana}', 'EstadilloController@showSetmana')->name('estadilloShowSetmana');
+    
+    //Route::post('/estadillos/import', 'EstadilloController@import')->name('estadilloImport');
+    Route::get('/vec/generar/{id}', 'CostController@generar')->name('vecGenerar');
+    //Route::get('/estadillos/crear', 'EstadilloController@insertView')->name('estadilloInsertView');
+    //Route::get('/estadillos/actor/crear/{id}/{setmana?}', 'EstadilloController@insertActorView')->name('estadilloActorInsertView');
+    Route::post('/vec/crear', 'CostController@insert')->name('vecInsert');
+    //Route::post('/estadillos/actor/crear/{setmana?}', 'EstadilloController@insertActor')->name('estadilloActorInsert');
+    
+    Route::get('/vec/modificar/{id}', 'CostController@updateView')->name('vecUpdateView');
+    //Route::get('/estadillos/modificar/actor/{id}/{id_actor}/{setmana?}', 'EstadilloController@updateActorView')->name('estadilloActorUpdateView');
+    //Route::post('/estadillos/modificar/{id}', 'EstadilloController@update')->name('estadilloUpdate');
+    //Route::post('/estadillos/modificar/actor/{id}/{id_actor}/{setmana?}', 'EstadilloController@updateActor')->name('estadilloActorUpdate');
+    
+    Route::post('/vec/esborrar', 'CostController@delete')->name('esborrarVec');
+    //Route::post('/estadillos/esborrar/actor', 'EstadilloController@deleteActor')->name('esborrarEstadilloActor');
+});

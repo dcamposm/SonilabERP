@@ -22,7 +22,6 @@ class EstadilloController extends Controller
     {
         $estadillos = Estadillo::all()->sortBy("id_registre_produccio"); //Agafa tots els estadillos i els ordena per registre de producció
 
-        
         $showEstadillos = array();
         
         foreach ($estadillos as $estadillo){

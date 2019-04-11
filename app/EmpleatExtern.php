@@ -35,6 +35,11 @@ class EmpleatExtern extends Model
         return $this->hasMany('App\ActorEstadillo', 'id_actor', 'id_empleat');
     }
     
+    public function costos()
+    {
+        return $this->hasMany('App\EmpleatCost', 'id_empleat', 'id_empleat');
+    }
+    
     public function produccioTraductor()
     {
         return $this->hasMany('App\RegistreProduccio', 'id_traductor', 'id_empleat');
