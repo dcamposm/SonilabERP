@@ -19,7 +19,7 @@ class RegistreProduccioController extends Controller {
         //
         $registreProduccio = RegistreProduccio::with('traductor')->with('ajustador')
                 ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
-                ->orderBy('estat')->orderBy('data_entrega')->get();
+                ->orderBy('estat')->orderBy('data_entrega')->paginate(20);
         $registreEntrada = RegistreEntrada::all();
         //return response()->json($registreProduccio[0]->getEstadillo);
         return View('registre_produccio.index', array('registreProduccions' => $registreProduccio, 'registreEntrades' => $registreEntrada));
@@ -225,12 +225,18 @@ class RegistreProduccioController extends Controller {
 
     public function find() {
         if (request()->input("searchBy") == '3') {
-            $registreProduccio = RegistreProduccio::where('estat', request()->input("search_Estat"))->get();
-        } else if (request()->input("searchBy") == '2') {
-            $registreProduccio = RegistreEntrada::where('estat', request()->input("search_Estat"))->get();
+            $registreProduccio = RegistreProduccio::with('traductor')->with('ajustador')
+                                ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
+                                ->orderBy('estat')->orderBy('data_entrega')->where('estat', request()->input("search_Estat"))->paginate(20);
+        } else if (request()->input("searchBy") == '2'){
+            $registreProduccio = RegistreProduccio::with('traductor')->with('ajustador')
+                                ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
+                                ->orderBy('estat')->orderBy('data_entrega')->where('data_entrega', request()->input("searchDate"))->paginate(20);
         } else {
-            $registreProduccio = RegistreEntrada::where('titol', request()->input("search_term"))
-                            ->orWhere('id_registre_entrada', request()->input("search_term"))->get();
+            $registreProduccio = RegistreProduccio::with('traductor')->with('ajustador')
+                                ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
+                                ->orderBy('estat')->orderBy('data_entrega')->whereRaw('LOWER(titol) like "%'.strtolower(request()->input("search_term")).'%" '
+                    . 'OR id_registre_entrada like "'.request()->input("search_term").'%"')->paginate(20);
         }
 
         return view('registre_produccio.index', array('registreProduccions' => $registreProduccio,
@@ -350,6 +356,8 @@ class RegistreProduccioController extends Controller {
     }
 
     public function delete(Request $request) {
+        Estadillo::where('id_registre_produccio', request()->input("id"))->delete();
+        Costos::where('id_registre_produccio', request()->input("id"))->delete();
         RegistreProduccio::where('id', request()->input("id"))->delete();
         return redirect()->route('indexRegistreProduccio');
     }

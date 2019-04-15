@@ -74,7 +74,7 @@ class RegistreEntradaController extends Controller
                                                             ->orderBy(request()->input("orderBy"))->get();
         } else {
             $registreEntrades = RegistreEntrada::whereRaw('LOWER(titol) like "%'.strtolower(request()->input("search_term")).'%" '
-                    . 'OR id_registre_entrada like "'.request()->input("search_term").'"')
+                    . 'OR id_registre_entrada like "%'.request()->input("search_term").'%"')
                     ->orderBy(request()->input("orderBy"))->get();
                     //->orWhere('id_registre_entrada', request()->input("search_Estat"))->get();
         }

@@ -105,10 +105,12 @@
                 <td class="font-weight-bold col-sm-2">TRADUCTOR:</td>
                 <td class="col" id="select" style="display: none;">
                   <select name="id_traductor" id="id_traductor" class="form-control">
+                    <option></option>
                     @foreach ($empleatsCarrec as $key => $empleat) 
                         @foreach ($empleat->carrec as $key => $carrec) 
                             @if ($carrec->id_tarifa == 12)
                                 <option value="{{ $empleat->id_empleat }}" {{$empleat->id_empleat == (array_key_exists("traductor", $empleats) ? $empleats["traductor"]->id_empleat : '') ? 'selected' : '' }}>{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }} {{ $empleat->cognom2_empleat }}</option>
+                                @break
                             @endif
                         @endforeach
                     @endforeach
@@ -130,10 +132,12 @@
                 <td class="font-weight-bold col-sm-2">AJUSTADOR:</td>
                 <td class="col" id="select" style="display: none;">
                   <select name="id_ajustador" id="id_ajustador" class="form-control">
+                    <option></option>
                     @foreach ($empleatsCarrec as $key => $empleat) 
                         @foreach ($empleat->carrec as $key => $carrec) 
                             @if ($carrec->id_tarifa == 13)
                                 <option value="{{ $empleat->id_empleat }}" {{$empleat->id_empleat == (array_key_exists("ajustador", $empleats) ? $empleats["ajustador"]->id_empleat : '') ? 'selected' : '' }}>{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }} {{ $empleat->cognom2_empleat }}</option>
+                                @break
                             @endif
                         @endforeach
                     @endforeach
@@ -155,10 +159,12 @@
                 <td class="font-weight-bold col-sm-2">LINGÜISTA:</td>
                 <td class="col" id="select" style="display: none;">
                   <select name="id_linguista" id="id_linguista" class="form-control">
+                    <option></option>
                     @foreach ($empleatsCarrec as $key => $empleat) 
                         @foreach ($empleat->carrec as $key => $carrec) 
                             @if ($carrec->id_tarifa == 14)
                                 <option value="{{ $empleat->id_empleat }}" {{$empleat->id_empleat == (array_key_exists("linguista", $empleats) ? $empleats["linguista"]->id_empleat : '') ? 'selected' : '' }}>{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }} {{ $empleat->cognom2_empleat }}</option>
+                                @break
                             @endif
                         @endforeach
                     @endforeach
@@ -180,6 +186,7 @@
                 <td class="font-weight-bold col-sm-2">DIRECTOR:</td>
                 <td class="col" id="select" style="display: none;">
                   <select name="id_director" id="id_director" class="form-control">
+                    <option></option>
                     @foreach ($empleatsCarrec as $key => $empleat) 
                         @foreach ($empleat->carrec as $key => $carrec) 
                             @if ($carrec->id_tarifa == 1 || $carrec->id_tarifa == 2)
@@ -305,6 +312,7 @@
                 <td class="font-weight-bold col-sm-2">TÉCNIC MIX:</td>
                 <td class="col" id="select" style="display: none;">
                   <select name="id_tecnic_mix" id="id_tecnic_mix" class="form-control">
+                    <option></option>
                     @foreach ($empleatsCarrec as $key => $empleat) 
                         @foreach ($empleat->carrec as $key => $carrec) 
                             @if ($carrec->id_tarifa == 3 || $carrec->id_tarifa == 4)

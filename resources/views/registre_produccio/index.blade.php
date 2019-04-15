@@ -32,15 +32,16 @@
                     <div class="input-group">
                         <select class="custom-select" id='searchBy' name="searchBy" form="search">
                             <option selected>BUSCAR PER...</option>
-                            <option value='1'>REFERENCIA</option>
-                            <option value="2">PRODUCCIÓ</option>
+                            <option>REFERENCIA</option>
+                            <option>TÍTOL</option>
+                            <option value="2">DATA D'ENTRADA</option>
                             <option value="3">ESTAT</option>
                         </select>
                         <input type="text" id="search_term" class="form-control" name="search_term" placeholder="Buscar registre...">
-
+                        <input type="date" class="form-control" id="searchDate" name="searchDate" style="display: none;">
                         <select class="custom-select" id='search_Estat' name="search_Estat" form="search" style="display: none;">
                             <option value="Pendent">PENDENT</option>
-                            <option value="Cancel·lada">CANCEL·LADA</option>
+                            <option value="Finalitzada">FINALITZAT</option>
                         </select>
 
                         <span class="input-group-btn">
@@ -146,10 +147,10 @@
                             @endif
                         </td>
                         <td style="vertical-align: middle;">
-                            @if ($registreProduccio->vec != 1)
-                                <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $registreProduccio->id }}, '{{ $registreProduccio->id_registre_entrada.' '.$registreProduccio->titol.' '.$registreProduccio->subreferencia }}')" data-toggle="modal" data-target="#exampleModalCenter">GENERAR</button>
+                            @if ($registreProduccio->vec != 1 || empty($registreProduccio->getVec))
+                                <a href="{{ route('vecGenerar', array('id' => $registreProduccio->id)) }}" class="btn btn-primary btn-sm">GENERAR</a>
                             @else
-                                <a href="{{ $registreProduccio->subreferencia==0 ? route('estadilloShow', array('id' => $registreProduccio->getEstadillo->id_estadillo )) : route('estadilloShow', array('id' => $registreProduccio->id_registre_entrada, 'id_setmana' => $registreProduccio->setmana )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">MOSTRAR</a>
+                                <a href="{{ route('mostrarVec', array('id' => $registreProduccio->getVec->id_costos)) }}" class="btn btn-primary btn-sm">VEURE</a>
                             @endif
                         </td>
                         <td style="vertical-align: middle;">{{ $registreProduccio->convos == 0 ? '' : 'FET' }}</td>
@@ -166,10 +167,10 @@
                             @endif
                         </td>
                         <td style="vertical-align: middle;">
-                            @if ($registreProduccio->vec != 1)
+                            @if ($registreProduccio->vec != 1  || empty($registreProduccio->getVec))
                                 <a href="{{ route('vecGenerar', array('id' => $registreProduccio->id)) }}" class="btn btn-primary btn-sm">GENERAR</a>
                             @else
-                                
+                                <a href="{{ route('mostrarVec', array('id' => $registreProduccio->getVec->id_costos)) }}" class="btn btn-primary btn-sm">VEURE</a>
                             @endif
                         </td>
                     @endif
@@ -199,7 +200,7 @@
             @endforeach
         </tbody>
     </table>
-    
+    {{ $registreProduccions->links() }}
     <!-- MODAL IMPORTAR ESTADILLOS -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -257,7 +258,7 @@
     @if (isset($return))
         <a href="{{ url('/registreProduccio') }}" class="btn btn-primary">
             <span class="fas fa-angle-double-left"></span>
-            TORNAR ENRERA
+            TORNAR
         </a> 
     @endif
 </div>
@@ -301,10 +302,16 @@
     //alert(value);
     if ($('#searchBy').val() == '3') {
         $('#search_term').hide();
+        $('#searchDate').hide();
         $('#search_Estat').show();
+    } else if ($('#searchBy').val() == '2'){
+        $('#search_term').hide();
+        $('#searchDate').show();
+        $('#search_Estat').hide();
     }
     else {
         $('#search_term').show();
+        $('#searchDate').hide();
         $('#search_Estat').hide();
     }
     }

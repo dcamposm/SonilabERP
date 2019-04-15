@@ -137,6 +137,7 @@
                     @foreach ($empleat->carrec as $key => $carrec) 
                         @if ($carrec->id_tarifa == 12)
                             <option value="{{ $empleat->id_empleat }}" {{(!empty($registreProduccio) && $empleat->id_empleat == $registreProduccio->id_traductor) || old('id_traductor') ? 'selected' : '' }}>{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }} {{ $empleat->cognom2_empleat }}</option>
+                            @break
                         @endif
                     @endforeach
                 @endforeach
@@ -158,6 +159,7 @@
                     @foreach ($empleat->carrec as $key => $carrec) 
                         @if ($carrec->id_tarifa == 13)
                             <option value="{{ $empleat->id_empleat }}" {{(!empty($registreProduccio) && $empleat->id_empleat == $registreProduccio->id_ajustador) || old('id_ajustador') ? 'selected' : '' }}>{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }} {{ $empleat->cognom2_empleat }}</option>
+                            @break
                         @endif
                     @endforeach
                 @endforeach
@@ -179,6 +181,7 @@
                     @foreach ($empleat->carrec as $key => $carrec) 
                         @if ($carrec->id_tarifa == 14)
                             <option value="{{ $empleat->id_empleat }}" {{(!empty($registreProduccio) && $empleat->id_empleat == $registreProduccio->id_linguista) || old('id_linguista') ? 'selected' : '' }}>{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }} {{ $empleat->cognom2_empleat }}</option>
+                            @break
                         @endif
                     @endforeach
                 @endforeach
