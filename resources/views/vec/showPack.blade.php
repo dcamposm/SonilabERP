@@ -2,13 +2,13 @@
 
 @section('content')
 <div class="container-fluid">
-    <div>
+    <div class="mb-4">
         <a href="{{ url('/vec') }}" class="btn btn-primary">
             <span class="fas fa-angle-double-left"></span>
             TORNAR
         </a>
     </div>
-    <br>
+
     {{-- TABLA DE COSTOS --}}
     <table class="table" style="margin-top: 10px;">
         <thead>

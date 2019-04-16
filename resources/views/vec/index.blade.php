@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container-fluid">
-    <div>
+    <div class="mb-4">
         <a href="{{ url('/registreProduccio') }}" class="btn btn-primary">
             <span class="fas fa-angle-double-left"></span>
             TORNAR
@@ -12,7 +12,7 @@
             <span class="fas fa-clipboard-list"></span>CREAR VALORACIÓ ECONÒMICA
         </button>
     </div>
-    <br>
+
     {{-- TABLA DE COSTOS --}}
     <table class="table" style="margin-top: 10px;">
         <thead>

@@ -8,7 +8,7 @@
         @csrf
         <fieldset class="border p-2">
             <legend class="w-auto">DADES:</legend>
-            <div class="row">
+            <div class="row mb-4">
                 @if (isset($estadillos))
                     <div>
                         <input type="text" class="form-control" id="id_produccio" placeholder="Entrar tks" name="id_produccio" value="{{!empty($actor) ? $actor->id_produccio : $estadillos->id_estadillo}}" style="display: none;">
@@ -23,7 +23,7 @@
                     </select>
                 </div>
             </div>
-            <br>
+
             @if (isset($estadillos))
                 <div class="row">
                     <div class="col-6">
@@ -89,24 +89,16 @@
             @endif
         </fieldset>
 
-
-        <br>
-
-        <!-- BOTÓN DE CREAR O ACTUALIZAR -->
-        <div class="row">
-            <div class="col-6">
-                <button type="submit" class="btn btn-success col-4">{{!empty($actor) ? 'DESAR' : 'CREAR'}}</button>
-            </div>
+        <div class="row justify-content-between mt-4 mb-4">
+            <a href="/estadillos/mostrar/{{ isset($estadillos) ? $estadillos->id_estadillo : $registreProduccio[0]["id_registre_entrada"]."/".$registreProduccio[0]["setmana"] }}" class="btn btn-primary">
+                <span class="fas fa-angle-double-left"></span>
+                TORNAR
+            </a> 
+            <button type="submit" class="btn btn-success col-2">{{!empty($actor) ? 'DESAR' : 'CREAR'}}</button>     
         </div>
-        <br>
+
     </form>
-    
-    <div>
-        <a href="/estadillos/mostrar/{{ isset($estadillos) ? $estadillos->id_estadillo : $registreProduccio[0]["id_registre_entrada"]."/".$registreProduccio[0]["setmana"] }}" class="btn btn-primary">
-            <span class="fas fa-angle-double-left"></span>
-            TORNAR
-        </a>
-    </div>
+
 </div>
 
 

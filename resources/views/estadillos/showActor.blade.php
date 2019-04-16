@@ -4,7 +4,7 @@
 
 <div class="container">
 
-    <div class="row">
+    <div class="row mb-4">
         <div class="col">
             <a href="{{ !isset($registreProduccio) ? route('estadilloActorInsertView', array('id' => $estadillos->id_estadillo)) :  route('estadilloActorInsertView', array('id' => $registreProduccio->id_registre_entrada, 'setmana'=>$registreProduccio->setmana))}}" class="btn btn-success">
                 <span class="fas fa-user-tie"></span>
@@ -28,12 +28,11 @@
             </div>
         </div>
     </div>
-    
-    <br>
+
     {{-- TABLA DE ACTORS ESTADILLO --}}
     <h2 style="font-weight: bold">{{ $estadillos->id_registre_entrada }} {{ $estadillos->titol }} {{ !isset($min) ? '' : ( $min != $max ? $min.'-'.$max : $min) }}</h2>
     
-    <table class="table" style="margin-top: 10px;">
+    <table class="table mb-4" style="margin-top: 10px;">
         <thead>
             <tr>
                 <th>ACTOR</th> 
@@ -70,7 +69,7 @@
             @endforeach
         </tbody>
     </table>
-    <br>
+
     <div>
         <a href="{{ url('/estadillos') }}" class="btn btn-primary">
             <span class="fas fa-angle-double-left"></span>
