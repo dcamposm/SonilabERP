@@ -4,7 +4,7 @@
 
 <div class="container">
     {{-- TABLA DE ESTADILLOS --}}
-    <table class="table" style="margin-top: 10px;">
+    <table class="table mb-4" style="margin-top: 10px;">
         <thead>
             <tr>
                 <th>ESTADILLOS</th> 
@@ -33,7 +33,7 @@
             @endforeach
         </tbody>
     </table>
-    <br>
+
     <div>
         <a href="/estadillos" class="btn btn-primary">
             <span class="fas fa-angle-double-left"></span>

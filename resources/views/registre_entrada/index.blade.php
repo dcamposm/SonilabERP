@@ -198,7 +198,7 @@
         </div>
     </div>
     @if (isset($return))
-        <a href="{{ url('/registreEntrada') }}" class="btn btn-primary">
+        <a href="{{ url('/registreEntrada') }}" class="btn btn-primary mb-3">
             <span class="fas fa-angle-double-left"></span>
             TORNAR ENRERA
         </a> 

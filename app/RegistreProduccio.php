@@ -48,6 +48,11 @@ class RegistreProduccio extends Model
     {
         return $this->belongsTo('App\Estadillo', 'id', 'id_registre_produccio');
     }
+    
+    public function getVec()
+    {
+        return $this->belongsTo('App\Costos', 'id', 'id_registre_produccio');
+    }
 
     public function registreEntrada()
     {

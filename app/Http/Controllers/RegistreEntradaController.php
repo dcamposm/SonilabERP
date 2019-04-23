@@ -12,6 +12,7 @@ use App\TipusMedia;
 use App\User;
 use App\Missatge;
 use App\RegistreProduccio;
+use App\Estadillo;
 use Swift_Message;
 use Swift_SmtpTransport;
 use Swift_Mailer;
@@ -73,7 +74,7 @@ class RegistreEntradaController extends Controller
                                                             ->orderBy(request()->input("orderBy"))->get();
         } else {
             $registreEntrades = RegistreEntrada::whereRaw('LOWER(titol) like "%'.strtolower(request()->input("search_term")).'%" '
-                    . 'OR id_registre_entrada like "'.request()->input("search_term").'"')
+                    . 'OR id_registre_entrada like "%'.request()->input("search_term").'%"')
                     ->orderBy(request()->input("orderBy"))->get();
                     //->orWhere('id_registre_entrada', request()->input("search_Estat"))->get();
         }
@@ -303,11 +304,15 @@ class RegistreEntradaController extends Controller
         ));
     }
     public function delete(Request $request) {
+        $estadillos = Estadillo::all();
+        foreach ($estadillos as $estadillo) {
+            if ($estadillo->registreProduccio->id_registre_entrada == $request["id"]){
+                $estadillo->delete();
+            }
+        }
+        //return response()->json($estadillos); 
         RegistreEntrada::where('id_registre_entrada', $request["id"])->delete();
         RegistreProduccio::where('id_registre_entrada', $request["id"])->delete();
-        \App\Estadillo::with(['registreProduccio' => function($query){
-                                        $query->where('id_registre_entrada', $request["id"]);
-                                    }])->delete();
         Missatge::where('id_referencia', $request["id"])->where('referencia', 'registreEntrada')->delete();
         return redirect()->route('indexRegistreEntrada');
     }

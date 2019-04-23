@@ -18,4 +18,9 @@ class Carrec extends Model
     {
         return $this->hasMany('App\CarrecEmpleat', 'id_carrec', 'id_carrec');
     }
+    
+    public function tarifa()
+    {
+        return $this->hasMany('App\Tarifa', 'id_carrec', 'id_carrec');
+    }
 }

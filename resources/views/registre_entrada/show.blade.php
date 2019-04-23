@@ -12,7 +12,7 @@
 
         <tbody>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">REFERENCIA:</td>
+                <td class="font-weight-bold col-sm-3">REFERÈNCIA:</td>
                 <td class="col">{{ $registreEntrada['id_registre_entrada']}}</td>
             </tr>
             <tr class="row">
@@ -78,7 +78,7 @@
         </tbody>
     </table>
     
-    <a href="{{ url('/registreEntrada') }}" class="btn btn-primary col-2">
+    <a href="{{ url('/registreEntrada') }}" class="btn btn-primary col-2 mb-3">
         <span class="fas fa-angle-double-left"></span>
         TORNAR
     </a>

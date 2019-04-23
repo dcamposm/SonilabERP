@@ -31,7 +31,7 @@ class UserController extends Controller
     */
     function viewEditarUsuario($id){
         $departaments = Departament::all();
-        $usuario = User::find($id);
+        $usuario = User::with('departament')->find($id);
         if ($usuario){
             return view("usuaris_interns.create",array('departaments' => $departaments, 'usuario' => $usuario));
         }      
@@ -72,17 +72,16 @@ class UserController extends Controller
         *funcio per retornar la vista de un usuari intern
     */
     function getShow($id){
-        $usuari = User::find($id);
-        $departament = $usuari->departament;
-        
-        return view('usuaris_interns.show', array('usuari' => $usuari, 'departament' => $departament));
+        $usuari = User::with('departament')->find($id);
+
+        return view('usuaris_interns.show', array('usuari' => $usuari));
     }
     /*
         *funcio per crear a un usuari intern
     */
     function crearUsuario(){
         
-        
+        //return response()->json(request()->all());
         //Primer es valida si se ha insertat els atributs indicats
         $v = Validator::make(request()->all(), [
             'nom_usuari' => 'required|max:35',
@@ -90,8 +89,9 @@ class UserController extends Controller
             'cognom2_usuari' => 'required|max:35',
             'email_usuari' => 'required|email',
             'alias_usuari' => 'required|min:4|max:35',
-            'contrasenya_usuari' => 'required|min:4|max:15',
-            'id_departament' => 'required'
+            'contrasenya_usuari' => 'required|min:4|max:15|same:cpass',
+            'id_departament' => 'required',
+            'cpass' => 'same:contrasenya_usuari'
         ],[
             'nom_usuari.required' => ' No s\'ha posat el nom d\'usuari.',
             'cognom1_usuari.required' => ' No s\'ha posat el primer cognom.',
@@ -99,9 +99,10 @@ class UserController extends Controller
             'email_usuari.required' => ' No s\'ha posat el email.', 
             'alias_usuari.required' => ' No s\'ha posat el àlies.',
             'contrasenya_usuari.required' => ' No s\'ha posat la contrasenya.',
-            'id_departament.required' => ' No s\'ha seleccionat el departament.',
-            '*.max' => ' El tamany màxim és de 35 caracters.',
-            '*.min' => ' El tamany mínim és de 4 caracters.',
+            'id_departament.required' => ' No s\'ha seleccionat un departament.',
+            '*.max' => ' El tamany màxim és de :max caracters.',
+            '*.min' => ' El tamany mínim és de :min caracters.',
+            'same' => 'No coincideixen les contrasenyes'
         ]);
         
         //En cas que no, se renvia cap al formulari amb un missatge de error
@@ -147,7 +148,7 @@ class UserController extends Controller
                 'cognom2_usuari.required' => ' No s\'ha posat el segon cognom.',
                 'email_usuari.required' => ' No s\'ha posat el email.',
                 'alias_usuari.required' => ' No s\'ha posat el àlies.',
-                'contrasenya_usuari.required' => ' No s\'ha posat la contrasenya.',
+                //'contrasenya_usuari.required' => ' No s\'ha posat la contrasenya.',
                 'id_departament.required' => ' No s\'ha seleccionat el departament.',
                 'max' => ' El tamany maxim és de 35 caracters.',
                 'min' => ' El tamany minim és de 4 caracters.',
