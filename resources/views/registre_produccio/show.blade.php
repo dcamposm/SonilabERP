@@ -28,7 +28,7 @@
                 @endif
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-2">SUBREFERENCIA:</td>
+                <td class="font-weight-bold col-sm-2">SUB-REFERENCIA:</td>
                 <td class="col" id="subreferencia-T">{{ $registreProduccio['subreferencia']}}</td>
                 @if (Auth::user()->hasAnyRole(['1', '2', '4']))
                     <td class="col-sm-1 align-middle text-center"><button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button></td>
@@ -391,7 +391,7 @@
             </tr>     
         </tbody>
     </table>
-    <div class="row justify-content-between">
+    <div class="row justify-content-between mb-3">
         <a href="{{ url('/registreProduccio') }}" id="botoTornar" class="btn btn-primary col-2">
             <span class="fas fa-angle-double-left"></span>
             TORNAR

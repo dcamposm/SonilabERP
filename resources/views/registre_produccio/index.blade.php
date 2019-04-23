@@ -31,19 +31,47 @@
                     @csrf
                     <div class="input-group">
                         <select class="custom-select" id='searchBy' name="searchBy" form="search">
-                            <option selected>BUSCAR PER...</option>
-                            <option>REFERENCIA</option>
-                            <option>TÍTOL</option>
-                            <option value="2">DATA D'ENTRADA</option>
-                            <option value="3">ESTAT</option>
+                            <option value="id_registre_entrada" selected>BUSCAR PER...</option>
+                            <option value="id_registre_entrada">REFERÈNCIA</option>
+                            <option value="titol">TÍTOL</option>
+                            <option value="subreferencia">SUB-REFERÈNCIA</option>
+                            <option value="data_entrega" id="date">DATA D'ENTRADA</option>
+                            <option value="estat" id="estat">ESTAT</option>
+                            @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+                                @if (Auth::user()->hasAnyRole(['2']))
+                                    <option value="titol_traduit">TÍTOL TRADUIT</option>
+                                    <option value="id_traductor">TRADUTOR</option>
+                                    <option value="data_traductor" id="date">DATA TRADUTOR</option>
+                                    <option value="id_ajustador">AJUSTADOR</option>
+                                    <option value="data_ajustador" id="date">DATA AJUSTADOR</option>
+                                    <option value="id_linguista">LINGÜISTA</option>
+                                    <option value="data_linguista" id="date">DATA LINGÜISTA</option>
+                                    <option value="id_director">DIRECTOR</option>
+                                    <option value="casting" id="fet">CÀSTING</option>
+                                    <option value="propostes" id="fet">PROPOSTES</option>
+                                    <option value="inserts" id="inserts">INSERTS</option>
+                                    <option value="convos" id="fet">CONVOS</option>
+                                    <option value="inici_sala" id="date">INICI SALA</option>
+                                    <option value="final_sala" id="date">FINAL SALA</option>
+                                    <option value="data_tecnic_mix" id="date">DATA MIX</option>
+                                    <option value="retakes" id="retakes">RETAKES</option>
+                                @endif
+                                <option value="estadillo" id="fet">ESTADILLO</option>
+                                <option value="vec" id="fet">VEC</option>
+                            @elseif (Auth::user()->hasAnyRole(['3']))
+                                <option value="qc_vo" id="fet">QC VO</option>
+                                <option value="qc_me" id="fet">QC M&E</option>
+                                <option value="ppp" id="fet">PPP</option>
+                                <option value="pps" id="fet">PPS</option>
+                                <option value="id_tecnic_mix">TÈCNIC MIX</option>
+                                <option value="data_tecnic_mix" id="date">DATA MIX</option>
+                                <option value="qc_mix" id="fet">QC MIX</option>
+                                <option value="ppe" id="fet">PPE</option>
+                                <option value="retakes" id="retakes">RETAKES</option>
+                            @endif
+                            
                         </select>
-                        <input type="text" id="search_term" class="form-control" name="search_term" placeholder="Buscar registre...">
-                        <input type="date" class="form-control" id="searchDate" name="searchDate" style="display: none;">
-                        <select class="custom-select" id='search_Estat' name="search_Estat" form="search" style="display: none;">
-                            <option value="Pendent">PENDENT</option>
-                            <option value="Finalitzada">FINALITZAT</option>
-                        </select>
-
+                        <input type="text" id="search_term" class="form-control" name="search_term" placeholder="Buscar per...">
                         <span class="input-group-btn">
                             <button type="submit" class="btn btn-default" type="button"><span class="fas fa-search"></span></button>
                         </span>
@@ -72,10 +100,10 @@
             <tr>
                 <th>REF.</th> 
                 <th>SUB-REF</th> 
+                <th>DATA D'ENTRADA</th>
+                <th>SETMANA</th>
+                <th>TÍTOL ORIGINAL</th>
                 @if (Auth::user()->hasAnyRole(['1', '2', '4']))
-                    <th>DATA D'ENTRADA</th>
-                    <th>SETMANA</th>
-                    <th>TÍTOL ORIGINAL</th>
                     @if (Auth::user()->hasAnyRole(['2']))
                         <th>TÍTOL TRADUIT</th>
                         <th>TRADUCTOR</th>
@@ -123,10 +151,11 @@
                 <td class="cursor" title='Veure producció' style="vertical-align: middle;" onclick="self.mostrarRegistreProduccio('{{ route('mostrarRegistreProduccio', array('id' => $registreProduccio->id)) }}')">
                     <span class="font-weight-bold" style="font-size: 11px;">{{ $registreProduccio->subreferencia }}</span>
                 </td>
+                
+                <td style="vertical-align: middle;">{{ date('d/m/Y', strtotime($registreProduccio->data_entrega)) }}</td>
+                <td style="vertical-align: middle;">{{$registreProduccio->setmana}}</td>
+                <td style="vertical-align: middle;">{{$registreProduccio->titol}}</td>
                 @if (Auth::user()->hasAnyRole(['1', '2', '4']))
-                    <td style="vertical-align: middle;">{{ date('d/m/Y', strtotime($registreProduccio->data_entrega)) }}</td>
-                    <td style="vertical-align: middle;">{{$registreProduccio->setmana}}</td>
-                    <td style="vertical-align: middle;">{{$registreProduccio->titol}}</td>
                     @if (Auth::user()->hasAnyRole(['2']))
                         <td style="vertical-align: middle;">{{ $registreProduccio->titol_traduit }}</td>
                         <td style="vertical-align: middle;">{{ $registreProduccio->traductor ? $registreProduccio->traductor->nom_empleat : '' }}</td>
@@ -256,7 +285,7 @@
     </div>
     
     @if (isset($return))
-        <a href="{{ url('/registreProduccio') }}" class="btn btn-primary">
+        <a href="{{ url('/registreProduccio') }}" class="btn btn-primary mb-3">
             <span class="fas fa-angle-double-left"></span>
             TORNAR
         </a> 
@@ -299,20 +328,27 @@
     function selectSearch() {
     //var value = $('#searchBy').val();
 
-    //alert(value);
-    if ($('#searchBy').val() == '3') {
-        $('#search_term').hide();
-        $('#searchDate').hide();
-        $('#search_Estat').show();
-    } else if ($('#searchBy').val() == '2'){
-        $('#search_term').hide();
-        $('#searchDate').show();
-        $('#search_Estat').hide();
+    //alert($('#searchBy').children(":selected").attr("id")); //Com obtenir el id del option
+    if ($('#searchBy').children(":selected").attr("id") == 'estat') {
+        $('#search_term').remove();
+        $('<select class="custom-select" id="search_term" name="search_term" form="search"><option value="Pendent">PENDENT</option><option value="Finalitzada">FINALITZAT</option></select>').insertAfter(this);
+    } else if ($('#searchBy').children(":selected").attr("id") == 'date'){
+        $('#search_term').remove();
+        $('<input type="date" class="form-control" id="search_term" name="search_term">').insertAfter(this);
+    } else if ($('#searchBy').children(":selected").attr("id") == 'fet'){
+        $('#search_term').remove();
+        $('<select class="custom-select" id="search_term" name="search_term" form="search"><option value="0">NO FET</option><option value="1">FET</option></select>').insertAfter(this);
+    } else if ($('#searchBy').children(":selected").attr("id") == 'inserts'){
+        $('#search_term').remove();
+        $('<select class="custom-select" id="search_term" name="search_term" form="search"><option value="No cal fer">NO CAL FER</option><option value="Cal fer">CAL FER</option><option value="Fet">FET</option></select>').insertAfter(this);
+    } else if ($('#searchBy').children(":selected").attr("id") == 'retakes'){
+        $('#search_term').remove();
+        $('<select class="custom-select" id="search_term" name="search_term" form="search"><option value="No">NO</option><option value="Si">SI</option><option value="Fet">FET</option></select>').insertAfter(this);
     }
     else {
-        $('#search_term').show();
-        $('#searchDate').hide();
-        $('#search_Estat').hide();
+        //Canviem el input actual per el que necessitem
+        $('#search_term').remove();
+        $('<input type="text" id="search_term" class="form-control" name="search_term" placeholder="Buscar per...">').insertAfter(this);
     }
     }
 

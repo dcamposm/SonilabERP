@@ -361,7 +361,7 @@
     </div>
     @endif
   </div>
-    <a href="{{ url('/registreProduccio') }}" class="btn btn-primary">
+    <a href="{{ url('/registreProduccio') }}" class="btn btn-primary mb-3">
       <span class="fas fa-angle-double-left"></span>
       TORNAR
     </a> 

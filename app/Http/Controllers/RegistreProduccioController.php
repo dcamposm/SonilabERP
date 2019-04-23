@@ -224,21 +224,59 @@ class RegistreProduccioController extends Controller {
     }
 
     public function find() {
-        if (request()->input("searchBy") == '3') {
+        //return response()->json(request()->all());
+        if (request()->input("searchBy") == 'id_traductor' || request()->input("searchBy") == 'id_ajustador' || 
+            request()->input("searchBy") == 'id_linguista' || request()->input("searchBy") == 'id_director'  || 
+            request()->input("searchBy") == 'id_tecnic_mix'){
+            //->whereRaw('LOWER(nom_empleat) like "%'. strtolower(request()->input("search_term")).'%"')
+            if (request()->input("searchBy") == 'id_traductor'){
+                $empleats = EmpleatExtern::with(['carrec' => function($query){
+                                $query->where('id_tarifa', 12);
+                            }])->whereRaw('LOWER(nom_empleat) like "%'. strtolower(request()->input("search_term")).'%"')->get();
+            } else if (request()->input("searchBy") == 'id_ajustador') {
+                $empleats = EmpleatExtern::with(['carrec' => function($query){
+                                $query->where('id_tarifa', 13);
+                            }])->whereRaw('LOWER(nom_empleat) like "%'. strtolower(request()->input("search_term")).'%"')->get();
+            } else if (request()->input("searchBy") == 'id_linguista') {
+                $empleats = EmpleatExtern::with(['carrec' => function($query){
+                                $query->where('id_tarifa', 14);
+                            }])->whereRaw('LOWER(nom_empleat) like "%'. strtolower(request()->input("search_term")).'%"')->get();
+            } else if (request()->input("searchBy") == 'id_director') {
+                $empleats = EmpleatExtern::with(['carrec' => function($query){
+                                $query->where('id_carrec', 2);
+                            }])->whereRaw('LOWER(nom_empleat) like "%'. strtolower(request()->input("search_term")).'%"')->get();
+            } else if (request()->input("searchBy") == 'id_tecnic_mix') {
+                $empleats = EmpleatExtern::with(['carrec' => function($query){
+                                $query->where('id_carrec', 3);
+                            }])->whereRaw('LOWER(nom_empleat) like "%'. strtolower(request()->input("search_term")).'%"')->get();
+            }
+            //return response()->json($empleats);
+            foreach ($empleats as $empleat){
+                //return response()->json(empty($empleat->carrec[0]));
+                if (!empty($empleat->carrec[0])){
+                    //return response()->json($empleat);
+                    if (!isset($raw)){
+                        $raw = request()->input("searchBy").' = '.$empleat->id_empleat.'';
+                    } else {
+                        $raw = $raw.' OR '.request()->input("searchBy").' = '.$empleat->id_empleat.'';
+                    }
+                    //return response()->json($empleat);
+                }
+            }
+            if (!isset($raw)){
+                $raw = request()->input("searchBy").' like "'.strtolower(request()->input("search_term")).'"';;
+            }
+            //return response()->json($raw);
             $registreProduccio = RegistreProduccio::with('traductor')->with('ajustador')
-                                ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
-                                ->orderBy('estat')->orderBy('data_entrega')->where('estat', request()->input("search_Estat"))->paginate(20);
-        } else if (request()->input("searchBy") == '2'){
-            $registreProduccio = RegistreProduccio::with('traductor')->with('ajustador')
-                                ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
-                                ->orderBy('estat')->orderBy('data_entrega')->where('data_entrega', request()->input("searchDate"))->paginate(20);
+                            ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
+                            ->orderBy('estat')->orderBy('data_entrega')->whereRaw($raw)->paginate(20);
+            //return response()->json($registreProduccio);
         } else {
             $registreProduccio = RegistreProduccio::with('traductor')->with('ajustador')
-                                ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
-                                ->orderBy('estat')->orderBy('data_entrega')->whereRaw('LOWER(titol) like "%'.strtolower(request()->input("search_term")).'%" '
-                    . 'OR id_registre_entrada like "'.request()->input("search_term").'%"')->paginate(20);
+                            ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
+                            ->orderBy('estat')->orderBy('data_entrega')->whereRaw('LOWER('.request()->input("searchBy").') like "%'.strtolower(request()->input("search_term")).'%"')
+                ->paginate(20);
         }
-
         return view('registre_produccio.index', array('registreProduccions' => $registreProduccio,
                                                         'return' => 1));
     }
