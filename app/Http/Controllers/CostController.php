@@ -140,80 +140,102 @@ class CostController extends Controller
             $total = $vec->cost_total;
             return View('vec.show', array('vec' => $vec, 'empleatsInfo' => $empleatsInfo, 'total' => $total, 'totalSS' => $totalSS, 'return' => 1));
         } else {
-            $vecs = Costos::with('registreProduccio.registreEntrada.client')->with('empleats.tarifa')->orderBy('id_registre_produccio')->get();
+            $vecs = Costos::with('registreProduccio.registreEntrada.client')->with('empleats.empleat.carrec.carrec')->orderBy('id_registre_produccio')->get();
             
             $total = 0;
             //return response()->json($vecs);
 
             $empleatsInfo = array();
             foreach ($vecs as $vec) {
-                if ($vec->registreProduccio->id_registre_entrada == $id && date('d-m-Y', strtotime($vec->registreProduccio->data_entrega)) == $data){
-                    if (!isset($vecInfo)) {
-                        $vecInfo = array(
-                            'ref' => $id,
-                            'titol' => $vec->registreProduccio->registreEntrada->titol,
-                            'client' => $vec->registreProduccio->registreEntrada->client->nom_client,
-                            'entrega' => $data,
-                            'episodis' => array($vec->registreProduccio->subreferencia)
-                        );
-                    } else {
-                        array_push($vecInfo['episodis'],$vec->registreProduccio->subreferencia);
-                    }
-                    foreach ($vec->empleats as $empleat){
-                        //-------------INFO ACTORS--------------
-                        if ($empleat->tarifa->carrec->nom_carrec == 'Actor'){
-                            if (!isset($empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat])) {
-                                $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat] = array(
-                                    'nom' => ($empleat->empleat->nom_empleat.' '.$empleat->empleat->cognom1_empleat),
-                                    'tk' => 0,
-                                    'cg' => 0,
-                                    'total' => $empleat->cost_empleat
-                                );
-                                $total += $empleat->cost_empleat;
-                                //return response()->json($empleatsInfo);
-                                foreach ($empleat->empleat->estadillo as $actor){
-                                    if ($actor->id_produccio == $vec->registreProduccio->getEstadillo->id_estadillo){
+                //return response()->json($vecs);
+                if ($vec->registreProduccio->vec == 1){
+                    //return response()->json($id);
+                    if ($vec->registreProduccio->id_registre_entrada == $id && date('d-m-Y', strtotime($vec->registreProduccio->data_entrega)) == $data){
+                        //return response()->json($vec);
+                        if (!isset($vecInfo)) {
+                            $vecInfo = array(
+                                'ref' => $id,
+                                'titol' => $vec->registreProduccio->registreEntrada->titol,
+                                'client' => $vec->registreProduccio->registreEntrada->client->nom_client,
+                                'entrega' => $data,
+                                'episodis' => array($vec->registreProduccio->subreferencia)
+                            );
+                        } else {
+                            array_push($vecInfo['episodis'],$vec->registreProduccio->subreferencia);
+                        }
+                        foreach ($vec->empleats as $empleat){
+                            //return response()->json($vec->empleats);
+                            //-------------INFO ACTORS--------------
+                            if ($empleat->tarifa->carrec->nom_carrec == 'Actor'){
+                                if (!isset($empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat])) {
+                                    $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat] = array(
+                                        'nom' => ($empleat->empleat->nom_empleat.' '.$empleat->empleat->cognom1_empleat),
+                                        'tk' => 0,
+                                        'cg' => 0,
+                                        'total' => $empleat->cost_empleat
+                                    );
+                                    $total += $empleat->cost_empleat;
+                                    //return response()->json($empleatsInfo);
+                                    foreach ($empleat->empleat->estadillo as $actor){
+                                        //return response()->json($empleat);
+                                        if ($actor->id_produccio == $vec->registreProduccio->getEstadillo->id_estadillo){
+                                            if ($empleat->id_tarifa == 5 || $empleat->id_tarifa == 7){
+                                                $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['tk'] += $actor->take_estadillo;
+                                            } else if ($empleat->id_tarifa == 6 || $empleat->id_tarifa == 8){
+                                               $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['cg'] += $actor->cg_estadillo; 
+                                            }
+                                            //return response()->json($empleatsInfo);
+                                        }
+                                    }
+                                    //
+                                } else {
+                                    //return response()->json($vec->empleats);
+                                    $total += $empleat->cost_empleat;
+                                    foreach ($empleat->empleat->estadillo as $actor){
+                                        //return response()->json($vec->registreProduccio->getEstadillo);
+                                        if ($actor->id_produccio == $vec->registreProduccio->getEstadillo->id_estadillo){
+                                            if ($empleat->id_tarifa == 5 || $empleat->id_tarifa == 7){
+                                                $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['tk'] += $actor->take_estadillo;
+                                            } else if ($empleat->id_tarifa == 6 || $empleat->id_tarifa == 8){
+                                               $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['cg'] += $actor->cg_estadillo; 
+                                            }
+                                        }
+                                    }
+                                    $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['total'] += $empleat->cost_empleat;
+                                    //return response()->json($empleat);
+                                } 
+                            } 
+                            //-------------INFO COL·LABORADORS--------------
+                            else {
+                                if (!isset($empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat])) {
+                                    $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat] = array(
+                                        'nom' => ($empleat->empleat->nom_empleat.' '.$empleat->empleat->cognom1_empleat),
+                                        'tasca' => array(($empleat->tarifa->carrec->nom_carrec == 'Traductor' ? $empleat->tarifa->nombre_corto : $empleat->tarifa->carrec->nom_carrec) =>array('cost'=>$empleat->cost_empleat,'episodis' => array($vec->registreProduccio->subreferencia))),
+                                        'total' => $empleat->cost_empleat
+                                    );
+                                   $total += $empleat->cost_empleat;
+                                    //return response()->json($empleatsInfo);
+                                } else {
+                                    $total += $empleat->cost_empleat;
 
-                                        $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['tk'] += $actor->take_estadillo;
-                                        $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['cg'] += $actor->cg_estadillo;
-                                        //return response()->json($empleatsInfo);
+                                    if ($empleat->tarifa->carrec->nom_carrec == 'Traductor'){
+                                        if (isset($empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['tasca'][$empleat->tarifa->nombre_corto])){
+                                            $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['tasca'][$empleat->tarifa->nombre_corto]['cost']+=$empleat->cost_empleat;
+                                            array_push($empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['tasca'][$empleat->tarifa->nombre_corto]['episodis'], $vec->registreProduccio->subreferencia);
+                                        } else {
+                                            $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['tasca'][$empleat->tarifa->nombre_corto] = array('cost'=>$empleat->cost_empleat,'episodis' => array($vec->registreProduccio->subreferencia));
+
+                                        }
                                     }
-                                }
-                            } else {
-                                $total += $empleat->cost_empleat;
-                                $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['total'] += $empleat->cost_empleat;
-                            } 
-                        } 
-                        //-------------INFO COL·LABORADORS--------------
-                        else {
-                            if (!isset($empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat])) {
-                                $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat] = array(
-                                    'nom' => ($empleat->empleat->nom_empleat.' '.$empleat->empleat->cognom1_empleat),
-                                    'tasca' => array(($empleat->tarifa->carrec->nom_carrec == 'Traductor' ? $empleat->tarifa->nombre_corto : $empleat->tarifa->carrec->nom_carrec) =>array('cost'=>$empleat->cost_empleat,'episodis' => array($vec->registreProduccio->subreferencia))),
-                                    'total' => $empleat->cost_empleat
-                                );
-                               $total += $empleat->cost_empleat;
-                                //return response()->json($empleatsInfo);
-                            } else {
-                                $total += $empleat->cost_empleat;
-                                
-                                if ($empleat->tarifa->carrec->nom_carrec == 'Traductor'){
-                                    if (isset($empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['tasca'][$empleat->tarifa->nombre_corto])){
-                                        $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['tasca'][$empleat->tarifa->nombre_corto]['cost']+=$empleat->cost_empleat;
-                                        array_push($empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['tasca'][$empleat->tarifa->nombre_corto]['episodis'], $vec->registreProduccio->subreferencia);
-                                    } else {
-                                        $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['tasca'][$empleat->tarifa->nombre_corto] = array('cost'=>$empleat->cost_empleat,'episodis' => array($vec->registreProduccio->subreferencia));
-                                        
-                                    }
-                                }
-                                
-                                $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['total'] += $empleat->cost_empleat;
-                            } 
+
+                                    $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['total'] += $empleat->cost_empleat;
+                                } 
+                            }
                         }
                     }
                 }
             }
-            //return response()->json($vecInfo);
+            //return response()->json($empleatsInfo);
             return View('vec.show', array('vec' => $vecInfo, 'empleatsInfo' => $empleatsInfo, 'total' => $total));
         }
         
