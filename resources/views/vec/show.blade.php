@@ -32,7 +32,7 @@
                 @endif
             @else
                 <tr class="row">
-                    <td class="font-weight-bold col-sm-3">EPISODI:</td>
+                    <td class="font-weight-bold col-sm-3">EPISODIS:</td>
                     <td class="col">
                         @foreach($vec['episodis'] as $cont => $episodi)
                             @if ($cont != '0')
@@ -143,15 +143,21 @@
                         @endif
                         @endif
                     @endforeach
-                    <tr class="row">
-                        <td class="col-3"></td>
+                    @if (isset($totalSS))
+                    <tr class="row text-white" style="background-color: #212529;">
+                        <td class="col">SEGURETAT SOCIAL</td>
+                        <td class="col-3">{{number_format($totalSS, 2, '.', '')}}€</td>
+                    </tr>
+                    @endif
+                    <tr class="row text-white" style="background-color: #212529;">
                         <td class="col font-weight-bold text-right">TOTAL COSTOS</td>
-                        <td class="col-3">{{$total}}€</td>
+                        <td class="col-3">{{number_format($total, 2, '.', '')}}€</td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
+    
     <div>
         <a href="{{ !isset($return) ? url('/vec') : url()->previous() }}" class="btn btn-primary">
             <span class="fas fa-angle-double-left"></span>

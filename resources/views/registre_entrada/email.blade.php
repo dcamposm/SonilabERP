@@ -10,27 +10,27 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     	<style>
-			table.customTable {
-			  width: 100%;
-			  background-color: #FFFFFF;
-			  border-collapse: collapse;
-			  border-width: 2px;
-			  border-color: #7EA8F8;
-			  border-style: solid;
-			  color: #000000;
-			}
+            table.customTable {
+              width: 100%;
+              background-color: #FFFFFF;
+              border-collapse: collapse;
+              border-width: 2px;
+              border-color: #7EA8F8;
+              border-style: solid;
+              color: #000000;
+            }
 
-			table.customTable td, table.customTable th {
-			  border-width: 2px;
-			  border-color: #7EA8F8;
-			  border-style: solid;
-			  padding: 5px;
-			}
+            table.customTable td, table.customTable th {
+              border-width: 2px;
+              border-color: #7EA8F8;
+              border-style: solid;
+              padding: 5px;
+            }
 
-			table.customTable thead {
-			  background-color: #79AAF2;
-			}
-		</style>
+            table.customTable thead {
+              background-color: #79AAF2;
+            }
+    </style>
     </head>
     <body>
 

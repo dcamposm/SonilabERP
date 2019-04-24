@@ -121,7 +121,7 @@ class EmpleatExternController extends Controller
         $carrecs = $empleat->carrec;
         $tarifas = Tarifa::all();
         $carrecsEmpelat = array();
-                // Crea el objeto "carrecsEmpelat" para mostrar las tablas de cargos i tarifas en el frontend
+        // Crea el objeto "carrecsEmpelat" para mostrar las tablas de cargos i tarifas en el frontend
         foreach ($carrecs as $key => $carrec) {
             $idioma = $carrec->idioma;
             $tarifa = $carrec->tarifa;
