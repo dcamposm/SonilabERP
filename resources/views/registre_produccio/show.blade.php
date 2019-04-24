@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container">
-<form method = "POST" action="{{ route('updateRegistreProduccio', array('id' => $registreProduccio->id)) }}" enctype="multipart/form-data">
+<form method = "POST" action="{{ route('updateRegistreProduccioAll', array('id' => $registreProduccio->id)) }}" enctype="multipart/form-data">
     @csrf
     <table class="table table-striped">
         <thead class="thead-dark">

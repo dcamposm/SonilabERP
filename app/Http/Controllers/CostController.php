@@ -89,11 +89,12 @@ class CostController extends Controller
         if ($data==0){
             $vec = Costos::with('registreProduccio.registreEntrada.client')->with('empleats.tarifa')->find($id);
             
-            //$total = 0;
+            $totalSS = 0;
             //return response()->json($vec);
             $empleatsInfo = array();
             foreach ($vec->empleats as $empleat){
                 if ($empleat->tarifa->carrec->nom_carrec == 'Actor'){
+                    $totalSS += $empleat->cost_empleat;
                     if (!isset($empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat])) {
                         $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat] = array(
                             'nom' => ($empleat->empleat->nom_empleat.' '.$empleat->empleat->cognom1_empleat),
@@ -101,6 +102,7 @@ class CostController extends Controller
                             'cg' => 0,
                             'total' => $empleat->cost_empleat
                         );
+                        
                         //$total += $empleat->cost_empleat;
                         //return response()->json($empleatsInfo);
                         foreach ($empleat->empleat->estadillo as $actor){
@@ -133,9 +135,10 @@ class CostController extends Controller
                     } 
                 }
             }
-            //return response()->json($empleatsInfo);
+            //return response()->json(($totalSS/100)*32.35);
+            $totalSS = ($totalSS/100)*32.35;
             $total = $vec->cost_total;
-            return View('vec.show', array('vec' => $vec, 'empleatsInfo' => $empleatsInfo, 'total' => $total, 'return' => 1));
+            return View('vec.show', array('vec' => $vec, 'empleatsInfo' => $empleatsInfo, 'total' => $total, 'totalSS' => $totalSS, 'return' => 1));
         } else {
             $vecs = Costos::with('registreProduccio.registreEntrada.client')->with('empleats.tarifa')->orderBy('id_registre_produccio')->get();
             
@@ -231,11 +234,10 @@ class CostController extends Controller
             //----------------------Costos Actors---------------------------------
             if ($registre->getEstadillo != null){
                 if (!empty($registre->getEstadillo->actors)){
-                    
+                    $totalSS = 0;
                     foreach ($registre->getEstadillo->actors as $actor){
                         //$cost = 0;
                         //$empleatCost->cost_empleat = ;
-                        
                         if ($registre->registreEntrada->id_servei == 1){
                             foreach ($actor->empleat->carrec as $actorCarrec){
                                 $empleatCost = new EmpleatCost();
@@ -247,18 +249,19 @@ class CostController extends Controller
                                     if ($actorCarrec->tarifa->nombre_corto == 'video_take') {
                                         $empleatCost->cost_empleat = $actorCarrec->preu_carrec * $actor->take_estadillo;
                                         $total += $empleatCost->cost_empleat;
+                                        $totalSS += $empleatCost->cost_empleat;
                                         $empleatCost->id_tarifa = 5;
                                         $empleatCost->save();
                                     } else {
                                         $empleatCost->cost_empleat = $actorCarrec->preu_carrec * $actor->cg_estadillo;
                                         $total += $empleatCost->cost_empleat;
+                                        $totalSS += $empleatCost->cost_empleat;
                                         $empleatCost->id_tarifa = 6;
                                         $empleatCost->save();
                                     }
                                 }
                             }                           
                         } else {
-                            //return response()->json($actor);
                             foreach ($actor->carrec as $actorCarrec){
                                 $empleatCost = new EmpleatCost();
                                 $empleatCost->id_costos = $vec->id_costos;
@@ -269,19 +272,21 @@ class CostController extends Controller
                                     if ($actorCarrec->tarifa->nombre_corto == 'cine_take') {
                                         $empleatCost->cost_empleat = $actorCarrec->preu_carrec * $actor->take_estadillo;
                                         $total += $empleatCost->cost_empleat;
+                                        $totalSS += $empleatCost->cost_empleat;
                                         $empleatCost->id_tarifa = 7;
                                         $empleatCost->save();
                                     } else {
                                         $empleatCost->cost_empleat = $actorCarrec->preu_carrec * $actor->cg_estadillo;
                                         $total += $empleatCost->cost_empleat;
+                                        $totalSS += $empleatCost->cost_empleat;
                                         $empleatCost->id_tarifa = 8;
                                         $empleatCost->save();
                                     }
                                 }
                             }
                         }
-                        
                     }
+                    $total += ($totalSS/100)*32.35;
                 }
             }
             //return response()->json($registre->getEstadillo->actors);
@@ -453,6 +458,7 @@ class CostController extends Controller
                             }
                             $empleatCost->cost_empleat = $cost;
                             $total += $cost;
+                            $total += ($cost/100)*32.35;
                             $empleatCost->save();
                         }
                     }
@@ -587,6 +593,7 @@ class CostController extends Controller
             //----------------------Costos Actors---------------------------------
             if ($registre->getEstadillo != null){
                 if (!empty($registre->getEstadillo->actors)){
+                    $totalActors = 0;
                     foreach ($registre->getEstadillo->actors as $actor){
                         //$cost = 0;
                         //$empleatCost->cost_empleat = ;
@@ -601,11 +608,13 @@ class CostController extends Controller
                                     if ($actorCarrec->tarifa->nombre_corto == 'video_take') {
                                         $empleatCost->cost_empleat = $actorCarrec->preu_carrec * $actor->take_estadillo;
                                         $total += $empleatCost->cost_empleat;
+                                        $totalActors += $empleatCost->cost_empleat;
                                         $empleatCost->id_tarifa = 5;
                                         $empleatCost->save();
                                     } else {
                                         $empleatCost->cost_empleat = $actorCarrec->preu_carrec * $actor->cg_estadillo;
                                         $total += $empleatCost->cost_empleat;
+                                        $totalActors += $empleatCost->cost_empleat;
                                         $empleatCost->id_tarifa = 6;
                                         $empleatCost->save();
                                     }
@@ -622,11 +631,13 @@ class CostController extends Controller
                                     if ($actorCarrec->tarifa->nombre_corto == 'cine_take') {
                                         $empleatCost->cost_empleat = $actorCarrec->preu_carrec * $actor->take_estadillo;
                                         $total += $empleatCost->cost_empleat;
+                                        $totalActors += $empleatCost->cost_empleat;
                                         $empleatCost->id_tarifa = 7;
                                         $empleatCost->save();
                                     } else {
                                         $empleatCost->cost_empleat = $actorCarrec->preu_carrec * $actor->cg_estadillo;
                                         $total += $empleatCost->cost_empleat;
+                                        $totalActors += $empleatCost->cost_empleat;
                                         $empleatCost->id_tarifa = 8;
                                         $empleatCost->save();
                                     }
@@ -634,6 +645,7 @@ class CostController extends Controller
                             }
                         }
                     }
+                    $total += ($totalActors/100)*32.35;
                 }
             }
             //-----------------------Costos Traductor-------------------
