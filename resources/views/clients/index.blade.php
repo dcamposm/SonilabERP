@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container-fluid">
-    <div>
+    <div class="mb-4">
         <a href="{{ url('/registreEntrada') }}" class="btn btn-primary">
             <span class="fas fa-angle-double-left"></span>
             TORNAR
@@ -13,7 +13,7 @@
             AFEGIR CLIENT
         </a>
     </div>
-    <br>
+
     {{-- TABLA DE CLIENTS --}}
     <table class="table" style="margin-top: 10px;">
         <thead>

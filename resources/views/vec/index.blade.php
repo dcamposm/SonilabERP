@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container-fluid">
-    <div>
+    <div class="mb-4">
         <a href="{{ url('/registreProduccio') }}" class="btn btn-primary">
             <span class="fas fa-angle-double-left"></span>
             TORNAR
@@ -12,7 +12,7 @@
             <span class="fas fa-clipboard-list"></span>CREAR VALORACIÓ ECONÒMICA
         </button>
     </div>
-    <br>
+
     {{-- TABLA DE COSTOS --}}
     <table class="table" style="margin-top: 10px;">
         <thead>
@@ -26,24 +26,40 @@
             </tr>
         </thead>
         <tbody>
-            @foreach( $costos as $key => $vec )
-            <tr>
-                <td class="cursor" style="vertical-align: middle;" onclick="self.mostrarVec('{{ route('mostrarVec', array('id' => $vec->id_costos)) }}')">
-                    <span class="font-weight-bold" style="font-size: 1rem;">{{ $vec->registreProduccio->id_registre_entrada }}</span>
-                </td>
-                <td style="vertical-align: middle;">{{ $vec->registreProduccio->registreEntrada->titol }}</td>
-                <td style="vertical-align: middle;">{{ $vec->registreProduccio->registreEntrada->client->nom_client }}</td>
-                <td style="vertical-align: middle;">{{ $vec->registreProduccio->subreferencia == 0 ? '' : $vec->registreProduccio->subreferencia }}</td>
-                <td style="vertical-align: middle;">{{ date('d/m/Y', strtotime($vec->registreProduccio->data_entrega)) }}</td>
-                <td style="vertical-align: middle;">
-                    <a href="{{ route('vecUpdateView', array('id' => $vec['id_costos'])) }}" class="btn btn-primary">MODIFICAR</a>
-                    <button class="btn btn-danger" onclick="self.seleccionarVec({{ $vec['id_costos'] }}, '{{ $vec->registreProduccio->id_registre_entrada.' '.$vec->registreProduccio->titol.' '.$vec->registreProduccio->subreferencia }}')" data-toggle="modal" data-target="#exampleModalCenter">ESBORRAR</button>
-                    <form id="delete-{{ $vec['id_costos'] }}" action="{{ route('esborrarVec') }}" method="POST">
-                        @csrf
-                        <input type="hidden" readonly name="id" value="{{ $vec['id_costos'] }}">
-                    </form>
-                </td>
-            </tr>
+            @foreach( $costos as $key => $vecs )
+                @foreach( $vecs as $key2 => $vec )
+                    <tr>
+                        <td class="cursor" style="vertical-align: middle;" onclick="self.mostrarVec('{{ !isset($vec['episodi']) ? route('mostrarVec', array('id' => $vec['id_costos'])) : route('mostrarVec', array('id' => $key, 'data' => date('d-m-Y', strtotime($key2)))) }}')">
+                            <span class="font-weight-bold" style="font-size: 1rem;">{{ $key }}</span>
+                        </td>
+                        <td style="vertical-align: middle;">{{ $vec['titol'] }}</td>
+                        <td style="vertical-align: middle;">{{ $vec['client'] }}</td>
+                        <td style="vertical-align: middle;">
+                            @if (isset($vec['episodi']))
+                                @foreach ($vec['episodi'] as $key3 => $episodi)
+                                    @if ($key3 != '0')
+                                        {{ ", ".$episodi }}
+                                    @else
+                                        {{ $episodi }}
+                                    @endif
+                                @endforeach
+                            @endif
+                        </td>
+                        <td style="vertical-align: middle;">{{ date('d/m/Y', strtotime($key2)) }}</td>
+                        <td style="vertical-align: middle;">
+                            @if (!isset($vec['episodi']))
+                                <a href="{{ route('vecActualitzar', array('id' => $vec['id_costos'])) }}" class="btn btn-warning">ACTUALITZAR</a>
+                                <button class="btn btn-danger" onclick="self.seleccionarVec({{ $vec['id_costos'] }}, '{{ $key.' '.$vec['titol'] }}')" data-toggle="modal" data-target="#exampleModalCenter">ESBORRAR</button>
+                                <form id="delete-{{ $vec['id_costos'] }}" action="{{ route('esborrarVec') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" readonly name="id" value="{{ $vec['id_costos'] }}">
+                                </form>
+                            @else
+                                <a href="{{ route('vecShowPack', array('id' => $key, 'data' => date('d-m-Y', strtotime($key2)))) }}" class="btn btn-primary">VEURE EPISODIS</a>
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
             @endforeach
         </tbody>
     </table>

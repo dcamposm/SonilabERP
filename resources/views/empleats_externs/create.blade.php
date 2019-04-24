@@ -171,7 +171,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
             </div>
 
             <!-- CARGOS: DIRECTOR -->
-            <div class="row container">
+            <div class="row container mb-3">
                 <div id="colDirector" style="width: 100%; margin-left: 15px; display:{{ isset($carrecs['director']) ? '' : 'none'}}">
                     <div class="form-group">
                         <table class="table">
@@ -206,7 +206,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                     </div>                  
                 </div>
             </div>
-            <br>
+
             <!-- CARGOS: ACTOR, TRADUCTOR, AJUSTADOR, LINGÜISTA -->
             <div class="row container">
                 <div id="colActor" style="width: 100%; margin-left: 15px; display:{{ isset($carrecs['actor']) ? '' : 'none'}}">
@@ -383,18 +383,15 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
 
         </fieldset>
 
-        <br>
-
         <!-- BOTÓN DE CREAR O ACTUALIZAR -->
-        <div class="row justify-content-between">
+        <div class="row justify-content-between mb-3 mt-3">
             <a href="{{ url('/empleats') }}" class="btn btn-primary col-2">
                 <span class="fas fa-angle-double-left"></span>
                 TORNAR
             </a>
-            <button type="submit" class="btn btn-success col-2">{{!empty($empleat) ? 'DESAR CANVIS' : 'CREAR'}} <i class="fas fa-save"></i></button>
+            <button type="submit" class="btn btn-success col-2">{{!empty($empleat) ? 'DESAR' : 'CREAR'}} <i class="fas fa-save"></i></button>
 
         </div>
-        <br>
     </form>
 </div>
 

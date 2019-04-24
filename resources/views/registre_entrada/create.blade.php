@@ -167,11 +167,8 @@
             </div>
         </fieldset>
 
-
-        <br>
-
         <!-- BOTÓN DE CREAR O ACTUALIZAR -->
-        <div class="row justify-content-between">
+        <div class="row justify-content-between mb-3 mt-4">
             <a href="{{ url('/registreEntrada') }}" class="btn btn-primary col-2">
                 <span class="fas fa-angle-double-left"></span>
                 TORNAR
@@ -179,7 +176,6 @@
 
             <button type="submit" class="btn btn-success col-2">{{!empty($registreEntrada) ? 'DESAR CANVIS' : 'CREAR'}} <i class="fas fa-save"></i></button>
         </div>
-        <br>
     </form>
 </div>
 

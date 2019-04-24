@@ -93,7 +93,7 @@ Route::middleware(['role: 1,2,3,4'])->group(function () {
     Route::post('/registreProduccio/modificarEmpleats/{id}', 'RegistreProduccioController@updateEmpleats')->name('updateRegistreEmpleats');
     Route::post('/registreProduccio/modificarPreparacio/{id}', 'RegistreProduccioController@updatePreparacio')->name('updateRegistrePreparacio');
     Route::post('/registreProduccio/modificarConvocatoria/{id}', 'RegistreProduccioController@updateConvocatoria')->name('updateRegistreConvocatoria');
-    Route::post('/registreProduccio/modificarAll/{id}', 'RegistreProduccioController@update')->name('updateRegistreProduccio');
+    Route::post('/registreProduccio/modificarAll/{id}', 'RegistreProduccioController@update')->name('updateRegistreProduccioAll');
 
     Route::post('/registreProduccio/delete', 'RegistreProduccioController@delete')->name('deleteRegistre');
 });
@@ -129,8 +129,8 @@ Route::middleware(['role: 1,2,4'])->group(function () {
     //Route::get('/estadillos/buscar', 'EstadilloController@find')->name('estadilloFind');
     //Route::get('/estadillos/buscar/actor/{id}/{id_setmana?}', 'EstadilloController@findActor')->name('actorFind');
         
-    Route::get('/vec/mostrar/{id}', 'CostController@show')->name('mostrarVec');
-    //Route::get('/estadillos/mostrar/setmana/{id}/{id_setmana}', 'EstadilloController@showSetmana')->name('estadilloShowSetmana');
+    Route::get('/vec/mostrar/{id}/{data?}', 'CostController@show')->name('mostrarVec');
+    Route::get('/vec/mostrar/pack/{id}/{data?}', 'CostController@showPack')->name('vecShowPack');
     
     //Route::post('/estadillos/import', 'EstadilloController@import')->name('estadilloImport');
     Route::get('/vec/generar/{id}', 'CostController@generar')->name('vecGenerar');
@@ -138,7 +138,7 @@ Route::middleware(['role: 1,2,4'])->group(function () {
     //Route::get('/estadillos/actor/crear/{id}/{setmana?}', 'EstadilloController@insertActorView')->name('estadilloActorInsertView');
     Route::post('/vec/crear', 'CostController@insert')->name('vecInsert');
     //Route::post('/estadillos/actor/crear/{setmana?}', 'EstadilloController@insertActor')->name('estadilloActorInsert');
-    
+    Route::get('/vec/actualitzar/{id}', 'CostController@actualitzar')->name('vecActualitzar');
     Route::get('/vec/modificar/{id}', 'CostController@updateView')->name('vecUpdateView');
     //Route::get('/estadillos/modificar/actor/{id}/{id_actor}/{setmana?}', 'EstadilloController@updateActorView')->name('estadilloActorUpdateView');
     //Route::post('/estadillos/modificar/{id}', 'EstadilloController@update')->name('estadilloUpdate');
