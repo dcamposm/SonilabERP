@@ -274,7 +274,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <span id="delete-message">...</span>
+                    <span id="delete-message">Estàs segur/a?</span>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="self.seleccionarRegistreProduccio(0)">TANCAR</button>
