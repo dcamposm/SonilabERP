@@ -170,7 +170,7 @@
                         <td style="vertical-align: middle;">{{ $registreProduccio->inserts }}</td>
                         <td style="vertical-align: middle;">
                             @if ($registreProduccio->estadillo != 1 || empty($registreProduccio->getEstadillo))
-                                <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $registreProduccio->id }}, '{{ $registreProduccio->id_registre_entrada.' '.$registreProduccio->titol.' '.$registreProduccio->subreferencia }}')" data-toggle="modal" data-target="#exampleModalCenter">ESTADILLO</button>
+                                <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $registreProduccio->id }}, '{{ $registreProduccio->id_registre_entrada.' '.$registreProduccio->titol.' '.$registreProduccio->subreferencia }}')" data-toggle="modal" data-target="#importModal">ESTADILLO</button>
                             @else
                                 <a href="{{ $registreProduccio->subreferencia==0 ? route('estadilloShow', array('id' => $registreProduccio->getEstadillo->id_estadillo )) : route('estadilloShow', array('id' => $registreProduccio->id_registre_entrada, 'id_setmana' => $registreProduccio->setmana )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">ESTADILLO</a>
                             @endif
@@ -190,7 +190,7 @@
                     @else
                         <td style="vertical-align: middle;">
                             @if ($registreProduccio->estadillo != 1  || empty($registreProduccio->getEstadillo))
-                                <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $registreProduccio->id }}, '{{ $registreProduccio->id_registre_entrada.' '.$registreProduccio->titol.' '.$registreProduccio->subreferencia }}')" data-toggle="modal" data-target="#exampleModalCenter">ESTADILLO</button>
+                                <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $registreProduccio->id }}, '{{ $registreProduccio->id_registre_entrada.' '.$registreProduccio->titol.' '.$registreProduccio->subreferencia }}')" data-toggle="modal" data-target="#importModal">ESTADILLO</button>
                             @else
                                 <a href="{{ $registreProduccio->subreferencia==0 ? route('estadilloShow', array('id' => $registreProduccio->getEstadillo->id_estadillo )) : route('estadilloShow', array('id' => $registreProduccio->id_registre_entrada, 'id_setmana' => $registreProduccio->setmana )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">ESTADILLO</a>
                             @endif
@@ -231,7 +231,7 @@
     </table>
     {{ $registreProduccions->links() }}
     <!-- MODAL IMPORTAR ESTADILLOS -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -263,7 +263,7 @@
         </div>
     </div>
     
-    <!-- MODAL ESBORRAR REGISTRE ENTRADA -->
+    <!-- MODAL ESBORRAR REGISTRE PRODUCCIO -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
