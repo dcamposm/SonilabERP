@@ -241,7 +241,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <span id="message">...</span>
+                    <span id="message"></span>
                     <form action="{{ route('estadilloImport') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                         <div class="input-group">
