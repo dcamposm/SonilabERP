@@ -124,6 +124,7 @@
     </div>
 
     {{-- TABLA DE REGISTROS DE ENTRADA --}}
+    <div class="table-responsive">
     <table class="table" style="margin-top: 10px; min-width: 1200px; font-size: 11px;">
         <thead>
             <tr>
@@ -176,7 +177,7 @@
             @endforeach
         </tbody>
     </table>
-
+    </div>    
     <!-- MODAL ESBORRAR REGISTRE ENTRADA -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -198,7 +199,7 @@
         </div>
     </div>
     @if (isset($return))
-        <a href="{{ url('/registreEntrada') }}" class="btn btn-primary mb-3">
+        <a href="{{ url('/registreEntrada') }}" class="btn btn-primary mb-3 mt-3">
             <span class="fas fa-angle-double-left"></span>
             TORNAR
         </a> 

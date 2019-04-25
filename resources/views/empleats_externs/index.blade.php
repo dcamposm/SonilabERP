@@ -45,9 +45,10 @@
                 </form>
             </div>
         </div>
-  </div>
+    </div>
     
-    <table class="table" style="margin-top: 10px;">
+    <div class="table-responsive mt-3">
+    <table class="table" style="min-width: 1200px;">
         <thead>
             <tr>
                 <th>NOM</th> 
@@ -90,7 +91,7 @@
             @endforeach
         </tbody>
     </table>
-    
+    </div>
 
     <!-- MODAL ESBORRAR EMPLEAT -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

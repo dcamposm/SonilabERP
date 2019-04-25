@@ -3,7 +3,11 @@
 @section('content')
 
 <div class="container-fluid">
+    @if (Auth::user()->hasAnyRole(['3']))
+    <div class="row justify-content-end">
+    @else
     <div class="row">
+    @endif
         @if(Auth::user()->hasAnyRole(['1','2','4']))
         <div class="col">
             <a href="{{ url('/registreProduccio/crear') }}" class="btn btn-success">
@@ -95,12 +99,13 @@
     </div>
 
     {{-- TABLA DE REGISTROS DE ENTRADA --}}
-    <table class="table" style="margin-top: 10px;  min-width: 1200px; font-size: 10px;">
+    <div class="table-responsive">
+    <table class="table" style="margin-top: 10px;  min-width: 1200px; font-size: 10px; border-collapse:collapse;">
         <thead>
             <tr>
                 <th>REF.</th> 
                 <th>SUB-REF</th> 
-                <th>DATA D'ENTRADA</th>
+                <th>DATA D'ENTREGA</th>
                 <th>SETMANA</th>
                 <th>TÍTOL ORIGINAL</th>
                 @if (Auth::user()->hasAnyRole(['1', '2', '4']))
@@ -170,7 +175,7 @@
                                 <td style="vertical-align: middle;">{{ $registreProduccio->inserts }}</td>
                                 <td style="vertical-align: middle;">
                                     @if ($registreProduccio->estadillo != 1 || empty($registreProduccio->getEstadillo))
-                                        <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $registreProduccio->id }}, '{{ $registreProduccio->id_registre_entrada.' '.$registreProduccio->titol.' '.$registreProduccio->subreferencia }}')" data-toggle="modal" data-target="#exampleModalCenter">ESTADILLO</button>
+                                        <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $registreProduccio->id }}, '{{ $registreProduccio->id_registre_entrada.' '.$registreProduccio->titol.' '.$registreProduccio->subreferencia }}')" data-toggle="modal" data-target="#importModal">ESTADILLO</button>
                                     @else
                                         <a href="{{ $registreProduccio->subreferencia==0 ? route('estadilloShow', array('id' => $registreProduccio->getEstadillo->id_estadillo )) : route('estadilloShow', array('id' => $registreProduccio->id_registre_entrada, 'id_setmana' => $registreProduccio->setmana )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">ESTADILLO</a>
                                     @endif
@@ -190,7 +195,7 @@
                             @else
                                 <td style="vertical-align: middle;">
                                     @if ($registreProduccio->estadillo != 1  || empty($registreProduccio->getEstadillo))
-                                        <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $registreProduccio->id }}, '{{ $registreProduccio->id_registre_entrada.' '.$registreProduccio->titol.' '.$registreProduccio->subreferencia }}')" data-toggle="modal" data-target="#exampleModalCenter">ESTADILLO</button>
+                                        <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $registreProduccio->id }}, '{{ $registreProduccio->id_registre_entrada.' '.$registreProduccio->titol.' '.$registreProduccio->subreferencia }}')" data-toggle="modal" data-target="#importModal">ESTADILLO</button>
                                     @else
                                         <a href="{{ $registreProduccio->subreferencia==0 ? route('estadilloShow', array('id' => $registreProduccio->getEstadillo->id_estadillo )) : route('estadilloShow', array('id' => $registreProduccio->id_registre_entrada, 'id_setmana' => $registreProduccio->setmana )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">ESTADILLO</a>
                                     @endif
@@ -229,18 +234,64 @@
                 @else
                     @foreach( $registreProduccio as $key1 => $serie )
                         @if ($key1 == 0)
-                            <tr id="coll{{$key}}" class="table-selected border-primary cursor" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapse{{$key}}">
-                                <td style="vertical-align: middle;" class="font-weight-bold">{{ $serie['id_registre_entrada'] }}</td>
-                                <td style="vertical-align: middle;"> </td>
-                                <td style="vertical-align: middle;"> </td>
-                                <td style="vertical-align: middle;"> </td>
-                                <td style="vertical-align: middle;">{{ $serie['titol'] }}</td>
-                                <td style="vertical-align: middle;"> </td>
-                                <td style="vertical-align: middle;"> </td>
+                            <tr class="table-selected border-primary">
+                                <td style="vertical-align: middle; font-size: 11px;" class="font-weight-bold accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}">{{ $serie['id_registre_entrada'] }}</td>
+                                <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"> </td>
+                                <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"> </td>
+                                <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"> </td>
+                                <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}">{{ $serie['titol'] }}</td>
+                                @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+                                    @if (Auth::user()->hasAnyRole(['2']))
+                                        <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"></td>
+                                        <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"></td>
+                                        <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"></td>
+                                        <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"></td>
+                                        <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"></td>
+                                        <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"></td>
+                                        <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"></td>
+                                        <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"></td>
+                                        <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"></td>
+                                        <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"></td>
+                                        <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"></td>
+                                        <td style="vertical-align: middle;">
+                                            <form action="{{ route('estadilloFind') }}" method="GET">
+                                                @csrf
+                                                <input type="hidden" readonly name="search_term" value="{{ $serie['id_registre_entrada'] }}">
+                                                <button class="btn btn-primary btn-sm" style="font-size: 11px;" type="submit">ESTADILLO</button>
+                                            </form>
+                                        </td>
+                                        <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"></td>
+                                        <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"></td>
+                                        <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"></td>
+                                        <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"></td>
+                                        <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"></td>
+                                        <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"></td>
+                                    @else
+                                        <td style="vertical-align: middle;">
+                                            <form action="{{ route('estadilloFind') }}" method="GET">
+                                                @csrf
+                                                <input type="hidden" readonly name="search_term" value="{{ $serie['id_registre_entrada'] }}">
+                                                <button class="btn btn-primary btn-sm" style="font-size: 11px;" type="submit">ESTADILLO</button>
+                                            </form>
+                                        </td>
+                                        <td style="vertical-align: middle;"> </td>
+                                    @endif
+                                @endif
+                                @if (Auth::user()->hasAnyRole(['3']))
+                                    <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"></td>
+                                    <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"></td>
+                                    <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"></td>
+                                    <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"></td>
+                                    <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"></td>
+                                    <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"></td>
+                                    <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"></td>
+                                    <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"></td>
+                                    <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"></td>
+                                @endif
                                 <td style="vertical-align: middle;"> </td>
                             </tr>
                         @else
-                            <tr class="table-selected {{ ($serie->estat == 'Pendent') ? 'border-warning' : (($serie->estat == 'Finalitzada') ? 'border-success' : 'border-danger') }}" id="collapse{{$key}}" class="collapse show" aria-labelledby="coll{{$key}}" data-parent="#registres">
+                            <tr class="table-selected {{ ($serie->estat == 'Pendent') ? 'border-warning' : (($serie->estat == 'Finalitzada') ? 'border-success' : 'border-danger') }} accordian-body collapse" id="collapse{{$key}}">
                                 <td class="cursor" title='Veure registre d&apos;entrada' style="vertical-align: middle;" onclick="self.mostrarRegistreProduccio('{{ route('mostrarRegistreEntrada', array('id' => $serie->id_registre_entrada)) }}')">
                                     <span class="font-weight-bold" style="font-size: 11px;">{{ $serie->id_registre_entrada }}</span>    
                                 </td>
@@ -265,7 +316,7 @@
                                         <td style="vertical-align: middle;">{{ $serie->inserts }}</td>
                                         <td style="vertical-align: middle;">
                                             @if ($serie->estadillo != 1 || empty($serie->getEstadillo))
-                                                <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $serie->id }}, '{{ $serie->id_registre_entrada.' '.$serie->titol.' '.$serie->subreferencia }}')" data-toggle="modal" data-target="#exampleModalCenter">ESTADILLO</button>
+                                                <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $serie->id }}, '{{ $serie->id_registre_entrada.' '.$serie->titol.' '.$serie->subreferencia }}')" data-toggle="modal" data-target="#importModal">ESTADILLO</button>
                                             @else
                                                 <a href="{{ $serie->subreferencia==0 ? route('estadilloShow', array('id' => $serie->getEstadillo->id_estadillo )) : route('estadilloShow', array('id' => $serie->id_registre_entrada, 'id_setmana' => $serie->setmana )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">ESTADILLO</a>
                                             @endif
@@ -285,7 +336,7 @@
                                     @else
                                         <td style="vertical-align: middle;">
                                             @if ($serie->estadillo != 1  || empty($serie->getEstadillo))
-                                                <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $serie->id }}, '{{ $serie->id_registre_entrada.' '.$serie->titol.' '.$serie->subreferencia }}')" data-toggle="modal" data-target="#exampleModalCenter">ESTADILLO</button>
+                                                <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $serie->id }}, '{{ $serie->id_registre_entrada.' '.$serie->titol.' '.$serie->subreferencia }}')" data-toggle="modal" data-target="#importModal">ESTADILLO</button>
                                             @else
                                                 <a href="{{ $serie->subreferencia==0 ? route('estadilloShow', array('id' => $serie->getEstadillo->id_estadillo )) : route('estadilloShow', array('id' => $serie->id_registre_entrada, 'id_setmana' => $serie->setmana )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">ESTADILLO</a>
                                             @endif
@@ -302,12 +353,12 @@
                                 @if (Auth::user()->hasAnyRole(['3']))
                                     <td style="vertical-align: middle;">{{ $serie->qc_vo == 0 ? '' : 'FET' }}</td>
                                     <td style="vertical-align: middle;">{{ $serie->qc_me == 0 ? '' : 'FET' }}</td>
-                                    <td style="vertical-align: middle;">{{ $serie->qc_mix == 0 ? '' : 'FET' }}</td>
                                     <td style="vertical-align: middle;">{{ $serie->ppp == 0 ? '' : 'FET' }}</td>
                                     <td style="vertical-align: middle;">{{ $serie->pps == 0 ? '' : 'FET' }}</td>
-                                    <td style="vertical-align: middle;">{{ $serie->ppe == 0 ? '' : 'FET' }}</td>
                                     <td style="vertical-align: middle;">{{ $serie->tecnic ? $serie->tecnic->nom_empleat : '' }}</td>
                                     <td style="vertical-align: middle;">{{ $serie->data_tecnic_mix != 0 ? date('d/m/Y', strtotime($serie->data_tecnic_mix)) : '' }}</td>
+                                    <td style="vertical-align: middle;">{{ $serie->qc_mix == 0 ? '' : 'FET' }}</td>
+                                    <td style="vertical-align: middle;">{{ $serie->ppe == 0 ? '' : 'FET' }}</td>
                                     <td style="vertical-align: middle;">{{ $serie->retakes }}</td>
                                 @endif
                                 <td style="vertical-align: middle;">
@@ -327,7 +378,7 @@
             @endforeach
         </tbody>
     </table>
-
+    </div>
     <!-- MODAL IMPORTAR ESTADILLOS -->
     <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">

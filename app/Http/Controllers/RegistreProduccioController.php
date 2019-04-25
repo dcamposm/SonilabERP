@@ -19,7 +19,7 @@ class RegistreProduccioController extends Controller {
         //
         $registres = RegistreProduccio::with('traductor')->with('ajustador')
                 ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
-                ->get();
+                ->orderBy('estat')->get();
         
         $registreProduccio = array();
         
