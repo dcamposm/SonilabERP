@@ -329,7 +329,7 @@
     </table>
 
     <!-- MODAL IMPORTAR ESTADILLOS -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -339,7 +339,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <span id="message">...</span>
+                    <span id="message"></span>
                     <form action="{{ route('estadilloImport') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                         <div class="input-group">
@@ -361,7 +361,7 @@
         </div>
     </div>
     
-    <!-- MODAL ESBORRAR REGISTRE ENTRADA -->
+    <!-- MODAL ESBORRAR REGISTRE PRODUCCIO -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -372,7 +372,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <span id="delete-message">...</span>
+                    <span id="delete-message">Estàs segur/a?</span>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="self.seleccionarRegistreProduccio(0)">TANCAR</button>
