@@ -147,3 +147,8 @@ Route::middleware(['role: 1,2,4'])->group(function () {
     Route::post('/vec/esborrar', 'CostController@delete')->name('esborrarVec');
     //Route::post('/estadillos/esborrar/actor', 'EstadilloController@deleteActor')->name('esborrarEstadilloActor');
 });
+
+//------------------Rutes calendari------------------
+Route::middleware(['role: 1,2,3,4'])->group(function () {
+    Route::get('/calendari', 'CalendariController@showCalendari')->name('showCalendari');
+});
