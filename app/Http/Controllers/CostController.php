@@ -15,28 +15,45 @@ class CostController extends Controller
         $this->middleware('auth');
     }
     
-    public function index()
+    public function index($ref = 0)
     {
-        $vecs = Costos::with('registreProduccio.registreEntrada.client')->orderBy('id_registre_produccio')->get();
+        $vecs = Costos::with('registreProduccio.registreEntrada.client')->orderBy('id_registre_produccio')->get();       
         //return response()->json($vecs);
         $costos = array();
         
-        foreach ($vecs as $vec){
-            if ($vec->registreProduccio->subreferencia == 0){
-                $costos[$vec->registreProduccio->id_registre_entrada][$vec->registreProduccio->data_entrega]= array(
-                    'id_costos'=>$vec->id_costos,
-                    'titol'=>$vec->registreProduccio->titol,
-                    'client'=>$vec->registreProduccio->registreEntrada->client->nom_client
-                );
-            } else {
-                if (!isset($costos[$vec->registreProduccio->id_registre_entrada][$vec->registreProduccio->data_entrega])){
+        if ($ref == 0){
+            foreach ($vecs as $vec){
+                if ($vec->registreProduccio->subreferencia == 0){
                     $costos[$vec->registreProduccio->id_registre_entrada][$vec->registreProduccio->data_entrega]= array(
+                        'id_costos'=>$vec->id_costos,
                         'titol'=>$vec->registreProduccio->titol,
-                        'client'=>$vec->registreProduccio->registreEntrada->client->nom_client,
-                        'episodi'=>array($vec->registreProduccio->subreferencia)
+                        'client'=>$vec->registreProduccio->registreEntrada->client->nom_client
                     );
                 } else {
-                    array_push($costos[$vec->registreProduccio->id_registre_entrada][$vec->registreProduccio->data_entrega]['episodi'],$vec->registreProduccio->subreferencia);
+                    if (!isset($costos[$vec->registreProduccio->id_registre_entrada][$vec->registreProduccio->data_entrega])){
+                        $costos[$vec->registreProduccio->id_registre_entrada][$vec->registreProduccio->data_entrega]= array(
+                            'titol'=>$vec->registreProduccio->titol,
+                            'client'=>$vec->registreProduccio->registreEntrada->client->nom_client,
+                            'episodi'=>array($vec->registreProduccio->subreferencia)
+                        );
+                    } else {
+                        array_push($costos[$vec->registreProduccio->id_registre_entrada][$vec->registreProduccio->data_entrega]['episodi'],$vec->registreProduccio->subreferencia);
+                    }
+                }
+            }
+        } else {
+            foreach ($vecs as $vec){
+                if ($vec->registreProduccio->id_registre_entrada == $ref){
+                    //return response()->json($vec);
+                    if (!isset($costos[$vec->registreProduccio->id_registre_entrada][$vec->registreProduccio->data_entrega])){
+                        $costos[$vec->registreProduccio->id_registre_entrada][$vec->registreProduccio->data_entrega]= array(
+                            'titol'=>$vec->registreProduccio->titol,
+                            'client'=>$vec->registreProduccio->registreEntrada->client->nom_client,
+                            'episodi'=>array($vec->registreProduccio->subreferencia)
+                        );
+                    } else {
+                        array_push($costos[$vec->registreProduccio->id_registre_entrada][$vec->registreProduccio->data_entrega]['episodi'],$vec->registreProduccio->subreferencia);
+                    }
                 }
             }
         }
@@ -63,6 +80,8 @@ class CostController extends Controller
         //return response()->json($costos);
         return View('vec.index', array('costos' => $costos, 'registreProduccio' => $arrayProjectes));
     }
+    
+    
     
     public function showPack($id, $data = 0)
     {
@@ -135,7 +154,7 @@ class CostController extends Controller
                     } 
                 }
             }
-            //return response()->json(($totalSS/100)*32.35);
+            //return response()->json($empleatsInfo);
             $totalSS = ($totalSS/100)*32.35;
             $total = $vec->cost_total;
             return View('vec.show', array('vec' => $vec, 'empleatsInfo' => $empleatsInfo, 'total' => $total, 'totalSS' => $totalSS, 'return' => 1));
@@ -143,6 +162,7 @@ class CostController extends Controller
             $vecs = Costos::with('registreProduccio.registreEntrada.client')->with('empleats.empleat.carrec.carrec')->orderBy('id_registre_produccio')->get();
             
             $total = 0;
+            $totalSS = 0;
             //return response()->json($vecs);
 
             $empleatsInfo = array();
@@ -167,6 +187,7 @@ class CostController extends Controller
                             //return response()->json($vec->empleats);
                             //-------------INFO ACTORS--------------
                             if ($empleat->tarifa->carrec->nom_carrec == 'Actor'){
+                                $totalSS += $empleat->cost_empleat;
                                 if (!isset($empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat])) {
                                     $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat] = array(
                                         'nom' => ($empleat->empleat->nom_empleat.' '.$empleat->empleat->cognom1_empleat),
@@ -235,8 +256,9 @@ class CostController extends Controller
                     }
                 }
             }
-            //return response()->json($empleatsInfo);
-            return View('vec.show', array('vec' => $vecInfo, 'empleatsInfo' => $empleatsInfo, 'total' => $total));
+            $totalSS = ($totalSS/100)*32.35;
+            //return response()->json($vecInfo);
+            return View('vec.show', array('vec' => $vecInfo, 'empleatsInfo' => $empleatsInfo, 'total' => $total, 'totalSS' => $totalSS));
         }
         
     }
@@ -519,7 +541,7 @@ class CostController extends Controller
                     $total += $cost;
                     $empleatCost->save();
                 }
-                //-----------------------Costos Ajustador-------------------
+                //-----------------------Costos Linguista-------------------
                 if ($registre->linguista != null){
                     $cost = 0;
 

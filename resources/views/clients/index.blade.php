@@ -15,7 +15,8 @@
     </div>
 
     {{-- TABLA DE CLIENTS --}}
-    <table class="table" style="margin-top: 10px;">
+    <div class="table-responsive mt-3">
+    <table class="table" style="min-width: 800px;">
         <thead>
             <tr>
                 <th>NOM</th> 
@@ -46,7 +47,7 @@
             @endforeach
         </tbody>
     </table>
-
+    </div>
     <!-- MODAL ESBORRAR CLIENT -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">

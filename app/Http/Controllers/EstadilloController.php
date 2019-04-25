@@ -699,7 +699,27 @@ class EstadilloController extends Controller
             }
         }
         
-        return View('estadillos.index', array('showEstadillos' => $showEstadillos,
+        $estadillos = Estadillo::all();
+        $registreProduccio = RegistreProduccio::all();
+        
+        $arrayProjectes = array();
+        $cont = 0;
+        $exist = false;
+        
+        foreach ($registreProduccio as $projecte){
+            foreach ($estadillos as $estadillo) {
+                if ($projecte->id == $estadillo->id_registre_produccio){
+                    $exist = true;
+                }
+            }
+            if ($exist == false) {
+                $arrayProjectes[$cont] = $projecte;
+                $cont++;
+            } else {
+                $exist = false;
+            }
+        }
+        return View('estadillos.index', array('showEstadillos' => $showEstadillos, 'registreProduccio' => $registreProduccio,
                                                 'return' => 1));
     }
     

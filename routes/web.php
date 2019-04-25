@@ -125,7 +125,7 @@ Route::middleware(['role: 1,2,4'])->group(function () {
 
 //------------------Rutes vec------------------
 Route::middleware(['role: 1,2,4'])->group(function () {
-    Route::get('/vec', 'CostController@index')->name('indexVec');
+    Route::get('/vec/{ref?}', 'CostController@index')->name('indexVec');
     //Route::get('/estadillos/buscar', 'EstadilloController@find')->name('estadilloFind');
     //Route::get('/estadillos/buscar/actor/{id}/{id_setmana?}', 'EstadilloController@findActor')->name('actorFind');
         

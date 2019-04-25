@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container">
+<div class="container-fluid">
 
     <div class="row mb-4">
         <div class="col">
@@ -32,7 +32,8 @@
     {{-- TABLA DE ACTORS ESTADILLO --}}
     <h2 style="font-weight: bold">{{ $estadillos->id_registre_entrada }} {{ $estadillos->titol }} {{ !isset($min) ? '' : ( $min != $max ? $min.'-'.$max : $min) }}</h2>
     
-    <table class="table mb-4" style="margin-top: 10px;">
+    <div class="table-responsive">
+    <table class="table mt-3" style="min-width: 630px;">
         <thead>
             <tr>
                 <th>ACTOR</th> 
@@ -69,9 +70,9 @@
             @endforeach
         </tbody>
     </table>
-
+    </div>
     <div>
-        <a href="{{ url('/estadillos') }}" class="btn btn-primary">
+        <a href="{{ url('/estadillos') }}" class="btn btn-primary mt-3">
             <span class="fas fa-angle-double-left"></span>
             TORNAR
         </a>

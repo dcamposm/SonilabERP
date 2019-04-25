@@ -17,9 +17,27 @@ class RegistreProduccioController extends Controller {
     public function getIndex() {
         //$empleats = EmpleatExtern::with('produccioTraductor')->get();
         //
-        $registreProduccio = RegistreProduccio::with('traductor')->with('ajustador')
+        $registres = RegistreProduccio::with('traductor')->with('ajustador')
                 ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
-                ->orderBy('estat')->orderBy('data_entrega')->paginate(20);
+                ->orderBy('estat')->get();
+        
+        $registreProduccio = array();
+        
+        foreach ($registres as $registre){
+            if ($registre->subreferencia == 0){
+                $registreProduccio[$registre->id_registre_entrada] = $registre;
+            } else {
+                if (!isset($registreProduccio[$registre->id_registre_entrada])){
+                    $registreProduccio[$registre->id_registre_entrada][0] = array(
+                        'id_registre_entrada' => $registre->id_registre_entrada,
+                        'titol' => $registre->registreEntrada->titol
+                    );
+                }
+                $registreProduccio[$registre->id_registre_entrada][$registre->subreferencia] = $registre;
+            }
+        }
+        
+        //return response()->json($registreProduccio);
         $registreEntrada = RegistreEntrada::all();
         //return response()->json($registreProduccio[0]->getEstadillo);
         return View('registre_produccio.index', array('registreProduccions' => $registreProduccio, 'registreEntrades' => $registreEntrada));
