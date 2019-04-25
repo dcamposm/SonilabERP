@@ -47,6 +47,9 @@
     .border-danger {
         border-left: 10px solid red !important;
     }
+    .border-primary {
+        border-left: 10px solid DeepSkyBlue !important;
+    }
     .llegenda {
         float: left;
         margin-right: 15px;
@@ -177,7 +180,7 @@
 
     <!-- Page Content -->
 
-    <main role="main" class="col-md-9 ml-sm-auto col-lg-10" style="padding-top: 50px;">
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-5">
          <!-- <a class="btn btn-outline-info btn-sm" style="padding-bottom: 0px;" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
             <i class="fas fa-bars" style="margin-right: 0px;"></i>
         </a>

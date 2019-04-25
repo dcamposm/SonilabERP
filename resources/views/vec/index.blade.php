@@ -14,7 +14,7 @@
     </div>
 
     {{-- TABLA DE COSTOS --}}
-    <table class="table" style="margin-top: 10px;">
+    <table class="table mt-3" style="min-width: 630px;">
         <thead>
             <tr>
                 <th>REFERÈNCIA</th> 
@@ -63,7 +63,6 @@
             @endforeach
         </tbody>
     </table>
-
     <!-- MODAL ESBORRAR VEC -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
