@@ -219,11 +219,11 @@ class EmpleatExternController extends Controller
             'codi_postal_empleat' => array('required','regex:/^(?:0[1-9]|[1-4]\d|5[0-2])\d{3}$/'),
             'naixement_empleat' => 'required',
             'nss_empleat' => 'required',
-            'iban_empleat' => 'required|regex:/^[A-Z]{2}[0-9]{2}[A-Z0-9]{1,30}$/'
+            'iban_empleat' => 'required'
         ],[
             'required' => 'No s\'ha introduït aquesta dada.',
             'email' => 'Aquesta dada té que ser un email.',
-            'regex' => 'No te el format correcte',
+            //'regex' => 'No te el format correcte',
         ]);
 
         if ($v->fails()) {
@@ -340,13 +340,13 @@ class EmpleatExternController extends Controller
                 'codi_postal_empleat' => array('required','regex:/^(?:0[1-9]|[1-4]\d|5[0-2])\d{3}$/'),
                 'naixement_empleat' => 'required',
                 'nss_empleat' => 'required',
-                'iban_empleat' => 'required|regex:/^[A-Z]{2}[0-9]{2}[A-Z0-9]{1,30}$/'
+                'iban_empleat' => 'required'
             ],[
                 'required' => 'No s\'ha introduït aquesta dada.',
                 'email' => 'Aquesta dada té que ser un email.',
-                'regex' => 'No te el format correcte',
+                //'regex' => 'No te el format correcte',
             ]);
-
+            //|regex:/^[A-Z]{2}[0-9]{2}[A-Z0-9]{1,30}$/'
             if ($v->fails()) {
                 return redirect()->back()->withErrors($v)->withInput();
                 //return response()->json(["error" => true], 400);
