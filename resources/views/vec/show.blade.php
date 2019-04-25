@@ -67,20 +67,22 @@
             <table class="table">
                 <thead class="thead-dark" style="border-left: 3px solid white">
                     <tr class="row">
-                        <th class="col">ACTORS</th>
+                        <th class="col-3">ACTORS</th>
                         <th class="col">TK's</th>
                         <th class="col">CG's</th>
-                        <th class="col">TOTAL</th>
+                        <th class="col-2">TOTAL</th>
+                        <th class="col-sm-1"></th>
                     </tr>
                 </thead>
                 <tbody>
                     @if (isset($empleatsInfo['Actor']))
                     @foreach ($empleatsInfo['Actor'] as $actor)
                         <tr class="row">
-                            <td class="col">{{$actor['nom']}}</td>
+                            <td class="col-3">{{$actor['nom']}}</td>
                             <td class="col">{{$actor['tk']}}</td>
                             <td class="col">{{$actor['cg']}}</td>
-                            <td class="col">{{$actor['total']}}€</td>
+                            <td class="col-2">{{$actor['total']}}€</td>
+                            <td class="col-sm-1 align-middle text-center"><button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button></td>
                         </tr>
                     @endforeach
                     @endif
@@ -98,7 +100,8 @@
                         @if (!isset($vec->registreProduccio->subreferencia))
                             <th class="col">EPISODIS</th>
                         @endif
-                        <th class="col-3">TOTAL</th>
+                        <th class="col-2">TOTAL</th>
+                        <th class="col-sm-1"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -119,7 +122,7 @@
                                                 @endif
                                             @endforeach
                                         </td>
-                                        <td class="col-3">{{$tasca['cost']}}€</td>
+                                        <td class="col-2">{{$tasca['cost']}}€</td>
                                     </tr>
                                 @endforeach
                             @endforeach
@@ -137,7 +140,8 @@
                                             @endif
                                         @endforeach
                                     </td>
-                                    <td class="col-3">{{$empleat['total']}}€</td>
+                                    <td class="col-2">{{$empleat['total']}}€</td>
+                                    <td class="col-sm-1 align-middle text-center"><button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button></td>
                                 </tr>
                             @endforeach
                         @endif
@@ -153,12 +157,21 @@
                         <td class="col font-weight-bold text-right">TOTAL COSTOS</td>
                         <td class="col-3">{{number_format($total, 2, '.', '')}}€</td>
                     </tr>
+                    <tr class="row text-white" style="background-color: #212529;">
+                        <td class="col font-weight-bold text-right">VENDA</td>
+                        <td class="col-2"></td>
+                        <td class="col-sm-1 align-middle text-center"><button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button></td>
+                    </tr>
+                    <tr class="row text-white" style="background-color: #212529;">
+                        <td class="col font-weight-bold text-right">%</td>
+                        <td class="col-3"></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
     </div>
     
-    <div>
+    <div class="mb-3">
         <a href="{{ !isset($return) ? url('/vec') : url()->previous() }}" class="btn btn-primary">
             <span class="fas fa-angle-double-left"></span>
             TORNAR

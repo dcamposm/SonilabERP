@@ -135,7 +135,7 @@ class CostController extends Controller
                     } 
                 }
             }
-            //return response()->json(($totalSS/100)*32.35);
+            //return response()->json($empleatsInfo);
             $totalSS = ($totalSS/100)*32.35;
             $total = $vec->cost_total;
             return View('vec.show', array('vec' => $vec, 'empleatsInfo' => $empleatsInfo, 'total' => $total, 'totalSS' => $totalSS, 'return' => 1));
@@ -143,6 +143,7 @@ class CostController extends Controller
             $vecs = Costos::with('registreProduccio.registreEntrada.client')->with('empleats.tarifa')->orderBy('id_registre_produccio')->get();
             
             $total = 0;
+            $totalSS = 0;
             //return response()->json($vecs);
 
             $empleatsInfo = array();
@@ -162,6 +163,7 @@ class CostController extends Controller
                     foreach ($vec->empleats as $empleat){
                         //-------------INFO ACTORS--------------
                         if ($empleat->tarifa->carrec->nom_carrec == 'Actor'){
+                            $totalSS += $empleat->cost_empleat;
                             if (!isset($empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat])) {
                                 $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat] = array(
                                     'nom' => ($empleat->empleat->nom_empleat.' '.$empleat->empleat->cognom1_empleat),
@@ -213,8 +215,9 @@ class CostController extends Controller
                     }
                 }
             }
+            $totalSS = ($totalSS/100)*32.35;
             //return response()->json($vecInfo);
-            return View('vec.show', array('vec' => $vecInfo, 'empleatsInfo' => $empleatsInfo, 'total' => $total));
+            return View('vec.show', array('vec' => $vecInfo, 'empleatsInfo' => $empleatsInfo, 'total' => $total, 'totalSS' => $totalSS));
         }
         
     }
@@ -497,7 +500,7 @@ class CostController extends Controller
                     $total += $cost;
                     $empleatCost->save();
                 }
-                //-----------------------Costos Ajustador-------------------
+                //-----------------------Costos Linguista-------------------
                 if ($registre->linguista != null){
                     $cost = 0;
 

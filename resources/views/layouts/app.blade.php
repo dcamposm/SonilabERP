@@ -47,6 +47,9 @@
     .border-danger {
         border-left: 10px solid red !important;
     }
+    .border-primary {
+        border-left: 10px solid DeepSkyBlue !important;
+    }
     .llegenda {
         float: left;
         margin-right: 15px;

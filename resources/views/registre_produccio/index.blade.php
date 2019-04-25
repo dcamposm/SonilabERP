@@ -144,92 +144,190 @@
         </thead>
         <tbody>
             @foreach( $registreProduccions as $key => $registreProduccio )
-            <tr class="table-selected {{ ($registreProduccio->estat == 'Pendent') ? 'border-warning' : (($registreProduccio->estat == 'Finalitzada') ? 'border-success' : 'border-danger') }}">
-                <td class="cursor" title='Veure registre d&apos;entrada' style="vertical-align: middle;" onclick="self.mostrarRegistreProduccio('{{ route('mostrarRegistreEntrada', array('id' => $registreProduccio->id_registre_entrada)) }}')">
-                    <span class="font-weight-bold" style="font-size: 11px;">{{ $registreProduccio->id_registre_entrada }}</span>    
-                </td>
-                <td class="cursor" title='Veure producció' style="vertical-align: middle;" onclick="self.mostrarRegistreProduccio('{{ route('mostrarRegistreProduccio', array('id' => $registreProduccio->id)) }}')">
-                    <span class="font-weight-bold" style="font-size: 11px;">{{ $registreProduccio->subreferencia }}</span>
-                </td>
-                
-                <td style="vertical-align: middle;">{{ date('d/m/Y', strtotime($registreProduccio->data_entrega)) }}</td>
-                <td style="vertical-align: middle;">{{$registreProduccio->setmana}}</td>
-                <td style="vertical-align: middle;">{{$registreProduccio->titol}}</td>
-                @if (Auth::user()->hasAnyRole(['1', '2', '4']))
-                    @if (Auth::user()->hasAnyRole(['2']))
-                        <td style="vertical-align: middle;">{{ $registreProduccio->titol_traduit }}</td>
-                        <td style="vertical-align: middle;">{{ $registreProduccio->traductor ? $registreProduccio->traductor->nom_empleat : '' }}</td>
-                        <td style="vertical-align: middle;">{{ $registreProduccio->data_traductor != 0 ? date('d/m/Y', strtotime($registreProduccio->data_traductor)) : '' }}</td>
-                        <td style="vertical-align: middle;">{{ $registreProduccio->ajustador ? $registreProduccio->ajustador->nom_empleat : '' }}</td>
-                        <td style="vertical-align: middle;">{{ $registreProduccio->data_ajustador != 0 ? date('d/m/Y', strtotime($registreProduccio->data_ajustador)) : '' }}</td>
-                        <td style="vertical-align: middle;">{{ $registreProduccio->linguista ? $registreProduccio->linguista->nom_empleat : '' }}</td>
-                        <td style="vertical-align: middle;">{{ $registreProduccio->data_linguista != 0 ? date('d/m/Y', strtotime($registreProduccio->data_linguista)) : '' }}</td>
-                        <td style="vertical-align: middle;">{{ $registreProduccio->director ? $registreProduccio->director->nom_empleat : '' }}</td>
-                        <td style="vertical-align: middle;">{{ $registreProduccio->casting == 0 ? '' : 'FET' }}</td>
-                        <td style="vertical-align: middle;">{{ $registreProduccio->propostes == 0 ? '' : 'FET' }}</td>
-                        <td style="vertical-align: middle;">{{ $registreProduccio->inserts }}</td>
-                        <td style="vertical-align: middle;">
-                            @if ($registreProduccio->estadillo != 1 || empty($registreProduccio->getEstadillo))
-                                <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $registreProduccio->id }}, '{{ $registreProduccio->id_registre_entrada.' '.$registreProduccio->titol.' '.$registreProduccio->subreferencia }}')" data-toggle="modal" data-target="#exampleModalCenter">ESTADILLO</button>
+                @if (isset($registreProduccio->id))
+                    <tr class="table-selected {{ ($registreProduccio->estat == 'Pendent') ? 'border-warning' : (($registreProduccio->estat == 'Finalitzada') ? 'border-success' : 'border-danger') }}">
+                        <td class="cursor" title='Veure registre d&apos;entrada' style="vertical-align: middle;" onclick="self.mostrarRegistreProduccio('{{ route('mostrarRegistreEntrada', array('id' => $registreProduccio->id_registre_entrada)) }}')">
+                            <span class="font-weight-bold" style="font-size: 11px;">{{ $registreProduccio->id_registre_entrada }}</span>    
+                        </td>
+                        <td class="cursor" title='Veure producció' style="vertical-align: middle;" onclick="self.mostrarRegistreProduccio('{{ route('mostrarRegistreProduccio', array('id' => $registreProduccio->id)) }}')">
+                            <span class="font-weight-bold" style="font-size: 11px;">{{ $registreProduccio->subreferencia }}</span>
+                        </td>
+                        <td style="vertical-align: middle;">{{ date('d/m/Y', strtotime($registreProduccio->data_entrega)) }}</td>
+                        <td style="vertical-align: middle;">{{$registreProduccio->setmana}}</td>
+                        <td style="vertical-align: middle;">{{$registreProduccio->titol}}</td>
+                        @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+                            @if (Auth::user()->hasAnyRole(['2']))
+                                <td style="vertical-align: middle;">{{ $registreProduccio->titol_traduit }}</td>
+                                <td style="vertical-align: middle;">{{ $registreProduccio->traductor ? $registreProduccio->traductor->nom_empleat : '' }}</td>
+                                <td style="vertical-align: middle;">{{ $registreProduccio->data_traductor != 0 ? date('d/m/Y', strtotime($registreProduccio->data_traductor)) : '' }}</td>
+                                <td style="vertical-align: middle;">{{ $registreProduccio->ajustador ? $registreProduccio->ajustador->nom_empleat : '' }}</td>
+                                <td style="vertical-align: middle;">{{ $registreProduccio->data_ajustador != 0 ? date('d/m/Y', strtotime($registreProduccio->data_ajustador)) : '' }}</td>
+                                <td style="vertical-align: middle;">{{ $registreProduccio->linguista ? $registreProduccio->linguista->nom_empleat : '' }}</td>
+                                <td style="vertical-align: middle;">{{ $registreProduccio->data_linguista != 0 ? date('d/m/Y', strtotime($registreProduccio->data_linguista)) : '' }}</td>
+                                <td style="vertical-align: middle;">{{ $registreProduccio->director ? $registreProduccio->director->nom_empleat : '' }}</td>
+                                <td style="vertical-align: middle;">{{ $registreProduccio->casting == 0 ? '' : 'FET' }}</td>
+                                <td style="vertical-align: middle;">{{ $registreProduccio->propostes == 0 ? '' : 'FET' }}</td>
+                                <td style="vertical-align: middle;">{{ $registreProduccio->inserts }}</td>
+                                <td style="vertical-align: middle;">
+                                    @if ($registreProduccio->estadillo != 1 || empty($registreProduccio->getEstadillo))
+                                        <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $registreProduccio->id }}, '{{ $registreProduccio->id_registre_entrada.' '.$registreProduccio->titol.' '.$registreProduccio->subreferencia }}')" data-toggle="modal" data-target="#exampleModalCenter">ESTADILLO</button>
+                                    @else
+                                        <a href="{{ $registreProduccio->subreferencia==0 ? route('estadilloShow', array('id' => $registreProduccio->getEstadillo->id_estadillo )) : route('estadilloShow', array('id' => $registreProduccio->id_registre_entrada, 'id_setmana' => $registreProduccio->setmana )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">ESTADILLO</a>
+                                    @endif
+                                </td>
+                                <td style="vertical-align: middle;">
+                                    @if ($registreProduccio->vec != 1 || empty($registreProduccio->getVec))
+                                        <a href="{{ route('vecGenerar', array('id' => $registreProduccio->id)) }}" class="btn btn-primary btn-sm">GENERAR</a>
+                                    @else
+                                        <a href="{{ route('mostrarVec', array('id' => $registreProduccio->getVec->id_costos)) }}" class="btn btn-primary btn-sm">VEURE</a>
+                                    @endif
+                                </td>
+                                <td style="vertical-align: middle;">{{ $registreProduccio->convos == 0 ? '' : 'FET' }}</td>
+                                <td style="vertical-align: middle;">{{ $registreProduccio->inici_sala != 0 ? date('d/m/Y', strtotime($registreProduccio->inici_sala)) : '' }}</td>
+                                <td style="vertical-align: middle;">{{ $registreProduccio->final_sala != 0 ? date('d/m/Y', strtotime($registreProduccio->final_sala)) : '' }}</td>
+                                <td style="vertical-align: middle;">{{ $registreProduccio->data_tecnic_mix != 0 ? date('d/m/Y', strtotime($registreProduccio->data_tecnic_mix)) : '' }}</td>
+                                <td style="vertical-align: middle;">{{ $registreProduccio->retakes }}</td>
                             @else
-                                <a href="{{ $registreProduccio->subreferencia==0 ? route('estadilloShow', array('id' => $registreProduccio->getEstadillo->id_estadillo )) : route('estadilloShow', array('id' => $registreProduccio->id_registre_entrada, 'id_setmana' => $registreProduccio->setmana )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">ESTADILLO</a>
+                                <td style="vertical-align: middle;">
+                                    @if ($registreProduccio->estadillo != 1  || empty($registreProduccio->getEstadillo))
+                                        <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $registreProduccio->id }}, '{{ $registreProduccio->id_registre_entrada.' '.$registreProduccio->titol.' '.$registreProduccio->subreferencia }}')" data-toggle="modal" data-target="#exampleModalCenter">ESTADILLO</button>
+                                    @else
+                                        <a href="{{ $registreProduccio->subreferencia==0 ? route('estadilloShow', array('id' => $registreProduccio->getEstadillo->id_estadillo )) : route('estadilloShow', array('id' => $registreProduccio->id_registre_entrada, 'id_setmana' => $registreProduccio->setmana )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">ESTADILLO</a>
+                                    @endif
+                                </td>
+                                <td style="vertical-align: middle;">
+                                    @if ($registreProduccio->vec != 1  || empty($registreProduccio->getVec))
+                                        <a href="{{ route('vecGenerar', array('id' => $registreProduccio->id)) }}" class="btn btn-primary btn-sm">GENERAR</a>
+                                    @else
+                                        <a href="{{ route('mostrarVec', array('id' => $registreProduccio->getVec->id_costos)) }}" class="btn btn-primary btn-sm">VEURE</a>
+                                    @endif
+                                </td>
+                            @endif
+                        @endif
+                        @if (Auth::user()->hasAnyRole(['3']))
+                            <td style="vertical-align: middle;">{{ $registreProduccio->qc_vo == 0 ? '' : 'FET' }}</td>
+                            <td style="vertical-align: middle;">{{ $registreProduccio->qc_me == 0 ? '' : 'FET' }}</td>
+                            <td style="vertical-align: middle;">{{ $registreProduccio->qc_mix == 0 ? '' : 'FET' }}</td>
+                            <td style="vertical-align: middle;">{{ $registreProduccio->ppp == 0 ? '' : 'FET' }}</td>
+                            <td style="vertical-align: middle;">{{ $registreProduccio->pps == 0 ? '' : 'FET' }}</td>
+                            <td style="vertical-align: middle;">{{ $registreProduccio->ppe == 0 ? '' : 'FET' }}</td>
+                            <td style="vertical-align: middle;">{{ $registreProduccio->tecnic ? $registreProduccio->tecnic->nom_empleat : '' }}</td>
+                            <td style="vertical-align: middle;">{{ $registreProduccio->data_tecnic_mix != 0 ? date('d/m/Y', strtotime($registreProduccio->data_tecnic_mix)) : '' }}</td>
+                            <td style="vertical-align: middle;">{{ $registreProduccio->retakes }}</td>
+                        @endif
+                        <td style="vertical-align: middle;">
+                            <a href="{{ route('updateRegistreProduccio', array('id' => $registreProduccio->id )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">MODIFICAR</a>
+                            @if (Auth::user()->hasAnyRole(['4']))
+                                <button class="btn btn-danger btn-sm" style="font-size: 11px;" onclick="self.seleccionarRegistreProduccio({{ $registreProduccio->id }}, '{{ $registreProduccio->id_registre_entrada.' '.$registreProduccio->titol.' '.$registreProduccio->subreferencia }}')" data-toggle="modal" data-target="#exampleModalCenter">ESBORRAR</button>
+                                <form id="delete-{{ $registreProduccio->id }}" action="{{ route('deleteRegistre') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" readonly name="id" value="{{ $registreProduccio->id }}">
+                                </form>
                             @endif
                         </td>
-                        <td style="vertical-align: middle;">
-                            @if ($registreProduccio->vec != 1 || empty($registreProduccio->getVec))
-                                <a href="{{ route('vecGenerar', array('id' => $registreProduccio->id)) }}" class="btn btn-primary btn-sm">GENERAR</a>
-                            @else
-                                <a href="{{ route('mostrarVec', array('id' => $registreProduccio->getVec->id_costos)) }}" class="btn btn-primary btn-sm">VEURE</a>
-                            @endif
-                        </td>
-                        <td style="vertical-align: middle;">{{ $registreProduccio->convos == 0 ? '' : 'FET' }}</td>
-                        <td style="vertical-align: middle;">{{ $registreProduccio->inici_sala != 0 ? date('d/m/Y', strtotime($registreProduccio->inici_sala)) : '' }}</td>
-                        <td style="vertical-align: middle;">{{ $registreProduccio->final_sala != 0 ? date('d/m/Y', strtotime($registreProduccio->final_sala)) : '' }}</td>
-                        <td style="vertical-align: middle;">{{ $registreProduccio->data_tecnic_mix != 0 ? date('d/m/Y', strtotime($registreProduccio->data_tecnic_mix)) : '' }}</td>
-                        <td style="vertical-align: middle;">{{ $registreProduccio->retakes }}</td>
-                    @else
-                        <td style="vertical-align: middle;">
-                            @if ($registreProduccio->estadillo != 1  || empty($registreProduccio->getEstadillo))
-                                <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $registreProduccio->id }}, '{{ $registreProduccio->id_registre_entrada.' '.$registreProduccio->titol.' '.$registreProduccio->subreferencia }}')" data-toggle="modal" data-target="#exampleModalCenter">ESTADILLO</button>
-                            @else
-                                <a href="{{ $registreProduccio->subreferencia==0 ? route('estadilloShow', array('id' => $registreProduccio->getEstadillo->id_estadillo )) : route('estadilloShow', array('id' => $registreProduccio->id_registre_entrada, 'id_setmana' => $registreProduccio->setmana )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">ESTADILLO</a>
-                            @endif
-                        </td>
-                        <td style="vertical-align: middle;">
-                            @if ($registreProduccio->vec != 1  || empty($registreProduccio->getVec))
-                                <a href="{{ route('vecGenerar', array('id' => $registreProduccio->id)) }}" class="btn btn-primary btn-sm">GENERAR</a>
-                            @else
-                                <a href="{{ route('mostrarVec', array('id' => $registreProduccio->getVec->id_costos)) }}" class="btn btn-primary btn-sm">VEURE</a>
-                            @endif
-                        </td>
-                    @endif
-                @endif
-                @if (Auth::user()->hasAnyRole(['3']))
-                    <td style="vertical-align: middle;">{{ $registreProduccio->qc_vo == 0 ? '' : 'FET' }}</td>
-                    <td style="vertical-align: middle;">{{ $registreProduccio->qc_me == 0 ? '' : 'FET' }}</td>
-                    <td style="vertical-align: middle;">{{ $registreProduccio->qc_mix == 0 ? '' : 'FET' }}</td>
-                    <td style="vertical-align: middle;">{{ $registreProduccio->ppp == 0 ? '' : 'FET' }}</td>
-                    <td style="vertical-align: middle;">{{ $registreProduccio->pps == 0 ? '' : 'FET' }}</td>
-                    <td style="vertical-align: middle;">{{ $registreProduccio->ppe == 0 ? '' : 'FET' }}</td>
-                    <td style="vertical-align: middle;">{{ $registreProduccio->tecnic ? $registreProduccio->tecnic->nom_empleat : '' }}</td>
-                    <td style="vertical-align: middle;">{{ $registreProduccio->data_tecnic_mix != 0 ? date('d/m/Y', strtotime($registreProduccio->data_tecnic_mix)) : '' }}</td>
-                    <td style="vertical-align: middle;">{{ $registreProduccio->retakes }}</td>
-                @endif
-                <td style="vertical-align: middle;">
-                    <a href="{{ route('updateRegistreProduccio', array('id' => $registreProduccio->id )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">MODIFICAR</a>
-                    @if (Auth::user()->hasAnyRole(['4']))
-                        <button class="btn btn-danger btn-sm" style="font-size: 11px;" onclick="self.seleccionarRegistreProduccio({{ $registreProduccio->id }}, '{{ $registreProduccio->id_registre_entrada.' '.$registreProduccio->titol.' '.$registreProduccio->subreferencia }}')" data-toggle="modal" data-target="#exampleModalCenter">ESBORRAR</button>
-                        <form id="delete-{{ $registreProduccio->id }}" action="{{ route('deleteRegistre') }}" method="POST">
-                            @csrf
-                            <input type="hidden" readonly name="id" value="{{ $registreProduccio->id }}">
-                        </form>
-                    @endif
-                </td>
-            </tr>
+                    </tr>
+                @else
+                    @foreach( $registreProduccio as $key1 => $serie )
+                        @if ($key1 == 0)
+                            <tr id="coll{{$key}}" class="table-selected border-primary cursor" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapse{{$key}}">
+                                <td style="vertical-align: middle;" class="font-weight-bold">{{ $serie['id_registre_entrada'] }}</td>
+                                <td style="vertical-align: middle;"> </td>
+                                <td style="vertical-align: middle;"> </td>
+                                <td style="vertical-align: middle;"> </td>
+                                <td style="vertical-align: middle;">{{ $serie['titol'] }}</td>
+                                <td style="vertical-align: middle;"> </td>
+                                <td style="vertical-align: middle;"> </td>
+                                <td style="vertical-align: middle;"> </td>
+                            </tr>
+                        @else
+                            <tr class="table-selected {{ ($serie->estat == 'Pendent') ? 'border-warning' : (($serie->estat == 'Finalitzada') ? 'border-success' : 'border-danger') }}" id="collapse{{$key}}" class="collapse show" aria-labelledby="coll{{$key}}" data-parent="#registres">
+                                <td class="cursor" title='Veure registre d&apos;entrada' style="vertical-align: middle;" onclick="self.mostrarRegistreProduccio('{{ route('mostrarRegistreEntrada', array('id' => $serie->id_registre_entrada)) }}')">
+                                    <span class="font-weight-bold" style="font-size: 11px;">{{ $serie->id_registre_entrada }}</span>    
+                                </td>
+                                <td class="cursor" title='Veure producció' style="vertical-align: middle;" onclick="self.mostrarRegistreProduccio('{{ route('mostrarRegistreProduccio', array('id' => $serie->id)) }}')">
+                                    <span class="font-weight-bold" style="font-size: 11px;">{{ $serie->subreferencia }}</span>
+                                </td>
+                                <td style="vertical-align: middle;">{{ date('d/m/Y', strtotime($serie->data_entrega)) }}</td>
+                                <td style="vertical-align: middle;">{{$serie->setmana}}</td>
+                                <td style="vertical-align: middle;">{{$serie->titol}}</td>
+                                @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+                                    @if (Auth::user()->hasAnyRole(['2']))
+                                        <td style="vertical-align: middle;">{{ $serie->titol_traduit }}</td>
+                                        <td style="vertical-align: middle;">{{ $serie->traductor ? $serie->traductor->nom_empleat : '' }}</td>
+                                        <td style="vertical-align: middle;">{{ $serie->data_traductor != 0 ? date('d/m/Y', strtotime($serie->data_traductor)) : '' }}</td>
+                                        <td style="vertical-align: middle;">{{ $serie->ajustador ? $serie->ajustador->nom_empleat : '' }}</td>
+                                        <td style="vertical-align: middle;">{{ $serie->data_ajustador != 0 ? date('d/m/Y', strtotime($serie->data_ajustador)) : '' }}</td>
+                                        <td style="vertical-align: middle;">{{ $serie->linguista ? $serie->linguista->nom_empleat : '' }}</td>
+                                        <td style="vertical-align: middle;">{{ $serie->data_linguista != 0 ? date('d/m/Y', strtotime($serie->data_linguista)) : '' }}</td>
+                                        <td style="vertical-align: middle;">{{ $serie->director ? $serie->director->nom_empleat : '' }}</td>
+                                        <td style="vertical-align: middle;">{{ $serie->casting == 0 ? '' : 'FET' }}</td>
+                                        <td style="vertical-align: middle;">{{ $serie->propostes == 0 ? '' : 'FET' }}</td>
+                                        <td style="vertical-align: middle;">{{ $serie->inserts }}</td>
+                                        <td style="vertical-align: middle;">
+                                            @if ($serie->estadillo != 1 || empty($serie->getEstadillo))
+                                                <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $serie->id }}, '{{ $serie->id_registre_entrada.' '.$serie->titol.' '.$serie->subreferencia }}')" data-toggle="modal" data-target="#exampleModalCenter">ESTADILLO</button>
+                                            @else
+                                                <a href="{{ $serie->subreferencia==0 ? route('estadilloShow', array('id' => $serie->getEstadillo->id_estadillo )) : route('estadilloShow', array('id' => $serie->id_registre_entrada, 'id_setmana' => $serie->setmana )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">ESTADILLO</a>
+                                            @endif
+                                        </td>
+                                        <td style="vertical-align: middle;">
+                                            @if ($serie->vec != 1 || empty($serie->getVec))
+                                                <a href="{{ route('vecGenerar', array('id' => $serie->id)) }}" class="btn btn-primary btn-sm">GENERAR</a>
+                                            @else
+                                                <a href="{{ route('mostrarVec', array('id' => $serie->getVec->id_costos)) }}" class="btn btn-primary btn-sm">VEURE</a>
+                                            @endif
+                                        </td>
+                                        <td style="vertical-align: middle;">{{ $serie->convos == 0 ? '' : 'FET' }}</td>
+                                        <td style="vertical-align: middle;">{{ $serie->inici_sala != 0 ? date('d/m/Y', strtotime($serie->inici_sala)) : '' }}</td>
+                                        <td style="vertical-align: middle;">{{ $serie->final_sala != 0 ? date('d/m/Y', strtotime($serie->final_sala)) : '' }}</td>
+                                        <td style="vertical-align: middle;">{{ $serie->data_tecnic_mix != 0 ? date('d/m/Y', strtotime($serie->data_tecnic_mix)) : '' }}</td>
+                                        <td style="vertical-align: middle;">{{ $serie->retakes }}</td>
+                                    @else
+                                        <td style="vertical-align: middle;">
+                                            @if ($serie->estadillo != 1  || empty($serie->getEstadillo))
+                                                <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $serie->id }}, '{{ $serie->id_registre_entrada.' '.$serie->titol.' '.$serie->subreferencia }}')" data-toggle="modal" data-target="#exampleModalCenter">ESTADILLO</button>
+                                            @else
+                                                <a href="{{ $serie->subreferencia==0 ? route('estadilloShow', array('id' => $serie->getEstadillo->id_estadillo )) : route('estadilloShow', array('id' => $serie->id_registre_entrada, 'id_setmana' => $serie->setmana )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">ESTADILLO</a>
+                                            @endif
+                                        </td>
+                                        <td style="vertical-align: middle;">
+                                            @if ($serie->vec != 1  || empty($serie->getVec))
+                                                <a href="{{ route('vecGenerar', array('id' => $serie->id)) }}" class="btn btn-primary btn-sm">GENERAR</a>
+                                            @else
+                                                <a href="{{ route('mostrarVec', array('id' => $serie->getVec->id_costos)) }}" class="btn btn-primary btn-sm">VEURE</a>
+                                            @endif
+                                        </td>
+                                    @endif
+                                @endif
+                                @if (Auth::user()->hasAnyRole(['3']))
+                                    <td style="vertical-align: middle;">{{ $serie->qc_vo == 0 ? '' : 'FET' }}</td>
+                                    <td style="vertical-align: middle;">{{ $serie->qc_me == 0 ? '' : 'FET' }}</td>
+                                    <td style="vertical-align: middle;">{{ $serie->qc_mix == 0 ? '' : 'FET' }}</td>
+                                    <td style="vertical-align: middle;">{{ $serie->ppp == 0 ? '' : 'FET' }}</td>
+                                    <td style="vertical-align: middle;">{{ $serie->pps == 0 ? '' : 'FET' }}</td>
+                                    <td style="vertical-align: middle;">{{ $serie->ppe == 0 ? '' : 'FET' }}</td>
+                                    <td style="vertical-align: middle;">{{ $serie->tecnic ? $serie->tecnic->nom_empleat : '' }}</td>
+                                    <td style="vertical-align: middle;">{{ $serie->data_tecnic_mix != 0 ? date('d/m/Y', strtotime($serie->data_tecnic_mix)) : '' }}</td>
+                                    <td style="vertical-align: middle;">{{ $serie->retakes }}</td>
+                                @endif
+                                <td style="vertical-align: middle;">
+                                    <a href="{{ route('updateRegistreProduccio', array('id' => $serie->id )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">MODIFICAR</a>
+                                    @if (Auth::user()->hasAnyRole(['4']))
+                                        <button class="btn btn-danger btn-sm" style="font-size: 11px;" onclick="self.seleccionarRegistreProduccio({{ $serie->id }}, '{{ $serie->id_registre_entrada.' '.$serie->titol.' '.$serie->subreferencia }}')" data-toggle="modal" data-target="#exampleModalCenter">ESBORRAR</button>
+                                        <form id="delete-{{ $serie->id }}" action="{{ route('deleteRegistre') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" readonly name="id" value="{{ $serie->id }}">
+                                        </form>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endif
+                    @endforeach
+                @endif      
             @endforeach
         </tbody>
     </table>
-    {{ $registreProduccions->links() }}
+
     <!-- MODAL IMPORTAR ESTADILLOS -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
