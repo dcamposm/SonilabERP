@@ -177,7 +177,7 @@
                                     @if ($registreProduccio->estadillo != 1 || empty($registreProduccio->getEstadillo))
                                         <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $registreProduccio->id }}, '{{ $registreProduccio->id_registre_entrada.' '.$registreProduccio->titol.' '.$registreProduccio->subreferencia }}')" data-toggle="modal" data-target="#importModal">ESTADILLO</button>
                                     @else
-                                        <a href="{{ $registreProduccio->subreferencia==0 ? route('estadilloShow', array('id' => $registreProduccio->getEstadillo->id_estadillo )) : route('estadilloShow', array('id' => $registreProduccio->id_registre_entrada, 'id_setmana' => $registreProduccio->setmana )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">ESTADILLO</a>
+                                        <a href="{{ route('estadilloShow', array('id' => $registreProduccio->getEstadillo->id_estadillo )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">ESTADILLO</a>
                                     @endif
                                 </td>
                                 <td style="vertical-align: middle;">
@@ -197,7 +197,7 @@
                                     @if ($registreProduccio->estadillo != 1  || empty($registreProduccio->getEstadillo))
                                         <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $registreProduccio->id }}, '{{ $registreProduccio->id_registre_entrada.' '.$registreProduccio->titol.' '.$registreProduccio->subreferencia }}')" data-toggle="modal" data-target="#importModal">ESTADILLO</button>
                                     @else
-                                        <a href="{{ $registreProduccio->subreferencia==0 ? route('estadilloShow', array('id' => $registreProduccio->getEstadillo->id_estadillo )) : route('estadilloShow', array('id' => $registreProduccio->id_registre_entrada, 'id_setmana' => $registreProduccio->setmana )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">ESTADILLO</a>
+                                        <a href="{{ route('estadilloShow', array('id' => $registreProduccio->getEstadillo->id_estadillo )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">ESTADILLO</a>
                                     @endif
                                 </td>
                                 <td style="vertical-align: middle;">
@@ -260,7 +260,7 @@
                                                 <button class="btn btn-primary btn-sm" style="font-size: 11px;" type="submit">ESTADILLO</button>
                                             </form>
                                         </td>
-                                        <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"></td>
+                                        <td style="vertical-align: middle;"><a href="{{ route('indexVec', array('ref' => $serie['id_registre_entrada'])) }}" class="btn btn-primary btn-sm">VEC</a></td>
                                         <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"></td>
                                         <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"></td>
                                         <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"></td>
@@ -274,7 +274,7 @@
                                                 <button class="btn btn-primary btn-sm" style="font-size: 11px;" type="submit">ESTADILLO</button>
                                             </form>
                                         </td>
-                                        <td style="vertical-align: middle;"> </td>
+                                        <td style="vertical-align: middle;"><a href="{{ route('indexVec', array('ref' => $serie['id_registre_entrada'])) }}" class="btn btn-primary btn-sm">VEC</a></td>
                                     @endif
                                 @endif
                                 @if (Auth::user()->hasAnyRole(['3']))
@@ -318,7 +318,7 @@
                                             @if ($serie->estadillo != 1 || empty($serie->getEstadillo))
                                                 <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $serie->id }}, '{{ $serie->id_registre_entrada.' '.$serie->titol.' '.$serie->subreferencia }}')" data-toggle="modal" data-target="#importModal">ESTADILLO</button>
                                             @else
-                                                <a href="{{ $serie->subreferencia==0 ? route('estadilloShow', array('id' => $serie->getEstadillo->id_estadillo )) : route('estadilloShow', array('id' => $serie->id_registre_entrada, 'id_setmana' => $serie->setmana )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">ESTADILLO</a>
+                                                <a href="{{  route('estadilloShow', array('id' => $serie->getEstadillo->id_estadillo )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">ESTADILLO</a>
                                             @endif
                                         </td>
                                         <td style="vertical-align: middle;">
@@ -338,7 +338,7 @@
                                             @if ($serie->estadillo != 1  || empty($serie->getEstadillo))
                                                 <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $serie->id }}, '{{ $serie->id_registre_entrada.' '.$serie->titol.' '.$serie->subreferencia }}')" data-toggle="modal" data-target="#importModal">ESTADILLO</button>
                                             @else
-                                                <a href="{{ $serie->subreferencia==0 ? route('estadilloShow', array('id' => $serie->getEstadillo->id_estadillo )) : route('estadilloShow', array('id' => $serie->id_registre_entrada, 'id_setmana' => $serie->setmana )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">ESTADILLO</a>
+                                                <a href="{{ route('estadilloShow', array('id' => $serie->getEstadillo->id_estadillo )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">ESTADILLO</a>
                                             @endif
                                         </td>
                                         <td style="vertical-align: middle;">
