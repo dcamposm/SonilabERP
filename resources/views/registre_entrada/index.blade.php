@@ -124,7 +124,6 @@
     </div>
 
     {{-- TABLA DE REGISTROS DE ENTRADA --}}
-    <div class="table-responsive">
     <table class="table" style="margin-top: 10px; min-width: 1200px; font-size: 11px;">
         <thead>
             <tr>
@@ -176,8 +175,7 @@
             </tr>
             @endforeach
         </tbody>
-    </table>
-    </div>    
+    </table>   
     <!-- MODAL ESBORRAR REGISTRE ENTRADA -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">

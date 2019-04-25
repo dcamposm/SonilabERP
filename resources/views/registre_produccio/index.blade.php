@@ -99,7 +99,6 @@
     </div>
 
     {{-- TABLA DE REGISTROS DE ENTRADA --}}
-    <div class="table-responsive">
     <table class="table" style="margin-top: 10px;  min-width: 1200px; font-size: 10px; border-collapse:collapse;">
         <thead>
             <tr>
@@ -378,7 +377,6 @@
             @endforeach
         </tbody>
     </table>
-    </div>
     <!-- MODAL IMPORTAR ESTADILLOS -->
     <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">

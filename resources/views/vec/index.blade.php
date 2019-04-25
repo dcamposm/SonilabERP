@@ -14,7 +14,6 @@
     </div>
 
     {{-- TABLA DE COSTOS --}}
-    <div class="table-responsive">
     <table class="table mt-3" style="min-width: 630px;">
         <thead>
             <tr>
@@ -64,7 +63,6 @@
             @endforeach
         </tbody>
     </table>
-    </div>
     <!-- MODAL ESBORRAR VEC -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
