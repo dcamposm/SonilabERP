@@ -228,6 +228,7 @@ class CostController extends Controller
                             } 
                             //-------------INFO COL·LABORADORS--------------
                             else {
+                                //return response()->json($vec);
                                 if (!isset($empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat])) {
                                     $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat] = array(
                                         'nom' => ($empleat->empleat->nom_empleat.' '.$empleat->empleat->cognom1_empleat),
@@ -257,7 +258,7 @@ class CostController extends Controller
                 }
             }
             $totalSS = ($totalSS/100)*32.35;
-            //return response()->json($vecInfo);
+            //return response()->json($empleatsInfo);
             return View('vec.show', array('vec' => $vecInfo, 'empleatsInfo' => $empleatsInfo, 'total' => $total, 'totalSS' => $totalSS));
         }
         
@@ -271,12 +272,12 @@ class CostController extends Controller
         //return response()->json($registre);
         $vec = Costos::where('id_registre_produccio', $id)->first();
         if (!$vec){
-            $vec = new Costos();
-            $vec->id_registre_produccio = $id;
-            $vec->save();
-            $total = 0;
-            //----------------------Costos Actors---------------------------------
             if ($registre->getEstadillo != null){
+                $vec = new Costos();
+                $vec->id_registre_produccio = $id;
+                $vec->save();
+                $total = 0;
+            //------------------------Costos Actors---------------------------------
                 if (!empty($registre->getEstadillo->actors)){
                     $totalSS = 0;
                     foreach ($registre->getEstadillo->actors as $actor){
@@ -332,7 +333,7 @@ class CostController extends Controller
                     }
                     $total += ($totalSS/100)*32.35;
                 }
-            }
+            
             //return response()->json($registre->getEstadillo->actors);
             //-----------------------Costos Traductor-------------------
             if ($registre->traductor != null){
@@ -342,7 +343,7 @@ class CostController extends Controller
                 
                 foreach ($registre->traductor->carrec as $empleatCarrec){
                     if ($registre->registreEntrada->id_idioma == $empleatCarrec->id_idioma && $empleatCarrec->tarifa->nombre_corto == 'traductor' && $empleatCarrec->preu_carrec != 0){
-                        $empleatCost->cost_empleat = $empleatCarrec->preu_carrec;
+                        $empleatCost->cost_empleat = $empleatCarrec->preu_carrec * ($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis);
                         $total += $empleatCost->cost_empleat;
                         $empleatCost->id_tarifa = 12;
                         $empleatCost->save();
@@ -358,7 +359,7 @@ class CostController extends Controller
                 $empleatCost->id_empleat = $registre->ajustador->id_empleat;
                 foreach ($registre->ajustador->carrec as $empleatCarrec){
                     if ($registre->registreEntrada->id_idioma == $empleatCarrec->id_idioma && $empleatCarrec->tarifa->nombre_corto == 'ajustador' && $empleatCarrec->preu_carrec != 0){
-                        $empleatCost->cost_empleat = $empleatCarrec->preu_carrec;
+                        $empleatCost->cost_empleat = $empleatCarrec->preu_carrec * ($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis);
                         $total += $empleatCost->cost_empleat;
                         $empleatCost->id_tarifa = 13;
                         $empleatCost->save();
@@ -366,14 +367,14 @@ class CostController extends Controller
                 }
 
             }
-            //-----------------------Costos Ajustador-------------------
+            //-----------------------Costos Linguista-------------------
             if ($registre->linguista != null){
                 $empleatCost = new EmpleatCost();
                 $empleatCost->id_costos = $vec->id_costos;
                 $empleatCost->id_empleat = $registre->linguista->id_empleat;
                 foreach ($registre->linguista->carrec as $empleatCarrec){
                     if ($registre->registreEntrada->id_idioma == $empleatCarrec->id_idioma && $empleatCarrec->tarifa->nombre_corto == 'linguista' && $empleatCarrec->preu_carrec != 0){
-                        $empleatCost->cost_empleat = $empleatCarrec->preu_carrec;
+                        $empleatCost->cost_empleat = $empleatCarrec->preu_carrec * ($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis);
                         $total += $empleatCost->cost_empleat;
                         $empleatCost->id_tarifa = 14;
                         $empleatCost->save();
@@ -389,12 +390,12 @@ class CostController extends Controller
                 $empleatCost->id_empleat = $registre->director->id_empleat;
                 foreach ($registre->director->carrec as $empleatCarrec){
                     if ($empleatCarrec->tarifa->nombre_corto == 'rotllo' && $empleatCarrec->preu_carrec != 0){
-                        $empleatCost->cost_empleat = $empleatCarrec->preu_carrec;
+                        $empleatCost->cost_empleat = $empleatCarrec->preu_carrec * (($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis)/10);;
                         $total += $empleatCost->cost_empleat;
                         $empleatCost->id_tarifa = 1;
                         $empleatCost->save();
                     } else if ($empleatCarrec->tarifa->nombre_corto == 'minut' && $empleatCarrec->preu_carrec != 0 ){
-                        $empleatCost->cost_empleat = $empleatCarrec->preu_carrec;
+                        $empleatCost->cost_empleat = $empleatCarrec->preu_carrec * ($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis);
                         $total += $empleatCost->cost_empleat;
                         $empleatCost->id_tarifa = 2;
                         $empleatCost->save();
@@ -422,8 +423,6 @@ class CostController extends Controller
                         $empleatCost->save();
                     }
                 }
-
-                
             }
             
             $registre->vec = 1;
@@ -432,9 +431,13 @@ class CostController extends Controller
             $vecF = Costos::find($vec->id_costos);
             $vecF->cost_total = $total;
             $vecF->save();
+            
+            return redirect()->route('indexRegistreProduccio');
+            }
         }
         
-        //return response()->json($registre);
+        //return response()->json($registre); 
+        //Poner mensaje error no esta el estadillo creado
         return redirect()->route('indexRegistreProduccio');
     }
     
@@ -515,7 +518,7 @@ class CostController extends Controller
                     $id_empleat = $registre->traductor->id_empleat;
                     foreach ($registre->traductor->carrec as $empleatCarrec){
                         if ($registre->registreEntrada->id_idioma == $empleatCarrec->id_idioma && $empleatCarrec->id_tarifa == 12){
-                            $cost += $empleatCarrec->preu_carrec;
+                            $cost += $empleatCarrec->preu_carrec * ($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis);
                         }
                     }
                     $empleatCost = EmpleatCost::firstOrCreate(['id_costos' => $id_costos, 'id_empleat' => $id_empleat]);
@@ -532,7 +535,7 @@ class CostController extends Controller
                     $id_empleat = $registre->ajustador->id_empleat;
                     foreach ($registre->ajustador->carrec as $empleatCarrec){
                         if ($registre->registreEntrada->id_idioma == $empleatCarrec->id_idioma && $empleatCarrec->id_tarifa == 13){
-                            $cost += $empleatCarrec->preu_carrec;
+                            $cost += $empleatCarrec->preu_carrec * ($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis);
                         }
                     }
                     $empleatCost = EmpleatCost::firstOrCreate(['id_costos' => $id_costos, 'id_empleat' => $id_empleat]);
@@ -549,7 +552,7 @@ class CostController extends Controller
                     $id_empleat = $registre->linguista->id_empleat;
                     foreach ($registre->linguista->carrec as $empleatCarrec){
                         if ($registre->registreEntrada->id_idioma == $empleatCarrec->id_idioma && $empleatCarrec->id_tarifa == 14){
-                            $cost += $empleatCarrec->preu_carrec;
+                            $cost += $empleatCarrec->preu_carrec * ($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis);
                         }
                     }
                     $empleatCost = EmpleatCost::firstOrCreate(['id_costos' => $id_costos, 'id_empleat' => $id_empleat]);
@@ -566,9 +569,9 @@ class CostController extends Controller
                     $id_empleat = $registre->director->id_empleat;
                     foreach ($registre->director->carrec as $empleatCarrec){
                         if ($empleatCarrec->id_tarifa == 1){
-                            $cost += $empleatCarrec->preu_carrec;
+                            $cost += $empleatCarrec->preu_carrec * (($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis)/10);
                         } else if ($empleatCarrec->id_tarifa == 2){
-                            $cost += $empleatCarrec->preu_carrec;
+                            $cost += $empleatCarrec->preu_carrec * ($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis);
                         }
                     }
                     $empleatCost = EmpleatCost::firstOrCreate(['id_costos' => $id_costos, 'id_empleat' => $id_empleat]);
@@ -692,7 +695,6 @@ class CostController extends Controller
                     $total += ($totalActors/100)*32.35;
                 }
             }
-            //-----------------------Costos Traductor-------------------
             if ($registre->traductor != null){
                 $empleatCost = new EmpleatCost();
                 $empleatCost->id_costos = $vec->id_costos;
@@ -700,7 +702,7 @@ class CostController extends Controller
                 
                 foreach ($registre->traductor->carrec as $empleatCarrec){
                     if ($registre->registreEntrada->id_idioma == $empleatCarrec->id_idioma && $empleatCarrec->tarifa->nombre_corto == 'traductor' && $empleatCarrec->preu_carrec != 0){
-                        $empleatCost->cost_empleat = $empleatCarrec->preu_carrec;
+                        $empleatCost->cost_empleat = $empleatCarrec->preu_carrec * ($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis);
                         $total += $empleatCost->cost_empleat;
                         $empleatCost->id_tarifa = 12;
                         $empleatCost->save();
@@ -716,7 +718,7 @@ class CostController extends Controller
                 $empleatCost->id_empleat = $registre->ajustador->id_empleat;
                 foreach ($registre->ajustador->carrec as $empleatCarrec){
                     if ($registre->registreEntrada->id_idioma == $empleatCarrec->id_idioma && $empleatCarrec->tarifa->nombre_corto == 'ajustador' && $empleatCarrec->preu_carrec != 0){
-                        $empleatCost->cost_empleat = $empleatCarrec->preu_carrec;
+                        $empleatCost->cost_empleat = $empleatCarrec->preu_carrec * ($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis);
                         $total += $empleatCost->cost_empleat;
                         $empleatCost->id_tarifa = 13;
                         $empleatCost->save();
@@ -724,14 +726,14 @@ class CostController extends Controller
                 }
 
             }
-            //-----------------------Costos Ajustador-------------------
+            //-----------------------Costos Linguista-------------------
             if ($registre->linguista != null){
                 $empleatCost = new EmpleatCost();
                 $empleatCost->id_costos = $vec->id_costos;
                 $empleatCost->id_empleat = $registre->linguista->id_empleat;
                 foreach ($registre->linguista->carrec as $empleatCarrec){
                     if ($registre->registreEntrada->id_idioma == $empleatCarrec->id_idioma && $empleatCarrec->tarifa->nombre_corto == 'linguista' && $empleatCarrec->preu_carrec != 0){
-                        $empleatCost->cost_empleat = $empleatCarrec->preu_carrec;
+                        $empleatCost->cost_empleat = $empleatCarrec->preu_carrec * ($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis);
                         $total += $empleatCost->cost_empleat;
                         $empleatCost->id_tarifa = 14;
                         $empleatCost->save();
@@ -747,12 +749,12 @@ class CostController extends Controller
                 $empleatCost->id_empleat = $registre->director->id_empleat;
                 foreach ($registre->director->carrec as $empleatCarrec){
                     if ($empleatCarrec->tarifa->nombre_corto == 'rotllo' && $empleatCarrec->preu_carrec != 0){
-                        $empleatCost->cost_empleat = $empleatCarrec->preu_carrec;
+                        $empleatCost->cost_empleat = $empleatCarrec->preu_carrec * (($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis)/10);;
                         $total += $empleatCost->cost_empleat;
                         $empleatCost->id_tarifa = 1;
                         $empleatCost->save();
                     } else if ($empleatCarrec->tarifa->nombre_corto == 'minut' && $empleatCarrec->preu_carrec != 0 ){
-                        $empleatCost->cost_empleat = $empleatCarrec->preu_carrec;
+                        $empleatCost->cost_empleat = $empleatCarrec->preu_carrec * ($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis);
                         $total += $empleatCost->cost_empleat;
                         $empleatCost->id_tarifa = 2;
                         $empleatCost->save();

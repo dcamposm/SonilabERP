@@ -71,7 +71,6 @@
                         <th class="col">TK's</th>
                         <th class="col">CG's</th>
                         <th class="col-2">TOTAL</th>
-                        <th class="col-sm-1"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -82,7 +81,6 @@
                             <td class="col">{{$actor['tk']}}</td>
                             <td class="col">{{$actor['cg']}}</td>
                             <td class="col-2">{{$actor['total']}}€</td>
-                            <td class="col-sm-1 align-middle text-center"><button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button></td>
                         </tr>
                     @endforeach
                     @endif
@@ -101,7 +99,6 @@
                             <th class="col">EPISODIS</th>
                         @endif
                         <th class="col-2">TOTAL</th>
-                        <th class="col-sm-1"></th>
                     </tr>
                 </thead>
                 <tbody>

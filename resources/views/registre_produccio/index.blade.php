@@ -10,18 +10,18 @@
     @endif
         @if(Auth::user()->hasAnyRole(['1','2','4']))
         <div class="col">
-            <a href="{{ url('/registreProduccio/crear') }}" class="btn btn-success">
+            <a href="{{ url('/registreProduccio/crear') }}" class="btn btn-success m-1">
                 <span class="fas fa-atlas"></span>
                 AFEGIR REGISTRE DE PRODUCCIÓ
             </a>
             @if (Auth::user()->hasAnyRole(['1', '2', '4']))
-            <a href="{{ url('/estadillos') }}" class="btn btn-success">
+            <a href="{{ url('/estadillos') }}" class="btn btn-success m-1">
                 <span class="fas fa-clipboard-list"></span>
                 ESTADILLOS
             </a>
             @endif
             @if (Auth::user()->hasAnyRole(['1', '2', '4']))
-            <a href="{{ url('/vec') }}" class="btn btn-success">
+            <a href="{{ url('/vec') }}" class="btn btn-success m-1">
                 <i class="fas fa-calculator"></i>
                 VEC
             </a>
@@ -29,7 +29,7 @@
         </div>
         @endif
         <!-- FILTRA REGISTRE PRODUCCIO -->
-        <div class="row">
+        <div class="row m-1">
             <div class="col">
                 <form method = "GET" action= '{{ route('registreProduccioFind') }}' id='search'>
                     @csrf
@@ -39,12 +39,12 @@
                             <option value="id_registre_entrada">REFERÈNCIA</option>
                             <option value="titol">TÍTOL</option>
                             <option value="subreferencia">SUB-REFERÈNCIA</option>
-                            <option value="data_entrega" id="date">DATA D'ENTRADA</option>
+                            <option value="data_entrega" id="date">DATA D'ENTREGA</option>
                             <option value="estat" id="estat">ESTAT</option>
                             @if (Auth::user()->hasAnyRole(['1', '2', '4']))
                                 @if (Auth::user()->hasAnyRole(['2']))
                                     <option value="titol_traduit">TÍTOL TRADUIT</option>
-                                    <option value="id_traductor">TRADUTOR</option>
+                                    <option value="id_traductor">TRADUCTOR</option>
                                     <option value="data_traductor" id="date">DATA TRADUTOR</option>
                                     <option value="id_ajustador">AJUSTADOR</option>
                                     <option value="data_ajustador" id="date">DATA AJUSTADOR</option>
@@ -73,7 +73,47 @@
                                 <option value="ppe" id="fet">PPE</option>
                                 <option value="retakes" id="retakes">RETAKES</option>
                             @endif
-                            
+                        </select>
+                        
+                        <select class="custom-select" id='orderBy' name="orderBy" form="search">
+                            <option value="id_registre_entrada" selected>ORDENAR PER...</option>
+                            <option value="id_registre_entrada">REFERÈNCIA</option>
+                            <option value="titol">TÍTOL</option>
+                            <option value="subreferencia">SUB-REFERÈNCIA</option>
+                            <option value="data_entrega" id="date">DATA D'ENTREGA</option>
+                            <option value="estat" id="estat">ESTAT</option>
+                            @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+                                @if (Auth::user()->hasAnyRole(['2']))
+                                    <option value="titol_traduit">TÍTOL TRADUIT</option>
+                                    <option value="id_traductor">TRADUCTOR</option>
+                                    <option value="data_traductor" id="date">DATA TRADUTOR</option>
+                                    <option value="id_ajustador">AJUSTADOR</option>
+                                    <option value="data_ajustador" id="date">DATA AJUSTADOR</option>
+                                    <option value="id_linguista">LINGÜISTA</option>
+                                    <option value="data_linguista" id="date">DATA LINGÜISTA</option>
+                                    <option value="id_director">DIRECTOR</option>
+                                    <option value="casting" id="fet">CÀSTING</option>
+                                    <option value="propostes" id="fet">PROPOSTES</option>
+                                    <option value="inserts" id="inserts">INSERTS</option>
+                                    <option value="convos" id="fet">CONVOS</option>
+                                    <option value="inici_sala" id="date">INICI SALA</option>
+                                    <option value="final_sala" id="date">FINAL SALA</option>
+                                    <option value="data_tecnic_mix" id="date">DATA MIX</option>
+                                    <option value="retakes" id="retakes">RETAKES</option>
+                                @endif
+                                <option value="estadillo" id="fet">ESTADILLO</option>
+                                <option value="vec" id="fet">VEC</option>
+                            @elseif (Auth::user()->hasAnyRole(['3']))
+                                <option value="qc_vo" id="fet">QC VO</option>
+                                <option value="qc_me" id="fet">QC M&E</option>
+                                <option value="ppp" id="fet">PPP</option>
+                                <option value="pps" id="fet">PPS</option>
+                                <option value="id_tecnic_mix">TÈCNIC MIX</option>
+                                <option value="data_tecnic_mix" id="date">DATA MIX</option>
+                                <option value="qc_mix" id="fet">QC MIX</option>
+                                <option value="ppe" id="fet">PPE</option>
+                                <option value="retakes" id="retakes">RETAKES</option>
+                            @endif
                         </select>
                         <input type="text" id="search_term" class="form-control" name="search_term" placeholder="Buscar per...">
                         <span class="input-group-btn">
@@ -478,24 +518,24 @@
     //alert($('#searchBy').children(":selected").attr("id")); //Com obtenir el id del option
     if ($('#searchBy').children(":selected").attr("id") == 'estat') {
         $('#search_term').remove();
-        $('<select class="custom-select" id="search_term" name="search_term" form="search"><option value="Pendent">PENDENT</option><option value="Finalitzada">FINALITZAT</option></select>').insertAfter(this);
+        $('<select class="custom-select" id="search_term" name="search_term" form="search"><option value="Pendent">PENDENT</option><option value="Finalitzada">FINALITZAT</option></select>').insertAfter('#orderBy');
     } else if ($('#searchBy').children(":selected").attr("id") == 'date'){
         $('#search_term').remove();
-        $('<input type="date" class="form-control" id="search_term" name="search_term">').insertAfter(this);
+        $('<input type="date" class="form-control" id="search_term" name="search_term">').insertAfter('#orderBy');
     } else if ($('#searchBy').children(":selected").attr("id") == 'fet'){
         $('#search_term').remove();
-        $('<select class="custom-select" id="search_term" name="search_term" form="search"><option value="0">NO FET</option><option value="1">FET</option></select>').insertAfter(this);
+        $('<select class="custom-select" id="search_term" name="search_term" form="search"><option value="0">NO FET</option><option value="1">FET</option></select>').insertAfter('#orderBy');
     } else if ($('#searchBy').children(":selected").attr("id") == 'inserts'){
         $('#search_term').remove();
-        $('<select class="custom-select" id="search_term" name="search_term" form="search"><option value="No cal fer">NO CAL FER</option><option value="Cal fer">CAL FER</option><option value="Fet">FET</option></select>').insertAfter(this);
+        $('<select class="custom-select" id="search_term" name="search_term" form="search"><option value="No cal fer">NO CAL FER</option><option value="Cal fer">CAL FER</option><option value="Fet">FET</option></select>').insertAfter('#orderBy');
     } else if ($('#searchBy').children(":selected").attr("id") == 'retakes'){
         $('#search_term').remove();
-        $('<select class="custom-select" id="search_term" name="search_term" form="search"><option value="No">NO</option><option value="Si">SI</option><option value="Fet">FET</option></select>').insertAfter(this);
+        $('<select class="custom-select" id="search_term" name="search_term" form="search"><option value="No">NO</option><option value="Si">SI</option><option value="Fet">FET</option></select>').insertAfter('#orderBy');
     }
     else {
         //Canviem el input actual per el que necessitem
         $('#search_term').remove();
-        $('<input type="text" id="search_term" class="form-control" name="search_term" placeholder="Buscar per...">').insertAfter(this);
+        $('<input type="text" id="search_term" class="form-control" name="search_term" placeholder="Buscar per...">').insertAfter('#orderBy');
     }
     }
 
