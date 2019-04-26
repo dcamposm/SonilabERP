@@ -287,13 +287,13 @@ class RegistreProduccioController extends Controller {
             //return response()->json($raw);
             $registreProduccio = RegistreProduccio::with('traductor')->with('ajustador')
                             ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
-                            ->orderBy('estat')->orderBy('data_entrega')->whereRaw($raw)->paginate(20);
+                            ->orderBy('estat')->orderBy('data_entrega')->orderBy(request()->input("orderBy"))->whereRaw($raw)->get();
             //return response()->json($registreProduccio);
         } else {
             $registreProduccio = RegistreProduccio::with('traductor')->with('ajustador')
                             ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
-                            ->orderBy('estat')->orderBy('data_entrega')->whereRaw('LOWER('.request()->input("searchBy").') like "%'.strtolower(request()->input("search_term")).'%"')
-                ->paginate(20);
+                            ->orderBy('estat')->orderBy('data_entrega')->orderBy(request()->input("orderBy"))->whereRaw('LOWER('.request()->input("searchBy").') like "%'.strtolower(request()->input("search_term")).'%"')
+                ->get();
         }
         return view('registre_produccio.index', array('registreProduccions' => $registreProduccio,
                                                         'return' => 1));

@@ -79,7 +79,7 @@
 
     <nav class="navbar navbar-dark fixed-top bg-dark navbar-sonilab flex-md-nowrap p-0 justify-content-between">
 
-        <a class="navbar-brand ml-2" href="{{ route('home') }}"><img src="http://sonilab.com.mialias.net/wp-content/uploads/2016/11/SONILAB_logo41-300x65-300x75.png" width="120" height="30" class="d-inline-block align-top" alt=""></a>
+        <a class="navbar-brand ml-2" href="{{ route('home') }}"><img src="{{ asset('img/logo_letras.png') }}" height="30" class="d-inline-block align-top" alt=""></a>
         @auth
 
         <ul class="navbar-nav px-3">
@@ -111,11 +111,10 @@
                             <a class="{{ Request::is('home') ? 'nav-link active' : 'nav-link' }}" href="{{ route('home') }}"><span class="fas fa-home"></span><span class="sidebar-link underline">Inici</span><span class="sr-only">(current)</span></a>
                         </li>
 
-                        <!-- Desabilitat -->
                         <li class="nav-item">
-                            <div class="disabled-link {{ Request::is('calendar*') ? 'nav-link active' : '' }}" href=""><span class="fas fa-calendar"></span><span class="sidebar-link">Calendari</span></div>
+                            <a class="{{ Request::is('showCalendari*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('showCalendari') }}"><span class="fas fa-calendar"></span><span class="sidebar-link underline">Calendari</span></a>
                         </li>
-                        <!-- Desabilitat -->
+
                         <li class="nav-item">
                             <a class="{{ Request::is('registreProduccio*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('indexRegistreProduccio') }}"><span class="fas fa-project-diagram"></span><span class="sidebar-link underline">Registre de producció</span></a>
                         </li>

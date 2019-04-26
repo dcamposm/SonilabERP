@@ -27,7 +27,7 @@ class UpdateSlbRegistresProduccioTable extends Migration
     public function down()
     {
         Schema::table('slb_registres_produccio', function (Blueprint $table) {
-            $table->dropColumn('contracta');
+            $table->dropColumn('final_sala');
             $table->dropColumn('pps');
         });
     }
