@@ -32,7 +32,6 @@
     {{-- TABLA DE ACTORS ESTADILLO --}}
     <h2 style="font-weight: bold">{{ $estadillos->id_registre_entrada }} {{ $estadillos->titol }} {{ !isset($min) ? '' : ( $min != $max ? $min.'-'.$max : $min) }}</h2>
     
-    <div class="table-responsive">
     <table class="table mt-3" style="min-width: 630px;">
         <thead>
             <tr>
@@ -70,7 +69,6 @@
             @endforeach
         </tbody>
     </table>
-    </div>
     <div>
         <a href="{{ url('/estadillos') }}" class="btn btn-primary mt-3">
             <span class="fas fa-angle-double-left"></span>

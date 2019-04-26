@@ -52,7 +52,6 @@
         </div>
     </div>
     {{-- TABLA DE ESTADILLOS --}}
-    <div class="table-responsive-xl">
     <table class="table mt-3 ml-3" style="min-width: 1000px;">
         <thead>
             <tr class="row">
@@ -89,7 +88,6 @@
             @endforeach
         </tbody>
     </table>
-    </div>
     <!-- MODAL ESBORRAR ESTADILLO -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
