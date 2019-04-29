@@ -187,7 +187,7 @@ class CostController extends Controller
                             //return response()->json($vec->empleats);
                             //-------------INFO ACTORS--------------
                             if ($empleat->tarifa->carrec->nom_carrec == 'Actor'){
-                                $totalSS += $empleat->cost_empleat;
+                                
                                 if (!isset($empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat])) {
                                     $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat] = array(
                                         'nom' => ($empleat->empleat->nom_empleat.' '.$empleat->empleat->cognom1_empleat),
@@ -195,23 +195,32 @@ class CostController extends Controller
                                         'cg' => 0,
                                         'total' => $empleat->cost_empleat
                                     );
-                                    $total += $empleat->cost_empleat;
                                     //return response()->json($empleatsInfo);
                                     foreach ($empleat->empleat->estadillo as $actor){
-                                        //return response()->json($empleat);
+                                        //return response()->json($vec->registreProduccio->getEstadillo->id_estadillo);
                                         if ($actor->id_produccio == $vec->registreProduccio->getEstadillo->id_estadillo){
+                                            //return response()->json($empleat->id_tarifa);
                                             if ($empleat->id_tarifa == 5 || $empleat->id_tarifa == 7){
                                                 $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['tk'] += $actor->take_estadillo;
                                             } else if ($empleat->id_tarifa == 6 || $empleat->id_tarifa == 8){
                                                $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['cg'] += $actor->cg_estadillo; 
+                                            } else if ($empleat->id_tarifa == 10){
+                                                $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['tk'] += $actor->take_estadillo;
+                                                $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['cg'] += $actor->cg_estadillo;
                                             }
                                             //return response()->json($empleatsInfo);
                                         }
+                                        //return response()->json($vec->registreProduccio->getEstadillo->id_estadillo);
                                     }
-                                    //
+                                    if ($empleat->id_tarifa == 10){
+                                        $total += $empleat->cost_empleat;
+                                        $totalSS += $empleat->cost_empleat;
+                                    }
+                                    
+                                    //return response()->json($empleatsInfo);
                                 } else {
                                     //return response()->json($vec->empleats);
-                                    $total += $empleat->cost_empleat;
+                                    
                                     foreach ($empleat->empleat->estadillo as $actor){
                                         //return response()->json($vec->registreProduccio->getEstadillo);
                                         if ($actor->id_produccio == $vec->registreProduccio->getEstadillo->id_estadillo){
@@ -219,10 +228,21 @@ class CostController extends Controller
                                                 $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['tk'] += $actor->take_estadillo;
                                             } else if ($empleat->id_tarifa == 6 || $empleat->id_tarifa == 8){
                                                $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['cg'] += $actor->cg_estadillo; 
+                                            } else if ($empleat->id_tarifa == 10){
+                                                $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['tk'] += $actor->take_estadillo;
+                                                $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['cg'] += $actor->cg_estadillo;
                                             }
                                         }
                                     }
-                                    $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['total'] += $empleat->cost_empleat;
+                                    
+                                    if ($empleat->id_tarifa == 10 && $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['total'] > 40){
+                                        $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['total'] = 40;
+                                    } else {
+                                        $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['total'] += $empleat->cost_empleat;
+                                        $total += $empleat->cost_empleat;
+                                        $totalSS += $empleat->cost_empleat;
+                                    }
+                                    
                                     //return response()->json($empleat);
                                 } 
                             } 
@@ -257,7 +277,8 @@ class CostController extends Controller
                 }
             }
             $totalSS = ($totalSS/100)*32.35;
-            //return response()->json($vecInfo);
+            //return response()->json($empleatsInfo);            
+            
             return View('vec.show', array('vec' => $vecInfo, 'empleatsInfo' => $empleatsInfo, 'total' => $total, 'totalSS' => $totalSS));
         }
         
@@ -268,7 +289,7 @@ class CostController extends Controller
         $registre = RegistreProduccio::with('getEstadillo.actors.empleat.carrec.tarifa')->with('traductor.carrec')
                 ->with('ajustador')->with('linguista')->with('director')->with('tecnic')
                 ->with('registreEntrada')->find($id);
-        //return response()->json($registre);
+        //  return response()->json($registre->registreEntrada->$vec->id_costos);
         $vec = Costos::where('id_registre_produccio', $id)->first();
         if (!$vec){
             $vec = new Costos();
@@ -280,51 +301,102 @@ class CostController extends Controller
                 if (!empty($registre->getEstadillo->actors)){
                     $totalSS = 0;
                     foreach ($registre->getEstadillo->actors as $actor){
+                        //return response()->json($actor->empleat->carrec);
                         //$cost = 0;
                         //$empleatCost->cost_empleat = ;
                         if ($registre->registreEntrada->id_servei == 1){
-                            foreach ($actor->empleat->carrec as $actorCarrec){
+                        //----------------Media Documental----------------
+                            if ($registre->registreEntrada->id_media == 1) {
                                 $empleatCost = new EmpleatCost();
                                 $empleatCost->id_costos = $vec->id_costos;
                                 $empleatCost->id_empleat = $actor->id_actor;
-                                if ($registre->registreEntrada->id_idioma == $actorCarrec->id_idioma && 
-                                        ($actorCarrec->tarifa->nombre_corto == 'video_take' || $actorCarrec->tarifa->nombre_corto == 'video_cg') && $actorCarrec->preu_carrec != 0){
-
-                                    if ($actorCarrec->tarifa->nombre_corto == 'video_take') {
-                                        $empleatCost->cost_empleat = $actorCarrec->preu_carrec * $actor->take_estadillo;
-                                        $total += $empleatCost->cost_empleat;
-                                        $totalSS += $empleatCost->cost_empleat;
-                                        $empleatCost->id_tarifa = 5;
-                                        $empleatCost->save();
-                                    } else {
-                                        $empleatCost->cost_empleat = $actorCarrec->preu_carrec * $actor->cg_estadillo;
-                                        $total += $empleatCost->cost_empleat;
-                                        $totalSS += $empleatCost->cost_empleat;
-                                        $empleatCost->id_tarifa = 6;
-                                        $empleatCost->save();
+                                $empleatCost->id_tarifa = 10;
+                                $costTotal = 0;
+                                foreach ($actor->empleat->carrec as $actorCarrec){
+                                    if ($registre->registreEntrada->id_idioma == $actorCarrec->id_idioma && $actorCarrec->preu_carrec != 0){
+                                        if ($actorCarrec->tarifa->nombre_corto == 'video_take') {
+                                            $costTotal += $actorCarrec->preu_carrec * $actor->take_estadillo;
+                                        } else if ($actorCarrec->tarifa->nombre_corto == 'video_cg') {
+                                            $costTotal += $actorCarrec->preu_carrec * $actor->cg_estadillo;
+                                        }
+                                    }
+                                }
+                                if ($costTotal > 40){
+                                    $costTotal = 40;
+                                }
+                                $empleatCost->cost_empleat = $costTotal;
+                                $empleatCost->save();
+                                $total += $costTotal;
+                                $totalSS += $costTotal;
+                        //--------------Altres Medies-------------------
+                            } else {
+                                foreach ($actor->empleat->carrec as $actorCarrec){
+                                    $empleatCost = new EmpleatCost();
+                                    $empleatCost->id_costos = $vec->id_costos;
+                                    $empleatCost->id_empleat = $actor->id_actor;
+                                    if ($registre->registreEntrada->id_idioma == $actorCarrec->id_idioma && $actorCarrec->preu_carrec != 0){
+                                        if ($actorCarrec->tarifa->nombre_corto == 'video_take') {
+                                            $empleatCost->cost_empleat = $actorCarrec->preu_carrec * $actor->take_estadillo;
+                                            $total += $empleatCost->cost_empleat;
+                                            $totalSS += $empleatCost->cost_empleat;
+                                            $empleatCost->id_tarifa = 5;
+                                            $empleatCost->save();
+                                        } else if ($actorCarrec->tarifa->nombre_corto == 'video_cg') {
+                                            $empleatCost->cost_empleat = $actorCarrec->preu_carrec * $actor->cg_estadillo;
+                                            $total += $empleatCost->cost_empleat;
+                                            $totalSS += $empleatCost->cost_empleat;
+                                            $empleatCost->id_tarifa = 6;
+                                            $empleatCost->save();
+                                        }
                                     }
                                 }
                             }                           
                         } else {
-                            foreach ($actor->carrec as $actorCarrec){
+                        //----------------Media Documental----------------
+                            if ($registre->registreEntrada->media->nom_media == 1) {
                                 $empleatCost = new EmpleatCost();
                                 $empleatCost->id_costos = $vec->id_costos;
                                 $empleatCost->id_empleat = $actor->id_actor;
-                                if ($registre->registreEntrada->id_idioma == $actorCarrec->id_idioma && 
-                                        ($actorCarrec->tarifa->nombre_corto == 'cine_take'|| $actorCarrec->tarifa->nombre_corto == 'cine_cg') && $actorCarrec->preu_carrec != 0){
+                                $empleatCost->id_tarifa = 10;
+                                $costTotal = 0;
+                                foreach ($actor->empleat->carrec as $actorCarrec){
+                                    if ($registre->registreEntrada->id_idioma == $actorCarrec->id_idioma && $actorCarrec->preu_carrec != 0){
+                                        if ($actorCarrec->tarifa->nombre_corto == 'cine_take') {
+                                            $costTotal += $actorCarrec->preu_carrec * $actor->take_estadillo;
+                                        } else if ($actorCarrec->tarifa->nombre_corto == 'cine_cg') {
+                                            $costTotal += $actorCarrec->preu_carrec * $actor->cg_estadillo;
+                                        }
+                                    }
+                                }
+                                if ($costTotal > 40){
+                                    $costTotal = 40;
+                                }
+                                $empleatCost->cost_empleat = $costTotal;
+                                $empleatCost->save();
+                                $total += $costTotal;
+                                $totalSS += $costTotal;
+                        //--------------Altres Medies-------------------
+                            } else {
+                                foreach ($actor->carrec as $actorCarrec){
+                                    $empleatCost = new EmpleatCost();
+                                    $empleatCost->id_costos = $vec->id_costos;
+                                    $empleatCost->id_empleat = $actor->id_actor;
+                                    if ($registre->registreEntrada->id_idioma == $actorCarrec->id_idioma && 
+                                            ($actorCarrec->tarifa->nombre_corto == 'cine_take'|| $actorCarrec->tarifa->nombre_corto == 'cine_cg') && $actorCarrec->preu_carrec != 0){
 
-                                    if ($actorCarrec->tarifa->nombre_corto == 'cine_take') {
-                                        $empleatCost->cost_empleat = $actorCarrec->preu_carrec * $actor->take_estadillo;
-                                        $total += $empleatCost->cost_empleat;
-                                        $totalSS += $empleatCost->cost_empleat;
-                                        $empleatCost->id_tarifa = 7;
-                                        $empleatCost->save();
-                                    } else {
-                                        $empleatCost->cost_empleat = $actorCarrec->preu_carrec * $actor->cg_estadillo;
-                                        $total += $empleatCost->cost_empleat;
-                                        $totalSS += $empleatCost->cost_empleat;
-                                        $empleatCost->id_tarifa = 8;
-                                        $empleatCost->save();
+                                        if ($actorCarrec->tarifa->nombre_corto == 'cine_take') {
+                                            $empleatCost->cost_empleat = $actorCarrec->preu_carrec * $actor->take_estadillo;
+                                            $total += $empleatCost->cost_empleat;
+                                            $totalSS += $empleatCost->cost_empleat;
+                                            $empleatCost->id_tarifa = 7;
+                                            $empleatCost->save();
+                                        } else {
+                                            $empleatCost->cost_empleat = $actorCarrec->preu_carrec * $actor->cg_estadillo;
+                                            $total += $empleatCost->cost_empleat;
+                                            $totalSS += $empleatCost->cost_empleat;
+                                            $empleatCost->id_tarifa = 8;
+                                            $empleatCost->save();
+                                        }
                                     }
                                 }
                             }
