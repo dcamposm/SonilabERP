@@ -7,14 +7,20 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Validator;
 use App\Calendar;
+use DateTime;
 
 class CalendariController extends Controller
 {
-    public function showCalendari($semana = null){
+    public function showCalendari($year = null, $week = null){
 
-        $now = Carbon::now();
-        $numSemana = $now->weekOfYear;
-        $dia1 = $now->startOfWeek();
+        $fecha = Carbon::now();
+        if ($week == null || $year == null){
+            $week = $fecha->weekOfYear;
+            $year = $fecha->year;
+        } else {
+            $fecha->setISODate($year, $week);
+        }
+        $dia1 = $fecha->startOfWeek();
         $dia2 = $dia1->copy()->addDay();
         $dia3 = $dia2->copy()->addDay();
         $dia4 = $dia3->copy()->addDay();
@@ -26,7 +32,12 @@ class CalendariController extends Controller
             $dia4->format('d-m-Y'), 
             $dia5->format('d-m-Y')
         ];
-        return View('calendari.index', ["fechas" => $fechas, "numSemana" => $numSemana]);
+
+        $urlBase = route('showCalendari');
+
+        $actores = [];
+
+        return View('calendari.index', ["fechas" => $fechas, "week" => $week, "year" => $year, "urlBase" => $urlBase, "actores" => $actores]);
     }
     public function create(){
         $v = Validator::make(request()->all(),[

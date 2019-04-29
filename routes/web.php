@@ -151,8 +151,11 @@ Route::middleware(['role: 1,2,4'])->group(function () {
 //------------------Rutes calendari------------------
 Route::middleware(['role: 1,2,3,4'])->group(function () {
     Route::get('/calendari', 'CalendariController@showCalendari')->name('showCalendari');
-    Route::get('/calendari/crear', 'CalendariController@createCalendari')->name('createCalendariView');
+    Route::get('/calendari/{year}/{week}', 'CalendariController@showCalendari')->name('showCalendariByDate');
+
+    Route::get('/calendari/crear', 'CalendariController@createCalendari')->name('createCalendari');
     Route::post('/calendari/crear', 'CalendariController@create')->name('createCalendari');
     Route::put('/calendari/editar/{id}', "CalendariController@update")->name('updateCalendari');
     Route::delete('/calendari/esborrar/{id}', 'CalendariController@delete')->name('deleteCalendari');
+
 });
