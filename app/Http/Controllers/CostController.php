@@ -422,13 +422,13 @@ class CostController extends Controller
             $vecF->cost_total = $total;
             $vecF->save();
             
-            return redirect()->route('indexRegistreProduccio');
+            return redirect()->route('indexRegistreProduccio')->with('success', 'S\'ha creat la valoració correctament');
             }
         }
         
         //return response()->json($registre); 
         //Poner mensaje error no esta el estadillo creado
-        return redirect()->route('indexRegistreProduccio');
+        return redirect()->route('indexRegistreProduccio')->withErrors(array('error' => 'ERROR. No s\'ha pogut crear la valoració, este que crear el estadillo abans.'));
     }
     
     public function insert()
@@ -453,7 +453,7 @@ class CostController extends Controller
                 try {
                     $vec->save();
                 } catch (\Exception $ex) {
-                    return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut crear el estadillo.'));
+                    return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut crear la valoració.'));
                 }
                 
                 $registre->vec = 1;

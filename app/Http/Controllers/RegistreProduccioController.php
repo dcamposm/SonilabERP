@@ -139,8 +139,6 @@ class RegistreProduccioController extends Controller {
 
             return redirect()->back()->with('success', 'Registre de producció modificat correctament.');
         }
-        getIndex();
-        
     }
 
     public function updateComanda($id){
@@ -171,8 +169,6 @@ class RegistreProduccioController extends Controller {
 
             return redirect()->back()->with('success', 'Registre de producció modificat correctament.');
         }
-        getIndex();
-        
     }
     
     public function updatePreparacio($id){
@@ -205,8 +201,6 @@ class RegistreProduccioController extends Controller {
 
             return redirect()->back()->with('success', 'Registre de producció modificat correctament.');
         }
-        getIndex();
-        
     }
 
     public function updateConvocatoria($id){
@@ -237,8 +231,6 @@ class RegistreProduccioController extends Controller {
 
             return redirect()->back()->with('success', 'Registre de producció modificat correctament.');
         }
-        getIndex();
-        
     }
 
     public function find() {
