@@ -8,10 +8,10 @@
         @csrf
         <fieldset class="border p-2">
             <legend class="w-auto">DADES:</legend>
-            <div class="row mb-4">
+            <div class="row mb-4 align-items-end">
                 @if (isset($estadillos))
                     <div>
-                        <input type="text" class="form-control" id="id_produccio" placeholder="Entrar tks" name="id_produccio" value="{{!empty($actor) ? $actor->id_produccio : $estadillos->id_estadillo}}" style="display: none;">
+                        <input type="text" class="form-control" id="id_produccio" name="id_produccio" value="{{!empty($actor) ? $actor->id_produccio : $estadillos->id_estadillo}}" style="display: none;">
                     </div>
                 @endif
                 <div class="col-6">
@@ -22,9 +22,14 @@
                         @endforeach
                     </select>
                 </div>
-            </div>
-
             @if (isset($estadillos))
+                <div class="form-group ml-3">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="canso_estadillo" name="canso_estadillo" {{ !empty($actor) ? ($actor->canso_estadillo == 1 ? 'checked' : '') : ''}} value="1">
+                        <label for="canso_estadillo" class="form-check-label" style="font-weight: bold">CANÇÓ</label>      
+                    </div>   
+                </div>
+            </div>
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
@@ -40,6 +45,7 @@
                     </div>
                 </div>
             @else
+            </div>
                 @foreach ($registreProduccio as $projecte)
                     @if (isset($projecte->getEstadillo))
                         <div class="row">

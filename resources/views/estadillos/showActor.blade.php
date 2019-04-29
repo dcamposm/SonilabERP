@@ -38,34 +38,36 @@
                 <th>ACTOR</th> 
                 <th>CGs</th>
                 <th>{{isset($actor['id']) ? 'TKs' : 'TKs TOTALS'}}</th>
+                <th></th>
                 <th>ACCIONS</th>
             </tr>
         </thead>
         <tbody>
             @foreach( $actors as $key => $actor )
-            <tr class="table-selected">
-                @foreach ($empleats as $empleat)
-                    @if ($actor['id_actor'] == $empleat->id_empleat)
-                        <td style="vertical-align: middle;">
+                <tr class="table-selected">
+                    @foreach ($empleats as $empleat)
+                        @if ($actor['id_actor'] == $empleat->id_empleat)
+                            <td style="vertical-align: middle;">
 
-                                    <span class="font-weight-bold" style="font-size: 1rem;">{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }}</span>
+                                        <span class="font-weight-bold" style="font-size: 1rem;">{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }}</span>
 
-                        </td>
-                        <td style="vertical-align: middle;">{{ $actor['cg_estadillo']}}</td>
-                        <td style="vertical-align: middle;">{{ $actor['take_estadillo']}}</td>
-                        <td style="vertical-align: middle;">
-                            <a href="{{ !isset($registreProduccio) ? route('estadilloActorUpdateView', array('id' => $estadillos->id_estadillo, 'id_actor' => $actor['id_actor'])) : route('estadilloActorUpdateView', array('id' => $registreProduccio->id_registre_entrada, 'id_actor'=>$actor['id_actor'], 'setmana'=>$registreProduccio->setmana))  }}" class="btn btn-primary">MODIFICAR</a>
-                            @if (isset($actor['id']))
-                            <button class="btn btn-danger" onclick="self.seleccionarActor({{ $actor['id'] }}, '{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }}')" data-toggle="modal" data-target="#exampleModalCenter">Esborrar</button>
-                                <form id="delete-{{ $actor['id'] }}" action="{{ route('esborrarEstadilloActor') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" readonly name="id" value="{{ $actor['id'] }}">
-                                </form>
-                            @endif
-                        </td>
-                    @endif
-                @endforeach
-            </tr>
+                            </td>
+                            <td style="vertical-align: middle;">{{ $actor['cg_estadillo']}}</td>
+                            <td style="vertical-align: middle;">{{ $actor['take_estadillo']}}</td>
+                            <td style="vertical-align: middle;">{{ $actor['canso_estadillo'] == 1 ? 'CANÇÓ' : ''}}</td>
+                            <td style="vertical-align: middle;">
+                                <a href="{{ !isset($registreProduccio) ? route('estadilloActorUpdateView', array('id' => $estadillos->id_estadillo, 'id_actor' => $actor['id_actor'])) : route('estadilloActorUpdateView', array('id' => $registreProduccio->id_registre_entrada, 'id_actor'=>$actor['id_actor'], 'setmana'=>$registreProduccio->setmana))  }}" class="btn btn-primary">MODIFICAR</a>
+                                @if (isset($actor['id']))
+                                <button class="btn btn-danger" onclick="self.seleccionarActor({{ $actor['id'] }}, '{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }}')" data-toggle="modal" data-target="#exampleModalCenter">Esborrar</button>
+                                    <form id="delete-{{ $actor['id'] }}" action="{{ route('esborrarEstadilloActor') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" readonly name="id" value="{{ $actor['id'] }}">
+                                    </form>
+                                @endif
+                            </td>
+                        @endif
+                    @endforeach
+                </tr>
             @endforeach
         </tbody>
     </table>

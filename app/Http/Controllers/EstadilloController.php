@@ -107,8 +107,6 @@ class EstadilloController extends Controller
             $estadillos = Estadillo::find($id); //Busca l'estadillo
             $estadillos->registreProduccio;
             //return response()->json($estadillos);
-            //return response()->json($estadillos);//['registre_produccio']
-            //return response()->json($estadillos);
             return view('estadillos.showActor', array( //Retorna a la vista showActor
                 'actors'    => $actors,
                 'empleats'    => $empleats,
@@ -134,11 +132,15 @@ class EstadilloController extends Controller
                         $arrayActors[$actor['id_actor']] = array(
                             'id_actor' => $actor['id_actor'],
                             'cg_estadillo' =>  $actor['cg_estadillo'],
+                            'canso_estadillo' =>  $actor['canso_estadillo'],
                             'take_estadillo' => $actor['take_estadillo']
                         );
                     } else {
                         $arrayActors[$actor['id_actor']]['cg_estadillo']+=($actor['cg_estadillo'] != null  ? $actor['cg_estadillo'] : 0);
                         $arrayActors[$actor['id_actor']]['take_estadillo']+=$actor['take_estadillo'];
+                        if ($actor['canso_estadillo'] == 1) {
+                            $arrayActors[$actor['id_actor']]['canso_estadillo'] = $actor['canso_estadillo'];
+                        }
                         //return response()->json($arrayActors);
                     }
                     //return response()->json($arrayActors);
@@ -410,13 +412,11 @@ class EstadilloController extends Controller
         //return response()->json(request()->all());
         if ($setmana == 0){
            $v = Validator::make(request()->all(), [
-                'id_actor'          => 'required',
-                'take_estadillo'     => 'required',
-                'cg_estadillo'          => 'required',
+                'id_actor'          => 'required'
             ]);
 
             if ($v->fails()) {
-                return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
+                return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha elegit un actor'));
             } else {
                 $actor = new ActorEstadillo(request()->all());               
 
@@ -528,8 +528,6 @@ class EstadilloController extends Controller
             if ($actor) {
                 $v = Validator::make(request()->all(), [
                     'id_actor'          => 'required',
-                    'take_estadillo'     => 'required',
-                    'cg_estadillo'          => 'required',
                 ]);
 
                 if ($v->fails()) {

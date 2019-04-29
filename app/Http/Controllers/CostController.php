@@ -261,7 +261,6 @@ class CostController extends Controller
             //return response()->json($empleatsInfo);
             return View('vec.show', array('vec' => $vecInfo, 'empleatsInfo' => $empleatsInfo, 'total' => $total, 'totalSS' => $totalSS));
         }
-        
     }
     
     public function generar($id)
@@ -333,7 +332,6 @@ class CostController extends Controller
                     }
                     $total += ($totalSS/100)*32.35;
                 }
-            
             //return response()->json($registre->getEstadillo->actors);
             //-----------------------Costos Traductor-------------------
             if ($registre->traductor != null){
@@ -348,9 +346,7 @@ class CostController extends Controller
                         $empleatCost->id_tarifa = 12;
                         $empleatCost->save();
                     }
-                }
-
-                
+                }  
             }
             //-----------------------Costos Ajustador-------------------
             if ($registre->ajustador != null){
@@ -365,7 +361,6 @@ class CostController extends Controller
                         $empleatCost->save();
                     }
                 }
-
             }
             //-----------------------Costos Linguista-------------------
             if ($registre->linguista != null){
@@ -379,9 +374,7 @@ class CostController extends Controller
                         $empleatCost->id_tarifa = 14;
                         $empleatCost->save();
                     }
-                }
-
-                
+                }   
             }
             //-----------------------Costos Director-------------------
             if ($registre->director != null){
@@ -400,10 +393,7 @@ class CostController extends Controller
                         $empleatCost->id_tarifa = 2;
                         $empleatCost->save();
                     }
-                    
-                }
-
-                
+                }  
             }
             //-----------------------Costos Tecnic-------------------
             if ($registre->tecnic != null){
@@ -451,7 +441,6 @@ class CostController extends Controller
         if ($v->fails()) {
             return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
         } else {
-            
             if (RegistreProduccio::find(request()->input('id_registre_produccio'))){
                 $registre = RegistreProduccio::with('getEstadillo.actors.empleat.carrec')->with('traductor.carrec')
                 ->with('ajustador')->with('linguista')->with('director')->with('tecnic')
@@ -609,12 +598,11 @@ class CostController extends Controller
                 } catch (\Exception $ex) {
                     return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut crear el estadillo.'));
                 }
-
+                
                 return redirect()->route('indexVec')->with('success', 'Valoració Econòmica creada correctament.');
             } else {
                 return redirect()->back()->withErrors(array('error' => 'ERROR. No existeix aquest registre'));
             }
-            
         }
     }
     
@@ -651,7 +639,6 @@ class CostController extends Controller
                                 $empleatCost->id_empleat = $actor->id_actor;
                                 if ($registre->registreEntrada->id_idioma == $actorCarrec->id_idioma && 
                                         ($actorCarrec->tarifa->nombre_corto == 'video_take' || $actorCarrec->tarifa->nombre_corto == 'video_cg') && $actorCarrec->preu_carrec != 0){
-
                                     if ($actorCarrec->tarifa->nombre_corto == 'video_take') {
                                         $empleatCost->cost_empleat = $actorCarrec->preu_carrec * $actor->take_estadillo;
                                         $total += $empleatCost->cost_empleat;
@@ -674,7 +661,6 @@ class CostController extends Controller
                                 $empleatCost->id_empleat = $actor->id_actor;
                                 if ($registre->registreEntrada->id_idioma == $actorCarrec->id_idioma && 
                                         ($actorCarrec->tarifa->nombre_corto == 'cine_take'|| $actorCarrec->tarifa->nombre_corto == 'cine_cg') && $actorCarrec->preu_carrec != 0){
-
                                     if ($actorCarrec->tarifa->nombre_corto == 'cine_take') {
                                         $empleatCost->cost_empleat = $actorCarrec->preu_carrec * $actor->take_estadillo;
                                         $total += $empleatCost->cost_empleat;
@@ -707,9 +693,7 @@ class CostController extends Controller
                         $empleatCost->id_tarifa = 12;
                         $empleatCost->save();
                     }
-                }
-
-                
+                }  
             }
             //-----------------------Costos Ajustador-------------------
             if ($registre->ajustador != null){
@@ -724,7 +708,6 @@ class CostController extends Controller
                         $empleatCost->save();
                     }
                 }
-
             }
             //-----------------------Costos Linguista-------------------
             if ($registre->linguista != null){
@@ -738,9 +721,7 @@ class CostController extends Controller
                         $empleatCost->id_tarifa = 14;
                         $empleatCost->save();
                     }
-                }
-
-                
+                } 
             }
             //-----------------------Costos Director-------------------
             if ($registre->director != null){
@@ -758,11 +739,8 @@ class CostController extends Controller
                         $total += $empleatCost->cost_empleat;
                         $empleatCost->id_tarifa = 2;
                         $empleatCost->save();
-                    }
-                    
+                    }   
                 }
-
-                
             }
             //-----------------------Costos Tecnic-------------------
             if ($registre->tecnic != null){
@@ -782,10 +760,7 @@ class CostController extends Controller
                         $empleatCost->save();
                     }
                 }
-
-                
             }
-            
             $registre->vec = 1;
             $registre->save();
             
