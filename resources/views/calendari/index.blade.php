@@ -2,9 +2,17 @@
 
 @section('content')
 
+<div id="mySidenav" class="sidenav pt-5">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <div id="trabajadores">
+
+    </div>
+</div>
+
 <div id="contenedor" class="container-fluid contenedor">
-    <div class="row">
-        <div style="width: 100%; text-align: center;"><-- Semana {{$numSemana}} --></div>
+    <div class="row encabezado">
+        <div class="semana"><div id="semanaMenos" class="btn btn-primary round-left"><span class="fas fa-angle-double-left"></span></div><span class="simil-btn btn">Semana {{$week}}</span><div id="semanaMas" class="btn btn-primary round-right"><span class="fas fa-angle-double-right"></span></div></div>
+        <button id="btnAdd" class="btn btn-outline-primary boton" onclick="openNav()">Afegir</button>
     </div>
     <div class="row">
         <div style="padding:15px"></div>
@@ -16,6 +24,13 @@
     </div>
 </div>
 
+<script>
+    var week = {{$week}}
+    var year = {{$year}}
+    var urlBase = "<?php echo $urlBase ?>"
+
+    
+</script>
 <script type="text/javascript" src="{{ URL::asset('js/custom/calendar.js') }}"></script>
 <link rel="stylesheet" href="{{ URL::asset('css/calendar.css') }}" />
 
