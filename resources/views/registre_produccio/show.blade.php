@@ -378,11 +378,7 @@
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">ESTAT:</td>
                 <td class="col" id="select" style="display: none;">
-                    <select name="estat" id="estat" class="form-control">
-                        <option value="Pendent" {{"Pendent" == $registreProduccio->estat ? 'selected' : '' }}>Pendent</option>
-                        <option value="Finalitzada" {{"Finalitzada" == $registreProduccio->estat ? 'selected' : '' }}>Finalitzada</option>
-                        <option value="Cancel·lada" {{"Cancel·lada" == $registreProduccio->estat ? 'selected' : '' }}>Cancel·lada</option>
-                    </select>
+                    
                 </td>
                 <td class="col" id="estat-T">{{ $registreProduccio['estat']}}</td>
                 @if (Auth::user()->hasAnyRole(['1', '2', '4']))
@@ -429,12 +425,24 @@
 
 
 <script>
+    //alert(@json($registreProduccio->estat))
     function formTable(){
         //alert($(this).attr('type'));
         if ($(this).attr('type') == 'button'){
             var content = $(this).parent().prev();
             //alert(content.attr('id'));
             if (content.prev().attr('id') == 'select'){
+                var select = document.createElement("select");
+                
+                if (content.attr('id') == 'estat-T'){
+                    $(select).attr("name", "estat");
+                    $(select).attr("id", "estat");
+                    $(select).attr("class", "form-control");
+                    $(select).append('<option value="Pendent"'+("Pendent" == @json($registreProduccio->estat) ? "selected" : "")+'>Pendent</option>');
+                    $(select).append('<option value="Finalitzada"'+("Finalitzada" == @json($registreProduccio->estat) ? "selected" : "")+'>Finalitzada</option>');
+                    $(select).append('<option value="Cancel·lada"'+("Cancel·lada" == @json($registreProduccio->estat) ? "selected" : "")+'>Cancel·lada</option>');
+                    content.prev().append(select);
+                }
                 content.hide();
                 content.prev().show();
             } else if (content.attr('id') == 'data_entrega-T'){
