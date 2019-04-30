@@ -138,7 +138,6 @@
                                         @endforeach
                                     </td>
                                     <td class="col-2">{{$empleat['total']}}€</td>
-                                    <td class="col-sm-1 align-middle text-center"><button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button></td>
                                 </tr>
                             @endforeach
                         @endif
@@ -147,21 +146,20 @@
                     @if (isset($totalSS))
                     <tr class="row text-white" style="background-color: #212529;">
                         <td class="col">SEGURETAT SOCIAL</td>
-                        <td class="col-3">{{number_format($totalSS, 2, '.', '')}}€</td>
+                        <td class="col-2">{{number_format($totalSS, 2, '.', '')}}€</td>
                     </tr>
                     @endif
-                    <tr class="row text-white" style="background-color: #212529;">
-                        <td class="col font-weight-bold text-right">TOTAL COSTOS</td>
-                        <td class="col-3">{{number_format($total, 2, '.', '')}}€</td>
+                    <tr class="row text-white justify-content-end">
+                        <td class="col-2 font-weight-bold" style="background-color: #212529;">TOTAL COSTOS</td>
+                        <td class="col-2" style="background-color: #212529;">{{number_format($total, 2, '.', '')}}€</td>
                     </tr>
-                    <tr class="row text-white" style="background-color: #212529;">
-                        <td class="col font-weight-bold text-right">VENDA</td>
-                        <td class="col-2"></td>
-                        <td class="col-sm-1 align-middle text-center"><button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button></td>
+                    <tr class="row text-white justify-content-end">
+                        <td class="col-2 font-weight-bold"  style="background-color: #212529;">VENDA</td>
+                        <td class="col-2"  style="background-color: #212529;"></td>
                     </tr>
-                    <tr class="row text-white" style="background-color: #212529;">
-                        <td class="col font-weight-bold text-right">%</td>
-                        <td class="col-3"></td>
+                    <tr class="row text-white  justify-content-end">
+                        <td class="col-2 font-weight-bold text-center" style="background-color: #212529;">%</td>
+                        <td class="col-2" style="background-color: #212529;"></td>
                     </tr>
                 </tbody>
             </table>
