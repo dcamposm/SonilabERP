@@ -158,4 +158,6 @@ Route::middleware(['role: 1,2,3,4'])->group(function () {
     Route::put('/calendari/editar/{id}', "CalendariController@update")->name('updateCalendari');
     Route::delete('/calendari/esborrar/{id}', 'CalendariController@delete')->name('deleteCalendari');
 
+    Route::post('/calendari/agafarDia', 'CalendariController@getDay')->name('afagarDia');
+
 });

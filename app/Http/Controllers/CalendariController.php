@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Validator;
 use App\Calendar;
 use DateTime;
+use App\EmpleatExtern;
 
 class CalendariController extends Controller
 {
@@ -36,9 +37,30 @@ class CalendariController extends Controller
         $urlBase = route('showCalendari');
 
         $actores = [];
+        $tecnics = EmpleatExtern::select('slb_empleats_externs.id_empleat', 'slb_empleats_externs.nom_empleat', 'slb_empleats_externs.cognom1_empleat', 'slb_empleats_externs.cognom2_empleat')
+                                  ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', '=', 'slb_empleats_externs.id_empleat')
+                                  ->join('slb_carrecs', 'slb_carrecs.id_carrec', '=', 'slb_carrecs_empleats.id_carrec')
+                                  ->where('slb_carrecs.nom_carrec', '=', 'Tècnic de sala')
+                                  ->get();
+        $directors = EmpleatExtern::select('slb_empleats_externs.id_empleat', 'slb_empleats_externs.nom_empleat', 'slb_empleats_externs.cognom1_empleat', 'slb_empleats_externs.cognom2_empleat')
+                                    ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', '=', 'slb_empleats_externs.id_empleat')
+                                    ->join('slb_carrecs', 'slb_carrecs.id_carrec', '=', 'slb_carrecs_empleats.id_carrec')
+                                    ->where('slb_carrecs.nom_carrec', '=', 'Director')
+                                    ->get();
 
-        return View('calendari.index', ["fechas" => $fechas, "week" => $week, "year" => $year, "urlBase" => $urlBase, "actores" => $actores]);
+        return View('calendari.index', ["fechas"    => $fechas, 
+                                        "week"      => $week,
+                                        "year"      => $year,
+                                        "urlBase"   => $urlBase,
+                                        "actores"   => $actores,
+                                        "tecnics"   => $tecnics,
+                                        "directors" => $directors]);
     }
+
+    public function getDay(Request $request) {
+        return response()->json(request()->all());
+    }
+
     public function create(){
         $v = Validator::make(request()->all(),[
             //'id_calendar'=>'required|max:35',

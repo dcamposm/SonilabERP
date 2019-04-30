@@ -7,17 +7,23 @@ $('#semanaMas').on('click', function(){
     changeCalendar(1)
 })
 
-crearTablaCalendario()
+crearTablaCalendario();
+tablaHoras();
 
 function crearTablaCalendario(){
     var contenedor = $('#contenedor')
     for (let i = 0; i < 8; i++) {
-        var fila = $('<div class="row fila"></div>')
+        var fila = $('<div class="row fila"></div>');
+        var sala = i + 1;
         for (let h = 0; h < 6; h++) {
             if (h == 0){
-                fila.append('<div class="sala celda">'+(i+1)+'</div>')
+                // Crea un div con el número de la sala:
+                fila.append('<div class="sala celda">' + sala + '</div>')
             } else {
-                fila.append('<div class="col celda"><div class="progress barra_progreso"><div class="progress-bar barra progress-bar-striped" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div></div></div>')
+                // Crea el día de la sala.
+                // Es necesario crear el atributo "dia" y "sala", para que después cuando le hagamos clic
+                // podamos coger el día y la sala de la casilla que hayamos seleccionado.
+                fila.append('<div class="col celda" dia="' + dias[h - 1] + '" sala="' + sala + '"><div class="progress barra_progreso"><div class="progress-bar barra progress-bar-striped" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div></div></div>')
             }
         }      
         contenedor.append(fila)
@@ -86,4 +92,187 @@ function closeNav() {
     document.getElementsByTagName("main")[0].style.cssText = "margin-left: auto !important"
     document.getElementsByTagName("main")[0].style.cssText = "width: 100% !important"
     $('#btnAdd').show();
+}
+
+
+//// MODALS /////
+var datosModalEjemplo = [
+    {
+        fechaIni: "10-04-2019 00:45:00",
+        fechaFin: "10-04-2019 10:15:00",
+        Actor: "Dumbo",
+        takes: "100",
+        sala: 3
+    },
+    {
+        fechaIni: "10-04-2019 18:22:00",
+        fechaFin: "10-04-2019 20:10:00",
+        Actor: "Alita",
+        takes: "69",
+        sala: 3
+    },
+    {
+        fechaIni: "10-04-2019 16:10:00",
+        fechaFin: "10-04-2019 16:20:00",
+        Actor: "El enano",
+        takes: "10",
+        sala: 3
+    },
+];
+
+$('.celda').click(ampliarCasilla);
+
+function ampliarCasilla(e) {
+    // TODO: Coger fecha y sala de donde se ha hecho clic.
+    console.log(e);
+    console.log(e.delegateTarget.getAttribute("dia"));
+    console.log(e.delegateTarget.getAttribute("sala"));
+    
+    $('#dialog').css({ 'width': window.innerWidth - 30 })
+    $('#dialog').css({ 'max-width': window.innerWidth - 30 })
+    $('#dialog').css({ 'height': window.innerHeight - 30 })
+    $('#dialog').css({ 'max-height': window.innerHeight - 30 })
+    $('#exampleModal2').modal('show')
+}
+
+$('#exampleModal2').on('shown.bs.modal', function () {
+    // TODO: Hacer llamada ajax para coger los datos del día seleccionado.
+    $.ajax({
+        url: '/calendari/agafarDia',
+        type: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            Accept: 'application/json'
+        },
+        data: {
+            'date': '2019-04-26'
+        },
+        success: function(response) {
+          console.log(response);
+          // TODO: Recorrer los resultados y hacer como el siguiente código (el que se tendrá que borrar).
+        },
+        error: function(error) {
+          console.error(error);
+        }
+    });
+
+    // TODO: Borrar cuando se tenga hecho lo anterior.
+    datosModalEjemplo.forEach(element => {
+        var horaIni = element.fechaIni.split(' ')[1].split(':')[0]
+        var horaFin = element.fechaFin.split(' ')[1].split(':')[0]
+        var minIni = element.fechaIni.split(' ')[1].split(':')[1]
+        var minFin = element.fechaFin.split(' ')[1].split(':')[1]
+
+        for (let i = horaIni; i <= horaFin; i++) {
+            if (i == horaFin) {
+                for (let h = 0; h < minFin; h++) {
+                    pintar($('#td_'+i+'-'+pad(h)))
+                }
+            } else if (i == horaIni) {
+                for (let h = minIni; h < 60; h++) {
+                    pintar($('#td_'+i+'-'+pad(h)))
+                }
+            } else {
+                for (let h = 0; h < 60; h++) {
+                    pintar($('#td_'+pad(i)+'-'+pad(h)))
+                }
+            }
+        }
+
+        //()
+
+    });
+    $('#exampleModalLabel2').text('Sala: '+ datosModalEjemplo[0].sala + ' / Dia: '+datosModalEjemplo[0].fechaIni.split(' ')[0])
+});
+
+function tablaHoras() {
+
+    var manyana = document.createElement('div')
+    manyana.id = "morning"
+    manyana.classList.add('row')
+    var tarde = document.createElement('div')
+    tarde.id = "evening"
+    tarde.classList.add('row')
+
+    $('#tablaHoras').append(manyana)
+    //HACER TABLA DE HORAS
+    $('#tablaHoras').append(tarde)
+
+    for (let i = 8; i < 13; i++) {
+
+        var hora = document.createElement('div')
+        hora.id = pad(i) + ':30'
+
+        var horaTextM = document.createElement('span')
+        horaTextM.innerText = pad(i) + ':30'
+
+        horaTextM.classList.add('labelFechaManana')
+        hora.classList.add('col')
+        hora.classList.add('celda')
+
+        $(hora).append(horaTextM)
+        $('#morning').append(hora)
+
+        var tableM = document.createElement('table')
+        tableM.id = 'tableMinutosM'
+        tableM.classList.add('tableP')
+        var trM = document.createElement('tr')
+        trM.id = "tr_" + pad(i)
+
+        $(hora).append(tableM)
+        $(tableM).append(trM)
+
+        for (let m = 1; m < 60; m++) {
+
+            var tdM = document.createElement('td')
+            tdM.id = "td_" + pad(i) + "-" + pad(m)
+            tdM.classList.add('tablaMinutos')
+            $(trM).append(tdM)
+        }
+    }
+
+    for (let i = 15; i < 20; i++) {
+        var hora = document.createElement('div')
+
+        var horaTextT = document.createElement('span')
+        horaTextT.innerText = i + ':30'
+
+
+        hora.id = i + ':30'
+        hora.classList.add('col')
+        hora.classList.add('celda')
+        horaTextT.classList.add('labelFechaTarde')
+        $(hora).append(horaTextT)
+        $('#evening').append(hora)
+
+        var tableT = document.createElement('table')
+        tableT.id = 'tableMinutosT'
+        tableT.classList.add('tableP')
+        var trT = document.createElement('tr')
+        trT.id = "tr_" + i
+
+        //$(hora).append(divTableM)
+        $(hora).append(tableT)
+        $(tableT).append(trT)
+
+        for (let m = 30; m < 90; m++) {
+
+            var tdT = document.createElement('td')
+
+            tdT.id = "td_" + (m < 60 ? i : (i + 1)) + "-" + (m < 60 ? m : pad((m - 60)))
+            tdT.classList.add('tablaMinutosT')
+            $(trT).append(tdT)
+        }
+    }
+    /*
+        8:30 13:30
+        15:30 20:30*/
+}
+
+function pad(num){
+    return num < 10 ? '0'+num : num
+}
+
+function pintar(elemento){
+   elemento.css({'background-color': 'red'})    
 }
