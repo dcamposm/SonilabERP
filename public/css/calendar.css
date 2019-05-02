@@ -6,6 +6,7 @@ body, html, main{
     border: 1px solid black;
     padding: 0px;
     color: black !important;
+    height: 70px;
 }
 .labelFechaManana{
     top:-25px;
@@ -29,10 +30,7 @@ body, html, main{
     /* background-color: orange; */
 }
 .encabezado{
-    width: 100%;
-    text-align: center;
-    padding: 18px;
-    height: 50px;
+    align-items: center;
 }
 
 .barra_progreso {
@@ -54,8 +52,28 @@ body, html, main{
     color: black;
 }
 
+.semana{
+    text-align: center;
+    flex: auto;
+}
+
+.simil-btn{
+    background-color: #3490dc;
+    border-color: #3490dc;
+    color: #fff;
+    border-radius: 0px;
+}
+
 .boton{
-    float: right;
+    margin-right: 8px;
+}
+
+.round-left{
+    border-radius: .25rem 0px 0px .25rem !important;
+}
+
+.round-right{
+    border-radius: 0px .25rem .25rem 0px !important;
 }
 
 .contenedor{
@@ -64,10 +82,10 @@ body, html, main{
 }
 
 .contenedor-margen{
-    width: -moz-calc(100% - 300px);
+    /*width: -moz-calc(100% - 300px);
     width: -webkit-calc(100% - 300px);
     width: -o-calc(100% - 300px);
-    width: calc(100% - 300px);
+    width: calc(100% - 300px);*/
     margin-right: 300px;
 }
 
@@ -117,9 +135,9 @@ body, html, main{
 
 .sidenav .closebtn {
     position: absolute;
-    top: 0;
     right: 25px;
     font-size: 36px;
+    color: white;
 }
 
 #main {
@@ -129,4 +147,10 @@ body, html, main{
 @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
+}
+
+#tablaHoras {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 20px;
 }

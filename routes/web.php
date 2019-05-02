@@ -1,14 +1,14 @@
 <?php
 
 /*
-  |--------------------------------------------------------------------------
-  | Web Routes
-  |--------------------------------------------------------------------------
-  |
-  | Here is where you can register web routes for your application. These
-  | routes are loaded by the RouteServiceProvider within a group which
-  | contains the "web" middleware group. Now create something great!
-  |
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
  */
 
 Route::get('/', function () {
@@ -20,7 +20,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 //------------------Rutes usuaris------------------
-Route::middleware(['role: 1, 4'])->group(function () {//Middleware para dar acceso a los roles indicados,  en este caso 1 (Dis.Estudi) i 4 (Administracion)
+Route::middleware(['role: 1, 4'])->group(function () { //Middleware para dar acceso a los roles indicados,  en este caso 1 (Dis.Estudi) i 4 (Administracion)
     Route::get('/usuaris/interns/index', 'UserController@getIndex')->name('indexUsuariIntern');
     Route::get('/usuaris/interns/buscar', 'UserController@find')->name('usuariFind');
     Route::get('/usuaris/interns/show/{id}', 'UserController@getShow')->name('veureUsuariIntern');
@@ -103,22 +103,22 @@ Route::middleware(['role: 1,2,4'])->group(function () {
     Route::get('/estadillos', 'EstadilloController@index')->name('indexEstadillos');
     Route::get('/estadillos/buscar', 'EstadilloController@find')->name('estadilloFind');
     Route::get('/estadillos/buscar/actor/{id}/{id_setmana?}', 'EstadilloController@findActor')->name('actorFind');
-        
+
     Route::get('/estadillos/mostrar/{id}/{id_setmana?}', 'EstadilloController@show')->name('estadilloShow');
     Route::get('/estadillos/mostrar/setmana/{id}/{id_setmana}', 'EstadilloController@showSetmana')->name('estadilloShowSetmana');
-    
+
     Route::post('/estadillos/import', 'EstadilloController@import')->name('estadilloImport');
-    
+
     Route::get('/estadillos/crear', 'EstadilloController@insertView')->name('estadilloInsertView');
     Route::get('/estadillos/actor/crear/{id}/{setmana?}', 'EstadilloController@insertActorView')->name('estadilloActorInsertView');
     Route::post('/estadillos/crear', 'EstadilloController@insert')->name('estadilloInsert');
     Route::post('/estadillos/actor/crear/{setmana?}', 'EstadilloController@insertActor')->name('estadilloActorInsert');
-    
+
     Route::get('/estadillos/modificar/{id}', 'EstadilloController@updateView')->name('estadilloUpdateView');
     Route::get('/estadillos/modificar/actor/{id}/{id_actor}/{setmana?}', 'EstadilloController@updateActorView')->name('estadilloActorUpdateView');
     Route::post('/estadillos/modificar/{id}', 'EstadilloController@update')->name('estadilloUpdate');
     Route::post('/estadillos/modificar/actor/{id}/{id_actor}/{setmana?}', 'EstadilloController@updateActor')->name('estadilloActorUpdate');
-    
+
     Route::post('/estadillos/esborrar', 'EstadilloController@delete')->name('esborrarEstadillo');
     Route::post('/estadillos/esborrar/actor', 'EstadilloController@deleteActor')->name('esborrarEstadilloActor');
 });
@@ -128,10 +128,10 @@ Route::middleware(['role: 1,2,4'])->group(function () {
     Route::get('/vec/{ref?}', 'CostController@index')->name('indexVec');
     //Route::get('/estadillos/buscar', 'EstadilloController@find')->name('estadilloFind');
     //Route::get('/estadillos/buscar/actor/{id}/{id_setmana?}', 'EstadilloController@findActor')->name('actorFind');
-        
+
     Route::get('/vec/mostrar/{id}/{data?}', 'CostController@show')->name('mostrarVec');
     Route::get('/vec/mostrar/pack/{id}/{data?}', 'CostController@showPack')->name('vecShowPack');
-    
+
     //Route::post('/estadillos/import', 'EstadilloController@import')->name('estadilloImport');
     Route::get('/vec/generar/{id}', 'CostController@generar')->name('vecGenerar');
     //Route::get('/estadillos/crear', 'EstadilloController@insertView')->name('estadilloInsertView');
@@ -143,7 +143,7 @@ Route::middleware(['role: 1,2,4'])->group(function () {
     //Route::get('/estadillos/modificar/actor/{id}/{id_actor}/{setmana?}', 'EstadilloController@updateActorView')->name('estadilloActorUpdateView');
     //Route::post('/estadillos/modificar/{id}', 'EstadilloController@update')->name('estadilloUpdate');
     //Route::post('/estadillos/modificar/actor/{id}/{id_actor}/{setmana?}', 'EstadilloController@updateActor')->name('estadilloActorUpdate');
-    
+
     Route::post('/vec/esborrar', 'CostController@delete')->name('esborrarVec');
     //Route::post('/estadillos/esborrar/actor', 'EstadilloController@deleteActor')->name('esborrarEstadilloActor');
 });
@@ -151,6 +151,13 @@ Route::middleware(['role: 1,2,4'])->group(function () {
 //------------------Rutes calendari------------------
 Route::middleware(['role: 1,2,3,4'])->group(function () {
     Route::get('/calendari', 'CalendariController@showCalendari')->name('showCalendari');
+    Route::get('/calendari/{year}/{week}', 'CalendariController@showCalendari')->name('showCalendariByDate');
+
     Route::get('/calendari/crear', 'CalendariController@createCalendari')->name('createCalendari');
-    Route::post('/calendari/esborrar', 'CalendariController@deleteCalendari')->name('deleteCalendari');
+    Route::post('/calendari/crear', 'CalendariController@create')->name('createCalendari');
+    Route::put('/calendari/editar/{id}', "CalendariController@update")->name('updateCalendari');
+    Route::delete('/calendari/esborrar/{id}', 'CalendariController@delete')->name('deleteCalendari');
+
+    Route::post('/calendari/agafarDia', 'CalendariController@getDay')->name('afagarDia');
+
 });

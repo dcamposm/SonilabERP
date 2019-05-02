@@ -213,17 +213,17 @@
                                 <td style="vertical-align: middle;">{{ $registreProduccio->propostes == 0 ? '' : 'FET' }}</td>
                                 <td style="vertical-align: middle;">{{ $registreProduccio->inserts }}</td>
                                 <td style="vertical-align: middle;">
-                                    @if ($registreProduccio->estadillo != 1 || empty($registreProduccio->getEstadillo))
-                                        <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $registreProduccio->id }}, '{{ $registreProduccio->id_registre_entrada.' '.$registreProduccio->titol.' '.$registreProduccio->subreferencia }}')" data-toggle="modal" data-target="#importModal">ESTADILLO</button>
+                                    @if (empty($registreProduccio->getEstadillo))
+                                        <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $registreProduccio->id }}, '{{ $registreProduccio->id_registre_entrada.' '.$registreProduccio->titol.' '.$registreProduccio->subreferencia }}')" data-toggle="modal" data-target="#importModal">IMPORTAR</button>
                                     @else
-                                        <a href="{{ route('estadilloShow', array('id' => $registreProduccio->getEstadillo->id_estadillo )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">ESTADILLO</a>
+                                        <a href="{{ route('estadilloShow', array('id' => $registreProduccio->getEstadillo->id_estadillo )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">VEURE</a>
                                     @endif
                                 </td>
                                 <td style="vertical-align: middle;">
                                     @if ($registreProduccio->vec != 1 || empty($registreProduccio->getVec))
-                                        <a href="{{ route('vecGenerar', array('id' => $registreProduccio->id)) }}" class="btn btn-primary btn-sm">GENERAR</a>
+                                        <a href="{{ route('vecGenerar', array('id' => $registreProduccio->id)) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">GENERAR</a>
                                     @else
-                                        <a href="{{ route('mostrarVec', array('id' => $registreProduccio->getVec->id_costos)) }}" class="btn btn-primary btn-sm">VEURE</a>
+                                        <a href="{{ route('mostrarVec', array('id' => $registreProduccio->getVec->id_costos)) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">VEURE</a>
                                     @endif
                                 </td>
                                 <td style="vertical-align: middle;">{{ $registreProduccio->convos == 0 ? '' : 'FET' }}</td>
@@ -233,17 +233,17 @@
                                 <td style="vertical-align: middle;">{{ $registreProduccio->retakes }}</td>
                             @else
                                 <td style="vertical-align: middle;">
-                                    @if ($registreProduccio->estadillo != 1  || empty($registreProduccio->getEstadillo))
-                                        <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $registreProduccio->id }}, '{{ $registreProduccio->id_registre_entrada.' '.$registreProduccio->titol.' '.$registreProduccio->subreferencia }}')" data-toggle="modal" data-target="#importModal">ESTADILLO</button>
+                                    @if (empty($registreProduccio->getEstadillo))
+                                        <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $registreProduccio->id }}, '{{ $registreProduccio->id_registre_entrada.' '.$registreProduccio->titol.' '.$registreProduccio->subreferencia }}')" data-toggle="modal" data-target="#importModal">IMPORTAR</button>
                                     @else
-                                        <a href="{{ route('estadilloShow', array('id' => $registreProduccio->getEstadillo->id_estadillo )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">ESTADILLO</a>
+                                        <a href="{{ route('estadilloShow', array('id' => $registreProduccio->getEstadillo->id_estadillo )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">VEURE</a>
                                     @endif
                                 </td>
                                 <td style="vertical-align: middle;">
                                     @if ($registreProduccio->vec != 1  || empty($registreProduccio->getVec))
-                                        <a href="{{ route('vecGenerar', array('id' => $registreProduccio->id)) }}" class="btn btn-primary btn-sm">GENERAR</a>
+                                        <a href="{{ route('vecGenerar', array('id' => $registreProduccio->id)) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">GENERAR</a>
                                     @else
-                                        <a href="{{ route('mostrarVec', array('id' => $registreProduccio->getVec->id_costos)) }}" class="btn btn-primary btn-sm">VEURE</a>
+                                        <a href="{{ route('mostrarVec', array('id' => $registreProduccio->getVec->id_costos)) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">VEURE</a>
                                     @endif
                                 </td>
                             @endif
@@ -354,10 +354,10 @@
                                         <td style="vertical-align: middle;">{{ $serie->propostes == 0 ? '' : 'FET' }}</td>
                                         <td style="vertical-align: middle;">{{ $serie->inserts }}</td>
                                         <td style="vertical-align: middle;">
-                                            @if ($serie->estadillo != 1 || empty($serie->getEstadillo))
-                                                <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $serie->id }}, '{{ $serie->id_registre_entrada.' '.$serie->titol.' '.$serie->subreferencia }}')" data-toggle="modal" data-target="#importModal">ESTADILLO</button>
+                                            @if (empty($serie->getEstadillo))
+                                                <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $serie->id }}, '{{ $serie->id_registre_entrada.' '.$serie->titol.' '.$serie->subreferencia }}')" data-toggle="modal" data-target="#importModal">IMPORTAR</button>
                                             @else
-                                                <a href="{{  route('estadilloShow', array('id' => $serie->getEstadillo->id_estadillo )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">ESTADILLO</a>
+                                                <a href="{{  route('estadilloShow', array('id' => $serie->getEstadillo->id_estadillo )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">VEURE</a>
                                             @endif
                                         </td>
                                         <td style="vertical-align: middle;">
@@ -374,17 +374,17 @@
                                         <td style="vertical-align: middle;">{{ $serie->retakes }}</td>
                                     @else
                                         <td style="vertical-align: middle;">
-                                            @if ($serie->estadillo != 1  || empty($serie->getEstadillo))
-                                                <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $serie->id }}, '{{ $serie->id_registre_entrada.' '.$serie->titol.' '.$serie->subreferencia }}')" data-toggle="modal" data-target="#importModal">ESTADILLO</button>
+                                            @if (empty($serie->getEstadillo))
+                                                <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $serie->id }}, '{{ $serie->id_registre_entrada.' '.$serie->titol.' '.$serie->subreferencia }}')" data-toggle="modal" data-target="#importModal">IMPORTAR</button>
                                             @else
-                                                <a href="{{ route('estadilloShow', array('id' => $serie->getEstadillo->id_estadillo )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">ESTADILLO</a>
+                                                <a href="{{ route('estadilloShow', array('id' => $serie->getEstadillo->id_estadillo )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">VEURE</a>
                                             @endif
                                         </td>
                                         <td style="vertical-align: middle;">
                                             @if ($serie->vec != 1  || empty($serie->getVec))
-                                                <a href="{{ route('vecGenerar', array('id' => $serie->id)) }}" class="btn btn-primary btn-sm">GENERAR</a>
+                                                <a href="{{ route('vecGenerar', array('id' => $serie->id)) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">GENERAR</a>
                                             @else
-                                                <a href="{{ route('mostrarVec', array('id' => $serie->getVec->id_costos)) }}" class="btn btn-primary btn-sm">VEURE</a>
+                                                <a href="{{ route('mostrarVec', array('id' => $serie->getVec->id_costos)) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">VEURE</a>
                                             @endif
                                         </td>
                                     @endif
@@ -480,7 +480,6 @@
 </div>
 
 <script>
-
     var self = this;
     self.registrePerEsborrar = 0;
 

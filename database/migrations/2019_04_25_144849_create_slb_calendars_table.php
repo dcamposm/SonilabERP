@@ -21,6 +21,7 @@ class CreateSlbCalendarsTable extends Migration
             $table->timestamp('data_inici');
             $table->timestamp('data_fi');
             $table->integer('num_sala');
+            $table->integer('asistencia')->nullable();
             $table->timestamps();
         });
     }

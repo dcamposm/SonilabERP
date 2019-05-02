@@ -96,7 +96,6 @@ class RegistreProduccioController extends Controller {
     }
     
     public function update($id){
-        //pongo esto de relleno
         $prod = RegistreProduccio::find($id);
         //return response()->json(request()->all());
         $prod->fill(request()->all());               
@@ -139,8 +138,6 @@ class RegistreProduccioController extends Controller {
 
             return redirect()->back()->with('success', 'Registre de producció modificat correctament.');
         }
-        getIndex();
-        
     }
 
     public function updateComanda($id){
@@ -171,8 +168,6 @@ class RegistreProduccioController extends Controller {
 
             return redirect()->back()->with('success', 'Registre de producció modificat correctament.');
         }
-        getIndex();
-        
     }
     
     public function updatePreparacio($id){
@@ -205,8 +200,6 @@ class RegistreProduccioController extends Controller {
 
             return redirect()->back()->with('success', 'Registre de producció modificat correctament.');
         }
-        getIndex();
-        
     }
 
     public function updateConvocatoria($id){
@@ -237,8 +230,6 @@ class RegistreProduccioController extends Controller {
 
             return redirect()->back()->with('success', 'Registre de producció modificat correctament.');
         }
-        getIndex();
-        
     }
 
     public function find() {

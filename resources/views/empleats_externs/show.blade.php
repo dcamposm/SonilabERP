@@ -273,7 +273,7 @@
         @endforeach
     </div>
 </div>
-    <a href="{{ url('/empleats') }}" class="btn btn-primary col-2">
+    <a href="{{ url('/empleats') }}" class="btn btn-primary mb-3">
         <span class="fas fa-angle-double-left"></span>
         TORNAR
     </a>

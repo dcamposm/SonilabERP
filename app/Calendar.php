@@ -9,10 +9,10 @@ class Calendar extends Model {
     protected $table = 'slb_calendars';
     protected $primaryKey = 'id_calendar';
     protected $fillable = [
-        "id_calendar",
+        //"id_calendar",
         "id_empleat",
         "id_registre_entrada",
-        "numtakes",
+        "num_takes",
         "data_inici",
         "data_fi",
         "num_sala",

@@ -13,6 +13,9 @@ use App\User;
 use App\Missatge;
 use App\RegistreProduccio;
 use App\Estadillo;
+use App\ActorEstadillo;
+use App\Costos;
+use App\EmpleatCost;
 use Swift_Message;
 use Swift_SmtpTransport;
 use Swift_Mailer;
@@ -307,9 +310,19 @@ class RegistreEntradaController extends Controller
         $estadillos = Estadillo::all();
         foreach ($estadillos as $estadillo) {
             if ($estadillo->registreProduccio->id_registre_entrada == $request["id"]){
+                ActorEstadillo::where('id_produccio', $estadillo->id_estadillo)->delete();
                 $estadillo->delete();
             }
         }
+        
+        $costos = Costos::all();
+        foreach ($costos as $cost) {
+            if ($cost->registreProduccio->id_registre_entrada == $request["id"]){
+                EmpleatCost::where('id_costos', $cost->id_costos)->delete();
+                $cost->delete();
+            }
+        }
+        
         //return response()->json($estadillos); 
         RegistreEntrada::where('id_registre_entrada', $request["id"])->delete();
         RegistreProduccio::where('id_registre_entrada', $request["id"])->delete();
