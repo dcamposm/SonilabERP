@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Validator;
 use App\Calendar;
+use App\CalendarCarrec;
 use DateTime;
 use App\EmpleatExtern;
 
@@ -119,4 +120,56 @@ class CalendariController extends Controller
        
         return redirect()->route('showCalendari');
     }
+    
+    
+    public function calendariCarrecInsertar(){
+        $v = Validator::make(request()->all(),[
+            //'id_calendar'=>'required|max:35',
+            'id_carrec'=>'required|max:35|exists:slb_carrecs',
+            'id_empleat'=>'required|max:35|exists:slb_empleats_externs',
+            'num_sala'=>'required|regex:/^[0-9]+$/',//^[0-9]+$
+            'data'=>'required|max:35',
+            'torn'=>'required|max:3',
+        ]);
+
+        if ($v->fails()) {
+            // Datos incorrectos.
+            
+            return redirect()->back()->withErrors($v)->withInput();
+        }
+        else {
+            $calendariCarrec = new CalendarCarrec(request()->all());  
+            $calendariCarrec->save();
+            //return response()->json(request()->all());
+
+            return redirect()->route('showCalendari');
+        }
+    }
+    
+        public function calendariCarrecEditar($id){
+        $calendariCarrec = CalendarCarrec::findOrFail($id);
+        $v = Validator::make(request()->all(),[
+            'id_carrec'=>'required|max:35|exists:slb_carrecs',
+            'id_empleat'=>'required|max:35|exists:slb_empleats_externs',
+            'num_sala'=>'required|regex:/^[0-9]+$/',
+            'data'=>'required|max:35',
+            'torn'=>'required|max:3',
+        ]);
+        
+        if ($v->fails()) {
+            // Datos incorrectos.
+            return redirect()->back()->withErrors($v)->withInput();
+        }
+        else {
+            //return response()->json(request()->all());
+            // Datos correctos.
+            $calendariCarrec->fill(request()->all());  
+            $calendariCarrec->save();
+
+            return response()->json(request()->all());
+        }
+        
+        
+        }
+
 }
