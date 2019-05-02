@@ -100,7 +100,7 @@
     var year = {{$year}}
     var dias = <?php echo json_encode($fechas) ?>;
     var urlBase = "<?php echo $urlBase ?>"
-    var data = <?php echo $data ?>
+    var data = <?php echo $data ?>;
     
 </script>
 <script type="text/javascript" src="{{ URL::asset('js/custom/calendar.js') }}"></script>
