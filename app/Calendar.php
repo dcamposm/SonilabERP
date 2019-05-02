@@ -17,6 +17,10 @@ class Calendar extends Model {
         "data_fi",
         "num_sala",
     ];
+    protected $casts = [
+        'data_inici'  => 'date:d-m-Y H:i',
+        'data_fi'  => 'date:d-m-Y H:i'
+    ];
 
     public function empleatExtern() {
         return $this->hasOne('App\EmpleatExtern','id_empleat','id_empleat');

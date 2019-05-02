@@ -9,12 +9,13 @@ $('#semanaMas').on('click', function(){
 
 crearTablaCalendario();
 tablaHoras();
+cargarDatos()
 
 function crearTablaCalendario(){
     var contenedor = $('#contenedor')
     for (let i = 0; i < 8; i++) {
-        var fila = $('<div class="row fila"></div>');
-        var sala = i + 1;
+        var fila = $('<div class="row fila"></div>')
+        var sala = i + 1
         for (let h = 0; h < 6; h++) {
             if (h == 0){
                 // Crea un div con el número de la sala:
@@ -23,11 +24,24 @@ function crearTablaCalendario(){
                 // Crea el día de la sala.
                 // Es necesario crear el atributo "dia" y "sala", para que después cuando le hagamos clic
                 // podamos coger el día y la sala de la casilla que hayamos seleccionado.
-                fila.append('<div class="col celda" dia="' + dias[h - 1] + '" sala="' + sala + '"><div class="progress barra_progreso"><div class="progress-bar barra progress-bar-striped" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div></div></div>')
+                fila.append('<div class="col celda" dia="' + dias[h - 1] + '" sala="' + sala + '"><div class="progress barra_progreso"><div class="progress-bar barra progress-bar-striped" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div></div></div>')
             }
         }      
         contenedor.append(fila)
     }
+}
+
+function cargarDatos(){
+    console.log(data)
+
+    data.forEach(element => {
+       var celda = $("[dia="+element.data_inici.split(' ')[0]+"][sala="+element.num_sala+"]")[0].children[0].children[0]
+       var takes = Number(celda.innerText.replace('%','')) + element.num_takes
+       celda.innerText = takes + '%'
+       celda.style.width = takes + '%'
+       celda.setAttribute('aria-valuenow', takes)
+       cambiarColorCelda(celda, takes)
+    });
 }
 
 ///// FUNCTIONS /////
@@ -51,6 +65,21 @@ function changeCalendar(que){
 
     window.location = urlBase + '/' + year + '/' + week
 
+}
+
+function cambiarColorCelda(celda, takes){
+    $(celda).attr('aria-valuenow', takes)
+    $(celda).text(takes + '%')
+    $(celda).css({ 'width': takes + '%' })
+    if (takes < 25) {
+        $(celda)[0].className = 'progress-bar barra progress-bar-striped bg-success';
+    } else if (takes < 50) {
+        $(celda)[0].className = 'progress-bar barra progress-bar-striped bg-info';
+    } else if (takes < 75) {
+        $(celda)[0].className = 'progress-bar barra progress-bar-striped bg-warning';
+    } else if (takes <= 100) {
+        $(celda)[0].className = 'progress-bar barra progress-bar-striped bg-danger';
+    }
 }
 
 
@@ -137,7 +166,7 @@ function ampliarCasilla(e) {
 
 $('#exampleModal2').on('shown.bs.modal', function () {
     // TODO: Hacer llamada ajax para coger los datos del día seleccionado.
-    $.ajax({
+    /*$.ajax({
         url: '/calendari/agafarDia',
         type: 'POST',
         headers: {
@@ -154,7 +183,7 @@ $('#exampleModal2').on('shown.bs.modal', function () {
         error: function(error) {
           console.error(error);
         }
-    });
+    });*/
 
     // TODO: Borrar cuando se tenga hecho lo anterior.
     datosModalEjemplo.forEach(element => {

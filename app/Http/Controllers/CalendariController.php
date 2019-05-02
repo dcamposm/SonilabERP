@@ -25,7 +25,7 @@ class CalendariController extends Controller
         $dia2 = $dia1->copy()->addDay();
         $dia3 = $dia2->copy()->addDay();
         $dia4 = $dia3->copy()->addDay();
-        $dia5 = $dia4->copy()->addDay();
+        $dia5 = $dia4->copy()->addDay()->addHours(23)->addMinutes(59);
         $fechas = [
             $dia1->format('d-m-Y'), 
             $dia2->format('d-m-Y'), 
@@ -34,6 +34,10 @@ class CalendariController extends Controller
             $dia5->format('d-m-Y')
         ];
 
+        $data = json_encode(Calendar::where('data_inici', '>=', $dia1)
+                        ->where('data_fi', '<=', $dia5)
+                        ->get());
+        
         $urlBase = route('showCalendari');
 
         $actores = [];
@@ -54,7 +58,8 @@ class CalendariController extends Controller
                                         "urlBase"   => $urlBase,
                                         "actores"   => $actores,
                                         "tecnics"   => $tecnics,
-                                        "directors" => $directors]);
+                                        "directors" => $directors,
+                                        "data"      => $data]);
     }
 
     public function getDay(Request $request) {
