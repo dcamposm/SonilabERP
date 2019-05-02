@@ -135,6 +135,10 @@
             <span style="color: darkorange; font-size: 15px;">&#9646;</span>
             <span style="font-size: 11px; padding: 1px;">PENDENT</span>
         </div>
+        <div class="llegenda">
+            <span style="color: deepskyblue ; font-size: 15px;">&#9646;</span>
+            <span style="font-size: 11px; padding: 1px;">AGRUPACIÓ</span>
+        </div>
         <div style="clear:both;"></div>
     </div>
 
