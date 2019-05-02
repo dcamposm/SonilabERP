@@ -15,7 +15,6 @@ class CreateSlbUsuarisTable extends Migration
     {
         Schema::create('slb_usuaris', function (Blueprint $table) {
             $table->increments('id_usuari');
-            $table->string('nom_usuari', 50);
             $table->string('cognoms_usuari', 100);
             $table->string('email_usuari', 100)->unique();
             $table->string('alias_usuari')->unique();

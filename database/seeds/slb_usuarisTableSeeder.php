@@ -20,7 +20,6 @@ class slb_usuarisTableSeeder extends Seeder
         // Añadimos una entrada a esta tabla
         User::create(array(
             'id_usuari' => '1',
-            'nom_usuari' => 'Administrador',
             'cognom1_usuari' => 'Admin',
             'cognom2_usuari' => 'Admin',
             'email_usuari' => 'admin@admin.cat',
@@ -31,7 +30,6 @@ class slb_usuarisTableSeeder extends Seeder
         ));
         User::create(array(
             'id_usuari' => '2',
-            'nom_usuari' => 'test',
             'cognom1_usuari' => 'test',
             'cognom2_usuari' => 'test',
             'email_usuari' => 'test@test.com',

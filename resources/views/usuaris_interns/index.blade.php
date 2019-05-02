@@ -46,7 +46,7 @@
 
                 <h4 style="min-height:45px;margin:5px 0 10px 0">
                     <a href="{{ route('veureUsuariIntern', ['id' => $usuaris['id_usuari']]) }}" style="text-decoration:none; color:black; font-size: 1.35rem;">
-                        {{$usuaris['nom_usuari']}} {{$usuaris['cognom1_usuari']}}
+                        {{$usuaris['alias_usuari']}} {{$usuaris['cognom1_usuari']}}
                     </a>
                 </h4>
                 <div class="row">
