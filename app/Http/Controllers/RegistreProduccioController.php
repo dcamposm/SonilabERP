@@ -97,7 +97,7 @@ class RegistreProduccioController extends Controller {
     
     public function update($id){
         $prod = RegistreProduccio::find($id);
-        return response()->json(request()->all());
+        //return response()->json(request()->all());
         $prod->fill(request()->all());               
 
         try {
