@@ -18,12 +18,8 @@
                 </td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-3">ÀLIES:</td>
-                <td class="col">{{ $usuari['alias_usuari']}}</td>
-            </tr>
-            <tr class="row">
                 <td class="font-weight-bold col-sm-3">NOM:</td>
-                <td class="col">{{ $usuari['nom_usuari']}}</td>
+                <td class="col">{{ $usuari['alias_usuari']}}</td>
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-3">COGNOMS:</td>
