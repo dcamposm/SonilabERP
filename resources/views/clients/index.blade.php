@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container-fluid">
-    <div>
+    <div class="mb-4">
         <a href="{{ url('/registreEntrada') }}" class="btn btn-primary">
             <span class="fas fa-angle-double-left"></span>
             TORNAR
@@ -13,9 +13,9 @@
             AFEGIR CLIENT
         </a>
     </div>
-    <br>
+
     {{-- TABLA DE CLIENTS --}}
-    <table class="table" style="margin-top: 10px;">
+    <table class="table mt-3" style="min-width: 800px;">
         <thead>
             <tr>
                 <th>NOM</th> 
@@ -46,7 +46,6 @@
             @endforeach
         </tbody>
     </table>
-
     <!-- MODAL ESBORRAR CLIENT -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">

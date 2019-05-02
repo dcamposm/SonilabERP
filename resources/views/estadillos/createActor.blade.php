@@ -8,10 +8,10 @@
         @csrf
         <fieldset class="border p-2">
             <legend class="w-auto">DADES:</legend>
-            <div class="row">
+            <div class="row mb-4 align-items-end">
                 @if (isset($estadillos))
                     <div>
-                        <input type="text" class="form-control" id="id_produccio" placeholder="Entrar tks" name="id_produccio" value="{{!empty($actor) ? $actor->id_produccio : $estadillos->id_estadillo}}" style="display: none;">
+                        <input type="text" class="form-control" id="id_produccio" name="id_produccio" value="{{!empty($actor) ? $actor->id_produccio : $estadillos->id_estadillo}}" style="display: none;">
                     </div>
                 @endif
                 <div class="col-6">
@@ -22,9 +22,14 @@
                         @endforeach
                     </select>
                 </div>
-            </div>
-            <br>
             @if (isset($estadillos))
+                <div class="form-group ml-3">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="canso_estadillo" name="canso_estadillo" {{ !empty($actor) ? ($actor->canso_estadillo == 1 ? 'checked' : '') : ''}} value="1">
+                        <label for="canso_estadillo" class="form-check-label" style="font-weight: bold">CANÇÓ</label>      
+                    </div>   
+                </div>
+            </div>
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
@@ -40,6 +45,7 @@
                     </div>
                 </div>
             @else
+            </div>
                 @foreach ($registreProduccio as $projecte)
                     @if (isset($projecte->getEstadillo))
                         <div class="row">
@@ -89,24 +95,16 @@
             @endif
         </fieldset>
 
-
-        <br>
-
-        <!-- BOTÓN DE CREAR O ACTUALIZAR -->
-        <div class="row">
-            <div class="col-6">
-                <button type="submit" class="btn btn-success col-4">{{!empty($actor) ? 'DESAR' : 'CREAR'}}</button>
-            </div>
+        <div class="row justify-content-between mt-4 mb-4">
+            <a href="/estadillos/mostrar/{{ isset($estadillos) ? $estadillos->id_estadillo : $registreProduccio[0]["id_registre_entrada"]."/".$registreProduccio[0]["setmana"] }}" class="btn btn-primary">
+                <span class="fas fa-angle-double-left"></span>
+                TORNAR
+            </a> 
+            <button type="submit" class="btn btn-success col-2">{{!empty($actor) ? 'DESAR' : 'CREAR'}}</button>     
         </div>
-        <br>
+
     </form>
-    
-    <div>
-        <a href="/estadillos/mostrar/{{ isset($estadillos) ? $estadillos->id_estadillo : $registreProduccio[0]["id_registre_entrada"]."/".$registreProduccio[0]["setmana"] }}" class="btn btn-primary">
-            <span class="fas fa-angle-double-left"></span>
-            TORNAR
-        </a>
-    </div>
+
 </div>
 
 

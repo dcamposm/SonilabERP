@@ -31,7 +31,7 @@
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-3">DEPARTAMENT:</td>
-                <td class="col">{{ $departament['nom_departament']}}</td>
+                <td class="col">{{ $usuari->departament->nom_departament}}</td>
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-3">DATA DE CREACIÓ:</td>

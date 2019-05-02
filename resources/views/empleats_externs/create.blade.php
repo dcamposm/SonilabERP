@@ -74,14 +74,14 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                 <div class="col-6">
                     <div class="form-group">
                         <label for="dni_empleat" style="font-weight: bold">DNI:</label>
-                        <input type="text" class="form-control" id="dni_empleat" placeholder="Entrar DNI empleat" name="dni_empleat" value="{{!empty($empleat) ? $empleat->dni_empleat : old('dni_empleat')}}">
+                        <input type="text" class="form-control" id="dni_empleat" placeholder="Entrar DNI" name="dni_empleat" value="{{!empty($empleat) ? $empleat->dni_empleat : old('dni_empleat')}}">
                         <span class="text-danger">{{ $errors->first('dni_empleat') }}</span>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="form-group">
                         <label for="telefon_empleat" style="font-weight: bold">TELÈFON:</label>
-                        <input type="tel" class="form-control" id="telefon_empleat" placeholder="Entrar telèfon empleat" name="telefon_empleat" value="{{!empty($empleat) ? $empleat->telefon_empleat : old('telefon_empleat')}}">
+                        <input type="tel" class="form-control" id="telefon_empleat" placeholder="Entrar telèfon" name="telefon_empleat" value="{{!empty($empleat) ? $empleat->telefon_empleat : old('telefon_empleat')}}">
                         <span class="text-danger">{{ $errors->first('telefon_empleat') }}</span>
                     </div>
                 </div>
@@ -91,14 +91,14 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                 <div class="col-6">
                     <div class="form-group">
                         <label for="direccio_empleat" style="font-weight: bold">DIRECCIÓ:</label>
-                        <input type="text" class="form-control" id="direccio_empleat" placeholder="Entrar direcció empleat" name="direccio_empleat" value="{{!empty($empleat) ? $empleat->direccio_empleat : old('direccio_empleat')}}">
+                        <input type="text" class="form-control" id="direccio_empleat" placeholder="Entrar direcció" name="direccio_empleat" value="{{!empty($empleat) ? $empleat->direccio_empleat : old('direccio_empleat')}}">
                         <span class="text-danger">{{ $errors->first('direccio_empleat') }}</span>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="form-group">
                         <label for="codi_postal_empleat" style="font-weight: bold">CODI POSTAL:</label>
-                        <input type="number" class="form-control" id="codi_postal_empleat" placeholder="Entrar codi postal empleat" name="codi_postal_empleat" value="{{!empty($empleat) ? $empleat->codi_postal_empleat : old('codi_postal_empleat')}}">
+                        <input type="number" class="form-control" id="codi_postal_empleat" placeholder="Entrar codi postal" name="codi_postal_empleat" value="{{!empty($empleat) ? $empleat->codi_postal_empleat : old('codi_postal_empleat')}}">
                         <span class="text-danger">{{ $errors->first('codi_postal_empleat') }}</span>
                     </div>
                 </div>
@@ -115,7 +115,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                 <div class="col-6">
                     <div class="form-group">
                         <label for="nss_empleat" style="font-weight: bold">NSS:</label>
-                        <input type="text" class="form-control" id="nss_empleat" placeholder="Entrar número seguretat social empleat" name="nss_empleat" value="{{!empty($empleat) ? $empleat->nss_empleat : old('nss_empleat')}}">
+                        <input type="text" class="form-control" id="nss_empleat" placeholder="Entrar número seguretat social" name="nss_empleat" value="{{!empty($empleat) ? $empleat->nss_empleat : old('nss_empleat')}}">
                         <span class="text-danger">{{ $errors->first('nss_empleat') }}</span>
                     </div>
                 </div>
@@ -125,7 +125,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                 <div class="col-6">
                     <div class="form-group">
                         <label for="iban_empleat" style="font-weight: bold">IBAN:</label>
-                        <input type="text" class="form-control" id="iban_empleat" placeholder="Entrar IBAN empleat" name="iban_empleat" value="{{!empty($empleat) ? $empleat->iban_empleat : old('iban_empleat')}}">
+                        <input type="text" class="form-control" id="iban_empleat" placeholder="Entrar IBAN" name="iban_empleat" value="{{!empty($empleat) ? $empleat->iban_empleat : old('iban_empleat')}}">
                         <span class="text-danger">{{ $errors->first('iban_empleat') }}</span>
                     </div>
                 </div>
@@ -171,7 +171,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
             </div>
 
             <!-- CARGOS: DIRECTOR -->
-            <div class="row container">
+            <div class="row container mb-3">
                 <div id="colDirector" style="width: 100%; margin-left: 15px; display:{{ isset($carrecs['director']) ? '' : 'none'}}">
                     <div class="form-group">
                         <table class="table">
@@ -206,7 +206,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                     </div>                  
                 </div>
             </div>
-            <br>
+
             <!-- CARGOS: ACTOR, TRADUCTOR, AJUSTADOR, LINGÜISTA -->
             <div class="row container">
                 <div id="colActor" style="width: 100%; margin-left: 15px; display:{{ isset($carrecs['actor']) ? '' : 'none'}}">
@@ -259,7 +259,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                                             <div class="col">
                                                 <div id="tarifa_actor5_{{$idioma->idioma}}">
                                                     <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">TARIFA CANÇO:</label>
-                                                    <input type="number" step="any" class="form-control" id="preu_actor_{{$idioma->idioma}}_canso" placeholder="Tarifa canso" name="preu_actor_{{$idioma->idioma}}_canso" value="{{ isset($carrecs['actor'][$idioma->idioma]['canso']) ? $carrecs['actor'][$idioma->idioma]['canso']['preu_carrec'] : ''}}">
+                                                    <input type="number" step="any" class="form-control" id="preu_actor_{{$idioma->idioma}}_canso" placeholder="Tarifa canço" name="preu_actor_{{$idioma->idioma}}_canso" value="{{ isset($carrecs['actor'][$idioma->idioma]['canso']) ? $carrecs['actor'][$idioma->idioma]['canso']['preu_carrec'] : ''}}">
                                                 </div>
                                                 <div id="tarifa_actor6_{{$idioma->idioma}}">
                                                     <label for="preu_actor_{{$idioma->idioma}}" style="font-weight: bold">TARIFA DOCU:</label>
@@ -305,6 +305,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                                             <input type="checkbox" class="form-control" id="idioma_traductor_{{$idioma->idioma}}" onchange="mostrarSubMenus('{{$idioma->idioma}}','traductor', 0)" name="idioma_traductor_{{$idioma->idioma}}" {{ isset($carrecs['traductor'][$idioma->idioma]) ? 'checked': '' }} value="1">
                                         </div>
                                     </td>
+
                                     <td class="col-3">
                                         <label for="homologat_traductor_{{$idioma->idioma}}" style="font-weight: bold">HOMOLOGAT(CCMA):</label>
                                         <select class="form-control" id="homologat_traductor_{{$idioma->idioma}}" name="homologat_traductor_{{$idioma->idioma}}" {{ isset($carrecs['traductor'][$idioma->idioma]) ? '' : 'disabled' }}>
@@ -312,6 +313,7 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                                             <option value="1" {{ (isset($carrecs['traductor'][$idioma->idioma]) && $carrecs['traductor'][$idioma->idioma]['empleat_homologat'] == true) ? 'selected' : ''}}>SI</option>
                                         </select>
                                     </td>
+
                                     <td class="col">
                                         <div class="row" id="tarifes_traductor_{{$idioma->idioma}}" style="display: {{ isset($carrecs['traductor'][$idioma->idioma]) ? '' : 'none;' }}">
                                             <div class="col">
@@ -383,18 +385,15 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
 
         </fieldset>
 
-        <br>
-
         <!-- BOTÓN DE CREAR O ACTUALIZAR -->
-        <div class="row justify-content-between">
+        <div class="row justify-content-between mb-3 mt-3">
             <a href="{{ url('/empleats') }}" class="btn btn-primary col-2">
                 <span class="fas fa-angle-double-left"></span>
                 TORNAR
             </a>
-            <button type="submit" class="btn btn-success col-2">{{!empty($empleat) ? 'DESAR CANVIS' : 'CREAR'}} <i class="fas fa-save"></i></button>
+            <button type="submit" class="btn btn-success col-2">{{!empty($empleat) ? 'DESAR' : 'CREAR'}} <i class="fas fa-save"></i></button>
 
         </div>
-        <br>
     </form>
 </div>
 
@@ -613,7 +612,9 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                 //tarifes_actors
                 document.getElementById('tarifes_'+ carrec + '_' + idioma).style.display = '';
             } else {
+                //if (idioma == 'Català') {
                 document.getElementById("homologat_"+carrec+"_"+idioma).removeAttribute('disabled');
+                //}
                 document.getElementById('tarifes_'+ carrec + '_' + idioma).style.display = '';
             }
         }else{

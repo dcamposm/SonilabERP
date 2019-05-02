@@ -52,24 +52,24 @@
         </div>
     </div>
     {{-- TABLA DE ESTADILLOS --}}
-    <table class="table" style="margin-top: 10px;">
+    <table class="table mt-3 ml-3" style="min-width: 1000px;">
         <thead>
-            <tr>
-                <th>ESTADILLO</th> 
-                <th>VALIDAT</th>
-                <th>ACCIONS</th>
+            <tr class="row">
+                <th class="col">ESTADILLO</th> 
+                <th class="col">VALIDAT</th>
+                <th class="col">ACCIONS</th>
             </tr>
         </thead>
         <tbody>
             @foreach( $showEstadillos as $key => $estadillos )
                 @foreach( $estadillos as $key2 => $estadillo )
-                    <tr class="table-selected">
-                        <td class="cursor"  style="vertical-align: middle;" onclick="self.mostrarEstadillo('{{ isset($estadillo['id_estadillo']) ? route('estadilloShow', array('id' => $estadillo['id_estadillo'])) : route('estadilloShow', array('id' => $key, 'id_setmana' => $estadillo['setmana'])) }}')">
+                    <tr class="table-selected row">
+                        <td class="cursor col"  style="vertical-align: middle;" onclick="self.mostrarEstadillo('{{ isset($estadillo['id_estadillo']) ? route('estadilloShow', array('id' => $estadillo['id_estadillo'])) : route('estadilloShow', array('id' => $key, 'id_setmana' => $estadillo['setmana'])) }}')">
                             <span class="font-weight-bold" style="font-size: 1rem;">{{ $key }} {{ $estadillo['titol'] }} {{ !isset($estadillo['min']) ? '' : ( $estadillo['min'] != $estadillo['max'] ? $estadillo['min'].'-'.$estadillo['max'] : $estadillo['min']) }}</span>
                         </td>
-                        <td style="vertical-align: middle;">{{ $estadillo['validat'] == 0 ? 'No' : 'Si' }}</td>
+                        <td class="col" style="vertical-align: middle;">{{ $estadillo['validat'] == 0 ? 'No' : 'Si' }}</td>
                         @if (isset($estadillo['id_estadillo']))
-                            <td style="vertical-align: middle;">
+                            <td class="col" style="vertical-align: middle;">
                                 <a href="{{ route('estadilloUpdateView', array('id' => $estadillo['id_estadillo'])) }}" class="btn btn-primary">MODIFICAR</a>
                                 <button class="btn btn-danger" onclick="self.seleccionarEstadillo({{ $estadillo['id_estadillo'] }}, '{{ $key." ".$estadillo['titol'] }}')" data-toggle="modal" data-target="#exampleModalCenter">ESBORRAR</button>
                                 <form id="delete-{{ $estadillo['id_estadillo'] }}" action="{{ route('esborrarEstadillo') }}" method="POST">
@@ -78,7 +78,7 @@
                                 </form>
                             </td>
                         @else
-                            <td style="vertical-align: middle;">
+                            <td class="col" style="vertical-align: middle;">
                                  <a href="{{ route('estadilloShowSetmana', array($key, 'id_setmana' => $estadillo['setmana'])) }}" class="btn btn-primary">VEURE ESTADILLO</a>
                                  <a href="{{ route('estadilloShow', array($key, 'id_setmana' => $estadillo['setmana'])) }}" class="btn btn-primary">VEURE ACTORS</a>
                             </td>
@@ -88,7 +88,6 @@
             @endforeach
         </tbody>
     </table>
-
     <!-- MODAL ESBORRAR ESTADILLO -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -109,12 +108,6 @@
             </div>
         </div>
     </div>
-    @if (isset($return))
-        <a href="{{ route('indexEstadillos') }}" class="btn btn-primary">
-            <span class="fas fa-angle-double-left"></span>
-            TORNAR
-        </a> 
-    @endif
 </div>
 
 <!-- MODAL CREAR ESTADILLO -->
@@ -153,12 +146,6 @@
             </div>
         </div>
     </div>
-    @if (isset($return))
-        <a href="{{ route('indexEstadillos') }}" class="btn btn-primary">
-            <span class="fas fa-angle-double-left"></span>
-            TORNAR
-        </a> 
-    @endif
 </div>
 
 <script>

@@ -26,22 +26,22 @@ class EmpleatExternController extends Controller
     */
     public function index()
     {
+        //Array on es guarda els carrecrs dels empleats
         $empleatsArray = array();
         $idiomes = Idioma::all();
         $carrecs = Carrec::all();
+        //Ordena els carrecs, dels empleats, per el seu id
         $empleats = EmpleatExtern::with(['carrec' => function($query){
                                         $query->orderBy('id_carrec');
                                     }])->get();
         foreach ($empleats as $empleat) {
             foreach( $empleat->carrec as $empleatCarrec ){
                     $empleatCarrec->carrec;
-                    //return response()->json($empleatCarrec);
+                    //Comprova que el carrec no estigui repetit;
                     isset($empleatsArray[$empleat->id_empleat][$empleatCarrec->carrec->nom_carrec]) ? '' : $empleatsArray[$empleat->id_empleat][$empleatCarrec->carrec->nom_carrec] = $empleatCarrec->carrec->nom_carrec;
-            
-                    //return response()->json($empleatsArray);
             }
         }
-        //return response()->json($empleatsArray);
+        //return response()->json($empleats);
         
         return View('empleats_externs.index', array('empleats' => $empleats, 'carrecs' => $carrecs,
                                                     'idiomes' => $idiomes,'empleatsArray' => $empleatsArray));
@@ -90,6 +90,7 @@ class EmpleatExternController extends Controller
         } else if (request()->input("searchBy") == '3'){
             $empleats = EmpleatExtern::whereRaw('LOWER(nacionalitat_empleat) like "%'. strtolower(request()->input("search_term").'%"'))->with('carrec')->get();
         } else {
+            //Amb el whereRaw ens dona la posibilitat de poder fer consultes amb més opcions
             $empleats = EmpleatExtern::whereRaw('LOWER(nom_empleat) like "%'. strtolower(request()->input("search_term")).'%"'
                         . 'OR LOWER(cognom1_empleat) like "%'. strtolower(request()->input("search_term")).'%"'
                         . 'OR LOWER(cognom2_empleat) like "%'. strtolower(request()->input("search_term")).'%"')->with('carrec')->get();
@@ -120,7 +121,7 @@ class EmpleatExternController extends Controller
         $carrecs = $empleat->carrec;
         $tarifas = Tarifa::all();
         $carrecsEmpelat = array();
-                // Crea el objeto "carrecsEmpelat" para mostrar las tablas de cargos en el frontend
+        // Crea el objeto "carrecsEmpelat" para mostrar las tablas de cargos i tarifas en el frontend
         foreach ($carrecs as $key => $carrec) {
             $idioma = $carrec->idioma;
             $tarifa = $carrec->tarifa;
@@ -160,6 +161,7 @@ class EmpleatExternController extends Controller
         $tarifas = Tarifa::select('nombre', 'id_carrec', 'nombre_corto')->get();
         //return response()->json(['prpr'=>$tarifas]);
         $carrecsEmpleats = $empleat->carrec;
+        //Arrays que guardan les dades dels arrays i les tarifes per mostrar-les en el frontend
         $carrecsData = [];
         $carrecTarifes = [];
 
@@ -211,16 +213,17 @@ class EmpleatExternController extends Controller
             'sexe_empleat' => 'required',
             'nacionalitat_empleat' => 'required',
             'email_empleat' => 'required|email',
-            'dni_empleat' => 'required',
+            'dni_empleat' => 'required|regex:/[0-9A-Z][0-9]{7}[A-Z]/',
             'telefon_empleat' => 'required',
             'direccio_empleat' => 'required',
-            'codi_postal_empleat' => 'required',
+            'codi_postal_empleat' => array('required','regex:/^(?:0[1-9]|[1-4]\d|5[0-2])\d{3}$/'),
             'naixement_empleat' => 'required',
             'nss_empleat' => 'required',
-            'iban_empleat' => 'required'
+            'iban_empleat' => 'required|regex:/^[A-Z]{2}[0-9]{2}[A-Z0-9]{1,30}$/'
         ],[
             'required' => 'No s\'ha introduït aquesta dada.',
-            'email' => 'Aquesta dada té que ser un email.'
+            'email' => 'Aquesta dada té que ser un email.',
+            'regex' => 'No te el format correcte',
         ]);
 
         if ($v->fails()) {
@@ -331,16 +334,17 @@ class EmpleatExternController extends Controller
                 'sexe_empleat' => 'required',
                 'nacionalitat_empleat' => 'required',
                 'email_empleat' => 'required|email',
-                'dni_empleat' => 'required',
+                'dni_empleat' => 'required|regex:/[0-9A-Z][0-9]{7}[A-Z]/',
                 'telefon_empleat' => 'required',
                 'direccio_empleat' => 'required',
-                'codi_postal_empleat' => 'required',
+                'codi_postal_empleat' => array('required','regex:/^(?:0[1-9]|[1-4]\d|5[0-2])\d{3}$/'),
                 'naixement_empleat' => 'required',
                 'nss_empleat' => 'required',
-                'iban_empleat' => 'required',
+                'iban_empleat' => 'required|regex:/^[A-Z]{2}[0-9]{2}[A-Z0-9]{1,30}$/'
             ],[
-                'required' => ' No s\'ha introduït aquesta dada.',
-                'email' => 'Aquesta dada té que ser un email.'
+                'required' => 'No s\'ha introduït aquesta dada.',
+                'email' => 'Aquesta dada té que ser un email.',
+                'regex' => 'No te el format correcte',
             ]);
 
             if ($v->fails()) {

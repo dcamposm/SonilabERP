@@ -175,8 +175,7 @@
             </tr>
             @endforeach
         </tbody>
-    </table>
-
+    </table>   
     <!-- MODAL ESBORRAR REGISTRE ENTRADA -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -188,7 +187,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <span id="delete-message">...</span>
+                    <span id="delete-message">Estàs segur/a</span>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="self.seleccionarRegistreEntrada(0)">TANCAR</button>
@@ -198,9 +197,9 @@
         </div>
     </div>
     @if (isset($return))
-        <a href="{{ url('/registreEntrada') }}" class="btn btn-primary">
+        <a href="{{ url('/registreEntrada') }}" class="btn btn-primary mb-3 mt-3">
             <span class="fas fa-angle-double-left"></span>
-            TORNAR ENRERA
+            TORNAR
         </a> 
     @endif
 </div>

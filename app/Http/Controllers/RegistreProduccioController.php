@@ -17,9 +17,27 @@ class RegistreProduccioController extends Controller {
     public function getIndex() {
         //$empleats = EmpleatExtern::with('produccioTraductor')->get();
         //
-        $registreProduccio = RegistreProduccio::with('traductor')->with('ajustador')
+        $registres = RegistreProduccio::with('traductor')->with('ajustador')
                 ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
-                ->orderBy('estat')->orderBy('data_entrega')->get();
+                ->orderBy('estat')->get();
+        
+        $registreProduccio = array();
+        
+        foreach ($registres as $registre){
+            if ($registre->subreferencia == 0){
+                $registreProduccio[$registre->id_registre_entrada] = $registre;
+            } else {
+                if (!isset($registreProduccio[$registre->id_registre_entrada])){
+                    $registreProduccio[$registre->id_registre_entrada][0] = array(
+                        'id_registre_entrada' => $registre->id_registre_entrada,
+                        'titol' => $registre->registreEntrada->titol
+                    );
+                }
+                $registreProduccio[$registre->id_registre_entrada][$registre->subreferencia] = $registre;
+            }
+        }
+        
+        //return response()->json($registreProduccio);
         $registreEntrada = RegistreEntrada::all();
         //return response()->json($registreProduccio[0]->getEstadillo);
         return View('registre_produccio.index', array('registreProduccions' => $registreProduccio, 'registreEntrades' => $registreEntrada));
@@ -78,7 +96,6 @@ class RegistreProduccioController extends Controller {
     }
     
     public function update($id){
-        //pongo esto de relleno
         $prod = RegistreProduccio::find($id);
         //return response()->json(request()->all());
         $prod->fill(request()->all());               
@@ -121,8 +138,6 @@ class RegistreProduccioController extends Controller {
 
             return redirect()->back()->with('success', 'Registre de producció modificat correctament.');
         }
-        getIndex();
-        
     }
 
     public function updateComanda($id){
@@ -153,8 +168,6 @@ class RegistreProduccioController extends Controller {
 
             return redirect()->back()->with('success', 'Registre de producció modificat correctament.');
         }
-        getIndex();
-        
     }
     
     public function updatePreparacio($id){
@@ -187,8 +200,6 @@ class RegistreProduccioController extends Controller {
 
             return redirect()->back()->with('success', 'Registre de producció modificat correctament.');
         }
-        getIndex();
-        
     }
 
     public function updateConvocatoria($id){
@@ -219,20 +230,62 @@ class RegistreProduccioController extends Controller {
 
             return redirect()->back()->with('success', 'Registre de producció modificat correctament.');
         }
-        getIndex();
-        
     }
 
     public function find() {
-        if (request()->input("searchBy") == '3') {
-            $registreProduccio = RegistreProduccio::where('estat', request()->input("search_Estat"))->get();
-        } else if (request()->input("searchBy") == '2') {
-            $registreProduccio = RegistreEntrada::where('estat', request()->input("search_Estat"))->get();
+        //return response()->json(request()->all());
+        if (request()->input("searchBy") == 'id_traductor' || request()->input("searchBy") == 'id_ajustador' || 
+            request()->input("searchBy") == 'id_linguista' || request()->input("searchBy") == 'id_director'  || 
+            request()->input("searchBy") == 'id_tecnic_mix'){
+            //->whereRaw('LOWER(nom_empleat) like "%'. strtolower(request()->input("search_term")).'%"')
+            if (request()->input("searchBy") == 'id_traductor'){
+                $empleats = EmpleatExtern::with(['carrec' => function($query){
+                                $query->where('id_tarifa', 12);
+                            }])->whereRaw('LOWER(nom_empleat) like "%'. strtolower(request()->input("search_term")).'%"')->get();
+            } else if (request()->input("searchBy") == 'id_ajustador') {
+                $empleats = EmpleatExtern::with(['carrec' => function($query){
+                                $query->where('id_tarifa', 13);
+                            }])->whereRaw('LOWER(nom_empleat) like "%'. strtolower(request()->input("search_term")).'%"')->get();
+            } else if (request()->input("searchBy") == 'id_linguista') {
+                $empleats = EmpleatExtern::with(['carrec' => function($query){
+                                $query->where('id_tarifa', 14);
+                            }])->whereRaw('LOWER(nom_empleat) like "%'. strtolower(request()->input("search_term")).'%"')->get();
+            } else if (request()->input("searchBy") == 'id_director') {
+                $empleats = EmpleatExtern::with(['carrec' => function($query){
+                                $query->where('id_carrec', 2);
+                            }])->whereRaw('LOWER(nom_empleat) like "%'. strtolower(request()->input("search_term")).'%"')->get();
+            } else if (request()->input("searchBy") == 'id_tecnic_mix') {
+                $empleats = EmpleatExtern::with(['carrec' => function($query){
+                                $query->where('id_carrec', 3);
+                            }])->whereRaw('LOWER(nom_empleat) like "%'. strtolower(request()->input("search_term")).'%"')->get();
+            }
+            //return response()->json($empleats);
+            foreach ($empleats as $empleat){
+                //return response()->json(empty($empleat->carrec[0]));
+                if (!empty($empleat->carrec[0])){
+                    //return response()->json($empleat);
+                    if (!isset($raw)){
+                        $raw = request()->input("searchBy").' = '.$empleat->id_empleat.'';
+                    } else {
+                        $raw = $raw.' OR '.request()->input("searchBy").' = '.$empleat->id_empleat.'';
+                    }
+                    //return response()->json($empleat);
+                }
+            }
+            if (!isset($raw)){
+                $raw = request()->input("searchBy").' like "'.strtolower(request()->input("search_term")).'"';;
+            }
+            //return response()->json($raw);
+            $registreProduccio = RegistreProduccio::with('traductor')->with('ajustador')
+                            ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
+                            ->orderBy('estat')->orderBy('data_entrega')->orderBy(request()->input("orderBy"))->whereRaw($raw)->get();
+            //return response()->json($registreProduccio);
         } else {
-            $registreProduccio = RegistreEntrada::where('titol', request()->input("search_term"))
-                            ->orWhere('id_registre_entrada', request()->input("search_term"))->get();
+            $registreProduccio = RegistreProduccio::with('traductor')->with('ajustador')
+                            ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
+                            ->orderBy('estat')->orderBy('data_entrega')->orderBy(request()->input("orderBy"))->whereRaw('LOWER('.request()->input("searchBy").') like "%'.strtolower(request()->input("search_term")).'%"')
+                ->get();
         }
-
         return view('registre_produccio.index', array('registreProduccions' => $registreProduccio,
                                                         'return' => 1));
     }
@@ -350,6 +403,8 @@ class RegistreProduccioController extends Controller {
     }
 
     public function delete(Request $request) {
+        Estadillo::where('id_registre_produccio', request()->input("id"))->delete();
+        Costos::where('id_registre_produccio', request()->input("id"))->delete();
         RegistreProduccio::where('id', request()->input("id"))->delete();
         return redirect()->route('indexRegistreProduccio');
     }

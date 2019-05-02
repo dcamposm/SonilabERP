@@ -6,7 +6,7 @@
     <h2 style="font-weight: bold">{{!empty($client) ? 'EDITAR CLIENT' : 'CREAR CLIENT'}}</h2>
     <form method = "POST" action="{{ !empty($client) ? route('clientUpdate', array('id' => $client->id_client)) : route('clientInsert') }}" enctype="multipart/form-data">
         @csrf
-        <fieldset class="border p-2">
+        <fieldset class="border p-2 mb-4">
             <legend class="w-auto">DADES:</legend>
             <div class="row">
                 <div class="col-6">
@@ -70,8 +70,6 @@
             </div>
         </fieldset>
 
-
-        <br>
 
         <!-- BOTÓN DE CREAR O ACTUALIZAR -->
         <div class="row justify-content-between">

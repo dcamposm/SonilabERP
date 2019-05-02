@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateSlbRegistresProduccioTable extends Migration
+class Update2SlbRegistreProduccioTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,7 @@ class UpdateSlbRegistresProduccioTable extends Migration
     public function up()
     {
         Schema::table('slb_registres_produccio', function (Blueprint $table) {
-            $table->timestamp('final_sala')->after('inici_sala');
-            $table->boolean('pps')->default(false)->after('inici_sala');
+            $table->dateTime('data_entrega')->after('id_registre_entrada');
         });
     }
 
@@ -27,8 +26,7 @@ class UpdateSlbRegistresProduccioTable extends Migration
     public function down()
     {
         Schema::table('slb_registres_produccio', function (Blueprint $table) {
-            $table->dropColumn('final_sala');
-            $table->dropColumn('pps');
+            $table->dropColumn('data_entrega');
         });
     }
 }

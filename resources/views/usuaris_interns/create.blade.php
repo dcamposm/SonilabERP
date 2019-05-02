@@ -4,7 +4,7 @@
 
 <div class="container">
     <h2 style="font-weight: bold">{{!empty($usuario) ? 'EDITAR USUARI' : 'CREAR USUARI'}}</h2>
-    <form method = "POST" action="{{!empty($usuario) ? route('editarUsuariIntern', ['id' => $usuario->id_usuari]) : route('crearUsuariIntern')}}" onsubmit="return checkPass(this);" enctype="multipart/form-data">
+    <form method = "POST" action="{{!empty($usuario) ? route('editarUsuariIntern', ['id' => $usuario->id_usuari]) : route('crearUsuariIntern')}}" enctype="multipart/form-data">
         @csrf
 
         <div class="row">
@@ -51,9 +51,10 @@
             <div class="col-6">
                 <label for="cpass" style="font-weight: bold">DEPARTAMENT:</label>
                 <select class="form-control" name="id_departament">
-                @foreach( $departaments as $departament )
-                    <option value="{{$departament['id_departament']}}" {{((!empty($usuario) && $usuario->id_departament == $departament['id_departament'])) || (old('id_departament') == $departament['id_departament']) ? 'selected' : ''}} >{{$departament['nom_departament']}}</option>
-                @endforeach
+                    <option></option>
+                    @foreach( $departaments as $departament )
+                        <option value="{{$departament['id_departament']}}" {{((!empty($usuario) && $usuario->id_departament == $departament['id_departament'])) || (old('id_departament') == $departament['id_departament']) ? 'selected' : ''}} >{{$departament['nom_departament']}}</option>
+                    @endforeach
                 </select>
                 <span class="text-danger">{{ $errors->first('id_departament') }}</span>
             </div>
@@ -71,35 +72,26 @@
                 <div class="form-group">
                     <label for="cpass" style="font-weight: bold">CONFIRMA CONTRASENYA:</label>
                     <input type="password" class="form-control" id="cpass" placeholder="Confirmar contrasenya" name="cpass">
+                    <span class="text-danger">{{ $errors->first('cpass') }}</span>
                 </div>
             </div>
         </div>
 
-        <div class="row">
+        <div class="row mb-3">
             <div class="form-group">
                 <label for="imatge_usuari" style="font-weight: bold">IMATGE USUARI:</label>
                 <input type="file" name="imatge_usuari" />
             </div>
         </div>
-        <br>
+        
         <div class="row justify-content-between">
             <a href="{{ url('/usuaris/interns/index') }}" class="btn btn-primary col-2">
                 <span class="fas fa-angle-double-left"></span>
                 TORNAR
             </a> 
-            <button type="submit" class="btn btn-success col-2">{{!empty($usuario) ? 'GUARDAR' : 'CREAR'}} <i class="fas fa-save"></i></i></button>     
+            <button type="submit" class="btn btn-success col-2">{{!empty($usuario) ? 'DESAR' : 'CREAR'}} <i class="fas fa-save"></i></i></button>     
         </div>
         
     </form>
 </div>
-<script type="text/javascript">
-    function checkPass(form){
-        if(form.contrasenya_usuari.value == form.cpass.value) {
-            return true;
-        } else {
-            alert('La contrasenya de confirmacio no es la mateix');
-            return false;
-        }
-    }
-</script>
 @endsection

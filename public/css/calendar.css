@@ -1,0 +1,156 @@
+body, html, main{
+    height: 100% !important;
+}
+
+.celda{
+    border: 1px solid black;
+    padding: 0px;
+    color: black !important;
+    height: 70px;
+}
+.labelFechaManana{
+    top:-25px;
+    left: 0;
+    position: absolute;
+}
+.labelFechaTarde{
+    top:65px;
+    left: 0;
+    position: absolute;
+}
+.tableP{
+    height: 100%;
+}
+.tablaMinutos{
+    width: 5px;
+    /* background-color: pink; */
+}
+.tablaMinutosT{
+    width: 5px;
+    /* background-color: orange; */
+}
+.encabezado{
+    align-items: center;
+}
+
+.barra_progreso {
+    height: 100%;
+    width: 100%;
+    font-size: 30px;
+    border-radius: 0px !important;
+}
+
+.fila{
+    height: calc(100%/8);
+}
+
+.container {
+    padding-top: 20px;
+}
+
+.barra{
+    color: black;
+}
+
+.semana{
+    text-align: center;
+    flex: auto;
+}
+
+.simil-btn{
+    background-color: #3490dc;
+    border-color: #3490dc;
+    color: #fff;
+    border-radius: 0px;
+}
+
+.boton{
+    margin-right: 8px;
+}
+
+.round-left{
+    border-radius: .25rem 0px 0px .25rem !important;
+}
+
+.round-right{
+    border-radius: 0px .25rem .25rem 0px !important;
+}
+
+.contenedor{
+    height: 100%;
+    padding: 0px;
+}
+
+.contenedor-margen{
+    /*width: -moz-calc(100% - 300px);
+    width: -webkit-calc(100% - 300px);
+    width: -o-calc(100% - 300px);
+    width: calc(100% - 300px);*/
+    margin-right: 300px;
+}
+
+.sala{
+    padding: 15px;
+    background-color: pink;
+}
+
+.col-fecha{
+    text-align: center;
+}
+
+/* SIDEBAR */ 
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav li {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 20px;
+    color: cornsilk;
+    display: block;
+    transition: 0.3s;
+    background-color: green;
+    border: 2px solid coral;
+    cursor: pointer;
+    user-select: none;
+    -ms-touch-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    right: 25px;
+    font-size: 36px;
+    color: white;
+}
+
+#main {
+    transition: margin-right .5s;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+
+#tablaHoras {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 20px;
+}

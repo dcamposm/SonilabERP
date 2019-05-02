@@ -34,5 +34,77 @@ class slb_empleats_externsTableSeeder extends Seeder
             'nss_empleat' => '666 999',
             'iban_empleat' => 'ES666666666'
         ));
+
+        EmpleatExtern::create(array(
+            'id_empleat' => '2',
+            'nom_empleat' => 'Fede',
+            'cognom1_empleat' => 'Granger',
+            'cognom2_empleat' => 'Profe',
+            'sexe_empleat' => 'Home',
+            'nacionalitat_empleat' => 'Español',
+            'imatge_empleat' => $image,
+            'email_empleat' => 'fede.treballador@gmail.com',
+            'dni_empleat' => '11111611A',
+            'telefon_empleat' => '666666666',
+            'direccio_empleat' => 'C/ home i dona que treballen',
+            'codi_postal_empleat' => '00666',
+            'naixement_empleat' => \Carbon\Carbon::create(2000, 1, 1),
+            'nss_empleat' => '666 899',
+            'iban_empleat' => 'ES666666666'
+        ));
+
+        EmpleatExtern::create(array(
+            'id_empleat' => '3',
+            'nom_empleat' => 'Esteban',
+            'cognom1_empleat' => 'Estebin',
+            'cognom2_empleat' => 'Jorge',
+            'sexe_empleat' => 'Home',
+            'nacionalitat_empleat' => 'Español',
+            'imatge_empleat' => $image,
+            'email_empleat' => 'esteban.treballador@gmail.com',
+            'dni_empleat' => '11111511A',
+            'telefon_empleat' => '666666666',
+            'direccio_empleat' => 'C/ home i dona que treballen',
+            'codi_postal_empleat' => '00666',
+            'naixement_empleat' => \Carbon\Carbon::create(2000, 1, 1),
+            'nss_empleat' => '666 699',
+            'iban_empleat' => 'ES666666666'
+        ));
+
+        EmpleatExtern::create(array(
+            'id_empleat' => '4',
+            'nom_empleat' => 'Kevons',
+            'cognom1_empleat' => 'Miguelus',
+            'cognom2_empleat' => 'Emilianus',
+            'sexe_empleat' => 'Dona',
+            'nacionalitat_empleat' => 'Español',
+            'imatge_empleat' => $image,
+            'email_empleat' => 'Kevons.treballador@gmail.com',
+            'dni_empleat' => '11111411A',
+            'telefon_empleat' => '666666666',
+            'direccio_empleat' => 'C/ home i dona que treballen',
+            'codi_postal_empleat' => '00666',
+            'naixement_empleat' => \Carbon\Carbon::create(2000, 1, 1),
+            'nss_empleat' => '666 799',
+            'iban_empleat' => 'ES666666666'
+        ));
+
+        EmpleatExtern::create(array(
+            'id_empleat' => '5',
+            'nom_empleat' => 'Ruperta',
+            'cognom1_empleat' => 'Derelleno',
+            'cognom2_empleat' => 'Yya',
+            'sexe_empleat' => 'Dona',
+            'nacionalitat_empleat' => 'Español',
+            'imatge_empleat' => $image,
+            'email_empleat' => 'Ruperta.treballador@gmail.com',
+            'dni_empleat' => '11112111A',
+            'telefon_empleat' => '666666666',
+            'direccio_empleat' => 'C/ home i dona que treballen',
+            'codi_postal_empleat' => '00666',
+            'naixement_empleat' => \Carbon\Carbon::create(2000, 1, 1),
+            'nss_empleat' => '666 199',
+            'iban_empleat' => 'ES666666666'
+        ));
     }
 }

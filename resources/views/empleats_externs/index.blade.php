@@ -45,9 +45,9 @@
                 </form>
             </div>
         </div>
-  </div>
+    </div>
     
-    <table class="table" style="margin-top: 10px;">
+    <table class="table mt-3" style="min-width: 1200px;">
         <thead>
             <tr>
                 <th>NOM</th> 
@@ -78,7 +78,7 @@
                     </td>
                     @if (Auth::user()->hasAnyRole(['1', '4']))
                         <td style="vertical-align: middle;">
-                            <a href="{{ route('empleatUpdateView', ['id' => $empleat['id_empleat']]) }}" class="btn btn-primary"> EDITAR </a>
+                            <a href="{{ route('empleatUpdateView', ['id' => $empleat['id_empleat']]) }}" class="btn btn-primary"> MODIFICAR </a>
                             <button onclick="setEmpleatPerEsborrar({{$empleat['id_empleat']}}, '{{$empleat['nom_empleat']}} {{$empleat['cognom1_empleat']}} {{$empleat['cognom2_empleat']}}')" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">ESBORRAR</button>
                             <form id="delete-{{ $empleat['id_empleat'] }}" action="{{ route('empleatDelete') }}" method="POST">
                                 @csrf
@@ -90,7 +90,6 @@
             @endforeach
         </tbody>
     </table>
-    
 
     <!-- MODAL ESBORRAR EMPLEAT -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

@@ -3174,7 +3174,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "backendtea@gmail.com"
+                    "email": "BackEndTea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -3559,6 +3559,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/translation/zipball/181a426dd129cb496f12d7e7555f6d0b37a7615b",
                 "reference": "181a426dd129cb496f12d7e7555f6d0b37a7615b",
+
                 "shasum": ""
             },
             "require": {
