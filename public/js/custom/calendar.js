@@ -35,15 +35,12 @@ function cargarDatos(){
     console.log(data)
 
     data.forEach(element => {
-        var celda = $("[dia="+element.data_inici.split(' ')[0]+"][sala="+element.num_sala+"]");
-        if (celda.length > 0) {
-            celda = $("[dia="+element.data_inici.split(' ')[0]+"][sala="+element.num_sala+"]")[0].children[0].children[0];
-            var takes = Number(celda.innerText.replace('%','')) + element.num_takes;
-            celda.innerText = takes + '%';
-            celda.style.width = takes + '%';
-            celda.setAttribute('aria-valuenow', takes);
-            cambiarColorCelda(celda, takes);
-        }
+       var celda = $("[dia="+element.data_inici.split(' ')[0]+"][sala="+element.num_sala+"]")[0].children[0].children[0]
+       var takes = Number(celda.innerText.replace('%','')) + element.num_takes
+       celda.innerText = takes + '%'
+       celda.style.width = takes + '%'
+       celda.setAttribute('aria-valuenow', takes)
+       cambiarColorCelda(celda, takes)
     });
 }
 
