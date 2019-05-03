@@ -11,6 +11,7 @@ use App\CalendarCarrec;
 use DateTime;
 use App\EmpleatExtern;
 use App\ActorEstadillo;
+use App\Carrec;
 
 class CalendariController extends Controller
 {
@@ -64,8 +65,38 @@ class CalendariController extends Controller
                                         "data"      => $data]);
     }
 
-    public function getDay(Request $request) {
-        return response()->json(request()->all());
+    public function cambiarCargo(Request $request) {
+        // Coge todos los parámetros necesarios:
+        $data       = strtotime($request->get('data'));
+        $data       = date('Y-m-d H:i:s', $data);
+        $sala       = $request->get('sala');
+        $id_empleat = $request->get('id_empleat');
+        // Coge el identificador del cargo dependiendo del cargo que le pasemos en la consulta:
+        $id_carrec  = Carrec::select('id_carrec')->where('nom_carrec', '=', $request->get('cargo'))->first()->id_carrec;
+
+        // Comprueba si ya existe un registro en la base de datos:
+        $calendariCarrec = CalendarCarrec::where('data', '=', $data)->where('id_carrec', '=', $id_carrec)->first();
+        if (empty($calendariCarrec) == true) {
+            // Si no existe entonces creamos el objeto.
+            $calendariCarrec = new CalendarCarrec;
+        }
+
+        // Asignamos los valores al objeto:
+        $calendariCarrec->data       = $data;
+        $calendariCarrec->num_sala   = $sala;
+        $calendariCarrec->id_empleat = $id_empleat;
+        $calendariCarrec->id_carrec  = $id_carrec;
+
+        // Guardamos el objeto en la base de datos:
+        $calendariCarrec->save();
+
+        // Retornamos el resultado para indicar que todo ha ido OK:
+        return response()->json([
+            $data,
+            $sala,
+            $id_empleat,
+            $id_carrec
+        ]);
     }
 
     public function create(){

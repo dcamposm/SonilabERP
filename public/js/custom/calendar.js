@@ -295,3 +295,55 @@ function pad(num){
 function pintar(elemento){
    elemento.css({'background-color': 'red'})    
 }
+
+
+///// CAMBIAR TÉCNICO Y DIRECTOR /////
+function cambiarDirector() {
+    $.ajax({
+        url: '/calendari/cambiarCargo',
+        type: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            Accept: 'application/json'
+        },
+        data: {
+            'id_empleat': $('#director').val(),
+            'data': diaSeleccionado,
+            'sala': salaSeleccionada,
+            'cargo': 'Director'
+        },
+        success: function(response) {
+          console.log(response);
+          // TODO: Poner el id_empleado nuevo en el array, para que cuando se vuelva a abrir esté ya cambiado.
+        },
+        error: function(error) {
+          console.error(error);
+          alert("No s'ha pogut canviar el director :(");
+        }
+    });
+}
+
+function cambiarTecnico() {
+    $.ajax({
+        url: '/calendari/cambiarCargo',
+        type: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            Accept: 'application/json'
+        },
+        data: {
+            'id_empleat': $('#tecnico').val(),
+            'data': diaSeleccionado,
+            'sala': salaSeleccionada,
+            'cargo': 'Tècnic de sala'
+        },
+        success: function(response) {
+          console.log(response);
+          // TODO: Poner el id_empleado nuevo en el array, para que cuando se vuelva a abrir esté ya cambiado.
+        },
+        error: function(error) {
+          console.error(error);
+          alert("No s'ha pogut canviar el tècnic :(");
+        }
+    });
+}

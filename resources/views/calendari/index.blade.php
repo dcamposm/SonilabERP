@@ -56,28 +56,28 @@
 <div style="overflow: hidden;" class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div id="dialog" class="modal-dialog" role="document">
         <div class="modal-content" style="width: 100%; height: 100%;">
-            <div class="modal-header">
+            <div class="modal-header" style="display: flex; align-items: center;">
                 <input type="hidden" id="">
                 <h5 class="modal-title" id="exampleModalLabel2">Modal title</h5>
 
                 <span style="margin-left: 20px;">Director: </span>
                 {{-- TODO: Falta especificar la acción correspondiente. --}}
-                <form action="/pepe" method="POST" style="margin-left: 5px;">
-                    <select name="director" onchange="this.form.submit()">
+                <form action="" method="POST" style="margin-left: 5px;">
+                    <select id="director" class="form-control" name="director" onchange="cambiarDirector()">
                         @foreach($directors as $key => $director)
                             {{-- TODO: Falta hacer la condición para seleccionar el director seleccionado. --}}
-                            <option value="{{$director['nom_empleat']}} {{ $director['cognom1_empleat'] }} {{ $director['cognom2_empleat'] }}" {{--(algo) ? 'selected' : ''--}} >{{$director['nom_empleat']}} {{ $director['cognom1_empleat'] }} {{ $director['cognom2_empleat'] }}</option>
+                            <option value="{{$director['id_empleat']}}" {{--(algo) ? 'selected' : ''--}} >{{$director['nom_empleat']}} {{ $director['cognom1_empleat'] }} {{ $director['cognom2_empleat'] }}</option>
                         @endforeach
                     </select>
                 </form>
 
                 <span style="margin-left: 20px;">Tècnic: </span>
                 {{-- TODO: Falta especificar la acción correspondiente. --}}
-                <form action="/pepe" method="POST" style="margin-left: 5px;">
-                    <select name="tecnic" onchange="this.form.submit()">
+                <form action="/" method="POST" style="margin-left: 5px;">
+                    <select id="tecnico" class="form-control" name="tecnic" onchange="cambiarTecnico()">
                         @foreach($tecnics as $key => $tecnic)
                             {{-- TODO: Falta hacer la condición para seleccionar el técnico seleccionado. --}}
-                            <option value="{{$tecnic['nom_empleat']}} {{ $tecnic['cognom1_empleat'] }} {{ $tecnic['cognom2_empleat'] }}" {{--(algo) ? 'selected' : ''--}} >{{$tecnic['nom_empleat']}} {{ $tecnic['cognom1_empleat'] }} {{ $tecnic['cognom2_empleat'] }}</option>
+                            <option value="{{$tecnic['id_empleat']}}" {{--(algo) ? 'selected' : ''--}} >{{$tecnic['nom_empleat']}} {{ $tecnic['cognom1_empleat'] }} {{ $tecnic['cognom2_empleat'] }}</option>
                         @endforeach
                     </select>
                 </form>
