@@ -9,7 +9,7 @@ $('#semanaMas').on('click', function(){
 
 crearTablaCalendario();
 tablaHoras();
-cargarDatos()
+cargarDatos();
 
 function crearTablaCalendario(){
     var contenedor = $('#contenedor')
@@ -35,12 +35,15 @@ function cargarDatos(){
     console.log(data)
 
     data.forEach(element => {
-       var celda = $("[dia="+element.data_inici.split(' ')[0]+"][sala="+element.num_sala+"]")[0].children[0].children[0]
-       var takes = Number(celda.innerText.replace('%','')) + element.num_takes
-       celda.innerText = takes + '%'
-       celda.style.width = takes + '%'
-       celda.setAttribute('aria-valuenow', takes)
-       cambiarColorCelda(celda, takes)
+        var celda = $("[dia="+element.data_inici.split(' ')[0]+"][sala="+element.num_sala+"]");
+        if (celda.length > 0) {
+            celda = $("[dia="+element.data_inici.split(' ')[0]+"][sala="+element.num_sala+"]")[0].children[0].children[0];
+            var takes = Number(celda.innerText.replace('%','')) + element.num_takes;
+            celda.innerText = takes + '%';
+            celda.style.width = takes + '%';
+            celda.setAttribute('aria-valuenow', takes);
+            cambiarColorCelda(celda, takes);
+        }
     });
 }
 
@@ -125,37 +128,17 @@ function closeNav() {
 
 
 //// MODALS /////
-var datosModalEjemplo = [
-    {
-        fechaIni: "10-04-2019 00:45:00",
-        fechaFin: "10-04-2019 10:15:00",
-        Actor: "Dumbo",
-        takes: "100",
-        sala: 3
-    },
-    {
-        fechaIni: "10-04-2019 18:22:00",
-        fechaFin: "10-04-2019 20:10:00",
-        Actor: "Alita",
-        takes: "69",
-        sala: 3
-    },
-    {
-        fechaIni: "10-04-2019 16:10:00",
-        fechaFin: "10-04-2019 16:20:00",
-        Actor: "El enano",
-        takes: "10",
-        sala: 3
-    },
-];
 
 $('.celda').click(ampliarCasilla);
 
+// Variables globales para guardar el dia y la sala que se han seleccionado al hacer clic en alguna celda:
+var diaSeleccionado = "";
+var salaSeleccionada = "";
+
 function ampliarCasilla(e) {
-    // TODO: Coger fecha y sala de donde se ha hecho clic.
-    console.log(e);
-    console.log(e.delegateTarget.getAttribute("dia"));
-    console.log(e.delegateTarget.getAttribute("sala"));
+    // Coge el atributo "dia" y "sala" de la celda seleccionada:
+    diaSeleccionado = e.delegateTarget.getAttribute("dia");
+    salaSeleccionada = e.delegateTarget.getAttribute("sala");
     
     $('#dialog').css({ 'width': window.innerWidth - 30 })
     $('#dialog').css({ 'max-width': window.innerWidth - 30 })
@@ -185,33 +168,40 @@ $('#exampleModal2').on('shown.bs.modal', function () {
         }
     });*/
 
-    // TODO: Borrar cuando se tenga hecho lo anterior.
-    datosModalEjemplo.forEach(element => {
-        var horaIni = element.fechaIni.split(' ')[1].split(':')[0]
-        var horaFin = element.fechaFin.split(' ')[1].split(':')[0]
-        var minIni = element.fechaIni.split(' ')[1].split(':')[1]
-        var minFin = element.fechaFin.split(' ')[1].split(':')[1]
+    // Volvemos a llamar a esta función para volver a crear la tabla del modal, básicamente
+    // para que cuando cambiemos de día no se visualice el contenido anterior.
+    tablaHoras();
 
-        for (let i = horaIni; i <= horaFin; i++) {
-            if (i == horaFin) {
-                for (let h = 0; h < minFin; h++) {
-                    pintar($('#td_'+i+'-'+pad(h)))
-                }
-            } else if (i == horaIni) {
-                for (let h = minIni; h < 60; h++) {
-                    pintar($('#td_'+i+'-'+pad(h)))
-                }
-            } else {
-                for (let h = 0; h < 60; h++) {
-                    pintar($('#td_'+pad(i)+'-'+pad(h)))
+    data.forEach(element => {
+        var ele_dia = element.data_inici.split(' ');
+
+        // Si el día y la sala son los mismos que los seleccionados pintará la tabla:
+        if (ele_dia[0] == diaSeleccionado && element.num_sala == salaSeleccionada) {
+            var optimizarEsBueno = element.data_fi.split(' ');  // ¿A veces?
+
+            var horaIni = ele_dia[1].split(':')[0]
+            var horaFin = optimizarEsBueno[1].split(':')[0]
+            var minIni = ele_dia[1].split(':')[1]
+            var minFin = optimizarEsBueno[1].split(':')[1]
+
+            for (let i = horaIni; i <= horaFin; i++) {
+                if (i == horaFin) {
+                    for (let h = 0; h < minFin; h++) {
+                        pintar($('#td_'+i+'-'+pad(h)))
+                    }
+                } else if (i == horaIni) {
+                    for (let h = minIni; h < 60; h++) {
+                        pintar($('#td_'+i+'-'+pad(h)))
+                    }
+                } else {
+                    for (let h = 0; h < 60; h++) {
+                        pintar($('#td_'+pad(i)+'-'+pad(h)))
+                    }
                 }
             }
         }
-
-        //()
-
     });
-    $('#exampleModalLabel2').text('Sala: '+ datosModalEjemplo[0].sala + ' / Dia: '+datosModalEjemplo[0].fechaIni.split(' ')[0])
+    $('#exampleModalLabel2').text('Sala: '+ salaSeleccionada + ' / Dia: ' + diaSeleccionado)
 });
 
 function tablaHoras() {
@@ -222,6 +212,9 @@ function tablaHoras() {
     var tarde = document.createElement('div')
     tarde.id = "evening"
     tarde.classList.add('row')
+
+    // Vacia la tabla antigua:
+    $('#tablaHoras').empty();
 
     $('#tablaHoras').append(manyana)
     //HACER TABLA DE HORAS
