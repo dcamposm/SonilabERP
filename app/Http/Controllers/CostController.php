@@ -173,6 +173,7 @@ class CostController extends Controller
             
             $total = 0;
             $totalSS = 0;
+            $maxDocu = array();
             //return response()->json($vecs);
 
             $empleatsInfo = array();
@@ -197,6 +198,7 @@ class CostController extends Controller
                             //return response()->json($vec->empleats);
                             //----------------------INFO ACTORS----------------------
                             if ($empleat->tarifa->carrec->nom_carrec == 'Actor'){
+                                //------------Show la tarifa que no sigui ni canço ni documental--------------
                                 if ($empleat->tarifa->nombre_corto != 'canso' && $empleat->tarifa->nombre_corto != 'docu'){
                                     if (!isset($empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat])) {
                                         $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat] = array(
@@ -243,6 +245,7 @@ class CostController extends Controller
 
                                         //return response()->json($empleat);
                                     } 
+                                //---------------Show tarifa canço-----------
                                 } else if ($empleat->tarifa->nombre_corto == 'canso'){
                                     if (!isset($empleatsInfo['Canço'][$empleat->empleat->id_empleat])) {
                                         $empleatsInfo['Canço'][$empleat->empleat->id_empleat] = array(
@@ -256,12 +259,12 @@ class CostController extends Controller
                                         
                                         $empleatsInfo['Canço'][$empleat->empleat->id_empleat]['total'] += $empleat->cost_empleat;
                                     }
+                                //------------Show tarifa documental------------
                                 } else if ($empleat->tarifa->nombre_corto == 'docu'){
-                                    //return response()->json($empleat->empleat->carrec);
-                                    $maxDocu = 0;
+                                    //return response()->json($empleat->empleat->carrec);;
                                     foreach ($empleat->empleat->carrec as $carrec) {
                                         if ($carrec->id_tarifa == 10){
-                                            $maxDocu = $carrec->preu_carrec;
+                                            $maxDocu[$empleat->empleat->id_empleat]['docu'] = $carrec->preu_carrec;
                                         }
                                     }
                                     //return response()->json($maxDocu);
@@ -302,8 +305,8 @@ class CostController extends Controller
                                         
                                         $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['total'] += $empleat->cost_empleat;
                                         
-                                        if ($empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['total'] > $maxDocu){
-                                            $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['total'] = $maxDocu;
+                                        if ($empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['total'] > $maxDocu[$empleat->empleat->id_empleat]['docu']){
+                                            $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['total'] = $maxDocu[$empleat->empleat->id_empleat]['docu'];
                                         }
                                     }
                                 }
@@ -340,7 +343,8 @@ class CostController extends Controller
                     }
                 }
             }
-            if (!isset($maxDocu)){
+            //return response()->json($maxDocu);
+            if (empty($maxDocu)){
                 $totalSS = ($totalSS/100)*32.35;
                 $total += $totalSS;
             } else {
