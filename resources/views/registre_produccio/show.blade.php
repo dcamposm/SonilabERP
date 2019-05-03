@@ -350,7 +350,7 @@
                 content.append(select);
             } else if (idArray[1] == 'D'){
                 content.text('');
-                content.append('<input type="date" name="'+idArray[0]+'" id="'+idArray[0]+'" class="form-control" value="'+registre[idArray[0]].split(' ')[0]+'">');
+                content.append('<input type="date" name="'+idArray[0]+'" id="'+idArray[0]+'" class="form-control" value="'+(!registre[idArray[0]] ? '' : registre[idArray[0]].split(' ')[0])+'">');
             }else if (idArray[1] == 'N') {
                 content.text('');
                 content.append('<input type="number" name="'+idArray[0]+'" id="'+idArray[0]+'" class="form-control" value="'+value+'">');
