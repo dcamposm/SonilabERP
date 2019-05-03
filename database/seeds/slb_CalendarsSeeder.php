@@ -32,6 +32,7 @@ class slb_CalendarsSeeder extends Seeder
             'data_inici' => '2019-04-26 19:45:00',
             'data_fi' => '2019-04-26 20:50:00',
             'num_sala' => 1,
+            'asistencia' => 0
         ));
         Calendar::create(array(
             'id_calendar' => 3,
@@ -62,6 +63,17 @@ class slb_CalendarsSeeder extends Seeder
             'data_inici' => '2019-04-26 19:30:00',
             'data_fi' => '2019-04-26 20:45:00',
             'num_sala' => 3,
+        ));
+        Calendar::create(array(
+            'id_calendar' => 6,
+            'id_empleat' => 2,
+            'id_actor_estadillo'=>5,
+            'id_registre_entrada' => 1,
+            'num_takes' => 5,
+            'data_inici' => '2019-04-26 21:00:00',
+            'data_fi' => '2019-04-26 21:30:00',
+            'num_sala' => 3,
+            'asistencia' => 1,
         ));
     }
 }
