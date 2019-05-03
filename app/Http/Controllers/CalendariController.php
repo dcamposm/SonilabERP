@@ -7,8 +7,10 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Validator;
 use App\Calendar;
+use App\CalendarCarrec;
 use DateTime;
 use App\EmpleatExtern;
+use App\ActorEstadillo;
 
 class CalendariController extends Controller
 {
@@ -25,7 +27,7 @@ class CalendariController extends Controller
         $dia2 = $dia1->copy()->addDay();
         $dia3 = $dia2->copy()->addDay();
         $dia4 = $dia3->copy()->addDay();
-        $dia5 = $dia4->copy()->addDay();
+        $dia5 = $dia4->copy()->addDay()->addHours(23)->addMinutes(59);
         $fechas = [
             $dia1->format('d-m-Y'), 
             $dia2->format('d-m-Y'), 
@@ -34,9 +36,13 @@ class CalendariController extends Controller
             $dia5->format('d-m-Y')
         ];
 
+        $data = json_encode(Calendar::where('data_inici', '>=', $dia1)
+                                    ->where('data_fi', '<=', $dia5)
+                                    ->get());
+        
         $urlBase = route('showCalendari');
 
-        $actores = [];
+        $actores = [];//ActorEstadillo::where();
         $tecnics = EmpleatExtern::select('slb_empleats_externs.id_empleat', 'slb_empleats_externs.nom_empleat', 'slb_empleats_externs.cognom1_empleat', 'slb_empleats_externs.cognom2_empleat')
                                   ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', '=', 'slb_empleats_externs.id_empleat')
                                   ->join('slb_carrecs', 'slb_carrecs.id_carrec', '=', 'slb_carrecs_empleats.id_carrec')
@@ -47,14 +53,15 @@ class CalendariController extends Controller
                                     ->join('slb_carrecs', 'slb_carrecs.id_carrec', '=', 'slb_carrecs_empleats.id_carrec')
                                     ->where('slb_carrecs.nom_carrec', '=', 'Director')
                                     ->get();
-
+        
         return View('calendari.index', ["fechas"    => $fechas, 
                                         "week"      => $week,
                                         "year"      => $year,
                                         "urlBase"   => $urlBase,
                                         "actores"   => $actores,
                                         "tecnics"   => $tecnics,
-                                        "directors" => $directors]);
+                                        "directors" => $directors,
+                                        "data"      => $data]);
     }
 
     public function getDay(Request $request) {
@@ -116,6 +123,62 @@ class CalendariController extends Controller
     public function delete($id){
         $calendari = Calendar::findOrFail($id);
         $calendari->delete();
+       
+        return redirect()->route('showCalendari');
+    }
+    
+    
+    public function calendariCarrecInsertar(){
+        $v = Validator::make(request()->all(),[
+            //'id_calendar'=>'required|max:35',
+            'id_carrec'=>'required|max:35|exists:slb_carrecs',
+            'id_empleat'=>'required|max:35|exists:slb_empleats_externs',
+            'num_sala'=>'required|regex:/^[0-9]+$/',//^[0-9]+$
+            'data'=>'required|max:35',
+            'torn'=>'required|max:3',
+        ]);
+
+        if ($v->fails()) {
+            // Datos incorrectos.
+            
+            return redirect()->back()->withErrors($v)->withInput();
+        }
+        else {
+            $calendariCarrec = new CalendarCarrec(request()->all());  
+            $calendariCarrec->save();
+            //return response()->json(request()->all());
+
+            return redirect()->route('showCalendari');
+        }
+    }
+    
+    public function calendariCarrecEditar($id){
+        $calendariCarrec = CalendarCarrec::findOrFail($id);
+        $v = Validator::make(request()->all(),[
+            'id_carrec'=>'required|max:35|exists:slb_carrecs',
+            'id_empleat'=>'required|max:35|exists:slb_empleats_externs',
+            'num_sala'=>'required|regex:/^[0-9]+$/',
+            'data'=>'required|max:35',
+            'torn'=>'required|max:3',
+        ]);
+        
+        if ($v->fails()) {
+            // Datos incorrectos.
+            return redirect()->back()->withErrors($v)->withInput();
+        }
+        else {
+            //return response()->json(request()->all());
+            // Datos correctos.
+            $calendariCarrec->fill(request()->all());  
+            $calendariCarrec->save();
+
+            return response()->json(request()->all());
+        }
+    }
+
+    public function calendariCarrecDelete($id){
+        $calendariCarrec = CalendarCarrec::findOrFail($id);
+        $calendariCarrec->delete();
        
         return redirect()->route('showCalendari');
     }

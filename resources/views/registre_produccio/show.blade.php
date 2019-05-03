@@ -22,21 +22,21 @@
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">SUB-REFERENCIA:</td>
-                <td class="col" id="subreferencia-T">{{ $registreProduccio['subreferencia']}}</td>
+                <td class="col" id="subreferencia-N">{{ $registreProduccio['subreferencia']}}</td>
                 @if (Auth::user()->hasAnyRole(['1', '2', '4']))
                     <td class="col-sm-1 align-middle text-center"><button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button></td>
                 @endif
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">DATA ENTREGA:</td>
-                <td class="col" id="data_entrega-T">{{ date('d/m/Y', strtotime($registreProduccio->data_entrega))}}</td>
+                <td class="col" id="data_entrega-D">{{ date('d/m/Y', strtotime($registreProduccio->data_entrega))}}</td>
                 @if (Auth::user()->hasAnyRole(['1', '2', '4']))
                     <td class="col-sm-1 align-middle text-center"><button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button></td>
                 @endif
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">SETMANA:</td>
-                <td class="col" id="setmana-T">{{ $registreProduccio['setmana']}}</td>
+                <td class="col" id="setmana-N">{{ $registreProduccio['setmana']}}</td>
                 @if (Auth::user()->hasAnyRole(['1', '2', '4']))
                     <td class="col-sm-1 align-middle text-center"><button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button></td>
                 @endif
@@ -85,7 +85,7 @@
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">DATA TRADUCTOR:</td>
-                <td class="col" id="data_traductor-T">{{ $registreProduccio['data_traductor']==0 ? '' : date('d/m/Y', strtotime($registreProduccio['data_traductor'])) }}</td>
+                <td class="col" id="data_traductor-D">{{ $registreProduccio['data_traductor']==0 ? '' : date('d/m/Y', strtotime($registreProduccio['data_traductor'])) }}</td>
                 @if (Auth::user()->hasAnyRole(['1', '2', '4']))
                     <td class="col-sm-1 align-middle text-center"><button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button></td>
                 @endif
@@ -99,7 +99,7 @@
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">DATA AJUSTADOR:</td>
-                <td class="col" id="data_ajustador-T">{{ $registreProduccio['data_ajustador']==0 ? '' : date('d/m/Y', strtotime($registreProduccio['data_ajustador']))}}</td>
+                <td class="col" id="data_ajustador-D">{{ $registreProduccio['data_ajustador']==0 ? '' : date('d/m/Y', strtotime($registreProduccio['data_ajustador']))}}</td>
                 @if (Auth::user()->hasAnyRole(['1', '2', '4']))
                     <td class="col-sm-1 align-middle text-center"><button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button></td>
                 @endif
@@ -113,7 +113,7 @@
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">DATA LINGÜISTA:</td>
-                <td class="col" id="data_linguista-T">{{ $registreProduccio['data_linguista']==0 ? '' : date('d/m/Y', strtotime($registreProduccio['data_linguista']))}}</td>
+                <td class="col" id="data_linguista-D">{{ $registreProduccio['data_linguista']==0 ? '' : date('d/m/Y', strtotime($registreProduccio['data_linguista']))}}</td>
                 @if (Auth::user()->hasAnyRole(['1', '2', '4']))
                     <td class="col-sm-1 align-middle text-center"><button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button></td>
                 @endif
@@ -169,7 +169,7 @@
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">INICI SALA:</td>
-                <td class="col" id="inici_sala-T">{{ $registreProduccio['inici_sala']==0 ? '' : date('d/m/Y', strtotime($registreProduccio['data_tecnic_mix']))}}</td>
+                <td class="col" id="inici_sala-D">{{ $registreProduccio['inici_sala']==0 ? '' : date('d/m/Y', strtotime($registreProduccio['data_tecnic_mix']))}}</td>
                 @if (Auth::user()->hasAnyRole(['1', '2', '4']))
                     <td class="col-sm-1 align-middle text-center"><button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button></td>
                 @endif
@@ -183,7 +183,7 @@
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">FINAL SALA:</td>
-                <td class="col" id="final_sala-T">{{ $registreProduccio['final_sala']==0 ? '' : date('d/m/Y', strtotime($registreProduccio['data_tecnic_mix']))}}</td>
+                <td class="col" id="final_sala-D">{{ $registreProduccio['final_sala']==0 ? '' : date('d/m/Y', strtotime($registreProduccio['data_tecnic_mix']))}}</td>
                 @if (Auth::user()->hasAnyRole(['1', '2', '4']))
                     <td class="col-sm-1 align-middle text-center"><button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button></td>
                 @endif
@@ -197,7 +197,7 @@
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">DATA TÉCNIC MIX:</td>
-                <td class="col" id="data_tecnic_mix-T">{{ $registreProduccio['data_tecnic_mix']==0 ? '' : date('d/m/Y', strtotime($registreProduccio['data_tecnic_mix']))}}</td>
+                <td class="col" id="data_tecnic_mix-D">{{ $registreProduccio['data_tecnic_mix']==0 ? '' : date('d/m/Y', strtotime($registreProduccio['data_tecnic_mix']))}}</td>
                 @if (Auth::user()->hasAnyRole(['1', '2', '4']))
                     <td class="col-sm-1 align-middle text-center"><button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button></td>
                 @endif
@@ -245,7 +245,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">No s'ha guardat els canvis</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">No s'ha desat els canvis</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -273,15 +273,16 @@
         //alert($(this).attr('type'));
         if ($(this).attr('type') == 'button'){
             var content = $(this).parent().prev();
+            var registre = @json($registreProduccio);
+            var empleatsCarrec = @json($empleatsCarrec);
+            var empleats = @json($empleats);
+            var regEntrada = @json($regEntrades);
+            var value = content.text();
             var id = content.attr('id');
             var idArray = id.split("-");
             //alert(content.attr('id'));
             if (idArray[1] == 'S'){
                 var select = document.createElement("select");
-                var registre = @json($registreProduccio);
-                var empleatsCarrec = @json($empleatsCarrec);
-                var empleats = @json($empleats);
-                var regEntrada = @json($regEntrades);
                 
                 if (idArray[2] == 'P') {
                     $(select).attr("name", "id_"+idArray[0]);
@@ -344,58 +345,17 @@
                     $(select).append('<option value="0"'+("0" == registre[idArray[0]] ? "selected" : "")+'></option>');
                     $(select).append('<option value="1"'+("1" == registre[idArray[0]] ? "selected" : "")+'>FET</option>');
                 }              
-                
                 /*<td class="col"></td>*/
                 content.text('');
                 content.append(select);
-            } else if (content.attr('id') == 'data_entrega-T'){
-                var value = content.text();
+            } else if (idArray[1] == 'D'){
                 content.text('');
-                var id = content.attr('id');
-                var idArray = id.split("-");
-                content.append('<input type="date" name="'+idArray[0]+'" id="'+idArray[0]+'" class="form-control" value="'+"{{explode(' ',$registreProduccio->data_entrega)[0]}}"+'">');
-            } else if (content.attr('id') == 'data_traductor-T'){
-                var value = content.text();
+                content.append('<input type="date" name="'+idArray[0]+'" id="'+idArray[0]+'" class="form-control" value="'+(!registre[idArray[0]] ? '' : registre[idArray[0]].split(' ')[0])+'">');
+            }else if (idArray[1] == 'N') {
                 content.text('');
-                var id = content.attr('id');
-                var idArray = id.split("-");
-                content.append('<input type="date" name="'+idArray[0]+'" id="'+idArray[0]+'" class="form-control" value="'+"{{explode(' ',$registreProduccio->data_traductor)[0]}}"+'">');
-            } else if (content.attr('id') == 'data_ajustador-T'){
-                var value = content.text();
+                content.append('<input type="number" name="'+idArray[0]+'" id="'+idArray[0]+'" class="form-control" value="'+value+'">');
+            } else {
                 content.text('');
-                var id = content.attr('id');
-                var idArray = id.split("-");
-                content.append('<input type="date" name="'+idArray[0]+'" id="'+idArray[0]+'" class="form-control" value="'+"{{explode(' ',$registreProduccio->data_ajustador)[0]}}"+'">');
-            } else if (content.attr('id') == 'data_linguista-T'){
-                var value = content.text();
-                content.text('');
-                var id = content.attr('id');
-                var idArray = id.split("-");
-                content.append('<input type="date" name="'+idArray[0]+'" id="'+idArray[0]+'" class="form-control" value="'+"{{explode(' ',$registreProduccio->data_linguista)[0]}}"+'">');
-            } else if (content.attr('id') == 'inici_sala-T'){
-                var value = content.text();
-                content.text('');
-                var id = content.attr('id');
-                var idArray = id.split("-");
-                content.append('<input type="date" name="'+idArray[0]+'" id="'+idArray[0]+'" class="form-control" value="'+"{{explode(' ',$registreProduccio->inici_sala)[0]}}"+'">');
-            } else if (content.attr('id') == 'final_sala-T'){
-                var value = content.text();
-                content.text('');
-                var id = content.attr('id');
-                var idArray = id.split("-");
-                content.append('<input type="date" name="'+idArray[0]+'" id="'+idArray[0]+'" class="form-control" value="'+"{{explode(' ',$registreProduccio->final_sala)[0]}}"+'">');
-            } else if (content.attr('id') == 'data_tecnic_mix-T'){
-                var value = content.text();
-                content.text('');
-                var id = content.attr('id');
-                var idArray = id.split("-");
-                content.append('<input type="date" name="'+idArray[0]+'" id="'+idArray[0]+'" class="form-control" value="'+"{{explode(' ',$registreProduccio->data_tecnic_mix)[0]}}"+'">');
-            }
-            else {
-                var value = content.text();
-                content.text('');
-                var id = content.attr('id');
-                var idArray = id.split("-");
                 content.append('<input type="text" name="'+idArray[0]+'" id="'+idArray[0]+'" class="form-control" value="'+value+'">');
             }
             //alert(textArray[0]);
