@@ -10,6 +10,7 @@ use App\Calendar;
 use App\CalendarCarrec;
 use DateTime;
 use App\EmpleatExtern;
+use App\ActorEstadillo;
 
 class CalendariController extends Controller
 {
@@ -41,7 +42,7 @@ class CalendariController extends Controller
         
         $urlBase = route('showCalendari');
 
-        $actores = [];
+        //$actores = ActorEstadillo::where();
         $tecnics = EmpleatExtern::select('slb_empleats_externs.id_empleat', 'slb_empleats_externs.nom_empleat', 'slb_empleats_externs.cognom1_empleat', 'slb_empleats_externs.cognom2_empleat')
                                   ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', '=', 'slb_empleats_externs.id_empleat')
                                   ->join('slb_carrecs', 'slb_carrecs.id_carrec', '=', 'slb_carrecs_empleats.id_carrec')
