@@ -154,7 +154,7 @@ class CalendariController extends Controller
         }
     }
     
-        public function calendariCarrecEditar($id){
+    public function calendariCarrecEditar($id){
         $calendariCarrec = CalendarCarrec::findOrFail($id);
         $v = Validator::make(request()->all(),[
             'id_carrec'=>'required|max:35|exists:slb_carrecs',
@@ -176,8 +176,12 @@ class CalendariController extends Controller
 
             return response()->json(request()->all());
         }
-        
-        
-        }
+    }
 
+    public function calendariCarrecdelete($id){
+        $calendariCarrec = CalendarCarrec::findOrFail($id);
+        $calendariCarrec->delete();
+       
+        return redirect()->route('showCalendari');
+    }
 }
