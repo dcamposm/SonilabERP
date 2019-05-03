@@ -74,9 +74,9 @@ class DatabaseSeeder extends Seeder
         $this->call(slb_registre_produccio::class);
         RegistreProduccio::reguard();
         
-        /*ActorEstadillo::unguard();
+        ActorEstadillo::unguard();
         $this->call(slb_actors_estadillosTableSeeder::class);
-        ActorEstadillo::reguard();*/
+        ActorEstadillo::reguard();
 
         Calendar::unguard();
         $this->call(slb_CalendarsSeeder::class);

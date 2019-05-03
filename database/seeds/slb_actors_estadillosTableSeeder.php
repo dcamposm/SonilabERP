@@ -22,7 +22,7 @@ class slb_actors_estadillosTableSeeder extends Seeder
             'id_actor' => '1',
             'take_estadillo' => '20',
             'cg_estadillo' => '4',
-            'canso_estaillo' => '0'
+            'canso_estadillo' => '0'
         ));
 
         ActorEstadillo::create(array(
@@ -31,7 +31,7 @@ class slb_actors_estadillosTableSeeder extends Seeder
             'id_actor' => '1',
             'take_estadillo' => '20',
             'cg_estadillo' => '4',
-            'canso_estaillo' => '0'
+            'canso_estadillo' => '0'
         ));
         ActorEstadillo::create(array(
             'id' => '3',
@@ -39,7 +39,7 @@ class slb_actors_estadillosTableSeeder extends Seeder
             'id_actor' => '2',
             'take_estadillo' => '200',
             'cg_estadillo' => '4',
-            'canso_estaillo' => '0'
+            'canso_estadillo' => '0'
         ));
         ActorEstadillo::create(array(
             'id' => '4',
@@ -47,7 +47,7 @@ class slb_actors_estadillosTableSeeder extends Seeder
             'id_actor' => '2',
             'take_estadillo' => '2',
             'cg_estadillo' => '4',
-            'canso_estaillo' => '0'
+            'canso_estadillo' => '0'
         ));
         ActorEstadillo::create(array(
             'id' => '5',
@@ -55,7 +55,7 @@ class slb_actors_estadillosTableSeeder extends Seeder
             'id_actor' => '3',
             'take_estadillo' => '2',
             'cg_estadillo' => '4',
-            'canso_estaillo' => '0'
+            'canso_estadillo' => '0'
         ));
     }
 }
