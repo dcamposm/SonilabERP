@@ -55,7 +55,7 @@ class UserController extends Controller
         } else if (request()->input("searchBy") == '2'){
             $users = User::whereRaw('LOWER(alias_usuari) like "%'. strtolower(request()->input("search_term")).'%"')->get();
         }  else {
-            $users = User::whereRaw('LOWER(nom_usuari) like "%'. strtolower(request()->input("search_term")).'%"'
+            $users = User::whereRaw('LOWER(alias_usuari) like "%'. strtolower(request()->input("search_term")).'%"'
                     . 'OR LOWER(cognom1_usuari) like "%'. strtolower(request()->input("search_term")).'%"'.
                     'OR LOWER(cognom2_usuari) like "%'. strtolower(request()->input("search_term")).'%"')->get();
                     /*->orWhere('cognom1_usuari', request()->input("search_term"))
@@ -84,7 +84,6 @@ class UserController extends Controller
         //return response()->json(request()->all());
         //Primer es valida si se ha insertat els atributs indicats
         $v = Validator::make(request()->all(), [
-            'nom_usuari' => 'required|max:35',
             'cognom1_usuari' => 'required|max:35',
             'cognom2_usuari' => 'required|max:35',
             'email_usuari' => 'required|email',
@@ -93,7 +92,6 @@ class UserController extends Controller
             'id_departament' => 'required',
             'cpass' => 'same:contrasenya_usuari'
         ],[
-            'nom_usuari.required' => ' No s\'ha posat el nom d\'usuari.',
             'cognom1_usuari.required' => ' No s\'ha posat el primer cognom.',
             'cognom2_usuari.required' => ' No s\'ha posat el segon cognom.',
             'email_usuari.required' => ' No s\'ha posat el email.', 
@@ -135,7 +133,6 @@ class UserController extends Controller
         if ($usuario){
             //ToDo: FALTA COMPLETAR VALIDATOR
             $v = Validator::make(request()->all(), [
-                'nom_usuari' => 'required|max:35',
                 'cognom1_usuari' => 'required|max:35',
                 'cognom2_usuari' => 'required|max:35',
                 'email_usuari' => 'required|email',
@@ -143,7 +140,6 @@ class UserController extends Controller
                 //'contrasenya_usuari' => 'required|min:4|max:15',
                 'id_departament' => 'required'
             ],[
-                'nom_usuari.required' => ' No s\'ha posat el nom d\'usuari.',
                 'cognom1_usuari.required' => ' No s\'ha posat el primer cognom.',
                 'cognom2_usuari.required' => ' No s\'ha posat el segon cognom.',
                 'email_usuari.required' => ' No s\'ha posat el email.',

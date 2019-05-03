@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Validator;
 use App\Calendar;
+use App\CalendarCarrec;
 use DateTime;
 use App\EmpleatExtern;
 
@@ -25,7 +26,7 @@ class CalendariController extends Controller
         $dia2 = $dia1->copy()->addDay();
         $dia3 = $dia2->copy()->addDay();
         $dia4 = $dia3->copy()->addDay();
-        $dia5 = $dia4->copy()->addDay();
+        $dia5 = $dia4->copy()->addDay()->addHours(23)->addMinutes(59);
         $fechas = [
             $dia1->format('d-m-Y'), 
             $dia2->format('d-m-Y'), 
@@ -34,6 +35,10 @@ class CalendariController extends Controller
             $dia5->format('d-m-Y')
         ];
 
+        $data = json_encode(Calendar::where('data_inici', '>=', $dia1)
+                        ->where('data_fi', '<=', $dia5)
+                        ->get());
+        
         $urlBase = route('showCalendari');
 
         $actores = [];
@@ -47,6 +52,9 @@ class CalendariController extends Controller
                                     ->join('slb_carrecs', 'slb_carrecs.id_carrec', '=', 'slb_carrecs_empleats.id_carrec')
                                     ->where('slb_carrecs.nom_carrec', '=', 'Director')
                                     ->get();
+        
+        // TODO: Quitar esto cuando se terminen las pruebas:
+        $data = '[{"data_inici":"02-05-2019 00:45:00","data_fi":"02-05-2019 18:15:00","empleat":"Dumbo","num_takes":"100","num_sala":1},{"data_inici":"03-05-2019 00:45:00","data_fi":"03-05-2019 10:15:00","empleat":"Peponcio","num_takes":"69","num_sala":7},{"data_inici":"01-05-2019 05:45:00","data_fi":"01-05-2019 20:15:00","empleat":"Dumbo","num_takes":"1","num_sala":4},{"data_inici":"06-05-2019 08:45:00","data_fi":"06-05-2019 10:20:00","empleat":"Dorita","num_takes":"20","num_sala":6},{"data_inici":"06-05-2019 10:30:00","data_fi":"06-05-2019 14:14:51","empleat":"Dorito","num_takes":"43","num_sala":6}]';
 
         return View('calendari.index', ["fechas"    => $fechas, 
                                         "week"      => $week,
@@ -54,7 +62,8 @@ class CalendariController extends Controller
                                         "urlBase"   => $urlBase,
                                         "actores"   => $actores,
                                         "tecnics"   => $tecnics,
-                                        "directors" => $directors]);
+                                        "directors" => $directors,
+                                        "data"      => $data]);
     }
 
     public function getDay(Request $request) {
@@ -119,4 +128,56 @@ class CalendariController extends Controller
        
         return redirect()->route('showCalendari');
     }
+    
+    
+    public function calendariCarrecInsertar(){
+        $v = Validator::make(request()->all(),[
+            //'id_calendar'=>'required|max:35',
+            'id_carrec'=>'required|max:35|exists:slb_carrecs',
+            'id_empleat'=>'required|max:35|exists:slb_empleats_externs',
+            'num_sala'=>'required|regex:/^[0-9]+$/',//^[0-9]+$
+            'data'=>'required|max:35',
+            'torn'=>'required|max:3',
+        ]);
+
+        if ($v->fails()) {
+            // Datos incorrectos.
+            
+            return redirect()->back()->withErrors($v)->withInput();
+        }
+        else {
+            $calendariCarrec = new CalendarCarrec(request()->all());  
+            $calendariCarrec->save();
+            //return response()->json(request()->all());
+
+            return redirect()->route('showCalendari');
+        }
+    }
+    
+        public function calendariCarrecEditar($id){
+        $calendariCarrec = CalendarCarrec::findOrFail($id);
+        $v = Validator::make(request()->all(),[
+            'id_carrec'=>'required|max:35|exists:slb_carrecs',
+            'id_empleat'=>'required|max:35|exists:slb_empleats_externs',
+            'num_sala'=>'required|regex:/^[0-9]+$/',
+            'data'=>'required|max:35',
+            'torn'=>'required|max:3',
+        ]);
+        
+        if ($v->fails()) {
+            // Datos incorrectos.
+            return redirect()->back()->withErrors($v)->withInput();
+        }
+        else {
+            //return response()->json(request()->all());
+            // Datos correctos.
+            $calendariCarrec->fill(request()->all());  
+            $calendariCarrec->save();
+
+            return response()->json(request()->all());
+        }
+        
+        
+        }
+
 }
