@@ -245,7 +245,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">No s'ha guardat els canvis</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">No s'ha desat els canvis</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -350,7 +350,7 @@
                 content.append(select);
             } else if (idArray[1] == 'D'){
                 content.text('');
-                content.append('<input type="date" name="'+idArray[0]+'" id="'+idArray[0]+'" class="form-control" value="'+registre[idArray[0]].split(' ')[0]+'">');
+                content.append('<input type="date" name="'+idArray[0]+'" id="'+idArray[0]+'" class="form-control" value="'+(!registre[idArray[0]] ? '' : registre[idArray[0]].split(' ')[0])+'">');
             }else if (idArray[1] == 'N') {
                 content.text('');
                 content.append('<input type="number" name="'+idArray[0]+'" id="'+idArray[0]+'" class="form-control" value="'+value+'">');
