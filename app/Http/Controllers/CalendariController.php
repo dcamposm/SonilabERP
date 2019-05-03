@@ -176,7 +176,7 @@ class CalendariController extends Controller
         }
     }
 
-    public function calendariCarrecdelete($id){
+    public function calendariCarrecDelete($id){
         $calendariCarrec = CalendarCarrec::findOrFail($id);
         $calendariCarrec->delete();
        

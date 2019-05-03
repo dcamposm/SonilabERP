@@ -16,6 +16,7 @@ class slb_CalendarsSeeder extends Seeder
         Calendar::create(array(
             'id_calendar' => 1,
             'id_empleat' => 1,
+            'id_actor_estadillo'=>1,
             'id_registre_entrada' => 1,
             'num_takes' => 33,
             'data_inici' => '2019-04-25 16:10:00',
@@ -25,6 +26,7 @@ class slb_CalendarsSeeder extends Seeder
         Calendar::create(array(
             'id_calendar' => 2,
             'id_empleat' => 2,
+            'id_actor_estadillo'=>2,
             'id_registre_entrada' => 1,
             'num_takes' => 28,
             'data_inici' => '2019-04-26 19:45:00',
@@ -34,6 +36,7 @@ class slb_CalendarsSeeder extends Seeder
         Calendar::create(array(
             'id_calendar' => 3,
             'id_empleat' => 2,
+            'id_actor_estadillo'=>3,
             'id_registre_entrada' => 1,
             'num_takes' => 10,
             'data_inici' => '2019-04-26 10:00:00',
@@ -43,6 +46,7 @@ class slb_CalendarsSeeder extends Seeder
         Calendar::create(array(
             'id_calendar' => 4,
             'id_empleat' => 1,
+            'id_actor_estadillo'=>4,
             'id_registre_entrada' => 2,
             'num_takes' => 46,
             'data_inici' => '2019-04-26 08:30:00',
@@ -52,6 +56,7 @@ class slb_CalendarsSeeder extends Seeder
         Calendar::create(array(
             'id_calendar' => 5,
             'id_empleat' => 2,
+            'id_actor_estadillo'=>5,
             'id_registre_entrada' => 1,
             'num_takes' => 22,
             'data_inici' => '2019-04-26 19:30:00',
