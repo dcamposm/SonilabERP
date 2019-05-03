@@ -12,7 +12,7 @@ class slb_CalendarsSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('slb_serveis')->delete();
+        DB::table('slb_calendar')->delete();
         Calendar::create(array(
             'id_calendar' => 1,
             'id_empleat' => 1,
