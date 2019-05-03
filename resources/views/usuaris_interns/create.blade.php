@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
-                    <label for="alias_usuari" style="font-weight: bold">ÀLIES:</label>
+                    <label for="alias_usuari" style="font-weight: bold">NOM:</label>
                     <input type="text" class="form-control" id="alias_usuari" placeholder="Entrar àlies" name="alias_usuari" value="{{!empty($usuario) ? $usuario->alias_usuari : old('alias_usuari')}}" required>
                     <span class="text-danger">{{ $errors->first('alias_usuari') }}</span>
                 </div>
@@ -27,16 +27,16 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
-                    <label for="nom_usuari" style="font-weight: bold">NOM:</label>
-                    <input type="text" class="form-control" id="nom_usuari" placeholder="Entrar nom" name="nom_usuari" value="{{!empty($usuario) ? $usuario->nom_usuari : old('nom_usuari')}}">
-                    <span class="text-danger">{{ $errors->first('nom_usuari') }}</span>
+                    <label for="cognom1_usuari" style="font-weight: bold">PRIMER COGNOM:</label>
+                    <input type="text" class="form-control" id="cognom1_usuari" placeholder="Entrar primer cognom" name="cognom1_usuari" value="{{!empty($usuario) ? $usuario->cognom1_usuari : old('cognom1_usuari')}}">
+                    <span class="text-danger">{{ $errors->first('cognom1_usuari') }}</span>
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <label for="cognom1_usuari" style="font-weight: bold">PRIMER COGNOM:</label>
-                    <input type="text" class="form-control" id="cognom1_usuari" placeholder="Entrar primer cognom" name="cognom1_usuari" value="{{!empty($usuario) ? $usuario->cognom1_usuari : old('cognom1_usuari')}}">
-                    <span class="text-danger">{{ $errors->first('cognom1_usuari') }}</span>
+                    <label for="cognom2_usuari" style="font-weight: bold">SEGON COGNOM:</label>
+                    <input type="text" class="form-control" id="cognom2_usuari" placeholder="Entrar segon cognom" name="cognom2_usuari" value="{{!empty($usuario) ? $usuario->cognom2_usuari : old('cognom2_usuari')}}">
+                    <span class="text-danger">{{ $errors->first('cognom2_usuari') }}</span>
                 </div>
             </div>
             <!--<div class="col-6">
@@ -48,14 +48,6 @@
         </div>
 
         <div class="row">
-            <div class="col-6">
-                <div class="form-group">
-                    <label for="cognom2_usuari" style="font-weight: bold">SEGON COGNOM:</label>
-                    <input type="text" class="form-control" id="cognom2_usuari" placeholder="Entrar segon cognom" name="cognom2_usuari" value="{{!empty($usuario) ? $usuario->cognom2_usuari : old('cognom2_usuari')}}">
-                    <span class="text-danger">{{ $errors->first('cognom2_usuari') }}</span>
-                </div>
-            </div>
-
             <div class="col-6">
                 <label for="cpass" style="font-weight: bold">DEPARTAMENT:</label>
                 <select class="form-control" name="id_departament">

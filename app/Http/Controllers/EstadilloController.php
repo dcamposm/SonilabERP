@@ -385,24 +385,45 @@ class EstadilloController extends Controller
         }
 
         $empleats = Array();
-        //Despres introdueix en una altre array, tots els atributs del empleat
-        for ($i = 0; $i < count($empleatsArray); $i++){
-            $empleats[$i] =  EmpleatExtern::where('id_empleat', $empleatsArray[$i])->first();
-        } 
         
+        //return response()->json($empleats);
         if ($setmana == 0){
-           $estadillos = Estadillo::find($id);
-        
+           $estadillos = Estadillo::with('actors')->find($id);
+            //Despres introdueix en una altre array, tots els atributs del empleat
+            for ($i = 0; $i < count($empleatsArray); $i++){
+                $ext = false;
+                foreach ($estadillos->actors as $actor) {
+                    if ($actor->id_actor == $empleatsArray[$i]){
+                        $ext = true;
+                    }
+                }
+                if ($ext == false) {
+                    $empleats[$i] =  EmpleatExtern::where('id_empleat', $empleatsArray[$i])->first();
+                }
+            } 
             return View('estadillos.createActor', array('empleats'=>$empleats, 'estadillos'=>$estadillos)); 
         } 
         
-        $registreProduccio = RegistreProduccio::where('id_registre_entrada', $id)->where('setmana', $setmana)->get();
+        $registreProduccio = RegistreProduccio::with('getEstadillo.actors')->where('id_registre_entrada', $id)->where('setmana', $setmana)->get();
         //return response()->json($registreProduccio);
-        foreach ($registreProduccio as $projecte){
-            $projecte->getEstadillo;
-        }
+        //Despres introdueix en una altre array, tots els atributs del empleat
+        for ($i = 0; $i < count($empleatsArray); $i++){
+            $ext = false;
+            foreach ($registreProduccio as $registre) {
+                if (!empty($registre->getEstadillo->actors)) {
+                    foreach ($registre->getEstadillo->actors as $actor) {
+                        if ($actor->id_actor == $empleatsArray[$i]){
+                            $ext = true;
+                        }
+                    }
+                }
+            }
+            if ($ext == false) {
+                $empleats[$i] =  EmpleatExtern::where('id_empleat', $empleatsArray[$i])->first();
+            }
+        } 
 
-        //return response()->json($registreProduccio);
+        //return response()->json($empleats);
         return View('estadillos.createActor', array('empleats'=>$empleats, 'registreProduccio' => $registreProduccio));
         
     }

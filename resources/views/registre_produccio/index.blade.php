@@ -135,6 +135,10 @@
             <span style="color: darkorange; font-size: 15px;">&#9646;</span>
             <span style="font-size: 11px; padding: 1px;">PENDENT</span>
         </div>
+        <div class="llegenda">
+            <span style="color: deepskyblue ; font-size: 15px;">&#9646;</span>
+            <span style="font-size: 11px; padding: 1px;">AGRUPACIÓ</span>
+        </div>
         <div style="clear:both;"></div>
     </div>
 
@@ -274,7 +278,9 @@
                     @foreach( $registreProduccio as $key1 => $serie )
                         @if ($key1 == 0)
                             <tr class="table-selected border-primary">
-                                <td style="vertical-align: middle; font-size: 11px;" class="font-weight-bold accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}">{{ $serie['id_registre_entrada'] }}</td>
+                                <td class="cursor" title='Veure registre d&apos;entrada' style="vertical-align: middle;" onclick="self.mostrarRegistreProduccio('{{ route('mostrarRegistreEntrada', array('id' => $serie["id_registre_entrada"])) }}')">
+                                    <span class="font-weight-bold" style="font-size: 11px;">{{ $serie["id_registre_entrada"] }}</span>    
+                                </td>
                                 <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"> </td>
                                 <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"> </td>
                                 <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"> </td>
@@ -331,9 +337,7 @@
                             </tr>
                         @else
                             <tr class="table-selected {{ ($serie->estat == 'Pendent') ? 'border-warning' : (($serie->estat == 'Finalitzada') ? 'border-success' : 'border-danger') }} accordian-body collapse" id="collapse{{$key}}">
-                                <td class="cursor" title='Veure registre d&apos;entrada' style="vertical-align: middle;" onclick="self.mostrarRegistreProduccio('{{ route('mostrarRegistreEntrada', array('id' => $serie->id_registre_entrada)) }}')">
-                                    <span class="font-weight-bold" style="font-size: 11px;">{{ $serie->id_registre_entrada }}</span>    
-                                </td>
+                                <td></td>
                                 <td class="cursor" title='Veure producció' style="vertical-align: middle;" onclick="self.mostrarRegistreProduccio('{{ route('mostrarRegistreProduccio', array('id' => $serie->id)) }}')">
                                     <span class="font-weight-bold" style="font-size: 11px;">{{ $serie->subreferencia }}</span>
                                 </td>

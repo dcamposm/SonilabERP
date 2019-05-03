@@ -307,11 +307,13 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                                     </td>
 
                                     <td class="col-3">
+                                        @if ($idioma->idioma == "Català")
                                         <label for="homologat_traductor_{{$idioma->idioma}}" style="font-weight: bold">HOMOLOGAT(CCMA):</label>
                                         <select class="form-control" id="homologat_traductor_{{$idioma->idioma}}" name="homologat_traductor_{{$idioma->idioma}}" {{ isset($carrecs['traductor'][$idioma->idioma]) ? '' : 'disabled' }}>
                                             <option value="0" {{ (isset($carrecs['traductor'][$idioma->idioma]) && $carrecs['traductor'][$idioma->idioma]['empleat_homologat'] == false) ? 'selected' : ''}}>NO</option>
                                             <option value="1" {{ (isset($carrecs['traductor'][$idioma->idioma]) && $carrecs['traductor'][$idioma->idioma]['empleat_homologat'] == true) ? 'selected' : ''}}>SI</option>
                                         </select>
+                                        @endif
                                     </td>
 
                                     <td class="col">
@@ -612,9 +614,9 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                 //tarifes_actors
                 document.getElementById('tarifes_'+ carrec + '_' + idioma).style.display = '';
             } else {
-                //if (idioma == 'Català') {
-                document.getElementById("homologat_"+carrec+"_"+idioma).removeAttribute('disabled');
-                //}
+                if (idioma == 'Català') {
+                    document.getElementById("homologat_"+carrec+"_"+idioma).removeAttribute('disabled');
+                }
                 document.getElementById('tarifes_'+ carrec + '_' + idioma).style.display = '';
             }
         }else{
@@ -622,7 +624,9 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
             if (type == 1){
                 document.getElementById('tarifes_'+ carrec + '_' + idioma).style.display = 'none'
             } else {
-                document.getElementById("homologat_"+carrec+"_"+idioma).setAttribute('disabled',"");
+                if (idioma == 'Català') {
+                    document.getElementById("homologat_"+carrec+"_"+idioma).setAttribute('disabled',"");
+                }
                 document.getElementById('tarifes_'+ carrec + '_' + idioma).style.display = 'none'   
             }
 
