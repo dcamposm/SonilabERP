@@ -73,7 +73,7 @@
                 </select>
                 <select class="custom-select" id='search_Resp' name="search_Resp" form="search" style="display: none;">
                     @foreach( $usuaris as $usuari )
-                        <option value="{{$usuari['id_usuari']}}">{{ mb_strtoupper( $usuari['nom_usuari'] ) }}</option>
+                        <option value="{{$usuari['id_usuari']}}">{{ mb_strtoupper( $usuari['alias_usuari'] ) }}</option>
                     @endforeach
                 </select>
                 <select class="custom-select" id='search_Estat' name="search_Estat" form="search" style="display: none;">
@@ -153,7 +153,7 @@
                 </td>
                 
                 <td style="vertical-align: middle;">{{ date('d/m/Y', strtotime($registreEntrada->sortida)) }}</td>
-                <td style="vertical-align: middle;">{{ isset($registreEntrada->usuari) ? $registreEntrada->usuari->nom_usuari :  ''}}</td>
+                <td style="vertical-align: middle;">{{ isset($registreEntrada->usuari) ? $registreEntrada->usuari->alias_usuari :  ''}}</td>
                 <td style="vertical-align: middle;">{{ $registreEntrada->client->nom_client }}</td>
                 <td style="vertical-align: middle;">{{ $registreEntrada->servei->nom_servei }}</td>
                 <td style="vertical-align: middle;">{{ $registreEntrada->idioma->idioma }}</td>
