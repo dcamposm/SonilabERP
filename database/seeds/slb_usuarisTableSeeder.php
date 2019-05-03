@@ -38,5 +38,15 @@ class slb_usuarisTableSeeder extends Seeder
             'imatge_usuari' => $image,
             'id_departament' => '1'
         ));
+        User::create(array(
+            'id_usuari' => '3',
+            'cognom1_usuari' => 'productor',
+            'cognom2_usuari' => 'productor',
+            'email_usuari' => 'productor@test.com',
+            'alias_usuari' => 'productor',
+            'contrasenya_usuari' => 'productor',
+            'imatge_usuari' => $image,
+            'id_departament' => '2'
+        ));
     }
 }
