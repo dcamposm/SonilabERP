@@ -160,6 +160,10 @@ Route::middleware(['role: 1,2,3,4'])->group(function () {
 
     Route::post('/calendari/cambiarCargo', 'CalendariController@cambiarCargo')->name('cambiarCargoCalendari');
 
-});
+    
     Route::post('/calendari/crearCalendariCarrecs', 'CalendariController@calendariCarrecInsertar')->name('createCalendariCarrecs');
     Route::put('/calendari/editarCalendariCarrecs/{id}', 'CalendariController@calendariCarrecEditar')->name('updateCalendariCarrecs');
+    Route::delete('/calendari/esborrarCalendariCarrecs/{id}', 'CalendariController@calendariCarrecDelete')->name('deleteCalendariCarrecs');
+    
+});
+    

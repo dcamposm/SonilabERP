@@ -32,8 +32,6 @@ function crearTablaCalendario(){
 }
 
 function cargarDatos(){
-    console.log(data)
-
     data.forEach(element => {
        var celda = $("[dia="+element.data_inici.split(' ')[0]+"][sala="+element.num_sala+"]")[0].children[0].children[0]
        var takes = Number(celda.innerText.replace('%','')) + element.num_takes

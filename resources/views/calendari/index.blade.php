@@ -101,7 +101,8 @@
     var dias = <?php echo json_encode($fechas) ?>;
     var urlBase = "<?php echo $urlBase ?>"
     var data = <?php echo $data ?>;
-    
+    var actores = <?php echo $actores ?>;
+    console.log(actores)    
 </script>
 <script type="text/javascript" src="{{ URL::asset('js/custom/calendar.js') }}"></script>
 <link rel="stylesheet" href="{{ URL::asset('css/calendar.css') }}" />

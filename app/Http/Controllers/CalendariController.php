@@ -43,7 +43,13 @@ class CalendariController extends Controller
         
         $urlBase = route('showCalendari');
 
-        $actores = [];//ActorEstadillo::where();
+        /*select *
+        from slb_calendars t1
+        inner join slb_actors_estadillo t2 on t1.id_actor_estadillo = t2.id
+        where t1.asistencia = 1 or t1.asistencia is null*/
+
+        $actores = json_encode(ActorEstadillo::all());
+        
         $tecnics = EmpleatExtern::select('slb_empleats_externs.id_empleat', 'slb_empleats_externs.nom_empleat', 'slb_empleats_externs.cognom1_empleat', 'slb_empleats_externs.cognom2_empleat')
                                   ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', '=', 'slb_empleats_externs.id_empleat')
                                   ->join('slb_carrecs', 'slb_carrecs.id_carrec', '=', 'slb_carrecs_empleats.id_carrec')
@@ -207,7 +213,7 @@ class CalendariController extends Controller
         }
     }
 
-    public function calendariCarrecdelete($id){
+    public function calendariCarrecDelete($id){
         $calendariCarrec = CalendarCarrec::findOrFail($id);
         $calendariCarrec->delete();
        
