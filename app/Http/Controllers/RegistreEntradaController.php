@@ -164,6 +164,7 @@ class RegistreEntradaController extends Controller
             }
 //---------------------Creador registres de produccio-------------------            
             if ($registreEntrada->id_media>1 && $registreEntrada->id_media<5) {
+                //-----------Si el registre es una pelicula-----------
                 $registreProduccio = new RegistreProduccio;
                 $registreProduccio->subreferencia = 0;
                 $registreProduccio->id_registre_entrada = $registreEntrada->id_registre_entrada;
@@ -172,6 +173,7 @@ class RegistreEntradaController extends Controller
                 $registreProduccio->titol = $registreEntrada->titol;
                 $registreProduccio->save(); 
             } else {
+                //-------Si el registre es una serie o documental------
                 $contSet = 1;
                 $contNextSet = 0;
                 $contData = 0; 
