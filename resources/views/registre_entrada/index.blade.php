@@ -129,7 +129,7 @@
             <tr>
                 <th>REF.</th> 
                 <th>TÍTOL</th>
-                <th>PRIMERA ENTRAGA</th>
+                <th>PRIMERA ENTREGA</th>
                 <th>RESPONSABLE</th>
                 <th>CLIENT</th>
                 <th>SERVEI</th>

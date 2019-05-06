@@ -20,7 +20,7 @@ class slb_actors_estadillosTableSeeder extends Seeder
             'id' => '1',
             'id_produccio' => '1',
             'id_actor' => '1',
-            'take_estadillo' => '20',
+            'take_estadillo' => '40',
             'cg_estadillo' => '4',
             'canso_estadillo' => '0'
         ));
@@ -29,7 +29,7 @@ class slb_actors_estadillosTableSeeder extends Seeder
             'id' => '2',
             'id_produccio' => '2',
             'id_actor' => '1',
-            'take_estadillo' => '20',
+            'take_estadillo' => '28',
             'cg_estadillo' => '4',
             'canso_estadillo' => '0'
         ));
@@ -37,7 +37,7 @@ class slb_actors_estadillosTableSeeder extends Seeder
             'id' => '3',
             'id_produccio' => '2',
             'id_actor' => '2',
-            'take_estadillo' => '200',
+            'take_estadillo' => '80',
             'cg_estadillo' => '4',
             'canso_estadillo' => '0'
         ));
@@ -45,7 +45,7 @@ class slb_actors_estadillosTableSeeder extends Seeder
             'id' => '4',
             'id_produccio' => '3',
             'id_actor' => '2',
-            'take_estadillo' => '2',
+            'take_estadillo' => '50',
             'cg_estadillo' => '4',
             'canso_estadillo' => '0'
         ));
@@ -53,7 +53,7 @@ class slb_actors_estadillosTableSeeder extends Seeder
             'id' => '5',
             'id_produccio' => '3',
             'id_actor' => '3',
-            'take_estadillo' => '2',
+            'take_estadillo' => '30',
             'cg_estadillo' => '4',
             'canso_estadillo' => '0'
         ));
