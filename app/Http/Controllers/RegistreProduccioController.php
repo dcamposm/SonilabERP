@@ -19,7 +19,7 @@ class RegistreProduccioController extends Controller {
         //
         $registres = RegistreProduccio::with('traductor')->with('ajustador')
                 ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
-                ->orderBy('estat')->get();
+                ->orderBy('data_entrega')->orderBy('estat')->get();
         
         $registreProduccio = array();
         
@@ -44,7 +44,12 @@ class RegistreProduccioController extends Controller {
                     );
                     $registreProduccio[$registre->id_registre_entrada][$registre->setmana][$registre->subreferencia] = $registre;
                 } else {
-                    $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['max'] = $registre->subreferencia;
+                    if ($registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['max'] < $registre->subreferencia) {
+                        $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['max'] = $registre->subreferencia;
+                    } else if ($registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['min'] > $registre->subreferencia){
+                        $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['min'] = $registre->subreferencia;
+                    }
+                    
                     $registreProduccio[$registre->id_registre_entrada][$registre->setmana][$registre->subreferencia] = $registre;
                 }  
             }
