@@ -18,6 +18,13 @@
                 </div>
                 <div class="col-6">
                     <div class="form-group">
+                        <label for="nif_client" style="font-weight: bold">NIF:</label>
+                        <input type="text" class="form-control" id="nif_client" placeholder="Entrar nif" name="nif_client" value="{{!empty($client) ? $client->nif_client : old('nif_client')}}">
+                        <span class="text-danger">{{ $errors->first('nif_client') }}</span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
                         <label for="email_client" style="font-weight: bold">EMAIL:</label>
                         <input type="email" class="form-control" id="email_client" placeholder="Entrar email" name="email_client" value="{{!empty($client) ? $client->email_client : old('email_client')}}">
                         <span class="text-danger">{{ $errors->first('email_client') }}</span>
