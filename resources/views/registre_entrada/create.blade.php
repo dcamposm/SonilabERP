@@ -70,7 +70,7 @@
                         <select class="form-control" name="id_usuari">
                             <option></option>
                             @foreach( $usuaris as $usuari )
-                                <option value="{{$usuari['id_usuari']}}" {{(!empty($registreEntrada) && $registreEntrada->id_usuari == $usuari['id_usuari']) || (old('id_usuari') == $usuari['id_usuari']) ? 'selected' : ''}} >{{$usuari['nom_usuari'].' '.$usuari['cognom1_usuari'] }}</option>
+                                <option value="{{$usuari['id_usuari']}}" {{(!empty($registreEntrada) && $registreEntrada->id_usuari == $usuari['id_usuari']) || (old('id_usuari') == $usuari['id_usuari']) ? 'selected' : ''}} >{{$usuari['alias_usuari'].' '.$usuari['cognom1_usuari'] }}</option>
                             @endforeach
                         </select>
                         <span class="text-danger">{{ $errors->first('id_usuari') }}</span>

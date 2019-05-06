@@ -34,7 +34,7 @@ class RegistreEntradaController extends Controller
                                 ->with('usuari')
                                 ->with('servei')
                                 ->with('idioma')
-                                ->with('media')->orderBy("estat")->get();
+                                ->with('media')->orderBy("estat")->orderBy("id_registre_entrada", "DESC")->get();
         //Agafem tots els camps necessaris de la BBDD
         $clients = Client::all();
         $serveis = Servei::all();
@@ -53,32 +53,41 @@ class RegistreEntradaController extends Controller
         //return response()->json(request()->all());
         if (request()->input("searchBy") == '1'){  
             $registreEntrades = RegistreEntrada::where('id_client', request()->input("search_Client"))
-                                                            ->orderBy(request()->input("orderBy"))->get();                     
+                                                            ->orderBy(request()->input("orderBy"), 
+                                                                (request()->input("orderBy") == "id_registre_entrada" ? "DESC" : "ASC"))->get();                     
         } else if (request()->input("searchBy") == '2'){
             $registreEntrades = RegistreEntrada::where('estat', request()->input("search_Estat"))
-                                                    ->orderBy(request()->input("orderBy"))->get();
+                                                    ->orderBy(request()->input("orderBy"), 
+                                                                (request()->input("orderBy") == "id_registre_entrada" ? "DESC" : "ASC"))->get();
         } else if (request()->input("searchBy") == '3'){
             $registreEntrades = RegistreEntrada::where('id_usuari', request()->input("search_Resp"))
-                                                    ->orderBy(request()->input("orderBy"))->get();
+                                                    ->orderBy(request()->input("orderBy"), 
+                                                                (request()->input("orderBy") == "id_registre_entrada" ? "DESC" : "ASC"))->get();
         } else if (request()->input("searchBy") == '4'){
             $registreEntrades = RegistreEntrada::where('sortida', request()->input("searchDate"))
-                                                            ->orderBy(request()->input("orderBy"))->get();
+                                                            ->orderBy(request()->input("orderBy"), 
+                                                                (request()->input("orderBy") == "id_registre_entrada" ? "DESC" : "ASC"))->get();
         } else if (request()->input("searchBy") == '5'){
             $registreEntrades = RegistreEntrada::where('id_servei', request()->input("search_Servei"))
-                                                            ->orderBy(request()->input("orderBy"))->get();
+                                                            ->orderBy(request()->input("orderBy"), 
+                                                                (request()->input("orderBy") == "id_registre_entrada" ? "DESC" : "ASC"))->get();
         } else if (request()->input("searchBy") == '6'){
             $registreEntrades = RegistreEntrada::where('id_idioma', request()->input("search_Idioma"))
-                                                            ->orderBy(request()->input("orderBy"))->get();
+                                                            ->orderBy(request()->input("orderBy"), 
+                                                                (request()->input("orderBy") == "id_registre_entrada" ? "DESC" : "ASC"))->get();
         } else if (request()->input("searchBy") == '7'){
             $registreEntrades = RegistreEntrada::where('id_media', request()->input("search_Media"))
-                                                            ->orderBy(request()->input("orderBy"))->get();
+                                                            ->orderBy(request()->input("orderBy"), 
+                                                                (request()->input("orderBy") == "id_registre_entrada" ? "DESC" : "ASC"))->get();
         } else if (request()->input("searchBy") == '8'){
             $registreEntrades = RegistreEntrada::where('minuts', request()->input("searchMin"))
-                                                            ->orderBy(request()->input("orderBy"))->get();
+                                                            ->orderBy(request()->input("orderBy"), 
+                                                                (request()->input("orderBy") == "id_registre_entrada" ? "DESC" : "ASC"))->get();
         } else {
             $registreEntrades = RegistreEntrada::whereRaw('LOWER(titol) like "%'.strtolower(request()->input("search_term")).'%" '
                     . 'OR id_registre_entrada like "%'.request()->input("search_term").'%"')
-                    ->orderBy(request()->input("orderBy"))->get();
+                    ->orderBy(request()->input("orderBy"), 
+                                                (request()->input("orderBy") == "id_registre_entrada" ? "DESC" : "ASC"))->get();
                     //->orWhere('id_registre_entrada', request()->input("search_Estat"))->get();
         }
         
@@ -155,6 +164,7 @@ class RegistreEntradaController extends Controller
             }
 //---------------------Creador registres de produccio-------------------            
             if ($registreEntrada->id_media>1 && $registreEntrada->id_media<5) {
+                //-----------Si el registre es una pelicula-----------
                 $registreProduccio = new RegistreProduccio;
                 $registreProduccio->subreferencia = 0;
                 $registreProduccio->id_registre_entrada = $registreEntrada->id_registre_entrada;
@@ -163,6 +173,7 @@ class RegistreEntradaController extends Controller
                 $registreProduccio->titol = $registreEntrada->titol;
                 $registreProduccio->save(); 
             } else {
+                //-------Si el registre es una serie o documental------
                 $contSet = 1;
                 $contNextSet = 0;
                 $contData = 0; 

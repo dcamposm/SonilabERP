@@ -32,8 +32,21 @@ class RegistreProduccioController extends Controller {
                         'id_registre_entrada' => $registre->id_registre_entrada,
                         'titol' => $registre->registreEntrada->titol
                     );
-                }
-                $registreProduccio[$registre->id_registre_entrada][$registre->subreferencia] = $registre;
+                } 
+                if (!isset($registreProduccio[$registre->id_registre_entrada][$registre->setmana])){
+                    $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0] = array(
+                        'id_registre_entrada' => $registre->id_registre_entrada,
+                        'min' => $registre->subreferencia,
+                        'max' => $registre->subreferencia,
+                        'titol' => $registre->registreEntrada->titol,
+                        'data' => $registre->data_entrega,
+                        'setmana' => $registre->setmana
+                    );
+                    $registreProduccio[$registre->id_registre_entrada][$registre->setmana][$registre->subreferencia] = $registre;
+                } else {
+                    $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['max'] = $registre->subreferencia;
+                    $registreProduccio[$registre->id_registre_entrada][$registre->setmana][$registre->subreferencia] = $registre;
+                }  
             }
         }
         
