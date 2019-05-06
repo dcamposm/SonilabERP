@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'failed' => 'These credentials do not match our records.',
+    'failed' => 'Les dades no són vàlides. Si necessites ajuda, contacta amb el Departament de Sistemes & IT.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
 ];
