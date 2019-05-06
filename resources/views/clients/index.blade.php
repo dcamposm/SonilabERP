@@ -18,25 +18,25 @@
     <table class="table mt-3" style="min-width: 800px;">
         <thead>
             <tr>
-                <th>NOM</th> 
-                <th>EMAIL</th>
-                <th>TELÈFON</th>
-                <th>DIRECCIÓ</th>
-                <th>ACCIONS</th>
+                <th><span style="font-size: 11px;">NOM</span></th> 
+                <th><span style="font-size: 11px;">EMAIL</span></th>
+                <th><span style="font-size: 11px;">TELÈFON</span></th>
+                <th><span style="font-size: 11px;">DIRECCIÓ</span></th>
+                <th><span style="font-size: 11px;">ACCIONS</span></th>
             </tr>
         </thead>
         <tbody>
             @foreach( $clients as $key => $client )
             <tr>
                 <td class="cursor" style="vertical-align: middle;" onclick="self.mostrarClient('{{ route('mostrarClient', array('id' => $client->id_client)) }}')">
-                    <span class="font-weight-bold" style="font-size: 1rem;">{{ $client->nom_client }}</span>
+                    <span class="font-weight-bold" style="font-size: 11px;">{{ $client->nom_client }}</span>
                 </td>
-                <td style="vertical-align: middle;">{{ $client->email_client }}</td>
-                <td style="vertical-align: middle;">{{ $client->telefon_client }}</td>
-                <td style="vertical-align: middle;">{{ $client->direccio_client }}</td>
+                <td style="vertical-align: middle; font-size: 11px;">{{ $client->email_client }}</td>
+                <td style="vertical-align: middle; font-size: 11px;">{{ $client->telefon_client }}</td>
+                <td style="vertical-align: middle; font-size: 11px;">{{ $client->direccio_client }}</td>
                 <td style="vertical-align: middle;">
-                    <a href="{{ route('clientUpdateView', array('id' => $client['id_client'])) }}" class="btn btn-primary">MODIFICAR</a>
-                    <button class="btn btn-danger" onclick="self.seleccionarClient({{ $client['id_client'] }}, '{{ $client['nom_client'] }}')" data-toggle="modal" data-target="#exampleModalCenter">ESBORRAR</button>
+                    <a href="{{ route('clientUpdateView', array('id' => $client['id_client'])) }}" class="btn btn-primary"><span style="font-size: 11px;">MODIFICAR</span></a>
+                    <button class="btn btn-danger" onclick="self.seleccionarClient({{ $client['id_client'] }}, '{{ $client['nom_client'] }}')" data-toggle="modal" data-target="#exampleModalCenter"><span style="font-size: 11px;">ESBORRAR</span></button>
                     <form id="delete-{{ $client['id_client'] }}" action="{{ route('esborrarClient') }}" method="POST">
                         @csrf
                         <input type="hidden" readonly name="id" value="{{ $client['id_client'] }}">
