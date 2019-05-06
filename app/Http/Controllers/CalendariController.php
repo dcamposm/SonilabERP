@@ -10,6 +10,8 @@ use App\Calendar;
 use App\CalendarCarrec;
 use DateTime;
 use App\EmpleatExtern;
+use App\ActorEstadillo;
+use App\Carrec;
 
 class CalendariController extends Controller
 {
@@ -36,12 +38,18 @@ class CalendariController extends Controller
         ];
 
         $data = json_encode(Calendar::where('data_inici', '>=', $dia1)
-                        ->where('data_fi', '<=', $dia5)
-                        ->get());
+                                    ->where('data_fi', '<=', $dia5)
+                                    ->get());
         
         $urlBase = route('showCalendari');
 
-        $actores = [];
+        /*select *
+        from slb_calendars t1
+        inner join slb_actors_estadillo t2 on t1.id_actor_estadillo = t2.id
+        where t1.asistencia = 1 or t1.asistencia is null*/
+
+        $actores = json_encode(ActorEstadillo::all());
+        
         $tecnics = EmpleatExtern::select('slb_empleats_externs.id_empleat', 'slb_empleats_externs.nom_empleat', 'slb_empleats_externs.cognom1_empleat', 'slb_empleats_externs.cognom2_empleat')
                                   ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', '=', 'slb_empleats_externs.id_empleat')
                                   ->join('slb_carrecs', 'slb_carrecs.id_carrec', '=', 'slb_carrecs_empleats.id_carrec')
@@ -53,9 +61,6 @@ class CalendariController extends Controller
                                     ->where('slb_carrecs.nom_carrec', '=', 'Director')
                                     ->get();
         
-        // TODO: Quitar esto cuando se terminen las pruebas:
-        $data = '[{"data_inici":"02-05-2019 00:45:00","data_fi":"02-05-2019 18:15:00","empleat":"Dumbo","num_takes":"100","num_sala":1},{"data_inici":"03-05-2019 00:45:00","data_fi":"03-05-2019 10:15:00","empleat":"Peponcio","num_takes":"69","num_sala":7},{"data_inici":"01-05-2019 05:45:00","data_fi":"01-05-2019 20:15:00","empleat":"Dumbo","num_takes":"1","num_sala":4},{"data_inici":"06-05-2019 08:45:00","data_fi":"06-05-2019 10:20:00","empleat":"Dorita","num_takes":"20","num_sala":6},{"data_inici":"06-05-2019 10:30:00","data_fi":"06-05-2019 14:14:51","empleat":"Dorito","num_takes":"43","num_sala":6}]';
-
         return View('calendari.index', ["fechas"    => $fechas, 
                                         "week"      => $week,
                                         "year"      => $year,
@@ -66,8 +71,38 @@ class CalendariController extends Controller
                                         "data"      => $data]);
     }
 
-    public function getDay(Request $request) {
-        return response()->json(request()->all());
+    public function cambiarCargo(Request $request) {
+        // Coge todos los parámetros necesarios:
+        $data       = strtotime($request->get('data'));
+        $data       = date('Y-m-d H:i:s', $data);
+        $sala       = $request->get('sala');
+        $id_empleat = $request->get('id_empleat');
+        // Coge el identificador del cargo dependiendo del cargo que le pasemos en la consulta:
+        $id_carrec  = Carrec::select('id_carrec')->where('nom_carrec', '=', $request->get('cargo'))->first()->id_carrec;
+
+        // Comprueba si ya existe un registro en la base de datos:
+        $calendariCarrec = CalendarCarrec::where('data', '=', $data)->where('id_carrec', '=', $id_carrec)->first();
+        if (empty($calendariCarrec) == true) {
+            // Si no existe entonces creamos el objeto.
+            $calendariCarrec = new CalendarCarrec;
+        }
+
+        // Asignamos los valores al objeto:
+        $calendariCarrec->data       = $data;
+        $calendariCarrec->num_sala   = $sala;
+        $calendariCarrec->id_empleat = $id_empleat;
+        $calendariCarrec->id_carrec  = $id_carrec;
+
+        // Guardamos el objeto en la base de datos:
+        $calendariCarrec->save();
+
+        // Retornamos el resultado para indicar que todo ha ido OK:
+        return response()->json([
+            $data,
+            $sala,
+            $id_empleat,
+            $id_carrec
+        ]);
     }
 
     public function create(){
@@ -154,7 +189,7 @@ class CalendariController extends Controller
         }
     }
     
-        public function calendariCarrecEditar($id){
+    public function calendariCarrecEditar($id){
         $calendariCarrec = CalendarCarrec::findOrFail($id);
         $v = Validator::make(request()->all(),[
             'id_carrec'=>'required|max:35|exists:slb_carrecs',
@@ -176,8 +211,12 @@ class CalendariController extends Controller
 
             return response()->json(request()->all());
         }
-        
-        
-        }
+    }
 
+    public function calendariCarrecDelete($id){
+        $calendariCarrec = CalendarCarrec::findOrFail($id);
+        $calendariCarrec->delete();
+       
+        return redirect()->route('showCalendari');
+    }
 }
