@@ -32,6 +32,7 @@ class ClientController extends Controller
     {
         $v = Validator::make(request()->all(), [
             'nom_client'            => 'required',
+            'nif_client'            => 'required',
             'email_client'          => 'required|email',
             'telefon_client'        => 'required',
             'direccio_client'       => 'required',
@@ -71,6 +72,7 @@ class ClientController extends Controller
         if ($client) {
             $v = Validator::make(request()->all(), [
                 'nom_client'            => 'required',
+                'nif_client'            => 'required',
                 'email_client'          => 'required|email',
                 'telefon_client'        => 'required',
                 'direccio_client'       => 'required',

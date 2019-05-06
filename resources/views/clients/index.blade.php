@@ -21,7 +21,6 @@
                 <th><span style="font-size: 11px;">NOM</span></th> 
                 <th><span style="font-size: 11px;">EMAIL</span></th>
                 <th><span style="font-size: 11px;">TELÈFON</span></th>
-                <th><span style="font-size: 11px;">DIRECCIÓ</span></th>
                 <th><span style="font-size: 11px;">ACCIONS</span></th>
             </tr>
         </thead>
@@ -33,10 +32,9 @@
                 </td>
                 <td style="vertical-align: middle; font-size: 11px;">{{ $client->email_client }}</td>
                 <td style="vertical-align: middle; font-size: 11px;">{{ $client->telefon_client }}</td>
-                <td style="vertical-align: middle; font-size: 11px;">{{ $client->direccio_client }}</td>
                 <td style="vertical-align: middle;">
-                    <a href="{{ route('clientUpdateView', array('id' => $client['id_client'])) }}" class="btn btn-primary"><span style="font-size: 11px;">MODIFICAR</span></a>
-                    <button class="btn btn-danger" onclick="self.seleccionarClient({{ $client['id_client'] }}, '{{ $client['nom_client'] }}')" data-toggle="modal" data-target="#exampleModalCenter"><span style="font-size: 11px;">ESBORRAR</span></button>
+                    <a href="{{ route('clientUpdateView', array('id' => $client['id_client'])) }}" class="btn btn-primary btn-sm"><span style="font-size: 11px;">MODIFICAR</span></a>
+                    <button class="btn btn-danger btn-sm" onclick="self.seleccionarClient({{ $client['id_client'] }}, '{{ $client['nom_client'] }}')" data-toggle="modal" data-target="#exampleModalCenter"><span style="font-size: 11px;">ESBORRAR</span></button>
                     <form id="delete-{{ $client['id_client'] }}" action="{{ route('esborrarClient') }}" method="POST">
                         @csrf
                         <input type="hidden" readonly name="id" value="{{ $client['id_client'] }}">
