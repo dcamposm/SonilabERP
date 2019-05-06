@@ -124,27 +124,31 @@ class CalendariController extends Controller
     }
 
     public function create(){
+        //return response()->json(request()->all());
+
         $v = Validator::make(request()->all(),[
             //'id_calendar'=>'required|max:35',
             'id_empleat'=>'required|max:35',
+            'id_actor_estadillo'=>'required|max:35',
             'id_registre_entrada'=>'required|max:35',
             'num_takes'=>'required|regex:/^[0-9]+$/',//^[0-9]+$
             'data_inici'=>'required|max:35',
             'data_fi'=>'required|max:35',
             'num_sala'=>'required|max:35'
+            
         ]);
 
         if ($v->fails()) {
             // Datos incorrectos.
-            return redirect()->back()->withErrors($v)->withInput();
+            return response()->json(['success'=> false,"iesse"=>$v->errors()],400);
         }
         else {
+            
             //return response()->json(request()->all());
             // Datos correctos.
             $calendari = new Calendar(request()->all());  
             $calendari->save();
-
-            return redirect()->route('showCalendari');
+            return response()->json(['success'=> false],201);
         }
     }
 
