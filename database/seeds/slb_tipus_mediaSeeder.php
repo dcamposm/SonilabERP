@@ -20,7 +20,7 @@ class slb_tipus_mediaSeeder extends Seeder
         ));
         TipusMedia:: create(array(
             'id_media'         => 2,
-            'nom_media'        => 'Pel·lícula animació',
+            'nom_media'        => 'Pel·lícula Animació',
             'descripcio_media' => 'Pel·lícula animada.'
         ));
         TipusMedia:: create(array(
@@ -40,7 +40,7 @@ class slb_tipus_mediaSeeder extends Seeder
         ));
         TipusMedia:: create(array(
             'id_media'         => 6,
-            'nom_media'        => 'Serie animació',
+            'nom_media'        => 'Serie Animació',
             'descripcio_media' => 'Serie d\'Animació.'
         ));
     }
