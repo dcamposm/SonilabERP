@@ -75,5 +75,25 @@ class slb_CalendarsSeeder extends Seeder
             'num_sala' => 3,
             'asistencia' => 1,
         ));
+        Calendar::create(array(
+            'id_calendar' => 7,
+            'id_empleat' => 2,
+            'id_actor_estadillo'=>2,
+            'id_registre_entrada' => 1,
+            'num_takes' => 10,
+            'data_inici' => '2019-04-30 21:00:00',
+            'data_fi' => '2019-04-30 21:30:00',
+            'num_sala' => 3
+        ));
+        Calendar::create(array(
+            'id_calendar' => 8,
+            'id_empleat' => 2,
+            'id_actor_estadillo'=>2,
+            'id_registre_entrada' => 1,
+            'num_takes' => 1,
+            'data_inici' => '2019-04-30 20:58:00',
+            'data_fi' => '2019-04-30 20:59:00',
+            'num_sala' => 3
+        ));
     }
 }

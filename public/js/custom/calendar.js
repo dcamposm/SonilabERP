@@ -40,6 +40,9 @@ function cargarDatos(){
        celda.setAttribute('aria-valuenow', takes)
        cambiarColorCelda(celda, takes)
     });
+    actores.forEach(element => {
+        $('#trabajadores').append('<li id=' + element.id_actor + ' draggable="true" ondragstart="drag(event)">' + element.nombre_actor + ' - ' + element.takes_restantes + ' takes</li>')
+    })
 }
 
 ///// FUNCTIONS /////
@@ -100,6 +103,10 @@ function weeksInYear(year) {
     var d = new Date(year, 11, 31);
     var week = getWeekNumber(d)[1];
     return week == 1? getWeekNumber(d.setDate(24))[1] : week;
+}
+
+function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
 }
 
 ///// SIDEBAR /////
