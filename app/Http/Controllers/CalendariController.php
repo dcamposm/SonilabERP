@@ -95,6 +95,7 @@ class CalendariController extends Controller
         $data       = date('Y-m-d H:i:s', $data);
         $sala       = $request->get('sala');
         $id_empleat = $request->get('id_empleat');
+        $torn       = $request->get('torn');
         // Coge el identificador del cargo dependiendo del cargo que le pasemos en la consulta:
         $id_carrec  = Carrec::select('id_carrec')->where('nom_carrec', '=', $request->get('cargo'))->first()->id_carrec;
 
@@ -110,6 +111,7 @@ class CalendariController extends Controller
         $calendariCarrec->num_sala   = $sala;
         $calendariCarrec->id_empleat = $id_empleat;
         $calendariCarrec->id_carrec  = $id_carrec;
+        $calendariCarrec->torn       = $torn;
 
         // Guardamos el objeto en la base de datos:
         $calendariCarrec->save();
@@ -119,7 +121,8 @@ class CalendariController extends Controller
             $data,
             $sala,
             $id_empleat,
-            $id_carrec
+            $id_carrec,
+            $torn
         ]);
     }
 
