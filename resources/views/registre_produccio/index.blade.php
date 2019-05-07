@@ -146,11 +146,11 @@
     <table class="table" id="parentTable" style="margin-top: 10px;  min-width: 1200px; font-size: 10px; border-collapse:collapse;">
         <thead>
             <tr>
-                <th>REF.</th> 
-                <th>SUB-REF</th> 
-                <th>DATA D'ENTREGA</th>
-                <th>SETMANA</th>
-                <th>TÍTOL ORIGINAL</th>
+                <th style="width: 6.78%;">REF.</th> 
+                <th style="width: 8.322%;">SUB-REF</th> 
+                <th style="width: 14.452%;">DATA D'ENTREGA</th>
+                <th style="width: 9.369%;">SETMANA</th>
+                <th style="width: 13.455%;">TÍTOL ORIGINAL</th>
                 @if (Auth::user()->hasAnyRole(['1', '2', '4']))
                     @if (Auth::user()->hasAnyRole(['2']))
                         <th>TÍTOL TRADUIT</th>
@@ -172,8 +172,8 @@
                         <th>DATA MIX</th>
                         <th>RETAKES</th>
                     @else
-                        <th>ESTADILLO</th>
-                        <th>VEC</th>
+                        <th style="width: 13.355%;">ESTADILLO</th>
+                        <th style="width: 9.719%;">VEC</th>
                     @endif
                     
                 @elseif (Auth::user()->hasAnyRole(['3']))
@@ -344,13 +344,13 @@
                                         @foreach ($serie as $key2 => $episodi)
                                             @if ($key2 == 0)
                                             <tr class="border-primary table-selected">
-                                                <td class="cursor" title='Veure registre d&apos;entrada' style="vertical-align: middle; width: 76px;" onclick="self.mostrarRegistreProduccio('{{ route('mostrarRegistreEntrada', array('id' => $episodi["id_registre_entrada"])) }}')">
+                                                <td class="cursor" title='Veure registre d&apos;entrada' style="vertical-align: middle; width: 6.5%;" onclick="self.mostrarRegistreProduccio('{{ route('mostrarRegistreEntrada', array('id' => $episodi["id_registre_entrada"])) }}')">
                                                     <span class="font-weight-bold" style="font-size: 11px;">{{ $episodi["id_registre_entrada"] }}</span>    
                                                 </td>
-                                                <td style="vertical-align: middle; width: 96px;" class="accordion cursor font-weight-bold" data-toggle="collapse" data-target="#collapse{{$key}}_{{$key1}}">{{ $episodi['min'] }}_{{ $episodi['max'] }} </td>
-                                                <td style="vertical-align: middle; width: 168px;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}_{{$key1}}">{{ date('d/m/Y', strtotime($episodi['data'])) }}</td>
-                                                <td style="vertical-align: middle; width: 110px;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}_{{$key1}}">{{ $episodi['setmana'] }}</td>
-                                                <td style="vertical-align: middle; width: 159px;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}_{{$key1}}">{{ $episodi['titol'] }}</td>
+                                                <td style="vertical-align: middle; width: 8.35%;" class="accordion cursor font-weight-bold" data-toggle="collapse" data-target="#collapse{{$key}}_{{$key1}}">{{ $episodi['min'] }}_{{ $episodi['max'] }} </td>
+                                                <td style="vertical-align: middle; width: 14.5%;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}_{{$key1}}">{{ date('d/m/Y', strtotime($episodi['data'])) }}</td>
+                                                <td style="vertical-align: middle; width: 9.4%;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}_{{$key1}}">{{ $episodi['setmana'] }}</td>
+                                                <td style="vertical-align: middle; width: 13.5%" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}_{{$key1}}">{{ $episodi['titol'] }}</td>
                                                 @if (Auth::user()->hasAnyRole(['1', '2', '4']))
                                                     @if (Auth::user()->hasAnyRole(['2']))
                                                         <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}_{{$key1}}"></td>
@@ -378,14 +378,16 @@
                                                         <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}_{{$key1}}"></td>
                                                         <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}_{{$key1}}"></td>
                                                     @else
-                                                        <td style="vertical-align: middle; width: 154px;">
+                                                        <td style="vertical-align: middle; width: 13.4%;">
                                                             <form action="{{ route('estadilloFind') }}" method="GET">
                                                                 @csrf
                                                                 <input type="hidden" readonly name="search_term" value="{{ $episodi['id_registre_entrada'] }}">
                                                                 <button class="btn btn-primary btn-sm" style="font-size: 11px;" type="submit">ESTADILLO</button>
                                                             </form>
                                                         </td>
-                                                        <td style="vertical-align: middle; width: 154px;"><a href="{{ route('indexVec', array('ref' => $episodi['id_registre_entrada'])) }}" class="btn btn-primary btn-sm">VEC</a></td>
+                                                        <td style="vertical-align: middle; width: 9.75%;">
+                                                                <a href="{{ route('mostrarVec', array('id' => $episodi['id_registre_entrada'], 'data' => date('d-m-Y', strtotime($episodi['data'])))) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">VEURE</a>
+                                                        </td>
                                                     @endif
                                                 @endif
                                                 @if (Auth::user()->hasAnyRole(['3']))
@@ -450,13 +452,7 @@
                                                                 <a href="{{ route('estadilloShow', array('id' => $episodi->getEstadillo->id_estadillo )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">VEURE</a>
                                                             @endif
                                                         </td>
-                                                        <td style="vertical-align: middle;">
-                                                            @if ($episodi->vec != 1  || empty($episodi->getVec))
-                                                                <a href="{{ route('vecGenerar', array('id' => $episodi->id)) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">GENERAR</a>
-                                                            @else
-                                                                <a href="{{ route('mostrarVec', array('id' => $episodi->getVec->id_costos)) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">VEURE</a>
-                                                            @endif
-                                                        </td>
+                                                        <td style="vertical-align: middle;"></td>
                                                     @endif
                                                 @endif
                                                 @if (Auth::user()->hasAnyRole(['3']))

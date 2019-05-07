@@ -113,7 +113,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="{{ Request::is('showCalendari*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('showCalendari') }}"><span class="fas fa-calendar"></span><span class="sidebar-link underline">Calendari</span></a>
+                                <a class="{{ Request::is('registreEntrada*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('indexRegistreEntrada')}}"><span class="fas fa-atlas"></span><span class="sidebar-link underline">Registre d'entrada</span></a>
                         </li>
 
                         <li class="nav-item">
@@ -121,13 +121,15 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="{{ Request::is('empleats*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('empleatIndex') }}"><span class="fas fa-users"></span><span class="sidebar-link underline">Gestió de Personal</span></a>
+                            <a class="{{ Request::is('empleats*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('empleatIndex') }}"><span class="fas fa-users"></span><span class="sidebar-link underline">Personal Extern</span></a>
                         </li>
+
                         <li class="nav-item">
                             <a class="{{ Request::is('usuaris*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('indexUsuariIntern')}}"><span class="fas fa-user-plus"></span><span class="sidebar-link underline">Gestió d'Usuaris</span></a>
                         </li>
+
                         <li class="nav-item">
-                                <a class="{{ Request::is('registreEntrada*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('indexRegistreEntrada')}}"><span class="fas fa-atlas"></span><span class="sidebar-link underline">Registre d'entrada</span></a>
+                            <a class="{{ Request::is('showCalendari*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('showCalendari') }}"><span class="fas fa-calendar"></span><span class="sidebar-link underline">Calendari</span></a>
                         </li>
                     </ul>
 
