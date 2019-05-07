@@ -34,7 +34,7 @@ class RegistreEntradaController extends Controller
                                 ->with('usuari')
                                 ->with('servei')
                                 ->with('idioma')
-                                ->with('media')->orderBy("estat")->orderBy("id_registre_entrada", "DESC")->get();
+                                ->with('media')->orderBy("estat", "DESC")->orderBy("id_registre_entrada", "DESC")->get();
         //Agafem tots els camps necessaris de la BBDD
         $clients = Client::all();
         $serveis = Servei::all();
