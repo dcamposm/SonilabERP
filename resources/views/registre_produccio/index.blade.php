@@ -385,7 +385,7 @@
                                                                 <button class="btn btn-primary btn-sm" style="font-size: 11px;" type="submit">ESTADILLO</button>
                                                             </form>
                                                         </td>
-                                                        <td style="vertical-align: middle; width: 142px;"><a href="{{ route('indexVec', array('ref' => $episodi['id_registre_entrada'])) }}" class="btn btn-primary btn-sm">VEC</a></td>
+                                                        <td style="vertical-align: middle; width: 154px;"><a href="{{ route('indexVec', array('ref' => $episodi['id_registre_entrada'])) }}" class="btn btn-primary btn-sm">VEC</a></td>
                                                     @endif
                                                 @endif
                                                 @if (Auth::user()->hasAnyRole(['3']))
