@@ -12,6 +12,9 @@ use DateTime;
 use App\EmpleatExtern;
 use App\ActorEstadillo;
 use App\Carrec;
+use DB;
+use App\RegistreProduccio;
+use App\RegistreEntrada;
 
 class CalendariController extends Controller
 {
@@ -43,12 +46,27 @@ class CalendariController extends Controller
         
         $urlBase = route('showCalendari');
 
-        /*select *
-        from slb_calendars t1
-        inner join slb_actors_estadillo t2 on t1.id_actor_estadillo = t2.id
-        where t1.asistencia = 1 or t1.asistencia is null*/
+        //ToDo: Hacerlo algún día en Eloquent... (?)
+        $takes_restantes = DB::select('SELECT id_actor_estadillo, (t4.take_estadillo - sum(t1.num_takes)) as takes_restantes, t4.id_actor, t5.id as id_registre_produccio
+        FROM slb_db.slb_calendars t1, slb_actors_estadillo t4, slb_registres_produccio t5
+        where (t1.asistencia = 1 or t1.asistencia is null)
+            and t1.id_actor_estadillo in (SELECT id 
+                                                FROM slb_db.slb_actors_estadillo t2
+                                                where t2.id in (select id from slb_registres_produccio t3 where t3.estat = "Pendent"))
+            and t1.id_actor_estadillo = t4.id    
+            and t5.id = t4.id_produccio
+        group by id_actor_estadillo');
 
-        $actores = json_encode(ActorEstadillo::all());
+        foreach ($takes_restantes as $value) {
+            $empleado = EmpleatExtern::findOrFail($value->id_actor);
+            $produccio = RegistreProduccio::findOrFail($value->id_registre_produccio);
+            $entrada = RegistreEntrada::findOrFail($produccio->id_registre_entrada);
+            $value->nombre_actor = $empleado->nom_empleat.' '.$empleado->cognom1_empleat.' '.$empleado->cognom2_empleat;
+            $value->nombre_reg_entrada = $entrada->titol;
+            $value->nombre_reg_produccio = $produccio->titol_traduit;
+        }
+
+        $actores = json_encode($takes_restantes);
         
         $tecnics = EmpleatExtern::select('slb_empleats_externs.id_empleat', 'slb_empleats_externs.nom_empleat', 'slb_empleats_externs.cognom1_empleat', 'slb_empleats_externs.cognom2_empleat')
                                   ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', '=', 'slb_empleats_externs.id_empleat')
@@ -106,27 +124,31 @@ class CalendariController extends Controller
     }
 
     public function create(){
+        //return response()->json(request()->all());
+
         $v = Validator::make(request()->all(),[
             //'id_calendar'=>'required|max:35',
             'id_empleat'=>'required|max:35',
+            'id_actor_estadillo'=>'required|max:35',
             'id_registre_entrada'=>'required|max:35',
             'num_takes'=>'required|regex:/^[0-9]+$/',//^[0-9]+$
             'data_inici'=>'required|max:35',
             'data_fi'=>'required|max:35',
             'num_sala'=>'required|max:35'
+            
         ]);
 
         if ($v->fails()) {
             // Datos incorrectos.
-            return redirect()->back()->withErrors($v)->withInput();
+            return response()->json(['success'=> false,"iesse"=>$v->errors()],400);
         }
         else {
+            
             //return response()->json(request()->all());
             // Datos correctos.
             $calendari = new Calendar(request()->all());  
             $calendari->save();
-
-            return redirect()->route('showCalendari');
+            return response()->json(['success'=> false],201);
         }
     }
 
