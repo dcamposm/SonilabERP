@@ -147,20 +147,20 @@
         <thead>
             <tr>
                 @if (Auth::user()->hasAnyRole(['1', '4']))
-                    <th style="min-width: 75.5667px">REF.</th> 
-                    <th style="min-width: 97.3667px">SUB-REF</th> 
-                    <th style="min-width: 169.217px">DATA D'ENTREGA</th>
-                    <th style="min-width: 111.183px">SETMANA</th>
-                    <th style="min-width: 159.683px">TÍTOL ORIGINAL</th>
-                    <th style="min-width: 154.883px">ESTADILLO</th>
-                    <th style="min-width: 143.1px">VEC</th>
-                    <th style="min-width: 289px">ACCIONS</th>
+                    <th>REF.</th> 
+                    <th>SUB-REF</th> 
+                    <th>DATA D'ENTREGA</th>
+                    <th>SETMANA</th>
+                    <th>TÍTOL ORIGINAL</th>
+                    <th>ESTADILLO</th>
+                    <th>VEC</th>
+                    <th>ACCIONS</th>
                 @elseif (Auth::user()->hasAnyRole(['2']))
-                    <th style="min-width: 75.5667px">REF.</th> 
-                    <th style="min-width: 75.5667px">SUB-REF</th> 
-                    <th style="min-width: 75.5667px">DATA D'ENTREGA</th>
-                    <th style="min-width: 75.5667px">SETMANA</th>
-                    <th style="min-width: 75.5667px">TÍTOL ORIGINAL</th>
+                    <th>REF.</th> 
+                    <th>SUB-REF</th> 
+                    <th>DATA D'ENTREGA</th>
+                    <th>SETMANA</th>
+                    <th>TÍTOL ORIGINAL</th>
                     <th>TÍTOL TRADUIT</th>
                     <th>TRADUCTOR</th>
                     <th>DATA TRADUCTOR</th>
@@ -179,13 +179,13 @@
                     <th>FINAL SALA</th>
                     <th>DATA MIX</th>
                     <th>RETAKES</th>
-                    <th style="min-width: 75.5667px">ACCIONS</th>
+                    <th>ACCIONS</th>
                 @elseif (Auth::user()->hasAnyRole(['3']))
-                    <th style="min-width: 75.5667px">REF.</th> 
-                    <th style="min-width: 75.5667px">SUB-REF</th> 
-                    <th style="min-width: 75.5667px">DATA D'ENTREGA</th>
-                    <th style="min-width: 75.5667px">SETMANA</th>
-                    <th style="min-width: 75.5667px">TÍTOL ORIGINAL</th>
+                    <th>REF.</th> 
+                    <th>SUB-REF</th> 
+                    <th>DATA D'ENTREGA</th>
+                    <th>SETMANA</th>
+                    <th>TÍTOL ORIGINAL</th>
                     <th>QC VO</th>
                     <th>QC M&E</th>
                     <th>PPP</th>
@@ -195,7 +195,7 @@
                     <th>QC MIX</th>
                     <th>PPE</th>
                     <th>RETAKES</th>
-                    <th style="min-width: 75.5667px">ACCIONS</th>
+                    <th>ACCIONS</th>
                 @endif
             </tr>
         </thead>
@@ -204,7 +204,7 @@
                 @if (isset($registreProduccio->id))
                     <tr class="table-selected {{ ($registreProduccio->estat == 'Pendent') ? 'border-warning' : (($registreProduccio->estat == 'Finalitzada') ? 'border-success' : 'border-danger') }}">
                         <td class="cursor" title='Veure registre d&apos;entrada' style="vertical-align: middle;" onclick="self.mostrarRegistreProduccio('{{ route('mostrarRegistreEntrada', array('id' => $registreProduccio->id_registre_entrada)) }}')">
-                            <span class="font-weight-bold" style="font-size: 11px;">{{ $registreProduccio->id_registre_entrada }}</span>    
+                            <span class="texto-vertical text-success font-weight-bold float-left">NEW</span><span class="font-weight-bold" style="margin-bottom: 1px;font-size: 11px;">{{ $registreProduccio->id_registre_entrada }}</span>    
                         </td>
                         <td class="cursor" title='Veure producció' style="vertical-align: middle;" onclick="self.mostrarRegistreProduccio('{{ route('mostrarRegistreProduccio', array('id' => $registreProduccio->id)) }}')">
                             <span class="font-weight-bold" style="font-size: 11px;">{{ $registreProduccio->subreferencia }}</span>
