@@ -95,6 +95,7 @@ class CalendariController extends Controller
         $data       = date('Y-m-d H:i:s', $data);
         $sala       = $request->get('sala');
         $id_empleat = $request->get('id_empleat');
+        $torn       = $request->get('torn');
         // Coge el identificador del cargo dependiendo del cargo que le pasemos en la consulta:
         $id_carrec  = Carrec::select('id_carrec')->where('nom_carrec', '=', $request->get('cargo'))->first()->id_carrec;
 
@@ -110,6 +111,7 @@ class CalendariController extends Controller
         $calendariCarrec->num_sala   = $sala;
         $calendariCarrec->id_empleat = $id_empleat;
         $calendariCarrec->id_carrec  = $id_carrec;
+        $calendariCarrec->torn       = $torn;
 
         // Guardamos el objeto en la base de datos:
         $calendariCarrec->save();
@@ -119,32 +121,37 @@ class CalendariController extends Controller
             $data,
             $sala,
             $id_empleat,
-            $id_carrec
+            $id_carrec,
+            $torn
         ]);
     }
 
     public function create(){
+        //return response()->json(request()->all());
+
         $v = Validator::make(request()->all(),[
             //'id_calendar'=>'required|max:35',
             'id_empleat'=>'required|max:35',
+            'id_actor_estadillo'=>'required|max:35',
             'id_registre_entrada'=>'required|max:35',
             'num_takes'=>'required|regex:/^[0-9]+$/',//^[0-9]+$
             'data_inici'=>'required|max:35',
             'data_fi'=>'required|max:35',
             'num_sala'=>'required|max:35'
+            
         ]);
 
         if ($v->fails()) {
             // Datos incorrectos.
-            return redirect()->back()->withErrors($v)->withInput();
+            return response()->json(['success'=> false,"iesse"=>$v->errors()],400);
         }
         else {
+            
             //return response()->json(request()->all());
             // Datos correctos.
             $calendari = new Calendar(request()->all());  
             $calendari->save();
-
-            return redirect()->route('showCalendari');
+            return response()->json(['success'=> false],201);
         }
     }
 

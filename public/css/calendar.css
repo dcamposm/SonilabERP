@@ -154,3 +154,12 @@ body, html, main{
     padding-right: 10px;
     padding-top: 20px;
 }
+
+.btn-success:not(:disabled):not(.disabled).active, .btn-success:not(:disabled):not(.disabled):active, .show>.btn-success.dropdown-toggle, 
+.btn-danger:not(:disabled):not(.disabled).active, .btn-danger:not(:disabled):not(.disabled):active, .show>.btn-danger.dropdown-toggle, 
+.btn-secondary:not(:disabled):not(.disabled).active, .btn-secondary:not(:disabled):not(.disabled):active, .show>.btn-secondary.dropdown-toggle {
+    /* background-color: rgb(201, 255, 6) !important; */
+    font-weight: bold;
+    text-decoration: underline white;
+    border: 2px solid rgb(187, 187, 187);
+}

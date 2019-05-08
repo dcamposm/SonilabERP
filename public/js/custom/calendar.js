@@ -1,23 +1,33 @@
 /////  INIT  /////
 
-$('#semanaMenos').on('click', function(){
+$('#semanaMenos').on('click', function () {
     changeCalendar(0)
 })
-$('#semanaMas').on('click', function(){
+$('#semanaMas').on('click', function () {
     changeCalendar(1)
 })
+
+$('#btnGuardar').click(guardarCelda)
+
+
+
 
 crearTablaCalendario();
 tablaHoras();
 cargarDatos();
 
-function crearTablaCalendario(){
+var persona = undefined
+
+$('.celda').attr('ondrop', 'drop(event)')
+$('.celda').attr('ondragover', 'allowDrop(event)')
+
+function crearTablaCalendario() {
     var contenedor = $('#contenedor')
     for (let i = 0; i < 8; i++) {
         var fila = $('<div class="row fila"></div>')
         var sala = i + 1
         for (let h = 0; h < 6; h++) {
-            if (h == 0){
+            if (h == 0) {
                 // Crea un div con el número de la sala:
                 fila.append('<div class="sala celda">' + sala + '</div>')
             } else {
@@ -26,19 +36,19 @@ function crearTablaCalendario(){
                 // podamos coger el día y la sala de la casilla que hayamos seleccionado.
                 fila.append('<div class="col celda" dia="' + dias[h - 1] + '" sala="' + sala + '"><div class="progress barra_progreso"><div class="progress-bar barra progress-bar-striped" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div></div></div>')
             }
-        }      
+        }
         contenedor.append(fila)
     }
 }
 
-function cargarDatos(){
+function cargarDatos() {
     data.forEach(element => {
-       var celda = $("[dia="+element.data_inici.split(' ')[0]+"][sala="+element.num_sala+"]")[0].children[0].children[0]
-       var takes = Number(celda.innerText.replace('%','')) + element.num_takes
-       celda.innerText = takes + '%'
-       celda.style.width = takes + '%'
-       celda.setAttribute('aria-valuenow', takes)
-       cambiarColorCelda(celda, takes)
+        var celda = $("[dia=" + element.data_inici.split(' ')[0] + "][sala=" + element.num_sala + "]")[0].children[0].children[0]
+        var takes = Number(celda.innerText.replace('%', '')) + element.num_takes
+        celda.innerText = takes + '%'
+        celda.style.width = takes + '%'
+        celda.setAttribute('aria-valuenow', takes)
+        cambiarColorCelda(celda, takes)
     });
     
     var trabajadores = {}
@@ -57,16 +67,76 @@ function cargarDatos(){
 
 ///// FUNCTIONS /////
 
-function changeCalendar(que){
-    if (que == 0){
-        if (week == 1){
+function guardarCelda() { 
+var data_inici = celda.parentElement.parentElement.getAttribute("dia")+" "+ $('#takesIni').val()+":00";
+var data_fi = celda.parentElement.parentElement.getAttribute("dia")+" "+ $('#takesFin').val()+":00";
+var num_sala = celda.parentElement.parentElement.getAttribute("sala");
+
+let takes = Number($('#numberTakes').val())
+    var data={id_actor_estadillo:persona.id_actor_estadillo,id_empleat:1,id_registre_entrada:8, num_takes:takes, data_inici:data_inici, data_fi:data_fi, num_sala:num_sala};
+    $.post('/calendari/crear',data)
+    .done(function (pep) {
+        console.log(pep);
+     /*   
+    let valorActual = Number($(celda).attr('aria-valuenow'))
+    let takesSuma = takes + valorActual
+    if (takes && takes > 0) {
+        $(celda).attr('aria-valuenow', takesSuma)
+        $(celda).text(takesSuma + '%')
+        $(celda).css({ 'width': takesSuma + '%' })
+        if (takesSuma < 25) {
+            $(celda)[0].className = 'progress-bar barra progress-bar-striped bg-success';
+        } else if (takesSuma < 50) {
+            $(celda)[0].className = 'progress-bar barra progress-bar-striped bg-info';
+        } else if (takesSuma < 75) {
+            $(celda)[0].className = 'progress-bar barra progress-bar-striped bg-warning';
+        } else if (takesSuma <= 100) {
+            $(celda)[0].className = 'progress-bar barra progress-bar-striped bg-danger';
+        }
+    }
+    trabajadores[persona[0]][2][$('#selectPelis').val()] = trabajadores[persona[0]][2][$('#selectPelis').val()] - takes
+    */
+
+
+    })
+    .fail(function (error) {
+        console.log(error);
+    });
+    
+    
+    
+    //limpiarListado()
+    //listarTrabajadores()
+    $('#exampleModal').modal('hide');
+}
+
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+function drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("text");
+    actores.forEach(element => {
+        if (element.id_actor == data) {
+            persona = element; //persona es el elemento arrastrado
+        }
+    });
+
+    celda = $(ev.target).attr('aria-valuenow') ? ev.target : ev.target.children[0]
+    $('#exampleModal').modal('show');
+}
+
+function changeCalendar(que) {
+    if (que == 0) {
+        if (week == 1) {
             year = year - 1
             week = weeksInYear(year)
         } else {
             week = week - 1
         }
-    } else if (que == 1){
-        if (week == weeksInYear(year)){
+    } else if (que == 1) {
+        if (week == weeksInYear(year)) {
             year = year + 1
             week = 1
         } else {
@@ -78,7 +148,7 @@ function changeCalendar(que){
 
 }
 
-function cambiarColorCelda(celda, takes){
+function cambiarColorCelda(celda, takes) {
     $(celda).attr('aria-valuenow', takes)
     $(celda).text(takes + '%')
     $(celda).css({ 'width': takes + '%' })
@@ -98,21 +168,21 @@ function cambiarColorCelda(celda, takes){
 function getWeekNumber(d) {
     // Copy date so don't modify original
     d = new Date(+d);
-    d.setHours(0,0,0);
+    d.setHours(0, 0, 0);
     // Set to nearest Thursday: current date + 4 - current day number
     // Make Sunday's day number 7
-    d.setDate(d.getDate() + 4 - (d.getDay()||7));
+    d.setDate(d.getDate() + 4 - (d.getDay() || 7));
     // Get first day of year
-    var yearStart = new Date(d.getFullYear(),0,1);
+    var yearStart = new Date(d.getFullYear(), 0, 1);
     // Calculate full weeks to nearest Thursday
-    var weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7)
+    var weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7)
     // Return array of year and week number
     return [d.getFullYear(), weekNo];
 }
 function weeksInYear(year) {
     var d = new Date(year, 11, 31);
     var week = getWeekNumber(d)[1];
-    return week == 1? getWeekNumber(d.setDate(24))[1] : week;
+    return week == 1 ? getWeekNumber(d.setDate(24))[1] : week;
 }
 
 function drag(ev) {
@@ -124,8 +194,8 @@ function drag(ev) {
 function openNav() {
     document.getElementById("mySidenav").style.width = "300px";
     document.getElementsByTagName("main")[0].classList.add('contenedor-margen')
-    document.getElementsByTagName("main")[0].style.cssText = "margin-left: "+$('.sidebar-sticky').width()+"px !important"
-    document.getElementsByTagName("main")[0].style.cssText = "width: calc(100% - 300px - "+$('.sidebar-sticky').width()+"px); !important"   
+    document.getElementsByTagName("main")[0].style.cssText = "margin-left: " + $('.sidebar-sticky').width() + "px !important"
+    document.getElementsByTagName("main")[0].style.cssText = "width: calc(100% - 300px - " + $('.sidebar-sticky').width() + "px); !important"
 
     $('#btnAdd').hide();
 }
@@ -151,7 +221,7 @@ function ampliarCasilla(e) {
     // Coge el atributo "dia" y "sala" de la celda seleccionada:
     diaSeleccionado = e.delegateTarget.getAttribute("dia");
     salaSeleccionada = e.delegateTarget.getAttribute("sala");
-    
+
     $('#dialog').css({ 'width': window.innerWidth - 30 })
     $('#dialog').css({ 'max-width': window.innerWidth - 30 })
     $('#dialog').css({ 'height': window.innerHeight - 30 })
@@ -159,28 +229,35 @@ function ampliarCasilla(e) {
     $('#exampleModal2').modal('show')
 }
 
-$('#exampleModal2').on('shown.bs.modal', function () {
-    // TODO: Hacer llamada ajax para coger los datos del día seleccionado.
-    /*$.ajax({
-        url: '/calendari/agafarDia',
-        type: 'POST',
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-            Accept: 'application/json'
-        },
-        data: {
-            'date': '2019-04-26'
-        },
-        success: function(response) {
-          console.log(response);
-          // TODO: Recorrer los resultados y hacer como el siguiente código (el que se tendrá que borrar).
-        },
-        error: function(error) {
-          console.error(error);
-        }
-    });*/
+$('#exampleModal').on('show.bs.modal', function (event) {
+    var modal = $(this)
+    let takes = persona.takes_restantes;
+    modal.find('.modal-title').text(persona.nombre_actor + ' - ' + takes + ' takes restantes')
 
-    // Volvemos a llamar a esta función para volver a crear la tabla del modal, básicamente
+    var restantes = 100 - (celda.attributes['aria-valuenow'].value ? celda.attributes['aria-valuenow'].value : 0)
+
+    var takesPosibles = restantes > takes ? takes : restantes
+
+    $('#numberTakes').attr('max', takesPosibles)
+    $('#takes-celda').text('Takes por asignar a la celda: ' + restantes)
+
+    $('#selectPelis').html('')
+
+    actores.forEach(actor => {
+
+        if (actor.id_actor == persona.id_actor) {
+            console.log(actor.id_actor)
+            $('#selectPelis').append(new Option(actor.nombre_reg_entrada + " " + actor.nombre_reg_produccio,actor.id_registre_produccio))
+
+        }
+    });
+
+
+
+});
+
+$('#exampleModal2').on('shown.bs.modal', function () {
+// Volvemos a llamar a esta función para volver a crear la tabla del modal, básicamente
     // para que cuando cambiemos de día no se visualice el contenido anterior.
     tablaHoras();
 
@@ -199,21 +276,21 @@ $('#exampleModal2').on('shown.bs.modal', function () {
             for (let i = horaIni; i <= horaFin; i++) {
                 if (i == horaFin) {
                     for (let h = 0; h < minFin; h++) {
-                        pintar($('#td_'+i+'-'+pad(h)))
+                        pintar($('#td_' + i + '-' + pad(h)))
                     }
                 } else if (i == horaIni) {
                     for (let h = minIni; h < 60; h++) {
-                        pintar($('#td_'+i+'-'+pad(h)))
+                        pintar($('#td_' + i + '-' + pad(h)))
                     }
                 } else {
                     for (let h = 0; h < 60; h++) {
-                        pintar($('#td_'+pad(i)+'-'+pad(h)))
+                        pintar($('#td_' + pad(i) + '-' + pad(h)))
                     }
                 }
             }
         }
     });
-    $('#exampleModalLabel2').text('Sala: '+ salaSeleccionada + ' / Dia: ' + diaSeleccionado)
+    $('#exampleModalLabel2').text('Sala: ' + salaSeleccionada + ' / Dia: ' + diaSeleccionado)
 });
 
 function tablaHoras() {
@@ -303,17 +380,17 @@ function tablaHoras() {
         15:30 20:30*/
 }
 
-function pad(num){
-    return num < 10 ? '0'+num : num
+function pad(num) {
+    return num < 10 ? '0' + num : num
 }
 
-function pintar(elemento){
-   elemento.css({'background-color': 'red'})    
+function pintar(elemento) {
+    elemento.css({ 'background-color': 'red' })
 }
 
 
 ///// CAMBIAR TÉCNICO Y DIRECTOR /////
-function cambiarDirector() {
+function cambiarDirector(torn) {
     $.ajax({
         url: '/calendari/cambiarCargo',
         type: 'POST',
@@ -325,20 +402,21 @@ function cambiarDirector() {
             'id_empleat': $('#director').val(),
             'data': diaSeleccionado,
             'sala': salaSeleccionada,
-            'cargo': 'Director'
+            'cargo': 'Director',
+            'torn': torn
         },
-        success: function(response) {
-          console.log(response);
-          // TODO: Poner el id_empleado nuevo en el array, para que cuando se vuelva a abrir esté ya cambiado.
+        success: function (response) {
+            console.log(response);
+            // TODO: Poner el id_empleado nuevo en el array, para que cuando se vuelva a abrir esté ya cambiado.
         },
-        error: function(error) {
-          console.error(error);
-          alert("No s'ha pogut canviar el director :(");
+        error: function (error) {
+            console.error(error);
+            alert("No s'ha pogut canviar el director :(");
         }
     });
 }
 
-function cambiarTecnico() {
+function cambiarTecnico(torn) {
     $.ajax({
         url: '/calendari/cambiarCargo',
         type: 'POST',
@@ -347,18 +425,19 @@ function cambiarTecnico() {
             Accept: 'application/json'
         },
         data: {
-            'id_empleat': $('#tecnico').val(),
+            'id_empleat': $('#tecnico').val(),  // TODO: El ID cambiará dependiendo del turno, ya que pueden ser diferentes personas.
             'data': diaSeleccionado,
             'sala': salaSeleccionada,
-            'cargo': 'Tècnic de sala'
+            'cargo': 'Tècnic de sala',
+            'torn': torn
         },
-        success: function(response) {
-          console.log(response);
-          // TODO: Poner el id_empleado nuevo en el array, para que cuando se vuelva a abrir esté ya cambiado.
+        success: function (response) {
+            console.log(response);
+            // TODO: Poner el id_empleado nuevo en el array, para que cuando se vuelva a abrir esté ya cambiado.
         },
-        error: function(error) {
-          console.error(error);
-          alert("No s'ha pogut canviar el tècnic :(");
+        error: function (error) {
+            console.error(error);
+            alert("No s'ha pogut canviar el tècnic :(");
         }
     });
 }

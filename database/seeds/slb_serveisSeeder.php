@@ -20,7 +20,7 @@ class slb_serveisSeeder extends Seeder
         ));
         Servei:: create(array(
             'id_servei'         => 2,
-            'nom_servei'        => 'Doblatge cinema',
+            'nom_servei'        => 'Doblatge Cinema',
             'descripcio_servei' => 'Doblatge per a pel·lícules.'
         ));
     }

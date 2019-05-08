@@ -8,9 +8,9 @@
             <span class="fas fa-angle-double-left"></span>
             TORNAR
         </a>
-        <button class="btn btn-success" data-toggle="modal" data-target="#ModalInsert">
+        <!--<button class="btn btn-success" data-toggle="modal" data-target="#ModalInsert">
             <span class="fas fa-clipboard-list"></span>CREAR VALORACIÓ ECONÒMICA
-        </button>
+        </button>-->
     </div>
 
     {{-- TABLA DE COSTOS --}}
@@ -55,7 +55,13 @@
                                     <input type="hidden" readonly name="id" value="{{ $vec['id_costos'] }}">
                                 </form>
                             @else
-                                <a href="{{ route('vecShowPack', array('id' => $key, 'data' => date('d-m-Y', strtotime($key2)))) }}" class="btn btn-primary">VEURE EPISODIS</a>
+                                <a href="{{ route('vecActualitzar', array('id' => $key, 'setmana' => $vec['setmana'])) }}" class="btn btn-warning">ACTUALITZAR</a>
+                                <button class="btn btn-danger" onclick="self.seleccionarVec({{ $key }}, '{{ $key.' '.$vec['titol'] }}')" data-toggle="modal" data-target="#exampleModalCenter">ESBORRAR</button>
+                                <form id="delete-{{ $key }}" action="{{ route('esborrarVec') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" readonly name="id" value="{{ $key }}">
+                                    <input type="hidden" readonly name="setmana" value="{{ $vec['setmana'] }}">
+                                </form>
                             @endif
                         </td>
                     </tr>

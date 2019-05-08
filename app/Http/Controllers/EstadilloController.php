@@ -161,7 +161,8 @@ class EstadilloController extends Controller
         }
         $registreProduccio = RegistreProduccio::where('id_registre_entrada', $id)->where('setmana', $id_setmana)->first();
         
-        return view('estadillos.showActor', array(
+        try {
+            return view('estadillos.showActor', array(
                 'actors'    => $arrayActors,
                 'empleats'    => $empleats,
                 'estadillos' => $estadillos,
@@ -169,6 +170,9 @@ class EstadilloController extends Controller
                 'min' => $min,
                 'max' => $max
             ));
+        } catch (\Exception $ex) {
+            return redirect()->back()->withErrors(array('error' => 'ERROR. No hi han estadillos creats en la refernecia '.$id.' de la setmana '.$id_setmana));
+        }   
     }
     
     public function showSetmana($id, $id_setmana) { //Funcio que mostra els etadillos per una setmana
