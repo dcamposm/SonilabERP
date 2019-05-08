@@ -53,13 +53,15 @@ function cargarDatos() {
     
     var trabajadores = {}
     actores.forEach(element => {
-        console.log(element)
+//        console.log(element)
         if (trabajadores[element.id_actor]){
             trabajadores[element.id_actor].takes_restantes = trabajadores[element.id_actor].takes_restantes + element.takes_restantes
         } else {
-            trabajadores[element.id_actor] = element
+            trabajadores[element.id_actor] = {id_actor: element.id_actor, nombre_actor: element.nombre_actor, takes_restantes: element.takes_restantes}
         }
     })
+
+    console.log(trabajadores)
 
     for (const key in trabajadores) {
         $('#trabajadores').append('<li id=' + trabajadores[key].id_actor + ' draggable="true" ondragstart="drag(event)">' + trabajadores[key].nombre_actor + ' - ' + trabajadores[key].takes_restantes + ' takes</li>')
@@ -249,7 +251,7 @@ $('#exampleModal').on('show.bs.modal', function (event) {
     actores.forEach(actor => {
 
         if (actor.id_actor == persona.id_actor) {
-            console.log(actor.id_actor)
+            //console.log(actor.id_actor)
             $('#selectPelis').append(new Option(actor.nombre_reg_entrada + " " + actor.nombre_reg_produccio,actor.id_registre_produccio))
 
         }
