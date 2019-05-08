@@ -259,13 +259,8 @@ $('#exampleModal').on('show.bs.modal', function (event) {
     actores.forEach(actor => {
 
         if (actor.id_actor == persona.id_actor) {
-<<<<<<< HEAD
-            console.log(actor.id_actor)
-            $('#selectPelis').append(new Option(actor.nombre_reg_entrada + " " + actor.nombre_reg_produccio, actor.id_registre_produccio))
-=======
             //console.log(actor.id_actor)
             $('#selectPelis').append(new Option(actor.nombre_reg_entrada + " " + actor.nombre_reg_produccio,actor.id_registre_produccio))
->>>>>>> c4ea6ad8962e18264e2ab746ae2033218598801f
 
         }
     });
