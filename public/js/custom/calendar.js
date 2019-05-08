@@ -390,7 +390,7 @@ function pintar(elemento) {
 
 
 ///// CAMBIAR TÉCNICO Y DIRECTOR /////
-function cambiarDirector() {
+function cambiarDirector(torn) {
     $.ajax({
         url: '/calendari/cambiarCargo',
         type: 'POST',
@@ -402,7 +402,8 @@ function cambiarDirector() {
             'id_empleat': $('#director').val(),
             'data': diaSeleccionado,
             'sala': salaSeleccionada,
-            'cargo': 'Director'
+            'cargo': 'Director',
+            'torn': torn
         },
         success: function (response) {
             console.log(response);
@@ -415,7 +416,7 @@ function cambiarDirector() {
     });
 }
 
-function cambiarTecnico() {
+function cambiarTecnico(torn) {
     $.ajax({
         url: '/calendari/cambiarCargo',
         type: 'POST',
@@ -424,10 +425,11 @@ function cambiarTecnico() {
             Accept: 'application/json'
         },
         data: {
-            'id_empleat': $('#tecnico').val(),
+            'id_empleat': $('#tecnico').val(),  // TODO: El ID cambiará dependiendo del turno, ya que pueden ser diferentes personas.
             'data': diaSeleccionado,
             'sala': salaSeleccionada,
-            'cargo': 'Tècnic de sala'
+            'cargo': 'Tècnic de sala',
+            'torn': torn
         },
         success: function (response) {
             console.log(response);
