@@ -412,7 +412,7 @@ function cambiarDirector(torn) {
             Accept: 'application/json'
         },
         data: {
-            'id_empleat': $('#director').val(),
+            'id_empleat': $('#director' + torn).val(),  // Ej: director0, director1
             'data': diaSeleccionado,
             'sala': salaSeleccionada,
             'cargo': 'Director',
@@ -438,7 +438,7 @@ function cambiarTecnico(torn) {
             Accept: 'application/json'
         },
         data: {
-            'id_empleat': $('#tecnico').val(),  // TODO: El ID cambiará dependiendo del turno, ya que pueden ser diferentes personas.
+            'id_empleat': $('#tecnico' + torn).val(),  // Ej: tecnico0, tecnico1
             'data': diaSeleccionado,
             'sala': salaSeleccionada,
             'cargo': 'Tècnic de sala',

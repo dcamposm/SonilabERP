@@ -100,7 +100,10 @@ class CalendariController extends Controller
         $id_carrec  = Carrec::select('id_carrec')->where('nom_carrec', '=', $request->get('cargo'))->first()->id_carrec;
 
         // Comprueba si ya existe un registro en la base de datos:
-        $calendariCarrec = CalendarCarrec::where('data', '=', $data)->where('id_carrec', '=', $id_carrec)->first();
+        $calendariCarrec = CalendarCarrec::where('data', '=', $data)
+                                           ->where('id_carrec', '=', $id_carrec)
+                                           ->where('torn', '=', $torn)
+                                           ->first();
         if (empty($calendariCarrec) == true) {
             // Si no existe entonces creamos el objeto.
             $calendariCarrec = new CalendarCarrec;
