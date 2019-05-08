@@ -108,8 +108,8 @@
                                     Torn matí
                                 </td>
                                 <td>
-                                    {{-- TODO: Falta especificar la acción correspondiente. --}}
                                     <form action="" method="POST" style="margin-left: 5px;">
+                                        {{-- TODO: Falta pasarle el turno a la función. --}}
                                         <select id="director" class="form-control" name="director" onchange="cambiarDirector()">
                                             @foreach($directors as $key => $director)
                                                 {{-- TODO: Falta hacer la condición para seleccionar el director seleccionado. --}}
@@ -119,8 +119,8 @@
                                     </form>
                                 </td>
                                 <td>
-                                    {{-- TODO: Falta especificar la acción correspondiente. --}}
-                                    <form action="/" method="POST" style="margin-left: 5px;">
+                                    <form action="" method="POST" style="margin-left: 5px;">
+                                        {{-- TODO: Falta pasarle el turno a la función. --}}
                                         <select id="tecnico" class="form-control" name="tecnic" onchange="cambiarTecnico()">
                                             @foreach($tecnics as $key => $tecnic)
                                                 {{-- TODO: Falta hacer la condición para seleccionar el técnico seleccionado. --}}
@@ -136,8 +136,8 @@
                                     Torn tarda
                                 </td>
                                 <td>
-                                    {{-- TODO: Falta especificar la acción correspondiente. --}}
                                     <form action="" method="POST" style="margin-left: 5px;">
+                                        {{-- TODO: Falta pasarle el turno a la función. --}}
                                         <select id="director" class="form-control" name="director" onchange="cambiarDirector()">
                                             @foreach($directors as $key => $director)
                                                 {{-- TODO: Falta hacer la condición para seleccionar el director seleccionado. --}}
@@ -147,8 +147,8 @@
                                     </form>
                                 </td>
                                 <td>
-                                    {{-- TODO: Falta especificar la acción correspondiente. --}}
-                                    <form action="/" method="POST" style="margin-left: 5px;">
+                                    <form action="" method="POST" style="margin-left: 5px;">
+                                        {{-- TODO: Falta pasarle el turno a la función. --}}
                                         <select id="tecnico" class="form-control" name="tecnic" onchange="cambiarTecnico()">
                                             @foreach($tecnics as $key => $tecnic)
                                                 {{-- TODO: Falta hacer la condición para seleccionar el técnico seleccionado. --}}
