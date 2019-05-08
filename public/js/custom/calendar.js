@@ -66,7 +66,7 @@ function cargarActores() {
     })
 
     console.log(trabajadores)
-
+    $('#trabajadores').html('');
     for (const key in trabajadores) {
 
         $('#trabajadores').append('<li id=' + trabajadores[key].id_actor + ' draggable="true" ondragstart="drag(event)">' + trabajadores[key].nombre_actor + ' - ' + trabajadores[key].takes_restantes + ' takes</li>');
@@ -106,7 +106,7 @@ function guardarCelda() {
             actores.forEach(element => {
                 if (element.id_registre_produccio == $('#selectPelis').val() && persona.id_actor == element.id_actor) {
                     element.takes_restantes = element.takes_restantes-takes;
-                    console.log(element.takes_restantes);
+                    console.log($('#selectPelis').val());
                 }
             });
             cargarActores();
