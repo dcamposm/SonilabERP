@@ -29,7 +29,7 @@ class slb_actors_estadillosTableSeeder extends Seeder
             'id' => '2',
             'id_produccio' => '2',
             'id_actor' => '1',
-            'take_estadillo' => '28',
+            'take_estadillo' => '225',
             'cg_estadillo' => '4',
             'canso_estadillo' => '0'
         ));
@@ -54,6 +54,14 @@ class slb_actors_estadillosTableSeeder extends Seeder
             'id_produccio' => '3',
             'id_actor' => '3',
             'take_estadillo' => '30',
+            'cg_estadillo' => '4',
+            'canso_estadillo' => '0'
+        ));
+        ActorEstadillo::create(array(
+            'id' => '6',
+            'id_produccio' => '3',
+            'id_actor' => '3',
+            'take_estadillo' => '111',
             'cg_estadillo' => '4',
             'canso_estadillo' => '0'
         ));

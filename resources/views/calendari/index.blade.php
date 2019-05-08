@@ -90,6 +90,101 @@
                 <div id="tablaHoras" class="">
                     
                 </div>
+                <div style="margin-top: 30px;">
+                    {{-- TODO: Modificar la función para guardar el director y el técnico (front, back) para que admita los turnos. --}}
+                    <table style="width: 50%;">
+                        <thead>
+                            <td></td>
+                            <td>
+                                Director
+                            </td>
+                            <td>
+                                Técnic
+                            </td>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    Torn matí
+                                </td>
+                                <td>
+                                    {{-- TODO: Falta especificar la acción correspondiente. --}}
+                                    <form action="" method="POST" style="margin-left: 5px;">
+                                        <select id="director" class="form-control" name="director" onchange="cambiarDirector()">
+                                            @foreach($directors as $key => $director)
+                                                {{-- TODO: Falta hacer la condición para seleccionar el director seleccionado. --}}
+                                                <option value="{{$director['id_empleat']}}" {{--(algo) ? 'selected' : ''--}} >{{$director['nom_empleat']}} {{ $director['cognom1_empleat'] }} {{ $director['cognom2_empleat'] }}</option>
+                                            @endforeach
+                                        </select>
+                                    </form>
+                                </td>
+                                <td>
+                                    {{-- TODO: Falta especificar la acción correspondiente. --}}
+                                    <form action="/" method="POST" style="margin-left: 5px;">
+                                        <select id="tecnico" class="form-control" name="tecnic" onchange="cambiarTecnico()">
+                                            @foreach($tecnics as $key => $tecnic)
+                                                {{-- TODO: Falta hacer la condición para seleccionar el técnico seleccionado. --}}
+                                                <option value="{{$tecnic['id_empleat']}}" {{--(algo) ? 'selected' : ''--}} >{{$tecnic['nom_empleat']}} {{ $tecnic['cognom1_empleat'] }} {{ $tecnic['cognom2_empleat'] }}</option>
+                                            @endforeach
+                                        </select>
+                                    </form>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Torn tarda
+                                </td>
+                                <td>
+                                    {{-- TODO: Falta especificar la acción correspondiente. --}}
+                                    <form action="" method="POST" style="margin-left: 5px;">
+                                        <select id="director" class="form-control" name="director" onchange="cambiarDirector()">
+                                            @foreach($directors as $key => $director)
+                                                {{-- TODO: Falta hacer la condición para seleccionar el director seleccionado. --}}
+                                                <option value="{{$director['id_empleat']}}" {{--(algo) ? 'selected' : ''--}} >{{$director['nom_empleat']}} {{ $director['cognom1_empleat'] }} {{ $director['cognom2_empleat'] }}</option>
+                                            @endforeach
+                                        </select>
+                                    </form>
+                                </td>
+                                <td>
+                                    {{-- TODO: Falta especificar la acción correspondiente. --}}
+                                    <form action="/" method="POST" style="margin-left: 5px;">
+                                        <select id="tecnico" class="form-control" name="tecnic" onchange="cambiarTecnico()">
+                                            @foreach($tecnics as $key => $tecnic)
+                                                {{-- TODO: Falta hacer la condición para seleccionar el técnico seleccionado. --}}
+                                                <option value="{{$tecnic['id_empleat']}}" {{--(algo) ? 'selected' : ''--}} >{{$tecnic['nom_empleat']}} {{ $tecnic['cognom1_empleat'] }} {{ $tecnic['cognom2_empleat'] }}</option>
+                                            @endforeach
+                                        </select>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    {{-- TODO: foreach para pasar lista de los actores, AJAX para guardar el resultado. --}}
+                    <table class="table" style="width: 50%; margin-top: 30px;">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    Pepe pañuelo marino
+                                </td>
+                                <td>
+                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                        <label class="btn btn-success">
+                                            <input type="radio" name="options" id="option1" autocomplete="off" > Present
+                                        </label>
+                                        <label class="btn btn-danger">
+                                            <input type="radio" name="options" id="option2" autocomplete="off"> No present
+                                        </label>
+                                        <label class="btn btn-secondary active">
+                                            <input type="radio" name="options" id="option3" autocomplete="off" checked> Pendent
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
