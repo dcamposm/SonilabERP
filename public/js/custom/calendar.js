@@ -50,64 +50,72 @@ function cargarDatos() {
         celda.setAttribute('aria-valuenow', takes)
         cambiarColorCelda(celda, takes)
     });
-    
-    var trabajadores = {}
-    actores.forEach(element => {
-        console.log(element)
-        if (trabajadores[element.id_actor]){
-            trabajadores[element.id_actor].takes_restantes = trabajadores[element.id_actor].takes_restantes + element.takes_restantes
-        } else {
-            trabajadores[element.id_actor] = element
-        }
-    })
 
+    cargarActores();
+}
+
+function cargarActores() {
+    var trabajadores = {};
+    actores.forEach(element => {
+        if (trabajadores[element.id_actor]) {
+            trabajadores[element.id_actor].takes_restantes = trabajadores[element.id_actor].takes_restantes + element.takes_restantes;
+        }
+        else {
+            trabajadores[element.id_actor] = element;
+        }
+    });
+    $('#trabajadores').html('');
     for (const key in trabajadores) {
-        $('#trabajadores').append('<li id=' + trabajadores[key].id_actor + ' draggable="true" ondragstart="drag(event)">' + trabajadores[key].nombre_actor + ' - ' + trabajadores[key].takes_restantes + ' takes</li>')
+
+        $('#trabajadores').append('<li id=' + trabajadores[key].id_actor + ' draggable="true" ondragstart="drag(event)">' + trabajadores[key].nombre_actor + ' - ' + trabajadores[key].takes_restantes + ' takes</li>');
     }
 }
 
 ///// FUNCTIONS /////
 
-function guardarCelda() { 
-var data_inici = celda.parentElement.parentElement.getAttribute("dia")+" "+ $('#takesIni').val()+":00";
-var data_fi = celda.parentElement.parentElement.getAttribute("dia")+" "+ $('#takesFin').val()+":00";
-var num_sala = celda.parentElement.parentElement.getAttribute("sala");
+function guardarCelda() {
+    var data_inici = celda.parentElement.parentElement.getAttribute("dia") + " " + $('#takesIni').val() + ":00";
+    var data_fi = celda.parentElement.parentElement.getAttribute("dia") + " " + $('#takesFin').val() + ":00";
+    var num_sala = celda.parentElement.parentElement.getAttribute("sala");
 
-let takes = Number($('#numberTakes').val())
-    var data={id_actor_estadillo:persona.id_actor_estadillo,id_empleat:1,id_registre_entrada:8, num_takes:takes, data_inici:data_inici, data_fi:data_fi, num_sala:num_sala};
-    $.post('/calendari/crear',data)
-    .done(function (pep) {
-        console.log('ggrhe')
-        console.log(pep);
-     /*   
-    let valorActual = Number($(celda).attr('aria-valuenow'))
-    let takesSuma = takes + valorActual
-    if (takes && takes > 0) {
-        $(celda).attr('aria-valuenow', takesSuma)
-        $(celda).text(takesSuma + '%')
-        $(celda).css({ 'width': takesSuma + '%' })
-        if (takesSuma < 25) {
-            $(celda)[0].className = 'progress-bar barra progress-bar-striped bg-success';
-        } else if (takesSuma < 50) {
-            $(celda)[0].className = 'progress-bar barra progress-bar-striped bg-info';
-        } else if (takesSuma < 75) {
-            $(celda)[0].className = 'progress-bar barra progress-bar-striped bg-warning';
-        } else if (takesSuma <= 100) {
-            $(celda)[0].className = 'progress-bar barra progress-bar-striped bg-danger';
-        }
-    }
-    trabajadores[persona[0]][2][$('#selectPelis').val()] = trabajadores[persona[0]][2][$('#selectPelis').val()] - takes
-    */
+    let takes = Number($('#numberTakes').val())
+    var data = { id_actor_estadillo: persona.id_actor_estadillo, num_takes: takes, data_inici: data_inici, data_fi: data_fi, num_sala: num_sala };
+    $.post('/calendari/crear', data)
+        .done(function () {
 
 
-    })
-    .fail(function (error) {
-        console.log('afawfa')
-        console.log(error);
-    });
-    
-    
-    
+            let valorActual = Number($(celda).attr('aria-valuenow'))
+            let takesSuma = takes + valorActual
+            if (takes && takes > 0) {
+                $(celda).attr('aria-valuenow', takesSuma)
+                $(celda).text(takesSuma + '%')
+                $(celda).css({ 'width': takesSuma + '%' })
+                if (takesSuma < 25) {
+                    $(celda)[0].className = 'progress-bar barra progress-bar-striped bg-success';
+                } else if (takesSuma < 50) {
+                    $(celda)[0].className = 'progress-bar barra progress-bar-striped bg-info';
+                } else if (takesSuma < 75) {
+                    $(celda)[0].className = 'progress-bar barra progress-bar-striped bg-warning';
+                } else if (takesSuma <= 100) {
+                    $(celda)[0].className = 'progress-bar barra progress-bar-striped bg-danger';
+                }
+            }
+            // trabajadores[persona[0]][2][$('#selectPelis').val()] = trabajadores[persona[0]][2][$('#selectPelis').val()] - takes
+            actores.forEach(element => {
+                if (element.id_registre_produccio == $('#selectPelis').val() && persona.id_actor == element.id_actor) {
+                    element.takes_restantes = element.takes_restantes-takes;
+                    console.log(element.takes_restantes);
+                }
+            });
+            cargarActores();
+            console.log(actores);
+        })
+        .fail(function (error) {
+            console.log(error);
+        });
+
+
+
     //limpiarListado()
     //listarTrabajadores()
     $('#exampleModal').modal('hide');
@@ -250,7 +258,7 @@ $('#exampleModal').on('show.bs.modal', function (event) {
 
         if (actor.id_actor == persona.id_actor) {
             console.log(actor.id_actor)
-            $('#selectPelis').append(new Option(actor.nombre_reg_entrada + " " + actor.nombre_reg_produccio,actor.id_registre_produccio))
+            $('#selectPelis').append(new Option(actor.nombre_reg_entrada + " " + actor.nombre_reg_produccio, actor.id_registre_produccio))
 
         }
     });
@@ -260,7 +268,7 @@ $('#exampleModal').on('show.bs.modal', function (event) {
 });
 
 $('#exampleModal2').on('shown.bs.modal', function () {
-// Volvemos a llamar a esta función para volver a crear la tabla del modal, básicamente
+    // Volvemos a llamar a esta función para volver a crear la tabla del modal, básicamente
     // para que cuando cambiemos de día no se visualice el contenido anterior.
     tablaHoras();
 

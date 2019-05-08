@@ -131,9 +131,7 @@ class CalendariController extends Controller
 
         $v = Validator::make(request()->all(),[
             //'id_calendar'=>'required|max:35',
-            'id_empleat'=>'required|max:35',
             'id_actor_estadillo'=>'required|max:35',
-            'id_registre_entrada'=>'required|max:35',
             'num_takes'=>'required|regex:/^[0-9]+$/',//^[0-9]+$
             'data_inici'=>'required|max:35',
             'data_fi'=>'required|max:35',
