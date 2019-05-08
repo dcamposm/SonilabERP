@@ -77,6 +77,7 @@ let takes = Number($('#numberTakes').val())
     var data={id_actor_estadillo:persona.id_actor_estadillo,id_empleat:1,id_registre_entrada:8, num_takes:takes, data_inici:data_inici, data_fi:data_fi, num_sala:num_sala};
     $.post('/calendari/crear',data)
     .done(function (pep) {
+        console.log('ggrhe')
         console.log(pep);
      /*   
     let valorActual = Number($(celda).attr('aria-valuenow'))
@@ -101,6 +102,7 @@ let takes = Number($('#numberTakes').val())
 
     })
     .fail(function (error) {
+        console.log('afawfa')
         console.log(error);
     });
     

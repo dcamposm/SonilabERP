@@ -149,9 +149,13 @@ class CalendariController extends Controller
             
             //return response()->json(request()->all());
             // Datos correctos.
-            $calendari = new Calendar(request()->all());  
+            $requestData = request()->all();
+            $requestData['data_inici'] = Carbon::createFromFormat('d-m-Y H:i:s', request()->input('data_inici'));
+            $requestData['data_fi'] = Carbon::createFromFormat('d-m-Y H:i:s', request()->input('data_fi'));
+
+            $calendari = new Calendar($requestData);  
             $calendari->save();
-            return response()->json(['success'=> false],201);
+            return response()->json(['success'=> true],201);
         }
     }
 
