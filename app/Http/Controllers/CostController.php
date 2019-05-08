@@ -34,7 +34,8 @@ class CostController extends Controller
                         $costos[$vec->registreProduccio->id_registre_entrada][$vec->registreProduccio->data_entrega]= array(
                             'titol'=>$vec->registreProduccio->titol,
                             'client'=>$vec->registreProduccio->registreEntrada->client->nom_client,
-                            'episodi'=>array($vec->registreProduccio->subreferencia)
+                            'episodi'=>array($vec->registreProduccio->subreferencia),
+                            'setmana'=>$vec->registreProduccio->setmana
                         );
                     } else {
                         array_push($costos[$vec->registreProduccio->id_registre_entrada][$vec->registreProduccio->data_entrega]['episodi'],$vec->registreProduccio->subreferencia);
@@ -49,7 +50,8 @@ class CostController extends Controller
                         $costos[$vec->registreProduccio->id_registre_entrada][$vec->registreProduccio->data_entrega]= array(
                             'titol'=>$vec->registreProduccio->titol,
                             'client'=>$vec->registreProduccio->registreEntrada->client->nom_client,
-                            'episodi'=>array($vec->registreProduccio->subreferencia)
+                            'episodi'=>array($vec->registreProduccio->subreferencia),
+                            'setmana'=>$vec->registreProduccio->setmana
                         );
                     } else {
                         array_push($costos[$vec->registreProduccio->id_registre_entrada][$vec->registreProduccio->data_entrega]['episodi'],$vec->registreProduccio->subreferencia);
@@ -367,7 +369,7 @@ class CostController extends Controller
         $registre = RegistreProduccio::with('getEstadillo.actors.empleat.carrec.tarifa')->with('traductor.carrec')
                 ->with('ajustador')->with('linguista')->with('director')->with('tecnic')
                 ->with('registreEntrada')->find($id);
-        //  return response()->json($registre->registreEntrada->$vec->id_costos);
+        //return response()->json($registre->getEstadillo->actors);
         $vec = Costos::where('id_registre_produccio', $id)->first();
         if (!$vec){
             if ($registre->getEstadillo != null){
@@ -467,7 +469,8 @@ class CostController extends Controller
                                 $totalSS += $costTotal;
                         //--------------Altres Medies-------------------
                             } else {
-                                foreach ($actor->carrec as $actorCarrec){
+                                //return response()->json($actor);
+                                foreach ($actor->empleat->carrec as $actorCarrec){
                                     $empleatCost = new EmpleatCost();
                                     $empleatCost->id_costos = $vec->id_costos;
                                     $empleatCost->id_empleat = $actor->id_actor;
@@ -494,114 +497,117 @@ class CostController extends Controller
                     }
                     $total += ($totalSS/100)*32.35;
                 }
-            //return response()->json($registre->getEstadillo->actors);
-            //-----------------------Costos Traductor-------------------
-            if ($registre->traductor != null){
-                $empleatCost = new EmpleatCost();
-                $empleatCost->id_costos = $vec->id_costos;
-                $empleatCost->id_empleat = $registre->traductor->id_empleat;
-                
-                foreach ($registre->traductor->carrec as $empleatCarrec){
-                    if ($registre->registreEntrada->id_idioma == $empleatCarrec->id_idioma && $empleatCarrec->tarifa->nombre_corto == 'traductor' && $empleatCarrec->preu_carrec != 0){
-                        $empleatCost->cost_empleat = $empleatCarrec->preu_carrec * ($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis);
-                        $total += $empleatCost->cost_empleat;
-                        $empleatCost->id_tarifa = 12;
-                        $empleatCost->save();
-                    }
-                }  
-            }
-            //-----------------------Costos Ajustador-------------------
-            if ($registre->ajustador != null){
-                $empleatCost = new EmpleatCost();
-                $empleatCost->id_costos = $vec->id_costos;
-                $empleatCost->id_empleat = $registre->ajustador->id_empleat;
-                foreach ($registre->ajustador->carrec as $empleatCarrec){
-                    if ($registre->registreEntrada->id_idioma == $empleatCarrec->id_idioma && $empleatCarrec->tarifa->nombre_corto == 'ajustador' && $empleatCarrec->preu_carrec != 0){
-                        $empleatCost->cost_empleat = $empleatCarrec->preu_carrec * ($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis);
-                        $total += $empleatCost->cost_empleat;
-                        $empleatCost->id_tarifa = 13;
-                        $empleatCost->save();
+                //return response()->json($registre->getEstadillo->actors);
+                //-----------------------Costos Traductor-------------------
+                if ($registre->traductor != null){
+                    $empleatCost = new EmpleatCost();
+                    $empleatCost->id_costos = $vec->id_costos;
+                    $empleatCost->id_empleat = $registre->traductor->id_empleat;
+
+                    foreach ($registre->traductor->carrec as $empleatCarrec){
+                        if ($registre->registreEntrada->id_idioma == $empleatCarrec->id_idioma && $empleatCarrec->tarifa->nombre_corto == 'traductor' && $empleatCarrec->preu_carrec != 0){
+                            $empleatCost->cost_empleat = $empleatCarrec->preu_carrec * ($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis);
+                            $total += $empleatCost->cost_empleat;
+                            $empleatCost->id_tarifa = 12;
+                            $empleatCost->save();
+                        }
+                    }  
+                }
+                //-----------------------Costos Ajustador-------------------
+                if ($registre->ajustador != null){
+                    $empleatCost = new EmpleatCost();
+                    $empleatCost->id_costos = $vec->id_costos;
+                    $empleatCost->id_empleat = $registre->ajustador->id_empleat;
+                    foreach ($registre->ajustador->carrec as $empleatCarrec){
+                        if ($registre->registreEntrada->id_idioma == $empleatCarrec->id_idioma && $empleatCarrec->tarifa->nombre_corto == 'ajustador' && $empleatCarrec->preu_carrec != 0){
+                            $empleatCost->cost_empleat = $empleatCarrec->preu_carrec * ($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis);
+                            $total += $empleatCost->cost_empleat;
+                            $empleatCost->id_tarifa = 13;
+                            $empleatCost->save();
+                        }
                     }
                 }
-            }
-            //-----------------------Costos Linguista-------------------
-            if ($registre->linguista != null){
-                $empleatCost = new EmpleatCost();
-                $empleatCost->id_costos = $vec->id_costos;
-                $empleatCost->id_empleat = $registre->linguista->id_empleat;
-                foreach ($registre->linguista->carrec as $empleatCarrec){
-                    if ($registre->registreEntrada->id_idioma == $empleatCarrec->id_idioma && $empleatCarrec->tarifa->nombre_corto == 'linguista' && $empleatCarrec->preu_carrec != 0){
-                        $empleatCost->cost_empleat = $empleatCarrec->preu_carrec * ($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis);
-                        $total += $empleatCost->cost_empleat;
-                        $empleatCost->id_tarifa = 14;
-                        $empleatCost->save();
-                    }
-                }   
-            }
-            //-----------------------Costos Director-------------------
-            if ($registre->director != null){
-                $empleatCost = new EmpleatCost();
-                $empleatCost->id_costos = $vec->id_costos;
-                $empleatCost->id_empleat = $registre->director->id_empleat;
-                foreach ($registre->director->carrec as $empleatCarrec){
-                    if ($empleatCarrec->tarifa->nombre_corto == 'rotllo' && $empleatCarrec->preu_carrec != 0){
-                        $empleatCost->cost_empleat = $empleatCarrec->preu_carrec * (($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis)/10);;
-                        $total += $empleatCost->cost_empleat;
-                        $empleatCost->id_tarifa = 1;
-                        $empleatCost->save();
-                    } else if ($empleatCarrec->tarifa->nombre_corto == 'minut' && $empleatCarrec->preu_carrec != 0 ){
-                        $empleatCost->cost_empleat = $empleatCarrec->preu_carrec * ($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis);
-                        $total += $empleatCost->cost_empleat;
-                        $empleatCost->id_tarifa = 2;
-                        $empleatCost->save();
-                    }
-                }  
-            }
-            //-----------------------Costos Tecnic-------------------
-            if ($registre->tecnic != null){
-                $empleatCost = new EmpleatCost();
-                $empleatCost->id_costos = $vec->id_costos;
-                $empleatCost->id_empleat = $registre->tecnic->id_empleat;
-                foreach ($registre->tecnic->carrec as $empleatCarrec){
-                    if ($empleatCarrec->tarifa->nombre_corto == 'sala' && $empleatCarrec->preu_carrec != 0){
-                        $empleatCost->cost_empleat = $empleatCarrec->preu_carrec;
-                        $total += $empleatCost->cost_empleat;
-                        $empleatCost->id_tarifa = 3;
-                        $empleatCost->save();
-                    } else if ($empleatCarrec->tarifa->nombre_corto == 'mix' && $empleatCarrec->preu_carrec != 0){
-                        $empleatCost->cost_empleat = $empleatCarrec->preu_carrec;
-                        $total += $empleatCost->cost_empleat;
-                        $empleatCost->id_tarifa = 4;
-                        $empleatCost->save();
+                //-----------------------Costos Linguista-------------------
+                if ($registre->linguista != null){
+                    $empleatCost = new EmpleatCost();
+                    $empleatCost->id_costos = $vec->id_costos;
+                    $empleatCost->id_empleat = $registre->linguista->id_empleat;
+                    foreach ($registre->linguista->carrec as $empleatCarrec){
+                        if ($registre->registreEntrada->id_idioma == $empleatCarrec->id_idioma && $empleatCarrec->tarifa->nombre_corto == 'linguista' && $empleatCarrec->preu_carrec != 0){
+                            $empleatCost->cost_empleat = $empleatCarrec->preu_carrec * ($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis);
+                            $total += $empleatCost->cost_empleat;
+                            $empleatCost->id_tarifa = 14;
+                            $empleatCost->save();
+                        }
+                    }   
+                }
+                //-----------------------Costos Director-------------------
+                if ($registre->director != null){
+                    $empleatCost = new EmpleatCost();
+                    $empleatCost->id_costos = $vec->id_costos;
+                    $empleatCost->id_empleat = $registre->director->id_empleat;
+                    foreach ($registre->director->carrec as $empleatCarrec){
+                        if ($empleatCarrec->tarifa->nombre_corto == 'rotllo' && $empleatCarrec->preu_carrec != 0){
+                            $empleatCost->cost_empleat = $empleatCarrec->preu_carrec * (($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis)/10);;
+                            $total += $empleatCost->cost_empleat;
+                            $empleatCost->id_tarifa = 1;
+                            $empleatCost->save();
+                        } else if ($empleatCarrec->tarifa->nombre_corto == 'minut' && $empleatCarrec->preu_carrec != 0 ){
+                            $empleatCost->cost_empleat = $empleatCarrec->preu_carrec * ($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis);
+                            $total += $empleatCost->cost_empleat;
+                            $empleatCost->id_tarifa = 2;
+                            $empleatCost->save();
+                        }
+                    }  
+                }
+                //-----------------------Costos Tecnic-------------------
+                if ($registre->tecnic != null){
+                    $empleatCost = new EmpleatCost();
+                    $empleatCost->id_costos = $vec->id_costos;
+                    $empleatCost->id_empleat = $registre->tecnic->id_empleat;
+                    foreach ($registre->tecnic->carrec as $empleatCarrec){
+                        if ($empleatCarrec->tarifa->nombre_corto == 'sala' && $empleatCarrec->preu_carrec != 0){
+                            $empleatCost->cost_empleat = $empleatCarrec->preu_carrec;
+                            $total += $empleatCost->cost_empleat;
+                            $empleatCost->id_tarifa = 3;
+                            $empleatCost->save();
+                        } else if ($empleatCarrec->tarifa->nombre_corto == 'mix' && $empleatCarrec->preu_carrec != 0){
+                            $empleatCost->cost_empleat = $empleatCarrec->preu_carrec;
+                            $total += $empleatCost->cost_empleat;
+                            $empleatCost->id_tarifa = 4;
+                            $empleatCost->save();
+                        }
                     }
                 }
-            }
-            
-            $registre->vec = 1;
-            $registre->save();
-            
-            $vecF = Costos::find($vec->id_costos);
-            $vecF->cost_total = $total;
-            $vecF->save();
-            //return response()->json(Route::currentRouteName());
-            if (Route::currentRouteName() == "vecActualitzar") {
-                return redirect()->back()->with('success', 'S\'ha actualitzat la valoració correctament');
-            } else if (Route::currentRouteName() == "vecInsert"){
-                return redirect()->back()->with('success', 'S\'ha creat la valoració correctament');
-            }
-            
-            return redirect()->route('indexRegistreProduccio')->with('success', 'S\'ha creat la valoració correctament');
+
+                $registre->vec = 1;
+                $registre->save();
+
+                $vecF = Costos::find($vec->id_costos);
+                $vecF->cost_total = $total;
+                $vecF->save();
+                //return response()->json(Route::currentRouteName());
+                if (Route::currentRouteName() == "vecActualitzar") {
+                    return redirect()->back()->with('success', 'S\'ha actualitzat la valoració correctament');
+                } else if (Route::currentRouteName() == "vecInsert"){
+                    return redirect()->back()->with('success', 'S\'ha creat la valoració correctament');
+                } else {
+                    return redirect()->route('indexRegistreProduccio')->with('success', 'S\'ha creat la valoració correctament');
+                }
             }
         }
-        
+         
         if (Route::currentRouteName() == "vecActualitzar") {
             return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut actualitzar la valoració.'));
         } else if (Route::currentRouteName() == "vecInsert"){
             return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut crear la valoració, és té que crear el estadillo abans.'));
+        } else if (Route::currentRouteName() == "vecGenerarSetmana"){
+            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut crear la valoració, és té que crear els estadillos abans.'));
+        } else {
+            return redirect()->route('indexRegistreProduccio')->withErrors(array('error' => 'ERROR. No s\'ha pogut crear la valoració, de la subreferencia '.$registre->subreferencia.', és té que crear el estadillo abans.'));
         }
         //return response()->json($registre); 
         //Poner mensaje error no esta el estadillo creado
-        return redirect()->route('indexRegistreProduccio')->withErrors(array('error' => 'ERROR. No s\'ha pogut crear la valoració, és té que crear el estadillo abans.'));
     }
     
     public function insert()
@@ -618,27 +624,75 @@ class CostController extends Controller
         }
     }
     
-    public function actualitzar($id)
+    public function actualitzar($id, $setmana = 0)
     {
-        EmpleatCost::where('id_costos', $id)->delete();
-        $costos = Costos::where('id_costos', $id)->first();
-        //return response()->json($costos);
-        $id_registre = $costos->id_registre_produccio;
-        //return response()->json($estadillo);
-        $costos->delete();
-        //return response()->json($costos);
-        return CostController::generar($id_registre);  
+        if ($setmana == 0){
+            EmpleatCost::where('id_costos', $id)->delete();
+            $costos = Costos::where('id_costos', $id)->first();
+            //return response()->json($costos);
+            $id_registre = $costos->id_registre_produccio;
+            //return response()->json($estadillo);
+            $costos->delete();
+            //return response()->json($costos);
+            return CostController::generar($id_registre);  
+        } else {
+            $registres = RegistreProduccio::where('id_registre_entrada', $id)->where('setmana', $setmana)->get();
+            
+            foreach ($registres as $registre) {
+                $costos = Costos::where('id_registre_produccio', $registre->id)->first();
+                EmpleatCost::where('id_costos', $costos->id_costos)->delete();
+                $costos->delete();
+            }
+            //return response()->json($registres);
+            return CostController::generarSetmana($id, $setmana); 
+        }
+        
+    }
+    
+    public function generarSetmana($id, $setmana)
+    {
+        $registres = RegistreProduccio::where('id_registre_entrada', $id)->where('setmana', $setmana)->get();
+        $estadillos = RegistreProduccio::where('estadillo', 1)->where('setmana', $setmana)->where('id_registre_entrada', $id)->get();
+        //return response()->json($estadillos->count());
+        if ($registres->count() != $estadillos->count()){
+            return redirect()->route('indexRegistreProduccio')->withErrors(array('error' => 'ERROR. No s\'ha pogut crear la valoració, és té que crear els estadillos i validar-los abans.'));
+        } else {
+            foreach ($registres as $registre) {
+                CostController::generar($registre->id);
+            }
+            if (Route::currentRouteName() == "vecActualitzar") {
+                return redirect()->back()->with('success', 'S\'ha actualitzat la valoració correctament');
+            } else {
+                return redirect()->route('indexRegistreProduccio')->with('success', 'S\'han creat les valoracións correctament');
+            }
+        }
     }
     
     public function delete(Request $request) {
-        //return response()->json(Route::currentRouteName());
-        EmpleatCost::where('id_costos', $request["id"])->delete();
-        $costos = Costos::where('id_costos', $request["id"])->first();
-        //return response()->json($estadillo);
-        $produccio = RegistreProduccio::find($costos->id_registre_produccio);
-        $produccio->vec = false;
-        $produccio->save();
-        $costos->delete();
+        //return response()->json($request->all());
+        if (!$request->input('setmana')){
+            EmpleatCost::where('id_costos', $request["id"])->delete();
+            $costos = Costos::where('id_costos', $request["id"])->first();
+            //return response()->json($estadillo);
+            $produccio = RegistreProduccio::find($costos->id_registre_produccio);
+            $produccio->vec = false;
+            $produccio->save();
+            $costos->delete();
+        } else {
+            $registres = RegistreProduccio::where('id_registre_entrada', $request->input('id'))->where('setmana', $request->input('setmana'))->get();
+            
+            foreach ($registres as $registre) {
+                $costos = Costos::where('id_registre_produccio', $registre->id)->first();
+                //return response()->json($costos);
+                if ($costos){
+                   EmpleatCost::where('id_costos', $costos->id_costos)->delete(); 
+                   $costos->delete();
+                }
+                
+                $registre->vec = false;
+                $registre->save();
+            }
+        }
         
         return redirect()->back()->with('success', 'Valoració econòmica eliminada correctament.');
     }

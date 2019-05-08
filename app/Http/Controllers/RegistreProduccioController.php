@@ -40,7 +40,8 @@ class RegistreProduccioController extends Controller {
                         'max' => $registre->subreferencia,
                         'titol' => $registre->registreEntrada->titol,
                         'data' => $registre->data_entrega,
-                        'setmana' => $registre->setmana
+                        'setmana' => $registre->setmana,
+                        'vec' => $registre->vec
                     );
                     $registreProduccio[$registre->id_registre_entrada][$registre->setmana][$registre->subreferencia] = $registre;
                 } else {

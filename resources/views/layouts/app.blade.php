@@ -39,16 +39,19 @@
 
     /* Registre d'entrades */
     .border-success {
-        border-left: 10px solid lawngreen !important;
+        border-left: 5px solid lawngreen !important;
     }
     .border-warning {
-        border-left: 10px solid darkorange !important;
+        border-left: 5px solid darkorange !important;
     }
     .border-danger {
-        border-left: 10px solid red !important;
+        border-left: 5px solid red !important;
     }
     .border-primary {
-        border-left: 10px solid DeepSkyBlue !important;
+        border-left: 5px solid DeepSkyBlue !important;
+    }
+    .border-null {
+        border-left: 0px solid white !important;
     }
     .llegenda {
         float: left;
