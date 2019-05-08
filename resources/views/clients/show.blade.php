@@ -16,6 +16,10 @@
                 <td class="col">{{ $client['nom_client']}}</td>
             </tr>
             <tr class="row">
+                <td class="font-weight-bold col-sm-3">NIF:</td>
+                <td class="col">{{ $client['nif_client']}}</td>
+            </tr>
+            <tr class="row">
                 <td class="font-weight-bold col-sm-3">EMAIL:</td>
                 <td class="col">{{ $client['email_client']}}</td>
             </tr>

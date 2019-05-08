@@ -39,16 +39,19 @@
 
     /* Registre d'entrades */
     .border-success {
-        border-left: 10px solid lawngreen !important;
+        border-left: 5px solid lawngreen !important;
     }
     .border-warning {
-        border-left: 10px solid darkorange !important;
+        border-left: 5px solid darkorange !important;
     }
     .border-danger {
-        border-left: 10px solid red !important;
+        border-left: 5px solid red !important;
     }
     .border-primary {
-        border-left: 10px solid DeepSkyBlue !important;
+        border-left: 5px solid DeepSkyBlue !important;
+    }
+    .border-null {
+        border-left: 0px solid white !important;
     }
     .llegenda {
         float: left;
@@ -112,7 +115,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="{{ Request::is('showCalendari*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('showCalendari') }}"><span class="fas fa-calendar"></span><span class="sidebar-link underline">Calendari</span></a>
+                                <a class="{{ Request::is('registreEntrada*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('indexRegistreEntrada')}}"><span class="fas fa-atlas"></span><span class="sidebar-link underline">Registre d'entrada</span></a>
                         </li>
 
                         <li class="nav-item">
@@ -120,13 +123,15 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="{{ Request::is('empleats*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('empleatIndex') }}"><span class="fas fa-users"></span><span class="sidebar-link underline">Gestió de Personal</span></a>
+                            <a class="{{ Request::is('empleats*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('empleatIndex') }}"><span class="fas fa-users"></span><span class="sidebar-link underline">Personal Extern</span></a>
                         </li>
+
                         <li class="nav-item">
                             <a class="{{ Request::is('usuaris*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('indexUsuariIntern')}}"><span class="fas fa-user-plus"></span><span class="sidebar-link underline">Gestió d'Usuaris</span></a>
                         </li>
+
                         <li class="nav-item">
-                                <a class="{{ Request::is('registreEntrada*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('indexRegistreEntrada')}}"><span class="fas fa-atlas"></span><span class="sidebar-link underline">Registre d'entrada</span></a>
+                            <a class="{{ Request::is('showCalendari*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('showCalendari') }}"><span class="fas fa-calendar"></span><span class="sidebar-link underline">Calendari</span></a>
                         </li>
                     </ul>
 

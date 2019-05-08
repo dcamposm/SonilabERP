@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\RegistreEntrada;
 use App\RegistreProduccio;
 use App\EmpleatExtern;
+use App\Missatge;
 use Validator;
 
 class RegistreProduccioController extends Controller {
@@ -19,8 +20,8 @@ class RegistreProduccioController extends Controller {
         //
         $registres = RegistreProduccio::with('traductor')->with('ajustador')
                 ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
-                ->orderBy('estat')->get();
-        
+                ->orderBy('data_entrega')->orderBy('estat')->get();
+        $missatges = Missatge::all();
         $registreProduccio = array();
         
         foreach ($registres as $registre){
@@ -32,15 +33,36 @@ class RegistreProduccioController extends Controller {
                         'id_registre_entrada' => $registre->id_registre_entrada,
                         'titol' => $registre->registreEntrada->titol
                     );
-                }
-                $registreProduccio[$registre->id_registre_entrada][$registre->subreferencia] = $registre;
+                } 
+                if (!isset($registreProduccio[$registre->id_registre_entrada][$registre->setmana])){
+                    $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0] = array(
+                        'id_registre_entrada' => $registre->id_registre_entrada,
+                        'min' => $registre->subreferencia,
+                        'max' => $registre->subreferencia,
+                        'titol' => $registre->registreEntrada->titol,
+                        'data' => $registre->data_entrega,
+                        'setmana' => $registre->setmana,
+                        'vec' => $registre->vec
+                    );
+                    $registreProduccio[$registre->id_registre_entrada][$registre->setmana][$registre->subreferencia] = $registre;
+                } else {
+                    if ($registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['max'] < $registre->subreferencia) {
+                        $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['max'] = $registre->subreferencia;
+                    } else if ($registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['min'] > $registre->subreferencia){
+                        $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['min'] = $registre->subreferencia;
+                    }
+                    
+                    $registreProduccio[$registre->id_registre_entrada][$registre->setmana][$registre->subreferencia] = $registre;
+                }  
             }
         }
         
         //return response()->json($registreProduccio);
         $registreEntrada = RegistreEntrada::all();
         //return response()->json($registreProduccio[0]->getEstadillo);
-        return View('registre_produccio.index', array('registreProduccions' => $registreProduccio, 'registreEntrades' => $registreEntrada));
+        return View('registre_produccio.index', array('registreProduccions' => $registreProduccio,
+                                                        'registreEntrades' => $registreEntrada,
+                                                        'misstages' => $missatges));
     }
 
     public function createView() {
