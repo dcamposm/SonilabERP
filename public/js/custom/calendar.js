@@ -53,10 +53,11 @@ function cargarDatos() {
     
     var trabajadores = {}
     actores.forEach(element => {
+        console.log(element)
         if (trabajadores[element.id_actor]){
             trabajadores[element.id_actor].takes_restantes = trabajadores[element.id_actor].takes_restantes + element.takes_restantes
         } else {
-            trabajadores[element.id_actor] = {nombre_actor: element.nombre_actor, takes_restantes: element.takes_restantes}
+            trabajadores[element.id_actor] = element
         }
     })
 
