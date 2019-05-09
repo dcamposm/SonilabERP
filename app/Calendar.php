@@ -10,8 +10,7 @@ class Calendar extends Model {
     protected $primaryKey = 'id_calendar';
     protected $fillable = [
         //"id_calendar",
-        "id_empleat",
-        "id_registre_entrada",
+        "id_actor_estadillo",
         "num_takes",
         "data_inici",
         "data_fi",

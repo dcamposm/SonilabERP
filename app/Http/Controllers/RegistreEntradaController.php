@@ -172,7 +172,7 @@ class RegistreEntradaController extends Controller
                 $registreProduccio->setmana = 1;
                 $registreProduccio->titol = $registreEntrada->titol;
                 $registreProduccio->save(); 
-                //--------------------Misstage per el responsable NEW-----------------------
+                //--------------------Misstage NEW per el responsable-----------------------
                 $fecha_actual = date("d-m-Y");
                 //return response()->json(date("d-m-Y",strtotime($fecha_actual."+ 7 days")));               
                 $missatge = new Missatge;
@@ -212,6 +212,17 @@ class RegistreEntradaController extends Controller
                     }
                     $registreProduccio->titol = $registreEntrada->titol;
                     $registreProduccio->save();
+                    
+                    //--------------------Misstage NEW per el responsable-----------------------
+                    $fecha_actual = date("d-m-Y");
+                    //return response()->json(date("d-m-Y",strtotime($fecha_actual."+ 7 days")));               
+                    $missatge = new Missatge;
+                    $missatge->id_usuari = request()->input('id_usuari');
+                    $missatge->missatge = "NEW";
+                    $missatge->referencia ='registreProduccio';
+                    $missatge->id_referencia =$registreProduccio->id;
+                    $missatge->data_final =date("Y-m-d",strtotime($fecha_actual."+ 7 days"));
+                    $missatge->save(); 
                 }
             }
 //--------------------Misstage per el responsable-----------------------

@@ -100,7 +100,10 @@ class CalendariController extends Controller
         $id_carrec  = Carrec::select('id_carrec')->where('nom_carrec', '=', $request->get('cargo'))->first()->id_carrec;
 
         // Comprueba si ya existe un registro en la base de datos:
-        $calendariCarrec = CalendarCarrec::where('data', '=', $data)->where('id_carrec', '=', $id_carrec)->first();
+        $calendariCarrec = CalendarCarrec::where('data', '=', $data)
+                                           ->where('id_carrec', '=', $id_carrec)
+                                           ->where('torn', '=', $torn)
+                                           ->first();
         if (empty($calendariCarrec) == true) {
             // Si no existe entonces creamos el objeto.
             $calendariCarrec = new CalendarCarrec;
@@ -131,9 +134,7 @@ class CalendariController extends Controller
 
         $v = Validator::make(request()->all(),[
             //'id_calendar'=>'required|max:35',
-            'id_empleat'=>'required|max:35',
             'id_actor_estadillo'=>'required|max:35',
-            'id_registre_entrada'=>'required|max:35',
             'num_takes'=>'required|regex:/^[0-9]+$/',//^[0-9]+$
             'data_inici'=>'required|max:35',
             'data_fi'=>'required|max:35',
@@ -149,9 +150,13 @@ class CalendariController extends Controller
             
             //return response()->json(request()->all());
             // Datos correctos.
-            $calendari = new Calendar(request()->all());  
+            $requestData = request()->all();
+            $requestData['data_inici'] = Carbon::createFromFormat('d-m-Y H:i:s', request()->input('data_inici'));
+            $requestData['data_fi'] = Carbon::createFromFormat('d-m-Y H:i:s', request()->input('data_fi'));
+
+            $calendari = new Calendar($requestData);  
             $calendari->save();
-            return response()->json(['success'=> false],201);
+            return response()->json(['success'=> true],201);
         }
     }
 

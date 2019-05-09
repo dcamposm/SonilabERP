@@ -71,6 +71,11 @@
     .table tbody  {
         font-size: 13px !important;
     }
+    
+    .texto-vertical {
+        writing-mode: vertical-lr;
+        transform: rotate(180deg);
+    }
     </style>
 
 </head>

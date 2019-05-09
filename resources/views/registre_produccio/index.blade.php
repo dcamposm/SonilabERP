@@ -147,20 +147,20 @@
         <thead>
             <tr>
                 @if (Auth::user()->hasAnyRole(['1', '4']))
-                    <th style="min-width: 75.5667px">REF.</th> 
-                    <th style="min-width: 97.3667px">SUB-REF</th> 
-                    <th style="min-width: 169.217px">DATA D'ENTREGA</th>
-                    <th style="min-width: 111.183px">SETMANA</th>
-                    <th style="min-width: 159.683px">TÍTOL ORIGINAL</th>
-                    <th style="min-width: 154.883px">ESTADILLO</th>
-                    <th style="min-width: 143.1px">VEC</th>
-                    <th style="min-width: 289px">ACCIONS</th>
+                    <th>REF.</th> 
+                    <th>SUB-REF</th> 
+                    <th>DATA D'ENTREGA</th>
+                    <th>SETMANA</th>
+                    <th>TÍTOL ORIGINAL</th>
+                    <th>ESTADILLO</th>
+                    <th>VEC</th>
+                    <th>ACCIONS</th>
                 @elseif (Auth::user()->hasAnyRole(['2']))
-                    <th style="min-width: 75.5667px">REF.</th> 
-                    <th style="min-width: 75.5667px">SUB-REF</th> 
-                    <th style="min-width: 75.5667px">DATA D'ENTREGA</th>
-                    <th style="min-width: 75.5667px">SETMANA</th>
-                    <th style="min-width: 75.5667px">TÍTOL ORIGINAL</th>
+                    <th>REF.</th> 
+                    <th>SUB-REF</th> 
+                    <th>DATA D'ENTREGA</th>
+                    <th>SETMANA</th>
+                    <th>TÍTOL ORIGINAL</th>
                     <th>TÍTOL TRADUIT</th>
                     <th>TRADUCTOR</th>
                     <th>DATA TRADUCTOR</th>
@@ -179,13 +179,13 @@
                     <th>FINAL SALA</th>
                     <th>DATA MIX</th>
                     <th>RETAKES</th>
-                    <th style="min-width: 75.5667px">ACCIONS</th>
+                    <th>ACCIONS</th>
                 @elseif (Auth::user()->hasAnyRole(['3']))
-                    <th style="min-width: 75.5667px">REF.</th> 
-                    <th style="min-width: 75.5667px">SUB-REF</th> 
-                    <th style="min-width: 75.5667px">DATA D'ENTREGA</th>
-                    <th style="min-width: 75.5667px">SETMANA</th>
-                    <th style="min-width: 75.5667px">TÍTOL ORIGINAL</th>
+                    <th>REF.</th> 
+                    <th>SUB-REF</th> 
+                    <th>DATA D'ENTREGA</th>
+                    <th>SETMANA</th>
+                    <th>TÍTOL ORIGINAL</th>
                     <th>QC VO</th>
                     <th>QC M&E</th>
                     <th>PPP</th>
@@ -195,7 +195,7 @@
                     <th>QC MIX</th>
                     <th>PPE</th>
                     <th>RETAKES</th>
-                    <th style="min-width: 75.5667px">ACCIONS</th>
+                    <th>ACCIONS</th>
                 @endif
             </tr>
         </thead>
@@ -204,6 +204,12 @@
                 @if (isset($registreProduccio->id))
                     <tr class="table-selected {{ ($registreProduccio->estat == 'Pendent') ? 'border-warning' : (($registreProduccio->estat == 'Finalitzada') ? 'border-success' : 'border-danger') }}">
                         <td class="cursor" title='Veure registre d&apos;entrada' style="vertical-align: middle;" onclick="self.mostrarRegistreProduccio('{{ route('mostrarRegistreEntrada', array('id' => $registreProduccio->id_registre_entrada)) }}')">
+                            @foreach ($missatges->where('id_referencia', $registreProduccio->id) as $missatge)
+                                @if ($missatge->missatge == 'NEW')
+                                    <span class="texto-vertical text-success font-weight-bold float-left" style="margin-left: -27px;">NEW</span>
+                                    @break
+                                @endif
+                            @endforeach
                             <span class="font-weight-bold" style="font-size: 11px;">{{ $registreProduccio->id_registre_entrada }}</span>    
                         </td>
                         <td class="cursor" title='Veure producció' style="vertical-align: middle;" onclick="self.mostrarRegistreProduccio('{{ route('mostrarRegistreProduccio', array('id' => $registreProduccio->id)) }}')">
@@ -289,6 +295,9 @@
                         @if ($key1 == 0)
                             <tr class="table-selected border-primary" id="parent{{$key}}">
                                 <td class="cursor" title='Veure registre d&apos;entrada' style="vertical-align: middle;" onclick="self.mostrarRegistreProduccio('{{ route('mostrarRegistreEntrada', array('id' => $serie["id_registre_entrada"])) }}')">
+                                    @if ($serie['new'] == 1)
+                                        <span class="texto-vertical text-success font-weight-bold float-left" style="margin-left: -27px;">NEW</span>
+                                    @endif
                                     <span class="font-weight-bold" style="font-size: 11px;">{{ $serie["id_registre_entrada"] }}</span>    
                                 </td>
                                 <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"> </td>
@@ -350,6 +359,9 @@
                                 @if ($key2 == 0)
                                 <tr class="accordian-body collapse border-primary" id="collapse{{$key}}">
                                     <td class="cursor" title='Veure registre d&apos;entrada' style="vertical-align: middle;" onclick="self.mostrarRegistreProduccio('{{ route('mostrarRegistreEntrada', array('id' => $episodi["id_registre_entrada"])) }}')">
+                                            @if ($episodi['new'] == 1)
+                                                <span class="texto-vertical text-success font-weight-bold float-left" style="margin-left: -27px;">NEW</span>
+                                            @endif
                                         <span class="font-weight-bold" style="font-size: 11px;">{{ $episodi["id_registre_entrada"] }}</span>    
                                     </td>
                                     <td style="vertical-align: middle;" class="accordion cursor font-weight-bold" data-toggle="collapse" data-target="#collapse{{$key}}_{{$key1}}">{{ $episodi['min'] }}_{{ $episodi['max'] }} </td>
@@ -416,7 +428,15 @@
                                 </tr>
                                 @else
                                 <tr class="table-selected {{ ($episodi->estat == 'Pendent') ? 'border-warning' : (($episodi->estat == 'Finalitzada') ? 'border-success' : 'border-danger') }} accordian-body collapse" id="collapse{{$key}}_{{$key1}}">
-                                    <td style="vertical-align: middle;">{{$episodi->id_registre_entrada}}</td>
+                                    <td style="vertical-align: middle;">
+                                        @foreach ($missatges->where('id_referencia', $episodi->id) as $missatge)
+                                            @if ($missatge->missatge == 'NEW')
+                                                <span class="texto-vertical text-success font-weight-bold float-left" style="margin-left: -27px;">NEW</span>
+                                                @break
+                                            @endif
+                                        @endforeach
+                                        {{$episodi->id_registre_entrada}}
+                                    </td>
                                     <td class="cursor" title='Veure producció' style="vertical-align: middle;" onclick="self.mostrarRegistreProduccio('{{ route('mostrarRegistreProduccio', array('id' => $episodi->id)) }}')">
                                         <span class="font-weight-bold" style="font-size: 11px;">{{ $episodi->subreferencia }}</span>
                                     </td>
