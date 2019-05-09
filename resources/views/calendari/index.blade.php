@@ -59,29 +59,6 @@
             <div class="modal-header" style="display: flex; align-items: center;">
                 <input type="hidden" id="">
                 <h5 class="modal-title" id="exampleModalLabel2">Modal title</h5>
-
-                <span style="margin-left: 20px;">Director: </span>
-                {{-- TODO: Falta especificar la acción correspondiente. --}}
-                <form action="" method="POST" style="margin-left: 5px;">
-                    <select id="director" class="form-control" name="director" onchange="cambiarDirector()">
-                        @foreach($directors as $key => $director)
-                            {{-- TODO: Falta hacer la condición para seleccionar el director seleccionado. --}}
-                            <option value="{{$director['id_empleat']}}" {{--(algo) ? 'selected' : ''--}} >{{$director['nom_empleat']}} {{ $director['cognom1_empleat'] }} {{ $director['cognom2_empleat'] }}</option>
-                        @endforeach
-                    </select>
-                </form>
-
-                <span style="margin-left: 20px;">Tècnic: </span>
-                {{-- TODO: Falta especificar la acción correspondiente. --}}
-                <form action="/" method="POST" style="margin-left: 5px;">
-                    <select id="tecnico" class="form-control" name="tecnic" onchange="cambiarTecnico()">
-                        @foreach($tecnics as $key => $tecnic)
-                            {{-- TODO: Falta hacer la condición para seleccionar el técnico seleccionado. --}}
-                            <option value="{{$tecnic['id_empleat']}}" {{--(algo) ? 'selected' : ''--}} >{{$tecnic['nom_empleat']}} {{ $tecnic['cognom1_empleat'] }} {{ $tecnic['cognom2_empleat'] }}</option>
-                        @endforeach
-                    </select>
-                </form>
-                
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -110,7 +87,8 @@
                                 <td>
                                     <form action="" method="POST" style="margin-left: 5px;">
                                         {{-- TODO: Falta pasarle el turno a la función. --}}
-                                        <select id="director" class="form-control" name="director" onchange="cambiarDirector()">
+                                        <select id="director0" class="form-control" name="director" onchange="cambiarDirector(0)">
+                                            <option value="" selected="true" disabled="disabled">Sel·leccioni director</option>
                                             @foreach($directors as $key => $director)
                                                 {{-- TODO: Falta hacer la condición para seleccionar el director seleccionado. --}}
                                                 <option value="{{$director['id_empleat']}}" {{--(algo) ? 'selected' : ''--}} >{{$director['nom_empleat']}} {{ $director['cognom1_empleat'] }} {{ $director['cognom2_empleat'] }}</option>
@@ -121,7 +99,8 @@
                                 <td>
                                     <form action="" method="POST" style="margin-left: 5px;">
                                         {{-- TODO: Falta pasarle el turno a la función. --}}
-                                        <select id="tecnico" class="form-control" name="tecnic" onchange="cambiarTecnico()">
+                                        <select id="tecnico0" class="form-control" name="tecnic" onchange="cambiarTecnico(0)">
+                                            <option value="" selected="true" disabled="disabled">Sel·leccioni tècnic</option>
                                             @foreach($tecnics as $key => $tecnic)
                                                 {{-- TODO: Falta hacer la condición para seleccionar el técnico seleccionado. --}}
                                                 <option value="{{$tecnic['id_empleat']}}" {{--(algo) ? 'selected' : ''--}} >{{$tecnic['nom_empleat']}} {{ $tecnic['cognom1_empleat'] }} {{ $tecnic['cognom2_empleat'] }}</option>
@@ -138,7 +117,8 @@
                                 <td>
                                     <form action="" method="POST" style="margin-left: 5px;">
                                         {{-- TODO: Falta pasarle el turno a la función. --}}
-                                        <select id="director" class="form-control" name="director" onchange="cambiarDirector()">
+                                        <select id="director1" class="form-control" name="director" onchange="cambiarDirector(1)">
+                                            <option value="" selected="true" disabled="disabled">Sel·leccioni director</option>
                                             @foreach($directors as $key => $director)
                                                 {{-- TODO: Falta hacer la condición para seleccionar el director seleccionado. --}}
                                                 <option value="{{$director['id_empleat']}}" {{--(algo) ? 'selected' : ''--}} >{{$director['nom_empleat']}} {{ $director['cognom1_empleat'] }} {{ $director['cognom2_empleat'] }}</option>
@@ -149,7 +129,8 @@
                                 <td>
                                     <form action="" method="POST" style="margin-left: 5px;">
                                         {{-- TODO: Falta pasarle el turno a la función. --}}
-                                        <select id="tecnico" class="form-control" name="tecnic" onchange="cambiarTecnico()">
+                                        <select id="tecnico1" class="form-control" name="tecnic" onchange="cambiarTecnico(1)">
+                                            <option value="" selected="true" disabled="disabled">Sel·leccioni tècnic</option>
                                             @foreach($tecnics as $key => $tecnic)
                                                 {{-- TODO: Falta hacer la condición para seleccionar el técnico seleccionado. --}}
                                                 <option value="{{$tecnic['id_empleat']}}" {{--(algo) ? 'selected' : ''--}} >{{$tecnic['nom_empleat']}} {{ $tecnic['cognom1_empleat'] }} {{ $tecnic['cognom2_empleat'] }}</option>
