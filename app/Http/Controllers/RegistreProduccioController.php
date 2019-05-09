@@ -7,6 +7,7 @@ use App\RegistreEntrada;
 use App\RegistreProduccio;
 use App\EmpleatExtern;
 use App\Missatge;
+use Auth;
 use Validator;
 
 class RegistreProduccioController extends Controller {
@@ -21,7 +22,7 @@ class RegistreProduccioController extends Controller {
         $registres = RegistreProduccio::with('traductor')->with('ajustador')
                 ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
                 ->orderBy('data_entrega')->orderBy('estat')->get();
-        $missatges = Missatge::all();
+        $missatges = Missatge::where('referencia', 'registreProduccio')->get();
         $registreProduccio = array();
         
         foreach ($registres as $registre){
@@ -31,8 +32,16 @@ class RegistreProduccioController extends Controller {
                 if (!isset($registreProduccio[$registre->id_registre_entrada])){
                     $registreProduccio[$registre->id_registre_entrada][0] = array(
                         'id_registre_entrada' => $registre->id_registre_entrada,
-                        'titol' => $registre->registreEntrada->titol
+                        'titol' => $registre->registreEntrada->titol,
+                        'new' => 0
                     );
+                    
+                    foreach ($missatges as $missatge) {
+                        if ($missatge->id_referencia == $registre->id){
+                            $registreProduccio[$registre->id_registre_entrada][0]['new'] = 1;
+                        }
+                    }
+                    
                 } 
                 if (!isset($registreProduccio[$registre->id_registre_entrada][$registre->setmana])){
                     $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0] = array(
@@ -42,14 +51,29 @@ class RegistreProduccioController extends Controller {
                         'titol' => $registre->registreEntrada->titol,
                         'data' => $registre->data_entrega,
                         'setmana' => $registre->setmana,
-                        'vec' => $registre->vec
+                        'vec' => $registre->vec,
+                        'new' => 0
                     );
+                    
+                    foreach ($missatges as $missatge) {
+                        if ($missatge->id_referencia == $registre->id){
+                            $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['new'] = 1;
+                        }
+                    }
+                    
                     $registreProduccio[$registre->id_registre_entrada][$registre->setmana][$registre->subreferencia] = $registre;
                 } else {
                     if ($registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['max'] < $registre->subreferencia) {
                         $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['max'] = $registre->subreferencia;
                     } else if ($registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['min'] > $registre->subreferencia){
                         $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['min'] = $registre->subreferencia;
+                    }
+                    
+                    foreach ($missatges as $missatge) {
+                        if ($missatge->id_referencia == $registre->id){
+                            $registreProduccio[$registre->id_registre_entrada][0]['new'] = 1;
+                            $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['new'] = 1;
+                        }
                     }
                     
                     $registreProduccio[$registre->id_registre_entrada][$registre->setmana][$registre->subreferencia] = $registre;
@@ -62,7 +86,7 @@ class RegistreProduccioController extends Controller {
         //return response()->json($registreProduccio[0]->getEstadillo);
         return View('registre_produccio.index', array('registreProduccions' => $registreProduccio,
                                                         'registreEntrades' => $registreEntrada,
-                                                        'misstages' => $missatges));
+                                                        'missatges' => $missatges));
     }
 
     public function createView() {
@@ -79,10 +103,16 @@ class RegistreProduccioController extends Controller {
 
     public function show($id) {
         $empleatsCarrec = EmpleatExtern::with('carrec')->get();
-        //return response()->json($empleats);
+        //return response()->json(Auth::user()->id_usuari);
         // Solamente tenemos que cargar los registros de entrada pendientes.
         $regEntrades = RegistreEntrada::where('estat', '=', 'Pendent')->get();
         $registreProduccio = RegistreProduccio::with('registreEntrada')->find($id);
+        
+        //----------Si entra el reponsable del registre d'entrada i el registre te un missatge NEW, elimina el missatge---------------
+        if ($registreProduccio->registreEntrada->id_usuari == Auth::user()->id_usuari){
+            Missatge::where('id_referencia', $id)->where('missatge', 'NEW')->where('referencia', 'registreProduccio')->delete();
+        }
+        
         //return response()->json($registreProduccio);
         $empleados   = [];
         $traductor   = EmpleatExtern::find($registreProduccio["id_traductor"]);
@@ -308,7 +338,11 @@ class RegistreProduccioController extends Controller {
                             ->orderBy('estat')->orderBy('data_entrega')->orderBy(request()->input("orderBy"))->whereRaw('LOWER('.request()->input("searchBy").') like "%'.strtolower(request()->input("search_term")).'%"')
                 ->get();
         }
+        
+        $missatges = Missatge::where('referencia', 'registreProduccio')->get();
+        
         return view('registre_produccio.index', array('registreProduccions' => $registreProduccio,
+                                                        'missatges' => $missatges,
                                                         'return' => 1));
     }
 

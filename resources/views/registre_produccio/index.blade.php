@@ -204,7 +204,13 @@
                 @if (isset($registreProduccio->id))
                     <tr class="table-selected {{ ($registreProduccio->estat == 'Pendent') ? 'border-warning' : (($registreProduccio->estat == 'Finalitzada') ? 'border-success' : 'border-danger') }}">
                         <td class="cursor" title='Veure registre d&apos;entrada' style="vertical-align: middle;" onclick="self.mostrarRegistreProduccio('{{ route('mostrarRegistreEntrada', array('id' => $registreProduccio->id_registre_entrada)) }}')">
-                            <span class="texto-vertical text-success font-weight-bold float-left">NEW</span><span class="font-weight-bold" style="margin-bottom: 1px;font-size: 11px;">{{ $registreProduccio->id_registre_entrada }}</span>    
+                            @foreach ($missatges->where('id_referencia', $registreProduccio->id) as $missatge)
+                                @if ($missatge->missatge == 'NEW')
+                                    <span class="texto-vertical text-success font-weight-bold float-left" style="margin-left: -27px;">NEW</span>
+                                    @break
+                                @endif
+                            @endforeach
+                            <span class="font-weight-bold" style="font-size: 11px;">{{ $registreProduccio->id_registre_entrada }}</span>    
                         </td>
                         <td class="cursor" title='Veure producció' style="vertical-align: middle;" onclick="self.mostrarRegistreProduccio('{{ route('mostrarRegistreProduccio', array('id' => $registreProduccio->id)) }}')">
                             <span class="font-weight-bold" style="font-size: 11px;">{{ $registreProduccio->subreferencia }}</span>
@@ -289,6 +295,9 @@
                         @if ($key1 == 0)
                             <tr class="table-selected border-primary" id="parent{{$key}}">
                                 <td class="cursor" title='Veure registre d&apos;entrada' style="vertical-align: middle;" onclick="self.mostrarRegistreProduccio('{{ route('mostrarRegistreEntrada', array('id' => $serie["id_registre_entrada"])) }}')">
+                                    @if ($serie['new'] == 1)
+                                        <span class="texto-vertical text-success font-weight-bold float-left" style="margin-left: -27px;">NEW</span>
+                                    @endif
                                     <span class="font-weight-bold" style="font-size: 11px;">{{ $serie["id_registre_entrada"] }}</span>    
                                 </td>
                                 <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}"> </td>
@@ -350,6 +359,9 @@
                                 @if ($key2 == 0)
                                 <tr class="accordian-body collapse border-primary" id="collapse{{$key}}">
                                     <td class="cursor" title='Veure registre d&apos;entrada' style="vertical-align: middle;" onclick="self.mostrarRegistreProduccio('{{ route('mostrarRegistreEntrada', array('id' => $episodi["id_registre_entrada"])) }}')">
+                                            @if ($episodi['new'] == 1)
+                                                <span class="texto-vertical text-success font-weight-bold float-left" style="margin-left: -27px;">NEW</span>
+                                            @endif
                                         <span class="font-weight-bold" style="font-size: 11px;">{{ $episodi["id_registre_entrada"] }}</span>    
                                     </td>
                                     <td style="vertical-align: middle;" class="accordion cursor font-weight-bold" data-toggle="collapse" data-target="#collapse{{$key}}_{{$key1}}">{{ $episodi['min'] }}_{{ $episodi['max'] }} </td>
@@ -416,7 +428,15 @@
                                 </tr>
                                 @else
                                 <tr class="table-selected {{ ($episodi->estat == 'Pendent') ? 'border-warning' : (($episodi->estat == 'Finalitzada') ? 'border-success' : 'border-danger') }} accordian-body collapse" id="collapse{{$key}}_{{$key1}}">
-                                    <td style="vertical-align: middle;">{{$episodi->id_registre_entrada}}</td>
+                                    <td style="vertical-align: middle;">
+                                        @foreach ($missatges->where('id_referencia', $episodi->id) as $missatge)
+                                            @if ($missatge->missatge == 'NEW')
+                                                <span class="texto-vertical text-success font-weight-bold float-left" style="margin-left: -27px;">NEW</span>
+                                                @break
+                                            @endif
+                                        @endforeach
+                                        {{$episodi->id_registre_entrada}}
+                                    </td>
                                     <td class="cursor" title='Veure producció' style="vertical-align: middle;" onclick="self.mostrarRegistreProduccio('{{ route('mostrarRegistreProduccio', array('id' => $episodi->id)) }}')">
                                         <span class="font-weight-bold" style="font-size: 11px;">{{ $episodi->subreferencia }}</span>
                                     </td>
