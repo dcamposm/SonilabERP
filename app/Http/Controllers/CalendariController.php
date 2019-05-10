@@ -52,7 +52,7 @@ class CalendariController extends Controller
         where (t1.asistencia = 1 or t1.asistencia is null)
             and t1.id_actor_estadillo in (SELECT id 
                                                 FROM slb_db.slb_actors_estadillo t2
-                                                where t2.id in (select id from slb_registres_produccio t3 where t3.estat = "Pendent"))
+                                                where t2.id_produccio in (select id from slb_registres_produccio t3 where t3.estat = "Pendent"))
             and t1.id_actor_estadillo = t4.id    
             and t5.id = t4.id_produccio
         group by id_actor_estadillo');
