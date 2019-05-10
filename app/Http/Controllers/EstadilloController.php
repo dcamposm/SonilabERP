@@ -233,9 +233,10 @@ class EstadilloController extends Controller
         
         for ($i = 3; $i < count($arrayEstadillo); $i++){
             $nomCognom = explode(' ', $arrayEstadillo[$i][0]);
+            //return response()->json($nomCognom[count($nomCognom)]-1);
             try {
-                $empleat = EmpleatExtern::where('nom_empleat', $nomCognom[1])
-                        ->where('cognom1_empleat', $nomCognom[0])->first();
+                $empleat = EmpleatExtern::where('nom_empleat', $nomCognom[count($nomCognom)-1])
+                        ->where('cognom1_empleat', $nomCognom[count($nomCognom)-2])->first();
             } catch (\Exception $ex) {
                 $empleat = EmpleatExtern::where('nom_empleat', $nomCognom[0])->first();
             }
@@ -267,7 +268,7 @@ class EstadilloController extends Controller
 
             
         }
-        
+        //return response()->json($nomCognom);
         if (isset($alert)){
             return redirect()->back()->with('alert', $alert);
         }
