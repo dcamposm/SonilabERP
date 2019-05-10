@@ -25,6 +25,12 @@ class EmpleatExtern extends Model
         "iban_empleat"
     ];
 
+    protected $appends = ['nom_cognom'];
+    
+    public function getNomCognomAttribute() {
+        return $this->nom_empleat.' '.$this->cognom1_empleat;
+    }
+    
     public function carrec()
     {
         return $this->hasMany('App\CarrecEmpleat', 'id_empleat', 'id_empleat');

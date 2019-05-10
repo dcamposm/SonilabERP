@@ -226,16 +226,19 @@ class EstadilloController extends Controller
             return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut importar l\'estadillo. Comprova el número de referència del nom del fitxer'));
         }
         //CREACIO ACTORS ESTADILLO
+        //Pasem el excel en una array
         $excel = Excel::toArray(new Estadillo,request()->file('import_file'));
+        //Agafem els valors de la segona Hoja
         $arrayEstadillo = $excel[1];
         //return response()->json($arrayEstadillo);
 
         
         for ($i = 3; $i < count($arrayEstadillo); $i++){
             $nomCognom = explode(' ', $arrayEstadillo[$i][0]);
+            //return response()->json($nomCognom);
             try {
-                $empleat = EmpleatExtern::where('nom_empleat', $nomCognom[1])
-                        ->where('cognom1_empleat', $nomCognom[0])->first();
+                $empleat = EmpleatExtern::where('nom_empleat', $nomCognom[count($nomCognom)-1])
+                        ->where('cognom1_empleat', $nomCognom[count($nomCognom)-2])->first();
             } catch (\Exception $ex) {
                 $empleat = EmpleatExtern::where('nom_empleat', $nomCognom[0])->first();
             }

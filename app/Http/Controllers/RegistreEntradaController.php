@@ -291,6 +291,7 @@ class RegistreEntradaController extends Controller
     }
 
     public function update($id) {
+        return response()->json(request()->all());
         $registreEntrada = RegistreEntrada::find($id);
         if ($registreEntrada) {
             $v = Validator::make(request()->all(), [
