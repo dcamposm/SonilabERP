@@ -9,7 +9,13 @@ $('#semanaMas').on('click', function () {
 
 $('#btnGuardar').click(guardarCelda)
 
+$('#filtroActor').on('change', function(){
+    filtrar()
+})
 
+$('#filtroProyecto').on('change', function(){
+    filtrar()
+})
 
 
 crearTablaCalendario();
@@ -18,11 +24,8 @@ cargarDatos();
 
 var persona = undefined
 
-$('.celda').attr('ondrop', 'drop(event)')
-$('.celda').attr('ondragover', 'allowDrop(event)')
-
 function crearTablaCalendario() {
-    var contenedor = $('#contenedor')
+    var contenedor = $('#calendarContent')
     for (let i = 0; i < 8; i++) {
         var fila = $('<div class="row fila"></div>')
         var sala = i + 1
@@ -39,6 +42,8 @@ function crearTablaCalendario() {
         }
         contenedor.append(fila)
     }
+    $('.celda').attr('ondrop', 'drop(event)')
+    $('.celda').attr('ondragover', 'allowDrop(event)')
 }
 
 function cargarDatos() {
@@ -73,7 +78,32 @@ function cargarActores() {
     }
 }
 
+function filtrar(){
+    var idActor = $('#filtroActor').val()
+    var idProyecto = $('#filtroProyecto').val()
+
+    console.log(dataBase)
+    if (idActor != -1 && idProyecto != -1){
+        data = dataBase.filter(item => item.actor_estadillo.id_actor == idActor)
+        data = data.filter(item => item.actor_estadillo.registre_entrada.id_registre_entrada == idProyecto)
+    } else if (idActor != -1){
+        data = dataBase.filter(item => item.actor_estadillo.id_actor == idActor)
+    } else if (idProyecto != -1){
+        data = dataBase.filter(item => item.actor_estadillo.registre_entrada.id_registre_entrada == idProyecto)
+    } else {
+        data = dataBase
+    }
+    console.log(data)
+    refrescarCalendarioFiltrado()
+    cargarDatos()
+}
+
 ///// FUNCTIONS /////
+
+function refrescarCalendarioFiltrado(){
+    $('#calendarContent').html('')
+    crearTablaCalendario()
+}
 
 function guardarCelda() {
     var data_inici = celda.parentElement.parentElement.getAttribute("dia") + " " + $('#takesIni').val() + ":00";

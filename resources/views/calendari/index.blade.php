@@ -11,8 +11,22 @@
 
 <div id="contenedor" class="container-fluid contenedor">
     <div class="row encabezado">
-        <div class="semana"><div id="semanaMenos" class="btn btn-primary round-left"><span class="fas fa-angle-double-left"></span></div><span class="simil-btn btn">Semana {{$week}}</span><div id="semanaMas" class="btn btn-primary round-right"><span class="fas fa-angle-double-right"></span></div></div>
-        <button id="btnAdd" class="btn btn-outline-primary boton" onclick="openNav()">Afegir</button>
+        <div class="input-group">
+            <select class="custom-select" id='filtroActor'>
+                <option selected value="-1">Filtrar per actor</option>
+                @foreach ($todosActores as $item)
+                    <option value="{{$item->id_empleat}}">{{$item->nom_empleat}} {{$item->cognom1_empleat}} {{$item->cognom2_empleat}}</option>
+                @endforeach
+            </select>
+            <select class="custom-select" id='filtroProyecto'>
+                <option selected value="-1">Filtrar per proyecte</option>
+                @foreach ($registrosEntrada as $item)
+                    <option value="{{$item->id_registre_entrada}}">{{$item->titol}}</option>
+                @endforeach
+            </select>
+            <div class="semana"><div id="semanaMenos" class="btn btn-primary round-left"><span class="fas fa-angle-double-left"></span></div><span class="simil-btn btn">Semana {{$week}}</span><div id="semanaMas" class="btn btn-primary round-right"><span class="fas fa-angle-double-right"></span></div></div>
+            <button id="btnAdd" class="btn btn-outline-primary boton" onclick="openNav()">Afegir</button>
+         </div>
     </div>
     <div class="row">
         <div style="padding:15px"></div>
@@ -22,6 +36,7 @@
         <div class="col col-fecha">Dijous : {{$fechas[3]}}</div>
         <div class="col col-fecha">Divendres : {{$fechas[4]}}</div>
     </div>
+    <div id="calendarContent"></div>
 </div>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -178,7 +193,7 @@
     var urlBase = "<?php echo $urlBase ?>"
     var data = <?php echo $data ?>;
     var actores = <?php echo $actores ?>;
-    console.log(actores)    
+    var dataBase = data   
 </script>
 <script type="text/javascript" src="{{ URL::asset('js/custom/calendar.js') }}"></script>
 <link rel="stylesheet" href="{{ URL::asset('css/calendar.css') }}" />

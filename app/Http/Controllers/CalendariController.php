@@ -77,7 +77,6 @@ class CalendariController extends Controller
         GROUP by id_empleat');
 
         $peliculas = RegistreEntrada::all();
-        return response()->json($peliculas);
         
         $tecnics = EmpleatExtern::select('slb_empleats_externs.id_empleat', 'slb_empleats_externs.nom_empleat', 'slb_empleats_externs.cognom1_empleat', 'slb_empleats_externs.cognom2_empleat')
                                   ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', '=', 'slb_empleats_externs.id_empleat')
@@ -98,7 +97,7 @@ class CalendariController extends Controller
                                         "tecnics"   => $tecnics,
                                         "directors" => $directors,
                                         "data"      => $data,
-                                        "totalActors"   =>$todosActores,
+                                        "todosActores"   =>$todosActores,
                                         "registrosEntrada"=>$peliculas]);
     }
 
