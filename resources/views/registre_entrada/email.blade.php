@@ -42,59 +42,59 @@ No utilizar bootstrap. Mail no los detecta las exportaciones.
 	        <tbody>
                     <tr>
                         <td  style="font-weight: bold; width: 25%">REFERENCIA:</td>
-                        <td>{{ $registreEntrada['id_registre_entrada']}}</td>
+                        <td>{{ $registreEntrada->id_registre_entrada}}</td>
                     </tr>
 	            <tr>
 	                <td style="font-weight: bold; width: 25%">TÍTOL:</td>
-	                <td>{{ $registreEntrada['titol']}}</td>
+	                <td>{{ $registreEntrada->titol}}</td>
 	            </tr>
 	            <tr>
 	                <td style="font-weight: bold; width: 25%">OT:</td>
-	                <td>{{ $registreEntrada['ot']}}</td>
+	                <td>{{ $registreEntrada->ot}}</td>
 	            </tr>
 	            <tr>
 	                <td style="font-weight: bold; width: 25%">OC:</td>
-	                <td>{{ $registreEntrada['OC']}}</td>
+	                <td>{{ $registreEntrada->OC}}</td>
 	            </tr>
 	            <tr>
 	                <td style="font-weight: bold; width: 25%">PRIMERA ENTREGA:</td>
-	                <td>{{ $registreEntrada['sortida']}}</td>
+	                <td>{{ $registreEntrada->sortida}}</td>
 	            </tr>
 	            <tr>
 	                <td style="font-weight: bold; width: 25%">CLIENT:</td>
-	                <td>{{ $client['nom_client']}}</td>
+	                <td>{{ $registreEntrada->client->nom_client}}</td>
 	            </tr>
 	            <tr>
 	                <td style="font-weight: bold; width: 25%">SERVEI:</td>
-	                <td>{{ $servei['nom_servei']}}</td>
+	                <td>{{ $registreEntrada->servei->nom_servei}}</td>
 	            </tr>
 	            <tr>
 	                <td style="font-weight: bold; width: 25%">IDIOMA:</td>
-	                <td>{{ $idioma['idioma']}}</td>
+	                <td>{{ $registreEntrada->idioma->idioma}}</td>
 	            </tr>
 	            <tr>
 	                <td style="font-weight: bold; width: 25%">TIPUS:</td>
-	                <td>{{ $media['nom_media']}}</td>
+	                <td>{{ $registreEntrada->media->nom_media}}</td>
 	            </tr>
 	            <tr>
 	                <td style="font-weight: bold; width: 25%">MINUTS TOTALS:</td>
-	                <td>{{ $registreEntrada['minuts']}}</td>
+	                <td>{{ $registreEntrada->minuts}}</td>
 	            </tr>
 	            <tr>
 	                <td style="font-weight: bold; width: 25%">NÚMERO D'EPISODIS:</td>
-	                <td>{{ $registreEntrada['total_episodis']}}</td>
+	                <td>{{ $registreEntrada->total_episodis}}</td>
 	            </tr>
 	            <tr>
 	                <td style="font-weight: bold; width: 25%">EPISODIS SETMANALS:</td>
-	                <td>{{ $registreEntrada['episodis_setmanals']}}</td>
+	                <td>{{ $registreEntrada->episodis_setmanals}}</td>
 	            </tr>
 	            <tr>
 	                <td style="font-weight: bold; width: 25%">ENTREGUES SETMANALS:</td>
-	                <td>{{ $registreEntrada['entregues_setmanals']}}</td>
+	                <td>{{ $registreEntrada->entregues_setmanals}}</td>
 	            </tr>
 	            <tr>
 	                <td style="font-weight: bold; width: 25%">ESTAT:</td>
-	                <td>{{ $registreEntrada['estat']}}</td>
+	                <td>{{ $registreEntrada->estat}}</td>
 	            </tr>
 	            <tr>
 	                <td style="font-weight: bold; width: 25%">DATA DE CREACIÓ:</td>
@@ -102,7 +102,7 @@ No utilizar bootstrap. Mail no los detecta las exportaciones.
 	            </tr>
 	            <tr>
 	                <td style="font-weight: bold; width: 25%">ÚLTIMA ACTUALITZACIÓ:</td>
-	                <td>{{ $registreEntrada['updated_at']}}</td>
+	                <td>{{ $registreEntrada->updated_at}}</td>
 	            </tr>
 	        </tbody>
 	    </table>

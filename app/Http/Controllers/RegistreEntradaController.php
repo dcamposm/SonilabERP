@@ -16,9 +16,11 @@ use App\Estadillo;
 use App\ActorEstadillo;
 use App\Costos;
 use App\EmpleatCost;
-use Swift_Message;
+use App\Mail\RegistreEntradaCreat;
+use Illuminate\Support\Facades\Mail;
+/*use Swift_Message;
 use Swift_SmtpTransport;
-use Swift_Mailer;
+use Swift_Mailer;*/
 use View;
 class RegistreEntradaController extends Controller
 {
@@ -235,7 +237,7 @@ class RegistreEntradaController extends Controller
             $missatge->id_referencia =$registreEntrada->id_registre_entrada;
             $missatge->data_final =date("Y-m-d",strtotime($fecha_actual."+ 7 days"));
             $missatge->save(); 
-//-------------------------------Email----------------------------------
+//-------------------------------Email Exemple 1 amb Swift_Mailer----------------------------------
             /*// Create the Transport
             $transport = (new Swift_SmtpTransport('smtp-mail.outlook.com', 587, 'tls'))
               ->setUsername('dcampos@paycom.es')
@@ -245,17 +247,9 @@ class RegistreEntradaController extends Controller
             $mailer = new Swift_Mailer($transport);
                      
             $registreEntrada = RegistreEntrada::find($registreEntrada->id_registre_entrada);
-            $idioma = Idioma::find($registreEntrada['id_idioma']);
-            $client = Client::find($registreEntrada['id_client']);
-            $servei = Servei::find($registreEntrada['id_servei']);
-            $media = TipusMedia::find($registreEntrada['id_media']);
             
             $view = View::make('registre_entrada.email', array(
-                'registreEntrada' => $registreEntrada,
-                'client'          => $client,
-                'servei'          => $servei,
-                'media'           => $media,
-                'idioma'          => $idioma
+                'registreEntrada' => $registreEntrada
             ));
             $html = $view->render();
             // Create a message
@@ -267,6 +261,10 @@ class RegistreEntradaController extends Controller
 
             // Send the message
             $result = $mailer->send($message);*/
+//-------------------------------Email Exemple 2 amb Model Mail----------------------------------
+            /*$registreEntrada = RegistreEntrada::find($registreEntrada->id_registre_entrada);
+
+            Mail::to('dcampos@paycom.es')->send(new RegistreEntradaCreat($registreEntrada));*/
             
             return redirect()->back()->with('success', 'Registre d\'entrada creat correctament.');
         }
@@ -327,16 +325,9 @@ class RegistreEntradaController extends Controller
     
     public function show($id){
         $registreEntrada = RegistreEntrada::find($id);
-        $idioma = Idioma::find($registreEntrada['id_idioma']);
-        $client = Client::find($registreEntrada['id_client']);
-        $servei = Servei::find($registreEntrada['id_servei']);
-        $media = TipusMedia::find($registreEntrada['id_media']);
+
         return view('registre_entrada.show', array(
-            'registreEntrada' => $registreEntrada,
-            'client'          => $client,
-            'servei'          => $servei,
-            'media'           => $media,
-            'idioma'          => $idioma
+            'registreEntrada' => $registreEntrada
         ));
     }
     public function delete(Request $request) {

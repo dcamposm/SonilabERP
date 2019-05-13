@@ -36,7 +36,6 @@ class EmpleatExternController extends Controller
                                     }])->get();
         foreach ($empleats as $empleat) {
             foreach( $empleat->carrec as $empleatCarrec ){
-                    $empleatCarrec->carrec;
                     //Comprova que el carrec no estigui repetit;
                     isset($empleatsArray[$empleat->id_empleat][$empleatCarrec->carrec->nom_carrec]) ? '' : $empleatsArray[$empleat->id_empleat][$empleatCarrec->carrec->nom_carrec] = $empleatCarrec->carrec->nom_carrec;
             }
