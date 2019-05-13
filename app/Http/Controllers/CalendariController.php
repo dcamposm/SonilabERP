@@ -67,6 +67,12 @@ class CalendariController extends Controller
         }
 
         $actores = json_encode($takes_restantes);
+        $todosActores = DB::select('SELECT t1.id_empleat, t1.nom_empleat, t1.cognom1_empleat, t1.cognom2_empleat
+        FROM slb_db.slb_empleats_externs t1, slb_carrecs_empleats t2
+            WHERE t2.id_carrec = 1 and t1.id_empleat = t2.id_empleat
+        GROUP by id_empleat');
+
+        
         
         $tecnics = EmpleatExtern::select('slb_empleats_externs.id_empleat', 'slb_empleats_externs.nom_empleat', 'slb_empleats_externs.cognom1_empleat', 'slb_empleats_externs.cognom2_empleat')
                                   ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', '=', 'slb_empleats_externs.id_empleat')
