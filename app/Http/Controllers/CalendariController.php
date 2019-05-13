@@ -89,6 +89,19 @@ class CalendariController extends Controller
                                     ->where('slb_carrecs.nom_carrec', '=', 'Director')
                                     ->get();
         
+        // TODO: Hacer que los actores no se repitan o que si se repiten que se coja también la hora.
+        $actoresPorDia = array();
+        foreach($fechas as $key => $fech) {
+            $diaz = DateTime::createFromFormat("d-m-Y", $fech);
+            $act_dia = DB::select(
+                'SELECT t1.id_empleat, t1.nom_empleat, t1.cognom1_empleat, t1.cognom2_empleat, DAY(t2.data_inici) as dia, t2.num_sala 
+                FROM slb_empleats_externs t1 INNER JOIN slb_calendars t2 ON t1.id_empleat = t2.id_actor_estadillo 
+                WHERE DAY(t2.data_inici) = '.$diaz->format('d').' AND MONTH(t2.data_inici) = '.$diaz->format('m').' 
+                AND YEAR(t2.data_inici) = '.$diaz->format('Y')
+            );
+            array_push($actoresPorDia, $act_dia);
+        }
+        
         return View('calendari.index', ["fechas"    => $fechas, 
                                         "week"      => $week,
                                         "year"      => $year,
@@ -98,7 +111,8 @@ class CalendariController extends Controller
                                         "directors" => $directors,
                                         "data"      => $data,
                                         "todosActores"   =>$todosActores,
-                                        "registrosEntrada"=>$peliculas]);
+                                        "registrosEntrada"=>$peliculas,
+                                        "actoresPorDia" => $actoresPorDia]);
     }
 
     public function cambiarCargo(Request $request) {

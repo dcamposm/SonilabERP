@@ -261,9 +261,13 @@ var diaSeleccionado = "";
 var salaSeleccionada = "";
 
 function ampliarCasilla(e) {
+    // Oculta todas las listas de los empleados de los modals.
+    $('.lista-actores').hide();
     // Coge el atributo "dia" y "sala" de la celda seleccionada:
     diaSeleccionado = e.delegateTarget.getAttribute("dia");
     salaSeleccionada = e.delegateTarget.getAttribute("sala");
+    // Muestra la lista en concreto con los empleado para poder "pasar lista":
+    $('.dia-' + diaSeleccionado.split('-')[0] + '-' + salaSeleccionada).show();
 
     $('#dialog').css({ 'width': window.innerWidth - 30 })
     $('#dialog').css({ 'max-width': window.innerWidth - 30 })

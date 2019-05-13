@@ -157,29 +157,40 @@
                         </tbody>
                     </table>
 
-                    {{-- TODO: foreach para pasar lista de los actores, AJAX para guardar el resultado. --}}
-                    <table class="table" style="width: 50%; margin-top: 30px;">
-                        <tbody>
-                            <tr>
-                                <td>
-                                    Pepe pañuelo marino
-                                </td>
-                                <td>
-                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                        <label class="btn btn-success">
-                                            <input type="radio" name="options" id="option1" autocomplete="off" > Present
-                                        </label>
-                                        <label class="btn btn-danger">
-                                            <input type="radio" name="options" id="option2" autocomplete="off"> No present
-                                        </label>
-                                        <label class="btn btn-secondary active">
-                                            <input type="radio" name="options" id="option3" autocomplete="off" checked> Pendent
-                                        </label>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <form action="" method="POST" style="margin-top: 15px;">
+                        <div style="background-color: whitesmoke; height: 250px; width: 50%; overflow-y: scroll;">
+                            <table class="table" style="width: 100%; margin-top: 30px;">
+                                <tbody>
+                                    @foreach($actoresPorDia as $key => $dia)
+                                        @foreach($dia as $key2 => $actor)
+                                            <tr class="dia-{{$actor->dia}}-{{$actor->num_sala}} lista-actores">
+                                                <td>
+                                                    {{$actor->nom_empleat}} {{$actor->cognom1_empleat}} {{$actor->cognom2_empleat}}
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                                        <label class="btn btn-success">
+                                                            <input type="radio" name="actor-{{ $actor->id_empleat }}" id="actor-{{ $actor->id_empleat }}" autocomplete="off" > Present
+                                                        </label>
+                                                        <label class="btn btn-danger">
+                                                            <input type="radio" name="actor-{{ $actor->id_empleat }}" id="actor-{{ $actor->id_empleat }}" autocomplete="off"> No present
+                                                        </label>
+                                                        <label class="btn btn-secondary active">
+                                                            <input type="radio" name="actor-{{ $actor->id_empleat }}" id="actor-{{ $actor->id_empleat }}" autocomplete="off" checked> Pendent
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endforeach
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="margin-top: 15px;">
+                            <button class="btn btn-success">Desar llista</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
