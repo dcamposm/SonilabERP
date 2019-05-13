@@ -85,7 +85,7 @@ class UserController extends Controller
         //Primer es valida si se ha insertat els atributs indicats
         $v = Validator::make(request()->all(), [
             'cognom1_usuari' => 'required|max:35',
-            'cognom2_usuari' => 'required|max:35',
+            'cognom2_usuari' => 'max:35',
             'email_usuari' => 'required|email',
             'alias_usuari' => 'required|min:4|max:35',
             'contrasenya_usuari' => 'required|min:4|max:15|same:cpass',
@@ -93,7 +93,6 @@ class UserController extends Controller
             'cpass' => 'same:contrasenya_usuari'
         ],[
             'cognom1_usuari.required' => ' No s\'ha posat el primer cognom.',
-            'cognom2_usuari.required' => ' No s\'ha posat el segon cognom.',
             'email_usuari.required' => ' No s\'ha posat el email.', 
             'alias_usuari.required' => ' No s\'ha posat el àlies.',
             'contrasenya_usuari.required' => ' No s\'ha posat la contrasenya.',
