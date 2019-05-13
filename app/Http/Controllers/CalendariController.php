@@ -156,7 +156,7 @@ class CalendariController extends Controller
 
             $calendari = new Calendar($requestData);  
             $calendari->save();
-            return response()->json(['success'=> true],201);
+            return response()->json(['success'=> true,'calendari'=>$calendari],201);
         }
     }
 

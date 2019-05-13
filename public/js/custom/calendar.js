@@ -81,10 +81,10 @@ function guardarCelda() {
     var num_sala = celda.parentElement.parentElement.getAttribute("sala");
 
     let takes = Number($('#numberTakes').val())
-    var data = { id_actor_estadillo: persona.id_actor_estadillo, num_takes: takes, data_inici: data_inici, data_fi: data_fi, num_sala: num_sala };
-    $.post('/calendari/crear', data)
-        .done(function () {
-
+    var datos = { id_actor_estadillo: persona.id_actor_estadillo, num_takes: takes, data_inici: data_inici, data_fi: data_fi, num_sala: num_sala };
+    $.post('/calendari/crear', datos)
+        .done(function (datosCalendari) {
+            data.push(datosCalendari.calendari);
 
             let valorActual = Number($(celda).attr('aria-valuenow'))
             let takesSuma = takes + valorActual
@@ -106,7 +106,7 @@ function guardarCelda() {
             actores.forEach(element => {
                 if (element.id_registre_produccio == $('#selectPelis').val() && persona.id_actor == element.id_actor) {
                     element.takes_restantes = element.takes_restantes-takes;
-                    console.log($('#selectPelis').val());
+                    
                 }
             });
             cargarActores();
