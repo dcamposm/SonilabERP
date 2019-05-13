@@ -37,34 +37,39 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        @foreach( $arrayUsuaris as $key => $usuaris )
-        <div class="card card-shadow text-center m-3" style="min-width: 250px;">
-
-            <div class="card-body" href="{{ url('/usuaris/interns/show/' . $key ) }}" >
-                <img src="data:image/jpg;base64,{{$usuaris['imatge_usuari']}}" class="rounded-circle" style="height:150px"/>
-
-                <h4 style="min-height:45px;margin:5px 0 10px 0">
-                    <a href="{{ route('veureUsuariIntern', ['id' => $usuaris['id_usuari']]) }}" style="text-decoration:none; color:black; font-size: 1.35rem;">
-                        {{$usuaris['alias_usuari']}} {{$usuaris['cognom1_usuari']}}
-                    </a>
-                </h4>
-                <div class="row">
-                    <div class="col-5" style="padding: 0px;">
-                        <a href="{{ route('editarUsuariIntern', ['id' => $usuaris['id_usuari']]) }}" class="btn btn-outline-primary" style="width: 75%;"> EDITAR </a>
-                    </div>
-                    <div class="col-7" style="padding: 0px;">
-                        <button onclick="setUsuariPerEsborrar({{$usuaris['id_usuari']}}, '{{$usuaris['alias_usuari']}}')" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModalCenter"  style="width: 75%;">ESBORRAR</button>
-                        <form id="delete-{{ $usuaris['id_usuari'] }}" action="{{ route('esborrarUsuariIntern') }}" method="POST">
-                            @csrf
-                            <input type="hidden" readonly name="id" value="{{$usuaris['id_usuari']}}">
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        @endforeach
+    
+    {{-- TABLA D'USUARIS --}}
+    <table class="table mt-3" style="min-width: 800px;">
+        <thead>
+            <tr>
+                <th><span style="font-size: 11px;">NOM</span></th> 
+                <th><span style="font-size: 11px;">COGNOMS</span></th>
+                <th><span style="font-size: 11px;">EMAIL</span></th>
+                <th><span style="font-size: 11px;">DEPARTAMENT</span></th>
+                <th><span style="font-size: 11px;">ACCIONS</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach( $arrayUsuaris as $key => $usuari )
+            <tr>
+                <td class="cursor" style="vertical-align: middle;" onclick="self.mostrarUsuari('{{ route('veureUsuariIntern', array('id' => $usuari->id_usuari)) }}')">
+                    <span class="font-weight-bold" style="font-size: 11px;">{{ $usuari->alias_usuari }}</span>
+                </td>
+                <td style="vertical-align: middle; font-size: 11px;">{{ $usuari->cognom1_usuari }} {{ $usuari->cognom2_usuari }}</td>
+                <td style="vertical-align: middle; font-size: 11px;">{{ $usuari->email_usuari }}</td>
+                <td style="vertical-align: middle; font-size: 11px;">{{ $usuari->departament->nom_departament }}</td>
+                <td style="vertical-align: middle;">
+                    <a href="{{ route('editarUsuariIntern', array('id' => $usuari['id_usuari'])) }}" class="btn btn-primary btn-sm"><span style="font-size: 11px;">MODIFICAR</span></a>
+                    <button class="btn btn-danger btn-sm" onclick="self.setUsuariPerEsborrar({{ $usuari['id_usuari'] }}, '{{ $usuari['alias_usuari'] }}')" data-toggle="modal" data-target="#exampleModalCenter"><span style="font-size: 11px;">ESBORRAR</span></button>
+                    <form id="delete-{{ $usuari['id_usuari'] }}" action="{{ route('esborrarUsuariIntern') }}" method="POST">
+                        @csrf
+                        <input type="hidden" readonly name="id" value="{{ $usuari['id_usuari'] }}">
+                    </form>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
 
         <!-- MODAL ESBORRAR USUARI -->
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -98,6 +103,10 @@
 
 <script>
     var usuariPerEsborrar = 0;
+
+    self.mostrarUsuari = function (urlShow) {
+        window.location.replace(urlShow);
+    }
 
     function setUsuariPerEsborrar(userId, userAlias) {
         usuariPerEsborrar = userId;

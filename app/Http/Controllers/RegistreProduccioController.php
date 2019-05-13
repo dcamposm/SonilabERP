@@ -29,20 +29,6 @@ class RegistreProduccioController extends Controller {
             if ($registre->subreferencia == 0){
                 $registreProduccio[$registre->id_registre_entrada] = $registre;
             } else {
-                if (!isset($registreProduccio[$registre->id_registre_entrada])){
-                    $registreProduccio[$registre->id_registre_entrada][0] = array(
-                        'id_registre_entrada' => $registre->id_registre_entrada,
-                        'titol' => $registre->registreEntrada->titol,
-                        'new' => 0
-                    );
-                    
-                    foreach ($missatges as $missatge) {
-                        if ($missatge->id_referencia == $registre->id){
-                            $registreProduccio[$registre->id_registre_entrada][0]['new'] = 1;
-                        }
-                    }
-                    
-                } 
                 if (!isset($registreProduccio[$registre->id_registre_entrada][$registre->setmana])){
                     $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0] = array(
                         'id_registre_entrada' => $registre->id_registre_entrada,
@@ -71,7 +57,6 @@ class RegistreProduccioController extends Controller {
                     
                     foreach ($missatges as $missatge) {
                         if ($missatge->id_referencia == $registre->id){
-                            $registreProduccio[$registre->id_registre_entrada][0]['new'] = 1;
                             $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['new'] = 1;
                         }
                     }
