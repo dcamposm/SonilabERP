@@ -42,7 +42,10 @@ class CalendariController extends Controller
 
         $data = json_encode(Calendar::where('data_inici', '>=', $dia1)
                                     ->where('data_fi', '<=', $dia5)
+                                    //->with("actorEstadillo")
+                                    ->with('actorEstadillo.registreEntrada')
                                     ->get());
+
         
         $urlBase = route('showCalendari');
 
@@ -56,6 +59,7 @@ class CalendariController extends Controller
             and t1.id_actor_estadillo = t4.id    
             and t5.id = t4.id_produccio
         group by id_actor_estadillo');
+        
 
         foreach ($takes_restantes as $value) {
             $empleado = EmpleatExtern::findOrFail($value->id_actor);
@@ -72,7 +76,8 @@ class CalendariController extends Controller
             WHERE t2.id_carrec = 1 and t1.id_empleat = t2.id_empleat
         GROUP by id_empleat');
 
-        
+        $peliculas = RegistreEntrada::all();
+        return response()->json($peliculas);
         
         $tecnics = EmpleatExtern::select('slb_empleats_externs.id_empleat', 'slb_empleats_externs.nom_empleat', 'slb_empleats_externs.cognom1_empleat', 'slb_empleats_externs.cognom2_empleat')
                                   ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', '=', 'slb_empleats_externs.id_empleat')
@@ -92,7 +97,9 @@ class CalendariController extends Controller
                                         "actores"   => $actores,
                                         "tecnics"   => $tecnics,
                                         "directors" => $directors,
-                                        "data"      => $data]);
+                                        "data"      => $data,
+                                        "totalActors"   =>$todosActores,
+                                        "registrosEntrada"=>$peliculas]);
     }
 
     public function cambiarCargo(Request $request) {
