@@ -7,6 +7,8 @@ use App\RegistreEntrada;
 use App\RegistreProduccio;
 use App\EmpleatExtern;
 use App\Missatge;
+use App\Rules\CheckSubreferenciaCreate;
+use App\Rules\CheckSubreferenciaUpdate;
 use Auth;
 use Validator;
 
@@ -165,7 +167,7 @@ class RegistreProduccioController extends Controller {
 
         $v = Validator::make(request()->all(), [
             'id_registre_entrada'    => 'required',
-            'subreferencia'          => 'required',
+            'subreferencia'          => ['required', new CheckSubreferenciaUpdate($prod, request()->input('id_registre_entrada'), request()->input('subreferencia'))],
             'data_entrega'           => 'required',
             'setmana'                => 'required',
             'titol'                  => 'required',
@@ -347,7 +349,7 @@ class RegistreProduccioController extends Controller {
     public function createBasic(){
         $v = Validator::make(request()->all(), [
             'id_registre_entrada'    => 'required',
-            'subreferencia'          => 'required',
+            'subreferencia'          => ['required',new CheckSubreferenciaCreate(request()->input('id_registre_entrada'), request()->input('subreferencia'))],
             'data_entrega'           => 'required',
             'setmana'                => 'required',
             'titol'                  => 'required',

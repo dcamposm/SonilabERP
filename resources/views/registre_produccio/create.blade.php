@@ -23,7 +23,7 @@
               <label for="id_registre_entrada">REFERÈNCIA</label>
               <select name="id_registre_entrada" id="id_registre_entrada" class="form-control">
                 @foreach ($regEntrades as $key => $entrada) 
-                  <option value="{{ $entrada->id_registre_entrada }}" {{(!empty($registreProduccio) && $entrada->id_registre_entrada == $registreProduccio->id_registre_entrada)  || old('id_registre_entrada') ? 'selected' : '' }} >{{ $entrada->id_registre_entrada }} {{ $entrada->titol }}</option>
+                  <option value="{{ $entrada->id_registre_entrada }}" {{(!empty($registreProduccio) && $entrada->id_registre_entrada == $registreProduccio->id_registre_entrada)  || $entrada->id_registre_entrada == old('id_registre_entrada') ? 'selected' : '' }} >{{ $entrada->id_registre_entrada }} {{ $entrada->titol }}</option>
                 @endforeach
               </select>
               <span class="text-danger">{{ $errors->first('id_registre_entrada') }}</span>
@@ -56,9 +56,9 @@
             <div class="form-group col-12 col-sm-6">
               <label for="estat">ESTAT</label>
               <select name="estat" id="estat" class="form-control">
-                <option value="Pendent" {{(!empty($registreProduccio) && "Pendent" == $registreProduccio->estat) || old('estat') ? 'selected' : '' }}>Pendent</option>
-                <option value="Finalitzada" {{(!empty($registreProduccio) && "Finalitzada" == $registreProduccio->estat) || old('estat') ? 'selected' : '' }}>Finalitzada</option>
-                <option value="Cancel·lada" {{(!empty($registreProduccio) && "Cancel·lada" == $registreProduccio->estat) || old('estat') ? 'selected' : '' }}>Cancel·lada</option>
+                <option value="Pendent" {{(!empty($registreProduccio) && "Pendent" == $registreProduccio->estat) || "Pendent" == old('estat') ? 'selected' : '' }}>Pendent</option>
+                <option value="Finalitzada" {{(!empty($registreProduccio) && "Finalitzada" == $registreProduccio->estat) || "Finalitzada" == old('estat') ? 'selected' : '' }}>Finalitzada</option>
+                <option value="Cancel·lada" {{(!empty($registreProduccio) && "Cancel·lada" == $registreProduccio->estat) || "Cancel·lada" == old('estat') ? 'selected' : '' }}>Cancel·lada</option>
               </select>
               <span class="text-danger">{{ $errors->first('estat') }}</span>
             </div>
@@ -83,8 +83,8 @@
             <div class="form-group col-12 col-sm-6">
               <label for="propostes">PROPOSTES</label>
               <select name="propostes" id="propostes" class="form-control">
-                <option value="0" {{(!empty($registreProduccio) && "0" == $registreProduccio->propostes) || old('propostes') ? 'selected' : '' }}> </option>
-                <option value="1" {{(!empty($registreProduccio) && "1" == $registreProduccio->propostes) || old('propostes') ? 'selected' : '' }}>FET</option>
+                <option value="0" {{(!empty($registreProduccio) && "0" == $registreProduccio->propostes) || "0" == old('propostes') ? 'selected' : '' }}> </option>
+                <option value="1" {{(!empty($registreProduccio) && "1" == $registreProduccio->propostes) || "1" == old('propostes') ? 'selected' : '' }}>FET</option>
               </select>
               <span class="text-danger">{{ $errors->first('propostes') }}</span>
             </div>
@@ -98,9 +98,9 @@
             <div class="form-group col-12 col-sm-6">
                 <label for="inserts">INSERTS</label>
                 <select name="inserts" id="inserts" class="form-control">
-                  <option value="No cal fer" {{(!empty($registreProduccio) && "No cal fer" == $registreProduccio->inserts) || old('inserts') ? 'selected' : '' }}>No cal fer</option>
-                  <option value="Cal fer" {{(!empty($registreProduccio) && "Cal fer" == $registreProduccio->inserts) || old('inserts') ? 'selected' : '' }}>Cal fer</option>
-                  <option value="Fet" {{(!empty($registreProduccio) && "Fet" == $registreProduccio->inserts) || old('inserts') ? 'selected' : '' }}>Fet</option>
+                  <option value="No cal fer" {{(!empty($registreProduccio) && "No cal fer" == $registreProduccio->inserts) || "No cal fer" == old('inserts') ? 'selected' : '' }}>No cal fer</option>
+                  <option value="Cal fer" {{(!empty($registreProduccio) && "Cal fer" == $registreProduccio->inserts) || "Cal fer" == old('inserts') ? 'selected' : '' }}>Cal fer</option>
+                  <option value="Fet" {{(!empty($registreProduccio) && "Fet" == $registreProduccio->inserts) || "Fet" == old('inserts') ? 'selected' : '' }}>Fet</option>
                 </select>
                 <span class="text-danger">{{ $errors->first('inserts') }}</span>
             </div>
@@ -108,8 +108,8 @@
             <div class="form-group col-12 col-sm-6">
               <label for="estadillo">ESTADILLO</label>
               <select name="estadillo" id="estadillo" class="form-control">
-                <option value="0" {{(!empty($registreProduccio) && "0" == $registreProduccio->estadillo) || old('estadillo') ? 'selected' : '' }}></option>
-                <option value="1" {{(!empty($registreProduccio) && "1" == $registreProduccio->estadillo) || old('estadillo') ? 'selected' : '' }}>FET</option>
+                <option value="0" {{(!empty($registreProduccio) && "0" == $registreProduccio->estadillo) || "0" == old('estadillo') ? 'selected' : '' }}></option>
+                <option value="1" {{(!empty($registreProduccio) && "1" == $registreProduccio->estadillo) || "1" == old('estadillo') ? 'selected' : '' }}>FET</option>
               </select>
               <span class="text-danger">{{ $errors->first('estadillo') }}</span>
             </div>
@@ -117,8 +117,8 @@
             <div class="form-group col-12 col-sm-6">
               <label for="vec" title="valoració econòmica">VEC</label>
               <select name="vec" id="vec" class="form-control">
-                <option value="0" {{(!empty($registreProduccio) && "0" == $registreProduccio->vec) || old('vec') ? 'selected' : '' }}></option>
-                <option value="1" {{(!empty($registreProduccio) && "1" == $registreProduccio->vec) || old('vec') ? 'selected' : '' }}>FET</option>
+                <option value="0" {{(!empty($registreProduccio) && "0" == $registreProduccio->vec) || "0" == old('vec') ? 'selected' : '' }}></option>
+                <option value="1" {{(!empty($registreProduccio) && "1" == $registreProduccio->vec) || "1" == old('vec') ? 'selected' : '' }}>FET</option>
               </select>
               <span class="text-danger">{{ $errors->first('vec') }}</span>
             </div>
@@ -136,7 +136,7 @@
                 @foreach ($empleats as $key => $empleat) 
                     @foreach ($empleat->carrec as $key => $carrec) 
                         @if ($carrec->id_tarifa == 12)
-                            <option value="{{ $empleat->id_empleat }}" {{(!empty($registreProduccio) && $empleat->id_empleat == $registreProduccio->id_traductor) || old('id_traductor') ? 'selected' : '' }}>{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }} {{ $empleat->cognom2_empleat }}</option>
+                            <option value="{{ $empleat->id_empleat }}" {{(!empty($registreProduccio) && $empleat->id_empleat == $registreProduccio->id_traductor) || $empleat->id_empleat == old('id_traductor') ? 'selected' : '' }}>{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }} {{ $empleat->cognom2_empleat }}</option>
                             @break
                         @endif
                     @endforeach
@@ -158,7 +158,7 @@
                 @foreach ($empleats as $key => $empleat)
                     @foreach ($empleat->carrec as $key => $carrec) 
                         @if ($carrec->id_tarifa == 13)
-                            <option value="{{ $empleat->id_empleat }}" {{(!empty($registreProduccio) && $empleat->id_empleat == $registreProduccio->id_ajustador) || old('id_ajustador') ? 'selected' : '' }}>{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }} {{ $empleat->cognom2_empleat }}</option>
+                            <option value="{{ $empleat->id_empleat }}" {{(!empty($registreProduccio) && $empleat->id_empleat == $registreProduccio->id_ajustador) || $empleat->id_empleat == old('id_ajustador') ? 'selected' : '' }}>{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }} {{ $empleat->cognom2_empleat }}</option>
                             @break
                         @endif
                     @endforeach
@@ -180,7 +180,7 @@
                 @foreach ($empleats as $key => $empleat) 
                     @foreach ($empleat->carrec as $key => $carrec) 
                         @if ($carrec->id_tarifa == 14)
-                            <option value="{{ $empleat->id_empleat }}" {{(!empty($registreProduccio) && $empleat->id_empleat == $registreProduccio->id_linguista) || old('id_linguista') ? 'selected' : '' }}>{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }} {{ $empleat->cognom2_empleat }}</option>
+                            <option value="{{ $empleat->id_empleat }}" {{(!empty($registreProduccio) && $empleat->id_empleat == $registreProduccio->id_linguista) || $empleat->id_empleat == old('id_linguista') ? 'selected' : '' }}>{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }} {{ $empleat->cognom2_empleat }}</option>
                             @break
                         @endif
                     @endforeach
@@ -202,7 +202,7 @@
                 @foreach ($empleats as $key => $empleat)
                     @foreach ($empleat->carrec as $key => $carrec) 
                         @if ($carrec->id_tarifa == 1 || $carrec->id_tarifa == 2)
-                            <option value="{{ $empleat->id_empleat }}" {{(!empty($registreProduccio) && $empleat->id_empleat == $registreProduccio->id_director) || old('id_director') ? 'selected' : '' }}>{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }} {{ $empleat->cognom2_empleat }}</option>
+                            <option value="{{ $empleat->id_empleat }}" {{(!empty($registreProduccio) && $empleat->id_empleat == $registreProduccio->id_director) || $empleat->id_empleat == old('id_director') ? 'selected' : '' }}>{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }} {{ $empleat->cognom2_empleat }}</option>
                             @break
                         @endif
                     @endforeach
@@ -215,8 +215,8 @@
             <div class="form-group col-12 col-sm-6">
               <label for="casting">CÀSTING</label>
               <select name="casting" id="casting" class="form-control">
-                <option value="0" {{(!empty($registreProduccio) && "0" == $registreProduccio->casting) || old('casting') ? 'selected' : '' }}></option>
-                <option value="1" {{(!empty($registreProduccio) && "1" == $registreProduccio->casting) || old('casting') ? 'selected' : '' }}>FET</option>
+                <option value="0" {{(!empty($registreProduccio) && "0" == $registreProduccio->casting) || "0" == old('casting') ? 'selected' : '' }}></option>
+                <option value="1" {{(!empty($registreProduccio) && "1" == $registreProduccio->casting) || "1" == old('casting') ? 'selected' : '' }}>FET</option>
               </select>
               <span class="text-danger">{{ $errors->first('casting') }}</span>
             </div>
@@ -240,8 +240,8 @@
             <div class="form-group col-12 col-sm-6">
                 <label for="qc_vo" title="control de qualitat de la versió original">QC VO</label>
               <select name="qc_vo" id="qc_vo" class="form-control">
-                <option value="0" {{(!empty($registreProduccio) && "0" == $registreProduccio->qc_vo) || old('qc_vo') ? 'selected' : '' }}></option>
-                <option value="1" {{(!empty($registreProduccio) && "1" == $registreProduccio->qc_vo) || old('qc_vo') ? 'selected' : '' }}>FET</option>
+                <option value="0" {{(!empty($registreProduccio) && "0" == $registreProduccio->qc_vo) || "0" == old('qc_vo') ? 'selected' : '' }}></option>
+                <option value="1" {{(!empty($registreProduccio) && "1" == $registreProduccio->qc_vo) || "1" == old('qc_vo') ? 'selected' : '' }}>FET</option>
               </select>
               <span class="text-danger">{{ $errors->first('qc_vo') }}</span>
             </div>
@@ -249,8 +249,8 @@
             <div class="form-group col-12 col-sm-6">
               <label for="qc_me" title="control de qualitat del soundtrack">QC M&E</label>
               <select name="qc_me" id="qc_me" class="form-control">
-                <option value="0" {{(!empty($registreProduccio) && "0" == $registreProduccio->qc_me) || old('qc_me') ? 'selected' : '' }}></option>
-                <option value="1" {{(!empty($registreProduccio) && "1" == $registreProduccio->qc_me) || old('qc_me') ? 'selected' : '' }}>FET</option>
+                <option value="0" {{(!empty($registreProduccio) && "0" == $registreProduccio->qc_me) || "0" == old('qc_me') ? 'selected' : '' }}></option>
+                <option value="1" {{(!empty($registreProduccio) && "1" == $registreProduccio->qc_me) || "1" == old('qc_me') ? 'selected' : '' }}>FET</option>
               </select>
               <span class="text-danger">{{ $errors->first('qc_me') }}</span>
             </div>
@@ -258,8 +258,8 @@
             <div class="form-group col-12 col-sm-6">
               <label for="qc_mix" title="Control de qualitat de la mescla">QC MIX</label>
               <select name="qc_mix" id="qc_mix" class="form-control">
-                <option value="0" {{(!empty($registreProduccio) && "0" == $registreProduccio->qc_mix) || old('qc_mix') ? 'selected' : '' }}></option>
-                <option value="1" {{(!empty($registreProduccio) && "1" == $registreProduccio->qc_mix) || old('qc_mix') ? 'selected' : '' }}>FET</option>
+                <option value="0" {{(!empty($registreProduccio) && "0" == $registreProduccio->qc_mix) || "0" == old('qc_mix') ? 'selected' : '' }}></option>
+                <option value="1" {{(!empty($registreProduccio) && "1" == $registreProduccio->qc_mix) || "1" == old('qc_mix') ? 'selected' : '' }}>FET</option>
               </select>
               <span class="text-danger">{{ $errors->first('qc_mix') }}</span>
             </div>
@@ -267,8 +267,8 @@
             <div class="form-group col-12 col-sm-6">
               <label for="ppp" title="preparat per producció">PPP</label>
               <select name="ppp" id="ppp" class="form-control">
-                <option value="0" {{(!empty($registreProduccio) && "0" == $registreProduccio->ppp) || old('ppp') ? 'selected' : '' }}></option>
-                <option value="1" {{(!empty($registreProduccio) && "1" == $registreProduccio->ppp) || old('ppp') ? 'selected' : '' }}>FET</option>
+                <option value="0" {{(!empty($registreProduccio) && "0" == $registreProduccio->ppp) || "0" == old('ppp') ? 'selected' : '' }}></option>
+                <option value="1" {{(!empty($registreProduccio) && "1" == $registreProduccio->ppp) || "1" == old('ppp') ? 'selected' : '' }}>FET</option>
               </select>
               <span class="text-danger">{{ $errors->first('ppp') }}</span>
             </div>
@@ -276,8 +276,8 @@
             <div class="form-group col-12 col-sm-6">
               <label for="pps" title="preparat per producció">PPS</label>
               <select name="pps" id="pps" class="form-control">
-                <option value="0" {{(!empty($registreProduccio) && "0" == $registreProduccio->pps) || old('pps') ? 'selected' : '' }}></option>
-                <option value="1" {{(!empty($registreProduccio) && "1" == $registreProduccio->pps) || old('pps') ? 'selected' : '' }}>FET</option>
+                <option value="0" {{(!empty($registreProduccio) && "0" == $registreProduccio->pps) || "0" == old('pps') ? 'selected' : '' }}></option>
+                <option value="1" {{(!empty($registreProduccio) && "1" == $registreProduccio->pps) || "1" == old('pps') ? 'selected' : '' }}>FET</option>
               </select>
               <span class="text-danger">{{ $errors->first('pps') }}</span>
             </div>
@@ -285,8 +285,8 @@
             <div class="form-group col-12 col-sm-6">
               <label for="ppe" title="Preparat per entregar">PPE</label>
               <select name="ppe" id="ppe" class="form-control">
-                <option value="0" {{(!empty($registreProduccio) && "0" == $registreProduccio->ppe) || old('ppe') ? 'selected' : '' }}></option>
-                <option value="1" {{(!empty($registreProduccio) && "1" == $registreProduccio->ppe) || old('ppe') ? 'selected' : '' }}>FET</option>
+                <option value="0" {{(!empty($registreProduccio) && "0" == $registreProduccio->ppe) || "0" == old('ppe') ? 'selected' : '' }}></option>
+                <option value="1" {{(!empty($registreProduccio) && "1" == $registreProduccio->ppe) || "1" == old('ppe') ? 'selected' : '' }}>FET</option>
               </select>
               <span class="text-danger">{{ $errors->first('ppe') }}</span>
             </div>  
@@ -298,7 +298,7 @@
                 @foreach ($empleats as $key => $empleat) 
                     @foreach ($empleat->carrec as $key => $carrec) 
                         @if ($carrec->id_tarifa == 3 || $carrec->id_tarifa == 4)
-                            <option value="{{ $empleat->id_empleat }}" {{(!empty($registreProduccio) && $empleat->id_empleat == $registreProduccio->id_tecnic_mix) || old('id_tecnic_mix') ? 'selected' : '' }}>{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }} {{ $empleat->cognom2_empleat }}</option>
+                            <option value="{{ $empleat->id_empleat }}" {{(!empty($registreProduccio) && $empleat->id_empleat == $registreProduccio->id_tecnic_mix) || $empleat->id_empleat == old('id_tecnic_mix') ? 'selected' : '' }}>{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }} {{ $empleat->cognom2_empleat }}</option>
                             @break
                         @endif
                     @endforeach
@@ -327,8 +327,8 @@
               <div class="form-group col-12 col-sm-6">
                 <label for="convos" title="Activar quan s'hagin convocat tots els actors">CONVOS</label>
                 <select name="convos" id="convos" class="form-control">
-                  <option value="0" {{(!empty($registreProduccio) && "0" == $registreProduccio->convos) || old('convos') ? 'selected' : '' }}></option>
-                  <option value="1" {{(!empty($registreProduccio) && "1" == $registreProduccio->convos) || old('convos') ? 'selected' : '' }}>FET</option>
+                  <option value="0" {{(!empty($registreProduccio) && "0" == $registreProduccio->convos) || "0" == old('convos') ? 'selected' : '' }}></option>
+                  <option value="1" {{(!empty($registreProduccio) && "1" == $registreProduccio->convos) || "1" == old('convos') ? 'selected' : '' }}>FET</option>
                 </select>
                 <span class="text-danger">{{ $errors->first('convos') }}</span>
             </div>
@@ -348,9 +348,9 @@
             <div class="form-group col-12 col-sm-6">
               <label for="retakes">RETAKES</label>
               <select name="retakes" id="retakes" class="form-control">
-                <option value="No" {{(!empty($registreProduccio) && "No" == $registreProduccio->retakes) || old('retakes') ? 'selected' : '' }}>NO</option>
-                <option value="Si" {{(!empty($registreProduccio) && "Si" == $registreProduccio->retakes) || old('retakes') ? 'selected' : '' }}>SI</option>
-                <option value="Fet" {{(!empty($registreProduccio) && "Fet" == $registreProduccio->retakes) || old('retakes') ? 'selected' : '' }}>FET</option>
+                <option value="No" {{(!empty($registreProduccio) && "No" == $registreProduccio->retakes) || "No" == old('retakes') ? 'selected' : '' }}>NO</option>
+                <option value="Si" {{(!empty($registreProduccio) && "Si" == $registreProduccio->retakes) || "Si" == old('retakes') ? 'selected' : '' }}>SI</option>
+                <option value="Fet" {{(!empty($registreProduccio) && "Fet" == $registreProduccio->retakes) || "Fet" == old('retakes') ? 'selected' : '' }}>FET</option>
               </select>
               <span class="text-danger">{{ $errors->first('retakes') }}</span>
             </div>
