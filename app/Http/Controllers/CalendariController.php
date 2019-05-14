@@ -42,7 +42,10 @@ class CalendariController extends Controller
 
         $data = json_encode(Calendar::where('data_inici', '>=', $dia1)
                                     ->where('data_fi', '<=', $dia5)
+                                    //->with("actorEstadillo")
+                                    ->with('actorEstadillo.registreEntrada')
                                     ->get());
+
         
         $urlBase = route('showCalendari');
 
@@ -56,6 +59,7 @@ class CalendariController extends Controller
             and t1.id_actor_estadillo = t4.id    
             and t5.id = t4.id_produccio
         group by id_actor_estadillo');
+        
 
         foreach ($takes_restantes as $value) {
             $empleado = EmpleatExtern::findOrFail($value->id_actor);
@@ -67,6 +71,12 @@ class CalendariController extends Controller
         }
 
         $actores = json_encode($takes_restantes);
+        $todosActores = DB::select('SELECT t1.id_empleat, t1.nom_empleat, t1.cognom1_empleat, t1.cognom2_empleat
+        FROM slb_db.slb_empleats_externs t1, slb_carrecs_empleats t2
+            WHERE t2.id_carrec = 1 and t1.id_empleat = t2.id_empleat
+        GROUP by id_empleat');
+
+        $peliculas = RegistreEntrada::all();
         
         $tecnics = EmpleatExtern::select('slb_empleats_externs.id_empleat', 'slb_empleats_externs.nom_empleat', 'slb_empleats_externs.cognom1_empleat', 'slb_empleats_externs.cognom2_empleat')
                                   ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', '=', 'slb_empleats_externs.id_empleat')
@@ -79,6 +89,19 @@ class CalendariController extends Controller
                                     ->where('slb_carrecs.nom_carrec', '=', 'Director')
                                     ->get();
         
+        // TODO: Hacer que los actores no se repitan o que si se repiten que se coja también la hora.
+        $actoresPorDia = array();
+        foreach($fechas as $key => $fech) {
+            $diaz = DateTime::createFromFormat("d-m-Y", $fech);
+            $act_dia = DB::select(
+                'SELECT t1.id_empleat, t1.nom_empleat, t1.cognom1_empleat, t1.cognom2_empleat, DAY(t2.data_inici) as dia, t2.num_sala 
+                FROM slb_empleats_externs t1 INNER JOIN slb_calendars t2 ON t1.id_empleat = t2.id_actor_estadillo 
+                WHERE DAY(t2.data_inici) = '.$diaz->format('d').' AND MONTH(t2.data_inici) = '.$diaz->format('m').' 
+                AND YEAR(t2.data_inici) = '.$diaz->format('Y')
+            );
+            array_push($actoresPorDia, $act_dia);
+        }
+        
         return View('calendari.index', ["fechas"    => $fechas, 
                                         "week"      => $week,
                                         "year"      => $year,
@@ -86,7 +109,10 @@ class CalendariController extends Controller
                                         "actores"   => $actores,
                                         "tecnics"   => $tecnics,
                                         "directors" => $directors,
-                                        "data"      => $data]);
+                                        "data"      => $data,
+                                        "todosActores"   =>$todosActores,
+                                        "registrosEntrada"=>$peliculas,
+                                        "actoresPorDia" => $actoresPorDia]);
     }
 
     public function cambiarCargo(Request $request) {
@@ -156,7 +182,7 @@ class CalendariController extends Controller
 
             $calendari = new Calendar($requestData);  
             $calendari->save();
-            return response()->json(['success'=> true],201);
+            return response()->json(['success'=> true,'calendari'=>$calendari],201);
         }
     }
 

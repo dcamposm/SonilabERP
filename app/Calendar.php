@@ -21,11 +21,9 @@ class Calendar extends Model {
         'data_fi'  => 'date:d-m-Y H:i'
     ];
 
-    public function empleatExtern() {
-        return $this->hasOne('App\EmpleatExtern','id_empleat','id_empleat');
+    public function actorEstadillo() {
+        return $this->hasOne('App\ActorEstadillo','id','id_actor_estadillo');
     }
-    public function registreEntrada() {
-        return $this->hasOne('App\RegistreEntrada','id_registre_entrada','id_registre_entrada');
-    }
+    
 
 }

@@ -26,4 +26,8 @@ class ActorEstadillo extends Model
     {
         return $this->belongsTo('App\Estadillo', 'id_estadillo', 'id_produccio');
     }
+
+    public function registreEntrada() {
+        return $this->hasOne('App\RegistreEntrada','id_registre_entrada','id_produccio');
+    }
 }

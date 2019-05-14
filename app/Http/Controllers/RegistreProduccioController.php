@@ -21,7 +21,7 @@ class RegistreProduccioController extends Controller {
         //
         $registres = RegistreProduccio::with('traductor')->with('ajustador')
                 ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
-                ->orderBy('data_entrega')->orderBy('estat')->get();
+                ->orderBy('estat')->orderBy('data_entrega')->get();
         $missatges = Missatge::whereReferencia('registreProduccio')->get();
         $registreProduccio = array();
         
@@ -37,7 +37,9 @@ class RegistreProduccioController extends Controller {
                         'titol' => $registre->registreEntrada->titol,
                         'data' => $registre->data_entrega,
                         'setmana' => $registre->setmana,
+                        'estadillo' => $registre->estadillo,
                         'vec' => $registre->vec,
+                        'estat' => $registre->estat,
                         'new' => 0
                     );
                     
@@ -53,6 +55,14 @@ class RegistreProduccioController extends Controller {
                         $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['max'] = $registre->subreferencia;
                     } else if ($registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['min'] > $registre->subreferencia){
                         $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['min'] = $registre->subreferencia;
+                    }
+                    
+                    if ($registre->estadillo == 0) {
+                        $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['estadillo'] = 'Pendent';
+                    }
+                    
+                    if ($registre->estat == 'Pendent') {
+                        $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['estat'] = 'Pendent';
                     }
                     
                     foreach ($missatges as $missatge) {
