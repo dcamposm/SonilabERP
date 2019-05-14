@@ -149,6 +149,18 @@ class RegistreProduccioController extends Controller {
     
     public function update($id){
         $prod = RegistreProduccio::find($id);
+        
+        if (request()->input('subreferencia')){
+            if ($prod->subreferencia != request()->input('subreferencia')){
+                $registre = RegistreProduccio::where('id_registre_entrada', $prod->id_referencia_entrada)
+                        ->whereSubreferencia(request()->input('subreferencia'))->first();
+                
+                if (!$registre){
+                    return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar. No es pot repetir subreferencies.'));
+                }
+                //return response()->json($registre);
+            }
+        }
         //return response()->json(request()->all());
         $prod->fill(request()->all());               
 
