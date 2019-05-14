@@ -21,8 +21,8 @@ class RegistreProduccioController extends Controller {
         //
         $registres = RegistreProduccio::with('traductor')->with('ajustador')
                 ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
-                ->orderBy('data_entrega')->orderBy('estat')->get();
-        $missatges = Missatge::where('referencia', 'registreProduccio')->get();
+                ->orderBy('estat')->orderBy('data_entrega')->get();
+        $missatges = Missatge::whereReferencia('registreProduccio')->get();
         $registreProduccio = array();
         
         foreach ($registres as $registre){
@@ -37,7 +37,9 @@ class RegistreProduccioController extends Controller {
                         'titol' => $registre->registreEntrada->titol,
                         'data' => $registre->data_entrega,
                         'setmana' => $registre->setmana,
+                        'estadillo' => $registre->estadillo,
                         'vec' => $registre->vec,
+                        'estat' => $registre->estat,
                         'new' => 0
                     );
                     
@@ -53,6 +55,14 @@ class RegistreProduccioController extends Controller {
                         $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['max'] = $registre->subreferencia;
                     } else if ($registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['min'] > $registre->subreferencia){
                         $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['min'] = $registre->subreferencia;
+                    }
+                    
+                    if ($registre->estadillo == 0) {
+                        $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['estadillo'] = 'Pendent';
+                    }
+                    
+                    if ($registre->estat == 'Pendent') {
+                        $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['estat'] = 'Pendent';
                     }
                     
                     foreach ($missatges as $missatge) {
@@ -78,7 +88,7 @@ class RegistreProduccioController extends Controller {
         $empleats = EmpleatExtern::with('carrec')->get();
         //return response()->json($empleats);
         // Solamente tenemos que cargar los registros de entrada pendientes.
-        $regEntrades = RegistreEntrada::where('estat', '=', 'Pendent')->get();
+        $regEntrades = RegistreEntrada::whereEstat('Pendent')->get();
 
         return view('registre_produccio.create', array(
             'empleats' => $empleats,
@@ -90,12 +100,15 @@ class RegistreProduccioController extends Controller {
         $empleatsCarrec = EmpleatExtern::with('carrec')->get();
         //return response()->json(Auth::user()->id_usuari);
         // Solamente tenemos que cargar los registros de entrada pendientes.
-        $regEntrades = RegistreEntrada::where('estat', '=', 'Pendent')->get();
+        $regEntrades = RegistreEntrada::whereEstat('Pendent')->get();
         $registreProduccio = RegistreProduccio::with('registreEntrada')->find($id);
         
         //----------Si entra el reponsable del registre d'entrada i el registre te un missatge NEW, elimina el missatge---------------
         if ($registreProduccio->registreEntrada->id_usuari == Auth::user()->id_usuari){
-            Missatge::where('id_referencia', $id)->where('missatge', 'NEW')->where('referencia', 'registreProduccio')->delete();
+            Missatge::where([['id_referencia', $id],
+                            ['missatge', 'NEW'],
+                            ['referencia', 'registreProduccio']])                   
+                            ->delete();
         }
         
         //return response()->json($registreProduccio);

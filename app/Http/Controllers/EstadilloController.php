@@ -237,8 +237,8 @@ class EstadilloController extends Controller
             $nomCognom = explode(' ', $arrayEstadillo[$i][0]);
             //return response()->json($nomCognom);
             try {
-                $empleat = EmpleatExtern::where('nom_empleat', $nomCognom[count($nomCognom)-1])
-                        ->where('cognom1_empleat', $nomCognom[count($nomCognom)-2])->first();
+                $empleat = EmpleatExtern::whereRaw('LOWER(nom_empleat) like "%'. strtolower($nomCognom[count($nomCognom)-1]).'%"'
+                                                    . 'OR LOWER(cognom1_empleat) like "%'. strtolower($nomCognom[count($nomCognom)-2]).'%"')->first();
             } catch (\Exception $ex) {
                 $empleat = EmpleatExtern::where('nom_empleat', $nomCognom[0])->first();
             }
