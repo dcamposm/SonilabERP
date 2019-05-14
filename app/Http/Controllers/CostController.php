@@ -567,12 +567,22 @@ class CostController extends Controller
                     $empleatCost->id_empleat = $registre->tecnic->id_empleat;
                     foreach ($registre->tecnic->carrec as $empleatCarrec){
                         if ($empleatCarrec->tarifa->nombre_corto == 'sala' && $empleatCarrec->preu_carrec != 0){
-                            $empleatCost->cost_empleat = $empleatCarrec->preu_carrec;
+                            $tk_totals = 0;
+                            foreach ($registre->getEstadillo->actors as $actor){
+                                $tk_totals += $actor->take_estadillo;
+                            }
+                            
+                            $empleatCost->cost_empleat = $empleatCarrec->preu_carrec * ($tk_totals/20);
                             $total += $empleatCost->cost_empleat;
                             $empleatCost->id_tarifa = 3;
                             $empleatCost->save();
                         } else if ($empleatCarrec->tarifa->nombre_corto == 'mix' && $empleatCarrec->preu_carrec != 0){
-                            $empleatCost->cost_empleat = $empleatCarrec->preu_carrec;
+                            $tk_totals = 0;
+                            foreach ($registre->getEstadillo->actors as $actor){
+                                $tk_totals += $actor->take_estadillo;
+                            }
+                            
+                            $empleatCost->cost_empleat = $empleatCarrec->preu_carrec * ($tk_totals/20);
                             $total += $empleatCost->cost_empleat;
                             $empleatCost->id_tarifa = 4;
                             $empleatCost->save();
