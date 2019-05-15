@@ -102,8 +102,7 @@ class RegistreEntradaController extends Controller
         //return redirect()->route('empleatIndex')->with('success', request()->input("searchBy").'-'.request()->input("search_term"));
         return view('registre_entrada.index',array('registreEntrades' => $registreEntrades, 'clients' => $clients,
                                                     'serveis' => $serveis, 'idiomes' => $idiomes,
-                                                    'medies' => $medies, 'usuaris' => $usuaris,
-                                                    'return' => 1));
+                                                    'medies' => $medies, 'usuaris' => $usuaris));
     }
 
     public function insertView(){

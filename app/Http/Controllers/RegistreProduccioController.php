@@ -354,8 +354,7 @@ class RegistreProduccioController extends Controller {
         $missatges = Missatge::where('referencia', 'registreProduccio')->get();
         
         return view('registre_produccio.index', array('registreProduccions' => $registreProduccio,
-                                                        'missatges' => $missatges,
-                                                        'return' => 1));
+                                                        'missatges' => $missatges));
     }
 
     public function createBasic(){
