@@ -110,8 +110,7 @@ class EmpleatExternController extends Controller
         }
         return View('empleats_externs.index', array('empleats' => $empleats,
                                                     'carrecs' => $carrecs,
-                                                    'empleatsArray' => $empleatsArray,
-                                                    'return' => 1));
+                                                    'empleatsArray' => $empleatsArray));
     }
     
     public function show($id)

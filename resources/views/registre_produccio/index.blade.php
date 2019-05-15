@@ -506,7 +506,7 @@
         </div>
     </div>
     
-    @if (isset($return))
+    @if (Route::currentRouteName() == "registreProduccioFind")
         <a href="{{ url('/registreProduccio') }}" class="btn btn-primary mb-3">
             <span class="fas fa-angle-double-left"></span>
             TORNAR
