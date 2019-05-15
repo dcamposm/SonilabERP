@@ -7,8 +7,8 @@ use App\RegistreProduccio;
 
 class CheckSubreferenciaCreate implements Rule
 {
-    public $ref;
-    public $subref;
+    protected $ref;
+    protected $subref;
     
     public function __construct(String $ref, String $subref)
     {

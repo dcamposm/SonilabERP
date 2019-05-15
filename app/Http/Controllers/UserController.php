@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\User;
 use Validator;
 use App\Departament;
+use App\Http\Responsables\User\UserIndex;
+use App\Http\Responsables\User\UserCreate;
 
 class UserController extends Controller
 {
@@ -24,17 +26,17 @@ class UserController extends Controller
     */
     function viewRegistre(){
         $departaments = Departament::all();
-        return view("usuaris_interns.create",array('departaments' => $departaments));
+        
+        return new UserCreate($departaments);
     }
     /*
         *funcio per retornar la vista de editar usuaris interns
     */
     function viewEditarUsuario($id){
         $departaments = Departament::all();
-        $usuario = User::with('departament')->find($id);
-        if ($usuario){
-            return view("usuaris_interns.create",array('departaments' => $departaments, 'usuario' => $usuario));
-        }      
+        $usuari = User::with('departament')->find($id);
+        
+        return new UserCreate($departaments, $usuari);    
     }
     /*
         *funcio per retornar la vista de tots els usuaris interns
@@ -42,7 +44,8 @@ class UserController extends Controller
     function getIndex(){
         $usuaris= User::all();
         $departaments = Departament::all();
-        return view('usuaris_interns.index',array('arrayUsuaris' => $usuaris, 'departaments' => $departaments));
+        
+        return new UserIndex($usuaris, $departaments);
     }
     /*
         *funcio buscar els usuaris interns amb la opcio indicada i després retornar-la
@@ -63,10 +66,8 @@ class UserController extends Controller
         }
         
         $departaments = Departament::all();
-        //return redirect()->route('empleatIndex')->with('success', request()->input("searchBy").'-'.request()->input("search_term"));
-        return view('usuaris_interns.index',array('arrayUsuaris' => $users,
-                                                    'departaments' => $departaments,
-                                                    'return' => 1));
+        
+        return new UserIndex($users, $departaments);
     }
     /*
         *funcio per retornar la vista de un usuari intern
@@ -80,7 +81,6 @@ class UserController extends Controller
         *funcio per crear a un usuari intern
     */
     function crearUsuario(){
-        
         //return response()->json(request()->all());
         //Primer es valida si se ha insertat els atributs indicats
         $v = Validator::make(request()->all(), [
