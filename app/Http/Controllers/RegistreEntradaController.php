@@ -17,6 +17,7 @@ use App\ActorEstadillo;
 use App\Costos;
 use App\EmpleatCost;
 use App\Mail\RegistreEntradaCreat;
+use App\Mail\RegistreEntradaUpdate;
 use Illuminate\Support\Facades\Mail;
 /*use Swift_Message;
 use Swift_SmtpTransport;
@@ -101,8 +102,7 @@ class RegistreEntradaController extends Controller
         //return redirect()->route('empleatIndex')->with('success', request()->input("searchBy").'-'.request()->input("search_term"));
         return view('registre_entrada.index',array('registreEntrades' => $registreEntrades, 'clients' => $clients,
                                                     'serveis' => $serveis, 'idiomes' => $idiomes,
-                                                    'medies' => $medies, 'usuaris' => $usuaris,
-                                                    'return' => 1));
+                                                    'medies' => $medies, 'usuaris' => $usuaris));
     }
 
     public function insertView(){
@@ -289,13 +289,14 @@ class RegistreEntradaController extends Controller
     }
 
     public function update($id) {
-        return response()->json(request()->all());
+        //return response()->json(request()->all());
         $registreEntrada = RegistreEntrada::find($id);
+        $registre = RegistreEntrada::find($id);
         if ($registreEntrada) {
             $v = Validator::make(request()->all(), [
-                'titol'           => 'required',
+                'titol'               => 'required',
                 'sortida'             => 'required',
-                'id_usuari'             => 'required',
+                'id_usuari'           => 'required',
                 'id_client'           => 'required',
                 'id_servei'           => 'required',
                 'id_idioma'           => 'required',
@@ -311,13 +312,21 @@ class RegistreEntradaController extends Controller
                 //return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar les dades.'));
             } else {
                 $registreEntrada->fill(request()->all());
-    
+                
+                
+                
                 try {
                     $registreEntrada->save(); 
                 } catch (\Exception $ex) {
                     return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar el registre d\'entrada.'));
                 }
-    
+    //-------------------------------Email amb Model Mail----------------------------------
+                /*Mail::to('dcampos@paycom.es')->send(
+                    new RegistreEntradaUpdate(
+                        $registre,
+                        $registreEntrada
+                    )
+                );*/
                 return redirect()->back()->with('success', 'Registre d\'entrada modificat correctament.');
             }
         }
@@ -349,7 +358,11 @@ class RegistreEntradaController extends Controller
         
         //return response()->json($estadillos); 
         RegistreEntrada::where('id_registre_entrada', $request["id"])->delete();
-        RegistreProduccio::where('id_registre_entrada', $request["id"])->delete();
+        $registres = RegistreProduccio::where('id_registre_entrada', $request["id"])->get();
+        foreach ($registres as $registre) {
+            Missatge::where('id_referencia', $registre->id)->where('referencia', 'registreProduccio')->delete();
+        }
+        $registres = RegistreProduccio::where('id_registre_entrada', $request["id"])->delete();
         Missatge::where('id_referencia', $request["id"])->where('referencia', 'registreEntrada')->delete();
         return redirect()->route('indexRegistreEntrada');
     }

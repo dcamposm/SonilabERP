@@ -7,6 +7,8 @@ use App\RegistreEntrada;
 use App\RegistreProduccio;
 use App\EmpleatExtern;
 use App\Missatge;
+use App\Rules\CheckSubreferenciaCreate;
+use App\Rules\CheckSubreferenciaUpdate;
 use Auth;
 use Validator;
 
@@ -21,7 +23,7 @@ class RegistreProduccioController extends Controller {
         //
         $registres = RegistreProduccio::with('traductor')->with('ajustador')
                 ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
-                ->orderBy('data_entrega')->orderBy('estat')->get();
+                ->orderBy('estat')->orderBy('data_entrega')->get();
         $missatges = Missatge::whereReferencia('registreProduccio')->get();
         $registreProduccio = array();
         
@@ -37,7 +39,9 @@ class RegistreProduccioController extends Controller {
                         'titol' => $registre->registreEntrada->titol,
                         'data' => $registre->data_entrega,
                         'setmana' => $registre->setmana,
+                        'estadillo' => $registre->estadillo,
                         'vec' => $registre->vec,
+                        'estat' => $registre->estat,
                         'new' => 0
                     );
                     
@@ -53,6 +57,14 @@ class RegistreProduccioController extends Controller {
                         $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['max'] = $registre->subreferencia;
                     } else if ($registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['min'] > $registre->subreferencia){
                         $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['min'] = $registre->subreferencia;
+                    }
+                    
+                    if ($registre->estadillo == 0) {
+                        $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['estadillo'] = 'Pendent';
+                    }
+                    
+                    if ($registre->estat == 'Pendent') {
+                        $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['estat'] = 'Pendent';
                     }
                     
                     foreach ($missatges as $missatge) {
@@ -137,6 +149,18 @@ class RegistreProduccioController extends Controller {
     
     public function update($id){
         $prod = RegistreProduccio::find($id);
+        
+        if (request()->input('subreferencia')){
+            if ($prod->subreferencia != request()->input('subreferencia')){
+                $registre = RegistreProduccio::where('id_registre_entrada', $prod->id_referencia_entrada)
+                        ->whereSubreferencia(request()->input('subreferencia'))->first();
+                
+                if (!$registre){
+                    return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar. No es pot repetir subreferencies.'));
+                }
+                //return response()->json($registre);
+            }
+        }
         //return response()->json(request()->all());
         $prod->fill(request()->all());               
 
@@ -155,7 +179,7 @@ class RegistreProduccioController extends Controller {
 
         $v = Validator::make(request()->all(), [
             'id_registre_entrada'    => 'required',
-            'subreferencia'          => 'required',
+            'subreferencia'          => ['required', new CheckSubreferenciaUpdate($prod, request()->input('id_registre_entrada'), request()->input('subreferencia'))],
             'data_entrega'           => 'required',
             'setmana'                => 'required',
             'titol'                  => 'required',
@@ -330,14 +354,13 @@ class RegistreProduccioController extends Controller {
         $missatges = Missatge::where('referencia', 'registreProduccio')->get();
         
         return view('registre_produccio.index', array('registreProduccions' => $registreProduccio,
-                                                        'missatges' => $missatges,
-                                                        'return' => 1));
+                                                        'missatges' => $missatges));
     }
 
     public function createBasic(){
         $v = Validator::make(request()->all(), [
             'id_registre_entrada'    => 'required',
-            'subreferencia'          => 'required',
+            'subreferencia'          => ['required',new CheckSubreferenciaCreate(request()->input('id_registre_entrada'), request()->input('subreferencia'))],
             'data_entrega'           => 'required',
             'setmana'                => 'required',
             'titol'                  => 'required',

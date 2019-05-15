@@ -9,7 +9,13 @@ $('#semanaMas').on('click', function () {
 
 $('#btnGuardar').click(guardarCelda)
 
+$('#filtroActor').on('change', function(){
+    filtrar()
+})
 
+$('#filtroProyecto').on('change', function(){
+    filtrar()
+})
 
 
 crearTablaCalendario();
@@ -18,11 +24,8 @@ cargarDatos();
 
 var persona = undefined
 
-$('.celda').attr('ondrop', 'drop(event)')
-$('.celda').attr('ondragover', 'allowDrop(event)')
-
 function crearTablaCalendario() {
-    var contenedor = $('#contenedor')
+    var contenedor = $('#calendarContent')
     for (let i = 0; i < 8; i++) {
         var fila = $('<div class="row fila"></div>')
         var sala = i + 1
@@ -39,6 +42,8 @@ function crearTablaCalendario() {
         }
         contenedor.append(fila)
     }
+    $('.celda').attr('ondrop', 'drop(event)')
+    $('.celda').attr('ondragover', 'allowDrop(event)')
 }
 
 function cargarDatos() {
@@ -73,7 +78,32 @@ function cargarActores() {
     }
 }
 
+function filtrar(){
+    var idActor = $('#filtroActor').val()
+    var idProyecto = $('#filtroProyecto').val()
+
+    console.log(dataBase)
+    if (idActor != -1 && idProyecto != -1){
+        data = dataBase.filter(item => item.actor_estadillo.id_actor == idActor)
+        data = data.filter(item => item.actor_estadillo.registre_entrada.id_registre_entrada == idProyecto)
+    } else if (idActor != -1){
+        data = dataBase.filter(item => item.actor_estadillo.id_actor == idActor)
+    } else if (idProyecto != -1){
+        data = dataBase.filter(item => item.actor_estadillo.registre_entrada.id_registre_entrada == idProyecto)
+    } else {
+        data = dataBase
+    }
+    console.log(data)
+    refrescarCalendarioFiltrado()
+    cargarDatos()
+}
+
 ///// FUNCTIONS /////
+
+function refrescarCalendarioFiltrado(){
+    $('#calendarContent').html('')
+    crearTablaCalendario()
+}
 
 function guardarCelda() {
     var data_inici = celda.parentElement.parentElement.getAttribute("dia") + " " + $('#takesIni').val() + ":00";
@@ -81,10 +111,10 @@ function guardarCelda() {
     var num_sala = celda.parentElement.parentElement.getAttribute("sala");
 
     let takes = Number($('#numberTakes').val())
-    var data = { id_actor_estadillo: persona.id_actor_estadillo, num_takes: takes, data_inici: data_inici, data_fi: data_fi, num_sala: num_sala };
-    $.post('/calendari/crear', data)
-        .done(function () {
-
+    var datos = { id_actor_estadillo: persona.id_actor_estadillo, num_takes: takes, data_inici: data_inici, data_fi: data_fi, num_sala: num_sala };
+    $.post('/calendari/crear', datos)
+        .done(function (datosCalendari) {
+            data.push(datosCalendari.calendari);
 
             let valorActual = Number($(celda).attr('aria-valuenow'))
             let takesSuma = takes + valorActual
@@ -106,7 +136,7 @@ function guardarCelda() {
             actores.forEach(element => {
                 if (element.id_registre_produccio == $('#selectPelis').val() && persona.id_actor == element.id_actor) {
                     element.takes_restantes = element.takes_restantes-takes;
-                    console.log($('#selectPelis').val());
+                    
                 }
             });
             cargarActores();
@@ -231,9 +261,13 @@ var diaSeleccionado = "";
 var salaSeleccionada = "";
 
 function ampliarCasilla(e) {
+    // Oculta todas las listas de los empleados de los modals.
+    $('.lista-actores').hide();
     // Coge el atributo "dia" y "sala" de la celda seleccionada:
     diaSeleccionado = e.delegateTarget.getAttribute("dia");
     salaSeleccionada = e.delegateTarget.getAttribute("sala");
+    // Muestra la lista en concreto con los empleado para poder "pasar lista":
+    $('.dia-' + diaSeleccionado.split('-')[0] + '-' + salaSeleccionada).show();
 
     $('#dialog').css({ 'width': window.innerWidth - 30 })
     $('#dialog').css({ 'max-width': window.innerWidth - 30 })

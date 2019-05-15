@@ -135,10 +135,6 @@
             <span style="color: darkorange; font-size: 15px;">&#9646;</span>
             <span style="font-size: 11px; padding: 1px;">PENDENT</span>
         </div>
-        <div class="llegenda">
-            <span style="color: deepskyblue ; font-size: 15px;">&#9646;</span>
-            <span style="font-size: 11px; padding: 1px;">AGRUPACIÓ</span>
-        </div>
         <div style="clear:both;"></div>
     </div>
 
@@ -294,7 +290,7 @@
                     @foreach( $registreProduccio as $key1 => $serie )
                         @foreach ($serie as $key2 => $episodi)
                             @if ($key2 == 0)
-                            <tr class="border-primary" id="collapse{{$key}}">
+                            <tr class="{{ ($episodi['estat'] == 'Pendent') ? 'border-warning' : (($episodi['estat'] == 'Finalitzada') ? 'border-success' : 'border-danger') }}" id="collapse{{$key}}">
                                 <td class="cursor" title='Veure registre d&apos;entrada' style="vertical-align: middle;" onclick="self.mostrarRegistreProduccio('{{ route('mostrarRegistreEntrada', array('id' => $episodi["id_registre_entrada"])) }}')">
                                     @if ($episodi['new'] == 1)
                                         <span class="texto-vertical text-success font-weight-bold float-left" style="margin-left: -27px;">NEW</span>
@@ -319,7 +315,7 @@
                                         <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}_{{$key1}}"></td>
                                         <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}_{{$key1}}"></td>
                                         <td style="vertical-align: middle;">
-                                            <a href="{{ route('estadilloShow', array('id' => $episodi["id_registre_entrada"], 'id_setmana' => $episodi['setmana'])) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">ESTADILLO</a>
+                                            <a href="{{ route('estadilloShow', array('id' => $episodi["id_registre_entrada"], 'id_setmana' => $episodi['setmana'])) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">VEURE</a>
                                         </td>
                                         @if ($episodi['vec'] != 0)
                                             <td style="vertical-align: middle;">
@@ -336,9 +332,13 @@
                                         <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}_{{$key1}}"></td>
                                         <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}_{{$key1}}"></td>
                                     @else
-                                        <td style="vertical-align: middle;">
-                                            <a href="{{ route('estadilloShow', array('id' => $episodi["id_registre_entrada"], 'id_setmana' => $episodi['setmana'])) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">ESTADILLO</a>
-                                        </td>
+                                        @if ($episodi['estadillo'] == 0)
+                                            <td></td>
+                                        @else
+                                            <td style="vertical-align: middle;">
+                                                <a href="{{ route('estadilloShow', array('id' => $episodi["id_registre_entrada"], 'id_setmana' => $episodi['setmana'])) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">VEURE</a>
+                                            </td>
+                                        @endif
                                         @if ($episodi['vec'] != 0)
                                             <td style="vertical-align: middle;">
                                                 <a href="{{ route('mostrarVec', array('id' => $episodi['id_registre_entrada'], 'data' => date('d-m-Y', strtotime($episodi['data'])))) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">VEURE</a>
@@ -506,7 +506,7 @@
         </div>
     </div>
     
-    @if (isset($return))
+    @if (Route::currentRouteName() == "registreProduccioFind")
         <a href="{{ url('/registreProduccio') }}" class="btn btn-primary mb-3">
             <span class="fas fa-angle-double-left"></span>
             TORNAR

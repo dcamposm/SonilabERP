@@ -93,10 +93,10 @@
         </div>
 
     </div>
-    @if (isset($return))
+    @if (Route::currentRouteName() == "usuariFind")
         <a href="{{ url('/usuaris/interns/index') }}" class="btn btn-primary">
             <span class="fas fa-angle-double-left"></span>
-            TORNAR ENRERA
+            TORNAR
         </a> 
     @endif
 </div>
