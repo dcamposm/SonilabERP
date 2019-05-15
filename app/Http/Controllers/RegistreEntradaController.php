@@ -358,7 +358,11 @@ class RegistreEntradaController extends Controller
         
         //return response()->json($estadillos); 
         RegistreEntrada::where('id_registre_entrada', $request["id"])->delete();
-        RegistreProduccio::where('id_registre_entrada', $request["id"])->delete();
+        $registres = RegistreProduccio::where('id_registre_entrada', $request["id"])->get();
+        foreach ($registres as $registre) {
+            Missatge::where('id_referencia', $registre->id)->where('referencia', 'registreProduccio')->delete();
+        }
+        $registres = RegistreProduccio::where('id_registre_entrada', $request["id"])->delete();
         Missatge::where('id_referencia', $request["id"])->where('referencia', 'registreEntrada')->delete();
         return redirect()->route('indexRegistreEntrada');
     }
