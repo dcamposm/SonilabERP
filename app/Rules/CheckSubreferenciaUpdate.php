@@ -7,9 +7,9 @@ use App\RegistreProduccio;
 
 class CheckSubreferenciaUpdate implements Rule
 {
-    public $registre;
-    public $ref;
-    public $subref;
+    protected $registre;
+    protected $ref;
+    protected $subref;
     
     public function __construct(RegistreProduccio $registre, String $ref, String $subref)
     {

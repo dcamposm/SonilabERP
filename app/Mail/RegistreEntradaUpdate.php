@@ -6,17 +6,19 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\RegistreEntrada ;
+use App\RegistreEntrada;
 
-class RegistreEntradaMailCreate extends Mailable
+class RegistreEntradaUpdate extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $registreEntrada;
+    public $request;
     
-    public function __construct(RegistreEntrada $registreEntrada)
+    public function __construct(RegistreEntrada $registreEntrada, RegistreEntrada $request)
     {
         $this->registreEntrada = $registreEntrada;
+        $this->request = $request;
     }
 
     /**
