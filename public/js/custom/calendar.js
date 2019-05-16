@@ -498,7 +498,8 @@ $('#pasarLista').click(function (e) {
         // TODO: Coger todos los usuario del modal en cuestión.
         // TODO: Hacer que los usuarios del modal no se muestren repetidos.
         var asistencia = $('#pasarLista .actor-dia-' + diaSeleccionado.split('-')[0] + '-' + salaSeleccionada);
-        console.log(asistencia);
+        console.log(asistencia.serializeArray());
+
         $.ajax({
             url: '/calendari/desarLlistaAsistencia',
             type: 'POST',
@@ -506,7 +507,7 @@ $('#pasarLista').click(function (e) {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                 Accept: 'application/json'
             },
-            data: asistencia.serialize(),
+            data: asistencia.serializeArray(),
             success: function (response) {
                 console.log(response);
                 // TODO: Poner el id_empleado nuevo en el array, para que cuando se vuelva a abrir esté ya cambiado.
