@@ -313,20 +313,15 @@ class RegistreEntradaController extends Controller
             } else {
                 $registreEntrada->fill(request()->all());
                 
-                
-                
+                $mail = new RegistreEntradaUpdate($registre,$registreEntrada);
+                //return response()->json($registreEntrada->getDirty());
                 try {
                     $registreEntrada->save(); 
                 } catch (\Exception $ex) {
                     return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar el registre d\'entrada.'));
                 }
     //-------------------------------Email amb Model Mail----------------------------------
-                /*Mail::to('dcampos@paycom.es')->send(
-                    new RegistreEntradaUpdate(
-                        $registre,
-                        $registreEntrada
-                    )
-                );*/
+                Mail::to('dcampos@paycom.es')->send($mail);
                 return redirect()->back()->with('success', 'Registre d\'entrada modificat correctament.');
             }
         }

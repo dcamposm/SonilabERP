@@ -81,6 +81,15 @@ No utilizar bootstrap. Mail no los detecta las exportaciones.
                             <td>{{ $registreEntrada->sortida}}</td>
                         @endif
                     </tr>
+                    <tr>
+                        @if (!empty($request) && $request->usuari->alias_usuari != $registreEntrada->usuari->alias_usuari)
+                            <td style="font-weight: bold; width: 25%;background-color: lawngreen;">RESPONSABLE:</td>
+                            <td style="background-color: lawngreen;">{{ $request->usuari->alias_usuari}}</td>
+                        @else
+                            <td style="font-weight: bold; width: 25%">RESPONSABLE:</td>
+                            <td>{{ $registreEntrada->usuari->alias_usuari}}</td>
+                        @endif
+	            </tr>
 	            <tr>
                         @if (!empty($request) && $request->client->nom_client != $registreEntrada->client->nom_client)
                             <td style="font-weight: bold; width: 25%;background-color: lawngreen;">CLIENT:</td>

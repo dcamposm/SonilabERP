@@ -346,8 +346,8 @@ class RegistreProduccioController extends Controller {
             //return response()->json($registreProduccio);
         } else {
             $registreProduccio = RegistreProduccio::with('traductor')->with('ajustador')
-                            ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
-                            ->orderBy('estat')->orderBy('data_entrega')->orderBy(request()->input("orderBy"))->whereRaw('LOWER('.request()->input("searchBy").') like "%'.strtolower(request()->input("search_term")).'%"')
+                ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
+                ->orderBy('estat')->orderBy('data_entrega')->orderBy(request()->input("orderBy"))->whereRaw('LOWER('.request()->input("searchBy").') like "%'.strtolower(request()->input("search_term")).'%"')
                 ->get();
         }
         
