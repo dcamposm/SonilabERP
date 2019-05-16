@@ -157,7 +157,7 @@
                         </tbody>
                     </table>
 
-                    <form action="" method="POST" style="margin-top: 15px;">
+                    <form  id="pasarLista" action="" method="POST" style="margin-top: 15px;">
                         <div style="background-color: whitesmoke; height: 250px; width: 50%; overflow-y: scroll;">
                             <table class="table" style="width: 100%; margin-top: 30px;">
                                 <tbody>
@@ -170,13 +170,13 @@
                                                 <td>
                                                     <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                                         <label class="btn btn-success">
-                                                            <input type="radio" name="actor-{{ $actor->id_empleat }}" id="actor-{{ $actor->id_empleat }}" autocomplete="off" > Present
+                                                            <input type="radio" name="actor-{{ $actor->id_empleat }}" id="actor-{{ $actor->id_empleat }}" class="actor-dia-{{$actor->dia}}-{{$actor->num_sala}}" autocomplete="off" value="1"> Present
                                                         </label>
                                                         <label class="btn btn-danger">
-                                                            <input type="radio" name="actor-{{ $actor->id_empleat }}" id="actor-{{ $actor->id_empleat }}" autocomplete="off"> No present
+                                                            <input type="radio" name="actor-{{ $actor->id_empleat }}" id="actor-{{ $actor->id_empleat }}" class="actor-dia-{{$actor->dia}}-{{$actor->num_sala}}" autocomplete="off" value="0"> No present
                                                         </label>
                                                         <label class="btn btn-secondary active">
-                                                            <input type="radio" name="actor-{{ $actor->id_empleat }}" id="actor-{{ $actor->id_empleat }}" autocomplete="off" checked> Pendent
+                                                            <input type="radio" name="actor-{{ $actor->id_empleat }}" id="actor-{{ $actor->id_empleat }}" class="actor-dia-{{$actor->dia}}-{{$actor->num_sala}}" autocomplete="off" value="null" checked> Pendent
                                                         </label>
                                                     </div>
                                                 </td>
@@ -188,7 +188,7 @@
                             </table>
                         </div>
                         <div style="margin-top: 15px;">
-                            <button class="btn btn-success">Desar llista</button>
+                            <button id="enviarListaAsistencia" class="btn btn-success">Desar llista</button>
                         </div>
                     </form>
                 </div>
