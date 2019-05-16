@@ -9,6 +9,7 @@ use App\Idioma;
 use App\Tarifa;
 use Illuminate\Http\Request;
 use Validator;
+use App\Http\Responsables\EmpleatExtern\EmpleatExternIndex;
 
 class EmpleatExternController extends Controller
 {
@@ -26,24 +27,12 @@ class EmpleatExternController extends Controller
     */
     public function index()
     {
-        //Array on es guarda els carrecrs dels empleats
-        $empleatsArray = array();
-        $idiomes = Idioma::all();
-        $carrecs = Carrec::all();
-        //Ordena els carrecs, dels empleats, per el seu id
         $empleats = EmpleatExtern::with(['carrec' => function($query){
                                         $query->orderBy('id_carrec');
                                     }])->get();
-        foreach ($empleats as $empleat) {
-            foreach( $empleat->carrec as $empleatCarrec ){
-                    //Comprova que el carrec no estigui repetit;
-                    isset($empleatsArray[$empleat->id_empleat][$empleatCarrec->carrec->nom_carrec]) ? '' : $empleatsArray[$empleat->id_empleat][$empleatCarrec->carrec->nom_carrec] = $empleatCarrec->carrec->nom_carrec;
-            }
-        }
-        //return response()->json($empleats);
         
-        return View('empleats_externs.index', array('empleats' => $empleats, 'carrecs' => $carrecs,
-                                                    'idiomes' => $idiomes,'empleatsArray' => $empleatsArray));
+        //return response()->json($empleats);
+        return new EmpleatExternIndex($empleats);
     }
     /*
         *funcio que busca empleats externs per una opcio insertada
@@ -97,20 +86,7 @@ class EmpleatExternController extends Controller
                     
         }
         //return response()->json($empleats);
-        $carrecs = Carrec::all();
-        $empleatsArray = array();
-        foreach ($empleats as $empleat) {
-            foreach( $empleat->carrec as $empleatCarrec ){
-                    $empleatCarrec->carrec;
-                    //return response()->json($empleatCarrec);
-                    isset($empleatsArray[$empleat->id_empleat][$empleatCarrec->carrec->nom_carrec]) ? '' : $empleatsArray[$empleat->id_empleat][$empleatCarrec->carrec->nom_carrec] = $empleatCarrec->carrec->nom_carrec;
-            
-                    //return response()->json($empleatsArray);
-            }
-        }
-        return View('empleats_externs.index', array('empleats' => $empleats,
-                                                    'carrecs' => $carrecs,
-                                                    'empleatsArray' => $empleatsArray));
+        return new EmpleatExternIndex($empleats);
     }
     
     public function show($id)
@@ -480,7 +456,6 @@ class EmpleatExternController extends Controller
                 }
             }
             return redirect()->route('empleatIndex')->with('success', 'S\'ha modificat el personal correctament');
-            
         }
     }
 

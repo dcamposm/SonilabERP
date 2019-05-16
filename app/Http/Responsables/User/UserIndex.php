@@ -16,7 +16,6 @@ class UserIndex  implements Responsable
 
     public function toResponse($request)
     {
-        //return $this->getUser();
         return view('usuaris_interns.index',[
             'arrayUsuaris' => $this->user,
             'departaments' => $this->departaments

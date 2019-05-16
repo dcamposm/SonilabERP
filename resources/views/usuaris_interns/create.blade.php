@@ -60,7 +60,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row mt-3">
             <div class="col-6">
                 <div class="form-group">
                     <label for="contrasenya_usuari" style="font-weight: bold">{{empty($usuario) ? 'CONTRASENYA' : 'NOVA CONTRASENYA'}}:</label>

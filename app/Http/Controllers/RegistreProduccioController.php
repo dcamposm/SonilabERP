@@ -11,6 +11,8 @@ use App\Rules\CheckSubreferenciaCreate;
 use App\Rules\CheckSubreferenciaUpdate;
 use Auth;
 use Validator;
+use App\Http\Responsables\RegistreProduccio\RegistreProduccioIndex;
+use App\Http\Responsables\RegistreProduccio\RegistreProduccioCreate;
 
 class RegistreProduccioController extends Controller {
 
@@ -19,83 +21,13 @@ class RegistreProduccioController extends Controller {
     }
 
     public function getIndex() {
-        //$empleats = EmpleatExtern::with('produccioTraductor')->get();
-        //
-        $registres = RegistreProduccio::with('traductor')->with('ajustador')
-                ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
-                ->orderBy('estat')->orderBy('data_entrega')->get();
-        $missatges = Missatge::whereReferencia('registreProduccio')->get();
-        $registreProduccio = array();
-        
-        foreach ($registres as $registre){
-            if ($registre->subreferencia == 0){
-                $registreProduccio[$registre->id_registre_entrada] = $registre;
-            } else {
-                if (!isset($registreProduccio[$registre->id_registre_entrada][$registre->setmana])){
-                    $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0] = array(
-                        'id_registre_entrada' => $registre->id_registre_entrada,
-                        'min' => $registre->subreferencia,
-                        'max' => $registre->subreferencia,
-                        'titol' => $registre->registreEntrada->titol,
-                        'data' => $registre->data_entrega,
-                        'setmana' => $registre->setmana,
-                        'estadillo' => $registre->estadillo,
-                        'vec' => $registre->vec,
-                        'estat' => $registre->estat,
-                        'new' => 0
-                    );
-                    
-                    foreach ($missatges as $missatge) {
-                        if ($missatge->id_referencia == $registre->id){
-                            $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['new'] = 1;
-                        }
-                    }
-                    
-                    $registreProduccio[$registre->id_registre_entrada][$registre->setmana][$registre->subreferencia] = $registre;
-                } else {
-                    if ($registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['max'] < $registre->subreferencia) {
-                        $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['max'] = $registre->subreferencia;
-                    } else if ($registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['min'] > $registre->subreferencia){
-                        $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['min'] = $registre->subreferencia;
-                    }
-                    
-                    if ($registre->estadillo == 0) {
-                        $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['estadillo'] = 'Pendent';
-                    }
-                    
-                    if ($registre->estat == 'Pendent') {
-                        $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['estat'] = 'Pendent';
-                    }
-                    
-                    foreach ($missatges as $missatge) {
-                        if ($missatge->id_referencia == $registre->id){
-                            $registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['new'] = 1;
-                        }
-                    }
-                    
-                    $registreProduccio[$registre->id_registre_entrada][$registre->setmana][$registre->subreferencia] = $registre;
-                }  
-            }
-        }
-        
-        //return response()->json($registreProduccio);
-        $registreEntrada = RegistreEntrada::all();
-        //return response()->json($registreProduccio[0]->getEstadillo);
-        return View('registre_produccio.index', array('registreProduccions' => $registreProduccio,
-                                                        'registreEntrades' => $registreEntrada,
-                                                        'missatges' => $missatges));
+        $registres = RegistreProduccio::orderBy('data_entrega')->get();
+
+        return new RegistreProduccioIndex($registres);
     }
 
     public function createView() {
-        $empleats = EmpleatExtern::with('carrec')->get();
-        //return response()->json($empleats);
-        // Solamente tenemos que cargar los registros de entrada pendientes.
-        $regEntrades = RegistreEntrada::whereEstat('Pendent')->get();
-
-        return view('registre_produccio.create', array(
-            'empleats' => $empleats,
-            'regEntrades' => $regEntrades
-        ));
+        return new RegistreProduccioCreate();
     }
 
     public function show($id) {
@@ -137,14 +69,8 @@ class RegistreProduccioController extends Controller {
 
     public function updateView($id){
         $registreProduccio = RegistreProduccio::find($id);
-        $empleats = EmpleatExtern::all();
-        $regEntrades = RegistreEntrada::where('estat', '=', 'Pendent')->get();
-
-        return view('registre_produccio.create', array(
-            'registreProduccio' => $registreProduccio,
-            'empleats'          => $empleats,
-            'regEntrades'       => $regEntrades
-        ));
+        
+        return new RegistreProduccioCreate($registreProduccio);
     }
     
     public function update($id){
@@ -340,21 +266,18 @@ class RegistreProduccioController extends Controller {
                 $raw = request()->input("searchBy").' like "'.strtolower(request()->input("search_term")).'"';;
             }
             //return response()->json($raw);
-            $registreProduccio = RegistreProduccio::with('traductor')->with('ajustador')
+            $registres = RegistreProduccio::with('traductor')->with('ajustador')
                             ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
                             ->orderBy('estat')->orderBy('data_entrega')->orderBy(request()->input("orderBy"))->whereRaw($raw)->get();
-            //return response()->json($registreProduccio);
+            //return response()->json($registres);
         } else {
-            $registreProduccio = RegistreProduccio::with('traductor')->with('ajustador')
+            $registres = RegistreProduccio::with('traductor')->with('ajustador')
                 ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
                 ->orderBy('estat')->orderBy('data_entrega')->orderBy(request()->input("orderBy"))->whereRaw('LOWER('.request()->input("searchBy").') like "%'.strtolower(request()->input("search_term")).'%"')
                 ->get();
         }
-        
-        $missatges = Missatge::where('referencia', 'registreProduccio')->get();
-        
-        return view('registre_produccio.index', array('registreProduccions' => $registreProduccio,
-                                                        'missatges' => $missatges));
+
+        return new RegistreProduccioIndex($registres);
     }
 
     public function createBasic(){

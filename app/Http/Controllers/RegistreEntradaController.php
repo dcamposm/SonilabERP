@@ -23,6 +23,8 @@ use Illuminate\Support\Facades\Mail;
 use Swift_SmtpTransport;
 use Swift_Mailer;*/
 use View;
+use App\Http\Responsables\RegistreEntrada\RegistreEntradaIndex;
+use App\Http\Responsables\RegistreEntrada\RegistreEntradaCreate;
 class RegistreEntradaController extends Controller
 {
     
@@ -33,22 +35,9 @@ class RegistreEntradaController extends Controller
     
     public function index()
     {
-        $registreEntrades = RegistreEntrada::with('client')
-                                ->with('usuari')
-                                ->with('servei')
-                                ->with('idioma')
-                                ->with('media')->orderBy("estat")->orderBy("id_registre_entrada", "DESC")->get();
-        //Agafem tots els camps necessaris de la BBDD
-        $clients = Client::all();
-        $serveis = Servei::all();
-        $idiomes = Idioma::all();
-        $medies = TipusMedia::all();
-        $usuaris = User::where('id_departament', '2')->get();
+        $registreEntrades = RegistreEntrada::orderBy("estat")->orderBy("id_registre_entrada", "DESC")->get();
         
-        //Executem la vista i ens emportem les variables anteriors com a arrays
-        return View('registre_entrada.index', array('registreEntrades' => $registreEntrades, 'clients' => $clients,
-                                                    'serveis' => $serveis, 'idiomes' => $idiomes,
-                                                    'medies' => $medies, 'usuaris' => $usuaris));
+        return new RegistreEntradaIndex($registreEntrades);
     }
     
     public function find()
@@ -94,25 +83,11 @@ class RegistreEntradaController extends Controller
                     //->orWhere('id_registre_entrada', request()->input("search_Estat"))->get();
         }
         
-        $clients = Client::all();
-        $serveis = Servei::all();
-        $idiomes = Idioma::all();
-        $medies = TipusMedia::all();
-        $usuaris = User::where('id_departament', '2')->get();
-        //return redirect()->route('empleatIndex')->with('success', request()->input("searchBy").'-'.request()->input("search_term"));
-        return view('registre_entrada.index',array('registreEntrades' => $registreEntrades, 'clients' => $clients,
-                                                    'serveis' => $serveis, 'idiomes' => $idiomes,
-                                                    'medies' => $medies, 'usuaris' => $usuaris));
+        return new RegistreEntradaIndex($registreEntrades);
     }
 
     public function insertView(){
-        $clients = Client::all();
-        $idiomes = Idioma::all();
-        $serveis = Servei::all();
-        $medias = TipusMedia::all();
-        $usuaris = User::where('id_departament', '2')->get();
-        return View('registre_entrada.create', array('idiomes' => $idiomes, 'clients' => $clients,'serveis'=>$serveis
-                                                    ,'medias'=>$medias,'usuaris'=>$usuaris));
+        return new RegistreEntradaCreate();
     }
 
     public function insert()
@@ -272,26 +247,14 @@ class RegistreEntradaController extends Controller
 
     public function updateView($id) {
         $registreEntrada = RegistreEntrada::find($id);
-        $clients = Client::all();
-        $idiomes = Idioma::all();
-        $serveis = Servei::all();
-        $medias = TipusMedia::all();
-        $usuaris = User::where('id_departament', '2')->get();
-        //return response()->json($registreEntrada); 
-        return view('registre_entrada.create', array(
-            'registreEntrada' => $registreEntrada,
-            'clients'         => $clients,
-            'idiomes'         => $idiomes,
-            'serveis'         => $serveis,
-            'medias'          => $medias,
-            'usuaris'          => $usuaris,
-        ));
+        
+        return new RegistreEntradaCreate($registreEntrada);
     }
 
     public function update($id) {
         //return response()->json(request()->all());
         $registreEntrada = RegistreEntrada::find($id);
-        $registre = RegistreEntrada::find($id);
+        
         if ($registreEntrada) {
             $v = Validator::make(request()->all(), [
                 'titol'               => 'required',
@@ -313,8 +276,9 @@ class RegistreEntradaController extends Controller
             } else {
                 $registreEntrada->fill(request()->all());
                 
-                //$mail = new RegistreEntradaUpdate($registre,$registreEntrada);
-                //return response()->json($registreEntrada->getDirty());
+                /*$registre = RegistreEntrada::find($id);
+                $mail = new RegistreEntradaUpdate($registre,$registreEntrada);*/
+                //return response()->json($registreEntrada->getDirty());//El getDirty() serveix per veure els atributs modificats.
                 try {
                     $registreEntrada->save(); 
                 } catch (\Exception $ex) {
@@ -335,6 +299,7 @@ class RegistreEntradaController extends Controller
         ));
     }
     public function delete(Request $request) {
+        //Elimina tots els estadillos relacionats amb el registre d'Entrada que s'eliminara
         $estadillos = Estadillo::all();
         foreach ($estadillos as $estadillo) {
             if ($estadillo->registreProduccio->id_registre_entrada == $request["id"]){
@@ -342,7 +307,7 @@ class RegistreEntradaController extends Controller
                 $estadillo->delete();
             }
         }
-        
+        //Elimina tots els costos relacionats amb el registre d'Entrada que s'eliminara
         $costos = Costos::all();
         foreach ($costos as $cost) {
             if ($cost->registreProduccio->id_registre_entrada == $request["id"]){
@@ -353,12 +318,15 @@ class RegistreEntradaController extends Controller
         
         //return response()->json($estadillos); 
         RegistreEntrada::where('id_registre_entrada', $request["id"])->delete();
+        //Elimina tots els missatges relacionats amb el registre d'Entrada que s'eliminara
         $registres = RegistreProduccio::where('id_registre_entrada', $request["id"])->get();
         foreach ($registres as $registre) {
             Missatge::where('id_referencia', $registre->id)->where('referencia', 'registreProduccio')->delete();
         }
+        //Elimina tots els registres de producció relacionats amb el registre d'Entrada que s'eliminara
         $registres = RegistreProduccio::where('id_registre_entrada', $request["id"])->delete();
         Missatge::where('id_referencia', $request["id"])->where('referencia', 'registreEntrada')->delete();
+        
         return redirect()->route('indexRegistreEntrada');
     }
 }

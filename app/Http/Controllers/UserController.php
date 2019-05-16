@@ -25,18 +25,15 @@ class UserController extends Controller
         *funcio per retornar la vista de crear usuaris interns
     */
     function viewRegistre(){
-        $departaments = Departament::all();
-        
-        return new UserCreate($departaments);
+        return new UserCreate();
     }
     /*
         *funcio per retornar la vista de editar usuaris interns
     */
     function viewEditarUsuario($id){
-        $departaments = Departament::all();
-        $usuari = User::with('departament')->find($id);
+        $usuari = User::find($id);
         
-        return new UserCreate($departaments, $usuari);    
+        return new UserCreate($usuari);    
     }
     /*
         *funcio per retornar la vista de tots els usuaris interns
@@ -70,7 +67,7 @@ class UserController extends Controller
         *funcio per retornar la vista de un usuari intern
     */
     function getShow($id){
-        $usuari = User::with('departament')->find($id);
+        $usuari = User::find($id);
 
         return view('usuaris_interns.show', array('usuari' => $usuari));
     }
