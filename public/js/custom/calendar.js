@@ -488,3 +488,40 @@ function cambiarTecnico(torn) {
         }
     });
 }
+
+
+$('#pasarLista').click(function (e) {
+    e.preventDefault();
+
+    // Comprobación "chapucera" para comprobar que se ha hecho clic al botón "Desar llista":
+    if (e.target.id == 'enviarListaAsistencia') {
+        // TODO: Coger todos los usuario del modal en cuestión.
+        // TODO: Hacer que los usuarios del modal no se muestren repetidos.
+        var asistencia = $('#pasarLista .actor-dia-' + diaSeleccionado.split('-')[0] + '-' + salaSeleccionada);
+        console.log(asistencia);
+        $.ajax({
+            url: '/calendari/desarLlistaAsistencia',
+            type: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                Accept: 'application/json'
+            },
+            data: asistencia.serialize(),
+            success: function (response) {
+                console.log(response);
+                // TODO: Poner el id_empleado nuevo en el array, para que cuando se vuelva a abrir esté ya cambiado.
+            },
+            error: function (error) {
+                console.error(error);
+                alert("No s'ha pogut desar la llista :(");
+            }
+        });
+    }
+});
+
+// Esto es para que cuando se haga clic a un objeto con la clase "btn" no se lance el evento del formulario al que pertenece.
+// Se ha realizado este función para no ejecutar un formulario cuando se le da clic a un elemento que tenga esta clase.
+// ¡SE ACEPTAN SOLUCIONES MEJORES A ESTO!
+$('.btn').click(function(e) {
+    e.preventDefault();
+});

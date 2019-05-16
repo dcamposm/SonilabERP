@@ -155,6 +155,11 @@ class CalendariController extends Controller
         ]);
     }
 
+    public function desarLlistaAsistencia() {
+        // TODO: Guardar la asistencia de los actores.
+        return response()->json(request()->all());
+    }
+
     public function create(){
         //return response()->json(request()->all());
 
