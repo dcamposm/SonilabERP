@@ -43,9 +43,8 @@ class UserController extends Controller
     */
     function getIndex(){
         $usuaris= User::all();
-        $departaments = Departament::all();
         
-        return new UserIndex($usuaris, $departaments);
+        return new UserIndex($usuaris);
     }
     /*
         *funcio buscar els usuaris interns amb la opcio indicada i després retornar-la
@@ -65,9 +64,7 @@ class UserController extends Controller
                     ->orWhere('cognom2_usuari', request()->input("search_term"))->get();*/
         }
         
-        $departaments = Departament::all();
-        
-        return new UserIndex($users, $departaments);
+        return new UserIndex($users);
     }
     /*
         *funcio per retornar la vista de un usuari intern
