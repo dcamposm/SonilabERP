@@ -57,6 +57,7 @@ function cargarDatos() {
     });
 
     cargarActores();
+    $('.celda').click(ampliarCasilla);
 }
 
 function cargarActores() {
@@ -253,8 +254,6 @@ function closeNav() {
 
 
 //// MODALS /////
-
-$('.celda').click(ampliarCasilla);
 
 // Variables globales para guardar el dia y la sala que se han seleccionado al hacer clic en alguna celda:
 var diaSeleccionado = "";
