@@ -159,12 +159,22 @@ class CalendariController extends Controller
     }
 
     public function desarLlistaAsistencia() {
-        // TODO: Guardar la asistencia de los actores.
+        // Coge la petición y la recorre:
         $datos = request()->all();
         foreach ($datos as $key => $dato) {
-            return response()->json($dato);
+            // Coge el identificador del calendario (el valor de key es: actor-idEmpleado-idCalendar):
+            $id_calendar = explode('-', $key)[2];
+
+            // Coge el calendario en cuestión de la base de datos y modifica la asistencia:
+            $calendario = Calendar::find($id_calendar);
+            $calendario->asistencia = $dato;
+
+            // Aplica los nuevos cambios del calendario en la base de datos:
+            $calendario->save();
         }
-        return response()->json(request()->all());
+
+        // Retorna una respuesta:
+        return response()->json("Tot Ok!");
     }
 
     public function create(){
