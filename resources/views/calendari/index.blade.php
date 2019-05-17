@@ -165,18 +165,18 @@
                                         @foreach($dia as $key2 => $actor)
                                             <tr class="dia-{{$actor->dia}}-{{$actor->num_sala}} lista-actores">
                                                 <td>
-                                                    {{$actor->nom_empleat}} {{$actor->cognom1_empleat}} {{$actor->cognom2_empleat}}
+                                                    {{'('.$actor->hora.':'.$actor->minuts.')'}} {{$actor->nom_empleat}} {{$actor->cognom1_empleat}} {{$actor->cognom2_empleat}}
                                                 </td>
                                                 <td>
                                                     <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                                         <label class="btn btn-success">
-                                                            <input type="radio" name="actor-{{ $actor->id_empleat }}" id="actor-{{ $actor->id_empleat }}" class="actor-dia-{{$actor->dia}}-{{$actor->num_sala}}" autocomplete="off" value="1"> Present
+                                                            <input type="radio" name="actor-{{ $actor->id_empleat }}-{{$actor->id_calendar}}" id="actor-{{ $actor->id_empleat }}" class="actor-dia-{{$actor->dia}}-{{$actor->num_sala}}" autocomplete="off" value="1"> Present
                                                         </label>
                                                         <label class="btn btn-danger">
-                                                            <input type="radio" name="actor-{{ $actor->id_empleat }}" id="actor-{{ $actor->id_empleat }}" class="actor-dia-{{$actor->dia}}-{{$actor->num_sala}}" autocomplete="off" value="0"> No present
+                                                            <input type="radio" name="actor-{{ $actor->id_empleat }}-{{$actor->id_calendar}}" id="actor-{{ $actor->id_empleat }}" class="actor-dia-{{$actor->dia}}-{{$actor->num_sala}}" autocomplete="off" value="0"> No present
                                                         </label>
                                                         <label class="btn btn-secondary active">
-                                                            <input type="radio" name="actor-{{ $actor->id_empleat }}" id="actor-{{ $actor->id_empleat }}" class="actor-dia-{{$actor->dia}}-{{$actor->num_sala}}" autocomplete="off" value="null" checked> Pendent
+                                                            <input type="radio" name="actor-{{ $actor->id_empleat }}-{{$actor->id_calendar}}" id="actor-{{ $actor->id_empleat }}" class="actor-dia-{{$actor->dia}}-{{$actor->num_sala}}" autocomplete="off" value="null" checked> Pendent
                                                         </label>
                                                     </div>
                                                 </td>
