@@ -23,6 +23,8 @@
                         <span class="text-danger">{{ $errors->first('nif_client') }}</span>
                     </div>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-6">
                     <div class="form-group">
                         <label for="email_client" style="font-weight: bold">EMAIL:</label>
@@ -30,8 +32,6 @@
                         <span class="text-danger">{{ $errors->first('email_client') }}</span>
                     </div>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col-6">
                     <div class="form-group">
                         <label for="telefon_client" style="font-weight: bold">TELÈFON:</label>
@@ -39,7 +39,9 @@
                         <span class="text-danger">{{ $errors->first('telefon_client') }}</span>
                     </div>
                 </div>
+            </div>
 
+            <div class="row">
                 <div class="col-6">
                     <div class="form-group">
                         <label for="direccio_client" style="font-weight: bold">DIRECCIÓ:</label>
@@ -47,9 +49,6 @@
                         <span class="text-danger">{{ $errors->first('direccio_client') }}</span>
                     </div>
                 </div>
-            </div>
-
-            <div class="row">
                 <div class="col-6">
                     <div class="form-group">
                         <label for="codi_postal_client" style="font-weight: bold">CODI POSTAL:</label>
@@ -57,7 +56,8 @@
                         <span class="text-danger">{{ $errors->first('codi_postal_client') }}</span>
                     </div>
                 </div>
-                
+            </div>
+            <div class="row">
                 <div class="col-6">
                     <div class="form-group">
                         <label for="ciutat_client" style="font-weight: bold">CIUTAT:</label>
@@ -65,8 +65,6 @@
                         <span class="text-danger">{{ $errors->first('ciutat_client') }}</span>
                     </div>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col-6">
                     <div class="form-group">
                         <label for="pais_client" style="font-weight: bold">PAIS:</label>
