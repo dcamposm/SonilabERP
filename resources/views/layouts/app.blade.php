@@ -61,12 +61,16 @@
         background-color: #E3E3E3;
     }
     
+    .table {
+        font-size: 11px;
+    }
+    
     .table th {
-        padding: .50rem !important;
+        padding: 5px !important;
     }
     
     .table td {
-        padding: .50rem !important;
+        padding: 5px !important;
     }
     .table tbody  {
         font-size: 13px !important;

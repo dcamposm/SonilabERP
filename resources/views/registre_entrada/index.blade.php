@@ -91,7 +91,7 @@
     </div>
 
     {{-- TABLA DE REGISTROS DE ENTRADA --}}
-    <table class="table" style="margin-top: 10px; min-width: 1200px; font-size: 11px;">
+    <table class="table" style="margin-top: 10px; min-width: 1200px;">
         <thead>
             <tr>
                 <th>REF.</th> 
