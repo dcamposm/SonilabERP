@@ -4,8 +4,7 @@
 
 <div class="container-fluid">
     <div class="row justify-content-between">
-        
-        <div>
+        <div class="col">
         @if (Auth::user()->hasAnyRole(['1', '4']))
             <a href="{{ url('/registreEntrada/crear') }}" class="btn btn-success">
                 <span class="fas fa-atlas"></span>
@@ -91,7 +90,7 @@
     </div>
 
     {{-- TABLA DE REGISTROS DE ENTRADA --}}
-    <table class="table" style="margin-top: 10px; min-width: 1200px;">
+    <table class="table tableIndex" style="margin-top: 10px; min-width: 1200px;">
         <thead>
             <tr>
                 <th>REF.</th> 

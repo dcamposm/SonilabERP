@@ -9,6 +9,7 @@ class RegistreProduccioIndex implements Responsable
     protected $missatges;
     protected $registreProduccio;
     protected $registreEntrada;
+    
     public function __construct($registres)
     {
         $this->missatges = Missatge::whereReferencia('registreProduccio')->get();

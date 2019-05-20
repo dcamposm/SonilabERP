@@ -61,7 +61,7 @@
         background-color: #E3E3E3;
     }
     
-    .table {
+    .tableIndex {
         font-size: 11px;
     }
     

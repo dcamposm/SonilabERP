@@ -15,7 +15,7 @@
     </div>
 
     {{-- TABLA DE CLIENTS --}}
-    <table class="table mt-3" style="min-width: 800px;">
+    <table class="table tableIndex mt-3" style="min-width: 800px;">
         <thead>
             <tr>
                 <th><span style="font-size: 11px;">NOM</span></th> 

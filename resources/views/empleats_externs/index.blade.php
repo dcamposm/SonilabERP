@@ -3,7 +3,6 @@
 @section('content')
 <div class="container-fluid">
   <div class="row">
-      
         <div class="col">
             @if (Auth::user()->hasAnyRole(['1', '4']))
             <a href="{{ url('/empleats/crear') }}" class="btn btn-success">
@@ -47,7 +46,7 @@
         </div>
     </div>
     
-    <table class="table mt-3" style="min-width: 1000px;">
+    <table class="table tableIndex mt-3" style="min-width: 1000px;">
         <thead>
             <tr>
                 <th>NOM</th> 

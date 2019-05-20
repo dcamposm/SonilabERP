@@ -52,7 +52,7 @@
         </div>
     </div>
     {{-- TABLA DE ESTADILLOS --}}
-    <table class="table mt-3 ml-3" style="min-width: 1000px;">
+    <table class="table tableIndex mt-3 ml-3" style="min-width: 1000px;">
         <thead>
             <tr class="row">
                 <th class="col">ESTADILLO</th> 

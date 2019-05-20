@@ -139,7 +139,7 @@
     </div>
 
     {{-- TABLA DE REGISTROS DE ENTRADA --}}
-    <table class="table" id="parentTable" style="margin-top: 10px;  min-width: 1000px; border-collapse:collapse;">
+    <table class="table tableIndex" id="parentTable" style="margin-top: 10px;  min-width: 1000px; border-collapse:collapse;">
         <thead>
             <tr>
                 @if (Auth::user()->hasAnyRole(['1', '4']))

@@ -15,6 +15,7 @@ use App\Http\Responsables\RegistreProduccio\RegistreProduccioIndex;
 use App\Http\Responsables\RegistreProduccio\RegistreProduccioCreate;
 use App\Http\Responsables\RegistreProduccio\RegistreProduccioShow;
 use App\Http\Requests\RegistreProduccioCreateRequest;
+use App\Http\Requests\RegistreProduccioUpdateRequest;
 use App\Estadillo;
 use App\Costos;
 
@@ -53,7 +54,7 @@ class RegistreProduccioController extends Controller {
         
         return new RegistreProduccioCreate($registreProduccio);
     }
-    
+    //Update de la vista Show    
     public function update($id){
         $prod = RegistreProduccio::find($id);
         
@@ -78,122 +79,63 @@ class RegistreProduccioController extends Controller {
         return redirect()->back()->with('success', 'Registre de producció modificat correctament.');        
     }
     
-    public function updateBasic($id){
-        //pongo esto de relleno
+    public function updateBasic(RegistreProduccioUpdateRequest $request, $id){
         $prod = RegistreProduccio::find($id);
 
-        $v = Validator::make(request()->all(), [
-            'id_registre_entrada'    => 'required',
-            'subreferencia'          => ['required', new CheckSubreferenciaUpdate($prod, request()->input('id_registre_entrada'), request()->input('subreferencia'))],
-            'data_entrega'           => 'required',
-            'setmana'                => 'required',
-            'titol'                  => 'required',
-            'estat'                  => 'required',
-        ],[
-            'required' => 'No s\'ha introduït aquesta dada.',
-        ]);
+        $prod->fill(request()->all());               
 
-        if ($v->fails()) {
-            return redirect()->back()->withErrors($v)->withInput();
-        } else {
-            $prod->fill(request()->all());               
-
-            try {
-                $prod->save(); 
-            } catch (\Exception $ex) {
-                return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar.'));
-            }
-
-            return redirect()->back()->with('success', 'Registre de producció modificat correctament.');
+        try {
+            $prod->save(); 
+        } catch (\Exception $ex) {
+            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar.'));
         }
+
+        return redirect()->back()->with('success', 'Registre de producció modificat correctament.');
     }
 
-    public function updateComanda($id){
+    public function updateComanda(RegistreProduccioUpdateRequest $request, $id){
         //pongo esto de relleno
         $prod = RegistreProduccio::find($id);
 
-        $v = Validator::make(request()->all(), [
-            'estadillo'         => 'required',
-            'propostes'         => 'required',
-            'inserts'           => 'required',
-            'vec'               => 'required',
-            'data_tecnic_mix'       => 'date',            
-        ],[
-            'required' => 'No s\'ha introduït aquesta dada.',
-        ]);
+        $prod->fill(request()->all());               
 
-        if ($v->fails()) {
-            return redirect()->back()->withErrors($v)->withInput();
-        } else {
-            $prod->fill(request()->all());               
-
-            try {
-                $prod->save(); 
-            } catch (\Exception $ex) {
-                return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar.'));
-            }
-
-            return redirect()->back()->with('success', 'Registre de producció modificat correctament.');
+        try {
+            $prod->save(); 
+        } catch (\Exception $ex) {
+            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar.'));
         }
+
+        return redirect()->back()->with('success', 'Registre de producció modificat correctament.');
     }
     
-    public function updatePreparacio($id){
+    public function updatePreparacio(RegistreProduccioUpdateRequest $request, $id){
         //pongo esto de relleno
         $prod = RegistreProduccio::find($id);
 
-        $v = Validator::make(request()->all(), [
-            'qc_vo'                 => 'required',
-            'qc_me'                 => 'required',
-            'qc_mix'                => 'required',
-            'ppp'                   => 'required',
-            'pps'                   => 'required',
-            'ppe'                   => 'required',
-        ],[
-            'required' => 'No s\'ha introduït aquesta dada.',
-            'date' => 'Aquesta dada te que ser una data.'
-        ]);
+        $prod->fill(request()->all());               
 
-        if ($v->fails()) {
-            return redirect()->back()->withErrors($v)->withInput();
-        } else {
-            $prod->fill(request()->all());               
-
-            try {
-                $prod->save(); 
-            } catch (\Exception $ex) {
-                return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar.'));
-            }
-
-            return redirect()->back()->with('success', 'Registre de producció modificat correctament.');
+        try {
+            $prod->save(); 
+        } catch (\Exception $ex) {
+            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar.'));
         }
+
+        return redirect()->back()->with('success', 'Registre de producció modificat correctament.');
     }
 
-    public function updateConvocatoria($id){
+    public function updateConvocatoria(RegistreProduccioUpdateRequest $request, $id){
 
         $prod = RegistreProduccio::find($id);
-        $v = Validator::make(request()->all(), [
-            'convos'            => 'required',
-            'inici_sala'        => 'date',
-            'final_sala'        => 'date',
-            'retakes'           => 'required',
-        ],[
-            'required' => 'No s\'ha introduït aquesta dada.',
-            'date' => 'Aquesta dada te que ser una data.'
-        ]);
 
-        if ($v->fails()) {
-            return redirect()->back()->withErrors($v)->withInput();
-        } else {
-            $prod->fill(request()->all());               
+        $prod->fill(request()->all());               
 
-            try {
-                $prod->save(); 
-            } catch (\Exception $ex) {
-                return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar.'));
-            }
-
-            return redirect()->back()->with('success', 'Registre de producció modificat correctament.');
+        try {
+            $prod->save(); 
+        } catch (\Exception $ex) {
+            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar.'));
         }
+
+        return redirect()->back()->with('success', 'Registre de producció modificat correctament.');
     }
 
     public function find() {

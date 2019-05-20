@@ -3,10 +3,12 @@
 @section('content')
 <div class="container-fluid">
     <div class="row justify-content-between">
-        <a href="{{ url('/usuaris/interns/crear') }}" class="btn btn-success mb-2">
-            <span class="fas fa-user-plus"></span>
-            CREAR USUARI
-        </a>
+        <div class="col">
+            <a href="{{ url('/usuaris/interns/crear') }}" class="btn btn-success mb-2">
+                <span class="fas fa-user-plus"></span>
+                CREAR USUARI
+            </a>  
+        </div>
 
         <!-- FILTRA USUARI -->
         <div class="row">
@@ -39,7 +41,7 @@
     </div>
     
     {{-- TABLA D'USUARIS --}}
-    <table class="table mt-3" style="min-width: 800px;">
+    <table class="table tableIndex mt-3" style="min-width: 800px;">
         <thead>
             <tr>
                 <th>NOM</th> 
