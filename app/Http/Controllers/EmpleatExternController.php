@@ -447,7 +447,6 @@ class EmpleatExternController extends Controller
                             }
                         }   
                     }else if(!request()->has($nomCarrec)){
-                        //return response()->json($id);
                         $carrecAntic = CarrecEmpleat::where([
                             ['id_empleat', '=', $id],
                             ['id_carrec', '=', $id_carrec]

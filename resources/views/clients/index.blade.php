@@ -4,18 +4,18 @@
 
 <div class="container-fluid">
     <div class="mb-4">
-        <a href="{{ url('/registreEntrada') }}" class="btn btn-primary">
+        <a href="{{ url('/registreEntrada') }}" class="btn btn-primary mt-1">
             <span class="fas fa-angle-double-left"></span>
             TORNAR
         </a>
-        <a href="{{ url('/clients/crear') }}" class="btn btn-success">
+        <a href="{{ url('/clients/crear') }}" class="btn btn-success mt-1">
             <span class="fas fa-address-book"></span>
             AFEGIR CLIENT
         </a>
     </div>
 
     {{-- TABLA DE CLIENTS --}}
-    <table class="table mt-3" style="min-width: 800px;">
+    <table class="table tableIndex mt-3" style="min-width: 800px;">
         <thead>
             <tr>
                 <th><span style="font-size: 11px;">NOM</span></th> 

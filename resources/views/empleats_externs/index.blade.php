@@ -3,10 +3,9 @@
 @section('content')
 <div class="container-fluid">
   <div class="row">
-      
         <div class="col">
             @if (Auth::user()->hasAnyRole(['1', '4']))
-            <a href="{{ url('/empleats/crear') }}" class="btn btn-success">
+            <a href="{{ url('/empleats/crear') }}" class="btn btn-success mt-1">
                 <span class="fas fa-user-plus"></span>
                 AFEGIR TREBALLADOR
             </a>
@@ -14,7 +13,7 @@
         </div>
       
       <!-- FILTRA EMPLEAT -->
-        <div class="row">
+        <div class="row mt-1">
             <div class="col">
                 <form method = "GET" action= '{{ route('empleatFind') }}' id='search'>
                     @csrf
@@ -47,7 +46,7 @@
         </div>
     </div>
     
-    <table class="table mt-3" style="min-width: 1000px;">
+    <table class="table tableIndex mt-3" style="min-width: 1000px;">
         <thead>
             <tr>
                 <th>NOM</th> 

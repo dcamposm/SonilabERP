@@ -4,7 +4,7 @@
 
 <div class="container">
     {{-- TABLA DE ESTADILLOS --}}
-    <table class="table mb-4" style="margin-top: 10px;">
+    <table class="table tableIndex mb-4" style="margin-top: 10px;">
         <thead>
             <tr>
                 <th>ESTADILLOS</th> 
