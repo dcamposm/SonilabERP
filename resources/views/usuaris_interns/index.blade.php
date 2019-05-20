@@ -42,22 +42,22 @@
     <table class="table mt-3" style="min-width: 800px;">
         <thead>
             <tr>
-                <th><span style="font-size: 11px;">NOM</span></th> 
-                <th><span style="font-size: 11px;">COGNOMS</span></th>
-                <th><span style="font-size: 11px;">EMAIL</span></th>
-                <th><span style="font-size: 11px;">DEPARTAMENT</span></th>
-                <th><span style="font-size: 11px;">ACCIONS</span></th>
+                <th>NOM</th> 
+                <th>COGNOMS</th>
+                <th>EMAIL</th>
+                <th>DEPARTAMENT</th>
+                <th>ACCIONS</th>
             </tr>
         </thead>
         <tbody>
             @foreach( $arrayUsuaris as $key => $usuari )
             <tr>
                 <td class="cursor" style="vertical-align: middle;" onclick="self.mostrarUsuari('{{ route('veureUsuariIntern', array('id' => $usuari->id_usuari)) }}')">
-                    <span class="font-weight-bold" style="font-size: 11px;">{{ $usuari->alias_usuari }}</span>
+                    <span class="font-weight-bold">{{ $usuari->alias_usuari }}</span>
                 </td>
-                <td style="vertical-align: middle; font-size: 11px;">{{ $usuari->cognom1_usuari }} {{ $usuari->cognom2_usuari }}</td>
-                <td style="vertical-align: middle; font-size: 11px;">{{ $usuari->email_usuari }}</td>
-                <td style="vertical-align: middle; font-size: 11px;">{{ $usuari->departament->nom_departament }}</td>
+                <td style="vertical-align: middle;">{{ $usuari->cognom1_usuari }} {{ $usuari->cognom2_usuari }}</td>
+                <td style="vertical-align: middle;">{{ $usuari->email_usuari }}</td>
+                <td style="vertical-align: middle;">{{ $usuari->departament->nom_departament }}</td>
                 <td style="vertical-align: middle;">
                     <a href="{{ route('editarUsuariIntern', array('id' => $usuari['id_usuari'])) }}" class="btn btn-primary btn-sm"><span style="font-size: 11px;">MODIFICAR</span></a>
                     <button class="btn btn-danger btn-sm" onclick="self.setUsuariPerEsborrar({{ $usuari['id_usuari'] }}, '{{ $usuari['alias_usuari'] }}')" data-toggle="modal" data-target="#exampleModalCenter"><span style="font-size: 11px;">ESBORRAR</span></button>
