@@ -57,6 +57,7 @@ function cargarDatos() {
     });
 
     cargarActores();
+    $('.celda').click(ampliarCasilla);
 }
 
 function cargarActores() {
@@ -70,7 +71,8 @@ function cargarActores() {
         }
     })
 
-    console.log(trabajadores)
+    console.log(trabajadores);
+    console.log(data);
     $('#trabajadores').html('');
     for (const key in trabajadores) {
 
@@ -254,8 +256,6 @@ function closeNav() {
 
 //// MODALS /////
 
-$('.celda').click(ampliarCasilla);
-
 // Variables globales para guardar el dia y la sala que se han seleccionado al hacer clic en alguna celda:
 var diaSeleccionado = "";
 var salaSeleccionada = "";
@@ -268,6 +268,8 @@ function ampliarCasilla(e) {
     salaSeleccionada = e.delegateTarget.getAttribute("sala");
     // Muestra la lista en concreto con los empleado para poder "pasar lista":
     $('.dia-' + diaSeleccionado.split('-')[0] + '-' + salaSeleccionada).show();
+
+    // TODO: Seleccionar a los técnicos y los directorios dependiendo del día y la sala seleccionadas.
 
     $('#dialog').css({ 'width': window.innerWidth - 30 })
     $('#dialog').css({ 'max-width': window.innerWidth - 30 })
@@ -495,8 +497,10 @@ $('#pasarLista').click(function (e) {
 
     // Comprobación "chapucera" para comprobar que se ha hecho clic al botón "Desar llista":
     if (e.target.id == 'enviarListaAsistencia') {
-        // TODO: Coger todos los usuario del modal en cuestión.
-        // TODO: Hacer que los usuarios del modal no se muestren repetidos.
+        // Cogemos los campos del formulario el cual se está mostrando por pantalla.
+        // Para ello es necesario hacer uso del día seleccionado y la sala seleccionada.
+        // Los campos del formulario tienen la siguiente clase que vemos en la siguiente línea,
+        // que gracias al día y a la sala podemos saber qué campos coger.
         var asistencia = $('#pasarLista .actor-dia-' + diaSeleccionado.split('-')[0] + '-' + salaSeleccionada);
         console.log(asistencia.serializeArray());
 
@@ -507,10 +511,9 @@ $('#pasarLista').click(function (e) {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                 Accept: 'application/json'
             },
-            data: asistencia.serializeArray(),
+            data: asistencia.serializeArray(),  // Le pasamos los datos serializados.
             success: function (response) {
                 console.log(response);
-                // TODO: Poner el id_empleado nuevo en el array, para que cuando se vuelva a abrir esté ya cambiado.
             },
             error: function (error) {
                 console.error(error);
