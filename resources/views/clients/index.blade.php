@@ -4,11 +4,11 @@
 
 <div class="container-fluid">
     <div class="mb-4">
-        <a href="{{ url('/registreEntrada') }}" class="btn btn-primary">
+        <a href="{{ url('/registreEntrada') }}" class="btn btn-primary mt-1">
             <span class="fas fa-angle-double-left"></span>
             TORNAR
         </a>
-        <a href="{{ url('/clients/crear') }}" class="btn btn-success">
+        <a href="{{ url('/clients/crear') }}" class="btn btn-success mt-1">
             <span class="fas fa-address-book"></span>
             AFEGIR CLIENT
         </a>

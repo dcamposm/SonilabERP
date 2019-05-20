@@ -6,14 +6,14 @@
 
     <div class="row mb-4">
         <div class="col">
-            <a href="{{ !isset($registreProduccio) ? route('estadilloActorInsertView', array('id' => $estadillos->id_estadillo)) :  route('estadilloActorInsertView', array('id' => $registreProduccio->id_registre_entrada, 'setmana'=>$registreProduccio->setmana))}}" class="btn btn-success">
+            <a href="{{ !isset($registreProduccio) ? route('estadilloActorInsertView', array('id' => $estadillos->id_estadillo)) :  route('estadilloActorInsertView', array('id' => $registreProduccio->id_registre_entrada, 'setmana'=>$registreProduccio->setmana))}}" class="btn btn-success mt-1">
                 <span class="fas fa-user-tie"></span>
                 AFEGIR ACTOR
             </a>
         </div>
 
         <!-- FILTRA Estadillo -->
-        <div class="row">
+        <div class="row mt-1">
             <div class="col">
                 <form method = "GET" action= '{{ !isset($registreProduccio) ? route('actorFind', array('id' => $estadillos->id_estadillo)) :  route('actorFind', array('id' => $registreProduccio->id_registre_entrada, 'setmana'=>$registreProduccio->setmana))}}' id='search'>
                     @csrf
@@ -72,7 +72,7 @@
         </tbody>
     </table>
     <div>
-        <a href="{{ url('/estadillos') }}" class="btn btn-primary mt-3">
+        <a href="{{ url('/registreProduccio') }}" class="btn btn-primary mt-3">
             <span class="fas fa-angle-double-left"></span>
             TORNAR
         </a>

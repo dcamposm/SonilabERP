@@ -10,18 +10,18 @@
     @endif
         @if(Auth::user()->hasAnyRole(['1','2','4']))
         <div class="col">
-            <button class="btn btn-success m-1" data-toggle="modal" data-target="#ModalInsert">
+            <button class="btn btn-success mt-1" data-toggle="modal" data-target="#ModalInsert">
                 <span class="fas fa-atlas"></span>
                 AFEGIR REGISTRE DE PRODUCCIÓ
             </button>
-            @if (Auth::user()->hasAnyRole(['1', '2', '4']))
-            <a href="{{ url('/estadillos') }}" class="btn btn-success m-1">
+            @if (Auth::user()->hasAnyRole(['4']))
+            <a href="{{ url('/estadillos') }}" class="btn btn-success mt-1">
                 <span class="fas fa-clipboard-list"></span>
                 ESTADILLOS
             </a>
             @endif
             @if (Auth::user()->hasAnyRole(['1', '2', '4']))
-            <a href="{{ url('/vec') }}" class="btn btn-success m-1">
+            <a href="{{ url('/vec') }}" class="btn btn-success mt-1">
                 <i class="fas fa-calculator"></i>
                 VEC
             </a>
@@ -29,7 +29,7 @@
         </div>
         @endif
         <!-- FILTRA REGISTRE PRODUCCIO -->
-        <div class="row m-1">
+        <div class="row mt-1">
             <div class="col">
                 <form method = "GET" action= '{{ route('registreProduccioFind') }}' id='search'>
                     @csrf
@@ -275,7 +275,7 @@
                             <td style="vertical-align: middle;">{{ $registreProduccio->retakes }}</td>
                         @endif
                         <td style="vertical-align: middle;">
-                            <a href="{{ route('updateRegistreProduccio', array('id' => $registreProduccio->id )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">MODIFICAR</a>
+                            <a href="{{ route('mostrarRegistreProduccio', array('id' => $registreProduccio->id)) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">MODIFICAR</a>
                             @if (Auth::user()->hasAnyRole(['4']))
                                 <button class="btn btn-danger btn-sm" style="font-size: 11px;" onclick="self.seleccionarRegistreProduccio({{ $registreProduccio->id }}, '{{ $registreProduccio->id_registre_entrada.' '.$registreProduccio->titol.' '.$registreProduccio->subreferencia }}')" data-toggle="modal" data-target="#exampleModalCenter">ESBORRAR</button>
                                 <form id="delete-{{ $registreProduccio->id }}" action="{{ route('deleteRegistre') }}" method="POST">
@@ -435,7 +435,7 @@
                                     <td style="vertical-align: middle;">{{ $episodi->retakes }}</td>
                                 @endif
                                 <td style="vertical-align: middle;">
-                                    <a href="{{ route('updateRegistreProduccio', array('id' => $episodi->id )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">MODIFICAR</a>
+                                    <a href="{{ route('mostrarRegistreProduccio', array('id' => $episodi->id)) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">MODIFICAR</a>
                                     @if (Auth::user()->hasAnyRole(['4']))
                                         <button class="btn btn-danger btn-sm" style="font-size: 11px;" onclick="self.seleccionarRegistreProduccio({{ $episodi->id }}, '{{ $episodi->id_registre_entrada.' '.$episodi->titol.' '.$episodi->subreferencia }}')" data-toggle="modal" data-target="#exampleModalCenter">ESBORRAR</button>
                                         <form id="delete-{{ $episodi->id }}" action="{{ route('deleteRegistre') }}" method="POST">

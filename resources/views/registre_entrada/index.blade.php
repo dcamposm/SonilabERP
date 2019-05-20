@@ -4,20 +4,20 @@
 
 <div class="container-fluid">
     <div class="row justify-content-between">
-        <div class="col">
+        <div class="col mt-1">
         @if (Auth::user()->hasAnyRole(['1', '4']))
             <a href="{{ url('/registreEntrada/crear') }}" class="btn btn-success">
                 <span class="fas fa-atlas"></span>
                 NOVA REFERÈNCIA
             </a>
         @endif
-            <a href="{{ url('/clients') }}" class="btn btn-success">
+            <a href="{{ url('/clients') }}" class="btn btn-success mt-1">
                 <span class="fas fa-address-book"></span>
                 CLIENTS
             </a>
         </div>
         <!-- FILTRA REGISTRE ENTRADA -->
-        <div>
+        <div class="mt-1">
             <form method = "GET" action= "{{ route('registreEntradaFind') }}" id='search'>
                 @csrf
             <div class="input-group row">

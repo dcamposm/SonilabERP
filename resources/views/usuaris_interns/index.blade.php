@@ -4,14 +4,14 @@
 <div class="container-fluid">
     <div class="row justify-content-between">
         <div class="col">
-            <a href="{{ url('/usuaris/interns/crear') }}" class="btn btn-success mb-2">
+            <a href="{{ url('/usuaris/interns/crear') }}" class="btn btn-success mt-1">
                 <span class="fas fa-user-plus"></span>
                 CREAR USUARI
             </a>  
         </div>
 
         <!-- FILTRA USUARI -->
-        <div class="row">
+        <div class="row mt-1">
             <div class="col">
                 <form method = "GET" action= '{{ route('usuariFind') }}' id='search'>
                     @csrf

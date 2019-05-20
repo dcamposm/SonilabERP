@@ -5,17 +5,17 @@
 <div class="container-fluid">
     <div class="row justify-content-between mb-2">
         <div class="mb-1">
-            <a href="{{ url('/registreProduccio') }}" class="btn btn-primary">
+            <a href="{{ url('/registreProduccio') }}" class="btn btn-primary mt-1">
                 <span class="fas fa-angle-double-left"></span>
                 TORNAR
             </a>
-            <button class="btn btn-success" data-toggle="modal" data-target="#ModalInsert">
+            <button class="btn btn-success mt-1" data-toggle="modal" data-target="#ModalInsert">
                 <span class="fas fa-clipboard-list"></span>CREAR ESTADILLO
             </button>
         </div>
         
 
-        <div class="col-5">
+        <div class="col-5 mt-1">
             <form action="{{ route('estadilloImport') }}" method="POST" enctype="multipart/form-data">
             @csrf
                 <div class="input-group">
@@ -29,7 +29,7 @@
                 </div>
             </form>
         </div>   
-        <div>
+        <div class="mt-1">
             <form method = "GET" action= '{{ route('estadilloFind') }}' id='search'>
                 @csrf
             <div class="input-group">
