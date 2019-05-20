@@ -14,6 +14,9 @@ use Validator;
 use App\Http\Responsables\RegistreProduccio\RegistreProduccioIndex;
 use App\Http\Responsables\RegistreProduccio\RegistreProduccioCreate;
 use App\Http\Responsables\RegistreProduccio\RegistreProduccioShow;
+use App\Http\Requests\RegistreProduccioCreateRequest;
+use App\Estadillo;
+use App\Costos;
 
 class RegistreProduccioController extends Controller {
 
@@ -221,7 +224,6 @@ class RegistreProduccioController extends Controller {
             }
 
             foreach ($empleats as $empleat){
-
                 if (!empty($empleat->carrec[0])){
                     if (!isset($raw)){
                         $raw = request()->input("searchBy").' = '.$empleat->id_empleat.'';
@@ -247,113 +249,52 @@ class RegistreProduccioController extends Controller {
         return new RegistreProduccioIndex($registres);
     }
 
-    public function createBasic(){
-        $v = Validator::make(request()->all(), [
-            'id_registre_entrada'    => 'required',
-            'subreferencia'          => ['required',new CheckSubreferenciaCreate(request()->input('id_registre_entrada'), request()->input('subreferencia'))],
-            'data_entrega'           => 'required',
-            'setmana'                => 'required',
-            'titol'                  => 'required',
-            'estat'                  => 'required',
-        ],[
-            'required' => 'No s\'ha introduït aquesta dada.',
-        ]);
+    public function createBasic(RegistreProduccioCreateRequest $request){
+        $prod = new RegistreProduccio(request()->all());               
 
-        if ($v->fails()) {
-            return redirect()->back()->withErrors($v)->withInput();
-            //return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
-        } else {
-            $prod = new RegistreProduccio(request()->all());               
-
-            try {
-                $prod->save(); 
-            } catch (\Exception $ex) {
-                return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut crear el client.'));
-            }
-
-            return redirect()->route('indexRegistreProduccio')->with('success', 'Registre de producció creat correctament.');
+        try {
+            $prod->save(); 
+        } catch (\Exception $ex) {
+            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut crear el client.'));
         }
+
+        return redirect()->route('indexRegistreProduccio')->with('success', 'Registre de producció creat correctament.');
     }
 
-    public function createComanda(){
-        $v = Validator::make(request()->all(), [
-            'estadillo'         => 'required',
-            'propostes'         => 'required',
-            'inserts'           => 'required',
-            'titol_traduit'     => 'required',
-            'vec'               => 'required',
-            'data_tecnic_mix'       => 'date',
-        ],[
-            'required' => 'No s\'ha introduït aquesta dada.',
-        ]);
+    public function createComanda(RegistreProduccioCreateRequest $request){
+        $prod = new RegistreProduccio(request()->all());               
 
-        if ($v->fails()) {
-            return redirect()->back()->withErrors($v)->withInput();
-        } else {
-            $prod = new RegistreProduccio(request()->all());               
-
-            try {
-                $prod->save(); 
-            } catch (\Exception $ex) {
-                return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut crear el client.'));
-            }
-
-            return redirect()->route('indexRegistreProduccio')->with('success', 'Registre de producció creat correctament.');
+        try {
+            $prod->save(); 
+        } catch (\Exception $ex) {
+            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut crear el client.'));
         }
+
+        return redirect()->route('indexRegistreProduccio')->with('success', 'Registre de producció creat correctament.');
     }
 
-    public function createPreparacio(){
-        $v = Validator::make(request()->all(), [
-            'qc_vo'                 => 'required',
-            'qc_me'                 => 'required',
-            'qc_mix'                => 'required',
-            'ppp'                   => 'required',
-            'pps'                   => 'required',
-            'ppe'                   => 'required',
-        ],[
-            'required' => 'No s\'ha introduït aquesta dada.',
-            'date' => 'Aquesta dada te que ser una data.'
-        ]);
+    public function createPreparacio(RegistreProduccioCreateRequest $request){
+        $prod = new RegistreProduccio(request()->all());               
 
-        if ($v->fails()) {
-            return redirect()->back()->withErrors($v)->withInput();
-        } else {
-            $prod = new RegistreProduccio(request()->all());               
-
-            try {
-                $prod->save(); 
-            } catch (\Exception $ex) {
-                return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut crear el client.'));
-            }
-
-            return redirect()->route('indexRegistreProduccio')->with('success', 'Registre de producció creat correctament.');
+        try {
+            $prod->save(); 
+        } catch (\Exception $ex) {
+            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut crear el client.'));
         }
+
+        return redirect()->route('indexRegistreProduccio')->with('success', 'Registre de producció creat correctament.');
     }
 
-    public function createConvocatoria(){
-        $v = Validator::make(request()->all(), [
-            'convos'            => 'required',
-            'inici_sala'        => 'date',
-            'final_sala'        => 'date',
-            'retakes'           => 'required',
-        ],[
-            'required' => 'No s\'ha introduït aquesta dada.',
-            'date' => 'Aquesta dada te que ser una data.'
-        ]);
+    public function createConvocatoria(RegistreProduccioCreateRequest $request){
+        $prod = new RegistreProduccio(request()->all());               
 
-        if ($v->fails()) {
-            return redirect()->back()->withErrors($v)->withInput();
-        } else {
-            $prod = new RegistreProduccio(request()->all());               
-
-            try {
-                $prod->save(); 
-            } catch (\Exception $ex) {
-                return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut crear el client.'));
-            }
-
-            return redirect()->route('indexRegistreProduccio')->with('success', 'Registre de producció creat correctament.');
+        try {
+            $prod->save(); 
+        } catch (\Exception $ex) {
+            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut crear el client.'));
         }
+
+        return redirect()->route('indexRegistreProduccio')->with('success', 'Registre de producció creat correctament.');
     }
 
     public function delete(Request $request) {
