@@ -8,6 +8,7 @@ use App\RegistreProduccio;
 use App\EmpleatCost;
 use Validator;
 use Illuminate\Support\Facades\Route; 
+
 class CostController extends Controller
 {
     public function __construct()

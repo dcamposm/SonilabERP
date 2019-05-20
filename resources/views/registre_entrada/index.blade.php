@@ -23,17 +23,17 @@
                 @csrf
             <div class="input-group row">
                 <select class="custom-select" id='searchBy' name="searchBy" form="search">
-                    <option selected>BUSCAR PER...</option>
-                    <option>REFERENCIA</option>
-                    <option>TÍTOL</option>
-                    <option value="1">CLIENT</option>
-                    <option value="2">ESTAT</option>
-                    <option value="3">RESPONSABLE</option>
-                    <option value="4">SORITDA</option>
-                    <option value="5">SERVEI</option>
-                    <option value="6">IDIOMA</option>
-                    <option value="7">TIPUS</option>
-                    <option value="8">MINUTS</option>
+                    <option value="id_registre_entrada" selected>BUSCAR PER...</option>
+                    <option value="id_registre_entrada">REFERENCIA</option>
+                    <option value="titol">TÍTOL</option>
+                    <option value="id_client" id="select">CLIENT</option>
+                    <option value="estat" id="select">ESTAT</option>
+                    <option value="id_usuari" id="select">RESPONSABLE</option>
+                    <option value="sortida">SORITDA</option>
+                    <option value="id_servei" id="select">SERVEI</option>
+                    <option value="id_idioma" id="select">IDIOMA</option>
+                    <option value="id_media" id="select">TIPUS</option>
+                    <option value="minuts">MINUTS</option>
                 </select>
                 <select class="custom-select" id='orderBy' name="orderBy" form="search">
                     <option value="id_registre_entrada" selected>ORDENAR PER...</option>
@@ -41,7 +41,7 @@
                     <option value="titol">TÍTOL</option>
                     <option value="id_client">CLIENT</option>
                     <option value="estat">ESTAT</option>
-                    <option value="responsable">RESPONSABLE</option>
+                    <option value="id_usuari">RESPONSABLE</option>
                     <option value="sortida">SORTIDA</option>
                     <option value="id_servei">SERVEI</option>
                     <option value="id_idioma">IDIOMA</option>
@@ -49,39 +49,6 @@
                     <option value="minuts">MINUTS</option>
                 </select>
                 <input type="text" id="search_term" class="form-control" name="search_term" placeholder="Buscar registre...">
-                <input type="date" class="form-control" id="searchDate" name="searchDate" style="display: none;">
-                <input type="number" class="form-control" id="searchMin" name="searchDate" style="display: none;">
-                <select class="custom-select" id='search_Client' name="search_Client" form="search" style="display: none;">
-                    @foreach( $clients as $key => $client )
-                        <option value="{{$client['id_client']}}">{{ mb_strtoupper( $client['nom_client'] ) }}</option>
-                    @endforeach
-                </select>
-                <select class="custom-select" id='search_Servei' name="search_Servei" form="search" style="display: none;">
-                    @foreach( $serveis as $key => $servei )
-                        <option value="{{$servei['id_servei']}}">{{ mb_strtoupper( $servei['nom_servei'] ) }}</option>
-                    @endforeach
-                </select>
-                <select class="custom-select" id='search_Idioma' name="search_Idioma" form="search" style="display: none;">
-                    @foreach( $idiomes as $key => $idioma )
-                        <option value="{{$idioma['id_idioma']}}">{{ mb_strtoupper( $idioma['idioma'] ) }}</option>
-                    @endforeach
-                </select>
-                <select class="custom-select" id='search_Media' name="search_Media" form="search" style="display: none;">
-                    @foreach( $medies as $key => $media )
-                        <option value="{{$media['id_media']}}">{{ mb_strtoupper( $media['nom_media'] ) }}</option>
-                    @endforeach
-                </select>
-                <select class="custom-select" id='search_Resp' name="search_Resp" form="search" style="display: none;">
-                    @foreach( $usuaris as $usuari )
-                        <option value="{{$usuari['id_usuari']}}">{{ mb_strtoupper( $usuari['alias_usuari'] ) }}</option>
-                    @endforeach
-                </select>
-                <select class="custom-select" id='search_Estat' name="search_Estat" form="search" style="display: none;">
-                      <option value="Finalitzada">FINALITZADA</option>
-                      <option value="Pendent">PENDENT</option>
-                      <option value="Cancel·lada">CANCEL·LADA</option>
-                </select>
-
                 <span class="input-group-btn">
                     <button type="submit" class="btn btn-default" type="button"><span class="fas fa-search"></span></button>
                 </span>
@@ -233,96 +200,63 @@
         //var value = $('#searchBy').val();
         
         //alert(value);
-        if ($('#searchBy').val() == '1') {
-            $('#search_term').hide();
-            $('#searchDate').hide();
-            $('#search_Client').show();
-            $('#search_Estat').hide();
-            $('#search_Servei').hide();
-            $('#search_Idioma').hide();
-            $('#search_Media').hide();
-            $('#search_Resp').hide();
-            $('#searchMin').hide();
-        } else if ($('#searchBy').val() == '2'){
-            $('#search_term').hide();
-            $('#searchDate').hide();
-            $('#search_Client').hide();
-            $('#search_Estat').show();
-            $('#search_Servei').hide();
-            $('#search_Idioma').hide();
-            $('#search_Media').hide();
-            $('#search_Resp').hide();
-            $('#searchMin').hide();
-        } else if ($('#searchBy').val() == '3'){
-            $('#search_term').hide();
-            $('#searchDate').hide();
-            $('#search_Client').hide();
-            $('#search_Estat').hide();
-            $('#search_Servei').hide();
-            $('#search_Idioma').hide();
-            $('#search_Media').hide();
-            $('#search_Resp').show();
-            $('#searchMin').hide();
-        }  else if ($('#searchBy').val() == '4'){
-            $('#search_term').hide();
-            $('#searchDate').show();
-            $('#search_Client').hide();
-            $('#search_Estat').hide();
-            $('#search_Servei').hide();
-            $('#search_Idioma').hide();
-            $('#search_Media').hide();
-            $('#search_Resp').hide();
-            $('#searchMin').hide();
-        } else if ($('#searchBy').val() == '5'){
-            $('#search_term').hide();
-            $('#searchDate').hide();
-            $('#search_Client').hide();
-            $('#search_Estat').hide();
-            $('#search_Servei').show();
-            $('#search_Idioma').hide();
-            $('#search_Media').hide();
-            $('#searchMin').hide();
-        } else if ($('#searchBy').val() == '6'){
-            $('#search_term').hide();
-            $('#searchDate').hide();
-            $('#search_Client').hide();
-            $('#search_Estat').hide();
-            $('#search_Servei').hide();
-            $('#search_Idioma').show();
-            $('#search_Media').hide();
-            $('#search_Resp').hide();
-            $('#searchMin').hide();
-        } else if ($('#searchBy').val() == '7'){
-            $('#search_term').hide();
-            $('#searchDate').hide();
-            $('#search_Client').hide();
-            $('#search_Estat').hide();
-            $('#search_Servei').hide();
-            $('#search_Idioma').hide();
-            $('#search_Media').show();
-            $('#search_Resp').hide();
-            $('#searchMin').hide();
-        } else if ($('#searchBy').val() == '8'){
-            $('#search_term').hide();
-            $('#searchDate').hide();
-            $('#search_Client').hide();
-            $('#search_Estat').hide();
-            $('#search_Servei').hide();
-            $('#search_Idioma').hide();
-            $('#search_Media').hide();
-            $('#search_Resp').hide();
-            $('#searchMin').show();
-        } 
-        else {
-            $('#search_term').show();
-            $('#searchDate').hide();
-            $('#search_Client').hide();
-            $('#search_Estat').hide();
-            $('#search_Servei').hide();
-            $('#search_Idioma').hide();
-            $('#search_Media').hide();
-            $('#search_Resp').hide();
-            $('#searchMin').hide();
+        if ($('#searchBy').children(":selected").attr("id") == 'select') {
+            $('#search_term').remove();
+            
+            var select = document.createElement("select");
+            $(select).attr("name", "search_term");
+            $(select).attr("id", "search_term");
+            $(select).attr("class", "form-control");
+            
+            if ($('#searchBy').val() == 'estat'){
+                $(select).append('<option value="Pendent">Pendent</option>');
+                $(select).append('<option value="Finalitzada">Finalitzada</option>');
+                $(select).append('<option value="Cancel·lada">Cancel·lada</option>');
+            } else if ($('#searchBy').val() == 'id_usuari'){
+                var usuaris = @json($usuaris);
+
+                $.each(usuaris, function( key, usuari ) {
+                    $(select).append('<option value="'+usuari['id_usuari']+'">'+usuari['alias_usuari'].toUpperCase()+'</option>');
+                });
+            } else if ($('#searchBy').val() == 'id_client'){
+                var clients = @json($clients);
+                
+                $.each(clients, function( key, client ) {
+                    $(select).append('<option value="'+client['id_client']+'">'+client['nom_client'].toUpperCase()+'</option>');
+                });
+            } else if ($('#searchBy').val() == 'id_servei'){
+                var serveis = @json($serveis);
+                
+                $.each(serveis, function( key, servei ) {
+                    $(select).append('<option value="'+servei['id_servei']+'">'+servei['nom_servei'].toUpperCase()+'</option>');
+                });
+            } else if ($('#searchBy').val() == 'id_idioma'){
+                var idiomes = @json($idiomes);
+                
+                $.each(idiomes, function( key, idioma ) {
+                    $(select).append('<option value="'+idioma['id_idioma']+'">'+idioma['idioma'].toUpperCase()+'</option>');
+                });
+            } else if ($('#searchBy').val() == 'id_media'){
+                var medies = @json($medies);
+                
+                $.each(medies, function( key, media ) {
+                    $(select).append('<option value="'+media['id_media']+'">'+media['nom_media'].toUpperCase()+'</option>');
+                });
+            }
+            
+            $(select).insertAfter('#orderBy');
+        } else {
+            if ($('#searchBy').val() == 'sortida') {
+                $('#search_term').remove();
+                $('<input type="date" class="form-control" id="search_term" name="search_term">').insertAfter('#orderBy');
+            } else if ($('#searchBy').val() == 'minuts'){
+                $('#search_term').remove();
+                $('<input type="number" class="form-control" id="search_term" name="search_term">').insertAfter('#orderBy');
+            } 
+            else {
+                $('#search_term').remove();
+                $('<input type="text" class="form-control" id="search_term" name="search_term">').insertAfter('#orderBy');
+            }
         }
     }
     

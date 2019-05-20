@@ -94,10 +94,13 @@ class CalendariController extends Controller
         foreach($fechas as $key => $fech) {
             $diaz = DateTime::createFromFormat("d-m-Y", $fech);
             $act_dia = DB::select(
-                'SELECT t1.id_empleat, t1.nom_empleat, t1.cognom1_empleat, t1.cognom2_empleat, DAY(t2.data_inici) as dia, t2.num_sala 
+                'SELECT t1.id_empleat, t1.nom_empleat, t1.cognom1_empleat, t1.cognom2_empleat, t2.id_calendar, 
+                    DAY(t2.data_inici) as dia, t2.num_sala , LPAD(HOUR(t2.data_inici), 2, 0) as hora, 
+                    LPAD(MINUTE(t2.data_inici), 2, 0) as minuts 
                 FROM slb_empleats_externs t1 INNER JOIN slb_calendars t2 ON t1.id_empleat = t2.id_actor_estadillo 
                 WHERE DAY(t2.data_inici) = '.$diaz->format('d').' AND MONTH(t2.data_inici) = '.$diaz->format('m').' 
-                AND YEAR(t2.data_inici) = '.$diaz->format('Y')
+                    AND YEAR(t2.data_inici) = '.$diaz->format('Y').' 
+                ORDER BY t2.data_inici asc'
             );
             array_push($actoresPorDia, $act_dia);
         }
@@ -153,6 +156,25 @@ class CalendariController extends Controller
             $id_carrec,
             $torn
         ]);
+    }
+
+    public function desarLlistaAsistencia() {
+        // Coge la petición y la recorre:
+        $datos = request()->all();
+        foreach ($datos as $key => $dato) {
+            // Coge el identificador del calendario (el valor de key es: actor-idEmpleado-idCalendar):
+            $id_calendar = explode('-', $key)[2];
+
+            // Coge el calendario en cuestión de la base de datos y modifica la asistencia:
+            $calendario = Calendar::find($id_calendar);
+            $calendario->asistencia = $dato;
+
+            // Aplica los nuevos cambios del calendario en la base de datos:
+            $calendario->save();
+        }
+
+        // Retorna una respuesta:
+        return response()->json("Tot Ok!");
     }
 
     public function create(){

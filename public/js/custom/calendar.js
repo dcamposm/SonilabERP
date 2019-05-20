@@ -57,6 +57,7 @@ function cargarDatos() {
     });
 
     cargarActores();
+    $('.celda').click(ampliarCasilla);
 }
 
 function cargarActores() {
@@ -70,7 +71,8 @@ function cargarActores() {
         }
     })
 
-    console.log(trabajadores)
+    console.log(trabajadores);
+    console.log(data);
     $('#trabajadores').html('');
     for (const key in trabajadores) {
 
@@ -254,8 +256,6 @@ function closeNav() {
 
 //// MODALS /////
 
-$('.celda').click(ampliarCasilla);
-
 // Variables globales para guardar el dia y la sala que se han seleccionado al hacer clic en alguna celda:
 var diaSeleccionado = "";
 var salaSeleccionada = "";
@@ -268,6 +268,8 @@ function ampliarCasilla(e) {
     salaSeleccionada = e.delegateTarget.getAttribute("sala");
     // Muestra la lista en concreto con los empleado para poder "pasar lista":
     $('.dia-' + diaSeleccionado.split('-')[0] + '-' + salaSeleccionada).show();
+
+    // TODO: Seleccionar a los técnicos y los directorios dependiendo del día y la sala seleccionadas.
 
     $('#dialog').css({ 'width': window.innerWidth - 30 })
     $('#dialog').css({ 'max-width': window.innerWidth - 30 })
@@ -488,3 +490,42 @@ function cambiarTecnico(torn) {
         }
     });
 }
+
+
+$('#pasarLista').click(function (e) {
+    e.preventDefault();
+
+    // Comprobación "chapucera" para comprobar que se ha hecho clic al botón "Desar llista":
+    if (e.target.id == 'enviarListaAsistencia') {
+        // Cogemos los campos del formulario el cual se está mostrando por pantalla.
+        // Para ello es necesario hacer uso del día seleccionado y la sala seleccionada.
+        // Los campos del formulario tienen la siguiente clase que vemos en la siguiente línea,
+        // que gracias al día y a la sala podemos saber qué campos coger.
+        var asistencia = $('#pasarLista .actor-dia-' + diaSeleccionado.split('-')[0] + '-' + salaSeleccionada);
+        console.log(asistencia.serializeArray());
+
+        $.ajax({
+            url: '/calendari/desarLlistaAsistencia',
+            type: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                Accept: 'application/json'
+            },
+            data: asistencia.serializeArray(),  // Le pasamos los datos serializados.
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (error) {
+                console.error(error);
+                alert("No s'ha pogut desar la llista :(");
+            }
+        });
+    }
+});
+
+// Esto es para que cuando se haga clic a un objeto con la clase "btn" no se lance el evento del formulario al que pertenece.
+// Se ha realizado este función para no ejecutar un formulario cuando se le da clic a un elemento que tenga esta clase.
+// ¡SE ACEPTAN SOLUCIONES MEJORES A ESTO!
+$('.btn').click(function(e) {
+    e.preventDefault();
+});

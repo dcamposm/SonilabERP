@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Client;
 use Validator;
+use App\Http\Requests\ClientCreateRequest;
 
 class ClientController extends Controller
 {
@@ -28,37 +29,17 @@ class ClientController extends Controller
         return View('clients.create');
     }
     
-    public function insert()
+    public function insert(ClientCreateRequest $request)
     {
-        $v = Validator::make(request()->all(), [
-            'nom_client'            => 'required',
-            'nif_client'            => 'required',
-            'email_client'          => 'required|email',
-            'telefon_client'        => 'required',
-            'direccio_client'       => 'required',
-            'codi_postal_client'    => 'required',
-            'ciutat_client'         => 'required',
-            'pais_client'           => 'required',
+        $client = new Client(request()->all());               
 
-        ],[
-            'required' => 'No s\'ha introduït aquesta dada.',
-            'email' => 'Aquesta dada té que ser un email.'
-        ]);
-
-        if ($v->fails()) {
-            return redirect()->back()->withErrors($v)->withInput();
-            //return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
-        } else {
-            $client = new Client(request()->all());               
-
-            try {
-                $client->save(); 
-            } catch (\Exception $ex) {
-                return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut crear el client.'));
-            }
-
-            return redirect()->route('indexClient')->with('success', 'Client creat correctament.');
+        try {
+            $client->save(); 
+        } catch (\Exception $ex) {
+            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut crear el client.'));
         }
+
+        return redirect()->route('indexClient')->with('success', 'Client creat correctament.');
     }
     
     public function updateView($id) {
@@ -67,37 +48,19 @@ class ClientController extends Controller
         return view('clients.create', array('client' => $client));
     }
     
-    public function update($id) {
+    public function update(ClientCreateRequest $request, $id) {
         $client = Client::find($id);
+        
         if ($client) {
-            $v = Validator::make(request()->all(), [
-                'nom_client'            => 'required',
-                'nif_client'            => 'required',
-                'email_client'          => 'required|email',
-                'telefon_client'        => 'required',
-                'direccio_client'       => 'required',
-                'codi_postal_client'    => 'required',
-                'ciutat_client'         => 'required',
-                'pais_client'           => 'required',
-            ],[
-                'required' => 'No s\'ha introduït aquesta dada.',
-                'email' => 'Aquesta dada té que ser un email.'
-            ]);
+            $client->fill(request()->all());
 
-            if ($v->fails()) {
-                return redirect()->back()->withErrors($v)->withInput();
-                //return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar les dades.'));
-            } else {
-                $client->fill(request()->all());
-    
-                try {
-                    $client->save(); 
-                } catch (\Exception $ex) {
-                    return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar el client.'));
-                }
-    
-                return redirect()->route('indexClient')->with('success', 'Client modificat correctament.');
+            try {
+                $client->save(); 
+            } catch (\Exception $ex) {
+                return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar el client.'));
             }
+
+            return redirect()->route('indexClient')->with('success', 'Client modificat correctament.');
         }
     }
     

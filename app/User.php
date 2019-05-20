@@ -78,7 +78,7 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Missatge', 'id_usuari', 'id_usuari')->where('data_final','>',date("Y-m-d"));
     } 
-    //Metodos para los roles del usuario
+    //Funciones para comprobar los roles del usuario
     public function authorizeRoles($roles)
     {
         if ($this->hasAnyRole($roles)) {

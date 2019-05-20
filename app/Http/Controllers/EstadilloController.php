@@ -192,7 +192,7 @@ class EstadilloController extends Controller
         //return response()->json(request()->input('id_estadillo'));
         if (!request()->input('id_estadillo')){
             if (request()->has('import_file')) {
-            $titol = request()->file('import_file')->getClientOriginalName();
+                $titol = request()->file('import_file')->getClientOriginalName();
             } else {
                 return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha introduit un excel'));
             }

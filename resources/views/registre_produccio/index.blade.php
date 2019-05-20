@@ -10,10 +10,10 @@
     @endif
         @if(Auth::user()->hasAnyRole(['1','2','4']))
         <div class="col">
-            <a href="{{ url('/registreProduccio/crear') }}" class="btn btn-success m-1">
+            <button class="btn btn-success m-1" data-toggle="modal" data-target="#ModalInsert">
                 <span class="fas fa-atlas"></span>
                 AFEGIR REGISTRE DE PRODUCCIÓ
-            </a>
+            </button>
             @if (Auth::user()->hasAnyRole(['1', '2', '4']))
             <a href="{{ url('/estadillos') }}" class="btn btn-success m-1">
                 <span class="fas fa-clipboard-list"></span>
@@ -485,6 +485,66 @@
         </div>
     </div>
     
+    <!-- MODAL CREAR REGISTRE PRODUCCIO -->
+    <div class="modal fade" id="ModalInsert" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">CREAR REGISTRE DE PRODUCCIÓ</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{{route('createRegistreBasic')}}" enctype="multipart/form-data"">
+                    @csrf
+                    <fieldset class="border p-2">
+                        <legend class="w-auto">DADES BÀSIQUES:</legend>
+                        <div class="row">
+                            <div class="form-group col-12 col-sm-6">
+                                <label for="id_registre_entrada">REFERÈNCIA</label>
+                                <select name="id_registre_entrada" id="id_registre_entrada" class="form-control">
+                                    @foreach ($registreEntrades as $key => $entrada) 
+                                      <option value="{{ $entrada->id_registre_entrada }}">{{ $entrada->id_registre_entrada }} {{ $entrada->titol }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group col-12 col-sm-6">
+                                <label for="subreferencia">SUB-REFERÈNCIA</label>
+                                <input type="text" name="subreferencia" id="subreferencia" class="form-control">
+                            </div>
+                            <div class="form-group col-12 col-sm-6">
+                                <label for="data_entrega">DATA D'ENTREGA</label>
+                                <input type="date" name="data_entrega" id="data_entrega" class="form-control">
+                            </div>
+                            <div class="form-group col-12 col-sm-6">
+                                <label for="setmana">SETMANA</label>
+                                <input type="number" name="setmana" id="setmana" class="form-control" min="0">
+                            </div>
+                            <div class="form-group col-12 col-sm-6">
+                                <label for="titol">TÍTOL ORIGINAL</label>
+                                <input type="text" name="titol" id="titol" class="form-control">
+                            </div>
+                            <div class="form-group col-12 col-sm-6">
+                                <label for="estat">ESTAT</label>
+                                <select name="estat" id="estat" class="form-control">
+                                  <option value="Pendent">Pendent</option>
+                                  <option value="Finalitzada">Finalitzada</option>
+                                  <option value="Cancel·lada">Cancel·lada</option>
+                                </select>
+                                <span class="text-danger">{{ $errors->first('estat') }}</span>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="modal-footer justify-content-between mt-3">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">TANCAR</button>
+                    <button type="submit" class="btn btn-success col-4">CREAR</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <!-- MODAL ESBORRAR REGISTRE PRODUCCIO -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
