@@ -11,6 +11,8 @@ use App\CarrecEmpleat;
 use Excel;
 use Validator;
 use App\Http\Responsables\Estadillo\EstadilloIndex;
+use App\Http\Responsables\Estadillo\EstadilloShowActor;
+use App\Http\Responsables\Estadillo\EstadilloShowActorSetmana;
 
 class EstadilloController extends Controller
 {
@@ -28,77 +30,17 @@ class EstadilloController extends Controller
     }
     
     public function show($id, $id_setmana = 0){ //Funcio que mostra l'informació s'un estadillo
-        $empleats = EmpleatExtern::all();
         if ($id_setmana == 0){
             $actors = ActorEstadillo::where('id_produccio', $id)->get(); //Busca tots els actors que participin amb l'estadillo
-
-
+           
             $estadillos = Estadillo::find($id); //Busca l'estadillo
             $estadillos->registreProduccio;
             //return response()->json($estadillos);
-            return view('estadillos.showActor', array( //Retorna a la vista showActor
-                'actors'    => $actors,
-                'empleats'    => $empleats,
-                'estadillos' => $estadillos
-            ));
+            return new EstadilloShowActor($actors, $estadillos);
         } 
         
-        $arrayActors = array();
-        $registresProduccio = RegistreProduccio::where('id_registre_entrada', $id)->where('setmana', $id_setmana)->get();
-        
-        //return response()->json($registresProduccio);
-        
-        foreach ($registresProduccio as $registre) {
-            $estadillo = Estadillo::where('id_registre_produccio', $registre['id'])->first();
-            //return response()->json($estadillo);
-            if ($estadillo){
-                //return response()->json($estadillos);
-                $actors = ActorEstadillo::where('id_produccio', $estadillo['id_estadillo'])->get();
-                //return response()->json($actors);
-                
-                foreach ($actors as $actor) {  
-                    if (!isset($arrayActors[$actor['id_actor']])){
-                        $arrayActors[$actor['id_actor']] = array(
-                            'id_actor' => $actor['id_actor'],
-                            'cg_estadillo' =>  $actor['cg_estadillo'],
-                            'canso_estadillo' =>  $actor['canso_estadillo'],
-                            'take_estadillo' => $actor['take_estadillo']
-                        );
-                    } else {
-                        $arrayActors[$actor['id_actor']]['cg_estadillo']+=($actor['cg_estadillo'] != null  ? $actor['cg_estadillo'] : 0);
-                        $arrayActors[$actor['id_actor']]['take_estadillo']+=$actor['take_estadillo'];
-                        if ($actor['canso_estadillo'] == 1) {
-                            $arrayActors[$actor['id_actor']]['canso_estadillo'] = $actor['canso_estadillo'];
-                        }
-                        //return response()->json($arrayActors);
-                    }
-                    //return response()->json($arrayActors);
-                }  
-                
-                if (!isset($min)) {
-                    $min = $registre['subreferencia'];
-                    $max = $registre['subreferencia'];
-                } else {
-                    if ($registre['subreferencia'] < $min){
-                        $min = $registre['subreferencia'];
-                    } else if ($registre['subreferencia'] > $max) {
-                        $max = $registre['subreferencia'];
-                    }
-                }
-                $estadillos = Estadillo::where('id_registre_produccio', $registre['id'])->first()->registreProduccio;
-            }
-        }
-        $registreProduccio = RegistreProduccio::where('id_registre_entrada', $id)->where('setmana', $id_setmana)->first();
-        
         try {
-            return view('estadillos.showActor', array(
-                'actors'    => $arrayActors,
-                'empleats'    => $empleats,
-                'estadillos' => $estadillos,
-                'registreProduccio' => $registreProduccio,
-                'min' => $min,
-                'max' => $max
-            ));
+            return new EstadilloShowActorSetmana($id, $id_setmana);
         } catch (\Exception $ex) {
             return redirect()->back()->withErrors(array('error' => 'ERROR. No hi han estadillos creats en la refernecia '.$id.' de la setmana '.$id_setmana));
         }   
@@ -128,8 +70,7 @@ class EstadilloController extends Controller
 
             $arrayTitol = explode('_', $titol);
             $idRegEntrada = $arrayTitol[0];
-            $arrayRegProd = explode(' ', $arrayTitol[count($arrayTitol)-1]);
-            $idRegProduccio = $arrayRegProd[0];
+            $idRegProduccio = $arrayTitol[1];
             //return response()->json(Projecte::where('id_registre_entrada', $idRegEntrada)->where('id', $idRegProduccio)->get());
 
             $projecte = RegistreProduccio::where('id_registre_entrada', $idRegEntrada)
@@ -157,48 +98,47 @@ class EstadilloController extends Controller
         //CREACIO ACTORS ESTADILLO
         //Pasem el excel en una array
         $excel = Excel::toArray(new Estadillo,request()->file('import_file'));
-        //Agafem els valors de la segona Hoja
-        $arrayEstadillo = $excel[1];
+        //Agafem els valors de la primera Fulla i els guardem en una Array
+        $arrayEstadillo = $excel[0];
         //return response()->json($arrayEstadillo);
-
-        
-        for ($i = 3; $i < count($arrayEstadillo); $i++){
-            $nomCognom = explode(' ', $arrayEstadillo[$i][0]);
-            //return response()->json($nomCognom[count($nomCognom)]-1);
-            try {
-                $empleat = EmpleatExtern::whereRaw('LOWER(nom_empleat) like "%'. strtolower($nomCognom[count($nomCognom)-1]).'%"'
-                                                    . 'OR LOWER(cognom1_empleat) like "%'. strtolower($nomCognom[count($nomCognom)-2]).'%"')->first();
-                //return response()->json($empleat);
-            } catch (\Exception $ex) {
-                $empleat = EmpleatExtern::where('nom_empleat', $nomCognom[0])->first();
-            }
+        //Recorem tota l'array amb les dades del excel, en la $i indiquem la fila on esta el valors
+        for ($i = 1; $i < count($arrayEstadillo); $i++){
+            //return response()->json($nomCognom);
+            //Comprovació si existeix el actor
+            if (!is_null($arrayEstadillo[$i][1])){
+                $empleat = EmpleatExtern::whereRaw('LOWER(nom_empleat) like "%'. strtolower($arrayEstadillo[$i][1]).'%"'
+                                                . 'AND LOWER(cognom1_empleat) like "%'. strtolower($arrayEstadillo[$i][0]).'%"')->first();
             
-            
-            if ($empleat){ 
-                //return response()->json('Existeix');
-                $actor = ActorEstadillo::where('id_produccio', $estadillo['id_estadillo'])
-                        ->where('id_actor', $empleat['id_empleat'])->first();
-                //return response()->json($actor);
-                if ($actor){
-                    $actor->id_produccio = $estadillo['id_estadillo'];
-                    $actor->id_actor = $empleat['id_empleat'];
-                    $actor->take_estadillo = $arrayEstadillo[$i][1];
-                    $actor->save();
+                if ($empleat){
+                    //return response()->json($empleat);
+                    $actor = ActorEstadillo::where('id_produccio', $estadillo['id_estadillo'])
+                            ->where('id_actor', $empleat['id_empleat'])->first();
+                    //return response()->json($actor);
+                    if ($actor){
+                        $actor->id_produccio = $estadillo['id_estadillo'];
+                        $actor->id_actor = $empleat['id_empleat'];
+                        $actor->take_estadillo = $arrayEstadillo[$i][2];
+                        $actor->cg_estadillo = $arrayEstadillo[$i][3];
+                        $actor->canso_estadillo = is_null($arrayEstadillo[$i][4]) ? 0 : 1;
+                        $actor->narracio_estadillo = is_null($arrayEstadillo[$i][5]) ? 0 : 1;
+                        $actor->save();
+                    } else {
+                        $actor = new ActorEstadillo;
+                        $actor->id_produccio = $estadillo['id_estadillo'];
+                        $actor->id_actor = $empleat['id_empleat'];
+                        $actor->take_estadillo = $arrayEstadillo[$i][2];
+                        $actor->cg_estadillo = $arrayEstadillo[$i][3];
+                        $actor->canso_estadillo = is_null($arrayEstadillo[$i][4]) ? 0 : 1;
+                        $actor->narracio_estadillo = is_null($arrayEstadillo[$i][5]) ? 0 : 1;
+                        $actor->save();
+                    }
+                    //return response()->json($actor);
                 } else {
-                    $actor = new ActorEstadillo;
-                    $actor->id_produccio = $estadillo['id_estadillo'];
-                    $actor->id_actor = $empleat['id_empleat'];
-                    $actor->take_estadillo = $arrayEstadillo[$i][1];
-                    $actor->save();
+                    $alert = 'WARNING. No s\'ha pogut introduir tots els actors. '
+                            . 'Comprova si existeixen en \'GESTIÓ DE PERSONAL\'.';
+                    //return response()->json('ERROR. No existeix '.$nomCognom[1].' '.$nomCognom[0]);
                 }
-                
-            } else {
-                $alert = 'WARNING. No s\'ha pogut introduir tots els actors. '
-                        . 'Comprova si existeixen en \'GESTIÓ DE PERSONAL\'.';
-                //return response()->json('ERROR. No existeix '.$nomCognom[1].' '.$nomCognom[0]);
             }
-
-            
         }
         //return response()->json($nomCognom);
         if (isset($alert)){
