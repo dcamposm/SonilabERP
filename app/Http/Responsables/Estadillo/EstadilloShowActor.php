@@ -2,7 +2,6 @@
 namespace App\Http\Responsables\Estadillo;
 
 use Illuminate\Contracts\Support\Responsable;
-use App\EmpleatExtern;
 
 class EstadilloShowActor  implements Responsable
 {
@@ -10,10 +9,10 @@ class EstadilloShowActor  implements Responsable
     protected $empleats;
     protected $estadillos;
     
-    public function __construct($actor, $estadillo)
+    public function __construct($actor, $estadillo, $empleats)
     {
         $this->actors = $actor; //Busca tots els actors que participin amb l'estadillo
-        $this->empleats = EmpleatExtern::all();
+        $this->empleats = $empleats;
         $this->estadillos = $estadillo; //Busca l'estadillo
     }
 
