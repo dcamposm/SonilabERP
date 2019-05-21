@@ -2,11 +2,7 @@
 namespace App\Http\Responsables\RegistreEntrada;
 
 use Illuminate\Contracts\Support\Responsable;
-use App\Client;
-use App\Servei;
-use App\Idioma;
-use App\TipusMedia;
-use App\User;
+use App\{Client,Servei,Idioma,TipusMedia,User};
 
 class RegistreEntradaCreate   implements Responsable
 {

@@ -3,16 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Estadillo;
-use App\RegistreProduccio;
-use App\ActorEstadillo;
-use App\EmpleatExtern;
-use App\CarrecEmpleat;
+use App\{Estadillo,RegistreProduccio,ActorEstadillo,EmpleatExtern,CarrecEmpleat};
 use Excel;
 use Validator;
-use App\Http\Responsables\Estadillo\EstadilloIndex;
-use App\Http\Responsables\Estadillo\EstadilloShowActor;
-use App\Http\Responsables\Estadillo\EstadilloShowActorSetmana;
+use App\Http\Responsables\Estadillo\{EstadilloIndex,EstadilloShowActor,EstadilloShowActorSetmana};
 
 class EstadilloController extends Controller
 {

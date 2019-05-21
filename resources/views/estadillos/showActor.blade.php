@@ -32,7 +32,7 @@
     {{-- TABLA DE ACTORS ESTADILLO --}}
     <h2 style="font-weight: bold">{{ $estadillos->id_registre_entrada }} {{ $estadillos->titol }} {{ !isset($min) ? '' : ( $min != $max ? $min.'-'.$max : $min) }}</h2>
     
-    <table class="table tableIndex mt-3" style="min-width: 630px;">
+    <table class="table tableIndex mt-3" style="min-width: 620px;">
         <thead>
             <tr>
                 <th>ACTOR</th> 
@@ -49,7 +49,7 @@
                     @foreach ($empleats as $empleat)
                         @if ($actor['id_actor'] == $empleat->id_empleat)
                             <td style="vertical-align: middle;">
-                                <span class="font-weight-bold" style="font-size: 1rem;">{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }}</span>
+                                <span class="font-weight-bold">{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }}</span>
                             </td>
                             <td style="vertical-align: middle;">{{ $actor['cg_estadillo']}}</td>
                             <td style="vertical-align: middle;">{{ $actor['take_estadillo']}}</td>

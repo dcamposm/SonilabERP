@@ -167,10 +167,17 @@
     </div>
     
     <div class="mb-3">
-        <a href="{{ !isset($return) ? url('/vec') : url()->previous() }}" class="btn btn-primary">
-            <span class="fas fa-angle-double-left"></span>
-            TORNAR
-        </a>
+        @if (Route::currentRouteName() == "actorFind")
+            <a href="{{ url('/vec') }}" class="btn btn-primary mb-3 mt-3">
+                <span class="fas fa-angle-double-left"></span>
+                TORNAR
+            </a>
+        @else
+            <a href="{{ url('/registreProduccio') }}" class="btn btn-primary mt-3">
+                <span class="fas fa-angle-double-left"></span>
+                TORNAR
+            </a>    
+        @endif
     </div>
 </div>
 

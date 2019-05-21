@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Costos;
-use App\RegistreProduccio;
-use App\EmpleatCost;
+use App\{Costos,RegistreProduccio,EmpleatCost};
 use Validator;
 use Illuminate\Support\Facades\Route; 
 
@@ -116,7 +114,7 @@ class CostController extends Controller
             $empleatsInfo = array();
             foreach ($vec->empleats as $empleat){
                 if ($empleat->tarifa->carrec->nom_carrec == 'Actor'){
-                    if ($empleat->tarifa->nombre_corto != 'canso'){
+                    if ($empleat->tarifa->nombre_corto != 'canso' && $empleat->tarifa->nombre_corto != 'narrador'){
                         $totalSS += $empleat->cost_empleat;
                         if (!isset($empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat])) {
                             $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat] = array(
@@ -140,10 +138,16 @@ class CostController extends Controller
                             //$total += $empleat->cost_empleat;
                             $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['total'] += $empleat->cost_empleat;
                         } 
-                    } else {
+                    } else if ($empleat->tarifa->nombre_corto = 'canso') {
                         $empleatsInfo['Canço'][$empleat->empleat->id_empleat] = array(
                             'nom' => ($empleat->empleat->nom_empleat.' '.$empleat->empleat->cognom1_empleat),
                             'tasca' => array('canço'),
+                            'total' => $empleat->cost_empleat
+                        );
+                    } else {
+                        $empleatsInfo['Narració'][$empleat->empleat->id_empleat] = array(
+                            'nom' => ($empleat->empleat->nom_empleat.' '.$empleat->empleat->cognom1_empleat),
+                            'tasca' => array('narracio'),
                             'total' => $empleat->cost_empleat
                         );
                     }
@@ -201,8 +205,8 @@ class CostController extends Controller
                             //return response()->json($vec->empleats);
                             //----------------------INFO ACTORS----------------------
                             if ($empleat->tarifa->carrec->nom_carrec == 'Actor'){
-                                //------------Show la tarifa que no sigui ni canço ni documental--------------
-                                if ($empleat->tarifa->nombre_corto != 'canso' && $empleat->tarifa->nombre_corto != 'docu'){
+                                //------------Show la tarifa que no sigui ni canço ni documental ni narració--------------
+                                if ($empleat->tarifa->nombre_corto != 'canso' && $empleat->tarifa->nombre_corto != 'docu' && $empleat->tarifa->nombre_corto != 'narrador'){
                                     if (!isset($empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat])) {
                                         $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat] = array(
                                             'nom' => ($empleat->empleat->nom_empleat.' '.$empleat->empleat->cognom1_empleat),
@@ -261,6 +265,20 @@ class CostController extends Controller
                                         $total += $empleat->cost_empleat;
                                         
                                         $empleatsInfo['Canço'][$empleat->empleat->id_empleat]['total'] += $empleat->cost_empleat;
+                                    }
+                                //---------------Show tarifa narrador-----------    
+                                } else if ($empleat->tarifa->nombre_corto == 'narrador'){
+                                    if (!isset($empleatsInfo['Narració'][$empleat->empleat->id_empleat])) {
+                                        $empleatsInfo['Narració'][$empleat->empleat->id_empleat] = array(
+                                            'nom' => ($empleat->empleat->nom_empleat.' '.$empleat->empleat->cognom1_empleat),
+                                            'tasca' => array('Narració'  => array('cost'=>$empleat->cost_empleat,'episodis' => array($vec->registreProduccio->subreferencia))),
+                                            'total' => $empleat->cost_empleat
+                                        );
+                                        $total += $empleat->cost_empleat;
+                                    } else {
+                                        $total += $empleat->cost_empleat;
+                                        
+                                        $empleatsInfo['Narració'][$empleat->empleat->id_empleat]['total'] += $empleat->cost_empleat;
                                     }
                                 //------------Show tarifa documental------------
                                 } else if ($empleat->tarifa->nombre_corto == 'docu'){
@@ -370,7 +388,7 @@ class CostController extends Controller
         $registre = RegistreProduccio::with('getEstadillo.actors.empleat.carrec.tarifa')->with('traductor.carrec')
                 ->with('ajustador')->with('linguista')->with('director')->with('tecnic')
                 ->with('registreEntrada')->find($id);
-        //return response()->json($registre->getEstadillo->actors);
+
         $vec = Costos::where('id_registre_produccio', $id)->first();
         if (!$vec){
             if ($registre->getEstadillo != null){
@@ -436,6 +454,12 @@ class CostController extends Controller
                                             $total += $empleatCost->cost_empleat;
                                             //$totalSS += $empleatCost->cost_empleat;
                                             $empleatCost->id_tarifa = 9;
+                                            $empleatCost->save();
+                                        } else if ($actorCarrec->tarifa->nombre_corto == 'narrador') {
+                                            $empleatCost->cost_empleat = $actorCarrec->preu_carrec;
+                                            $total += $empleatCost->cost_empleat;
+                                            //$totalSS += $empleatCost->cost_empleat;
+                                            $empleatCost->id_tarifa = 11;
                                             $empleatCost->save();
                                         }
                                     }

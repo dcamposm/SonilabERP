@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Client;
-use Validator;
 use App\Http\Requests\ClientCreateRequest;
 
 class ClientController extends Controller

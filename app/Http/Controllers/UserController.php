@@ -3,13 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
-use Validator;
-use App\Departament;
-use App\Http\Responsables\User\UserIndex;
-use App\Http\Responsables\User\UserCreate;
-use App\Http\Requests\UserCreateRequest;
-use App\Http\Requests\UserUpdateRequest;
+use App\{User, Departament};
+use App\Http\Responsables\User\{UserIndex, UserCreate};
+use App\Http\Requests\{UserCreateRequest, UserUpdateRequest};
 
 class UserController extends Controller
 {

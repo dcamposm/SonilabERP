@@ -2,9 +2,7 @@
 namespace App\Http\Responsables\Estadillo;
 
 use Illuminate\Contracts\Support\Responsable;
-use App\RegistreProduccio;
-use App\Estadillo;
-use App\ActorEstadillo;
+use App\{RegistreProduccio,Estadillo,ActorEstadillo};
 
 class EstadilloShowActorSetmana  implements Responsable
 {

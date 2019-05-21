@@ -2,8 +2,8 @@
 namespace App\Http\Responsables\Estadillo;
 
 use Illuminate\Contracts\Support\Responsable;
-use App\Estadillo;
-use App\RegistreProduccio;
+use App\{Estadillo,RegistreProduccio};
+
 class EstadilloIndex implements Responsable
 {
     protected $showEstadillos;

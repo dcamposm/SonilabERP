@@ -2,8 +2,8 @@
 namespace App\Http\Responsables\RegistreProduccio;
 
 use Illuminate\Contracts\Support\Responsable;
-use App\Missatge;
-use App\RegistreEntrada;
+use App\{Missatge,RegistreEntrada};
+
 class RegistreProduccioIndex implements Responsable
 {
     protected $missatges;

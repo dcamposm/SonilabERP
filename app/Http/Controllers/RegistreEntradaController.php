@@ -3,28 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Validator;
-use App\RegistreEntrada;
-use App\Idioma;
-use App\Client;
-use App\Servei;
-use App\TipusMedia;
-use App\User;
-use App\Missatge;
-use App\RegistreProduccio;
-use App\Estadillo;
-use App\ActorEstadillo;
-use App\Costos;
-use App\EmpleatCost;
-use App\Mail\RegistreEntradaCreat;
-use App\Mail\RegistreEntradaUpdate;
 use Illuminate\Support\Facades\Mail;
-/*use Swift_Message;
-use Swift_SmtpTransport;
-use Swift_Mailer;*/
-use View;
-use App\Http\Responsables\RegistreEntrada\RegistreEntradaIndex;
-use App\Http\Responsables\RegistreEntrada\RegistreEntradaCreate;
+use App\{RegistreEntrada,Missatge,RegistreProduccio,Estadillo,ActorEstadillo,Costos,EmpleatCost};
+use App\Mail\{RegistreEntradaCreat, RegistreEntradaUpdate};
+use App\Http\Responsables\RegistreEntrada\{RegistreEntradaIndex,RegistreEntradaCreate};
 use App\Http\Requests\RegistreEntradaCreateRequest;
 
 class RegistreEntradaController extends Controller

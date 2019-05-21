@@ -2,8 +2,8 @@
 namespace App\Http\Responsables\RegistreProduccio;
 
 use Illuminate\Contracts\Support\Responsable;
-use App\EmpleatExtern;
-use App\RegistreEntrada;
+use App\{EmpleatExtern,RegistreEntrada};
+
 class RegistreProduccioCreate implements Responsable
 {
     protected $registreProduccio;
