@@ -50,7 +50,7 @@
         <thead>
             <tr>
                 <th>NOM</th> 
-                <th>COGNOMS</th>
+                <th>COGNOM</th>
                 <th>TELÈFON</th>
                 <th>CARRECS</th>
                 @if (Auth::user()->hasAnyRole(['1', '4']))
@@ -62,7 +62,7 @@
             @foreach( $empleats as $key => $empleat )
                 <tr>
                     <td style="vertical-align: middle;"><a class="font-weight-bold" href="{{ route('empleatShow', ['id' => $empleat['id_empleat']]) }}" style="text-decoration:none; color:black;">{{$empleat['nom_empleat']}} </a></td>
-                    <td style="vertical-align: middle;">{{$empleat['cognom1_empleat']}} {{$empleat['cognom2_empleat']}}</td>
+                    <td style="vertical-align: middle;">{{$empleat['cognom1_empleat']}}</td>
                     <td style="vertical-align: middle;">{{$empleat['telefon_empleat']}}</td>
                     <td style="padding: 0px;">
                         <ul class="list-group list-group-horizontal-sm" style="flex-direction: row;">
