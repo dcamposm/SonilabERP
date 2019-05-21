@@ -33,6 +33,7 @@ class EstadilloShowActorSetmana  implements Responsable
                             'id_actor' => $actor['id_actor'],
                             'cg_estadillo' =>  $actor['cg_estadillo'],
                             'canso_estadillo' =>  $actor['canso_estadillo'],
+                            'narracio_estadillo' => $actor['narracio_estadillo'],
                             'take_estadillo' => $actor['take_estadillo']
                         );
                     } else {
@@ -40,6 +41,9 @@ class EstadilloShowActorSetmana  implements Responsable
                         $this->actors[$actor['id_actor']]['take_estadillo']+=$actor['take_estadillo'];
                         if ($actor['canso_estadillo'] == 1) {
                             $this->actors[$actor['id_actor']]['canso_estadillo'] = $actor['canso_estadillo'];
+                        }
+                        if ($actor['narracio_estadillo'] == 1) {
+                            $this->actors[$actor['id_actor']]['narracio_estadillo'] = $actor['narracio_estadillo'];
                         }
                     }
                 }  

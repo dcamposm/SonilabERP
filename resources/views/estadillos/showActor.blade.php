@@ -36,9 +36,10 @@
         <thead>
             <tr>
                 <th>ACTOR</th> 
-                <th>CGs</th>
+                <th>CGs TOTALS</th>
                 <th>{{isset($actor['id']) ? 'TKs' : 'TKs TOTALS'}}</th>
-                <th></th>
+                <th>NARRACIÓ</th>
+                <th>CANÇÓ</th>
                 <th>ACCIONS</th>
             </tr>
         </thead>
@@ -48,12 +49,11 @@
                     @foreach ($empleats as $empleat)
                         @if ($actor['id_actor'] == $empleat->id_empleat)
                             <td style="vertical-align: middle;">
-
-                                        <span class="font-weight-bold" style="font-size: 1rem;">{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }}</span>
-
+                                <span class="font-weight-bold" style="font-size: 1rem;">{{ $empleat->nom_empleat }} {{ $empleat->cognom1_empleat }}</span>
                             </td>
                             <td style="vertical-align: middle;">{{ $actor['cg_estadillo']}}</td>
                             <td style="vertical-align: middle;">{{ $actor['take_estadillo']}}</td>
+                            <td style="vertical-align: middle;">{{ $actor['narracio_estadillo'] == 1 ? 'NARRACIÓ' : ''}}</td>
                             <td style="vertical-align: middle;">{{ $actor['canso_estadillo'] == 1 ? 'CANÇÓ' : ''}}</td>
                             <td style="vertical-align: middle;">
                                 <a href="{{ !isset($registreProduccio) ? route('estadilloActorUpdateView', array('id' => $estadillos->id_estadillo, 'id_actor' => $actor['id_actor'])) : route('estadilloActorUpdateView', array('id' => $registreProduccio->id_registre_entrada, 'id_actor'=>$actor['id_actor'], 'setmana'=>$registreProduccio->setmana))  }}" class="btn btn-primary">MODIFICAR</a>
