@@ -183,7 +183,7 @@ class RegistreProduccioController extends Controller {
             
             $registres = RegistreProduccio::with('traductor')->with('ajustador')
                         ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
-                        ->orderBy('estat')->orderBy('data_entrega')->orderBy(request()->input("orderBy"))->whereRaw($raw)->get();
+                        ->orderBy('estat')->orderBy('data_entrega')->orderBy(request()->input("orderBy"))->whereRaw(!isset($raw) ? 0 : $raw)->get();
             //return response()->json($registres);
         } else {
             $registres = RegistreProduccio::with('traductor')->with('ajustador')
