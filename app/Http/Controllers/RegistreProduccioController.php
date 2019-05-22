@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
-use App\{RegistreProduccio, EmpleatExtern, Missatge, Estadillo, Costos};
+use App\{RegistreProduccio, EmpleatExtern, Missatge, Estadillo, Costos, RegistreEntrada};
 use App\Http\Responsables\RegistreProduccio\{RegistreProduccioIndex, RegistreProduccioCreate, RegistreProduccioShow};
 use App\Http\Requests\{RegistreProduccioCreateRequest, RegistreProduccioUpdateRequest};
 
@@ -170,6 +170,21 @@ class RegistreProduccioController extends Controller {
             $registres = RegistreProduccio::with('traductor')->with('ajustador')
                             ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
                             ->orderBy('estat')->orderBy('data_entrega')->orderBy(request()->input("orderBy"))->whereRaw($raw)->get();
+        } else if (request()->input("searchBy") == 'responsable'){
+            $registresEntrades = RegistreEntrada::where('id_usuari', request()->input("search_term"))->get();
+
+            foreach ($registresEntrades as $regEntrada){
+                if (!isset($raw)){
+                    $raw = 'id_registre_entrada = '.$regEntrada->id_registre_entrada.'';
+                } else {
+                    $raw = $raw.' OR id_registre_entrada = '.$regEntrada->id_registre_entrada.'';
+                }
+            }
+            
+            $registres = RegistreProduccio::with('traductor')->with('ajustador')
+                        ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
+                        ->orderBy('estat')->orderBy('data_entrega')->orderBy(request()->input("orderBy"))->whereRaw($raw)->get();
+            //return response()->json($registres);
         } else {
             $registres = RegistreProduccio::with('traductor')->with('ajustador')
                 ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')

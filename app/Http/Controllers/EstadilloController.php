@@ -129,8 +129,10 @@ class EstadilloController extends Controller
                     }
                     //return response()->json($actor);
                 } else {
-                    $alert = 'WARNING. No s\'ha pogut introduir tots els actors. '
-                            . 'Comprova si existeixen en \'GESTIÓ DE PERSONAL\'.';
+                    if (!isset($alert)){
+                        $alert = "WARNING. Aquests actors no existeixen o no s'han trobat: ";
+                    }
+                    $alert = $alert."".$arrayEstadillo[$i][1]." ".$arrayEstadillo[$i][0] . ", ";
                     //return response()->json('ERROR. No existeix '.$nomCognom[1].' '.$nomCognom[0]);
                 }
             }

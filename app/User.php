@@ -42,7 +42,7 @@ class User extends Authenticatable
             $this->attributes['contrasenya_usuari'] = bcrypt($value);
         }
     }
-
+    
     /**
      * Especifica el nom del camp de la contrasenya al model
      * 
@@ -53,6 +53,12 @@ class User extends Authenticatable
         return $this->contrasenya_usuari;
     }
 
+    protected $appends = ['nom_cognom'];
+    
+    public function getNomCognomAttribute() {
+        return $this->alias_usuari.' '.$this->cognom1_usuari;
+    }
+    
     /**
      * - Indica el tipo de relación del campo especificado.
      * - En este caso le estamos diciendo que el campo "id_departament" pertenece al

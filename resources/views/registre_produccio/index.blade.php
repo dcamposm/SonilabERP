@@ -60,6 +60,7 @@
                                     <option value="data_tecnic_mix" id="date">DATA MIX</option>
                                     <option value="retakes" id="retakes">RETAKES</option>
                                 @endif
+                                <option value="responsable" id="responsable">RESPONSABLE</option>
                                 <option value="estadillo" id="fet">ESTADILLO</option>
                                 <option value="vec" id="fet">VEC</option>
                             @elseif (Auth::user()->hasAnyRole(['3']))
@@ -147,6 +148,7 @@
                     <th>SUB-REF</th> 
                     <th>DATA D'ENTREGA</th>
                     <th>SETMANA</th>
+                    <th>RESPONSABLE</th>
                     <th>TÍTOL ORIGINAL</th>
                     <th>ESTADILLO</th>
                     <th>VEC</th>
@@ -156,6 +158,7 @@
                     <th>SUB-REF</th> 
                     <th>DATA D'ENTREGA</th>
                     <th>SETMANA</th>
+                    <th>RESPONSABLE</th>
                     <th>TÍTOL ORIGINAL</th>
                     <th>TÍTOL TRADUIT</th>
                     <th>TRADUCTOR</th>
@@ -181,6 +184,7 @@
                     <th>SUB-REF</th> 
                     <th>DATA D'ENTREGA</th>
                     <th>SETMANA</th>
+                    <th>RESPONSABLE</th>
                     <th>TÍTOL ORIGINAL</th>
                     <th>QC VO</th>
                     <th>QC M&E</th>
@@ -213,6 +217,7 @@
                         </td>
                         <td style="vertical-align: middle;">{{ date('d/m/Y', strtotime($registreProduccio->data_entrega)) }}</td>
                         <td style="vertical-align: middle;">{{$registreProduccio->setmana}}</td>
+                        <td style="vertical-align: middle;">{{$registreProduccio->registreEntrada->usuari->nom_cognom}}</td>
                         <td style="vertical-align: middle;">{{$registreProduccio->titol}}</td>
                         @if (Auth::user()->hasAnyRole(['1', '2', '4']))
                             @if (Auth::user()->hasAnyRole(['2']))
@@ -300,6 +305,7 @@
                                 <td style="vertical-align: middle;" class="accordion cursor font-weight-bold" data-toggle="collapse" data-target="#collapse{{$key}}_{{$key1}}">{{ $episodi['min'] }}_{{ $episodi['max'] }} </td>
                                 <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}_{{$key1}}">{{ date('d/m/Y', strtotime($episodi['data'])) }}</td>
                                 <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}_{{$key1}}">{{ $episodi['setmana'] }}</td>
+                                <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}_{{$key1}}">{{$episodi['responsable']}}</td>
                                 <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}_{{$key1}}">{{ $episodi['titol'] }}</td>
                                 @if (Auth::user()->hasAnyRole(['1', '2', '4']))
                                     @if (Auth::user()->hasAnyRole(['2']))
@@ -379,6 +385,7 @@
                                 </td>
                                 <td style="vertical-align: middle;">{{ date('d/m/Y', strtotime($episodi->data_entrega)) }}</td>
                                 <td style="vertical-align: middle;">{{$episodi->setmana}}</td>
+                                <td style="vertical-align: middle;">{{$episodi->registreEntrada->usuari->nom_cognom}}</td>
                                 <td style="vertical-align: middle;">{{$episodi->titol}}</td>
                                 @if (Auth::user()->hasAnyRole(['1', '2', '4']))
                                     @if (Auth::user()->hasAnyRole(['2']))
@@ -625,6 +632,21 @@
     } else if ($('#searchBy').children(":selected").attr("id") == 'retakes'){
         $('#search_term').remove();
         $('<select class="custom-select" id="search_term" name="search_term" form="search"><option value="No">NO</option><option value="Si">SI</option><option value="Fet">FET</option></select>').insertAfter('#orderBy');
+    } else if ($('#searchBy').children(":selected").attr("id") == 'responsable'){
+        $('#search_term').remove();
+        
+        var select = document.createElement("select");
+        $(select).attr("name", "search_term");
+        $(select).attr("id", "search_term");
+        $(select).attr("class", "form-control");
+        
+        var usuaris = @json($usuaris);
+
+        $.each(usuaris, function( key, usuari ) {
+            $(select).append('<option value="'+usuari['id_usuari']+'">'+usuari['alias_usuari'].toUpperCase()+'</option>');
+        });
+        
+        $(select).insertAfter('#orderBy');
     }
     else {
         //Canviem el input actual per el que necessitem
