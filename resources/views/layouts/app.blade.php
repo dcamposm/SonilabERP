@@ -220,6 +220,16 @@
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
+<!-- Script per recordar la posicio del scroll -->
+<script>
+    window.onload=function(){
+    var pos=window.name || 0;
+    window.scrollTo(0,pos);
+    }
+    window.onunload=function(){
+    window.name=self.pageYOffset || (document.documentElement.scrollTop+document.body.scrollTop);
+    }
+</script>
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
