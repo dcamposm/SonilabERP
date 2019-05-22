@@ -2,18 +2,21 @@
 namespace App\Http\Responsables\RegistreProduccio;
 
 use Illuminate\Contracts\Support\Responsable;
-use App\{Missatge,RegistreEntrada};
+use App\{Missatge,RegistreEntrada, User};
 
 class RegistreProduccioIndex implements Responsable
 {
     protected $missatges;
     protected $registreProduccio;
     protected $registreEntrada;
-    
+    protected $usuaris;
+
+
     public function __construct($registres)
     {
         $this->missatges = Missatge::whereReferencia('registreProduccio')->get();
         $this->registreEntrada = RegistreEntrada::whereEstat('Pendent')->get();
+        $this->usuaris = User::where('id_departament', 2)->get();
         $this->registreProduccio = array();
         
         foreach ($registres as $registre){
@@ -28,6 +31,7 @@ class RegistreProduccioIndex implements Responsable
                         'titol' => $registre->registreEntrada->titol,
                         'data' => $registre->data_entrega,
                         'setmana' => $registre->setmana,
+                        'responsable' => $registre->registreEntrada->usuari->nom_cognom,
                         'estadillo' => $registre->estadillo,
                         'vec' => $registre->vec,
                         'estat' => $registre->estat,
@@ -73,6 +77,7 @@ class RegistreProduccioIndex implements Responsable
         return view('registre_produccio.index', [
             'registreProduccions' => $this->registreProduccio,
             'registreEntrades' => $this->registreEntrada,
+            'usuaris' => $this->usuaris,
             'missatges' => $this->missatges
         ]);
     }

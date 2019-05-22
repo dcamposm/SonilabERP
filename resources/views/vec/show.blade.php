@@ -145,7 +145,7 @@
                     @endforeach
                     @if (isset($totalSS))
                     <tr class="row text-white" style="background-color: #212529;">
-                        <td class="col">SEGURETAT SOCIAL</td>
+                        <td class="col font-weight-bold">SEGURETAT SOCIAL</td>
                         <td class="col-2">{{number_format($totalSS, 2, '.', '')}}€</td>
                     </tr>
                     @endif
