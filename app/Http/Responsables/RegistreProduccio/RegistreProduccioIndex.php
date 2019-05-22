@@ -13,7 +13,7 @@ class RegistreProduccioIndex implements Responsable
     public function __construct($registres)
     {
         $this->missatges = Missatge::whereReferencia('registreProduccio')->get();
-        $this->registreEntrada = RegistreEntrada::all();
+        $this->registreEntrada = RegistreEntrada::whereEstat('Pendent')->get();
         $this->registreProduccio = array();
         
         foreach ($registres as $registre){

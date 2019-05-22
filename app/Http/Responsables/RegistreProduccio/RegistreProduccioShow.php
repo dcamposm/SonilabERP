@@ -16,7 +16,7 @@ class RegistreProduccioShow implements Responsable
         $this->registreProduccio = $registreProduccio; 
         $this->empleados = [];
         $this->empleatsCarrec = EmpleatExtern::with('carrec')->get();
-        $this->regEntrades = RegistreEntrada::all();
+        $this->regEntrades = RegistreEntrada::whereEstat('Pendent')->get();
         
         $traductor   = EmpleatExtern::find($registreProduccio->id_traductor);
         $ajustador   = EmpleatExtern::find($registreProduccio->id_ajustador);
