@@ -2,10 +2,7 @@
 namespace App\Http\Responsables\Estadillo;
 
 use Illuminate\Contracts\Support\Responsable;
-use App\RegistreProduccio;
-use App\Estadillo;
-use App\EmpleatExtern;
-use App\ActorEstadillo;
+use App\{RegistreProduccio,Estadillo,ActorEstadillo};
 
 class EstadilloShowActorSetmana  implements Responsable
 {
@@ -16,9 +13,9 @@ class EstadilloShowActorSetmana  implements Responsable
     protected $min;
     protected $max;
     
-    public function __construct($id, $setmana)
+    public function __construct($id, $setmana, $empleats)
     {
-        $this->empleats = EmpleatExtern::all();
+        $this->empleats = $empleats;
         $this->actors = array();
         $registresProduccio = RegistreProduccio::where('id_registre_entrada', $id)->where('setmana', $setmana)->get();
         

@@ -20,7 +20,7 @@ class UserCreateRequest extends FormRequest
             'alias_usuari' => 'required|min:4|max:35',
             'contrasenya_usuari' => 'required|min:4|max:15|same:cpass',
             'id_departament' => 'required',
-            'cpass' => 'same:contrasenya_usuari'
+            'cpass' => 'required|same:contrasenya_usuari'
         ];
     }
     
@@ -31,6 +31,7 @@ class UserCreateRequest extends FormRequest
             'email_usuari.required' => ' No s\'ha posat el email.', 
             'alias_usuari.required' => ' No s\'ha posat el àlies.',
             'contrasenya_usuari.required' => ' No s\'ha posat la contrasenya.',
+            'cpass.required' => ' No s\'ha posat la contrasenya.',
             'id_departament.required' => ' No s\'ha seleccionat un departament.',
             '*.max' => ' El tamany màxim és de :max caracters.',
             '*.min' => ' El tamany mínim és de :min caracters.',

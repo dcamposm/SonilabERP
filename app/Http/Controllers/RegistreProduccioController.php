@@ -3,21 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\RegistreEntrada;
-use App\RegistreProduccio;
-use App\EmpleatExtern;
-use App\Missatge;
-use App\Rules\CheckSubreferenciaCreate;
-use App\Rules\CheckSubreferenciaUpdate;
 use Auth;
-use Validator;
-use App\Http\Responsables\RegistreProduccio\RegistreProduccioIndex;
-use App\Http\Responsables\RegistreProduccio\RegistreProduccioCreate;
-use App\Http\Responsables\RegistreProduccio\RegistreProduccioShow;
-use App\Http\Requests\RegistreProduccioCreateRequest;
-use App\Http\Requests\RegistreProduccioUpdateRequest;
-use App\Estadillo;
-use App\Costos;
+use App\{RegistreProduccio, EmpleatExtern, Missatge, Estadillo, Costos};
+use App\Http\Responsables\RegistreProduccio\{RegistreProduccioIndex, RegistreProduccioCreate, RegistreProduccioShow};
+use App\Http\Requests\{RegistreProduccioCreateRequest, RegistreProduccioUpdateRequest};
 
 class RegistreProduccioController extends Controller {
 

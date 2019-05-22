@@ -2,11 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Carrec;
-use App\CarrecEmpleat;
-use App\EmpleatExtern;
-use App\Idioma;
-use App\Tarifa;
+use App\{Carrec,CarrecEmpleat,EmpleatExtern,Idioma,Tarifa};
 use Illuminate\Http\Request;
 use Validator;
 use App\Http\Responsables\EmpleatExtern\EmpleatExternIndex;

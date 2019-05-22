@@ -3,16 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Estadillo;
-use App\RegistreProduccio;
-use App\ActorEstadillo;
-use App\EmpleatExtern;
-use App\CarrecEmpleat;
+use App\{Estadillo,RegistreProduccio,ActorEstadillo,EmpleatExtern,CarrecEmpleat};
 use Excel;
 use Validator;
-use App\Http\Responsables\Estadillo\EstadilloIndex;
-use App\Http\Responsables\Estadillo\EstadilloShowActor;
-use App\Http\Responsables\Estadillo\EstadilloShowActorSetmana;
+use App\Http\Responsables\Estadillo\{EstadilloIndex,EstadilloShowActor,EstadilloShowActorSetmana};
 
 class EstadilloController extends Controller
 {
@@ -30,17 +24,18 @@ class EstadilloController extends Controller
     }
     
     public function show($id, $id_setmana = 0){ //Funcio que mostra l'informació s'un estadillo
+        $empleats = EmpleatExtern::all();
         if ($id_setmana == 0){
             $actors = ActorEstadillo::where('id_produccio', $id)->get(); //Busca tots els actors que participin amb l'estadillo
            
             $estadillos = Estadillo::find($id); //Busca l'estadillo
             $estadillos->registreProduccio;
             //return response()->json($estadillos);
-            return new EstadilloShowActor($actors, $estadillos);
+            return new EstadilloShowActor($actors, $estadillos, $empleats);
         } 
         
         try {
-            return new EstadilloShowActorSetmana($id, $id_setmana);
+            return new EstadilloShowActorSetmana($id, $id_setmana, $empleats);
         } catch (\Exception $ex) {
             return redirect()->back()->withErrors(array('error' => 'ERROR. No hi han estadillos creats en la refernecia '.$id.' de la setmana '.$id_setmana));
         }   
@@ -629,66 +624,10 @@ class EstadilloController extends Controller
             $estadillos = Estadillo::find($id);
             $estadillos->registreProduccio;
             //return response()->json($estadillos);
-            //return response()->json($estadillos);//['registre_produccio']
-            //return response()->json($estadillos);
-            return view('estadillos.showActor', array(
-                'actors'    => $actors,
-                'empleats'    => $empleats,
-                'estadillos' => $estadillos
-            ));
+            return new EstadilloShowActor($actors, $estadillos, $empleats);
         } 
         
-        $arrayActors = array();
-        $registresProduccio = RegistreProduccio::where('id_registre_entrada', $id)->where('setmana', $id_setmana)->get();
-        
-        //return response()->json($registresProduccio);
-        
-        foreach ($registresProduccio as $registre) {
-            $estadillo = Estadillo::where('id_registre_produccio', $registre['id'])->first();
-            //return response()->json($estadillos);
-            if ($estadillo){
-                //return response()->json($estadillos);
-                $actors = ActorEstadillo::where('id_produccio', $estadillo['id_estadillo'])->get();
-                //return response()->json($actors);
-                
-                foreach ($actors as $actor) {  
-                    if (!isset($arrayActors[$actor['id_actor']])){
-                        $arrayActors[$actor['id_actor']] = array(
-                            'id_actor' => $actor['id_actor'],
-                            'cg_estadillo' =>  $actor['cg_estadillo'],
-                            'take_estadillo' => $actor['take_estadillo']
-                        );
-                    } else {
-                        $arrayActors[$actor['id_actor']]['cg_estadillo']+=$actor['cg_estadillo'];
-                        $arrayActors[$actor['id_actor']]['take_estadillo']+=$actor['take_estadillo'];
-                        //return response()->json($arrayActors);
-                    }
-                    //return response()->json($arrayActors);
-                }  
-                
-                if (!isset($min)) {
-                    $min = $registre['subreferencia'];
-                    $max = $registre['subreferencia'];
-                } else {
-                    if ($registre['subreferencia'] < $min){
-                        $min = $registre['subreferencia'];
-                    } else if ($registre['subreferencia'] > $max) {
-                        $max = $registre['subreferencia'];
-                    }
-                }
-                $estadillos = Estadillo::where('id_registre_produccio', $registre['id'])->first()->registreProduccio;
-            }
-        }
-        $registreProduccio = RegistreProduccio::where('id_registre_entrada', $id)->where('setmana', $id_setmana)->first();
-        
-        return view('estadillos.showActor', array(
-                'actors'    => $arrayActors,
-                'empleats'    => $empleats,
-                'estadillos' => $estadillos,
-                'registreProduccio' => $registreProduccio,
-                'min' => $min,
-                'max' => $max
-            ));
+        return new EstadilloShowActorSetmana($id, $id_setmana, $empleats);
     }
     
     public function delete(Request $request) //Funcio per esborrar un estadillo
