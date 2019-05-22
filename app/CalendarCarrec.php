@@ -17,6 +17,10 @@ class CalendarCarrec extends Model
         "torn",
     ];
 
+    protected $casts = [
+        'data'  => 'date:d-m-Y',
+    ];
+
     public function carrec() {
         return $this->hasMany('App\Carrec', 'id_carrec', 'id_carrec');
     }

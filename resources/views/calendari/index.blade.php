@@ -204,7 +204,8 @@
     var urlBase = "<?php echo $urlBase ?>"
     var data = <?php echo $data ?>;
     var actores = <?php echo $actores ?>;
-    var dataBase = data   
+    var dataBase = data;   
+    var directoresAsignados = <?php echo json_encode($directoresAsignados) ?>;
 </script>
 <script type="text/javascript" src="{{ URL::asset('js/custom/calendar.js') }}"></script>
 <link rel="stylesheet" href="{{ URL::asset('css/calendar.css') }}" />

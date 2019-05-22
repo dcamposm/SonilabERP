@@ -270,6 +270,40 @@ function ampliarCasilla(e) {
     $('.dia-' + diaSeleccionado.split('-')[0] + '-' + salaSeleccionada).show();
 
     // TODO: Seleccionar a los técnicos y los directorios dependiendo del día y la sala seleccionadas.
+    console.log(diaSeleccionado)
+    console.log(salaSeleccionada)
+    console.log(directoresAsignados)
+    
+    $('#director0').val('')
+    $('#director1').val('')
+    $('#tecnico0').val('')
+    $('#tecnico1').val('')
+
+    directoresAsignados.forEach(element => {
+        if (element.num_sala == salaSeleccionada && element.data==diaSeleccionado){
+            if (element.id_carrec == 2 ){ // director
+                if (element.torn == 0){ //mañana
+                    console.log('director por la mañana va')
+                    console.log(element)
+                    $('#director0').val(element.id_empleat)
+                } else if (element.torn == 1){ //tarde
+                    console.log('director por la tarde va')
+                    console.log(element)
+                    $('#director1').val(element.id_empleat)
+                }
+            } else if (element.id_carrec == 3){// técnico
+                if (element.torn == 0){ //mañana
+                    console.log('ténico por la mañana va')
+                    console.log(element)
+                    $('#tecnico0').val(element.id_empleat)
+                } else if (element.torn == 1){ //tarde
+                    console.log('técnico por la tarde va')
+                    console.log(element)
+                    $('#tecnico1').val(element.id_empleat)
+                }
+            }
+        }
+    });
 
     $('#dialog').css({ 'width': window.innerWidth - 30 })
     $('#dialog').css({ 'max-width': window.innerWidth - 30 })
