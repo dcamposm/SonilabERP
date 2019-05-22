@@ -42,7 +42,7 @@
 
     <nav class="navbar navbar-dark sticky-top bg-dark navbar-sonilab flex-md-nowrap p-0">
 
-        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"><img src="http://sonilab.com.mialias.net/wp-content/uploads/2016/11/SONILAB_logo41-300x65-300x75.png" width="120" height="30" class="d-inline-block align-top" alt=""></a>
+        <a class="navbar-brand ml-2" href="{{ route('home') }}"><img src="{{ asset('img/logo_letras.png') }}" height="30" class="d-inline-block align-top" alt=""></a>
         @auth
 
         <ul class="navbar-nav px-3">
