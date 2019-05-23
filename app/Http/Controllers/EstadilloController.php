@@ -7,7 +7,7 @@ use App\{Estadillo,RegistreProduccio,ActorEstadillo,EmpleatExtern,CarrecEmpleat}
 use Excel;
 use Validator;
 use App\Http\Responsables\Estadillo\{EstadilloIndex,EstadilloShowActor,EstadilloShowActorSetmana};
-
+use App\Imports\ActorEstadilloImport;
 class EstadilloController extends Controller
 {
     public function __construct()
@@ -55,7 +55,8 @@ class EstadilloController extends Controller
     
     public function import() 
     {
-        //return response()->json(request()->input('id_estadillo'));
+        //COMPROVACIÓ SI L'IMPORT SE ESTA FENT DESDE LA VISTA INDEX D'ESTADILLO 
+        //O DESDE LA VISTA INDEX DE REGISTRE DE PRODUCCIÓ
         if (!request()->input('id_estadillo')){
             if (request()->has('import_file')) {
                 $titol = request()->file('import_file')->getClientOriginalName();
@@ -75,7 +76,7 @@ class EstadilloController extends Controller
         }
         
         $estadillo = Estadillo::where('id_registre_produccio', $projecte['id'])->first();
-        //CREACIO ESTADILLO
+        //CREACIÓ ESTADILLO
         if ($projecte){
             if ($estadillo){
                return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut importar l\'estadillo. Aquest estadillo ja existeix'));
@@ -85,62 +86,15 @@ class EstadilloController extends Controller
                 $estadillo = new Estadillo;
                 $estadillo->id_registre_produccio = $projecte['id'];
                 $estadillo->save();
-                //return response()->json('Estadillo creado');
             }
         } else {
             return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut importar l\'estadillo. Comprova el número de referència del nom del fitxer'));
         }
-        //CREACIO ACTORS ESTADILLO
-        //Pasem el excel en una array
-        $excel = Excel::toArray(new Estadillo,request()->file('import_file'));
-        //Agafem els valors de la primera Fulla i els guardem en una Array
-        $arrayEstadillo = $excel[0];
-        //return response()->json($arrayEstadillo);
-        //Recorem tota l'array amb les dades del excel, en la $i indiquem la fila on esta el valors
-        for ($i = 1; $i < count($arrayEstadillo); $i++){
-            //return response()->json($nomCognom);
-            //Comprovació si existeix el actor
-            if (!is_null($arrayEstadillo[$i][1])){
-                $empleat = EmpleatExtern::whereRaw('LOWER(nom_empleat) like "%'. strtolower($arrayEstadillo[$i][1]).'%"'
-                                                . 'AND LOWER(cognom1_empleat) like "%'. strtolower($arrayEstadillo[$i][0]).'%"')->first();
-            
-                if ($empleat){
-                    //return response()->json($empleat);
-                    $actor = ActorEstadillo::where('id_produccio', $estadillo['id_estadillo'])
-                            ->where('id_actor', $empleat['id_empleat'])->first();
-                    //return response()->json($actor);
-                    if ($actor){
-                        $actor->id_produccio = $estadillo['id_estadillo'];
-                        $actor->id_actor = $empleat['id_empleat'];
-                        $actor->take_estadillo = $arrayEstadillo[$i][2];
-                        $actor->cg_estadillo = $arrayEstadillo[$i][3];
-                        $actor->canso_estadillo = is_null($arrayEstadillo[$i][4]) ? 0 : 1;
-                        $actor->narracio_estadillo = is_null($arrayEstadillo[$i][5]) ? 0 : 1;
-                        $actor->save();
-                    } else {
-                        $actor = new ActorEstadillo;
-                        $actor->id_produccio = $estadillo['id_estadillo'];
-                        $actor->id_actor = $empleat['id_empleat'];
-                        $actor->take_estadillo = $arrayEstadillo[$i][2];
-                        $actor->cg_estadillo = $arrayEstadillo[$i][3];
-                        $actor->canso_estadillo = is_null($arrayEstadillo[$i][4]) ? 0 : 1;
-                        $actor->narracio_estadillo = is_null($arrayEstadillo[$i][5]) ? 0 : 1;
-                        $actor->save();
-                    }
-                    //return response()->json($actor);
-                } else {
-                    if (!isset($alert)){
-                        $alert = "WARNING. Aquests actors no existeixen o no s'han trobat: ";
-                    }
-                    $alert = $alert."".$arrayEstadillo[$i][1]." ".$arrayEstadillo[$i][0] . ", ";
-                    //return response()->json('ERROR. No existeix '.$nomCognom[1].' '.$nomCognom[0]);
-                }
-            }
-        }
+        //CREACIÓ DELS ACTORS DEL ESTADILLO
+        //Fem la importació del excel utilitzant una classe Import, aquesta 
+        //classe es del paquet de excel_laravel. Ubicació de la classe "App\Imports"
+        Excel::import(new ActorEstadilloImport($estadillo->id_estadillo), request()->file('import_file'));
         
-        if (isset($alert)){
-            return redirect()->back()->with('alert', $alert);
-        }
         return redirect()->back()->with('success', 'Estadillo importat correctament.');  
     }
     
