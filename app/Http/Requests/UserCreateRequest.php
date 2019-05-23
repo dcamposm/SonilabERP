@@ -6,16 +6,22 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UserCreateRequest extends FormRequest
 {
+    /*
+        *Classe FormRequest encarregada de validar les dades introduides de 
+        *la vista create d'usuaris interns.
+    */
     public function authorize()
     {
         return true;
     }
-
+    /*
+        *Funcio que aplica les regles de validació als atributs
+    */
     public function rules()
     {
         return [
             'cognom1_usuari' => 'required|max:35',
-            'cognom2_usuari' => 'required|max:35',
+            'cognom2_usuari' => 'max:35',
             'email_usuari' => 'required|email',
             'alias_usuari' => 'required|min:4|max:35',
             'contrasenya_usuari' => 'required|min:4|max:15|same:cpass',
@@ -23,7 +29,10 @@ class UserCreateRequest extends FormRequest
             'cpass' => 'required|same:contrasenya_usuari'
         ];
     }
-    
+    /*
+        *Funcio que retorna els missatges d'error, si algun dels atributs no
+        *cumpleixen alguna de les regles que tenen aplicades.
+    */
     public function messages() {
         return [
             'cognom1_usuari.required' => ' No s\'ha posat el primer cognom.',

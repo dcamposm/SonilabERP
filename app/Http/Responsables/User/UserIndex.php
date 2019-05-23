@@ -5,6 +5,9 @@ use Illuminate\Contracts\Support\Responsable;
 use App\Departament;
 class UserIndex  implements Responsable
 {
+    /*
+        *Classe Responsable que gestiona el retornament de la vista index d'usuaris interns
+    */
     protected $user;
     protected $departaments;
 

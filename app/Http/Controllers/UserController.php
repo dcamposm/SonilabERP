@@ -20,13 +20,15 @@ class UserController extends Controller
     }
 
     /*
-        *funcio per retornar la vista de crear usuaris interns
+        *Funcio per retornar la vista create de usuaris interns
     */
     function viewRegistre(){
         return new UserCreate();
     }
     /*
-        *funcio per retornar la vista de editar usuaris interns
+        *Funcio per retornar la vista d'editar usuaris interns 
+        *La vista d'editar fa servir la mateixa que la de crear, lo unic que
+        *canvia que s'envia el usuari que es vol modificar.
     */
     function viewEditarUsuario($id){
         $usuari = User::find($id);
@@ -34,7 +36,7 @@ class UserController extends Controller
         return new UserCreate($usuari);    
     }
     /*
-        *funcio per retornar la vista de tots els usuaris interns
+        *Funcio per retornar la vista index dels usuaris interns
     */
     function getIndex(){
         $usuaris= User::all();
@@ -42,11 +44,12 @@ class UserController extends Controller
         return new UserIndex($usuaris);
     }
     /*
-        *funcio buscar els usuaris interns amb la opcio indicada i després retornar-la
+        *Funcio que busca els usuaris interns amb la opcio indicada i després
+        *retorna a la vista index
     */
     public function find()
     {
-        //Primer comprova quina opcio a sigut elgida i depres gurada en una array els usuaris amb la opcio indicada
+        //Primer comprova quina opcio a sigut elgida. Depres fa la consulta i la guarda.
         if (request()->input("searchBy") == '1'){  
             $users = User::where('id_departament', request()->input("search_Dep"))->get();            
         } else if (request()->input("searchBy") == '2'){
@@ -55,14 +58,12 @@ class UserController extends Controller
             $users = User::whereRaw('LOWER(alias_usuari) like "%'. strtolower(request()->input("search_term")).'%"'
                     . 'OR LOWER(cognom1_usuari) like "%'. strtolower(request()->input("search_term")).'%"'.
                     'OR LOWER(cognom2_usuari) like "%'. strtolower(request()->input("search_term")).'%"')->get();
-                    /*->orWhere('cognom1_usuari', request()->input("search_term"))
-                    ->orWhere('cognom2_usuari', request()->input("search_term"))->get();*/
         }
         
         return new UserIndex($users);
     }
     /*
-        *funcio per retornar la vista de un usuari intern
+        *Funcio per retornar a la vista show d'usuari interns
     */
     function getShow($id){
         $usuari = User::find($id);
@@ -70,10 +71,11 @@ class UserController extends Controller
         return view('usuaris_interns.show', array('usuari' => $usuari));
     }
     /*
-        *funcio per crear a un usuari intern
+        *Funcio per crear un usuari intern
     */
     function crearUsuario(UserCreateRequest $request){
         $usuario = new User(request()->all());
+        
         if ($_FILES["imatge_usuari"]["tmp_name"]!=""){
             $usuario['imatge_usuari'] = base64_encode(file_get_contents($_FILES["imatge_usuari"]["tmp_name"]));
         } else {
@@ -88,7 +90,7 @@ class UserController extends Controller
         return redirect()->back()->with('success', 'S\'ha creat el usuari correctament');
     }
     /*
-        *funcio per editar a un usuari intern
+        *Funcio per editar un usuari intern
     */
     function editarUsuario(UserUpdateRequest $request, $id){
         $usuario = User::find($id);
