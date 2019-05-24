@@ -158,7 +158,7 @@
                     </table>
 
                     <form  id="pasarLista" action="" method="POST" style="margin-top: 15px;">
-                        <div style="background-color: whitesmoke; height: 250px; width: 50%; overflow-y: scroll;">
+                        <div style="background-color: whitesmoke; height: 150px; width: 50%; overflow-y: scroll;">
                             <table class="table" style="width: 100%; margin-top: 30px;">
                                 <tbody>
                                     @foreach($actoresPorDia as $key => $dia)

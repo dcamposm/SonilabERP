@@ -170,7 +170,13 @@ class CalendariController extends Controller
 
             // Coge el calendario en cuestión de la base de datos y modifica la asistencia:
             $calendario = Calendar::find($id_calendar);
-            $calendario->asistencia = $dato;
+            if ($dato == "null") {
+                $calendario->asistencia = null;
+            }
+            else {
+                $calendario->asistencia = intval($dato);
+            }
+            // return response()->json($calendario);
 
             // Aplica los nuevos cambios del calendario en la base de datos:
             $calendario->save();
