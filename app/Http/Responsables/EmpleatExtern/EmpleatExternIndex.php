@@ -18,8 +18,8 @@ class EmpleatExternIndex  implements Responsable
         
         foreach ($empleats as $empleat) {
             foreach( $empleat->carrec as $empleatCarrec ){
-                    //Comprova que el carrec no estigui repetit;
-                    isset($this->empleatsArray[$empleat->id_empleat][$empleatCarrec->carrec->nom_carrec]) ? '' : $this->empleatsArray[$empleat->id_empleat][$empleatCarrec->carrec->nom_carrec] = $empleatCarrec->carrec->nom_carrec;
+                //Comprova que el carrec no estigui repetit;
+                isset($this->empleatsArray[$empleat->id_empleat][$empleatCarrec->carrec->nom_carrec]) ? '' : $this->empleatsArray[$empleat->id_empleat][$empleatCarrec->carrec->nom_carrec] = $empleatCarrec->carrec->nom_carrec;
             }
         } 
     }

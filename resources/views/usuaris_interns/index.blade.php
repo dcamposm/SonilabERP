@@ -17,19 +17,14 @@
                     @csrf
                 <div class="input-group">
                     <select class="custom-select" id='searchBy' name="searchBy" form="search">
-                        <option selected>BUSCAR PER...</option>
-                        <option>NOM O COGNOM</option>
-                        <option value="1">DEPARTAMENT</option>
-                        <option value="2">ÀLIES</option>
+                        <option value="nom_usuari">BUSCAR PER...</option>
+                        <option value="nom_usuari">NOM</option>
+                        <option value="cognom1_usuari">COGNOM</option>
+                        <option value="id_departament" id="departament">DEPARTAMENT</option>
+                        <option value="email_usuariÍndice">EMAIL</option>
                     </select>
 
                     <input type="text" id="search_term" class="form-control" name="search_term" placeholder="BUSCAR USUARI...">
-
-                    <select class="custom-select" id='search_Dep' name="search_Dep" form="search" style="display: none;">
-                        @foreach( $departaments as $key => $departament )
-                          <option value="{{$departament['id_departament']}}">{{ mb_strtoupper( $departament['nom_departament'] ) }}</option>
-                        @endforeach
-                    </select>
 
                     <span class="input-group-btn">
                         <button type="submit" class="btn btn-default" type="button"><span class="fas fa-search"></span></button>
@@ -124,15 +119,24 @@
     }
     //--------Funcions per el filtra-----------
     function selectSearch() {
-        //var value = $('#searchBy').val();
+        if ($('#searchBy').children(":selected").attr("id") == 'departament') {
+             $('#search_term').remove();
         
-        //alert(value);
-        if ($('#searchBy').val() == '1') {
-            $('#search_term').hide();
-            $('#search_Dep').show();
-        } else {
-            $('#search_term').show();
-            $('#search_Dep').hide();
+            var select = document.createElement("select");
+            $(select).attr("name", "search_term");
+            $(select).attr("id", "search_term");
+            $(select).attr("class", "form-control");
+
+            var departaments = @json($departaments);
+
+            $.each(departaments, function( key, departament ) {
+                $(select).append('<option value="'+departament['id_departament']+'">'+departament['nom_departament'].toUpperCase()+'</option>');
+            });
+
+            $(select).insertAfter('#searchBy');
+        }else {
+            $('#search_term').remove();
+            $('<input type="text" class="form-control" id="search_term" name="search_term" placeholder="BUSCAR USUARI...">').insertAfter('#searchBy');
         }
     }
     

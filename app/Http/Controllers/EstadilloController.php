@@ -67,10 +67,8 @@ class EstadilloController extends Controller
             $arrayTitol = explode('_', $titol);
             $idRegEntrada = $arrayTitol[0];
             $idRegProduccio = $arrayTitol[1];
-            //return response()->json(Projecte::where('id_registre_entrada', $idRegEntrada)->where('id', $idRegProduccio)->get());
 
-            $projecte = RegistreProduccio::where('id_registre_entrada', $idRegEntrada)
-                    ->where('subreferencia', $idRegProduccio)->first();
+            $projecte = RegistreProduccio::where('id_registre_entrada', $idRegEntrada)->where('subreferencia', $idRegProduccio)->first();
         } else {
             $projecte = RegistreProduccio::where('id', request()->input('id_estadillo'))->first();
         }

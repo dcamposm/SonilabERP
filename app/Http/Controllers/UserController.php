@@ -50,15 +50,7 @@ class UserController extends Controller
     public function find()
     {
         //Primer comprova quina opcio a sigut elgida. Depres fa la consulta i la guarda.
-        if (request()->input("searchBy") == '1'){  
-            $users = User::where('id_departament', request()->input("search_Dep"))->get();            
-        } else if (request()->input("searchBy") == '2'){
-            $users = User::whereRaw('LOWER(alias_usuari) like "%'. strtolower(request()->input("search_term")).'%"')->get();
-        }  else {
-            $users = User::whereRaw('LOWER(alias_usuari) like "%'. strtolower(request()->input("search_term")).'%"'
-                    . 'OR LOWER(cognom1_usuari) like "%'. strtolower(request()->input("search_term")).'%"'.
-                    'OR LOWER(cognom2_usuari) like "%'. strtolower(request()->input("search_term")).'%"')->get();
-        }
+        $users = User::whereRaw('LOWER('. request()->input("searchBy").') like "%'. strtolower(request()->input("search_term")).'%"')->get();
         
         return new UserIndex($users);
     }
