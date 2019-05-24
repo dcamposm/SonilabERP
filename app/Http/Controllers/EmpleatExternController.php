@@ -238,7 +238,7 @@ class EmpleatExternController extends Controller
                                 $datos["id_idioma"] = $id_idioma;
                                 $datos["empleat_homologat"] = (request()->has("homologat_$nomCarrec" . "_$nom_idioma")) ? request()->input("homologat_$nomCarrec" . "_$nom_idioma") : 0;
                                 $datos["rotllo"] = (request()->has("rotllo_$nomCarrec" . "_$nom_idioma")) ? request()->input("rotllo_$nomCarrec" . "_$nom_idioma") : 0;
-                                $datos["contracta"] = request()->input('contracta_'.$nomCarrec);
+                                $datos["contracta"] =(int) request()->input('contracta_'.$nomCarrec);
                                 $datos["preu_carrec"] = request()->input("preu_$nomCarrec" . "_$nom_idioma" . "_$nombre_corto");
                                 $datos["id_tarifa"] = $tarifa->id;
                                 //(Tarifa::select('id')->where('id_carrec',$id_carrec)->first())->id;
