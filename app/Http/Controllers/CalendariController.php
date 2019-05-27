@@ -104,6 +104,8 @@ class CalendariController extends Controller
             );
             array_push($actoresPorDia, $act_dia);
         }
+
+        $directoresAsignados = CalendarCarrec::where('data', '>=', $dia1)->where('data', '<=', $dia5)->get();
         
         return View('calendari.index', ["fechas"    => $fechas, 
                                         "week"      => $week,
@@ -115,7 +117,8 @@ class CalendariController extends Controller
                                         "data"      => $data,
                                         "todosActores"   =>$todosActores,
                                         "registrosEntrada"=>$peliculas,
-                                        "actoresPorDia" => $actoresPorDia]);
+                                        "actoresPorDia" => $actoresPorDia,
+                                        "directoresAsignados" => $directoresAsignados]);
     }
 
     public function cambiarCargo(Request $request) {
@@ -167,7 +170,13 @@ class CalendariController extends Controller
 
             // Coge el calendario en cuestión de la base de datos y modifica la asistencia:
             $calendario = Calendar::find($id_calendar);
-            $calendario->asistencia = $dato;
+            if ($dato == "null") {
+                $calendario->asistencia = null;
+            }
+            else {
+                $calendario->asistencia = intval($dato);
+            }
+            // return response()->json($calendario);
 
             // Aplica los nuevos cambios del calendario en la base de datos:
             $calendario->save();

@@ -22,7 +22,8 @@ class EmpleatExtern extends Model
         "codi_postal_empleat", 
         "naixement_empleat", 
         "nss_empleat", 
-        "iban_empleat"
+        "iban_empleat",
+        "pc_empleat"
     ];
 
     protected $appends = ['nom_cognom'];

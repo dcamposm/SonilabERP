@@ -107,10 +107,11 @@ class CostController extends Controller
     public function show($id, $data=0)
     {
         if ($data==0){
-            $vec = Costos::with('registreProduccio.registreEntrada.client')->with('empleats.tarifa')->find($id);
+            $registre = RegistreProduccio::where('id_registre_entrada', $id)->first();
+            $vec = Costos::with('registreProduccio.registreEntrada.client')->with('empleats.tarifa')->where('id_registre_produccio', $registre->id)->first();
             
             $totalSS = 0;
-            //return response()->json($vec->empleats);
+            
             $empleatsInfo = array();
             foreach ($vec->empleats as $empleat){
                 if ($empleat->tarifa->carrec->nom_carrec == 'Actor'){
@@ -181,7 +182,6 @@ class CostController extends Controller
             $total = 0;
             $totalSS = 0;
             $maxDocu = array();
-            //return response()->json($vecs);
 
             $empleatsInfo = array();
             foreach ($vecs as $vec) {
@@ -196,6 +196,7 @@ class CostController extends Controller
                                 'titol' => $vec->registreProduccio->registreEntrada->titol,
                                 'client' => $vec->registreProduccio->registreEntrada->client->nom_client,
                                 'entrega' => $data,
+                                'setmana' => $vec->registreProduccio->setmana,
                                 'episodis' => array($vec->registreProduccio->subreferencia)
                             );
                         } else {
@@ -400,9 +401,7 @@ class CostController extends Controller
                 if (!empty($registre->getEstadillo->actors)){
                     $totalSS = 0;
                     foreach ($registre->getEstadillo->actors as $actor){
-                        //return response()->json($actor->empleat->carrec);
-                        //$cost = 0;
-                        //$empleatCost->cost_empleat = ;
+                        //---------SERVEI DOBLTAGE TV---------
                         if ($registre->registreEntrada->id_servei == 1){
                         //----------------Media Documental----------------
                             if ($registre->registreEntrada->id_media == 1) {
@@ -465,7 +464,9 @@ class CostController extends Controller
                                     }
                                 }
                             }                           
-                        } else {
+                        } 
+                        //---------SERVEI DOBLTAGE CINEMA---------
+                        else {
                         //----------------Media Documental----------------
                             if ($registre->registreEntrada->media->nom_media == 1) {
                                 $empleatCost = new EmpleatCost();
@@ -476,9 +477,9 @@ class CostController extends Controller
                                 $docu = 0;
                                 foreach ($actor->empleat->carrec as $actorCarrec){
                                     if ($registre->registreEntrada->id_idioma == $actorCarrec->id_idioma && $actorCarrec->preu_carrec != 0){
-                                        if ($actorCarrec->tarifa->nombre_corto == 'video_take') {
+                                        if ($actorCarrec->tarifa->nombre_corto == 'cine_take') {
                                             $costTotal += $actorCarrec->preu_carrec * $actor->take_estadillo;
-                                        } else if ($actorCarrec->tarifa->nombre_corto == 'video_cg') {
+                                        } else if ($actorCarrec->tarifa->nombre_corto == 'cine_cg') {
                                             $costTotal += $actorCarrec->preu_carrec * $actor->cg_estadillo;
                                         } else if ($actorCarrec->tarifa->nombre_corto == 'docu') {
                                             $docu = $actorCarrec->preu_carrec;
@@ -500,7 +501,7 @@ class CostController extends Controller
                                     $empleatCost->id_costos = $vec->id_costos;
                                     $empleatCost->id_empleat = $actor->id_actor;
                                     if ($registre->registreEntrada->id_idioma == $actorCarrec->id_idioma && 
-                                            ($actorCarrec->tarifa->nombre_corto == 'cine_take'|| $actorCarrec->tarifa->nombre_corto == 'cine_cg') && $actorCarrec->preu_carrec != 0){
+                                        ($actorCarrec->tarifa->nombre_corto == 'cine_take'|| $actorCarrec->tarifa->nombre_corto == 'cine_cg') && $actorCarrec->preu_carrec != 0){
 
                                         if ($actorCarrec->tarifa->nombre_corto == 'cine_take') {
                                             $empleatCost->cost_empleat = $actorCarrec->preu_carrec * $actor->take_estadillo;
@@ -508,11 +509,23 @@ class CostController extends Controller
                                             $totalSS += $empleatCost->cost_empleat;
                                             $empleatCost->id_tarifa = 7;
                                             $empleatCost->save();
-                                        } else {
+                                        } else if ($actorCarrec->tarifa->nombre_corto == 'cine_cg') {
                                             $empleatCost->cost_empleat = $actorCarrec->preu_carrec * $actor->cg_estadillo;
                                             $total += $empleatCost->cost_empleat;
                                             $totalSS += $empleatCost->cost_empleat;
                                             $empleatCost->id_tarifa = 8;
+                                            $empleatCost->save();
+                                        } else if ($actorCarrec->tarifa->nombre_corto == 'canso') {
+                                            $empleatCost->cost_empleat = $actorCarrec->preu_carrec;
+                                            $total += $empleatCost->cost_empleat;
+                                            //$totalSS += $empleatCost->cost_empleat;
+                                            $empleatCost->id_tarifa = 9;
+                                            $empleatCost->save();
+                                        } else if ($actorCarrec->tarifa->nombre_corto == 'narrador') {
+                                            $empleatCost->cost_empleat = $actorCarrec->preu_carrec;
+                                            $total += $empleatCost->cost_empleat;
+                                            //$totalSS += $empleatCost->cost_empleat;
+                                            $empleatCost->id_tarifa = 11;
                                             $empleatCost->save();
                                         }
                                     }

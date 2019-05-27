@@ -83,4 +83,13 @@ class RegistreProduccio extends Model
     {
         return $this->belongsTo('App\EmpleatExtern', 'id_tecnic_mix', 'id_empleat');
     }
+    
+    public function createRegistrePelicula($registreEntrada)
+    {
+        $this->subreferencia = 0;
+        $this->id_registre_entrada = $registreEntrada->id_registre_entrada;
+        $this->data_entrega = $registreEntrada->sortida;
+        $this->setmana = 1;
+        $this->titol = $registreEntrada->titol;
+    }
 }

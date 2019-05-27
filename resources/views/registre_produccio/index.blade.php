@@ -243,7 +243,7 @@
                                     @if ($registreProduccio->vec != 1 || empty($registreProduccio->getVec))
                                         <a href="{{ route('vecGenerar', array('id' => $registreProduccio->id)) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">GENERAR</a>
                                     @else
-                                        <a href="{{ route('mostrarVec', array('id' => $registreProduccio->getVec->id_costos)) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">VEURE</a>
+                                        <a href="{{ route('mostrarVec', array('id' => $registreProduccio->id_registre_entrada)) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">VEURE</a>
                                     @endif
                                 </td>
                                 <td style="vertical-align: middle;">{{ $registreProduccio->convos == 0 ? '' : 'FET' }}</td>
@@ -263,7 +263,7 @@
                                     @if ($registreProduccio->vec != 1  || empty($registreProduccio->getVec))
                                         <a href="{{ route('vecGenerar', array('id' => $registreProduccio->id)) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">GENERAR</a>
                                     @else
-                                        <a href="{{ route('mostrarVec', array('id' => $registreProduccio->getVec->id_costos)) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">VEURE</a>
+                                        <a href="{{ route('mostrarVec', array('id' => $registreProduccio->id_registre_entrada)) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">VEURE</a>
                                     @endif
                                 </td>
                             @endif

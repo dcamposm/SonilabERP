@@ -129,6 +129,16 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                         <span class="text-danger">{{ $errors->first('iban_empleat') }}</span>
                     </div>
                 </div>
+                <div class="col-6 mt-4">
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="pc_empleat" name="pc_empleat" {{ !empty($empleat) ? ($empleat->pc_empleat == 1 ? 'checked' : '') : ''}} value="1">
+                            <label class="form-check-label" for="pc_empleat" style="font-weight: bold">
+                                P/C
+                            </label>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="row">
