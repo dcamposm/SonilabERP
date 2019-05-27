@@ -76,9 +76,7 @@ class EstadilloController extends Controller
         $estadillo = Estadillo::where('id_registre_produccio', $projecte['id'])->first();
         //CREACIÓ ESTADILLO
         if ($projecte){
-            if ($estadillo){
-               return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut importar l\'estadillo. Aquest estadillo ja existeix'));
-            } else {
+            if (!$estadillo){
                 $projecte->estadillo = true;
                 $projecte->save();
                 $estadillo = new Estadillo;

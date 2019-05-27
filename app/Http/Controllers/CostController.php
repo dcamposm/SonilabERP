@@ -107,10 +107,11 @@ class CostController extends Controller
     public function show($id, $data=0)
     {
         if ($data==0){
-            $vec = Costos::with('registreProduccio.registreEntrada.client')->with('empleats.tarifa')->find($id);
+            $registre = RegistreProduccio::where('id_registre_entrada', $id)->first();
+            $vec = Costos::with('registreProduccio.registreEntrada.client')->with('empleats.tarifa')->where('id_registre_produccio', $registre->id)->first();
             
             $totalSS = 0;
-            //return response()->json($vec->empleats);
+            
             $empleatsInfo = array();
             foreach ($vec->empleats as $empleat){
                 if ($empleat->tarifa->carrec->nom_carrec == 'Actor'){
@@ -181,7 +182,6 @@ class CostController extends Controller
             $total = 0;
             $totalSS = 0;
             $maxDocu = array();
-            //return response()->json($vecs);
 
             $empleatsInfo = array();
             foreach ($vecs as $vec) {
@@ -196,6 +196,7 @@ class CostController extends Controller
                                 'titol' => $vec->registreProduccio->registreEntrada->titol,
                                 'client' => $vec->registreProduccio->registreEntrada->client->nom_client,
                                 'entrega' => $data,
+                                'setmana' => $vec->registreProduccio->setmana,
                                 'episodis' => array($vec->registreProduccio->subreferencia)
                             );
                         } else {

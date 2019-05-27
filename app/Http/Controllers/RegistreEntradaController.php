@@ -66,15 +66,11 @@ class RegistreEntradaController extends Controller
         }
 //---------------------Creador registres de produccio----------------------           
         if ($registreEntrada->id_media>1 && $registreEntrada->id_media<5) {
-            //-----------Si el registre es una pelicula-----------
+        //----------------Si el registre es una pelicula----------------
             $registreProduccio = new RegistreProduccio;
-            $registreProduccio->subreferencia = 0;
-            $registreProduccio->id_registre_entrada = $registreEntrada->id_registre_entrada;
-            $registreProduccio->data_entrega = $registreEntrada->sortida;
-            $registreProduccio->setmana = 1;
-            $registreProduccio->titol = $registreEntrada->titol;
-            $registreProduccio->save(); 
-            //-----------Misstage NEW per el responsable----------
+            $registreProduccio->createRegistrePelicula($registreEntrada); 
+            $registreProduccio->save();
+        //----------------Misstage NEW per el responsable---------------
             $fecha_actual = date("d-m-Y");              
             $missatge = new Missatge;
             $missatge->id_usuari = request()->input('id_usuari');
@@ -84,7 +80,7 @@ class RegistreEntradaController extends Controller
             $missatge->data_final =date("Y-m-d",strtotime($fecha_actual."+ 7 days"));
             $missatge->save(); 
         } else {
-            //-----------Si el registre es una serie o documental-
+        //-----------Si el registre es una serie o documental----------
             $contSet = 1;
             $contNextSet = 0;
             $contData = 0; 

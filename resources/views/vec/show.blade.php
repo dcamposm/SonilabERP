@@ -166,17 +166,22 @@
         </div>
     </div>
     
-    <div class="mb-3">
+    <div class="row justify-content-between mb-3">
         @if (Route::currentRouteName() == "actorFind")
-            <a href="{{ url('/vec') }}" class="btn btn-primary mb-3 mt-3">
+            <a href="{{ url('/vec') }}" class="btn btn-primary">
                 <span class="fas fa-angle-double-left"></span>
                 TORNAR
             </a>
         @else
-            <a href="{{ url('/registreProduccio') }}" class="btn btn-primary mt-3">
+            <a href="{{ url('/registreProduccio') }}" class="btn btn-primary">
                 <span class="fas fa-angle-double-left"></span>
                 TORNAR
             </a>    
+        @endif
+        @if (isset($vec->registreProduccio->id_registre_entrada))
+            <a href="{{ route('vecActualitzar', array('id' => $vec->id_costos)) }}" class="btn btn-warning">ACTUALITZAR</a>
+        @else
+            <a href="{{ route('vecActualitzar', array('id' => $vec['ref'], 'setmana' => $vec['setmana'])) }}" class="btn btn-warning">ACTUALITZAR</a>
         @endif
     </div>
 </div>
