@@ -35,16 +35,22 @@ class UserCreateRequest extends FormRequest
     */
     public function messages() {
         return [
-            'cognom1_usuari.required' => ' No s\'ha posat el primer cognom.',
-            'cognom2_usuari.required' => ' No s\'ha posat el segon cognom.',
-            'email_usuari.required' => ' No s\'ha posat el email.', 
-            'alias_usuari.required' => ' No s\'ha posat el àlies.',
-            'contrasenya_usuari.required' => ' No s\'ha posat la contrasenya.',
-            'cpass.required' => ' No s\'ha posat la contrasenya.',
-            'id_departament.required' => ' No s\'ha seleccionat un departament.',
-            '*.max' => ' El tamany màxim és de :max caracters.',
-            '*.min' => ' El tamany mínim és de :min caracters.',
-            'same' => 'No coincideixen les contrasenyes'
+            'required' => ' No s\'ha posat el :attribute.',
+            '*.max' => ' El :attribute no pot superar un tamany màxim de :max caracters.',
+            '*.min' => ' El :attribute no pot  tamany mínim és de :min caracters.',
+            'same' => 'No coincideixen les contrasenyes.'
+        ];
+    }
+    
+    public function attributes() {
+        return [
+            'alias_usuari'       => 'nom',
+            'cognom1_usuari'     => 'primer cognom',
+            'cognom2_usuari'     => 'segon cognom',
+            'email_usuari'       => 'email',
+            'contrasenya_usuari' => 'contrasenya',
+            'id_departament'     => 'departament',
+            'cpass'              => 'confirma contrasenya'
         ];
     }
 }
