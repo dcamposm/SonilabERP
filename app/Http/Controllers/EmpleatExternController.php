@@ -163,10 +163,6 @@ class EmpleatExternController extends Controller
             $data = request()->all();
             $empleat->fill($data);
             
-            if (!request()->input('pc_empleat')){
-                $empleat->pc_empleat = 0;
-            }
-            
             if ($_FILES["imatge_empleat"]["tmp_name"]!=""){
                 $empleat['imatge_empleat'] = base64_encode(file_get_contents($_FILES["imatge_empleat"]["tmp_name"]));
             }

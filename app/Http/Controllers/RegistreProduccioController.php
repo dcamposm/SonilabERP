@@ -65,7 +65,7 @@ class RegistreProduccioController extends Controller {
             return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar.'));
         }
 
-        return redirect()->back()->with('success', 'Registre de producció modificat correctament.');        
+        return redirect()->route('indexRegistreProduccio')->with('success', 'Registre de producció modificat correctament.');        
     }
     
     public function updateBasic(RegistreProduccioUpdateRequest $request, $id){
