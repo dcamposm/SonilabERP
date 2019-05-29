@@ -563,3 +563,25 @@ $('#pasarLista').click(function (e) {
 $('.btn').click(function(e) {
     e.preventDefault();
 });
+
+function editarActorCalendario(id) {
+    $.ajax({
+        url: '/calendari/cogerCalendarioActor',
+        type: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            Accept: 'application/json'
+        },
+        data: {
+            id: id.split('-')[1]
+        },
+        success: function (response) {
+            console.log(response);
+            // TODO: Asignar los respectivos campos al formulario de editar.
+        },
+        error: function (error) {
+            console.error(error);
+            alert("No s'ha obtenir les dades de calendari de l'actor :(");
+        }
+    });
+}

@@ -42,28 +42,28 @@
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-        <div class="modal-header">
-            <input type="hidden" id="">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <p id="takes-celda"></p>
-            <label for="selectPelis"></label>
-            <select id="selectPelis"></select><br/><br/>
-            <label for="numberTakes">Takes a realizar:</label>
-            <input id="numberTakes" type="number" min="1"><br/><br/>
-            <label for="takesIni">Hora de inicio:</label>
-            <input id="takesIni" type="time">
-            <label for="takesFin">Hora final:</label>
-            <input id="takesFin" type="time">
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button id="btnGuardar" type="button" class="btn btn-primary">Save changes</button>
-        </div>
+            <div class="modal-header">
+                <input type="hidden" id="">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="takes-celda"></p>
+                <label for="selectPelis"></label>
+                <select id="selectPelis"></select><br/><br/>
+                <label for="numberTakes">Takes a realizar:</label>
+                <input id="numberTakes" type="number" min="1"><br/><br/>
+                <label for="takesIni">Hora de inicio:</label>
+                <input id="takesIni" type="time">
+                <label for="takesFin">Hora final:</label>
+                <input id="takesFin" type="time">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="btnGuardar" type="button" class="btn btn-primary">Save changes</button>
+            </div>
         </div>
     </div>
 </div>
@@ -157,40 +157,63 @@
                         </tbody>
                     </table>
 
-                    <form  id="pasarLista" action="" method="POST" style="margin-top: 15px;">
-                        <div style="background-color: whitesmoke; height: 150px; width: 50%; overflow-y: scroll;">
-                            <table class="table" style="width: 100%; margin-top: 30px;">
-                                <tbody>
-                                    @foreach($actoresPorDia as $key => $dia)
-                                        @foreach($dia as $key2 => $actor)
-                                            <tr class="dia-{{$actor->dia}}-{{$actor->num_sala}} lista-actores">
-                                                <td>
-                                                    {{'('.$actor->hora.':'.$actor->minuts.')'}} {{$actor->nom_empleat}} {{$actor->cognom1_empleat}} {{$actor->cognom2_empleat}}
-                                                </td>
-                                                <td>
-                                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                                        <label class="btn btn-success">
-                                                            <input type="radio" name="actor-{{ $actor->id_empleat }}-{{$actor->id_calendar}}" id="actor-{{ $actor->id_empleat }}" class="actor-dia-{{$actor->dia}}-{{$actor->num_sala}}" autocomplete="off" value="1"> Present
-                                                        </label>
-                                                        <label class="btn btn-danger">
-                                                            <input type="radio" name="actor-{{ $actor->id_empleat }}-{{$actor->id_calendar}}" id="actor-{{ $actor->id_empleat }}" class="actor-dia-{{$actor->dia}}-{{$actor->num_sala}}" autocomplete="off" value="0"> No present
-                                                        </label>
-                                                        <label class="btn btn-secondary active">
-                                                            <input type="radio" name="actor-{{ $actor->id_empleat }}-{{$actor->id_calendar}}" id="actor-{{ $actor->id_empleat }}" class="actor-dia-{{$actor->dia}}-{{$actor->num_sala}}" autocomplete="off" value="null" checked> Pendent
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                    <div class="row">
+                        <form id="pasarLista" action="" method="POST" style="margin-top: 15px;" class="col">
+                            <div style="background-color: whitesmoke; height: 150px; overflow-y: scroll;">
+                                <table class="table" style="width: 100%; margin-top: 30px;">
+                                    <tbody>
+                                        @foreach($actoresPorDia as $key => $dia)
+                                            @foreach($dia as $key2 => $actor)
+                                                <tr class="dia-{{$actor->dia}}-{{$actor->num_sala}} lista-actores">
+                                                    <td id="actor_mod-{{ $actor->id_calendar }}" onclick="editarActorCalendario(this.id)">
+                                                        {{'('.$actor->hora.':'.$actor->minuts.')'}} {{$actor->nom_empleat}} {{$actor->cognom1_empleat}} {{$actor->cognom2_empleat}}
+                                                    </td>
+                                                    <td>
+                                                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                                            <label class="btn btn-success">
+                                                                <input type="radio" name="actor-{{ $actor->id_empleat }}-{{$actor->id_calendar}}" id="actor-{{ $actor->id_empleat }}" class="actor-dia-{{$actor->dia}}-{{$actor->num_sala}}" autocomplete="off" value="1"> Present
+                                                            </label>
+                                                            <label class="btn btn-danger">
+                                                                <input type="radio" name="actor-{{ $actor->id_empleat }}-{{$actor->id_calendar}}" id="actor-{{ $actor->id_empleat }}" class="actor-dia-{{$actor->dia}}-{{$actor->num_sala}}" autocomplete="off" value="0"> No present
+                                                            </label>
+                                                            <label class="btn btn-secondary active">
+                                                                <input type="radio" name="actor-{{ $actor->id_empleat }}-{{$actor->id_calendar}}" id="actor-{{ $actor->id_empleat }}" class="actor-dia-{{$actor->dia}}-{{$actor->num_sala}}" autocomplete="off" value="null" checked> Pendent
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                         @endforeach
-                                    @endforeach
-                                    
-                                </tbody>
-                            </table>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style="margin-top: 15px;">
+                                <button id="enviarListaAsistencia" class="btn btn-success">Desar llista</button>
+                            </div>
+                        </form>
+
+                        <div class="col container">
+                            <form action="" method="POST">
+                                <div>
+                                    <p id="takes-celda"></p>
+                                    <label for="selectPelis"></label>
+                                    <select id="selectPelis"></select><br/><br/>
+                                    <label for="numberTakes">Takes a realizar:</label>
+                                    <input id="numberTakes" type="number" min="1"><br/><br/>
+                                    <label for="takesIni">Hora de inicio:</label>
+                                    <input id="takesIni" type="time">
+                                    <label for="takesFin">Hora final:</label>
+                                    <input id="takesFin" type="time">
+                                </div>
+                                <div>
+                                    <!-- TODO: Crear estas dos funciones en el fichero js -->
+                                    <button class="btn btn-secondary" onclick="editarActor()">Editar</button>
+                                    <button class="btn btn-danger" onclick="eliminarCalendarioActor()">Eliminar</button>
+                                </div>
+                            </form>
                         </div>
-                        <div style="margin-top: 15px;">
-                            <button id="enviarListaAsistencia" class="btn btn-success">Desar llista</button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
