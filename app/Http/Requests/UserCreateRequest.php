@@ -20,13 +20,13 @@ class UserCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'cognom1_usuari' => 'required|max:35',
-            'cognom2_usuari' => 'max:35',
-            'email_usuari' => 'required|email',
-            'alias_usuari' => 'required|min:4|max:35',
+            'cognom1_usuari'     => 'required|max:35',
+            'cognom2_usuari'     => 'max:35',
+            'email_usuari'       => 'required|email',
+            'alias_usuari'       => 'required|min:4|max:35',
             'contrasenya_usuari' => 'required|min:4|max:15|same:cpass',
-            'id_departament' => 'required',
-            'cpass' => 'required|same:contrasenya_usuari'
+            'id_departament'     => 'required',
+            'cpass'              => 'required|same:contrasenya_usuari'
         ];
     }
     /*
@@ -35,10 +35,10 @@ class UserCreateRequest extends FormRequest
     */
     public function messages() {
         return [
-            'required' => ' No s\'ha posat el :attribute.',
-            '*.max' => ' El :attribute no pot superar un tamany màxim de :max caracters.',
-            '*.min' => ' El :attribute no pot  tamany mínim és de :min caracters.',
-            'same' => 'No coincideixen les contrasenyes.'
+            'required'  => ' No s\'ha posat el :attribute.',
+            '*.max'     => ' El :attribute no pot superar un tamany màxim de :max caracters.',
+            '*.min'     => ' El :attribute no pot  tamany mínim és de :min caracters.',
+            'same'      => 'No coincideixen les contrasenyes.'
         ];
     }
     
