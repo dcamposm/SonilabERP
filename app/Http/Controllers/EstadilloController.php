@@ -70,6 +70,11 @@ class EstadilloController extends Controller
 
             $projecte = RegistreProduccio::where('id_registre_entrada', $idRegEntrada)->where('subreferencia', $idRegProduccio)->first();
         } else {
+            if (request()->has('import_file')) {
+                $titol = request()->file('import_file')->getClientOriginalName();
+            } else {
+                return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha introduit un excel'));
+            }
             $projecte = RegistreProduccio::where('id', request()->input('id_estadillo'))->first();
         }
         
