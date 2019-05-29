@@ -39,26 +39,8 @@ class RegistreEntradaController extends Controller
 
     public function insert(RegistreEntradaCreateRequest $request)
     {
-        if (request()->input('id_registre_entrada')){
-            $registreEntrada = new RegistreEntrada(request()->all());
-        } else {
-            $registreEntrada = new RegistreEntrada;
-            $registreEntrada->ot = request()->input('ot') ? request()->input('ot') : '';
-            $registreEntrada->oc =request()->input('oc') ? request()->input('oc') : '';
-            $registreEntrada->titol =request()->input('titol');
-            $registreEntrada->sortida =request()->input('sortida');
-            $registreEntrada->id_usuari =request()->input('id_usuari');
-            $registreEntrada->id_client =request()->input('id_client');
-            $registreEntrada->id_servei =request()->input('id_servei');
-            $registreEntrada->id_idioma =request()->input('id_idioma');
-            $registreEntrada->id_media =request()->input('id_media');
-            $registreEntrada->minuts =request()->input('minuts');
-            $registreEntrada->total_episodis =request()->input('total_episodis') ? request()->input('total_episodis') : '1';
-            $registreEntrada->episodis_setmanals =request()->input('episodis_setmanals') ? request()->input('episodis_setmanals') : '1';
-            $registreEntrada->entregues_setmanals =request()->input('entregues_setmanals') ? request()->input('entregues_setmanals') : '1';
-            $registreEntrada->estat =request()->input('estat');
-        }
-
+        $registreEntrada = new RegistreEntrada(request()->all());
+        
         try {
             $registreEntrada->save();                 
         } catch (\Exception $ex) {
@@ -71,13 +53,8 @@ class RegistreEntradaController extends Controller
             $registreProduccio->createRegistrePelicula($registreEntrada); 
             $registreProduccio->save();
         //----------------Misstage NEW per el responsable---------------
-            $fecha_actual = date("d-m-Y");              
             $missatge = new Missatge;
-            $missatge->id_usuari = request()->input('id_usuari');
-            $missatge->missatge = "NEW";
-            $missatge->referencia ='registreProduccio';
-            $missatge->id_referencia =$registreProduccio->id;
-            $missatge->data_final =date("Y-m-d",strtotime($fecha_actual."+ 7 days"));
+            $missatge->missatgeNewRegistre($registreEntrada, $registreProduccio); 
             $missatge->save(); 
         } else {
         //-----------Si el registre es una serie o documental----------
@@ -110,24 +87,14 @@ class RegistreEntradaController extends Controller
                 $registreProduccio->save();
 
                 //--------------------Misstage NEW per el responsable-----------------------
-                $fecha_actual = date("d-m-Y");              
                 $missatge = new Missatge;
-                $missatge->id_usuari = request()->input('id_usuari');
-                $missatge->missatge = "NEW";
-                $missatge->referencia ='registreProduccio';
-                $missatge->id_referencia =$registreProduccio->id;
-                $missatge->data_final =date("Y-m-d",strtotime($fecha_actual."+ 7 days"));
+                $missatge->missatgeNewRegistre($registreEntrada, $registreProduccio); 
                 $missatge->save(); 
             }
         }
 //--------------------Misstage per el responsable-----------------------
-        $fecha_actual = date("d-m-Y");          
         $missatge = new Missatge;
-        $missatge->id_usuari = request()->input('id_usuari');
-        $missatge->missatge = "S'ha creat el registre d'entrada: ".$registreEntrada->id_registre_entrada." ".$registreEntrada->titol;
-        $missatge->referencia ='registreEntrada';
-        $missatge->id_referencia =$registreEntrada->id_registre_entrada;
-        $missatge->data_final =date("Y-m-d",strtotime($fecha_actual."+ 7 days"));
+        $missatge->missatgeResponsableRegistreCreate($registreEntrada, $registreProduccio);
         $missatge->save(); 
 //-------------------------------Email amb Model Mail (No Borrar)----------------------------------
         /*$registreEntrada = RegistreEntrada::find($registreEntrada->id_registre_entrada);

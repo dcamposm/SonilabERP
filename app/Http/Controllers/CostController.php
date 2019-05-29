@@ -703,7 +703,7 @@ class CostController extends Controller
         $estadillos = RegistreProduccio::where('estadillo', 1)->where('setmana', $setmana)->where('id_registre_entrada', $id)->get();
         //return response()->json($estadillos->count());
         if ($registres->count() != $estadillos->count()){
-            return redirect()->route('indexRegistreProduccio')->withErrors(array('error' => 'ERROR. No s\'ha pogut crear la valoració, és té que crear els estadillos i validar-los abans.'));
+            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut crear la valoració, és té que crear els estadillos i validar-los abans.'));
         } else {
             foreach ($registres as $registre) {
                 CostController::generar($registre->id);

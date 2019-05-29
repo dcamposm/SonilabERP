@@ -185,24 +185,6 @@
                 <td class="col" id="inserts-S">{{ $registreProduccio['inserts']}}</td>
             </tr>
             <tr class="row">
-                <td class="font-weight-bold col-sm-2">ESTADILLO:</td>
-                <td class="col-sm-1 align-middle text-center">
-                @if (Auth::user()->hasAnyRole(['1', '2', '4']))
-                    <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
-                @endif
-                </td>
-                <td class="col" id="estadillo-S">{{ $registreProduccio['estadillo'] == 0 ? '' : 'Fet'}}</td>
-            </tr>
-            <tr class="row">
-                <td class="font-weight-bold col-sm-2">VEC:</td>
-                <td class="col-sm-1 align-middle text-center">
-                @if (Auth::user()->hasAnyRole(['1', '2', '4']))
-                    <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
-                @endif
-                </td>
-                <td class="col" id="vec-S">{{ $registreProduccio['vec'] == 0 ? '' : 'Fet'}}</td>
-            </tr>
-            <tr class="row">
                 <td class="font-weight-bold col-sm-2">CONVOS:</td>
                 <td class="col-sm-1 align-middle text-center">
                 @if (Auth::user()->hasAnyRole(['1', '2', '4']))

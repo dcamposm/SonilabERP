@@ -11,7 +11,7 @@
                 NOVA REFERÈNCIA
             </a>
         @endif
-            <a href="{{ url('/clients') }}" class="btn btn-success mt-1">
+            <a href="{{ url('/clients') }}" class="btn btn-success">
                 <span class="fas fa-address-book"></span>
                 CLIENTS
             </a>

@@ -320,9 +320,13 @@
                                         <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}_{{$key1}}"></td>
                                         <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}_{{$key1}}"></td>
                                         <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}_{{$key1}}"></td>
-                                        <td style="vertical-align: middle;">
-                                            <a href="{{ route('estadilloShow', array('id' => $episodi["id_registre_entrada"], 'id_setmana' => $episodi['setmana'])) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">VEURE</a>
-                                        </td>
+                                        @if ($episodi['estadillo'] == 0)
+                                            <td></td>
+                                        @else
+                                            <td style="vertical-align: middle;">
+                                                <a href="{{ route('estadilloShow', array('id' => $episodi["id_registre_entrada"], 'id_setmana' => $episodi['setmana'])) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">VEURE</a>
+                                            </td>
+                                        @endif
                                         @if ($episodi['vec'] != 0)
                                             <td style="vertical-align: middle;">
                                                 <a href="{{ route('mostrarVec', array('id' => $episodi['id_registre_entrada'], 'data' => date('d-m-Y', strtotime($episodi['data'])))) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">VEURE</a>
@@ -404,14 +408,7 @@
                                             @if (empty($episodi->getEstadillo))
                                                 <button class="btn btn-primary btn-sm" style="font-size: 11px;" onclick="self.seleccionarEstadillo({{ $episodi->id }}, '{{ $episodi->id_registre_entrada.' '.$episodi->titol.' '.$episodi->subreferencia }}')" data-toggle="modal" data-target="#importModal">IMPORTAR</button>
                                             @else
-                                                <a href="{{  route('estadilloShow', array('id' => $episodi->getEstadillo->id_estadillo )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">VEURE</a>
-                                            @endif
-                                        </td>
-                                        <td style="vertical-align: middle;">
-                                            @if ($episodi->vec != 1 || empty($episodi->getVec))
-                                                <a href="{{ route('vecGenerar', array('id' => $episodi->id)) }}" class="btn btn-primary btn-sm">GENERAR</a>
-                                            @else
-                                                <a href="{{ route('mostrarVec', array('id' => $episodi->getVec->id_costos)) }}" class="btn btn-primary btn-sm">VEURE</a>
+                                                <a href="{{ route('estadilloShow', array('id' => $episodi->getEstadillo->id_estadillo )) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">VEURE</a>
                                             @endif
                                         </td>
                                         <td style="vertical-align: middle;">{{ $episodi->convos == 0 ? '' : 'FET' }}</td>
