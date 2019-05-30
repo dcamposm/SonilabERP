@@ -10,7 +10,6 @@ class TipusMedia extends Model
     protected $primaryKey = 'id_media';
 
     protected $fillable = [
-        'id_media',
         'nom_media',
         'descripcio_media'
     ];

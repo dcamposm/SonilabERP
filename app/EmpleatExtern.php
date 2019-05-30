@@ -15,6 +15,7 @@ class EmpleatExtern extends Model
         "cognom2_empleat", 
         "sexe_empleat", 
         "nacionalitat_empleat", 
+        "imatge_empleat",
         "email_empleat", 
         "dni_empleat", 
         "telefon_empleat", 
