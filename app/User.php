@@ -80,6 +80,11 @@ class User extends Authenticatable
         return $this->hasMany('App\Missatge', 'id_usuari', 'id_usuari');
     } 
     
+    public function notifications()
+    {
+        return $this->morphMany(DatabaseMemberNotification::class, 'notifiable')->orderBy('created_at', 'desc');
+    }
+    
     public function missatgeDay()
     {
         return $this->hasMany('App\Missatge', 'id_usuari', 'id_usuari')->where('data_final','>',date("Y-m-d"));

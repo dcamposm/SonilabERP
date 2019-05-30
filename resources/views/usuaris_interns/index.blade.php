@@ -68,26 +68,26 @@
         </tbody>
     </table>
 
-        <!-- MODAL ESBORRAR USUARI -->
-        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">ESBORRAR USUARI</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <span id="delete-message">Vols esborrar l'usuari </span>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="setUsuariPerEsborrar(0)">TANCAR</button>
-                    <button type="button" class="btn btn-danger" onclick="deleteUsuari()">ESBORRAR</button>
-                </div>
-                </div>
+    <!-- MODAL ESBORRAR USUARI -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">ESBORRAR USUARI</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span id="delete-message">Vols esborrar l'usuari </span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="setUsuariPerEsborrar(0)">TANCAR</button>
+                <button type="button" class="btn btn-danger" onclick="deleteUsuari()">ESBORRAR</button>
+            </div>
             </div>
         </div>
+    </div>
 
     </div>
     @if (Route::currentRouteName() == "usuariFind")
@@ -99,49 +99,8 @@
 </div>
 
 <script>
-    var usuariPerEsborrar = 0;
-
-    self.mostrarUsuari = function (urlShow) {
-        window.location.replace(urlShow);
-    }
-
-    function setUsuariPerEsborrar(userId, userAlias) {
-        usuariPerEsborrar = userId;
-        if (userAlias != undefined) {
-            document.getElementById('delete-message').innerHTML = 'Vols esborrar l\'usuari <b>' + userAlias + '</b>?';
-        }
-    }
-
-    function deleteUsuari() {
-        if (usuariPerEsborrar != 0) {
-            document.all["delete-" + usuariPerEsborrar].submit();
-        }
-    }
-    //--------Funcions per el filtra-----------
-    function selectSearch() {
-        if ($('#searchBy').children(":selected").attr("id") == 'departament') {
-             $('#search_term').remove();
-        
-            var select = document.createElement("select");
-            $(select).attr("name", "search_term");
-            $(select).attr("id", "search_term");
-            $(select).attr("class", "form-control");
-
-            var departaments = @json($departaments);
-
-            $.each(departaments, function( key, departament ) {
-                $(select).append('<option value="'+departament['id_departament']+'">'+departament['nom_departament'].toUpperCase()+'</option>');
-            });
-
-            $(select).insertAfter('#searchBy');
-        }else {
-            $('#search_term').remove();
-            $('<input type="text" class="form-control" id="search_term" name="search_term" placeholder="BUSCAR USUARI...">').insertAfter('#searchBy');
-        }
-    }
-    
-    $('#searchBy').change(selectSearch);   
+    var departaments = @json($departaments);
 </script>
-
+<script type="text/javascript" src="{{ URL::asset('js/custom/userIndex.js') }}"></script>
 
 @stop

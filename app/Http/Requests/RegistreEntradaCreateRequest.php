@@ -28,15 +28,9 @@ class RegistreEntradaCreateRequest extends FormRequest
     
     public function messages() {
         return [
-            'titol.required'      => 'El :attribute no s\'ha introduït.',
+            'required'            => 'El :attribute no s\'ha introduït.',
             'sortida.required'    => 'La :attribute no s\'ha introduït.',
-            'id_usuari.required'  => 'El :attribute no s\'ha introduït.',
-            'id_client.required'  => 'El :attribute no s\'ha introduït.',
-            'id_servei.required'  => 'El :attribute no s\'ha introduït.',
-            'id_idioma.required'  => 'El :attribute no s\'ha introduït.',
-            'id_media.required'   => 'El :attribute no s\'ha introduït.',
             'minuts.required'     => 'Els :attribute no s\'ha introduït.',
-            'estat.required'      => 'El :attribute no s\'ha introduït.',
         ];
     }
     

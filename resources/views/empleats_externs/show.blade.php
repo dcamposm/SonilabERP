@@ -69,6 +69,10 @@
                 <td class="col">{{ $empleat['iban_empleat']}}</td>
             </tr>
             <tr class="row">
+                <td class="font-weight-bold col-sm-3">P/C</td>
+                <td class="col">{{ $empleat['pc_empleat'] == 0 ? 'P' : 'C'}}</td>
+            </tr>
+            <tr class="row">
                 <td class="font-weight-bold col-sm-3">DATA DE CREACIÓ:</td>
                 <td class="col">{{ $empleat['created_at']}}</td>
             </tr>
@@ -76,11 +80,7 @@
                 <td class="font-weight-bold col-sm-3">ÚLTIMA MODIFICACIÓ:</td>
                 <td class="col">{{ $empleat['updated_at']}}</td>
             </tr>
-            @if ($empleat->pc_empleat)
-            <tr class="row">
-                <td class="font-weight-bold col-sm-3">P/C</td>
-            </tr>
-            @endif
+
         </tbody>
     </table>
 
