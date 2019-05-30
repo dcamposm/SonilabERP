@@ -306,4 +306,9 @@ class CalendariController extends Controller
        
         return redirect()->route('showCalendari');
     }
+
+    public function cogerCalendarioActor() {
+        $datos = Calendar::find(request()->get('id'));
+        return response()->json($datos);
+    }
 }
