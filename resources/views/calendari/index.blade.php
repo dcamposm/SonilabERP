@@ -196,18 +196,17 @@
                         <div class="col container">
                             <form action="" method="POST">
                                 <div>
-                                    <p id="takes-celda"></p>
-                                    <label for="selectPelis"></label>
-                                    <select id="selectPelis"></select><br/><br/>
-                                    <label for="numberTakes">Takes a realizar:</label>
-                                    <input id="numberTakes" type="number" min="1"><br/><br/>
-                                    <label for="takesIni">Hora de inicio:</label>
-                                    <input id="takesIni" type="time">
-                                    <label for="takesFin">Hora final:</label>
-                                    <input id="takesFin" type="time">
+                                    <p id="takes-celda-editar"></p>
+                                    <label for="selectPelis-editar"></label>
+                                    <select id="selectPelis-editar"></select><br/><br/>
+                                    <label for="numberTakes-editar">Takes a realizar:</label>
+                                    <input id="numberTakes-editar" type="number" min="1"><br/><br/>
+                                    <label for="takesIni-editar">Hora de inicio:</label>
+                                    <input id="takesIni-editar" type="time">
+                                    <label for="takesFin-editar">Hora final:</label>
+                                    <input id="takesFin-editar" type="time">
                                 </div>
                                 <div>
-                                    <!-- TODO: Crear estas dos funciones en el fichero js -->
                                     <button class="btn btn-secondary" onclick="editarActor()">Editar</button>
                                     <button class="btn btn-danger" onclick="eliminarCalendarioActor()">Eliminar</button>
                                 </div>
