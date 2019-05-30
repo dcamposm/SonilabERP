@@ -23,6 +23,7 @@ tablaHoras();
 cargarDatos();
 
 var persona = undefined
+var takesPosibles = undefined
 
 function crearTablaCalendario() {
     var contenedor = $('#calendarContent')
@@ -113,6 +114,24 @@ function guardarCelda() {
     var num_sala = celda.parentElement.parentElement.getAttribute("sala");
 
     let takes = Number($('#numberTakes').val())
+
+    /** Comprobación errores inputs modal **/
+    var errores = false
+    if ($("#takesIni")[0].checkValidity() == false) {
+        errores = true
+    }
+    if ($("#takesFin")[0].checkValidity() == false){
+        errores = true
+    } 
+    if ($("#numberTakes")[0].checkValidity() == false) {
+        errores = true
+    }
+    if (takesPosibles < takes){
+        $("#numberTakes")[0].setCustomValidity('');
+        errores = true
+    }
+    if (errores) return
+
     var datos = { id_actor_estadillo: persona.id_actor_estadillo, num_takes: takes, data_inici: data_inici, data_fi: data_fi, num_sala: num_sala };
     $.post('/calendari/crear', datos)
         .done(function (datosCalendari) {
@@ -315,14 +334,17 @@ function ampliarCasilla(e) {
 $('#exampleModal').on('show.bs.modal', function (event) {
     var modal = $(this)
     let takes = persona.takes_restantes;
-    modal.find('.modal-title').text(persona.nombre_actor + ' - ' + takes + ' takes restantes')
+    modal.find('.modal-title').text(persona.nombre_actor + ' - ' + takes + ' takes restants')
 
     var restantes = 100 - (celda.attributes['aria-valuenow'].value ? celda.attributes['aria-valuenow'].value : 0)
 
-    var takesPosibles = restantes > takes ? takes : restantes
+    takesPosibles = restantes > takes ? takes : restantes
 
     $('#numberTakes').attr('max', takesPosibles)
-    $('#takes-celda').text('Takes por asignar a la celda: ' + restantes)
+    $('#numberTakes').val('1')
+    $('#takesIni').val('')
+    $('#takesFin').val('')
+    $('#takes-celda').text('Takes per assignar a la sala: ' + restantes)
 
     $('#selectPelis').html('')
 
