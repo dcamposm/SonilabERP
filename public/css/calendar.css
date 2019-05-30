@@ -94,8 +94,18 @@ body, html, main{
     background-color: pink;
 }
 
+.sala-vacia{
+    padding-left: 15px;
+    padding-right: 15px;
+    color: transparent;
+    background-color: pink;
+    border: 1px solid black;
+}
+
 .col-fecha{
     text-align: center;
+    background-color: pink;
+    border: 1px solid black;
 }
 
 /* SIDEBAR */ 

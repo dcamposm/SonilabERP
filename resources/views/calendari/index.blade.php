@@ -13,23 +13,23 @@
     <div class="row encabezado">
         <div class="input-group">
             <select class="custom-select" id='filtroActor'>
-                <option selected value="-1">Filtrar per actor</option>
+                <option selected value="-1">Filtrar per actor (TOT)</option>
                 @foreach ($todosActores as $item)
                     <option value="{{$item->id_empleat}}">{{$item->nom_empleat}} {{$item->cognom1_empleat}} {{$item->cognom2_empleat}}</option>
                 @endforeach
             </select>
             <select class="custom-select" id='filtroProyecto'>
-                <option selected value="-1">Filtrar per proyecte</option>
+                <option selected value="-1">Filtrar per projecte (TOT)</option>
                 @foreach ($registrosEntrada as $item)
                     <option value="{{$item->id_registre_entrada}}">{{$item->titol}}</option>
                 @endforeach
             </select>
-            <div class="semana"><div id="semanaMenos" class="btn btn-primary round-left"><span class="fas fa-angle-double-left"></span></div><span class="simil-btn btn">Semana {{$week}}</span><div id="semanaMas" class="btn btn-primary round-right"><span class="fas fa-angle-double-right"></span></div></div>
-            <button id="btnAdd" class="btn btn-outline-primary boton" onclick="openNav()">Afegir</button>
+            <div class="semana"><div id="semanaMenos" class="btn btn-primary round-left"><span class="fas fa-angle-double-left"></span></div><span class="simil-btn btn">Setmana {{$week}}</span><div id="semanaMas" class="btn btn-primary round-right"><span class="fas fa-angle-double-right"></span></div></div>
+            <button id="btnAdd" class="btn btn-success boton" onclick="openNav()">Afegir</button>
          </div>
-    </div>
+    </div><br/>
     <div class="row">
-        <div style="padding:15px"></div>
+        <div class="sala-vacia">0</div>
         <div class="col col-fecha">Dilluns : {{$fechas[0]}}</div>
         <div class="col col-fecha">Dimarts : {{$fechas[1]}}</div>
         <div class="col col-fecha">Dimecres : {{$fechas[2]}}</div>
@@ -53,16 +53,16 @@
                 <p id="takes-celda"></p>
                 <label for="selectPelis"></label>
                 <select id="selectPelis"></select><br/><br/>
-                <label for="numberTakes">Takes a realizar:</label>
-                <input id="numberTakes" type="number" min="1"><br/><br/>
-                <label for="takesIni">Hora de inicio:</label>
-                <input id="takesIni" type="time">
+                <label for="numberTakes">Takes a realitzar:</label>
+                <input required id="numberTakes" type="number" min="1"><br/><br/>
+                <label for="takesIni">Hora d'inici:</label>
+                <input required id="takesIni" type="time">
                 <label for="takesFin">Hora final:</label>
-                <input id="takesFin" type="time">
+                <input required id="takesFin" type="time">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button id="btnGuardar" type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Tancar</button>
+                <button id="btnGuardar" type="button" class="btn btn-success">Afegir</button>
             </div>
         </div>
     </div>
@@ -207,7 +207,8 @@
                                     <input id="takesFin-editar" type="time">
                                 </div>
                                 <div>
-                                    <button class="btn btn-secondary" onclick="editarActor()">Editar</button>
+                                    <!-- TODO: Crear estas dos funciones en el fichero js -->
+                                    <button class="btn btn-primary" onclick="editarActor()">Modificar</button>
                                     <button class="btn btn-danger" onclick="eliminarCalendarioActor()">Eliminar</button>
                                 </div>
                             </form>
