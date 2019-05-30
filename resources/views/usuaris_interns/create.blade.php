@@ -77,7 +77,7 @@
             </div>
         </div>
 
-        <div class="row mb-3">
+        <div class="row mb-3 ml-1">
             <div class="form-group">
                 <label for="imatge_usuari" style="font-weight: bold">IMATGE USUARI:</label>
                 <input type="file" name="imatge_usuari" />
