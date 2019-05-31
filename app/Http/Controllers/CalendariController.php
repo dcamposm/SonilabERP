@@ -308,7 +308,13 @@ class CalendariController extends Controller
     }
 
     public function cogerCalendarioActor() {
+        // TODO: Coger el identificador del registro de producción.
         $datos = Calendar::find(request()->get('id'));
         return response()->json($datos);
+    }
+
+    public function getPeliculas() {
+        $peliculas = RegistreProduccio::all();
+        return $peliculas;
     }
 }

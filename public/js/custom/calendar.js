@@ -23,6 +23,7 @@ tablaHoras();
 cargarDatos();
 
 var persona = undefined
+var takesPosibles = undefined
 
 function crearTablaCalendario() {
     var contenedor = $('#calendarContent')
@@ -113,6 +114,24 @@ function guardarCelda() {
     var num_sala = celda.parentElement.parentElement.getAttribute("sala");
 
     let takes = Number($('#numberTakes').val())
+
+    /** Comprobación errores inputs modal **/
+    var errores = false
+    if ($("#takesIni")[0].checkValidity() == false) {
+        errores = true
+    }
+    if ($("#takesFin")[0].checkValidity() == false){
+        errores = true
+    } 
+    if ($("#numberTakes")[0].checkValidity() == false) {
+        errores = true
+    }
+    if (takesPosibles < takes){
+        $("#numberTakes")[0].setCustomValidity('');
+        errores = true
+    }
+    if (errores) return
+
     var datos = { id_actor_estadillo: persona.id_actor_estadillo, num_takes: takes, data_inici: data_inici, data_fi: data_fi, num_sala: num_sala };
     $.post('/calendari/crear', datos)
         .done(function (datosCalendari) {
@@ -315,14 +334,17 @@ function ampliarCasilla(e) {
 $('#exampleModal').on('show.bs.modal', function (event) {
     var modal = $(this)
     let takes = persona.takes_restantes;
-    modal.find('.modal-title').text(persona.nombre_actor + ' - ' + takes + ' takes restantes')
+    modal.find('.modal-title').text(persona.nombre_actor + ' - ' + takes + ' takes restants')
 
     var restantes = 100 - (celda.attributes['aria-valuenow'].value ? celda.attributes['aria-valuenow'].value : 0)
 
-    var takesPosibles = restantes > takes ? takes : restantes
+    takesPosibles = restantes > takes ? takes : restantes
 
     $('#numberTakes').attr('max', takesPosibles)
-    $('#takes-celda').text('Takes por asignar a la celda: ' + restantes)
+    $('#numberTakes').val('1')
+    $('#takesIni').val('')
+    $('#takesFin').val('')
+    $('#takes-celda').text('Takes per assignar a la sala: ' + restantes)
 
     $('#selectPelis').html('')
 
@@ -339,7 +361,19 @@ $('#exampleModal').on('show.bs.modal', function (event) {
 
 });
 
+function inicializarSelectPeliculas() {
+    // Inicializa el select de películas en caso de que esté vacío.
+    var select = $('#selectPelis-editar');
+    if (select[0].children.length == 0) {
+        for (var i = 0; i < peliculas.length; i++) {
+            select.append(new Option(peliculas[i].titol, peliculas[i].id));
+        }
+    }
+}
+
 $('#exampleModal2').on('shown.bs.modal', function () {
+    inicializarSelectPeliculas();
+
     // Volvemos a llamar a esta función para volver a crear la tabla del modal, básicamente
     // para que cuando cambiemos de día no se visualice el contenido anterior.
     tablaHoras();
@@ -564,19 +598,20 @@ $('.btn').click(function(e) {
     e.preventDefault();
 });
 
-function editarActorCalendario(id) {
+var calendarioActorSeleccionado = 0;
+var peliculas = [];
+
+function cargarPeliculas() {
     $.ajax({
-        url: '/calendari/cogerCalendarioActor',
-        type: 'POST',
+        url: '/calendari/getPeliculas',
+        type: 'GET',
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             Accept: 'application/json'
         },
-        data: {
-            id: id.split('-')[1]
-        },
         success: function (response) {
             console.log(response);
+            peliculas = response;
             // TODO: Asignar los respectivos campos al formulario de editar.
         },
         error: function (error) {
@@ -584,4 +619,46 @@ function editarActorCalendario(id) {
             alert("No s'ha obtenir les dades de calendari de l'actor :(");
         }
     });
+}
+cargarPeliculas();
+
+function editarActorCalendario(id) {
+    calendarioActorSeleccionado = id.split('-')[1];
+
+    if (calendarioActorSeleccionado > 0) {
+        $.ajax({
+            url: '/calendari/cogerCalendarioActor',
+            type: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                Accept: 'application/json'
+            },
+            data: {
+                id: calendarioActorSeleccionado
+            },
+            success: function (response) {
+                console.log(response);
+                $('#numberTakes-editar').val(response.num_takes);
+                $('#takesIni-editar').val(response.data_inici.split(' ')[1]);
+                $('#takesFin-editar').val(response.data_fi.split(' ')[1]);
+                
+                //$('#selectPelis-editar').val(response.id);
+                // TODO: Asignar los respectivos campos al formulario de editar.
+            },
+            error: function (error) {
+                console.error(error);
+                alert("No s'ha obtenir les dades de calendari de l'actor :(");
+            }
+        });
+    }
+}
+
+function editarActor() {
+    // TODO:
+
+}
+
+function eliminarCalendarioActor() {
+    // TODO:
+    
 }
