@@ -544,7 +544,7 @@ class CostController extends Controller
 
                     foreach ($registre->traductor->carrec as $empleatCarrec){
                         if ($registre->registreEntrada->id_idioma == $empleatCarrec->id_idioma && $empleatCarrec->tarifa->nombre_corto == 'traductor' && $empleatCarrec->preu_carrec != 0){
-                            $empleatCost->cost_empleat = $empleatCarrec->preu_carrec * ($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis);
+                            $empleatCost->cost_empleat = $empleatCarrec->preu_carrec * ($registre->registreEntrada->total_episodis != 0 ? ($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis) : $registre->registreEntrada->minuts );
                             $total += $empleatCost->cost_empleat;
                             $empleatCost->id_tarifa = 12;
                             $empleatCost->save();
@@ -558,7 +558,7 @@ class CostController extends Controller
                     $empleatCost->id_empleat = $registre->ajustador->id_empleat;
                     foreach ($registre->ajustador->carrec as $empleatCarrec){
                         if ($registre->registreEntrada->id_idioma == $empleatCarrec->id_idioma && $empleatCarrec->tarifa->nombre_corto == 'ajustador' && $empleatCarrec->preu_carrec != 0){
-                            $empleatCost->cost_empleat = $empleatCarrec->preu_carrec * ($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis);
+                            $empleatCost->cost_empleat = $empleatCarrec->preu_carrec * ($registre->registreEntrada->total_episodis != 0 ? ($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis) : $registre->registreEntrada->minuts );
                             $total += $empleatCost->cost_empleat;
                             $empleatCost->id_tarifa = 13;
                             $empleatCost->save();
@@ -572,7 +572,7 @@ class CostController extends Controller
                     $empleatCost->id_empleat = $registre->linguista->id_empleat;
                     foreach ($registre->linguista->carrec as $empleatCarrec){
                         if ($registre->registreEntrada->id_idioma == $empleatCarrec->id_idioma && $empleatCarrec->tarifa->nombre_corto == 'linguista' && $empleatCarrec->preu_carrec != 0){
-                            $empleatCost->cost_empleat = $empleatCarrec->preu_carrec * ($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis);
+                            $empleatCost->cost_empleat = $empleatCarrec->preu_carrec * ($registre->registreEntrada->total_episodis != 0 ? ($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis) : $registre->registreEntrada->minuts );
                             $total += $empleatCost->cost_empleat;
                             $empleatCost->id_tarifa = 14;
                             $empleatCost->save();
@@ -586,12 +586,12 @@ class CostController extends Controller
                     $empleatCost->id_empleat = $registre->director->id_empleat;
                     foreach ($registre->director->carrec as $empleatCarrec){
                         if ($empleatCarrec->tarifa->nombre_corto == 'rotllo' && $empleatCarrec->preu_carrec != 0){
-                            $empleatCost->cost_empleat = $empleatCarrec->preu_carrec * (($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis)/10);;
-                            $total += $empleatCost->cost_empleat;
+                            $empleatCost->cost_empleat = $empleatCarrec->preu_carrec * ($registre->registreEntrada->total_episodis != 0 ? (($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis)/10) : $registre->registreEntrada->minuts );
+                            $total += $empleatCost->cost_empleat;;
                             $empleatCost->id_tarifa = 1;
                             $empleatCost->save();
                         } else if ($empleatCarrec->tarifa->nombre_corto == 'minut' && $empleatCarrec->preu_carrec != 0 ){
-                            $empleatCost->cost_empleat = $empleatCarrec->preu_carrec * ($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis);
+                            $empleatCost->cost_empleat = $empleatCarrec->preu_carrec * ($registre->registreEntrada->total_episodis != 0 ? ($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis) : $registre->registreEntrada->minuts );
                             $total += $empleatCost->cost_empleat;
                             $empleatCost->id_tarifa = 2;
                             $empleatCost->save();
