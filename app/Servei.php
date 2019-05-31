@@ -10,7 +10,6 @@ class Servei extends Model
     protected $primaryKey = 'id_servei';
 
     protected $fillable = [
-        'id_servei',
         'nom_servei',
         'descripcio_servei'
     ];

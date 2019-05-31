@@ -10,7 +10,6 @@ class Client extends Model
     protected $primaryKey = 'id_client';
 
     protected $fillable = [
-        'id_client',
         'nom_client',
         'nif_client',
         'email_client',
