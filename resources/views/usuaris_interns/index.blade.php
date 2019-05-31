@@ -17,8 +17,8 @@
                     @csrf
                 <div class="input-group">
                     <select class="custom-select" id='searchBy' name="searchBy" form="search">
-                        <option value="nom_usuari">BUSCAR PER...</option>
-                        <option value="nom_usuari">NOM</option>
+                        <option value="alias_usuari">BUSCAR PER...</option>
+                        <option value="alias_usuari">NOM</option>
                         <option value="cognom1_usuari">COGNOM</option>
                         <option value="id_departament" id="departament">DEPARTAMENT</option>
                         <option value="email_usuariÍndice">EMAIL</option>
