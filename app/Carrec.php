@@ -11,7 +11,8 @@ class Carrec extends Model
 
     protected $fillable = [
         'nom_carrec',
-        'descripcio_carrec'
+        'descripcio_carrec',
+        'input_name'
     ];
 
     public function carrecEmpleat()

@@ -31,7 +31,7 @@ class RegistreProduccioIndex implements Responsable
                         'titol' => $registre->registreEntrada->titol,
                         'data' => $registre->data_entrega,
                         'setmana' => $registre->setmana,
-                        'responsable' => $registre->registreEntrada->usuari->nom_cognom,
+                        'responsable' => !empty($registre->registreEntrada->usuari->nom_cognom) ? $registre->registreEntrada->usuari->nom_cognom : '',
                         'estadillo' => $registre->estadillo,
                         'vec' => $registre->vec,
                         'estat' => $registre->estat,

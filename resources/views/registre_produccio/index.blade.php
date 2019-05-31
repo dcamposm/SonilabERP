@@ -217,7 +217,7 @@
                         </td>
                         <td style="vertical-align: middle;">{{ date('d/m/Y', strtotime($registreProduccio->data_entrega)) }}</td>
                         <td style="vertical-align: middle;">{{$registreProduccio->setmana}}</td>
-                        <td style="vertical-align: middle;">{{$registreProduccio->registreEntrada->usuari->nom_cognom}}</td>
+                        <td style="vertical-align: middle;">{{!empty($registreProduccio->registreEntrada->usuari->nom_cognom) ? $registreProduccio->registreEntrada->usuari->nom_cognom : ''}}</td>
                         <td style="vertical-align: middle;">{{$registreProduccio->titol}}</td>
                         @if (Auth::user()->hasAnyRole(['1', '2', '4']))
                             @if (Auth::user()->hasAnyRole(['2']))

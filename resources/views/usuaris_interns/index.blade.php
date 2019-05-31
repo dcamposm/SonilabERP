@@ -6,7 +6,7 @@
         <div class="col">
             <a href="{{ url('/usuaris/interns/crear') }}" class="btn btn-success mt-1">
                 <span class="fas fa-user-plus"></span>
-                CREAR USUARI
+                AFEGIR USUARI
             </a>  
         </div>
 

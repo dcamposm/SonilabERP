@@ -93,22 +93,26 @@
 
         <a class="navbar-brand ml-2" href="{{ route('home') }}"><img src="{{ asset('img/logo_letras.png') }}" height="30" class="d-inline-block align-top" alt=""></a>
         @auth
-
-        <ul class="navbar-nav px-3">
-            <li class="nav-item text-nowrap">
-                <a class="nav-link" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                    document.getElementById('logout-form').submit();">
-                    <i class="fas fa-sign-out-alt mr-0"></i> 
-                    {{ __('Tancar la sessió') }}
-                </a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
-            </li>
-        </ul>
-        @endguest
-
+        <div class="row">
+            <div class="col mt-1">
+                <img src="data:image/jpg;base64,{{Auth::user()->imatge_usuari}}" class="rounded-circle" style="height:30px"/>
+                <span class="text-white">{{Auth::user()->alias_usuari}}</span>
+            </div>
+            <ul class="navbar-nav px-4 col">
+                <li class="nav-item text-nowrap" style="display: inline;">
+                    <a class="nav-link" href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();">
+                        <i class="fas fa-sign-out-alt mr-0"></i> 
+                        {{ __('Tancar la sessió') }}
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </li>
+            </ul>
+            @endguest
+        </div>
     </nav>
 
    <!--sidebar-->

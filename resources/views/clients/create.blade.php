@@ -88,5 +88,5 @@
     </form>
 </div>
 
-
+<script type="text/javascript" src="{{ URL::asset('js/custom/clientCreate.js') }}"></script>
 @endsection

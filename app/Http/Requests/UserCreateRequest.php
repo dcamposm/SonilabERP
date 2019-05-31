@@ -36,6 +36,7 @@ class UserCreateRequest extends FormRequest
     public function messages() {
         return [
             'required'  => ' No s\'ha posat el :attribute.',
+            'contrasenya_usuari.required'  => ' No s\'ha posat la :attribute.',
             '*.max'     => ' El :attribute no pot superar un tamany màxim de :max caracters.',
             '*.min'     => ' El :attribute no pot  tamany mínim és de :min caracters.',
             'same'      => 'No coincideixen les contrasenyes.'

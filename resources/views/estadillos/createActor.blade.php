@@ -29,6 +29,12 @@
                         <label for="canso_estadillo" class="form-check-label" style="font-weight: bold">CANÇÓ</label>      
                     </div>   
                 </div>
+                <div class="form-group ml-3">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="canso_estadillo" name="narracio_estadillo" {{ !empty($actor) ? ($actor->narracio_estadillo == 1 ? 'checked' : '') : ''}} value="1">
+                        <label for="narracio_estadillo" class="form-check-label" style="font-weight: bold">NARRACIÓ</label>      
+                    </div>   
+                </div>
             </div>
                 <div class="row">
                     <div class="col-6">

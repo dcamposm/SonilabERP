@@ -28,7 +28,6 @@ class RegistreProduccio extends Model
         'id_director',
         'casting',
         'propostes',
-        'subtitol',
         'inserts',
         'estadillo',
         'vec',

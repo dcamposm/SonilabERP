@@ -1,43 +1,27 @@
-//--------Funcions per treure els camp de EPISODIS TOTALS, EPISODIS SETMANALS I ENTREGUES SETMANALS-----------
-$( document ).ready(function() {
-    if ($('#id_media').val() < '5' && $('#id_media').val() > 1) {
-        $('#total_ep').hide();
-        $('#ep_set').hide();
-        $('#ent_set').hide();
-    }
-    else {
-        $('#total_ep').show();
-        $('#ep_set').show();
-        $('#ent_set').show();
-    }
-});
-function hideInputs() {
-    //var value = $('#id_media').val();
-
-    //alert(value);
-    if ($('#id_media').val() < '5' && $('#id_media').val() > 1) {
-        $('#total_ep').hide();
-        $('#ep_set').hide();
-        $('#ent_set').hide();
-    }
-    else {
-        $('#total_ep').show();
-        $('#ep_set').show();
-        $('#ent_set').show();
-    }
-}
-
-$('#id_media').change(hideInputs);
-
-//----------------Funcions per validar els camps----------------
+//Funcions per validar els camps
 $('input').keyup(validarInput);
 $('select').change(validarSelect);
-$('#sortida').change(validarDate);
 
 function validarInput(){
     console.log($(this).attr('id'));
-    if ($(this).attr('type') == 'number') {
-        var pattern = /^\d*$/;
+    if ($(this).attr('id') == 'contrasenya_usuari' || $(this).attr('id') == 'cpass'){
+        if ($(this).val() == ''){
+            removeValid(this);
+        } else {
+            if ($('#contrasenya_usuari').val() === $('#cpass').val()){
+                $('#contrasenya_usuari').removeClass("is-invalid");
+                $('#cpass').removeClass("is-invalid");
+                $('#contrasenya_usuari').addClass("is-valid");
+                $('#cpass').addClass("is-valid");
+            } else {
+                $('#contrasenya_usuari').removeClass("is-valid");
+                $('#cpass').removeClass("is-valid");
+                $('#contrasenya_usuari').addClass("is-invalid");
+                $('#cpass').addClass("is-invalid");
+            }
+        }
+    } else if ($(this).attr('id') == 'email_usuari'){
+        var pattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if ($(this).val() == ''){
             removeValid(this);
         } else {
@@ -50,7 +34,7 @@ function validarInput(){
             }
         }
     } else if ($(this).attr('type') == 'text'){
-        var pattern = /^\w*$/;
+        var pattern = /^\D*$/;
         if ($(this).val() == ''){
             removeValid(this);
         } else {
@@ -68,15 +52,6 @@ function validarInput(){
 function validarSelect(){
     //console.log($(this).children(":selected").val());
     if ($(this).children(":selected").val() == ''){
-        removeValid(this);
-    } else {
-        $(this).addClass("is-valid");
-    }
-}
-
-function validarDate(){
-    //console.log($(this).children(":selected").val());
-    if ($(this).val() == ''){
         removeValid(this);
     } else {
         $(this).addClass("is-valid");
