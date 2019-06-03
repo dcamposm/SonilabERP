@@ -73,6 +73,7 @@ function cargarActores() {
     })
 
     console.log(trabajadores);
+    console.log("DATOs");
     console.log(data);
     $('#trabajadores').html('');
     for (const key in trabajadores) {
@@ -382,6 +383,12 @@ $('#exampleModal2').on('shown.bs.modal', function () {
     // para que cuando cambiemos de día no se visualice el contenido anterior.
     tablaHoras();
 
+    pintarTablaHoras();
+    
+    $('#exampleModalLabel2').text('Sala: ' + salaSeleccionada + ' / Dia: ' + diaSeleccionado)
+});
+
+function pintarTablaHoras() {
     data.forEach(element => {
         var ele_dia = element.data_inici.split(' ');
 
@@ -411,8 +418,7 @@ $('#exampleModal2').on('shown.bs.modal', function () {
             }
         }
     });
-    $('#exampleModalLabel2').text('Sala: ' + salaSeleccionada + ' / Dia: ' + diaSeleccionado)
-});
+}
 
 function tablaHoras() {
 
@@ -648,6 +654,7 @@ function seleccionarActorCalendario(id) {
                 $('#takesFin-editar').val(response.calendar.data_fi.split(' ')[1]);
                 
                 $('#selectPelis-editar').val(response.peliculas.id);
+                console.log(response.peliculas.id);
             },
             error: function (error) {
                 console.error(error);
@@ -670,10 +677,24 @@ function editarActor() {
             num_takes: $('#numberTakes-editar').val(),
             data_inici: $('#takesIni-editar').val(),
             data_fi: $('#takesFin-editar').val(),
-            num_sala: calendarioActor.calendar.num_sala
+            num_sala: calendarioActor.calendar.num_sala,
+            id_produccio: $('#selectPelis-editar').val()
         },
         success: function (response) {
             console.log(response);
+            // Guarda los datos en la variable "data" y vuelve a recargar el calendario:
+            data.forEach(element => {
+                if (element.id_calendar == calendarioActorSeleccionado_id) {
+                    var inici_split = element.data_inici.split(' ');
+                    var fi_split = element.data_fi.split(' ');
+
+                    element.num_takes = $('#numberTakes-editar').val();
+                    element.data_inici = inici_split[0] + " " + $('#takesIni-editar').val();
+                    element.data_fi = fi_split[0] + " " + $('#takesFin-editar').val();
+                }
+            });
+            tablaHoras();
+            pintarTablaHoras();
         },
         error: function (error) {
             console.error(error);
