@@ -96,8 +96,9 @@ class CalendariController extends Controller
             $act_dia = DB::select(
                 'SELECT t1.id_empleat, t1.nom_empleat, t1.cognom1_empleat, t1.cognom2_empleat, t2.id_calendar, 
                     DAY(t2.data_inici) as dia, t2.num_sala , LPAD(HOUR(t2.data_inici), 2, 0) as hora, 
-                    LPAD(MINUTE(t2.data_inici), 2, 0) as minuts 
-                FROM slb_empleats_externs t1, slb_calendars t2, slb_actors_estadillo t3 
+                    LPAD(MINUTE(t2.data_inici), 2, 0) as minuts, 
+                    t3.id as id_actor_estadillo, t2.id_calendar as id_calendar 
+                FROM slb_empleats_externs t1, slb_calendars t2, slb_actors_estadillo t3
                 WHERE 
                     t2.id_actor_estadillo = t3.id AND t3.id_actor = t1.id_empleat AND 
                     DAY(t2.data_inici) = '.$diaz->format('d').' AND MONTH(t2.data_inici) = '.$diaz->format('m').' 
@@ -275,7 +276,7 @@ class CalendariController extends Controller
         $calendari = Calendar::findOrFail($id);
         $calendari->delete();
        
-        return redirect()->route('showCalendari');
+        return response()->json("Esborrat Ok!");
     }
     
     

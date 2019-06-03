@@ -693,6 +693,9 @@ function editarActor() {
                     element.data_fi = fi_split[0] + " " + $('#takesFin-editar').val();
                 }
             });
+            var horaActor = $('#' + calendarioActorSeleccionado_id + "-" + calendarioActor.calendar.id_actor_estadillo + "-" + calendarioActor.calendar.num_sala + " .horaActor");
+            horaActor.text("(" + $('#takesIni-editar').val() + ")");
+            vaciarValoresEditar();
             tablaHoras();
             pintarTablaHoras();
         },
@@ -716,10 +719,42 @@ function eliminarCalendarioActor() {
         },
         success: function (response) {
             console.log(response);
+            // Guarda los datos en la variable "data" y vuelve a recargar el calendario:
+            var nuevoAmanecer = [];
+            data.forEach(element => {
+                if (element.id_calendar != calendarioActorSeleccionado_id) {
+                    nuevoAmanecer.push({
+                        actor_estadillo: element.actor_estadillo,
+                        asistencia: element.asistencia,
+                        created_at: element.created_at,
+                        data_fi: element.data_fi,
+                        data_inici: element.data_inici,
+                        id_actor_estadillo: element.id_actor_estadillo,
+                        id_calendar: element.id_calendar,
+                        num_sala: element.num_sala,
+                        num_takes: element.num_takes,
+                        updated_at: element.updated_at
+                    });
+                }
+            });
+            data = undefined;
+            data = nuevoAmanecer;
+            vaciarValoresEditar();
+            $('#' + calendarioActorSeleccionado_id + "-" + calendarioActor.calendar.id_actor_estadillo + "-" + calendarioActor.calendar.num_sala).remove();
+            tablaHoras();
+            pintarTablaHoras();
         },
         error: function (error) {
             console.error(error);
-            alert("No s'ha obtenir les dades de calendari de l'actor :(");
+            alert("No s'ha pogut esborrar l'event :(");
         }
     });
+}
+
+function vaciarValoresEditar() {
+    calendarioActorSeleccionado_id = 0;
+    $('#numberTakes-editar').val(0);
+    $('#takesIni-editar').val("");
+    $('#takesFin-editar').val("");
+    $('#selectPelis-editar').val(0);
 }

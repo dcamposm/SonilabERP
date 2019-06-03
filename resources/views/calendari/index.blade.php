@@ -171,9 +171,9 @@
                                     <tbody>
                                         @foreach($actoresPorDia as $key => $dia)
                                             @foreach($dia as $key2 => $actor)
-                                                <tr class="dia-{{$actor->dia}}-{{$actor->num_sala}} lista-actores">
+                                                <tr id="{{$actor->id_calendar}}-{{$actor->id_actor_estadillo}}-{{$actor->num_sala}}" class="dia-{{$actor->dia}}-{{$actor->num_sala}} lista-actores">
                                                     <td id="actor_mod-{{ $actor->id_calendar }}" onclick="seleccionarActorCalendario(this.id)">
-                                                        {{'('.$actor->hora.':'.$actor->minuts.')'}} {{$actor->nom_empleat}} {{$actor->cognom1_empleat}} {{$actor->cognom2_empleat}}
+                                                        <span class="horaActor">{{'('.$actor->hora.':'.$actor->minuts.')'}}</span> {{$actor->nom_empleat}} {{$actor->cognom1_empleat}} {{$actor->cognom2_empleat}}
                                                     </td>
                                                     <td>
                                                         <div class="btn-group btn-group-toggle" data-toggle="buttons">
