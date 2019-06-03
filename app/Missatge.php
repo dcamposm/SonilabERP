@@ -27,7 +27,7 @@ class Missatge extends Model
         $fecha_actual = date("d-m-Y");               
         $this->id_usuari = $registreEntrada->id_usuari;
         $this->missatge = "NEW";
-        $this->referencia ='registreProduccio';
+        $this->referencia ='registreProduccioNew';
         $this->id_referencia =$registreProduccio->id;
         $this->data_final =date("Y-m-d",strtotime($fecha_actual."+ 7 days"));
     }

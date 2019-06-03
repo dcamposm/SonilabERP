@@ -53,6 +53,7 @@ Route::middleware(['role: 1, 2, 4'])->group(function () {
         Route::post('/registreEntrada/modificar/{id}', 'RegistreEntradaController@update')->name('registreEntradaUpdate');
         Route::post('/registreEntrada/esborrar', 'RegistreEntradaController@delete')->name('esborrarRegistreEntrada');
     });
+    Route::get('/registreEntrada/search', 'RegistreEntradaController@search')->name('registreEntradaSearch');
 });
 //-----------------------Rutes clients-----------------------
 Route::middleware(['role: 1, 2, 4'])->group(function () {

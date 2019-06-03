@@ -37,6 +37,13 @@ class RegistreProduccioController extends Controller {
         
         return new RegistreProduccioShow($registreProduccio);
     }
+    
+    public function search(Request $request)
+    {
+        $registreProduccio = Post::where('title', 'LIKE', '%'.$request->search.'%')->get();
+        return \response()->json($posts);
+    }
+ 
 
     public function updateView($id){
         $registreProduccio = RegistreProduccio::find($id);
