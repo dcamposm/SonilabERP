@@ -683,6 +683,22 @@ function editarActor() {
 }
 
 function eliminarCalendarioActor() {
-    // TODO:
-    
+    console.log(calendarioActorSeleccionado_id)
+    $.ajax({
+        url: '/calendari/esborrar/' + calendarioActorSeleccionado_id,
+        type: 'delete',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            Accept: 'application/json'
+        },
+        data: {
+        },
+        success: function (response) {
+            console.log(response);
+        },
+        error: function (error) {
+            console.error(error);
+            alert("No s'ha obtenir les dades de calendari de l'actor :(");
+        }
+    });
 }
