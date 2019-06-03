@@ -219,15 +219,27 @@ class CalendariController extends Controller
 
     public function update($id){
         $calendari = Calendar::findOrFail($id);
+        // return response()->json(request()->get('data_inici_h'));
 
-        $v = Validator::make(request()->all(),[
+        // NOTE: Hay que hacer que el data_inici y el date_fi se le asigne las horas y los minutos que le lleguen
+        //       del frontend.
+
+        $valores = array(
+            'id_actor_estadillo' => request()->get('id_actor_estadillo'),
+            'num_takes'          => request()->get('num_takes'),
+            'data_inici'         => $calendari->data_inici.setTime(request()->get('data_inici_h'), request()->get('data_inici_m')),
+            'data_fi'            => $calendari->data_fi.setTime(request()->get('data_fi_h'), request()->get('data_fi_m')),
+            'num_sala'           => request()->get('num_sala')
+        );
+        return response()->json($valores);
+
+        $v = Validator::make($valores,[
             //'id_calendar'=>'required|max:35',
-            'id_empleat'=>'required|max:35',
-            'id_registre_entrada'=>'required|max:35',
-            'num_takes'=>'required|regex:/^[0-9]+$/',//^[0-9]+$
-            'data_inici'=>'required|max:35',
-            'data_fi'=>'required|max:35',
-            'num_sala'=>'required|max:35'
+            'id_actor_estadillo' => 'required',
+            'num_takes'          => 'required',
+            'data_inici'         => 'required',
+            'data_fi'            => 'required',
+            'num_sala'           => 'required'
         ]);
 
         if ($v->fails()) {
@@ -237,10 +249,10 @@ class CalendariController extends Controller
         else {
             //return response()->json(request()->all());
             // Datos correctos.
-            $calendari->fill(request()->all());  
+            $calendari->fill($valores);  
             $calendari->save();
 
-            return redirect()->route('showCalendari');
+            return response()->json("Tot Ok!");
         }
     }
 
@@ -308,9 +320,12 @@ class CalendariController extends Controller
     }
 
     public function cogerCalendarioActor() {
-        // TODO: Coger el identificador del registro de producción.
-        $datos = Calendar::find(request()->get('id'));
-        return response()->json($datos);
+        $calendar = Calendar::find(request()->get('id'));
+        $peliculas = collect(DB::select('select t1.* from slb_registres_produccio t1 INNER JOIN slb_actors_estadillo t2 ON t1.id = t2.id_produccio WHERE t2.id_actor = '.$calendar->id_actor_estadillo))->first();
+        return response()->json(array(
+            'calendar'  => $calendar,
+            'peliculas' => $peliculas
+        ));
     }
 
     public function getPeliculas() {

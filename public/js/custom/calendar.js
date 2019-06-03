@@ -598,8 +598,9 @@ $('.btn').click(function(e) {
     e.preventDefault();
 });
 
-var calendarioActorSeleccionado = 0;
+var calendarioActorSeleccionado_id = 0;
 var peliculas = [];
+var calendarioActor = [];
 
 function cargarPeliculas() {
     $.ajax({
@@ -622,10 +623,10 @@ function cargarPeliculas() {
 }
 cargarPeliculas();
 
-function editarActorCalendario(id) {
-    calendarioActorSeleccionado = id.split('-')[1];
+function seleccionarActorCalendario(id) {
+    calendarioActorSeleccionado_id = id.split('-')[1];
 
-    if (calendarioActorSeleccionado > 0) {
+    if (calendarioActorSeleccionado_id > 0) {
         $.ajax({
             url: '/calendari/cogerCalendarioActor',
             type: 'POST',
@@ -634,16 +635,16 @@ function editarActorCalendario(id) {
                 Accept: 'application/json'
             },
             data: {
-                id: calendarioActorSeleccionado
+                id: calendarioActorSeleccionado_id
             },
             success: function (response) {
                 console.log(response);
-                $('#numberTakes-editar').val(response.num_takes);
-                $('#takesIni-editar').val(response.data_inici.split(' ')[1]);
-                $('#takesFin-editar').val(response.data_fi.split(' ')[1]);
+                calendarioActor = response;
+                $('#numberTakes-editar').val(response.calendar.num_takes);
+                $('#takesIni-editar').val(response.calendar.data_inici.split(' ')[1]);
+                $('#takesFin-editar').val(response.calendar.data_fi.split(' ')[1]);
                 
-                //$('#selectPelis-editar').val(response.id);
-                // TODO: Asignar los respectivos campos al formulario de editar.
+                $('#selectPelis-editar').val(response.peliculas.id);
             },
             error: function (error) {
                 console.error(error);
@@ -654,8 +655,30 @@ function editarActorCalendario(id) {
 }
 
 function editarActor() {
-    // TODO:
-
+    $.ajax({
+        url: '/calendari/editar/' + calendarioActorSeleccionado_id,
+        type: 'PUT',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            Accept: 'application/json'
+        },
+        data: {
+            id_actor_estadillo: calendarioActor.id_actor_estadillo,
+            num_takes: $('#numberTakes-editar').val(),
+            data_inici_h: $('#takesIni-editar').val(),
+            data_inici_m: $('#takesIni-editar').val().split(':')[1],
+            data_fi_h: $('#takesFin-editar').val().split(':')[0],
+            data_fi_m: $('#takesFin-editar').val().split(':')[1],
+            num_sala: calendarioActor.num_sala
+        },
+        success: function (response) {
+            console.log(response);
+        },
+        error: function (error) {
+            console.error(error);
+            alert("No s'ha obtenir les dades de calendari de l'actor :(");
+        }
+    });
 }
 
 function eliminarCalendarioActor() {
