@@ -35,10 +35,6 @@ class RegistreEntradaController extends Controller
     
     public function search(Request $request)
     {
-        //$registreEntrades = RegistreEntrada::whereRaw('LOWER(id_registre_entrada") like "%'.strtolower($request->search).'%"')->get();
-         
-        //. ' OR LOWER("titol") like "%'.strtolower($request->search).'%"')->get();
-        
         $registreEntrades = RegistreEntrada::all();
         
         return \response()->json($registreEntrades);

@@ -297,4 +297,13 @@ class EmpleatExternController extends Controller
         EmpleatExtern::where('id_empleat', $request["id"])->delete();
         return redirect()->route('empleatIndex');
     }
+    
+    public function searchTraductor(Request $request)
+    {
+         $empleats = EmpleatExtern::with(['carrec' => function($query){
+                                $query->where('id_tarifa', 12);
+                            }])->get();
+        
+        return \response()->json($empleats);
+    }
 }
