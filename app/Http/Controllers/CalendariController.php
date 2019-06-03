@@ -224,14 +224,16 @@ class CalendariController extends Controller
         // NOTE: Hay que hacer que el data_inici y el date_fi se le asigne las horas y los minutos que le lleguen
         //       del frontend.
 
+        $data_inici = explode(" ",$calendari->data_inici)[0].' '.request()->input('data_inici').':00';
+        $data_fi = explode(" ", $calendari->data_fi)[0].' '.request()->input('data_fi').':00';
         $valores = array(
             'id_actor_estadillo' => request()->get('id_actor_estadillo'),
             'num_takes'          => request()->get('num_takes'),
-            'data_inici'         => $calendari->data_inici.setTime(request()->get('data_inici_h'), request()->get('data_inici_m')),
-            'data_fi'            => $calendari->data_fi.setTime(request()->get('data_fi_h'), request()->get('data_fi_m')),
+            'data_inici'         => $data_inici,
+            'data_fi'            => $data_fi,
             'num_sala'           => request()->get('num_sala')
         );
-        return response()->json($valores);
+        //return response()->json($valores);
 
         $v = Validator::make($valores,[
             //'id_calendar'=>'required|max:35',

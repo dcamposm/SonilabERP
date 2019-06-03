@@ -621,7 +621,7 @@ function cargarPeliculas() {
         },
         error: function (error) {
             console.error(error);
-            alert("No s'ha obtenir les dades de calendari de l'actor :(");
+            alert("pelissssssNo s'ha obtenir les dades de calendari de l'actor :(");
         }
     });
 }
@@ -667,13 +667,11 @@ function editarActor() {
             Accept: 'application/json'
         },
         data: {
-            id_actor_estadillo: calendarioActor.id_actor_estadillo,
+            id_actor_estadillo: calendarioActor.calendar.id_actor_estadillo,
             num_takes: $('#numberTakes-editar').val(),
-            data_inici_h: $('#takesIni-editar').val(),
-            data_inici_m: $('#takesIni-editar').val().split(':')[1],
-            data_fi_h: $('#takesFin-editar').val().split(':')[0],
-            data_fi_m: $('#takesFin-editar').val().split(':')[1],
-            num_sala: calendarioActor.num_sala
+            data_inici: $('#takesIni-editar').val(),
+            data_fi: $('#takesFin-editar').val(),
+            num_sala: calendarioActor.calendar.num_sala
         },
         success: function (response) {
             console.log(response);
