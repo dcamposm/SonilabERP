@@ -43,11 +43,18 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <input type="hidden" id="">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
+                <div style="flex-direction:column; width: 100%;">
+                    <div style="width: 100%; float: left;">
+                        <input type="hidden" id="">
+                        <h5 class="modal-title" style="float: left;" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div style="clear:both"></div>
+                    <h6 id="crear-subtitulo">Sub Title</h6>
+                </div>
+
             </div>
             <div class="modal-body">
                 <p id="takes-celda"></p>

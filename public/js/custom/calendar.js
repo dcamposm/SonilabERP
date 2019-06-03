@@ -331,7 +331,7 @@ function ampliarCasilla(e) {
     $('#exampleModal2').modal('show')
 }
 
-$('#exampleModal').on('show.bs.modal', function (event) {
+$('#exampleModal').on('show.bs.modal', function (e) {
     var modal = $(this)
     let takes = persona.takes_restantes;
     modal.find('.modal-title').text(persona.nombre_actor + ' - ' + takes + ' takes restants')
@@ -339,6 +339,10 @@ $('#exampleModal').on('show.bs.modal', function (event) {
     var restantes = 100 - (celda.attributes['aria-valuenow'].value ? celda.attributes['aria-valuenow'].value : 0)
 
     takesPosibles = restantes > takes ? takes : restantes
+
+    var data_inici = celda.parentElement.parentElement.getAttribute("dia")
+    var num_sala = celda.parentElement.parentElement.getAttribute("sala");
+    $('#crear-subtitulo').text('Dia: '+data_inici+' - Sala: '+num_sala)
 
     $('#numberTakes').attr('max', takesPosibles)
     $('#numberTakes').val('1')
