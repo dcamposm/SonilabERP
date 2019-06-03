@@ -27,6 +27,12 @@ class RegistreEntrada extends Model
         'estat'
     ];
     
+    protected $appends = ['referencia_titol'];
+    
+    public function getReferenciaTitolAttribute() {
+        return $this->id_registre_entrada.' '.$this->titol;
+    }    
+    
      public function usuari()
     {
         return $this->belongsTo('App\User', 'id_usuari', 'id_usuari');

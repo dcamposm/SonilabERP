@@ -88,14 +88,14 @@ function formTable(){
 
                 $.each(regEntrada, function( key, entrada ) {
                     if (entrada['id_registre_entrada'] == registre[idArray[0]]) {
-                       $("#autocomplete-search").val(entrada['id_registre_entrada']+" "+entrada['titol']);   
+                       $("#autocomplete-search").val(entrada['referencia_titol']);   
                     }
                 });
 
                 var options = {
                     url:  rutaSearchEntrada,
 
-                    getValue: "titol",
+                    getValue: "referencia_titol",
 
                     list: {
                             match: {
@@ -104,14 +104,14 @@ function formTable(){
                                 var selectedPost = $("#autocomplete-search").getSelectedItemData();
                                 $('#autocomplete-search').attr("value", selectedPost.id_registre_entrada);
                                 $('#autocomplete-search').addClass("is-valid");
-                                $("#autocomplete-search").val(selectedPost.id_registre_entrada+" "+selectedPost.titol).trigger("change");
+                                $("#autocomplete-search").val(selectedPost.referencia_titol).trigger("change");
                             }
                     },
 
                     template: {
                             type: "custom",
                             method: function(value, item) {
-                                    return item.id_registre_entrada + " " + value;
+                                    return value;
                             }
                     }
                 };
