@@ -454,10 +454,9 @@ function tablaHoras() {
         $(hora).append(tableM)
         $(tableM).append(trM)
 
-        for (let m = 1; m < 60; m++) {
-
+        for (let m = 30; m < 90; m++) {
             var tdM = document.createElement('td')
-            tdM.id = "td_" + pad(i) + "-" + pad(m)
+            tdM.id = "td_" + (m < 60 ? pad(i) : pad((i + 1))) + "-" + (m < 60 ? pad(m) : pad((m - 60)))
             tdM.classList.add('tablaMinutos')
             $(trM).append(tdM)
         }
