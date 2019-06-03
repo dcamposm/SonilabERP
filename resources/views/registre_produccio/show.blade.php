@@ -20,7 +20,7 @@
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
-                <td class="col" id="id_registre_entrada-S">{{ $registreProduccio['id_registre_entrada']." ".$registreProduccio->registreEntrada->titol}}</td>
+                <td class="col" id="id_registre_entrada-I">{{ $registreProduccio['id_registre_entrada']." ".$registreProduccio->registreEntrada->titol}}</td>
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">SUB-REFERENCIA:</td>
@@ -317,6 +317,12 @@
     var empleatsCarrec = @json($empleatsCarrec);
     var empleats = @json($empleats);
     var regEntrada = @json($regEntrades);
+    
+    var rutaSearchEntrada = "{{route('registreEntradaSearch')}}"
+
 </script>
 <script type="text/javascript" src="{{ URL::asset('js/custom/registreProduccioShow.js') }}"></script>
+<script>
+
+</script>
 @stop

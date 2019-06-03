@@ -515,19 +515,19 @@
                             </div>
                             <div class="form-group col-12 col-sm-6">
                                 <label for="subreferencia">SUB-REFERÈNCIA</label>
-                                <input type="text" name="subreferencia" id="subreferencia" class="form-control">
+                                <input type="number" name="subreferencia" id="subreferencia" class="form-control" min="0" required>
                             </div>
                             <div class="form-group col-12 col-sm-6">
                                 <label for="data_entrega">DATA D'ENTREGA</label>
-                                <input type="date" name="data_entrega" id="data_entrega" class="form-control">
+                                <input type="date" name="data_entrega" id="data_entrega" class="form-control" required>
                             </div>
                             <div class="form-group col-12 col-sm-6">
                                 <label for="setmana">SETMANA</label>
-                                <input type="number" name="setmana" id="setmana" class="form-control" min="0">
+                                <input type="number" name="setmana" id="setmana" class="form-control" min="0" required>
                             </div>
                             <div class="form-group col-12 col-sm-6">
                                 <label for="titol">TÍTOL ORIGINAL</label>
-                                <input type="text" name="titol" id="titol" class="form-control">
+                                <input type="text" name="titol" id="titol" class="form-control" required>
                             </div>
                             <div class="form-group col-12 col-sm-6">
                                 <label for="estat">ESTAT</label>

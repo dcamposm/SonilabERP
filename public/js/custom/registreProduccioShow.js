@@ -31,11 +31,12 @@ function formTable(){
                 $(select).append('<option value="No cal fer"'+("No cal fer" == registre[idArray[0]] ? "selected" : "")+'>No cal fer</option>');
                 $(select).append('<option value="Cal fer"'+("Cal fer" == registre[idArray[0]] ? "selected" : "")+'>Cal fer</option>');
                 $(select).append('<option value="Fet"'+("Fet" == registre[idArray[0]] ? "selected" : "")+'>Fet</option>');
-            } else if (idArray[0] == 'id_registre_entrada'){ 
+            } /*else if (idArray[0] == 'id_registre_entrada'){
+                
                 $.each(regEntrada, function( key, entrada ) {
                     $(select).append('<option value="'+entrada['id_registre_entrada']+'"'+(entrada['id_registre_entrada'] == registre[idArray[0]] ? "selected" : "")+'>'+entrada['id_registre_entrada']+' '+entrada['titol']+'</option>');
                 });
-            } else if (idArray[2] == 'P'){ 
+            }*/ else if (idArray[2] == 'P'){ 
                 $(select).append('<option></option>');
                 $.each(empleatsCarrec, function( key, empleat ) {
                     $.each(empleat['carrec'], function( key1, carrec ) {
@@ -80,7 +81,47 @@ function formTable(){
         }else if (idArray[1] == 'N') {
             content.text('');
             content.append('<input type="number" name="'+idArray[0]+'" id="'+idArray[0]+'" class="form-control" value="'+value+'">');
-        } else {
+        } else if (idArray[1] == 'I') {
+            if (idArray[0] == 'id_registre_entrada'){
+                content.text('');
+                content.append('<input id="autocomplete-search" name="'+idArray[0]+'" class="form-control" value="'+registre[idArray[0]]+'"/>');
+
+                $.each(regEntrada, function( key, entrada ) {
+                    if (entrada['id_registre_entrada'] == registre[idArray[0]]) {
+                       $("#autocomplete-search").val(entrada['referencia_titol']);   
+                    }
+                });
+
+                var options = {
+                    url:  rutaSearchEntrada,
+
+                    getValue: "referencia_titol",
+
+                    list: {
+                            match: {
+                                enabled: true
+                            }, onChooseEvent: function() {
+                                var selectedPost = $("#autocomplete-search").getSelectedItemData();
+                                $('#autocomplete-search').attr("value", selectedPost.id_registre_entrada);
+                                $('#autocomplete-search').addClass("is-valid");
+                                $("#autocomplete-search").val(selectedPost.referencia_titol).trigger("change");
+                            }
+                    },
+
+                    template: {
+                            type: "custom",
+                            method: function(value, item) {
+                                    return value;
+                            }
+                    }
+                };
+
+                $("#autocomplete-search").easyAutocomplete(options);
+            } else {
+                
+            }
+            
+        }  else {
             content.text('');
             content.append('<input type="text" name="'+idArray[0]+'" id="'+idArray[0]+'" class="form-control" value="'+value+'">');
         }
@@ -88,8 +129,66 @@ function formTable(){
         $('#botoTornar').attr('href', '#');
         $('#botoTornar').attr('data-toggle', 'modal');
         $('#botoTornar').attr('data-target', '#modalTornar');
-
+        setEventsValidator();
         $('#botonForm').show();
     }
 };
 $('button').click(formTable);
+//----------------Funcions per validar els camps----------------
+function setEventsValidator(){
+    $('input').change(validarInput);
+    $('input').keyup(validarInput);
+    $('select').change(validarSelect);
+
+    function validarInput(){
+        console.log($(this).attr('id'));
+        if ($(this).attr('type') == 'number') {
+            var pattern = /^\d*$/;
+            if ($(this).val() == ''){
+                removeValid(this);
+            } else {
+                if (pattern.test($(this).val())){
+                    $(this).removeClass("is-invalid");
+                    $(this).addClass("is-valid");
+                } else {
+                    $(this).removeClass("is-valid");
+                    $(this).addClass("is-invalid");
+                }
+            }
+        } else if ($(this).attr('type') == 'text'){
+            var pattern = /^\w*$/;
+            if ($(this).val() == ''){
+                removeValid(this);
+            } else {
+                if (pattern.test($(this).val())){
+                    $(this).removeClass("is-invalid");
+                    $(this).addClass("is-valid");
+                } else {
+                    $(this).removeClass("is-valid");
+                    $(this).addClass("is-invalid");
+                }
+            }
+        } else if ($(this).attr('type') == 'date'){
+            if ($(this).val() == ''){
+                removeValid(this);
+            } else {
+                $(this).addClass("is-valid");
+            }
+        }
+    }
+
+    function validarSelect(){
+        //console.log($(this).children(":selected").val());
+        if ($(this).children(":selected").val() == '' || $(this).children(":selected").val() == '0'){
+            removeValid(this);
+        } else {
+            $(this).addClass("is-valid");
+        }
+    }
+
+    function removeValid(input){
+        //console.log(input);
+        $(input).removeClass("is-valid");
+        $(input).removeClass("is-invalid");
+    } 
+}

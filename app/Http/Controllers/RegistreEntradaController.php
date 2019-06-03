@@ -32,6 +32,13 @@ class RegistreEntradaController extends Controller
         
         return new RegistreEntradaIndex($registreEntrades);
     }
+    
+    public function search(Request $request)
+    {
+        $registreEntrades = RegistreEntrada::all();
+        
+        return \response()->json($registreEntrades);
+    }
 
     public function insertView(){
         return new RegistreEntradaCreate();
