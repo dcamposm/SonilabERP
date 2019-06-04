@@ -96,9 +96,12 @@ class CalendariController extends Controller
             $act_dia = DB::select(
                 'SELECT t1.id_empleat, t1.nom_empleat, t1.cognom1_empleat, t1.cognom2_empleat, t2.id_calendar, 
                     DAY(t2.data_inici) as dia, t2.num_sala , LPAD(HOUR(t2.data_inici), 2, 0) as hora, 
-                    LPAD(MINUTE(t2.data_inici), 2, 0) as minuts 
-                FROM slb_empleats_externs t1 INNER JOIN slb_calendars t2 ON t1.id_empleat = t2.id_actor_estadillo 
-                WHERE DAY(t2.data_inici) = '.$diaz->format('d').' AND MONTH(t2.data_inici) = '.$diaz->format('m').' 
+                    LPAD(MINUTE(t2.data_inici), 2, 0) as minuts, 
+                    t3.id as id_actor_estadillo, t2.id_calendar as id_calendar 
+                FROM slb_empleats_externs t1, slb_calendars t2, slb_actors_estadillo t3
+                WHERE 
+                    t2.id_actor_estadillo = t3.id AND t3.id_actor = t1.id_empleat AND 
+                    DAY(t2.data_inici) = '.$diaz->format('d').' AND MONTH(t2.data_inici) = '.$diaz->format('m').' 
                     AND YEAR(t2.data_inici) = '.$diaz->format('Y').' 
                 ORDER BY t2.data_inici asc'
             );
@@ -224,14 +227,16 @@ class CalendariController extends Controller
         // NOTE: Hay que hacer que el data_inici y el date_fi se le asigne las horas y los minutos que le lleguen
         //       del frontend.
 
+        $data_inici = explode(" ",$calendari->data_inici)[0].' '.request()->input('data_inici').':00';
+        $data_fi = explode(" ", $calendari->data_fi)[0].' '.request()->input('data_fi').':00';
         $valores = array(
             'id_actor_estadillo' => request()->get('id_actor_estadillo'),
             'num_takes'          => request()->get('num_takes'),
-            'data_inici'         => $calendari->data_inici.setTime(request()->get('data_inici_h'), request()->get('data_inici_m')),
-            'data_fi'            => $calendari->data_fi.setTime(request()->get('data_fi_h'), request()->get('data_fi_m')),
+            'data_inici'         => $data_inici,
+            'data_fi'            => $data_fi,
             'num_sala'           => request()->get('num_sala')
         );
-        return response()->json($valores);
+        //return response()->json($valores);
 
         $v = Validator::make($valores,[
             //'id_calendar'=>'required|max:35',
@@ -252,7 +257,18 @@ class CalendariController extends Controller
             $calendari->fill($valores);  
             $calendari->save();
 
+            // Guardamos el identificador de la película:
+            $this->updateProduccion(request()->get('id_actor_estadillo'), request()->get('id_produccio'));
+
             return response()->json("Tot Ok!");
+        }
+    }
+
+    private function updateProduccion($id_actor_estadillo, $id_produccio) {
+        $actorEstadillo = ActorEstadillo::find($id_actor_estadillo);
+        if (empty($actorEstadillo) == false) {
+            $actorEstadillo->id_produccio = $id_produccio;
+            $actorEstadillo->save();
         }
     }
 
@@ -260,7 +276,7 @@ class CalendariController extends Controller
         $calendari = Calendar::findOrFail($id);
         $calendari->delete();
        
-        return redirect()->route('showCalendari');
+        return response()->json("Esborrat Ok!");
     }
     
     
@@ -321,7 +337,7 @@ class CalendariController extends Controller
 
     public function cogerCalendarioActor() {
         $calendar = Calendar::find(request()->get('id'));
-        $peliculas = collect(DB::select('select t1.* from slb_registres_produccio t1 INNER JOIN slb_actors_estadillo t2 ON t1.id = t2.id_produccio WHERE t2.id_actor = '.$calendar->id_actor_estadillo))->first();
+        $peliculas = collect(DB::select('select t1.* from slb_registres_produccio t1 INNER JOIN slb_actors_estadillo t2 ON t1.id = t2.id_produccio WHERE t2.id = '.$calendar->id_actor_estadillo))->first();
         return response()->json(array(
             'calendar'  => $calendar,
             'peliculas' => $peliculas
