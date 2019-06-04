@@ -84,10 +84,10 @@ No utilizar bootstrap. Mail no los detecta las exportaciones.
                     <tr>
                         @if (!empty($request) && $request->usuari->alias_usuari != $registreEntrada->usuari->alias_usuari)
                             <td style="font-weight: bold; width: 25%;background-color: lawngreen;">RESPONSABLE:</td>
-                            <td style="background-color: lawngreen;">{{ $request->usuari->alias_usuari}}</td>
+                            <td style="background-color: lawngreen;">{{ $request->usuari->alias_usuari}} {{$request->usuari->cognom1_usuari}}</td>
                         @else
                             <td style="font-weight: bold; width: 25%">RESPONSABLE:</td>
-                            <td>{{ $registreEntrada->usuari->alias_usuari}}</td>
+                            <td>{{ isset($registreEntrada->usuari) ? $registreEntrada->usuari->nom_cognom :  ''}}</td>
                         @endif
 	            </tr>
 	            <tr>

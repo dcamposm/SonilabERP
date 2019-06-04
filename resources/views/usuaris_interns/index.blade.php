@@ -100,6 +100,8 @@
 
 <script>
     var departaments = @json($departaments);
+    
+    var rutaSearch = "{{route('usuariSearch')}}"
 </script>
 <script type="text/javascript" src="{{ URL::asset('js/custom/userIndex.js') }}"></script>
 

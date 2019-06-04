@@ -103,7 +103,7 @@ class RegistreEntradaController extends Controller
         $missatge = new Missatge;
         $missatge->missatgeResponsableRegistreCreate($registreEntrada, $registreProduccio);
         $missatge->save(); 
-//-------------------------------Email amb Model Mail (No Borrar)----------------------------------
+//------------------Email amb Model Mail (No Borrar)--------------------
         /*$registreEntrada = RegistreEntrada::find($registreEntrada->id_registre_entrada);
 
         Mail::to('dcampos@paycom.es')->send(new RegistreEntradaCreat($registreEntrada));*/

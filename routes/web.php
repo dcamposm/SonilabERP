@@ -29,6 +29,7 @@ Route::middleware(['role: 1, 4'])->group(function () { //Middleware para dar acc
     Route::get('/usuaris/interns/editar/{id}', 'UserController@viewEditarUsuario')->name('editarUsuariIntern');
     Route::post('/usuaris/interns/editar/{id}', 'UserController@editarUsuario')->name('editarUsuariIntern');
     Route::post('/usuaris/interns/esborrar', 'UserController@esborrarUsuari')->name('esborrarUsuariIntern');
+    Route::get('/usuaris/search', 'UserController@search')->name('usuariSearch');
 });
 //-------------------Rutes empleats externs-------------------
 Route::middleware(['role: 1, 2, 4'])->group(function () {

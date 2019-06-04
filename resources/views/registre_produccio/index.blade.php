@@ -507,11 +507,8 @@
                         <div class="row">
                             <div class="form-group col-12 col-sm-6">
                                 <label for="id_registre_entrada">REFERÈNCIA</label>
-                                <select name="id_registre_entrada" id="id_registre_entrada" class="form-control">
-                                    @foreach ($registreEntrades as $key => $entrada) 
-                                      <option value="{{ $entrada->id_registre_entrada }}">{{ $entrada->id_registre_entrada }} {{ $entrada->titol }}</option>
-                                    @endforeach
-                                </select>
+                                <input id="searchEntrada" class="form-control"/>
+                                <input id="id_registre_entrada" type="hidden" name="id_registre_entrada">
                             </div>
                             <div class="form-group col-12 col-sm-6">
                                 <label for="subreferencia">SUB-REFERÈNCIA</label>
@@ -580,6 +577,7 @@
 
 <script>
     var usuaris = @json($usuaris);
+    var rutaSearchEntrada = "{{route('registreEntradaSearch')}}"
 </script>
 <script type="text/javascript" src="{{ URL::asset('js/custom/registreProduccioIndex.js') }}"></script>
 
