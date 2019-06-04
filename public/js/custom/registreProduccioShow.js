@@ -95,7 +95,7 @@ function formTable(){
                 var options = {
                     url:  rutaSearchEntrada,
 
-                    getValue: "titol",
+                    getValue: "referencia_titol",
 
                     list: {
                             match: {
@@ -111,7 +111,7 @@ function formTable(){
                     template: {
                             type: "custom",
                             method: function(value, item) {
-                                    return item.id_registre_entrada + " " + value;
+                                    return value;
                             }
                     }
                 };
