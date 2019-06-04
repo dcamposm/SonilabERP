@@ -84,11 +84,11 @@ function formTable(){
         } else if (idArray[1] == 'I') {
             if (idArray[0] == 'id_registre_entrada'){
                 content.text('');
-                content.append('<input id="autocomplete-search" name="'+idArray[0]+'" class="form-control" value="'+registre[idArray[0]]+'"/>');
+                content.append('<input id="searchEntrada" name="'+idArray[0]+'" class="form-control" value="'+registre[idArray[0]]+'"/>');
 
                 $.each(regEntrada, function( key, entrada ) {
                     if (entrada['id_registre_entrada'] == registre[idArray[0]]) {
-                       $("#autocomplete-search").val(entrada['id_registre_entrada']+" "+entrada['titol']);   
+                       $("#searchEntrada").val(entrada['id_registre_entrada']+" "+entrada['titol']);   
                     }
                 });
 
@@ -101,10 +101,10 @@ function formTable(){
                             match: {
                                 enabled: true
                             }, onChooseEvent: function() {
-                                var selectedPost = $("#autocomplete-search").getSelectedItemData();
-                                $('#autocomplete-search').attr("value", selectedPost.id_registre_entrada);
-                                $('#autocomplete-search').addClass("is-valid");
-                                $("#autocomplete-search").val(selectedPost.id_registre_entrada+" "+selectedPost.titol).trigger("change");
+                                var selectedPost = $("#searchEntrada").getSelectedItemData();
+                                $('#searchEntrada').attr("value", selectedPost.id_registre_entrada);
+                                $('#searchEntrada').addClass("is-valid");
+                                $("#searchEntrada").val(selectedPost.id_registre_entrada+" "+selectedPost.titol).trigger("change");
                             }
                     },
 
@@ -116,11 +116,47 @@ function formTable(){
                     }
                 };
 
-                $("#autocomplete-search").easyAutocomplete(options);
-            } else {
-                
-            }
-            
+                $("#searchEntrada").easyAutocomplete(options);
+            } else if (idArray[2] == 'P'){ 
+                if (idArray[0] == 'traductor') {
+                    content.text('');
+                    content.append('<input id="searchTraductor" name="'+idArray[0]+'" class="form-control" value="'+empleats[idArray[0]].id_empleat+'"/>');
+                    
+                    $.each(empleatsCarrec, function( key, empleat ) {
+                        $.each(empleat['carrec'], function( key1, carrec ) {
+                            if (empleat['id_empleat'] == empleats[idArray[0]].id_empleat) {
+                                $("#searchTraductor").val(empleat.nom_empleat+' '+empleat.cognom1_empleat+' '+empleat.cognom2_empleat);
+                            }
+                        });
+                    });
+                    
+                    var options = {
+                    url:  rutaSearchTraductor,
+
+                    getValue: "nom_cognom",
+
+                    list: {
+                            match: {
+                                enabled: true
+                            }, onChooseEvent: function() {
+                                var selectedPost = $("#searchTraductor").getSelectedItemData();
+                                $('#searchTraductor').attr("value", selectedPost.id_empleat);
+                                $('#searchTraductor').addClass("is-valid");
+                                $("#searchTraductor").val(selectedPost.nom_cognom).trigger("change");
+                            }
+                    },
+
+                    template: {
+                            type: "custom",
+                            method: function(value, item) {
+                                    return value;
+                            }
+                    }
+                };
+
+                $("#searchTraductor").easyAutocomplete(options);
+                }
+            }  
         }  else {
             content.text('');
             content.append('<input type="text" name="'+idArray[0]+'" id="'+idArray[0]+'" class="form-control" value="'+value+'">');

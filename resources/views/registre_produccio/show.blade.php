@@ -101,7 +101,7 @@
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
-                <td class="col" id="traductor-S-P">{{ array_key_exists("traductor", $empleats) ? $empleats["traductor"]->nom_empleat.' '.$empleats["traductor"]->cognom1_empleat.' '.$empleats["traductor"]->cognom2_empleat : ''}}</td>
+                <td class="col" id="traductor-I-P">{{ array_key_exists("traductor", $empleats) ? $empleats["traductor"]->nom_empleat.' '.$empleats["traductor"]->cognom1_empleat.' '.$empleats["traductor"]->cognom2_empleat : ''}}</td>
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">DATA TRADUCTOR:</td>
@@ -319,7 +319,7 @@
     var regEntrada = @json($regEntrades);
     
     var rutaSearchEntrada = "{{route('registreEntradaSearch')}}"
-
+    var rutaSearchTraductor = "{{route('empleatSearchTraductor')}}"
 </script>
 <script type="text/javascript" src="{{ URL::asset('js/custom/registreProduccioShow.js') }}"></script>
 <script>

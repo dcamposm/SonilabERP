@@ -300,10 +300,12 @@ class EmpleatExternController extends Controller
     
     public function searchTraductor(Request $request)
     {
-         $empleats = EmpleatExtern::with(['carrec' => function($query){
-                                $query->where('id_tarifa', 12);
-                            }])->get();
-        
-        return \response()->json($empleats);
+        $empleats = EmpleatExtern::select('slb_empleats_externs.id_empleat', 'nom_empleat', 'cognom1_empleat', 'cognom2_empleat')
+                                    ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', '=', 'slb_empleats_externs.id_empleat')
+                                    ->join('slb_tarifas', 'slb_tarifas.id', '=', 'slb_carrecs_empleats.id_tarifa')
+                                    ->distinct()->where('slb_tarifas.nombre_corto', '=', 'traductor')
+                                    ->get();
+                            
+        return response()->json($empleats);
     }
 }
