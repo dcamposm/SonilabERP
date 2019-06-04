@@ -40,7 +40,7 @@ Route::middleware(['role: 1, 2, 4'])->group(function () {
     Route::get('/empleats/modificar/{id}', 'EmpleatExternController@updateView')->name('empleatUpdateView');
     Route::post('/empleats/modificar/{id}', 'EmpleatExternController@update')->name('empleatUpdate');
     Route::post('/empleats/esborrar', 'EmpleatExternController@delete')->name('empleatDelete');
-    Route::get('/empleats/search/traductor', 'EmpleatExternController@searchTraductor')->name('empleatSearchTraductor');
+    Route::get('/empleats/search', 'EmpleatExternController@search')->name('empleatSearch');
 });
 //------------------Rutes registres entrada------------------
 Route::middleware(['role: 1, 2, 4'])->group(function () {

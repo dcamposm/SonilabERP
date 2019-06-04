@@ -298,13 +298,32 @@ class EmpleatExternController extends Controller
         return redirect()->route('empleatIndex');
     }
     
-    public function searchTraductor(Request $request)
+    public function search(Request $request)
     {
-        $empleats = EmpleatExtern::select('slb_empleats_externs.id_empleat', 'nom_empleat', 'cognom1_empleat', 'cognom2_empleat')
+        //return response()->json($request);
+        if ($request->search != 'director' && $request->search != 'tecnic_mix'){
+            $empleats = EmpleatExtern::select('slb_empleats_externs.id_empleat', 'nom_empleat', 'cognom1_empleat', 'cognom2_empleat')
                                     ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', '=', 'slb_empleats_externs.id_empleat')
                                     ->join('slb_tarifas', 'slb_tarifas.id', '=', 'slb_carrecs_empleats.id_tarifa')
-                                    ->distinct()->where('slb_tarifas.nombre_corto', '=', 'traductor')
+                                    ->distinct()->where('slb_tarifas.nombre_corto', '=', $request->search)
                                     ->get();
+        } else {
+            if ($request->search == 'director'){
+                $empleats = EmpleatExtern::select('slb_empleats_externs.id_empleat', 'nom_empleat', 'cognom1_empleat', 'cognom2_empleat')
+                                        ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', '=', 'slb_empleats_externs.id_empleat')
+                                        ->join('slb_carrecs', 'slb_carrecs.id_carrec', '=', 'slb_carrecs_empleats.id_carrec')
+                                        ->distinct()->where('slb_carrecs.nom_carrec', '=', 'Director')
+                                        ->get();
+            } else {
+                $empleats = EmpleatExtern::select('slb_empleats_externs.id_empleat', 'nom_empleat', 'cognom1_empleat', 'cognom2_empleat')
+                                        ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', '=', 'slb_empleats_externs.id_empleat')
+                                        ->join('slb_carrecs', 'slb_carrecs.id_carrec', '=', 'slb_carrecs_empleats.id_carrec')
+                                        ->distinct()->where('slb_carrecs.nom_carrec', '=', 'Tècnic de sala')
+                                        ->get();
+            }
+                
+        }
+        
                             
         return response()->json($empleats);
     }
