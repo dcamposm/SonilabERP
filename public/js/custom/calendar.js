@@ -73,6 +73,7 @@ function cargarActores() {
     })
 
     console.log(trabajadores);
+    console.log("DATOs");
     console.log(data);
     $('#trabajadores').html('');
     for (const key in trabajadores) {
@@ -331,7 +332,7 @@ function ampliarCasilla(e) {
     $('#exampleModal2').modal('show')
 }
 
-$('#exampleModal').on('show.bs.modal', function (event) {
+$('#exampleModal').on('show.bs.modal', function (e) {
     var modal = $(this)
     let takes = persona.takes_restantes;
     modal.find('.modal-title').text(persona.nombre_actor + ' - ' + takes + ' takes restants')
@@ -339,6 +340,10 @@ $('#exampleModal').on('show.bs.modal', function (event) {
     var restantes = 100 - (celda.attributes['aria-valuenow'].value ? celda.attributes['aria-valuenow'].value : 0)
 
     takesPosibles = restantes > takes ? takes : restantes
+
+    var data_inici = celda.parentElement.parentElement.getAttribute("dia")
+    var num_sala = celda.parentElement.parentElement.getAttribute("sala");
+    $('#crear-subtitulo').text('Dia: '+data_inici+' - Sala: '+num_sala)
 
     $('#numberTakes').attr('max', takesPosibles)
     $('#numberTakes').val('1')
@@ -378,6 +383,12 @@ $('#exampleModal2').on('shown.bs.modal', function () {
     // para que cuando cambiemos de día no se visualice el contenido anterior.
     tablaHoras();
 
+    pintarTablaHoras();
+    
+    $('#exampleModalLabel2').text('Sala: ' + salaSeleccionada + ' / Dia: ' + diaSeleccionado)
+});
+
+function pintarTablaHoras() {
     data.forEach(element => {
         var ele_dia = element.data_inici.split(' ');
 
@@ -407,8 +418,7 @@ $('#exampleModal2').on('shown.bs.modal', function () {
             }
         }
     });
-    $('#exampleModalLabel2').text('Sala: ' + salaSeleccionada + ' / Dia: ' + diaSeleccionado)
-});
+}
 
 function tablaHoras() {
 
@@ -450,10 +460,9 @@ function tablaHoras() {
         $(hora).append(tableM)
         $(tableM).append(trM)
 
-        for (let m = 1; m < 60; m++) {
-
+        for (let m = 30; m < 90; m++) {
             var tdM = document.createElement('td')
-            tdM.id = "td_" + pad(i) + "-" + pad(m)
+            tdM.id = "td_" + (m < 60 ? pad(i) : pad((i + 1))) + "-" + (m < 60 ? pad(m) : pad((m - 60)))
             tdM.classList.add('tablaMinutos')
             $(trM).append(tdM)
         }
@@ -598,8 +607,9 @@ $('.btn').click(function(e) {
     e.preventDefault();
 });
 
-var calendarioActorSeleccionado = 0;
+var calendarioActorSeleccionado_id = 0;
 var peliculas = [];
+var calendarioActor = [];
 
 function cargarPeliculas() {
     $.ajax({
@@ -616,16 +626,16 @@ function cargarPeliculas() {
         },
         error: function (error) {
             console.error(error);
-            alert("No s'ha obtenir les dades de calendari de l'actor :(");
+            alert("pelissssssNo s'ha obtenir les dades de calendari de l'actor :(");
         }
     });
 }
 cargarPeliculas();
 
-function editarActorCalendario(id) {
-    calendarioActorSeleccionado = id.split('-')[1];
+function seleccionarActorCalendario(id) {
+    calendarioActorSeleccionado_id = id.split('-')[1];
 
-    if (calendarioActorSeleccionado > 0) {
+    if (calendarioActorSeleccionado_id > 0) {
         $.ajax({
             url: '/calendari/cogerCalendarioActor',
             type: 'POST',
@@ -634,16 +644,17 @@ function editarActorCalendario(id) {
                 Accept: 'application/json'
             },
             data: {
-                id: calendarioActorSeleccionado
+                id: calendarioActorSeleccionado_id
             },
             success: function (response) {
                 console.log(response);
-                $('#numberTakes-editar').val(response.num_takes);
-                $('#takesIni-editar').val(response.data_inici.split(' ')[1]);
-                $('#takesFin-editar').val(response.data_fi.split(' ')[1]);
+                calendarioActor = response;
+                $('#numberTakes-editar').val(response.calendar.num_takes);
+                $('#takesIni-editar').val(response.calendar.data_inici.split(' ')[1]);
+                $('#takesFin-editar').val(response.calendar.data_fi.split(' ')[1]);
                 
-                //$('#selectPelis-editar').val(response.id);
-                // TODO: Asignar los respectivos campos al formulario de editar.
+                $('#selectPelis-editar').val(response.peliculas.id);
+                console.log(response.peliculas.id);
             },
             error: function (error) {
                 console.error(error);
@@ -654,11 +665,96 @@ function editarActorCalendario(id) {
 }
 
 function editarActor() {
-    // TODO:
+    $.ajax({
+        url: '/calendari/editar/' + calendarioActorSeleccionado_id,
+        type: 'PUT',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            Accept: 'application/json'
+        },
+        data: {
+            id_actor_estadillo: calendarioActor.calendar.id_actor_estadillo,
+            num_takes: $('#numberTakes-editar').val(),
+            data_inici: $('#takesIni-editar').val(),
+            data_fi: $('#takesFin-editar').val(),
+            num_sala: calendarioActor.calendar.num_sala,
+            id_produccio: $('#selectPelis-editar').val()
+        },
+        success: function (response) {
+            console.log(response);
+            // Guarda los datos en la variable "data" y vuelve a recargar el calendario:
+            data.forEach(element => {
+                if (element.id_calendar == calendarioActorSeleccionado_id) {
+                    var inici_split = element.data_inici.split(' ');
+                    var fi_split = element.data_fi.split(' ');
 
+                    element.num_takes = $('#numberTakes-editar').val();
+                    element.data_inici = inici_split[0] + " " + $('#takesIni-editar').val();
+                    element.data_fi = fi_split[0] + " " + $('#takesFin-editar').val();
+                }
+            });
+            var horaActor = $('#' + calendarioActorSeleccionado_id + "-" + calendarioActor.calendar.id_actor_estadillo + "-" + calendarioActor.calendar.num_sala + " .horaActor");
+            horaActor.text("(" + $('#takesIni-editar').val() + ")");
+            vaciarValoresEditar();
+            tablaHoras();
+            pintarTablaHoras();
+        },
+        error: function (error) {
+            console.error(error);
+            alert("No s'ha obtenir les dades de calendari de l'actor :(");
+        }
+    });
 }
 
 function eliminarCalendarioActor() {
-    // TODO:
-    
+    console.log(calendarioActorSeleccionado_id)
+    $.ajax({
+        url: '/calendari/esborrar/' + calendarioActorSeleccionado_id,
+        type: 'delete',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            Accept: 'application/json'
+        },
+        data: {
+        },
+        success: function (response) {
+            console.log(response);
+            // Guarda los datos en la variable "data" y vuelve a recargar el calendario:
+            var nuevoAmanecer = [];
+            data.forEach(element => {
+                if (element.id_calendar != calendarioActorSeleccionado_id) {
+                    nuevoAmanecer.push({
+                        actor_estadillo: element.actor_estadillo,
+                        asistencia: element.asistencia,
+                        created_at: element.created_at,
+                        data_fi: element.data_fi,
+                        data_inici: element.data_inici,
+                        id_actor_estadillo: element.id_actor_estadillo,
+                        id_calendar: element.id_calendar,
+                        num_sala: element.num_sala,
+                        num_takes: element.num_takes,
+                        updated_at: element.updated_at
+                    });
+                }
+            });
+            data = undefined;
+            data = nuevoAmanecer;
+            vaciarValoresEditar();
+            $('#' + calendarioActorSeleccionado_id + "-" + calendarioActor.calendar.id_actor_estadillo + "-" + calendarioActor.calendar.num_sala).remove();
+            tablaHoras();
+            pintarTablaHoras();
+        },
+        error: function (error) {
+            console.error(error);
+            alert("No s'ha pogut esborrar l'event :(");
+        }
+    });
+}
+
+function vaciarValoresEditar() {
+    calendarioActorSeleccionado_id = 0;
+    $('#numberTakes-editar').val(0);
+    $('#takesIni-editar').val("");
+    $('#takesFin-editar').val("");
+    $('#selectPelis-editar').val(0);
 }

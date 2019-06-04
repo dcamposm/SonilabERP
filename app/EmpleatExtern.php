@@ -30,7 +30,7 @@ class EmpleatExtern extends Model
     protected $appends = ['nom_cognom'];
     
     public function getNomCognomAttribute() {
-        return $this->nom_empleat.' '.$this->cognom1_empleat;
+        return $this->nom_empleat.' '.$this->cognom1_empleat.' '.$this->cognom2_empleat;
     }
     
     public function carrec()

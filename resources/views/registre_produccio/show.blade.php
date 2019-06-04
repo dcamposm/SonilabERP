@@ -20,7 +20,7 @@
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
-                <td class="col" id="id_registre_entrada-S">{{ $registreProduccio['id_registre_entrada']." ".$registreProduccio->registreEntrada->titol}}</td>
+                <td class="col" id="id_registre_entrada-I">{{ $registreProduccio['id_registre_entrada']." ".$registreProduccio->registreEntrada->titol}}</td>
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">SUB-REFERENCIA:</td>
@@ -101,7 +101,7 @@
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
-                <td class="col" id="traductor-S-P">{{ array_key_exists("traductor", $empleats) ? $empleats["traductor"]->nom_empleat.' '.$empleats["traductor"]->cognom1_empleat.' '.$empleats["traductor"]->cognom2_empleat : ''}}</td>
+                <td class="col" id="traductor-I-P">{{ array_key_exists("traductor", $empleats) ? $empleats["traductor"]->nom_empleat.' '.$empleats["traductor"]->cognom1_empleat.' '.$empleats["traductor"]->cognom2_empleat : ''}}</td>
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">DATA TRADUCTOR:</td>
@@ -119,7 +119,7 @@
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
-                <td class="col" id="ajustador-S-P">{{ array_key_exists("ajustador", $empleats) ? $empleats["ajustador"]->nom_empleat.' '.$empleats["ajustador"]->cognom1_empleat.' '.$empleats["ajustador"]->cognom2_empleat : ''}}</td>
+                <td class="col" id="ajustador-I-P">{{ array_key_exists("ajustador", $empleats) ? $empleats["ajustador"]->nom_empleat.' '.$empleats["ajustador"]->cognom1_empleat.' '.$empleats["ajustador"]->cognom2_empleat : ''}}</td>
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">DATA AJUSTADOR:</td>
@@ -137,7 +137,7 @@
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
-                <td class="col" id="linguista-S-P">{{ array_key_exists("linguista", $empleats) ? $empleats["linguista"]->nom_empleat.' '.$empleats["linguista"]->cognom1_empleat.' '.$empleats["linguista"]->cognom2_empleat : ''}}</td>
+                <td class="col" id="linguista-I-P">{{ array_key_exists("linguista", $empleats) ? $empleats["linguista"]->nom_empleat.' '.$empleats["linguista"]->cognom1_empleat.' '.$empleats["linguista"]->cognom2_empleat : ''}}</td>
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">DATA LINGÜISTA:</td>
@@ -155,7 +155,7 @@
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>              
-                <td class="col" id="director-S-P">{{ array_key_exists("director", $empleats) ? $empleats["director"]->nom_empleat.' '.$empleats["director"]->cognom1_empleat.' '.$empleats["director"]->cognom2_empleat : ''}}</td>
+                <td class="col" id="director-I-P">{{ array_key_exists("director", $empleats) ? $empleats["director"]->nom_empleat.' '.$empleats["director"]->cognom1_empleat.' '.$empleats["director"]->cognom2_empleat : ''}}</td>
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">CASTING:</td>
@@ -227,7 +227,7 @@
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
-                <td class="col" id="tecnic_mix-S-P">{{ array_key_exists("tecnic_mix", $empleats) ? $empleats["tecnic_mix"]->nom_empleat.' '.$empleats["tecnic_mix"]->cognom1_empleat.' '.$empleats["tecnic_mix"]->cognom2_empleat : ''}}</td>
+                <td class="col" id="tecnic_mix-I-P">{{ array_key_exists("tecnic_mix", $empleats) ? $empleats["tecnic_mix"]->nom_empleat.' '.$empleats["tecnic_mix"]->cognom1_empleat.' '.$empleats["tecnic_mix"]->cognom2_empleat : ''}}</td>
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">DATA TÉCNIC MIX:</td>
@@ -317,6 +317,9 @@
     var empleatsCarrec = @json($empleatsCarrec);
     var empleats = @json($empleats);
     var regEntrada = @json($regEntrades);
+    
+    var rutaSearchEntrada = "{{route('registreEntradaSearch')}}"
+    var rutaSearchEmpleat = "{{route('empleatSearch')}}"
 </script>
 <script type="text/javascript" src="{{ URL::asset('js/custom/registreProduccioShow.js') }}"></script>
 @stop

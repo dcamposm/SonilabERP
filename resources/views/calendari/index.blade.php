@@ -43,11 +43,18 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <input type="hidden" id="">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
+                <div style="flex-direction:column; width: 100%;">
+                    <div style="width: 100%; float: left;">
+                        <input type="hidden" id="">
+                        <h5 class="modal-title" style="float: left;" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div style="clear:both"></div>
+                    <h6 id="crear-subtitulo">Sub Title</h6>
+                </div>
+
             </div>
             <div class="modal-body">
                 <p id="takes-celda"></p>
@@ -164,9 +171,9 @@
                                     <tbody>
                                         @foreach($actoresPorDia as $key => $dia)
                                             @foreach($dia as $key2 => $actor)
-                                                <tr class="dia-{{$actor->dia}}-{{$actor->num_sala}} lista-actores">
-                                                    <td id="actor_mod-{{ $actor->id_calendar }}" onclick="editarActorCalendario(this.id)">
-                                                        {{'('.$actor->hora.':'.$actor->minuts.')'}} {{$actor->nom_empleat}} {{$actor->cognom1_empleat}} {{$actor->cognom2_empleat}}
+                                                <tr id="{{$actor->id_calendar}}-{{$actor->id_actor_estadillo}}-{{$actor->num_sala}}" class="dia-{{$actor->dia}}-{{$actor->num_sala}} lista-actores">
+                                                    <td id="actor_mod-{{ $actor->id_calendar }}" onclick="seleccionarActorCalendario(this.id)">
+                                                        <span class="horaActor">{{'('.$actor->hora.':'.$actor->minuts.')'}}</span> {{$actor->nom_empleat}} {{$actor->cognom1_empleat}} {{$actor->cognom2_empleat}}
                                                     </td>
                                                     <td>
                                                         <div class="btn-group btn-group-toggle" data-toggle="buttons">
