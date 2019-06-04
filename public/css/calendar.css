@@ -173,3 +173,8 @@ body, html, main{
     text-decoration: underline white;
     border: 2px solid rgb(187, 187, 187);
 }
+
+.actorAsistencia-seleccionado {
+    font-weight: bold;
+    color: #3490dc;
+}
