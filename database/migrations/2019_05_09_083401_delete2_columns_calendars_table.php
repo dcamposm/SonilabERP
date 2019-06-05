@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Update2SlbTarifasTable extends Migration
+class Delete2ColumnsCalendarsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class Update2SlbTarifasTable extends Migration
      */
     public function up()
     {
-        Schema::table('slb_tarifas', function (Blueprint $table) {
-            $table->string('nombre_corto')->nullable();
+        Schema::table('slb_calendars', function (Blueprint $table) {
+            $table->dropColumn('id_registre_entrada');       
         });
+
     }
 
     /**
@@ -25,8 +26,8 @@ class Update2SlbTarifasTable extends Migration
      */
     public function down()
     {
-        Schema::table('slb_tarifas', function (Blueprint $table) {
-            $table->dropColumn('nombre_corto');
+        Schema::table('slb_calendars', function (Blueprint $table) {
+            $table->integer('id_registre_entrada');
         });
     }
 }

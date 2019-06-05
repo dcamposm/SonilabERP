@@ -17,7 +17,7 @@ class CreateSlbEmpleatsCostosTable extends Migration
             $table->increments('id');
             $table->integer('id_costos');
             $table->integer('id_empleat');
-            $table->double('cost_empleat')->nullable();;
+            $table->double('cost_empleat')->nullable();
             $table->timestamps();
         });
     }

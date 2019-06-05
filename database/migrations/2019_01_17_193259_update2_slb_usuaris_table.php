@@ -16,7 +16,7 @@ class Update2SlbUsuarisTable extends Migration
         Schema::table('slb_usuaris', function (Blueprint $table) {
             
             $table->renameColumn('cognoms_usuari', 'cognom1_usuari');
-            $table->string('cognom2_usuari',50)->after('cognoms_usuari');
+            $table->string('cognom2_usuari',50)->nullable()->after('cognoms_usuari');
         });
     }
 

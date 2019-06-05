@@ -322,7 +322,4 @@
     var rutaSearchEmpleat = "{{route('empleatSearch')}}"
 </script>
 <script type="text/javascript" src="{{ URL::asset('js/custom/registreProduccioShow.js') }}"></script>
-<script>
-
-</script>
 @stop

@@ -14,7 +14,7 @@ class Update2SlbRegistreProduccioTable extends Migration
     public function up()
     {
         Schema::table('slb_registres_produccio', function (Blueprint $table) {
-            $table->dateTime('data_entrega')->after('id_registre_entrada');
+            $table->dateTime('data_entrega')->nullable()->after('id_registre_entrada');
         });
     }
 

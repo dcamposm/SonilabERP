@@ -14,7 +14,7 @@ class UpdateSlbTarifasTable extends Migration
     public function up()
     {
         Schema::table('slb_tarifas', function (Blueprint $table) {
-            $table->integer('id_carrec');
+            $table->integer('id_carrec')->nullable();
         });
     }
 

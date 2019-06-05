@@ -42,7 +42,7 @@
         <thead>
             <tr>
                 <th>NOM</th> 
-                <th>COGNOMS</th>
+                <th>COGNOM</th>
                 <th>TELÈFON</th>
                 <th>CARRECS</th>
                 @if (Auth::user()->hasAnyRole(['1', '4']))
@@ -52,34 +52,32 @@
         </thead>
         <tbody>
             @foreach( $empleats as $key => $empleat )
-                @if(count($empleat->carrec) != 0)
-                    <tr>
-                        <td style="vertical-align: middle;"><a class="font-weight-bold" href="{{ route('empleatShow', ['id' => $empleat['id_empleat']]) }}" style="text-decoration:none; color:black;">{{$empleat['nom_empleat']}} </a></td>
-                        <td style="vertical-align: middle;">{{$empleat['cognom1_empleat']}} {{$empleat['cognom2_empleat']}}</td>
-                        <td style="vertical-align: middle;">{{$empleat['telefon_empleat']}}</td>
-                        <td style="padding: 0px;">
-                            <ul class="list-group list-group-horizontal-sm" style="flex-direction: row;">
-                            @foreach( $empleatsArray as $key => $empCarrec )
-                                @if ($key == $empleat->id_empleat)
-                                    @foreach( $empCarrec as $key2 => $carrec )
-                                        <li class="list-group-item" style="border-top: none; border-bottom: none;">{{$carrec}}</li>
-                                    @endforeach
-                                @endif
-                            @endforeach
-                            </ul>
+                <tr>
+                    <td style="vertical-align: middle;"><a class="font-weight-bold" href="{{ route('empleatShow', ['id' => $empleat['id_empleat']]) }}" style="text-decoration:none; color:black;">{{$empleat['nom_empleat']}} </a></td>
+                    <td style="vertical-align: middle;">{{$empleat['cognom1_empleat']}}</td>
+                    <td style="vertical-align: middle;">{{$empleat['telefon_empleat']}}</td>
+                    <td style="padding: 0px;">
+                        <ul class="list-group list-group-horizontal-sm" style="flex-direction: row;">
+                        @foreach( $empleatsArray as $key => $empCarrec )
+                            @if ($key == $empleat->id_empleat)
+                                @foreach( $empCarrec as $key2 => $carrec )
+                                    <li class="list-group-item" style="border-top: none; border-bottom: none;">{{$carrec}}</li>
+                                @endforeach
+                            @endif
+                        @endforeach
+                        </ul>
+                    </td>
+                    @if (Auth::user()->hasAnyRole(['1', '4']))
+                        <td style="vertical-align: middle;">
+                            <a href="{{ route('empleatUpdateView', ['id' => $empleat['id_empleat']]) }}" class="btn btn-primary"> MODIFICAR </a>
+                            <button onclick="setEmpleatPerEsborrar({{$empleat['id_empleat']}}, '{{$empleat['nom_empleat']}} {{$empleat['cognom1_empleat']}} {{$empleat['cognom2_empleat']}}')" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">ESBORRAR</button>
+                            <form id="delete-{{ $empleat['id_empleat'] }}" action="{{ route('empleatDelete') }}" method="POST">
+                                @csrf
+                                <input type="hidden" readonly name="id" value="{{$empleat['id_empleat']}}">
+                            </form>
                         </td>
-                        @if (Auth::user()->hasAnyRole(['1', '4']))
-                            <td style="vertical-align: middle;">
-                                <a href="{{ route('empleatUpdateView', ['id' => $empleat['id_empleat']]) }}" class="btn btn-primary"> MODIFICAR </a>
-                                <button onclick="setEmpleatPerEsborrar({{$empleat['id_empleat']}}, '{{$empleat['nom_empleat']}} {{$empleat['cognom1_empleat']}} {{$empleat['cognom2_empleat']}}')" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">ESBORRAR</button>
-                                <form id="delete-{{ $empleat['id_empleat'] }}" action="{{ route('empleatDelete') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" readonly name="id" value="{{$empleat['id_empleat']}}">
-                                </form>
-                            </td>
-                        @endif
-                    </tr>
-                @endif
+                    @endif
+                </tr>
             @endforeach
         </tbody>
     </table>

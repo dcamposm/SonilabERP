@@ -73,9 +73,8 @@
     .table td {
         padding: 5px !important;
     }
-    
     .table tbody  {
-        font-size: 14 px !important;
+        font-size: 13px !important;
     }
     
     .texto-vertical {

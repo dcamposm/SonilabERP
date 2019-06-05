@@ -14,7 +14,7 @@ class UpdateSlbClientsTable extends Migration
     public function up()
     {
         Schema::table('slb_clients', function (Blueprint $table) {
-            $table->string('nif_client', 20)->after('nom_client');
+            $table->string('nif_client', 20)->nullable()->after('nom_client');
         });
     }
 
