@@ -163,6 +163,13 @@ function guardarCelda() {
             });
             cargarActores();
             console.log(actores);
+
+            /*var tr = $('<tr id="' + datosCalendari.calendari.id_calendar + '-' + datosCalendari.calendari.id_actor_estadillo + '-' + datosCalendari.calendari.num_sala + '" class="dia-' + datosCalendari.calendari.data_inici.split('-')[0] + '-' + datosCalendari.calendari.num_sala + ' lista-actores"></tr>');
+            var td1 = $('<td id="actor_mod-' + datosCalendari.calendari.id_calendar + '" onclick="seleccionarActorCalendario(this.id, this)"></td>');
+            td1.append($('<span class="horaActor">' + datosCalendari.calendari.data_inici.split(' ')[1] + '</span>'));
+            var td2 = document.createElement('td');
+            tr.
+            $('#pasarLista-tabla').append();*/
         })
         .fail(function (error) {
             console.log(error);
@@ -351,24 +358,24 @@ $('#exampleModal').on('show.bs.modal', function (e) {
     $('#takesFin').val('')
     $('#takes-celda').text('Takes per assignar a la sala: ' + restantes)
 
-    //$('#selectPelis').html('')
+    $('#selectPelis').html('')
 
-    /*actores.forEach(actor => {
+    actores.forEach(actor => {
 
         if (actor.id_actor == persona.id_actor) {
             //console.log(actor.id_actor)
             $('#selectPelis').append(new Option(actor.nombre_reg_entrada + " " + actor.nombre_reg_produccio,actor.id_registre_produccio))
 
         }
-    });*/
+    });
 
-    var select = $('#selectPelis');
-    if (select[0].children.length == 0) {
-        select.html('');
-        for (var i = 0; i < peliculas.length; i++) {
-            select.append(new Option(peliculas[i].titol, peliculas[i].id));
-        }
-    }
+    // var select = $('#selectPelis');
+    // if (select[0].children.length == 0) {
+    //     select.html('');
+    //     for (var i = 0; i < peliculas.length; i++) {
+    //         select.append(new Option(peliculas[i].titol, peliculas[i].id));
+    //     }
+    // }
 
     
 
