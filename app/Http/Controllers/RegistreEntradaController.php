@@ -63,6 +63,10 @@ class RegistreEntradaController extends Controller
             $missatge = new Missatge;
             $missatge->missatgeNewRegistre($registreEntrada, $registreProduccio); 
             $missatge->save(); 
+        //----------------Misstage Entrega per el responsable---------------
+            $missatge = new Missatge;
+            $missatge->missatgeEntregaPeliculaRegistre($registreEntrada, $registreProduccio); 
+            $missatge->save(); 
         } else {
         //-----------Si el registre es una serie o documental----------
             $contSet = 1;
@@ -90,6 +94,14 @@ class RegistreEntradaController extends Controller
                     $contNextSet = 1;
                     $registreProduccio->setmana = $contSet;
                 }
+                
+                if ($contNextSet == 1){
+                //----------------Misstage Entrega Pack per el responsable---------------
+                    $missatge = new Missatge;
+                    $missatge->missatgeEntregaPackRegistre($registreEntrada, $registreProduccio,$contSet); 
+                    $missatge->save();
+                }
+                
                 $registreProduccio->titol = $registreEntrada->titol;
                 $registreProduccio->save();
 
@@ -101,7 +113,7 @@ class RegistreEntradaController extends Controller
         }
 //--------------------Misstage per el responsable-----------------------
         $missatge = new Missatge;
-        $missatge->missatgeResponsableRegistreCreate($registreEntrada, $registreProduccio);
+        $missatge->missatgeResponsableRegistreCreate($registreEntrada);
         $missatge->save(); 
 //------------------Email amb Model Mail (No Borrar)--------------------
         /*$registreEntrada = RegistreEntrada::find($registreEntrada->id_registre_entrada);
@@ -132,6 +144,10 @@ class RegistreEntradaController extends Controller
             } catch (\Exception $ex) {
                 return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar el registre d\'entrada.'));
             }
+//-------------------------------Missatge per responsable de modificacions----------------------------------            
+            $missatge = new Missatge;
+            $missatge->missatgeResponsableRegistreUpdate($registreEntrada);
+            $missatge->save();
 //-------------------------------Email amb Model Mail----------------------------------
             //Mail::to('dcampos@paycom.es')->send($mail);
             return redirect()->back()->with('success', 'Registre d\'entrada modificat correctament.');
@@ -172,7 +188,7 @@ class RegistreEntradaController extends Controller
         }
         //Elimina tots els registres de producció relacionats amb el registre d'Entrada que s'eliminara
         $registres = RegistreProduccio::where('id_registre_entrada', $request["id"])->delete();
-        Missatge::where('id_referencia', $request["id"])->where('referencia', 'registreEntrada')->delete();
+        Missatge::where('id_referencia', $request["id"])->whereReferencia('registreEntrada')->delete();
         
         return redirect()->route('indexRegistreEntrada');
     }
