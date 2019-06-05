@@ -14,7 +14,7 @@ class UpdateSlbEmpleatsCostos extends Migration
     public function up()
     {
         Schema::table('slb_empleats_costos', function (Blueprint $table) {
-            $table->integer('id_tarifa')->after('id_empleat');
+            $table->integer('id_tarifa')->nullable()->after('id_empleat');
         });
     }
 

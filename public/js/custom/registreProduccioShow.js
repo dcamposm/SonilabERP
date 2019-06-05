@@ -84,7 +84,8 @@ function formTable(){
         } else if (idArray[1] == 'I') {
             if (idArray[0] == 'id_registre_entrada'){
                 content.text('');
-                content.append('<input id="searchEntrada" name="'+idArray[0]+'" class="form-control" value="'+registre[idArray[0]]+'"/>');
+                content.append('<input id="searchEntrada" name="'+idArray[0]+'" class="form-control"/>');
+                content.append('<input id="'+idArray[0]+'" class="form-control" type="hidden" name="'+idArray[0]+'"  value="'+registre[idArray[0]]+'">');
 
                 $.each(regEntrada, function( key, entrada ) {
                     if (entrada['id_registre_entrada'] == registre[idArray[0]]) {
@@ -102,7 +103,7 @@ function formTable(){
                                 enabled: true
                             }, onChooseEvent: function() {
                                 var selectedPost = $("#searchEntrada").getSelectedItemData();
-                                $('#searchEntrada').attr("value", selectedPost.id_registre_entrada);
+                                $("#"+idArray[0]).attr("value", selectedPost.id_registre_entrada);
                                 $('#searchEntrada').addClass("is-valid");
                                 $("#searchEntrada").val(selectedPost.id_registre_entrada+" "+selectedPost.titol).trigger("change");
                             }
@@ -118,44 +119,47 @@ function formTable(){
 
                 $("#searchEntrada").easyAutocomplete(options);
             } else if (idArray[2] == 'P'){ 
-                if (idArray[0] == 'traductor') {
+                //if (idArray[0] == 'traductor') {
                     content.text('');
-                    content.append('<input id="searchTraductor" name="'+idArray[0]+'" class="form-control" value="'+empleats[idArray[0]].id_empleat+'"/>');
+                    content.append('<input id="search-'+idArray[0]+'" class="form-control"/>');
+                    content.append('<input id="'+idArray[0]+'" class="form-control" type="hidden" name="id_'+idArray[0]+'" value="'+(empleats.hasOwnProperty(idArray[0]) ? empleats[idArray[0]].id_empleat : '')+'">');
                     
-                    $.each(empleatsCarrec, function( key, empleat ) {
-                        $.each(empleat['carrec'], function( key1, carrec ) {
-                            if (empleat['id_empleat'] == empleats[idArray[0]].id_empleat) {
-                                $("#searchTraductor").val(empleat.nom_empleat+' '+empleat.cognom1_empleat+' '+empleat.cognom2_empleat);
-                            }
+                    if (empleats.hasOwnProperty(idArray[0])) {
+                        $.each(empleatsCarrec, function( key, empleat ) {
+                            $.each(empleat['carrec'], function( key1, carrec ) {
+                                if (empleat['id_empleat'] == empleats[idArray[0]].id_empleat) {
+                                    $("#search-"+idArray[0]).val(empleat.nom_empleat+' '+empleat.cognom1_empleat+' '+empleat.cognom2_empleat);
+                                }
+                            });
                         });
-                    });
+                    }
                     
                     var options = {
-                    url:  rutaSearchTraductor,
+                        url:  rutaSearchEmpleat+"?search="+idArray[0],
 
-                    getValue: "nom_cognom",
+                        getValue: "nom_cognom",
 
-                    list: {
-                            match: {
-                                enabled: true
-                            }, onChooseEvent: function() {
-                                var selectedPost = $("#searchTraductor").getSelectedItemData();
-                                $('#searchTraductor').attr("value", selectedPost.id_empleat);
-                                $('#searchTraductor').addClass("is-valid");
-                                $("#searchTraductor").val(selectedPost.nom_cognom).trigger("change");
-                            }
-                    },
+                        list: {
+                                match: {
+                                    enabled: true
+                                }, onChooseEvent: function() {
+                                    var selectedPost = $("#search-"+idArray[0]).getSelectedItemData();
+                                    $("#"+idArray[0]).attr("value", selectedPost.id_empleat);
+                                    $("#search-"+idArray[0]).addClass("is-valid");
+                                    $("#search-"+idArray[0]).val(selectedPost.nom_cognom).trigger("change");
+                                }
+                        },
 
-                    template: {
-                            type: "custom",
-                            method: function(value, item) {
-                                    return value;
-                            }
-                    }
-                };
+                        template: {
+                                type: "custom",
+                                method: function(value, item) {
+                                        return value;
+                                }
+                        }
+                    };
 
-                $("#searchTraductor").easyAutocomplete(options);
-                }
+                    $("#search-"+idArray[0]).easyAutocomplete(options);
+                //}
             }  
         }  else {
             content.text('');

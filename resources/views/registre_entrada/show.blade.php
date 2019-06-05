@@ -32,6 +32,10 @@
                 <td class="col">{{ date('d-m-Y', strtotime($registreEntrada->sortida))}}</td>
             </tr>
             <tr class="row">
+                <td class="font-weight-bold col-sm-3">RESPONSABLE:</td>
+                <td class="col">{{ isset($registreEntrada->usuari) ? $registreEntrada->usuari->nom_cognom :  '' }}</td>
+            </tr>
+            <tr class="row">
                 <td class="font-weight-bold col-sm-3">CLIENT:</td>
                 <td class="col">{{ $registreEntrada->client->nom_client }}</td>
             </tr>

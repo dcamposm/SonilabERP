@@ -43,14 +43,14 @@
             <div class="row">
                 <div class="col-6">
                     <div class="form-group">
-                        <label for="ot" style="font-weight: bold" title=' referència específica del client CCMA.'>OT:</label>
+                        <label for="ot" style="font-weight: bold" title='Referència específica del client CCMA.'>OT:</label>
                         <input type="text" class="form-control" id="ot" name="ot" value="{{!empty($registreEntrada) ? $registreEntrada->ot : old('ot')}}">
                         <span class="text-danger">{{ $errors->first('ot') }}</span>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="form-group">
-                        <label for="oc" style="font-weight: bold" title=" referència específica del client CCMA.">OC:</label>
+                        <label for="oc" style="font-weight: bold" title="Referència específica del client CCMA.">OC:</label>
                         <input type="text" class="form-control" id="oc" name="oc" value="{{!empty($registreEntrada) ? $registreEntrada->oc : old('oc')}}">
                         <span class="text-danger">{{ $errors->first('oc') }}</span>
                     </div>
@@ -70,7 +70,7 @@
                         <select class="form-control {{!empty($registreEntrada) ? 'is-valid' : ''}}" name="id_usuari">
                             <option></option>
                             @foreach( $usuaris as $usuari )
-                                <option value="{{$usuari['id_usuari']}}" {{(!empty($registreEntrada) && $registreEntrada->id_usuari == $usuari['id_usuari']) || (old('id_usuari') == $usuari['id_usuari']) ? 'selected' : ''}} >{{$usuari['alias_usuari'].' '.$usuari['cognom1_usuari'] }}</option>
+                                <option value="{{$usuari['id_usuari']}}" {{(!empty($registreEntrada) && $registreEntrada->id_usuari == $usuari['id_usuari']) || (old('id_usuari') == $usuari['id_usuari']) ? 'selected' : ''}} >{{$usuari['nom_cognom']}}</option>
                             @endforeach
                         </select>
                         <span class="text-danger">{{ $errors->first('id_usuari') }}</span>

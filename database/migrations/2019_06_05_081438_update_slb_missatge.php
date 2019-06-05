@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Update2SlbTarifasTable extends Migration
+class UpdateSlbMissatge extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class Update2SlbTarifasTable extends Migration
      */
     public function up()
     {
-        Schema::table('slb_tarifas', function (Blueprint $table) {
-            $table->string('nombre_corto')->nullable();
+        Schema::table('slb_missatges', function (Blueprint $table) {
+            $table->string('type')->after('missatge');
         });
     }
 
@@ -25,8 +25,8 @@ class Update2SlbTarifasTable extends Migration
      */
     public function down()
     {
-        Schema::table('slb_tarifas', function (Blueprint $table) {
-            $table->dropColumn('nombre_corto');
+        Schema::table('slb_missatges', function (Blueprint $table) {
+            $table->dropColumn('type');
         });
     }
 }

@@ -14,7 +14,7 @@ class UpdateSlbCalendarsTable extends Migration
     public function up()
     {
         Schema::table('slb_calendars', function (Blueprint $table) {
-            $table->integer('id_actor_estadillo')->after('id_empleat');
+            $table->integer('id_actor_estadillo')->nullable()->after('id_empleat');
         });
     }
 

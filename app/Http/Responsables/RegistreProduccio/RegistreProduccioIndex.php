@@ -14,7 +14,7 @@ class RegistreProduccioIndex implements Responsable
 
     public function __construct($registres)
     {
-        $this->missatges = Missatge::whereReferencia('registreProduccio')->get();
+        $this->missatges = Missatge::whereReferencia('registreProduccio')->whereType('new')->get();
         $this->registreEntrada = RegistreEntrada::whereEstat('Pendent')->get();
         $this->usuaris = User::where('id_departament', 2)->get();
         $this->registreProduccio = array();
