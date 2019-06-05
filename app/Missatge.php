@@ -52,22 +52,22 @@ class Missatge extends Model
         $this->missatge = "S'ha modificat el registre d'entrada: ".$registreEntrada->referencia_titol;
         $this->type = "registreEntradaUpdate";
         $this->referencia ='registreEntrada';
-        $this->id_referencia =$registreEntrada->id_registre_entrada;
-        $this->data_final =date("Y-m-d",strtotime($fecha_actual."+ 7 days"));
+        $this->id_referencia = $registreEntrada->id_registre_entrada;
+        $this->data_final = date("Y-m-d",strtotime($fecha_actual."+ 7 days"));
     }
-    
+
     public function missatgeEntregaPeliculaRegistre($registreEntrada, $registreProduccio)
     {
         $fecha_actual = date("d-m-Y");               
         $this->id_usuari = $registreEntrada->id_usuari;
-        $this->missatge = "Entrega per el dia ".$registreEntrada->sortida. " de la referencia ".$registreEntrada->referencia_titol;
+        $this->missatge = "Entrega per el dia ".date("d-m-Y",strtotime($registreEntrada->sortida)). " de la referencia ".$registreEntrada->referencia_titol;
         $this->type = "alertEntrega";
         $this->referencia ='registreProduccio';
         $this->id_referencia =$registreProduccio->id;
         $this->data_final =date("Y-m-d",strtotime($registreEntrada->sortida));
     }
 
-    public function missatgeEntregaPackRegistre($registreEntrada, $registreProduccio,$contSet)
+    public function missatgeEntregaPackRegistre($registreEntrada, $registreProduccio, $contSet)
     {
         $fecha_actual = date("d-m-Y");               
         $this->id_usuari = $registreEntrada->id_usuari;

@@ -351,18 +351,26 @@ $('#exampleModal').on('show.bs.modal', function (e) {
     $('#takesFin').val('')
     $('#takes-celda').text('Takes per assignar a la sala: ' + restantes)
 
-    $('#selectPelis').html('')
+    //$('#selectPelis').html('')
 
-    actores.forEach(actor => {
+    /*actores.forEach(actor => {
 
         if (actor.id_actor == persona.id_actor) {
             //console.log(actor.id_actor)
             $('#selectPelis').append(new Option(actor.nombre_reg_entrada + " " + actor.nombre_reg_produccio,actor.id_registre_produccio))
 
         }
-    });
+    });*/
 
+    var select = $('#selectPelis');
+    if (select[0].children.length == 0) {
+        select.html('');
+        for (var i = 0; i < peliculas.length; i++) {
+            select.append(new Option(peliculas[i].titol, peliculas[i].id));
+        }
+    }
 
+    
 
 });
 
@@ -611,6 +619,9 @@ var calendarioActorSeleccionado_id = 0;
 var peliculas = [];
 var calendarioActor = [];
 
+// Elemento seleccionado de la lista de asistencia:
+var elementoSeleccionado = undefined;
+
 function cargarPeliculas() {
     $.ajax({
         url: '/calendari/getPeliculas',
@@ -632,7 +643,14 @@ function cargarPeliculas() {
 }
 cargarPeliculas();
 
-function seleccionarActorCalendario(id) {
+function seleccionarActorCalendario(id, elemento) {
+    // Le da estilo al elemento seleccionado:
+    if (elementoSeleccionado != undefined) {
+        elementoSeleccionado.className = "";
+    }
+    elemento.className = "actorAsistencia-seleccionado";
+    elementoSeleccionado = elemento;
+
     calendarioActorSeleccionado_id = id.split('-')[1];
 
     if (calendarioActorSeleccionado_id > 0) {
