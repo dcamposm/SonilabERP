@@ -155,21 +155,40 @@ function guardarCelda() {
                 }
             }
             // trabajadores[persona[0]][2][$('#selectPelis').val()] = trabajadores[persona[0]][2][$('#selectPelis').val()] - takes
+            var nombreActor = "";
+            var idActor = 0;
             actores.forEach(element => {
                 if (element.id_registre_produccio == $('#selectPelis').val() && persona.id_actor == element.id_actor) {
                     element.takes_restantes = element.takes_restantes-takes;
-                    
+                    nombreActor = element.nombre_actor;
+                    idActor = element.id_actor;
                 }
             });
             cargarActores();
             console.log(actores);
 
-            /*var tr = $('<tr id="' + datosCalendari.calendari.id_calendar + '-' + datosCalendari.calendari.id_actor_estadillo + '-' + datosCalendari.calendari.num_sala + '" class="dia-' + datosCalendari.calendari.data_inici.split('-')[0] + '-' + datosCalendari.calendari.num_sala + ' lista-actores"></tr>');
+            var tr = $('<tr id="' + datosCalendari.calendari.id_calendar + '-' + datosCalendari.calendari.id_actor_estadillo + '-' + datosCalendari.calendari.num_sala + '" class="dia-' + datosCalendari.calendari.data_inici.split('-')[0] + '-' + datosCalendari.calendari.num_sala + ' lista-actores"></tr>');
             var td1 = $('<td id="actor_mod-' + datosCalendari.calendari.id_calendar + '" onclick="seleccionarActorCalendario(this.id, this)"></td>');
-            td1.append($('<span class="horaActor">' + datosCalendari.calendari.data_inici.split(' ')[1] + '</span>'));
-            var td2 = document.createElement('td');
-            tr.
-            $('#pasarLista-tabla').append();*/
+            var td1Value = '<div><span class="horaActor">(' + datosCalendari.calendari.data_inici.split(' ')[1] + ')</span> ' + nombreActor + '</div>';
+            td1.append($(td1Value));
+            tr.append(td1);
+            var td2Value = 
+            '<td>' + 
+                '<div class="btn-group btn-group-toggle" data-toggle="buttons">' + 
+                    '<label class="btn btn-success">' +
+                        '<input type="radio" name="actor-' + idActor + '-' + datosCalendari.calendari.id_calendar + '" id="actor-' + idActor + '" class="actor-dia-' + datosCalendari.calendari.data_inici.split('-')[0] + '-' + datosCalendari.calendari.num_sala + '" autocomplete="off" value="1"> Present' +
+                    '</label>' +
+                    '<label class="btn btn-danger">' +
+                        '<input type="radio" name="actor-' + idActor + '-' + datosCalendari.calendari.id_calendar + '" id="actor-' + idActor + '" class="actor-dia-' + datosCalendari.calendari.data_inici.split('-')[0] + '-' + datosCalendari.calendari.num_sala + '" autocomplete="off" value="0"> No present' +
+                    '</label>' +
+                    '<label class="btn btn-secondary active">' +
+                        '<input type="radio" name="actor-' + idActor + '-' + datosCalendari.calendari.id_calendar + '" id="actor-' + idActor + '" class="actor-dia-' + datosCalendari.calendari.data_inici.split('-')[0] + '-' + datosCalendari.calendari.num_sala + '" autocomplete="off" value="null"> Pendent' +
+                    '</label>' +
+                '</div>' +
+            '</td>'
+            var td2 = $(td2Value);
+            tr.append(td2);
+            $('#pasarLista-tabla').append(tr);
         })
         .fail(function (error) {
             console.log(error);
@@ -764,8 +783,8 @@ function eliminarCalendarioActor() {
             });
             data = undefined;
             data = nuevoAmanecer;
-            vaciarValoresEditar();
             $('#' + calendarioActorSeleccionado_id + "-" + calendarioActor.calendar.id_actor_estadillo + "-" + calendarioActor.calendar.num_sala).remove();
+            vaciarValoresEditar();
             tablaHoras();
             pintarTablaHoras();
         },
