@@ -41,7 +41,7 @@ function selectSearch() {
             $(select).append('<option value="Cancel·lada">Cancel·lada</option>');
         } else if ($('#searchBy').val() == 'id_usuari'){
             $.each(usuaris, function( key, usuari ) {
-                $(select).append('<option value="'+usuari['id_usuari']+'">'+usuari['alias_usuari'].toUpperCase()+'</option>');
+                $(select).append('<option value="'+usuari['id_usuari']+'">'+usuari['nom_cognom'].toUpperCase()+'</option>');
             });
         } else if ($('#searchBy').val() == 'id_client'){
             $.each(clients, function( key, client ) {
