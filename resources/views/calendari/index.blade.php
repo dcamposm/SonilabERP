@@ -168,7 +168,7 @@
                         <form id="pasarLista" action="" method="POST" style="margin-top: 15px;" class="col">
                             <div style="background-color: whitesmoke; height: 150px; overflow-y: scroll;">
                                 <table class="table" style="width: 100%; margin-top: 30px;">
-                                    <tbody>
+                                    <tbody id="pasarLista-tabla">
                                         @foreach($actoresPorDia as $key => $dia)
                                             @foreach($dia as $key2 => $actor)
                                                 <tr id="{{$actor->id_calendar}}-{{$actor->id_actor_estadillo}}-{{$actor->num_sala}}" class="dia-{{$actor->dia}}-{{$actor->num_sala}} lista-actores">
