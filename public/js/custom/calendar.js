@@ -317,7 +317,7 @@ function ampliarCasilla(e) {
     diaSeleccionado = e.delegateTarget.getAttribute("dia");
     salaSeleccionada = e.delegateTarget.getAttribute("sala");
     // Muestra la lista en concreto con los empleado para poder "pasar lista":
-    $('.dia-' + diaSeleccionado.split('-')[0] + '-' + salaSeleccionada).show();
+    $('.dia-' + parseInt(diaSeleccionado.split('-')[0]) + '-' + salaSeleccionada).show();
 
     // TODO: Seleccionar a los técnicos y los directorios dependiendo del día y la sala seleccionadas.
     console.log(diaSeleccionado)
