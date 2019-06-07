@@ -787,7 +787,7 @@ function eliminarCalendarioActor() {
     console.log(calendarioActorSeleccionado_id)
     $.ajax({
         url: '/calendari/esborrar/' + calendarioActorSeleccionado_id,
-        type: 'delete',
+        type: 'post',
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             Accept: 'application/json'
