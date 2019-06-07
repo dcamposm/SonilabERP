@@ -43,7 +43,6 @@ class CalendariController extends Controller
 
         $data = json_encode(Calendar::where('data_inici', '>=', $dia1)
                                     ->where('data_fi', '<=', $dia5)
-                                    //->with("actorEstadillo")
                                     ->with('actorEstadillo.estadillo.registreProduccio.registreEntrada')
                                     ->get());
 
@@ -64,39 +63,45 @@ class CalendariController extends Controller
             and t5.id_registre_produccio = t6.id
         group by id_actor_estadillo');       */         
         
-        $takes_restantes = ActorEstadillo::select('id as id_actor_estadillo', 'id', 'take_estadillo as takes_restantes', 'id_actor', 'id_produccio')
+        /*$takes_restantes = ActorEstadillo::select('id as id_actor_estadillo', 'id', 'take_estadillo as takes_restantes', 'id_actor', 'id_produccio')
                                             ->with(['estadillo' => function($query) {
                                                 $query->select('id_estadillo','id_registre_produccio')
                                                     ->with(['registreProduccio' => function($query){
                                                         $query->whereEstat('Pendent')->select('id');
                                                     }]);
-                                            }])->get();
-                                  
-        //$estadillo = \App\Estadillo::with('actors')->get();
+                                            }])->get();*/
+        
+        $takes_restantes = ActorEstadillo::select('slb_actors_estadillo.id as id_actor_estadillo',
+                                                    'slb_actors_estadillo.id',
+                                                    'slb_actors_estadillo.take_estadillo as takes_restantes',
+                                                    'slb_actors_estadillo.id_actor',
+                                                    'slb_actors_estadillo.id_produccio',
+                                                    'slb_estadillo.id_registre_produccio')
+                                            ->join('slb_estadillo', 'slb_estadillo.id_estadillo', '=', 'slb_actors_estadillo.id_produccio')
+                                            ->join('slb_registres_produccio', 'slb_registres_produccio.id', '=', 'slb_estadillo.id_registre_produccio')
+                                            ->distinct()->where('slb_registres_produccio.estat', '=', 'Pendent')
+                                            ->get();                          
+                  //$estadillo = \App\Estadillo::with('actors')->get();
         //return response()->json($takes_restantes);
 
         foreach ($takes_restantes as $key => $value) {
             if ($value->estadillo != null) {
                 if ($value->estadillo->registreProduccio != null){
                     $empleado = EmpleatExtern::findOrFail($value->id_actor);
-                    $produccio = RegistreProduccio::findOrFail($value->estadillo->id_registre_produccio);
+                    $produccio = RegistreProduccio::findOrFail($value->id_registre_produccio);
                     $entrada = RegistreEntrada::findOrFail($produccio->id_registre_entrada);
                     $value->nombre_actor = $empleado->nom_cognom;
                     $value->nombre_reg_entrada = $entrada->referencia_titol;
-                    $value->nombre_reg_produccio = $produccio->subreferencia;
+                    $value->nombre_reg_produccio = $produccio->subreferencia != 0 ? $produccio->subreferencia : '';
                     if ($value->calendar != null){
                         $value->takes_restantes = $value->takes_restantes - $value->calendar->num_takes;
                     } 
                 } else {
-                    //return response()->json($key);
                     unset($takes_restantes[$key]);
-                    //return response()->json($takes_restantes);
                 }
                 
             } else {
-                //return response()->json($key);
                 unset($takes_restantes[$key]);
-                //return response()->json($takes_restantes);
             }
         }
         //return response()->json($takes_restantes);
@@ -115,6 +120,7 @@ class CalendariController extends Controller
                                   ->join('slb_carrecs', 'slb_carrecs.id_carrec', '=', 'slb_carrecs_empleats.id_carrec')
                                   ->distinct()->where('slb_carrecs.nom_carrec', '=', 'Tècnic de sala')
                                   ->get();
+        
         $directors = EmpleatExtern::select('slb_empleats_externs.id_empleat', 'slb_empleats_externs.nom_empleat', 'slb_empleats_externs.cognom1_empleat', 'slb_empleats_externs.cognom2_empleat')
                                     ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', '=', 'slb_empleats_externs.id_empleat')
                                     ->join('slb_carrecs', 'slb_carrecs.id_carrec', '=', 'slb_carrecs_empleats.id_carrec')
