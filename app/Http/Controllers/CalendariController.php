@@ -82,8 +82,8 @@ class CalendariController extends Controller
                     $produccio = RegistreProduccio::findOrFail($value->estadillo->id_registre_produccio);
                     $entrada = RegistreEntrada::findOrFail($produccio->id_registre_entrada);
                     $value->nombre_actor = $empleado->nom_cognom;
-                    $value->nombre_reg_entrada = $entrada->titol;
-                    $value->nombre_reg_produccio = $produccio->titol;
+                    $value->nombre_reg_entrada = $entrada->referencia_titol;
+                    $value->nombre_reg_produccio = $produccio->subreferencia;
                     if ($value->calendar != null){
                         $value->takes_restantes = $value->takes_restantes - $value->calendar->num_takes;
                     } 

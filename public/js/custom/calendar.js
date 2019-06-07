@@ -364,7 +364,7 @@ function ampliarCasilla(e) {
 
 $('#exampleModal').on('show.bs.modal', function (e) {
     var modal = $(this)
-    //console.log(actores)persona.takes_restantes;
+    console.log(actores);
     let takes = 0;
     
     $.each(actores, function( key, element ) {
