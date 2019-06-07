@@ -48,13 +48,16 @@ function crearTablaCalendario() {
 }
 
 function cargarDatos() {
-    data.forEach(element => {
+    $.each(data, function( key, element ) {
+        var fi = parseInt(element.data_fi.split(' ')[1].split(':')[0])+parseFloat((element.data_fi.split(' ')[1].split(':')[1])/60);
+        var inici = parseInt(element.data_inici.split(' ')[1].split(':')[0])+parseFloat((element.data_inici.split(' ')[1].split(':')[1])/60);
+        
         var celda = $("[dia=" + element.data_inici.split(' ')[0] + "][sala=" + element.num_sala + "]")[0].children[0].children[0]
-        var takes = Number(celda.innerText.replace('%', '')) + element.num_takes
-        celda.innerText = takes + '%'
-        celda.style.width = takes + '%'
-        celda.setAttribute('aria-valuenow', takes)
-        cambiarColorCelda(celda, takes)
+        var perce = Number(celda.innerText.replace('%', '')) + ((fi-inici)*100)/10;
+        celda.innerText = perce + '%'
+        celda.style.width = perce + '%'
+        celda.setAttribute('aria-valuenow', perce)
+        cambiarColorCelda(celda, perce)
     });
 
     cargarActores();
@@ -63,14 +66,14 @@ function cargarDatos() {
 
 function cargarActores() {
     var trabajadores = {};
-    actores.forEach(element => {
-//        console.log(element)
+    //console.log(actores);
+    $.each(actores, function( key, element ) {
         if (trabajadores[element.id_actor]){
             trabajadores[element.id_actor].takes_restantes = trabajadores[element.id_actor].takes_restantes + element.takes_restantes
         } else {
             trabajadores[element.id_actor] = {id_actor: element.id_actor, nombre_actor: element.nombre_actor, takes_restantes: element.takes_restantes}
         }
-    })
+    });
 
     console.log(trabajadores);
     console.log("DATOs");
@@ -88,12 +91,12 @@ function filtrar(){
 
     console.log(dataBase)
     if (idActor != -1 && idProyecto != -1){
-        data = dataBase.filter(item => item.actor_estadillo.id_actor == idActor)
-        data = data.filter(item => item.actor_estadillo.registre_entrada.id_registre_entrada == idProyecto)
+        data = dataBase.filter(item => item.actor_estadillo.id_actor == idActor);
+        data = data.filter(item => item.actor_estadillo.estadillo.registre_produccio.registre_entrada.id_registre_entrada == idProyecto);
     } else if (idActor != -1){
-        data = dataBase.filter(item => item.actor_estadillo.id_actor == idActor)
+        data = dataBase.filter(item => item.actor_estadillo.id_actor == idActor);
     } else if (idProyecto != -1){
-        data = dataBase.filter(item => item.actor_estadillo.registre_entrada.id_registre_entrada == idProyecto)
+        data = dataBase.filter(item => item.actor_estadillo.estadillo.registre_produccio.registre_entrada.id_registre_entrada == idProyecto);
     } else {
         data = dataBase
     }
@@ -157,7 +160,8 @@ function guardarCelda() {
             // trabajadores[persona[0]][2][$('#selectPelis').val()] = trabajadores[persona[0]][2][$('#selectPelis').val()] - takes
             var nombreActor = "";
             var idActor = 0;
-            actores.forEach(element => {
+            
+            $.each(actores, function( key, element ) {
                 if (element.id_registre_produccio == $('#selectPelis').val() && persona.id_actor == element.id_actor) {
                     element.takes_restantes = element.takes_restantes-takes;
                     nombreActor = element.nombre_actor;
@@ -208,7 +212,7 @@ function allowDrop(ev) {
 function drop(ev) {
     ev.preventDefault();
     var data = ev.dataTransfer.getData("text");
-    actores.forEach(element => {
+    $.each(actores, function( key, element ) {
         if (element.id_actor == data) {
             persona = element; //persona es el elemento arrastrado
         }
@@ -324,8 +328,8 @@ function ampliarCasilla(e) {
     $('#director1').val('')
     $('#tecnico0').val('')
     $('#tecnico1').val('')
-
-    directoresAsignados.forEach(element => {
+    
+    $.each(directoresAsignados, function( key, element ) {
         if (element.num_sala == salaSeleccionada && element.data==diaSeleccionado){
             if (element.id_carrec == 2 ){ // director
                 if (element.torn == 0){ //mañana
@@ -360,12 +364,20 @@ function ampliarCasilla(e) {
 
 $('#exampleModal').on('show.bs.modal', function (e) {
     var modal = $(this)
-    let takes = persona.takes_restantes;
+    //console.log(actores)persona.takes_restantes;
+    let takes = 0;
+    
+    $.each(actores, function( key, element ) {
+        if (element.id_actor == persona.id_actor) {
+            takes = takes + element.takes_restantes;
+        }
+    });
+    
     modal.find('.modal-title').text(persona.nombre_actor + ' - ' + takes + ' takes restants')
 
-    var restantes = 100 - (celda.attributes['aria-valuenow'].value ? celda.attributes['aria-valuenow'].value : 0)
+    var restantes = '';
 
-    takesPosibles = restantes > takes ? takes : restantes
+    takesPosibles = takes;
 
     var data_inici = celda.parentElement.parentElement.getAttribute("dia")
     var num_sala = celda.parentElement.parentElement.getAttribute("sala");
@@ -378,9 +390,7 @@ $('#exampleModal').on('show.bs.modal', function (e) {
     $('#takes-celda').text('Takes per assignar a la sala: ' + restantes)
 
     $('#selectPelis').html('')
-
-    actores.forEach(actor => {
-
+    $.each(actores, function( key, actor ) {
         if (actor.id_actor == persona.id_actor) {
             //console.log(actor.id_actor)
             $('#selectPelis').append(new Option(actor.nombre_reg_entrada + " " + actor.nombre_reg_produccio,actor.id_registre_produccio))
@@ -423,7 +433,7 @@ $('#exampleModal2').on('shown.bs.modal', function () {
 });
 
 function pintarTablaHoras() {
-    data.forEach(element => {
+    $.each(data, function( key, element ) {
         var ele_dia = element.data_inici.split(' ');
 
         // Si el día y la sala son los mismos que los seleccionados pintará la tabla:
@@ -477,12 +487,24 @@ function tablaHoras() {
 
         var horaTextM = document.createElement('span')
         horaTextM.innerText = pad(i) + ':30'
-
+        
+        
+        
         horaTextM.classList.add('labelFechaManana')
         hora.classList.add('col')
         hora.classList.add('celda')
-
         $(hora).append(horaTextM)
+        
+        if (i == 12) {
+            var horaTextM2 = document.createElement('span')
+            horaTextM2.innerText = pad(i)+1 + ':30'
+            
+            $(horaTextM2).css('margin-left', '85%')
+            
+            horaTextM2.classList.add('labelFechaManana')
+            $(hora).append(horaTextM2)
+        }
+        
         $('#morning').append(hora)
 
         var tableM = document.createElement('table')
@@ -514,6 +536,17 @@ function tablaHoras() {
         hora.classList.add('celda')
         horaTextT.classList.add('labelFechaTarde')
         $(hora).append(horaTextT)
+        
+        if (i == 19) {
+            var horaTextT2 = document.createElement('span')
+            horaTextT2.innerText = pad(i)+1 + ':30'
+            
+            $(horaTextT2).css('margin-left', '85%')
+            
+            horaTextT2.classList.add('labelFechaTarde')
+            $(hora).append(horaTextT2)
+        }
+        
         $('#evening').append(hora)
 
         var tableT = document.createElement('table')
@@ -727,7 +760,7 @@ function editarActor() {
         success: function (response) {
             console.log(response);
             // Guarda los datos en la variable "data" y vuelve a recargar el calendario:
-            data.forEach(element => {
+            $.each(data, function( key, element ) {
                 if (element.id_calendar == calendarioActorSeleccionado_id) {
                     var inici_split = element.data_inici.split(' ');
                     var fi_split = element.data_fi.split(' ');
@@ -765,7 +798,7 @@ function eliminarCalendarioActor() {
             console.log(response);
             // Guarda los datos en la variable "data" y vuelve a recargar el calendario:
             var nuevoAmanecer = [];
-            data.forEach(element => {
+            $.each(data, function( key, element ) {
                 if (element.id_calendar != calendarioActorSeleccionado_id) {
                     nuevoAmanecer.push({
                         actor_estadillo: element.actor_estadillo,

@@ -14,6 +14,7 @@ class Delete2ColumnsCalendarsTable extends Migration
     public function up()
     {
         Schema::table('slb_calendars', function (Blueprint $table) {
+            $table->integer('id_registre_entrada');
             $table->dropColumn('id_registre_entrada');       
         });
 
@@ -27,6 +28,7 @@ class Delete2ColumnsCalendarsTable extends Migration
     public function down()
     {
         Schema::table('slb_calendars', function (Blueprint $table) {
+            $table->dropColumn('id_registre_entrada');  
             $table->integer('id_registre_entrada');
         });
     }
