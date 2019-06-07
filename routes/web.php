@@ -148,14 +148,14 @@ Route::middleware(['role: 1,2,3,4'])->group(function () {
     Route::get('/calendari/crear', 'CalendariController@createCalendari')->name('createCalendari');
     Route::post('/calendari/crear', 'CalendariController@create')->name('createCalendari');
     Route::put('/calendari/editar/{id}', "CalendariController@update")->name('updateCalendari');
-    Route::delete('/calendari/esborrar/{id}', 'CalendariController@delete')->name('deleteCalendari');
+    Route::post('/calendari/esborrar/{id}', 'CalendariController@delete')->name('deleteCalendari');
 
     Route::post('/calendari/cambiarCargo', 'CalendariController@cambiarCargo')->name('cambiarCargoCalendari');
 
     
     Route::post('/calendari/crearCalendariCarrecs', 'CalendariController@calendariCarrecInsertar')->name('createCalendariCarrecs');
     Route::put('/calendari/editarCalendariCarrecs/{id}', 'CalendariController@calendariCarrecEditar')->name('updateCalendariCarrecs');
-    Route::delete('/calendari/esborrarCalendariCarrecs/{id}', 'CalendariController@calendariCarrecDelete')->name('deleteCalendariCarrecs');
+    Route::post('/calendari/esborrarCalendariCarrecs/{id}', 'CalendariController@calendariCarrecDelete')->name('deleteCalendariCarrecs');
     
     Route::post('/calendari/desarLlistaAsistencia', 'CalendariController@desarLlistaAsistencia')->name('desarLlistaAsistencia');
     Route::post('/calendari/cogerCalendarioActor', 'CalendariController@cogerCalendarioActor')->name('cogerCalendarioActor');
