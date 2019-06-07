@@ -17,7 +17,7 @@ class ActorEstadillo extends Model
         "canso_estadillo",
         "narracio_estadillo"
     ];
-
+    
     public function empleat()
     {
         return $this->belongsTo('App\EmpleatExtern', 'id_actor', 'id_empleat');
@@ -25,10 +25,10 @@ class ActorEstadillo extends Model
 
     public function estadillo()
     {
-        return $this->belongsTo('App\Estadillo', 'id_estadillo', 'id_produccio');
+        return $this->belongsTo('App\Estadillo', 'id_produccio', 'id_estadillo');
     }
-
-    public function registreEntrada() {
-        return $this->hasOne('App\RegistreEntrada','id_registre_entrada','id_produccio');
+    
+    public function calendar() {
+        return $this->belongsTo('App\Calendar','id','id_actor_estadillo');
     }
 }
