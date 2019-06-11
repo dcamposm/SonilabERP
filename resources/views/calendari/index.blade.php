@@ -11,24 +11,16 @@
     </div>
 
     <div id="contenedor" class="container-fluid contenedor">
-        <div class="row encabezado">
+        <div class="row encabezado mb-4">
             <div class="input-group">
-                <select class="custom-select" id='filtroActor'>
-                    <option selected value="-1">Filtrar per actor (TOT)</option>
-                    @foreach ($todosActores as $item)
-                        <option value="{{$item->id_empleat}}">{{$item->nom_empleat}} {{$item->cognom1_empleat}} {{$item->cognom2_empleat}}</option>
-                    @endforeach
-                </select>
-                <select class="custom-select" id='filtroProyecto'>
-                    <option selected value="-1">Filtrar per projecte (TOT)</option>
-                    @foreach ($registrosEntrada as $item)
-                        <option value="{{$item->id_registre_entrada}}">{{$item->titol}}</option>
-                    @endforeach
-                </select>
+                <input id="searchActor" class="form-control"/>
+                <input id="filtroActor" class="form-control" type="hidden" value="-1">
+                <input id="searchEntrada" class="form-control"/>
+                <input id="filtroEntrada" class="form-control" type="hidden" value="-1">
                 <div class="semana"><div id="semanaMenos" class="btn btn-primary round-left"><span class="fas fa-angle-double-left"></span></div><span class="simil-btn btn">Setmana {{$week}}</span><div id="semanaMas" class="btn btn-primary round-right"><span class="fas fa-angle-double-right"></span></div></div>
                 <button id="btnAdd" class="btn btn-success boton" onclick="openNav()">Afegir</button>
              </div>
-        </div><br/>
+        </div>
         <div class="row">
             <div class="sala-vacia">0</div>
             <div class="col col-fecha">Dilluns : {{$fechas[0]}}</div>
@@ -237,6 +229,8 @@
     var actores = <?php echo $actores ?>;
     var dataBase = data;   
     var directoresAsignados = <?php echo json_encode($directoresAsignados) ?>;
+    var rutaSearchEmpleat = "{{route('empleatSearch')}}";
+    var rutaSearchEntrada = "{{route('registreEntradaSearch')}}";
 </script>
 <script type="text/javascript" src="{{ URL::asset('js/custom/calendar.js') }}"></script>
 <link rel="stylesheet" href="{{ URL::asset('css/calendar.css') }}" />

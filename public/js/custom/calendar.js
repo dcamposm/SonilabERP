@@ -9,15 +9,6 @@ $('#semanaMas').on('click', function () {
 
 $('#btnGuardar').click(guardarCelda)
 
-$('#filtroActor').on('change', function(){
-    filtrar()
-})
-
-$('#filtroProyecto').on('change', function(){
-    filtrar()
-})
-
-
 crearTablaCalendario();
 tablaHoras();
 cargarDatos();
@@ -66,7 +57,7 @@ function cargarDatos() {
 
 function cargarActores() {
     var trabajadores = {};
-    //console.log(actores);
+    console.log(actores);
     $.each(actores, function( key, element ) {
         if (trabajadores[element.id_actor]){
             trabajadores[element.id_actor].takes_restantes = trabajadores[element.id_actor].takes_restantes + element.takes_restantes
@@ -80,15 +71,16 @@ function cargarActores() {
     console.log(data);
     $('#trabajadores').html('');
     for (const key in trabajadores) {
-
-        $('#trabajadores').append('<li id=' + trabajadores[key].id_actor + ' draggable="true" ondragstart="drag(event)">' + trabajadores[key].nombre_actor + ' - ' + trabajadores[key].takes_restantes + ' takes</li>');
+        if (trabajadores[key].takes_restantes > 0){
+            $('#trabajadores').append('<li id=' + trabajadores[key].id_actor + ' draggable="true" ondragstart="drag(event)">' + trabajadores[key].nombre_actor + ' - ' + trabajadores[key].takes_restantes + ' takes</li>');
+        }
     }
 }
 
 function filtrar(){
     var idActor = $('#filtroActor').val()
-    var idProyecto = $('#filtroProyecto').val()
-
+    var idProyecto = $('#filtroEntrada').val()
+    console.log('Busca')
     console.log(dataBase)
     if (idActor != -1 && idProyecto != -1){
         data = dataBase.filter(item => item.actor_estadillo.id_actor == idActor);
@@ -104,6 +96,68 @@ function filtrar(){
     refrescarCalendarioFiltrado()
     cargarDatos()
 }
+
+var optionsActor = {
+    url:  rutaSearchEmpleat+"?search=Actor",
+    placeholder: "Filtrar per actor",
+    getValue: "nom_cognom",
+    
+    list: {
+            match: {
+                enabled: true
+            }, onChooseEvent: function() {
+                var selectedPost = $("#searchActor").getSelectedItemData();
+                $("#filtroActor").attr("value", selectedPost.id_empleat);
+                $("#searchActor").val(selectedPost.nom_cognom).trigger("change");
+                filtrar()
+            }, onHideListEvent: function() {
+                if ($("#searchActor").val() == ''){
+                    $("#filtroActor").val('-1');
+                    filtrar() 
+                }
+            }
+    },
+    
+    template: {
+            type: "custom",
+            method: function(value, item) {
+                    return value;
+            }
+    },
+};
+
+$("#searchActor").easyAutocomplete(optionsActor);
+
+var optionsRegistre = {
+    url:  rutaSearchEntrada,
+    placeholder: "Filtrar per registre d'entrada",
+    getValue: "referencia_titol",
+
+    list: {
+            match: {
+                enabled: true
+            }, onChooseEvent: function() {
+                var selectedPost = $("#searchEntrada").getSelectedItemData();
+                $("#filtroEntrada").attr("value", selectedPost.id_registre_entrada);
+                $("#searchEntrada").val(selectedPost.id_registre_entrada+" "+selectedPost.titol).trigger("change");
+                filtrar()
+            }, onHideListEvent: function() {
+                if ($("#searchEntrada").val() == ''){
+                    $("#filtroEntrada").val('-1');
+                    filtrar() 
+                }
+            }
+    },
+
+    template: {
+            type: "custom",
+            method: function(value, item) {
+                    return value;
+            }
+    },
+};
+
+$("#searchEntrada").easyAutocomplete(optionsRegistre);
 
 ///// FUNCTIONS /////
 

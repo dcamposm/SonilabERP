@@ -301,7 +301,7 @@ class EmpleatExternController extends Controller
     public function search(Request $request)
     {
         //return response()->json($request);
-        if ($request->search != 'director' && $request->search != 'tecnic_mix'){
+        if ($request->search != 'director' && $request->search != 'tecnic_mix' && $request->search != 'Actor'){
             $empleats = EmpleatExtern::select('slb_empleats_externs.id_empleat', 'nom_empleat', 'cognom1_empleat', 'cognom2_empleat')
                                     ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', '=', 'slb_empleats_externs.id_empleat')
                                     ->join('slb_tarifas', 'slb_tarifas.id', '=', 'slb_carrecs_empleats.id_tarifa')
@@ -313,6 +313,12 @@ class EmpleatExternController extends Controller
                                         ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', '=', 'slb_empleats_externs.id_empleat')
                                         ->join('slb_carrecs', 'slb_carrecs.id_carrec', '=', 'slb_carrecs_empleats.id_carrec')
                                         ->distinct()->where('slb_carrecs.nom_carrec', '=', 'Director')
+                                        ->get();
+            } elseif ($request->search == 'Actor') {
+                $empleats = EmpleatExtern::select('slb_empleats_externs.id_empleat', 'nom_empleat', 'cognom1_empleat', 'cognom2_empleat')
+                                        ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', '=', 'slb_empleats_externs.id_empleat')
+                                        ->join('slb_carrecs', 'slb_carrecs.id_carrec', '=', 'slb_carrecs_empleats.id_carrec')
+                                        ->distinct()->where('slb_carrecs.nom_carrec', '=', $request->search)
                                         ->get();
             } else {
                 $empleats = EmpleatExtern::select('slb_empleats_externs.id_empleat', 'nom_empleat', 'cognom1_empleat', 'cognom2_empleat')
