@@ -19,6 +19,7 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{{asset('js/EasyAutocomplete/easy-autocomplete.min.css')}}">
+    <link rel="stylesheet" href="js/EasyAutocomplete/easy-autocomplete.themes.min.css"> 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/project.css') }}" rel="stylesheet">

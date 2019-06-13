@@ -44,33 +44,13 @@ class CalendariController extends Controller
         $data = json_encode(Calendar::where('data_inici', '>=', $dia1)
                                     ->where('data_fi', '<=', $dia5)
                                     ->with('actorEstadillo.estadillo.registreProduccio.registreEntrada')
+                                    ->with('calendari')
                                     ->get());
 
         //return response()->json($data);
         
         $urlBase = route('showCalendari');
 
-        //ToDo: Hacerlo algún día en Eloquent... (?)
-        /*$takes_restantes = DB::select('SELECT id_actor_estadillo, (t4.take_estadillo - sum(t1.num_takes)) as takes_restantes, t4.id_actor, t6.id as id_registre_produccio
-        FROM slb_calendars t1, slb_actors_estadillo t4, slb_estadillo t5, slb_registres_produccio t6
-        where (t1.asistencia = 1 or t1.asistencia is null)
-            and t1.id_actor_estadillo in (SELECT id 
-                                                FROM slb_actors_estadillo t2
-                                                where t2.id_produccio in (select id_estadillo from slb_estadillo t3 
-                                                    where t3.id_registre_produccio in (select id from slb_registres_produccio t7 where t7.estat = "Pendent")))
-            and t1.id_actor_estadillo = t4.id    
-            and t5.id_estadillo = t4.id_produccio
-            and t5.id_registre_produccio = t6.id
-        group by id_actor_estadillo');       */         
-        
-        /*$takes_restantes = ActorEstadillo::select('id as id_actor_estadillo', 'id', 'take_estadillo as takes_restantes', 'id_actor', 'id_produccio')
-                                            ->with(['estadillo' => function($query) {
-                                                $query->select('id_estadillo','id_registre_produccio')
-                                                    ->with(['registreProduccio' => function($query){
-                                                        $query->whereEstat('Pendent')->select('id');
-                                                    }]);
-                                            }])->get();*/
-        
         $takes_restantes = ActorEstadillo::select('slb_actors_estadillo.id as id_actor_estadillo',
                                                     'slb_actors_estadillo.id',
                                                     'slb_actors_estadillo.take_estadillo as takes_restantes',
@@ -93,6 +73,7 @@ class CalendariController extends Controller
                     $value->nombre_actor = $empleado->nom_cognom;
                     $value->nombre_reg_entrada = $entrada->referencia_titol;
                     $value->nombre_reg_produccio = $produccio->subreferencia != 0 ? $produccio->subreferencia : '';
+                    $value->nombre_reg_complet = $value->nombre_reg_entrada.' '.$value->nombre_reg_produccio;
                     if ($value->calendar != null){
                         $value->takes_restantes = $value->takes_restantes - $value->calendar->num_takes;
                     } 
@@ -104,49 +85,44 @@ class CalendariController extends Controller
                 unset($takes_restantes[$key]);
             }
         }
-        //return response()->json($takes_restantes);
-        
-        $actores = json_encode($takes_restantes);
-        //return response()->json($actores);
-        $todosActores = DB::select('SELECT t1.id_empleat, t1.nom_empleat, t1.cognom1_empleat, t1.cognom2_empleat
-                                        FROM slb_empleats_externs t1, slb_carrecs_empleats t2
-                                            WHERE t2.id_carrec = 1 and t1.id_empleat = t2.id_empleat
-                                        GROUP by id_empleat');
 
-        $peliculas = RegistreEntrada::all();
-        
+        $actores = json_encode($takes_restantes);
+
         $tecnics = EmpleatExtern::select('slb_empleats_externs.id_empleat', 'slb_empleats_externs.nom_empleat', 'slb_empleats_externs.cognom1_empleat', 'slb_empleats_externs.cognom2_empleat')
                                   ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', '=', 'slb_empleats_externs.id_empleat')
                                   ->join('slb_carrecs', 'slb_carrecs.id_carrec', '=', 'slb_carrecs_empleats.id_carrec')
                                   ->distinct()->where('slb_carrecs.nom_carrec', '=', 'Tècnic de sala')
                                   ->get();
         
-        $directors = EmpleatExtern::select('slb_empleats_externs.id_empleat', 'slb_empleats_externs.nom_empleat', 'slb_empleats_externs.cognom1_empleat', 'slb_empleats_externs.cognom2_empleat')
-                                    ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', '=', 'slb_empleats_externs.id_empleat')
-                                    ->join('slb_carrecs', 'slb_carrecs.id_carrec', '=', 'slb_carrecs_empleats.id_carrec')
-                                    ->distinct()->where('slb_carrecs.nom_carrec', '=', 'Director')
-                                    ->get();
-        
         // TODO: Hacer que los actores no se repitan o que si se repiten que se coja también la hora.
         $actoresPorDia = array();
         foreach($fechas as $key => $fech) {
             $diaz = DateTime::createFromFormat("d-m-Y", $fech);
-            $act_dia = DB::select(
-                'SELECT t1.id_empleat, t1.nom_empleat, t1.cognom1_empleat, t1.cognom2_empleat, t2.id_calendar, 
-                    DAY(t2.data_inici) as dia, t2.num_sala , LPAD(HOUR(t2.data_inici), 2, 0) as hora, 
-                    LPAD(MINUTE(t2.data_inici), 2, 0) as minuts, 
-                    t3.id as id_actor_estadillo, t2.id_calendar as id_calendar 
-                FROM slb_empleats_externs t1, slb_calendars t2, slb_actors_estadillo t3
-                WHERE 
-                    t2.id_actor_estadillo = t3.id AND t3.id_actor = t1.id_empleat AND 
-                    DAY(t2.data_inici) = '.$diaz->format('d').' AND MONTH(t2.data_inici) = '.$diaz->format('m').' 
-                    AND YEAR(t2.data_inici) = '.$diaz->format('Y').' 
-                ORDER BY t2.data_inici asc'
-            );
+            
+            $act_dia = EmpleatExtern::select('slb_empleats_externs.id_empleat',
+                                             'slb_empleats_externs.nom_empleat',
+                                             'slb_empleats_externs.cognom1_empleat',
+                                             'slb_empleats_externs.cognom2_empleat',
+                                             'slb_calendars.id_calendar',
+                                             DB::raw('DAY(slb_calendars.data_inici) as dia'),
+                                             'slb_calendar_carrecs.num_sala',
+                                             DB::raw('LPAD(HOUR(slb_calendars.data_inici), 2, 0) as hora'),
+                                             DB::raw('LPAD(MINUTE(slb_calendars.data_inici), 2, 0) as minuts'),
+                                             'slb_actors_estadillo.id as id_actor_estadillo',
+                                             'slb_calendars.id_calendar as id_calendar')
+                                    ->join('slb_actors_estadillo', 'slb_actors_estadillo.id_actor', '=', 'slb_empleats_externs.id_empleat')
+                                    ->join('slb_calendars', 'slb_calendars.id_actor_estadillo', '=', 'slb_actors_estadillo.id')
+                                    ->join('slb_calendar_carrecs', 'slb_calendar_carrecs.id_calendar_carrec', '=', 'slb_calendars.id_calendar_carrec')
+                                    ->distinct()->where( DB::raw('DAY(slb_calendars.data_inici)'), '=', $diaz->format('d'))
+                                    ->where( DB::raw('MONTH(slb_calendars.data_inici)'), '=', $diaz->format('m'))
+                                    ->where( DB::raw('YEAR(slb_calendars.data_inici)'), '=', $diaz->format('Y'))
+                                    ->orderBy('slb_calendars.data_inici')
+                                    ->get();       
+                    
             array_push($actoresPorDia, $act_dia);
         }
         //return response()->json($actoresPorDia);
-        $directoresAsignados = CalendarCarrec::where('data', '>=', $dia1)->where('data', '<=', $dia5)->get();
+        $tecnicsAsignados = CalendarCarrec::where('data', '>=', $dia1)->where('data', '<=', $dia5)->get();
         
         return View('calendari.index', ["fechas"    => $fechas, 
                                         "week"      => $week,
@@ -154,12 +130,9 @@ class CalendariController extends Controller
                                         "urlBase"   => $urlBase,
                                         "actores"   => $actores,
                                         "tecnics"   => $tecnics,
-                                        "directors" => $directors,
                                         "data"      => $data,
-                                        "todosActores"   =>$todosActores,
-                                        "registrosEntrada"=>$peliculas,
                                         "actoresPorDia" => $actoresPorDia,
-                                        "directoresAsignados" => $directoresAsignados]);
+                                        "tecnicsAsignados" => $tecnicsAsignados]);
     }
 
     public function cambiarCargo(Request $request) {
@@ -169,12 +142,9 @@ class CalendariController extends Controller
         $sala       = $request->get('sala');
         $id_empleat = $request->get('id_empleat');
         $torn       = $request->get('torn');
-        // Coge el identificador del cargo dependiendo del cargo que le pasemos en la consulta:
-        $id_carrec  = Carrec::select('id_carrec')->where('nom_carrec', '=', $request->get('cargo'))->first()->id_carrec;
 
         // Comprueba si ya existe un registro en la base de datos:
         $calendariCarrec = CalendarCarrec::where('data', '=', $data)
-                                           ->where('id_carrec', '=', $id_carrec)
                                            ->where('torn', '=', $torn)
                                            ->first();
         if (empty($calendariCarrec) == true) {
@@ -186,7 +156,6 @@ class CalendariController extends Controller
         $calendariCarrec->data       = $data;
         $calendariCarrec->num_sala   = $sala;
         $calendariCarrec->id_empleat = $id_empleat;
-        $calendariCarrec->id_carrec  = $id_carrec;
         $calendariCarrec->torn       = $torn;
 
         // Guardamos el objeto en la base de datos:
@@ -197,7 +166,6 @@ class CalendariController extends Controller
             $data,
             $sala,
             $id_empleat,
-            $id_carrec,
             $torn
         ]);
     }
@@ -249,9 +217,33 @@ class CalendariController extends Controller
             
             $requestData['data_inici'] = Carbon::createFromFormat('d-m-Y H:i:s', request()->input('data_inici'));
             $requestData['data_fi'] = Carbon::createFromFormat('d-m-Y H:i:s', request()->input('data_fi'));
-
+            
+            if (strtotime($requestData['data_inici']) < strtotime( $requestData['data_inici']->format('Y-m-d')." 13:30:01")){
+                $torn = 0;
+            } else {
+                $torn = 1;
+            }
+            
+            $calendariCarrec = CalendarCarrec::where('num_sala', $requestData['num_sala'])
+                                                ->where('data', $requestData['data_inici']->format('Y-m-d'))
+                                                ->where('torn', $torn)->first();
+            
+            if (!$calendariCarrec){
+                $calendariCarrec = new CalendarCarrec($requestData);
+                $calendariCarrec->data = $requestData['data_inici']->format('Y-m-d');
+                $calendariCarrec->torn = $torn;
+                
+                $calendariCarrec->save();
+            }
+            
+            $actorEstadillo = ActorEstadillo::find($requestData['id_actor_estadillo']);
+            
             $calendari = new Calendar($requestData);  
+            $calendari->id_calendar_carrec = $calendariCarrec->id_calendar_carrec;
+            $calendari->id_director = $actorEstadillo->estadillo->registreProduccio->id_director;
+            
             $calendari->save();
+            $calendari->calendari;
             return response()->json(['success'=> true,'calendari'=>$calendari],201);
         }
     }
@@ -319,7 +311,6 @@ class CalendariController extends Controller
     public function calendariCarrecInsertar(){
         $v = Validator::make(request()->all(),[
             //'id_calendar'=>'required|max:35',
-            'id_carrec'=>'required|max:35|exists:slb_carrecs',
             'id_empleat'=>'required|max:35|exists:slb_empleats_externs',
             'num_sala'=>'required|regex:/^[0-9]+$/',//^[0-9]+$
             'data'=>'required|max:35',
@@ -343,7 +334,6 @@ class CalendariController extends Controller
     public function calendariCarrecEditar($id){
         $calendariCarrec = CalendarCarrec::findOrFail($id);
         $v = Validator::make(request()->all(),[
-            'id_carrec'=>'required|max:35|exists:slb_carrecs',
             'id_empleat'=>'required|max:35|exists:slb_empleats_externs',
             'num_sala'=>'required|regex:/^[0-9]+$/',
             'data'=>'required|max:35',
@@ -372,11 +362,10 @@ class CalendariController extends Controller
     }
 
     public function cogerCalendarioActor() {
-        $calendar = Calendar::find(request()->get('id'));
-        $peliculas = collect(DB::select('select t1.* from slb_registres_produccio t1 INNER JOIN slb_actors_estadillo t2 ON t1.id = t2.id_produccio WHERE t2.id = '.$calendar->id_actor_estadillo))->first();
+        $calendar = Calendar::with('actorEstadillo.estadillo.registreProduccio')->find(request()->get('id'));
+
         return response()->json(array(
-            'calendar'  => $calendar,
-            'peliculas' => $peliculas
+            'calendar'  => $calendar
         ));
     }
 

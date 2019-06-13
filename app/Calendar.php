@@ -14,7 +14,10 @@ class Calendar extends Model {
         "num_takes",
         "data_inici",
         "data_fi",
-        "num_sala",
+        "id_calendar_carrec",
+        "asistencia",
+        "id_director",
+        "color_calendar",
     ];
     protected $casts = [
         'data_inici'  => 'date:d-m-Y H:i',
@@ -25,5 +28,12 @@ class Calendar extends Model {
         return $this->hasOne('App\ActorEstadillo','id','id_actor_estadillo');
     }
     
-
+    public function director() {
+        return $this->hasOne('App\EmpleatExtern','id_empleat','id_director');
+    }
+    
+    public function calendari()
+    {
+        return $this->belongsTo('App\CalendarCarrec', 'id_calendar_carrec', 'id_calendar_carrec');
+    }
 }
