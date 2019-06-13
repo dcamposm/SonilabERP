@@ -97,6 +97,8 @@ Route::middleware(['role: 1,2,3,4'])->group(function () {
     Route::post('/registreProduccio/modificarAll/{id}', 'RegistreProduccioController@update')->name('updateRegistreProduccioAll');
 
     Route::post('/registreProduccio/delete', 'RegistreProduccioController@delete')->name('deleteRegistre');
+
+    Route::get('/registreProduccio/search', 'RegistreProduccioController@search')->name('registreProduccioSearch');
 });
 
 //------------------Rutes estadillo------------------

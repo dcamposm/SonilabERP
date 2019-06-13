@@ -16,87 +16,7 @@ cargarDatos();
 var persona = undefined
 var takesPosibles = undefined
 
-function crearTablaCalendario() {
-    var contenedor = $('#calendarContent')
-    for (let i = 0; i < 8; i++) {
-        var fila = $('<div class="row fila"></div>')
-        var sala = i + 1
-        for (let h = 0; h < 6; h++) {
-            if (h == 0) {
-                // Crea un div con el número de la sala:
-                fila.append('<div class="sala celda">' + sala + '</div>')
-            } else {
-                // Crea el día de la sala.
-                // Es necesario crear el atributo "dia" y "sala", para que después cuando le hagamos clic
-                // podamos coger el día y la sala de la casilla que hayamos seleccionado.
-                fila.append('<div class="col celda" dia="' + dias[h - 1] + '" sala="' + sala + '"><div class="progress barra_progreso"><div class="progress-bar barra progress-bar-striped" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div></div></div>')
-            }
-        }
-        contenedor.append(fila)
-    }
-    $('.celda').attr('ondrop', 'drop(event)')
-    $('.celda').attr('ondragover', 'allowDrop(event)')
-}
-
-function cargarDatos() {
-    $.each(data, function( key, element ) {
-        var fi = parseInt(element.data_fi.split(' ')[1].split(':')[0])+parseFloat((element.data_fi.split(' ')[1].split(':')[1])/60);
-        var inici = parseInt(element.data_inici.split(' ')[1].split(':')[0])+parseFloat((element.data_inici.split(' ')[1].split(':')[1])/60);
-        
-        var celda = $("[dia=" + element.data_inici.split(' ')[0] + "][sala=" + element.num_sala + "]")[0].children[0].children[0]
-        var perce = Number(celda.innerText.replace('%', '')) + ((fi-inici)*100)/10;
-        celda.innerText = perce + '%'
-        celda.style.width = perce + '%'
-        celda.setAttribute('aria-valuenow', perce)
-        cambiarColorCelda(celda, perce)
-    });
-
-    cargarActores();
-    $('.celda').click(ampliarCasilla);
-}
-
-function cargarActores() {
-    var trabajadores = {};
-    console.log(actores);
-    $.each(actores, function( key, element ) {
-        if (trabajadores[element.id_actor]){
-            trabajadores[element.id_actor].takes_restantes = trabajadores[element.id_actor].takes_restantes + element.takes_restantes
-        } else {
-            trabajadores[element.id_actor] = {id_actor: element.id_actor, nombre_actor: element.nombre_actor, takes_restantes: element.takes_restantes}
-        }
-    });
-
-    console.log(trabajadores);
-    console.log("DATOs");
-    console.log(data);
-    $('#trabajadores').html('');
-    for (const key in trabajadores) {
-        if (trabajadores[key].takes_restantes > 0){
-            $('#trabajadores').append('<li id=' + trabajadores[key].id_actor + ' draggable="true" ondragstart="drag(event)">' + trabajadores[key].nombre_actor + ' - ' + trabajadores[key].takes_restantes + ' takes</li>');
-        }
-    }
-}
-
-function filtrar(){
-    var idActor = $('#filtroActor').val()
-    var idProyecto = $('#filtroEntrada').val()
-    console.log('Busca')
-    console.log(dataBase)
-    if (idActor != -1 && idProyecto != -1){
-        data = dataBase.filter(item => item.actor_estadillo.id_actor == idActor);
-        data = data.filter(item => item.actor_estadillo.estadillo.registre_produccio.registre_entrada.id_registre_entrada == idProyecto);
-    } else if (idActor != -1){
-        data = dataBase.filter(item => item.actor_estadillo.id_actor == idActor);
-    } else if (idProyecto != -1){
-        data = dataBase.filter(item => item.actor_estadillo.estadillo.registre_produccio.registre_entrada.id_registre_entrada == idProyecto);
-    } else {
-        data = dataBase
-    }
-    console.log(data)
-    refrescarCalendarioFiltrado()
-    cargarDatos()
-}
-
+//INPUTS EASY-AUTOCOMPLETE
 var optionsActor = {
     url:  rutaSearchEmpleat+"?search=Actor",
     placeholder: "Filtrar per actor",
@@ -159,6 +79,83 @@ var optionsRegistre = {
 
 $("#searchEntrada").easyAutocomplete(optionsRegistre);
 
+function crearTablaCalendario() {
+    var contenedor = $('#calendarContent')
+    for (let i = 0; i < 8; i++) {
+        var fila = $('<div class="row fila"></div>')
+        var sala = i + 1
+        for (let h = 0; h < 6; h++) {
+            if (h == 0) {
+                // Crea un div con el número de la sala:
+                fila.append('<div class="sala celda">' + sala + '</div>')
+            } else {
+                // Crea el día de la sala.
+                // Es necesario crear el atributo "dia" y "sala", para que después cuando le hagamos clic
+                // podamos coger el día y la sala de la casilla que hayamos seleccionado.
+                fila.append('<div class="col celda" dia="' + dias[h - 1] + '" sala="' + sala + '"><div class="progress barra_progreso"><div class="progress-bar barra progress-bar-striped" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div></div></div>')
+            }
+        }
+        contenedor.append(fila)
+    }
+    $('.celda').attr('ondrop', 'drop(event)')
+    $('.celda').attr('ondragover', 'allowDrop(event)')
+}
+
+function cargarDatos() {
+    $.each(data, function( key, element ) {       
+        var celda = $("[dia=" + element.data_inici.split(' ')[0] + "][sala=" + element.calendari.num_sala + "]")[0].children[0].children[0]
+        var perce = Number(celda.innerText.replace('%', '')) + ((element.num_takes)*100)/200;
+        celda.innerText = perce + '%'
+        celda.style.width = perce + '%'
+        celda.setAttribute('aria-valuenow', perce)
+        cambiarColorCelda(celda, perce)
+    });
+
+    cargarActores();
+    $('.celda').click(ampliarCasilla);
+}
+
+function cargarActores() {
+    var trabajadores = {};
+    //console.log(actores);
+    $.each(actores, function( key, element ) {
+        if (trabajadores[element.id_actor]){
+            trabajadores[element.id_actor].takes_restantes = trabajadores[element.id_actor].takes_restantes + element.takes_restantes
+        } else {
+            trabajadores[element.id_actor] = {id_actor: element.id_actor, nombre_actor: element.nombre_actor, takes_restantes: element.takes_restantes}
+        }
+    });
+
+    /*console.log(trabajadores);
+    console.log("DATOs");
+    console.log(data);*/
+    $('#trabajadores').html('');
+    for (const key in trabajadores) {
+        if (trabajadores[key].takes_restantes > 0){
+            $('#trabajadores').append('<li id=' + trabajadores[key].id_actor + ' draggable="true" ondragstart="drag(event)">' + trabajadores[key].nombre_actor + ' - ' + trabajadores[key].takes_restantes + ' takes</li>');
+        }
+    }
+}
+
+function filtrar(){
+    var idActor = $('#filtroActor').val()
+    var idProyecto = $('#filtroEntrada').val()
+    
+    if (idActor != -1 && idProyecto != -1){
+        data = dataBase.filter(item => item.actor_estadillo.id_actor == idActor);
+        data = data.filter(item => item.actor_estadillo.estadillo.registre_produccio.registre_entrada.id_registre_entrada == idProyecto);
+    } else if (idActor != -1){
+        data = dataBase.filter(item => item.actor_estadillo.id_actor == idActor);
+    } else if (idProyecto != -1){
+        data = dataBase.filter(item => item.actor_estadillo.estadillo.registre_produccio.registre_entrada.id_registre_entrada == idProyecto);
+    } else {
+        data = dataBase
+    }
+
+    refrescarCalendarioFiltrado()
+    cargarDatos()
+}
+
 ///// FUNCTIONS /////
 
 function refrescarCalendarioFiltrado(){
@@ -170,8 +167,9 @@ function guardarCelda() {
     var data_inici = celda.parentElement.parentElement.getAttribute("dia") + " " + $('#takesIni').val() + ":00";
     var data_fi = celda.parentElement.parentElement.getAttribute("dia") + " " + $('#takesFin').val() + ":00";
     var num_sala = celda.parentElement.parentElement.getAttribute("sala");
-
-    let takes = Number($('#numberTakes').val())
+    var actorEstadillo = $('#actorEstadillo').val();
+    
+    let takes = Number($('#numberTakes').val());
 
     /** Comprobación errores inputs modal **/
     var errores = false
@@ -189,14 +187,16 @@ function guardarCelda() {
         errores = true
     }
     if (errores) return
-
-    var datos = { id_actor_estadillo: persona.id_actor_estadillo, num_takes: takes, data_inici: data_inici, data_fi: data_fi, num_sala: num_sala };
+    //console.log('data');
+    //console.log(data);
+    var datos = { id_actor_estadillo: actorEstadillo, num_takes: takes, data_inici: data_inici, data_fi: data_fi, num_sala: num_sala };
     $.post('/calendari/crear', datos)
         .done(function (datosCalendari) {
+            
             data.push(datosCalendari.calendari);
 
             let valorActual = Number($(celda).attr('aria-valuenow'))
-            let takesSuma = takes + valorActual
+            let takesSuma = ((takes*100)/200) + valorActual;
             if (takes && takes > 0) {
                 $(celda).attr('aria-valuenow', takesSuma)
                 $(celda).text(takesSuma + '%')
@@ -214,18 +214,18 @@ function guardarCelda() {
             // trabajadores[persona[0]][2][$('#selectPelis').val()] = trabajadores[persona[0]][2][$('#selectPelis').val()] - takes
             var nombreActor = "";
             var idActor = 0;
-            
+
             $.each(actores, function( key, element ) {
-                if (element.id_registre_produccio == $('#selectPelis').val() && persona.id_actor == element.id_actor) {
+                if (element.id_actor_estadillo == $('#actorEstadillo').val() && persona.id_actor == element.id_actor) {
                     element.takes_restantes = element.takes_restantes-takes;
+
                     nombreActor = element.nombre_actor;
                     idActor = element.id_actor;
-                }
+                }                
             });
             cargarActores();
-            console.log(actores);
 
-            var tr = $('<tr id="' + datosCalendari.calendari.id_calendar + '-' + datosCalendari.calendari.id_actor_estadillo + '-' + datosCalendari.calendari.num_sala + '" class="dia-' + datosCalendari.calendari.data_inici.split('-')[0] + '-' + datosCalendari.calendari.num_sala + ' lista-actores"></tr>');
+            var tr = $('<tr id="' + datosCalendari.calendari.id_calendar + '-' + datosCalendari.calendari.id_actor_estadillo + '-' + datosCalendari.calendari.calendari.num_sala + '" class="dia-' + datosCalendari.calendari.data_inici.split('-')[0] + '-' + datosCalendari.calendari.calendari.num_sala + ' lista-actores"></tr>');
             var td1 = $('<td id="actor_mod-' + datosCalendari.calendari.id_calendar + '" onclick="seleccionarActorCalendario(this.id, this)"></td>');
             var td1Value = '<div><span class="horaActor">(' + datosCalendari.calendari.data_inici.split(' ')[1] + ')</span> ' + nombreActor + '</div>';
             td1.append($(td1Value));
@@ -234,13 +234,13 @@ function guardarCelda() {
             '<td>' + 
                 '<div class="btn-group btn-group-toggle" data-toggle="buttons">' + 
                     '<label class="btn btn-success">' +
-                        '<input type="radio" name="actor-' + idActor + '-' + datosCalendari.calendari.id_calendar + '" id="actor-' + idActor + '" class="actor-dia-' + datosCalendari.calendari.data_inici.split('-')[0] + '-' + datosCalendari.calendari.num_sala + '" autocomplete="off" value="1"> Present' +
+                        '<input type="radio" name="actor-' + idActor + '-' + datosCalendari.calendari.id_calendar + '" id="actor-' + idActor + '" class="actor-dia-' + datosCalendari.calendari.data_inici.split('-')[0] + '-' + datosCalendari.calendari.calendari.num_sala + '" autocomplete="off" value="1"> Present' +
                     '</label>' +
                     '<label class="btn btn-danger">' +
-                        '<input type="radio" name="actor-' + idActor + '-' + datosCalendari.calendari.id_calendar + '" id="actor-' + idActor + '" class="actor-dia-' + datosCalendari.calendari.data_inici.split('-')[0] + '-' + datosCalendari.calendari.num_sala + '" autocomplete="off" value="0"> No present' +
+                        '<input type="radio" name="actor-' + idActor + '-' + datosCalendari.calendari.id_calendar + '" id="actor-' + idActor + '" class="actor-dia-' + datosCalendari.calendari.data_inici.split('-')[0] + '-' + datosCalendari.calendari.calendari.num_sala + '" autocomplete="off" value="0"> No present' +
                     '</label>' +
                     '<label class="btn btn-secondary active">' +
-                        '<input type="radio" name="actor-' + idActor + '-' + datosCalendari.calendari.id_calendar + '" id="actor-' + idActor + '" class="actor-dia-' + datosCalendari.calendari.data_inici.split('-')[0] + '-' + datosCalendari.calendari.num_sala + '" autocomplete="off" value="null"> Pendent' +
+                        '<input type="radio" name="actor-' + idActor + '-' + datosCalendari.calendari.id_calendar + '" id="actor-' + idActor + '" class="actor-dia-' + datosCalendari.calendari.data_inici.split('-')[0] + '-' + datosCalendari.calendari.calendari.num_sala + '" autocomplete="off" value="null"> Pendent' +
                     '</label>' +
                 '</div>' +
             '</td>'
@@ -373,38 +373,21 @@ function ampliarCasilla(e) {
     // Muestra la lista en concreto con los empleado para poder "pasar lista":
     $('.dia-' + parseInt(diaSeleccionado.split('-')[0]) + '-' + salaSeleccionada).show();
 
-    // TODO: Seleccionar a los técnicos y los directorios dependiendo del día y la sala seleccionadas.
-    console.log(diaSeleccionado)
-    console.log(salaSeleccionada)
-    console.log(directoresAsignados)
+    // TODO: Seleccionar a los técnicos dependiendo del día y la sala seleccionadas.
     
-    $('#director0').val('')
-    $('#director1').val('')
     $('#tecnico0').val('')
     $('#tecnico1').val('')
     
-    $.each(directoresAsignados, function( key, element ) {
+    $.each(tecnicsAsignados, function( key, element ) {
         if (element.num_sala == salaSeleccionada && element.data==diaSeleccionado){
-            if (element.id_carrec == 2 ){ // director
-                if (element.torn == 0){ //mañana
-                    console.log('director por la mañana va')
-                    console.log(element)
-                    $('#director0').val(element.id_empleat)
-                } else if (element.torn == 1){ //tarde
-                    console.log('director por la tarde va')
-                    console.log(element)
-                    $('#director1').val(element.id_empleat)
-                }
-            } else if (element.id_carrec == 3){// técnico
-                if (element.torn == 0){ //mañana
-                    console.log('ténico por la mañana va')
-                    console.log(element)
-                    $('#tecnico0').val(element.id_empleat)
-                } else if (element.torn == 1){ //tarde
-                    console.log('técnico por la tarde va')
-                    console.log(element)
-                    $('#tecnico1').val(element.id_empleat)
-                }
+            if (element.torn == 0){ //mañana
+                console.log('ténico por la mañana va')
+                console.log(element)
+                $('#tecnico0').val(element.id_empleat)
+            } else if (element.torn == 1){ //tarde
+                console.log('técnico por la tarde va')
+                console.log(element)
+                $('#tecnico1').val(element.id_empleat)
             }
         }
     });
@@ -418,7 +401,7 @@ function ampliarCasilla(e) {
 
 $('#exampleModal').on('show.bs.modal', function (e) {
     var modal = $(this)
-    console.log(actores);
+    //console.log(actores);
     let takes = 0;
     
     $.each(actores, function( key, element ) {
@@ -433,50 +416,52 @@ $('#exampleModal').on('show.bs.modal', function (e) {
 
     takesPosibles = takes;
 
-    var data_inici = celda.parentElement.parentElement.getAttribute("dia")
+    var data_inici = celda.parentElement.parentElement.getAttribute("dia");
     var num_sala = celda.parentElement.parentElement.getAttribute("sala");
-    $('#crear-subtitulo').text('Dia: '+data_inici+' - Sala: '+num_sala)
-
-    $('#numberTakes').attr('max', takesPosibles)
-    $('#numberTakes').val('1')
-    $('#takesIni').val('')
-    $('#takesFin').val('')
-    $('#takes-celda').text('Takes per assignar a la sala: ' + restantes)
-
-    $('#selectPelis').html('')
-    $.each(actores, function( key, actor ) {
-        if (actor.id_actor == persona.id_actor) {
-            //console.log(actor.id_actor)
-            $('#selectPelis').append(new Option(actor.nombre_reg_entrada + " " + actor.nombre_reg_produccio,actor.id_registre_produccio))
-
-        }
-    });
-
-    // var select = $('#selectPelis');
-    // if (select[0].children.length == 0) {
-    //     select.html('');
-    //     for (var i = 0; i < peliculas.length; i++) {
-    //         select.append(new Option(peliculas[i].titol, peliculas[i].id));
-    //     }
-    // }
-
+    $('#crear-subtitulo').text('Dia: '+data_inici+' - Sala: '+num_sala);
+    $("#selectPelis").val('');
+    $('#numberTakes').attr('max', takesPosibles);
+    $('#numberTakes').val('1');
+    $('#takesIni').val('');
+    $('#takesFin').val('');
+    $('#takes-celda').text('Takes per assignar a la sala: ' + restantes);
+    $('#takes-celda').attr('class', 'mb-0');
     
+    var options = {
+        data: actores,
+        placeholder: "Selecciona un registre",
+        getValue: "nombre_reg_complet",
 
+        list: {
+                match: {
+                    enabled: true
+                }, onChooseEvent: function() {
+                    var selectedPost = $("#selectPelis").getSelectedItemData();
+                    $('#numberTakes').attr('max', selectedPost.takes_restantes);
+                    $('#numberTakes').val(selectedPost.takes_restantes);
+                    $('#actorEstadillo').val(selectedPost.id_actor_estadillo);
+                }, onHideListEvent: function() {
+                    if ($("#selectPelis").val() == ''){
+                        $("#actorEstadillo").val('-1');
+                    }
+                }
+        },
+
+        template: {
+                type: "custom",
+                method: function(value, item) {
+                    if (item.id_actor == persona.id_actor && item.takes_restantes > 0) {
+                        return value;
+                    }  
+                }
+        },
+    };
+
+    $("#selectPelis").easyAutocomplete(options);
+    var parentSearch = $('#selectPelis').parent().css({"width": "100%"});
 });
 
-function inicializarSelectPeliculas() {
-    // Inicializa el select de películas en caso de que esté vacío.
-    var select = $('#selectPelis-editar');
-    if (select[0].children.length == 0) {
-        for (var i = 0; i < peliculas.length; i++) {
-            select.append(new Option(peliculas[i].titol, peliculas[i].id));
-        }
-    }
-}
-
 $('#exampleModal2').on('shown.bs.modal', function () {
-    inicializarSelectPeliculas();
-
     // Volvemos a llamar a esta función para volver a crear la tabla del modal, básicamente
     // para que cuando cambiemos de día no se visualice el contenido anterior.
     tablaHoras();
@@ -486,12 +471,22 @@ $('#exampleModal2').on('shown.bs.modal', function () {
     $('#exampleModalLabel2').text('Sala: ' + salaSeleccionada + ' / Dia: ' + diaSeleccionado)
 });
 
+$('#exampleModal2').on('hide.bs.modal', function () {
+    $('#selectPelis-editar').attr('readonly');
+    $('#selectPelis-editar').val('');
+    $('#actorEstadillo-editar').val(-1);
+    $('#numberTakes-editar').val('');
+    $('#takesIni-editar').val('');
+    $('#takesFin-editar').val('');
+});
+
 function pintarTablaHoras() {
     $.each(data, function( key, element ) {
+        //console.log(element);
         var ele_dia = element.data_inici.split(' ');
 
         // Si el día y la sala son los mismos que los seleccionados pintará la tabla:
-        if (ele_dia[0] == diaSeleccionado && element.num_sala == salaSeleccionada) {
+        if (ele_dia[0] == diaSeleccionado && element.calendari.num_sala == salaSeleccionada) {
             var optimizarEsBueno = element.data_fi.split(' ');  // ¿A veces?
 
             var horaIni = ele_dia[1].split(':')[0]
@@ -501,16 +496,18 @@ function pintarTablaHoras() {
 
             for (let i = horaIni; i <= horaFin; i++) {
                 if (i == horaFin) {
+                    //console.log(pad(i));
                     for (let h = 0; h < minFin; h++) {
-                        pintar($('#td_' + i + '-' + pad(h)))
+                        //console.log(h);
+                        pintar($('#td_' + pad(i) + '-' + pad(h)));
                     }
                 } else if (i == horaIni) {
                     for (let h = minIni; h < 60; h++) {
-                        pintar($('#td_' + i + '-' + pad(h)))
+                        pintar($('#td_' + i + '-' + pad(h)));
                     }
                 } else {
                     for (let h = 0; h < 60; h++) {
-                        pintar($('#td_' + pad(i) + '-' + pad(h)))
+                        pintar($('#td_' + pad(i) + '-' + pad(h)));
                     }
                 }
             }
@@ -636,33 +633,7 @@ function pintar(elemento) {
 }
 
 
-///// CAMBIAR TÉCNICO Y DIRECTOR /////
-function cambiarDirector(torn) {
-    $.ajax({
-        url: '/calendari/cambiarCargo',
-        type: 'POST',
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-            Accept: 'application/json'
-        },
-        data: {
-            'id_empleat': $('#director' + torn).val(),  // Ej: director0, director1
-            'data': diaSeleccionado,
-            'sala': salaSeleccionada,
-            'cargo': 'Director',
-            'torn': torn
-        },
-        success: function (response) {
-            console.log(response);
-            // TODO: Poner el id_empleado nuevo en el array, para que cuando se vuelva a abrir esté ya cambiado.
-        },
-        error: function (error) {
-            console.error(error);
-            alert("No s'ha pogut canviar el director :(");
-        }
-    });
-}
-
+///// CAMBIAR TÉCNICO /////
 function cambiarTecnico(torn) {
     $.ajax({
         url: '/calendari/cambiarCargo',
@@ -778,14 +749,50 @@ function seleccionarActorCalendario(id, elemento) {
                 id: calendarioActorSeleccionado_id
             },
             success: function (response) {
-                console.log(response);
+                //console.log(response);
                 calendarioActor = response;
+                //readonly
+                $('#selectPelis-editar').removeAttr('readonly');
+                $('#selectPelis-editar').val(response.calendar.actor_estadillo.estadillo.registre_produccio.referencia_titol);
+                $('#actorEstadillo-editar').val(response.calendar.id_actor_estadillo);
                 $('#numberTakes-editar').val(response.calendar.num_takes);
                 $('#takesIni-editar').val(response.calendar.data_inici.split(' ')[1]);
                 $('#takesFin-editar').val(response.calendar.data_fi.split(' ')[1]);
                 
-                $('#selectPelis-editar').val(response.peliculas.id);
-                console.log(response.peliculas.id);
+                var options = {
+                    data: actores,
+                    placeholder: "Selecciona un registre",
+                    getValue: "nombre_reg_complet",
+
+                    list: {
+                            match: {
+                                enabled: true
+                            }, onChooseEvent: function() {
+                                var selectedPost = $("#selectPelis-editar").getSelectedItemData();
+                                $('#numberTakes-editar').attr('max', selectedPost.takes_restantes);
+                                $('#numberTakes-editar').val(selectedPost.takes_restantes);
+                                $('#actorEstadillo-editar').val(selectedPost.id_actor_estadillo);
+                            }, onHideListEvent: function() {
+                                if ($("#selectPelis-editar").val() == ''){
+                                    $("#actorEstadillo-editar").val('-1');
+                                }
+                            }
+                    },
+
+                    template: {
+                            type: "custom",
+                            method: function(value, item) {
+                                if (item.id_actor == response.calendar.actor_estadillo.id_actor && item.takes_restantes > 0) {
+                                    return value;
+                                }  
+                            }
+                    },
+                    
+                    theme: "bootstrap"
+                };
+
+                $("#selectPelis-editar").easyAutocomplete(options);
+                //var parentSearch = $('#selectPelis-editar').parent().css({"width": "100%"});
             },
             error: function (error) {
                 console.error(error);
@@ -794,6 +801,22 @@ function seleccionarActorCalendario(id, elemento) {
         });
     }
 }
+
+var options = {
+    url: rutaSearchProduccio,
+    placeholder: "Selecciona un registre",
+    getValue: "referencia_titol",
+
+    list: {
+            match: {
+                enabled: true
+            }
+    },
+
+};
+
+$("#selectPelis-editar").easyAutocomplete(options);
+
 
 function editarActor() {
     $.ajax({

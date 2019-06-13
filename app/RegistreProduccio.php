@@ -43,6 +43,17 @@ class RegistreProduccio extends Model
         'estat'
     ];
        
+    protected $appends = ['referencia_titol'];
+    
+    public function getReferenciaTitolAttribute() {
+        if ($this->subreferencia == 0){
+            return $this->id_registre_entrada.' '.$this->titol;
+        } else {
+            return $this->id_registre_entrada.' '.$this->titol.' '.$this->subreferencia;
+        }
+        
+    } 
+    
     public function getEstadillo()
     {
         return $this->belongsTo('App\Estadillo', 'id', 'id_registre_produccio');

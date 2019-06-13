@@ -18,7 +18,7 @@
                 <input id="searchEntrada" class="form-control"/>
                 <input id="filtroEntrada" class="form-control" type="hidden" value="-1">
                 <div class="semana"><div id="semanaMenos" class="btn btn-primary round-left"><span class="fas fa-angle-double-left"></span></div><span class="simil-btn btn">Setmana {{$week}}</span><div id="semanaMas" class="btn btn-primary round-right"><span class="fas fa-angle-double-right"></span></div></div>
-                <button id="btnAdd" class="btn btn-success boton" onclick="openNav()">Afegir</button>
+                <button id="btnAdd" class="btn btn-success boton" onclick="openNav()">AFEGIR</button>
              </div>
         </div>
         <div class="row">
@@ -47,13 +47,13 @@
                         <div style="clear:both"></div>
                         <h6 id="crear-subtitulo">Sub Title</h6>
                     </div>
-
                 </div>
                 <div class="modal-body">
                     <p id="takes-celda"></p>
                     <label for="selectPelis"></label>
-                    <select id="selectPelis"></select><br/><br/>
-                    <label for="numberTakes">Takes a realitzar:</label>
+                    <input required id="selectPelis" class="form-control"/>
+                    <input id="actorEstadillo" class="form-control" type="hidden" value="-1">
+                    <label for="numberTakes" class="mt-3">Takes a realitzar:</label>
                     <input required id="numberTakes" type="number" min="1"><br/><br/>
                     <label for="takesIni">Hora d'inici:</label>
                     <input required id="takesIni" type="time">
@@ -83,13 +83,10 @@
 
                     </div>
                     <div style="margin-top: 30px;">
-                        {{-- TODO: Modificar la función para guardar el director y el técnico (front, back) para que admita los turnos. --}}
+                        {{-- TODO: Modificar la función para guardar el técnico (front, back) para que admita los turnos. --}}
                         <table style="width: 50%;">
                             <thead>
                                 <td></td>
-                                <td>
-                                    Director
-                                </td>
                                 <td>
                                     Técnic
                                 </td>
@@ -98,18 +95,6 @@
                                 <tr>
                                     <td>
                                         Torn matí
-                                    </td>
-                                    <td>
-                                        <form action="" method="POST" style="margin-left: 5px;">
-                                            {{-- TODO: Falta pasarle el turno a la función. --}}
-                                            <select id="director0" class="form-control" name="director" onchange="cambiarDirector(0)">
-                                                <option value="" selected="true" disabled="disabled">Sel·leccioni director</option>
-                                                @foreach($directors as $key => $director)
-                                                    {{-- TODO: Falta hacer la condición para seleccionar el director seleccionado. --}}
-                                                    <option value="{{$director['id_empleat']}}" {{--(algo) ? 'selected' : ''--}} >{{$director['nom_empleat']}} {{ $director['cognom1_empleat'] }} {{ $director['cognom2_empleat'] }}</option>
-                                                @endforeach
-                                            </select>
-                                        </form>
                                     </td>
                                     <td>
                                         <form action="" method="POST" style="margin-left: 5px;">
@@ -132,18 +117,6 @@
                                     <td>
                                         <form action="" method="POST" style="margin-left: 5px;">
                                             {{-- TODO: Falta pasarle el turno a la función. --}}
-                                            <select id="director1" class="form-control" name="director" onchange="cambiarDirector(1)">
-                                                <option value="" selected="true" disabled="disabled">Sel·leccioni director</option>
-                                                @foreach($directors as $key => $director)
-                                                    {{-- TODO: Falta hacer la condición para seleccionar el director seleccionado. --}}
-                                                    <option value="{{$director['id_empleat']}}" {{--(algo) ? 'selected' : ''--}} >{{$director['nom_empleat']}} {{ $director['cognom1_empleat'] }} {{ $director['cognom2_empleat'] }}</option>
-                                                @endforeach
-                                            </select>
-                                        </form>
-                                    </td>
-                                    <td>
-                                        <form action="" method="POST" style="margin-left: 5px;">
-                                            {{-- TODO: Falta pasarle el turno a la función. --}}
                                             <select id="tecnico1" class="form-control" name="tecnic" onchange="cambiarTecnico(1)">
                                                 <option value="" selected="true" disabled="disabled">Sel·leccioni tècnic</option>
                                                 @foreach($tecnics as $key => $tecnic)
@@ -159,7 +132,7 @@
 
                         <div class="row">
                             <form id="pasarLista" action="" method="POST" style="margin-top: 15px;" class="col">
-                                <div style="background-color: whitesmoke; height: 150px; overflow-y: scroll;">
+                                <div style="background-color: whitesmoke; height: 200px; overflow-y: scroll;">
                                     <table class="table" style="width: 100%; margin-top: 30px;">
                                         <tbody id="pasarLista-tabla">
                                             @foreach($actoresPorDia as $key => $dia)
@@ -184,7 +157,6 @@
                                                     </tr>
                                                 @endforeach
                                             @endforeach
-
                                         </tbody>
                                     </table>
                                 </div>
@@ -197,8 +169,9 @@
                                 <form action="" method="POST">
                                     <div>
                                         <p id="takes-celda-editar"></p>
-                                        <label for="selectPelis-editar"></label>
-                                        <select id="selectPelis-editar"></select><br/><br/>
+                                        <label for="selectPelis"></label>
+                                        <input required id="selectPelis-editar" readonly/>
+                                        <input id="actorEstadillo-editar" class="form-control" type="hidden" value="-1"><br/><br/>
                                         <label for="numberTakes-editar">Takes a realizar:</label>
                                         <input id="numberTakes-editar" type="number" min="1"><br/><br/>
                                         <label for="takesIni-editar">Hora de inicio:</label>
@@ -228,9 +201,10 @@
     var data = <?php echo $data ?>;
     var actores = <?php echo $actores ?>;
     var dataBase = data;   
-    var directoresAsignados = <?php echo json_encode($directoresAsignados) ?>;
+    var tecnicsAsignados = <?php echo json_encode($tecnicsAsignados) ?>;
     var rutaSearchEmpleat = "{{route('empleatSearch')}}";
     var rutaSearchEntrada = "{{route('registreEntradaSearch')}}";
+    var rutaSearchProduccio = "{{route('registreProduccioSearch')}}";
 </script>
 <script type="text/javascript" src="{{ URL::asset('js/custom/calendar.js') }}"></script>
 <link rel="stylesheet" href="{{ URL::asset('css/calendar.css') }}" />
