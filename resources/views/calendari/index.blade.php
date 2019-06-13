@@ -13,9 +13,9 @@
     <div id="contenedor" class="container-fluid contenedor">
         <div class="row encabezado mb-4">
             <div class="input-group">
-                <input id="searchActor" class="form-control"/>
+                <input id="searchActor" class="form-control" style="width: 300px;"/>
                 <input id="filtroActor" class="form-control" type="hidden" value="-1">
-                <input id="searchEntrada" class="form-control"/>
+                <input id="searchEntrada" class="form-control" style="width: 300px;"/>
                 <input id="filtroEntrada" class="form-control" type="hidden" value="-1">
                 <div class="semana"><div id="semanaMenos" class="btn btn-primary round-left"><span class="fas fa-angle-double-left"></span></div><span class="simil-btn btn">Setmana {{$week}}</span><div id="semanaMas" class="btn btn-primary round-right"><span class="fas fa-angle-double-right"></span></div></div>
                 <button id="btnAdd" class="btn btn-success boton" onclick="openNav()">AFEGIR</button>
