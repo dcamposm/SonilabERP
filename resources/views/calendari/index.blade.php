@@ -18,7 +18,7 @@
                 <input id="searchEntrada" class="form-control" style="width: 300px;"/>
                 <input id="filtroEntrada" class="form-control" type="hidden" value="-1">
                 <div class="semana"><div id="semanaMenos" class="btn btn-primary round-left"><span class="fas fa-angle-double-left"></span></div><span class="simil-btn btn">Setmana {{$week}}</span><div id="semanaMas" class="btn btn-primary round-right"><span class="fas fa-angle-double-right"></span></div></div>
-                <button id="btnAdd" class="btn btn-success boton" onclick="openNav()">AFEGIR</button>
+                <button id="btnAdd" class="btn btn-success boton"  type="button" onclick="openNav()">AFEGIR</button>
              </div>
         </div>
         <div class="row">
@@ -69,8 +69,8 @@
     </div>
 
     <div style="overflow: hidden;" class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div id="dialog" class="modal-dialog" role="document">
-            <div class="modal-content" style="width: 100%; height: 100%;">
+        <div id="dialog" class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content" style="width: 100%; height: 900px;">
                 <div class="modal-header" style="display: flex; align-items: center;">
                     <input type="hidden" id="">
                     <h5 class="modal-title" id="exampleModalLabel2">Modal title</h5>
@@ -131,9 +131,9 @@
                         </table>
 
                         <div class="row">
-                            <form id="pasarLista" action="" method="POST" style="margin-top: 15px;" class="col">
-                                <div style="background-color: whitesmoke; height: 200px; overflow-y: scroll;">
-                                    <table class="table" style="width: 100%; margin-top: 30px;">
+                            <form id="pasarLista" action="" method="POST" class="col mt-4">
+                                <div style="background-color: whitesmoke; overflow-y: scroll;">
+                                    <table class="table" style="width: 100%; height: 200px; margin-top: 30px;">
                                         <tbody id="pasarLista-tabla">
                                             @foreach($actoresPorDia as $key => $dia)
                                                 @foreach($dia as $key2 => $actor)
@@ -161,7 +161,7 @@
                                     </table>
                                 </div>
                                 <div style="margin-top: 15px;">
-                                    <button id="enviarListaAsistencia" class="btn btn-success">Desar llista</button>
+                                    <button id="enviarListaAsistencia" type="button" class="btn btn-success">Desar llista</button>
                                 </div>
                             </form>
 
@@ -179,10 +179,10 @@
                                         <label for="takesFin-editar">Hora final:</label>
                                         <input id="takesFin-editar" type="time">
                                     </div>
-                                    <div>
+                                    <div class="mt-5">
                                         <!-- TODO: Crear estas dos funciones en el fichero js -->
-                                        <button class="btn btn-primary" onclick="editarActor()">Modificar</button>
-                                        <button class="btn btn-danger" onclick="eliminarCalendarioActor()">Eliminar</button>
+                                        <button class="btn btn-primary" type="button" onclick="editarActor()">Modificar</button>
+                                        <button class="btn btn-danger"  type="button" onclick="eliminarCalendarioActor()">Eliminar</button>
                                     </div>
                                 </form>
                             </div>
