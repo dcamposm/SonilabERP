@@ -149,7 +149,7 @@ Route::middleware(['role: 1,2,3,4'])->group(function () {
 
     Route::get('/calendari/crear', 'CalendariController@createCalendari')->name('createCalendari');
     Route::post('/calendari/crear', 'CalendariController@create')->name('createCalendari');
-    Route::put('/calendari/editar/{id}', "CalendariController@update")->name('updateCalendari');
+    Route::post('/calendari/editar/{id}', "CalendariController@update")->name('updateCalendari');
     Route::post('/calendari/esborrar/{id}', 'CalendariController@delete')->name('deleteCalendari');
 
     Route::post('/calendari/cambiarCargo', 'CalendariController@cambiarCargo')->name('cambiarCargoCalendari');

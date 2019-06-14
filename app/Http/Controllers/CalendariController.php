@@ -123,7 +123,7 @@ class CalendariController extends Controller
         }
         //return response()->json($actoresPorDia);
         $tecnicsAsignados = CalendarCarrec::where('data', '>=', $dia1)->where('data', '<=', $dia5)->get();
-        
+        //return response()->json($tecnicsAsignados);
         return View('calendari.index', ["fechas"    => $fechas, 
                                         "week"      => $week,
                                         "year"      => $year,
@@ -162,12 +162,7 @@ class CalendariController extends Controller
         $calendariCarrec->save();
 
         // Retornamos el resultado para indicar que todo ha ido OK:
-        return response()->json([
-            $data,
-            $sala,
-            $id_empleat,
-            $torn
-        ]);
+        return response()->json($calendariCarrec);
     }
 
     public function desarLlistaAsistencia() {
@@ -250,8 +245,6 @@ class CalendariController extends Controller
 
     public function update($id){
         $calendari = Calendar::findOrFail($id);
-        // return response()->json(request()->get('data_inici_h'));
-
         // NOTE: Hay que hacer que el data_inici y el date_fi se le asigne las horas y los minutos que le lleguen
         //       del frontend.
 
@@ -280,23 +273,33 @@ class CalendariController extends Controller
             return redirect()->back()->withErrors($v)->withInput();
         }
         else {
+            if (strtotime($valores['data_inici']) < strtotime( date('Y-m-d', strtotime($valores['data_inici']))." 13:30:01")){
+                $torn = 0;
+            } else {
+                $torn = 1;
+            }
+            
+            $calendariCarrec = CalendarCarrec::where('num_sala', $valores['num_sala'])
+                                                ->where('data', date('Y-m-d', strtotime($valores['data_inici'])))
+                                                ->where('torn', $torn)->first();
+            
+            if (!$calendariCarrec){
+                $calendariCarrec = new CalendarCarrec($requestData);
+                $calendariCarrec->data = $requestData['data_inici']->format('Y-m-d');
+                $calendariCarrec->torn = $torn;
+                
+                $calendariCarrec->save();
+            }
+            
+            $actorEstadillo = ActorEstadillo::find($valores['id_actor_estadillo']);
             //return response()->json(request()->all());
             // Datos correctos.
             $calendari->fill($valores);  
+            $calendari->id_calendar_carrec = $calendariCarrec->id_calendar_carrec;
+            $calendari->id_director = $actorEstadillo->estadillo->registreProduccio->id_director;
             $calendari->save();
-
-            // Guardamos el identificador de la película:
-            $this->updateProduccion(request()->get('id_actor_estadillo'), request()->get('id_produccio'));
-
+            
             return response()->json("Tot Ok!");
-        }
-    }
-
-    private function updateProduccion($id_actor_estadillo, $id_produccio) {
-        $actorEstadillo = ActorEstadillo::find($id_actor_estadillo);
-        if (empty($actorEstadillo) == false) {
-            $actorEstadillo->id_produccio = $id_produccio;
-            $actorEstadillo->save();
         }
     }
 
@@ -362,7 +365,9 @@ class CalendariController extends Controller
     }
 
     public function cogerCalendarioActor() {
-        $calendar = Calendar::with('actorEstadillo.estadillo.registreProduccio')->find(request()->get('id'));
+        $calendar = Calendar::with('actorEstadillo.estadillo.registreProduccio')
+                ->with('calendari')
+                ->find(request()->get('id'));
 
         return response()->json(array(
             'calendar'  => $calendar
