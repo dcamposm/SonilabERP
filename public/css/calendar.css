@@ -1,3 +1,7 @@
+input[type="checkbox"][readonly] {
+  pointer-events: none;
+}
+
 body, html, main{
     height: 100% !important;
 }

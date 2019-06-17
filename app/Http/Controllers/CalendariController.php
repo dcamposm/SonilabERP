@@ -56,14 +56,14 @@ class CalendariController extends Controller
                                                     'slb_actors_estadillo.take_estadillo as takes_restantes',
                                                     'slb_actors_estadillo.id_actor',
                                                     'slb_actors_estadillo.id_produccio',
+                                                    'slb_actors_estadillo.narracio_estadillo',
+                                                    'slb_actors_estadillo.canso_estadillo',
                                                     'slb_estadillo.id_registre_produccio')
                                             ->join('slb_estadillo', 'slb_estadillo.id_estadillo', '=', 'slb_actors_estadillo.id_produccio')
                                             ->join('slb_registres_produccio', 'slb_registres_produccio.id', '=', 'slb_estadillo.id_registre_produccio')
                                             ->distinct()->where('slb_registres_produccio.estat', '=', 'Pendent')
-                                            ->get();                          
-                  //$estadillo = \App\Estadillo::with('actors')->get();
-        //return response()->json($takes_restantes);
-
+                                            ->with('calendar')->get();                          
+        
         foreach ($takes_restantes as $key => $value) {
             if ($value->estadillo != null) {
                 if ($value->estadillo->registreProduccio != null){
@@ -74,8 +74,16 @@ class CalendariController extends Controller
                     $value->nombre_reg_entrada = $entrada->referencia_titol;
                     $value->nombre_reg_produccio = $produccio->subreferencia != 0 ? $produccio->subreferencia : '';
                     $value->nombre_reg_complet = $value->nombre_reg_entrada.' '.$value->nombre_reg_produccio;
-                    if ($value->calendar != null){
-                        $value->takes_restantes = $value->takes_restantes - $value->calendar->num_takes;
+                    if ( isset($value->calendar[0]) ){
+                        foreach($value->calendar as $calendar) {
+                            $value->takes_restantes = $value->takes_restantes - $calendar->num_takes;
+                            if ($value->canso_estadillo == $calendar->canso_calendar){
+                                $value->canso_estadillo = 0;
+                            }
+                            if ($value->narracio_estadillo == $calendar->narracio_calendar) {
+                                $value->narracio_estadillo = 0;
+                            }  
+                        }
                     } 
                 } else {
                     unset($takes_restantes[$key]);
@@ -121,9 +129,9 @@ class CalendariController extends Controller
                     
             array_push($actoresPorDia, $act_dia);
         }
-        //return response()->json($actoresPorDia);
+
         $tecnicsAsignados = CalendarCarrec::where('data', '>=', $dia1)->where('data', '<=', $dia5)->get();
-        //return response()->json($tecnicsAsignados);
+
         return View('calendari.index', ["fechas"    => $fechas, 
                                         "week"      => $week,
                                         "year"      => $year,
@@ -147,7 +155,7 @@ class CalendariController extends Controller
         $calendariCarrec = CalendarCarrec::where('data', '=', $data)
                                            ->where('torn', '=', $torn)
                                            ->first();
-        if (empty($calendariCarrec) == true) {
+        if (!$calendariCarrec) {
             // Si no existe entonces creamos el objeto.
             $calendariCarrec = new CalendarCarrec;
         }
@@ -255,7 +263,9 @@ class CalendariController extends Controller
             'num_takes'          => request()->get('num_takes'),
             'data_inici'         => $data_inici,
             'data_fi'            => $data_fi,
-            'num_sala'           => request()->get('num_sala')
+            'num_sala'           => request()->get('num_sala'),
+            'canso_calendar'     => request()->get('canso_calendar'),
+            'narracio_calendar'     => request()->get('narracio_calendar')
         );
         //return response()->json($valores);
 
