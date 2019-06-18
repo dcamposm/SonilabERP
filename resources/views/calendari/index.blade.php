@@ -120,7 +120,7 @@
                                         Torn matí
                                     </td>
                                     <td>
-                                        <form action="" method="POST" style="margin-left: 5px;">
+                                        <form action="" method="POST">
                                             {{-- TODO: Falta pasarle el turno a la función. --}}
                                             <select id="tecnico0" class="form-control" name="tecnic" onchange="cambiarTecnico(0)">
                                                 <option value="" selected="true" disabled="disabled">Sel·leccioni tècnic</option>
@@ -138,7 +138,7 @@
                                         Torn tarda
                                     </td>
                                     <td>
-                                        <form action="" method="POST" style="margin-left: 5px;">
+                                        <form action="" method="POST">
                                             {{-- TODO: Falta pasarle el turno a la función. --}}
                                             <select id="tecnico1" class="form-control" name="tecnic" onchange="cambiarTecnico(1)">
                                                 <option value="" selected="true" disabled="disabled">Sel·leccioni tècnic</option>
@@ -154,7 +154,7 @@
                         </table>
 
                         <div class="row">
-                            <form id="pasarLista" action="" method="POST" class="col mt-4">
+                            <form id="pasarLista" action="" method="POST" class="col-8 mt-4">
                                 <div style="background-color: whitesmoke; overflow-y: scroll;">
                                     <table class="table" style="width: 100%; height: 250px; margin-top: 30px;">
                                         <tbody id="pasarLista-tabla">
@@ -162,7 +162,15 @@
                                                 @foreach($dia as $key2 => $actor)
                                                     <tr id="{{$actor->id_calendar}}-{{$actor->id_actor_estadillo}}-{{$actor->num_sala}}" class="dia-{{$actor->dia}}-{{$actor->num_sala}} lista-actores">
                                                         <td id="actor_mod-{{ $actor->id_calendar }}" onclick="seleccionarActorCalendario(this.id, this)">
-                                                            <span class="horaActor">{{'('.$actor->hora.':'.$actor->minuts.')'}}</span> {{$actor->nom_empleat}} {{$actor->cognom1_empleat}} {{$actor->cognom2_empleat}}
+                                                            @if ($actor->id_director == 0)
+                                                                <span class="horaActor">{{'('.$actor->hora.':'.$actor->minuts.')'}}</span> {{$actor->nom_cognom}} 
+                                                            @else
+                                                                @foreach($directors as $director)
+                                                                    @if ($actor->id_director == $director->id_empleat)
+                                                                        <span class="horaActor">{{'('.$actor->hora.':'.$actor->minuts.')'}}</span> {{$actor->nom_cognom}} - {{$director->nom_cognom}}
+                                                                    @endif
+                                                                @endforeach
+                                                            @endif
                                                         </td>
                                                         <td>
                                                             <div class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -188,7 +196,7 @@
                                 </div>
                             </form>
 
-                            <div class="col container">
+                            <div class="col-4 container">
                                 <form action="" method="POST">
                                     <div>
                                         
