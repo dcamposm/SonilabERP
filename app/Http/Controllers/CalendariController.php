@@ -20,13 +20,18 @@ use App\RegistreEntrada;
 class CalendariController extends Controller
 {
     public function showCalendari($year = null, $week = null){
-
+        $meses = array("Gener","Febrer","Març","Abril","Maig","Juny","Juliol","Agost","Setembre","Octubre","Novembre","Decembre");
         $fecha = Carbon::now();
+        //return response()->json($fecha->month);
         if ($week == null || $year == null){
             $week = $fecha->weekOfYear;
             $year = $fecha->year;
+            $mes = $meses[($fecha->format('n')) - 1];
+            //return response()->json($mes);
         } else {
             $fecha->setISODate($year, $week);
+            $mes = $meses[($fecha->format('n')) - 1];
+            //return response()->json($mes);
         }
         $dia1 = $fecha->startOfWeek();
         $dia2 = $dia1->copy()->addDay();
@@ -117,7 +122,8 @@ class CalendariController extends Controller
                                              DB::raw('LPAD(HOUR(slb_calendars.data_inici), 2, 0) as hora'),
                                              DB::raw('LPAD(MINUTE(slb_calendars.data_inici), 2, 0) as minuts'),
                                              'slb_actors_estadillo.id as id_actor_estadillo',
-                                             'slb_calendars.id_calendar as id_calendar')
+                                             'slb_calendars.id_calendar as id_calendar',
+                                             'slb_calendars.asistencia')
                                     ->join('slb_actors_estadillo', 'slb_actors_estadillo.id_actor', '=', 'slb_empleats_externs.id_empleat')
                                     ->join('slb_calendars', 'slb_calendars.id_actor_estadillo', '=', 'slb_actors_estadillo.id')
                                     ->join('slb_calendar_carrecs', 'slb_calendar_carrecs.id_calendar_carrec', '=', 'slb_calendars.id_calendar_carrec')
@@ -129,12 +135,13 @@ class CalendariController extends Controller
                     
             array_push($actoresPorDia, $act_dia);
         }
-
+        //return response()->json($actoresPorDia);
         $tecnicsAsignados = CalendarCarrec::where('data', '>=', $dia1)->where('data', '<=', $dia5)->get();
 
         return View('calendari.index', ["fechas"    => $fechas, 
                                         "week"      => $week,
                                         "year"      => $year,
+                                        "mes"       => $mes,
                                         "urlBase"   => $urlBase,
                                         "actores"   => $actores,
                                         "tecnics"   => $tecnics,

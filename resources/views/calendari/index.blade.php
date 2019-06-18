@@ -17,7 +17,7 @@
                 <input id="filtroActor" class="form-control" type="hidden" value="-1">
                 <input id="searchEntrada" class="form-control" style="width: 300px;"/>
                 <input id="filtroEntrada" class="form-control" type="hidden" value="-1">
-                <div class="semana"><div id="semanaMenos" class="btn btn-primary round-left"><span class="fas fa-angle-double-left"></span></div><span class="simil-btn btn">Setmana {{$week}}</span><div id="semanaMas" class="btn btn-primary round-right"><span class="fas fa-angle-double-right"></span></div></div>
+                <div class="semana"><div id="semanaMenos" class="btn btn-primary round-left"><span class="fas fa-angle-double-left"></span></div><span class="simil-btn btn">{{$mes}}</span><div id="semanaMas" class="btn btn-primary round-right"><span class="fas fa-angle-double-right"></span></div></div>
                 <button id="btnAdd" class="btn btn-success boton"  type="button" onclick="openNav()">AFEGIR</button>
              </div>
         </div>
@@ -166,14 +166,14 @@
                                                         </td>
                                                         <td>
                                                             <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                                                <label class="btn btn-success">
-                                                                    <input type="radio" name="actor-{{ $actor->id_empleat }}-{{$actor->id_calendar}}" id="actor-{{ $actor->id_empleat }}" class="actor-dia-{{$actor->dia}}-{{$actor->num_sala}}" autocomplete="off" value="1"> Present
+                                                                <label class="btn btn-success {{ $actor->asistencia == 1 ? 'active' : '' }}">
+                                                                    <input type="radio" name="actor-{{ $actor->id_empleat }}-{{$actor->id_calendar}}" id="actor-{{ $actor->id_empleat }}" class="actor-dia-{{$actor->dia}}-{{$actor->num_sala}}" autocomplete="off" value="1" {{ $actor->asistencia == 1 ? 'checked' : '' }}> Present
                                                                 </label>
-                                                                <label class="btn btn-danger">
-                                                                    <input type="radio" name="actor-{{ $actor->id_empleat }}-{{$actor->id_calendar}}" id="actor-{{ $actor->id_empleat }}" class="actor-dia-{{$actor->dia}}-{{$actor->num_sala}}" autocomplete="off" value="0"> No present
+                                                                <label class="btn btn-danger {{ $actor->asistencia == 0 ? 'active' : '' }}">
+                                                                    <input type="radio" name="actor-{{ $actor->id_empleat }}-{{$actor->id_calendar}}" id="actor-{{ $actor->id_empleat }}" class="actor-dia-{{$actor->dia}}-{{$actor->num_sala}}" autocomplete="off" value="0" {{ $actor->asistencia == 0 ? 'checked' : '' }}> No present
                                                                 </label>
-                                                                <label class="btn btn-secondary active">
-                                                                    <input type="radio" name="actor-{{ $actor->id_empleat }}-{{$actor->id_calendar}}" id="actor-{{ $actor->id_empleat }}" class="actor-dia-{{$actor->dia}}-{{$actor->num_sala}}" autocomplete="off" value="null" checked> Pendent
+                                                                <label class="btn btn-secondary {{ $actor->asistencia == null ? 'active' : '' }}">
+                                                                    <input type="radio" name="actor-{{ $actor->id_empleat }}-{{$actor->id_calendar}}" id="actor-{{ $actor->id_empleat }}" class="actor-dia-{{$actor->dia}}-{{$actor->num_sala}}" autocomplete="off" value="null" {{ $actor->asistencia == null ? 'checked' : '' }}> Pendent
                                                                 </label>
                                                             </div>
                                                         </td>
