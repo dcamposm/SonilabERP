@@ -1,20 +1,20 @@
 /////  INIT  /////
 
 $('#semanaMenos').on('click', function () {
-    changeCalendar(0)
-})
+    changeCalendar(0);
+});
 $('#semanaMas').on('click', function () {
-    changeCalendar(1)
-})
+    changeCalendar(1);
+});
 
-$('#btnGuardar').click(guardarCelda)
+$('#btnGuardar').click(guardarCelda);
 
 crearTablaCalendario();
 tablaHoras();
 cargarDatos();
 
-var persona = undefined
-var takesPosibles = undefined
+var persona = undefined;
+var takesPosibles = undefined;
 
 //INPUTS EASY-AUTOCOMPLETE
 var optionsActor = {
@@ -140,8 +140,9 @@ function filtrar(){
     
     if (idActor != -1 && idProyecto != -1){
         data = dataBase.filter(item => item.actor_estadillo.id_actor == idActor);
-        data = data.filter(item => item.actor_estadillo.estadillo.registre_produccio.registre_entrada.id_registre_entrada == idProyecto);
+        data = dataBase.filter(item => item.actor_estadillo.estadillo.registre_produccio.registre_entrada.id_registre_entrada == idProyecto);
     } else if (idActor != -1){
+        console.log(data);
         data = dataBase.filter(item => item.actor_estadillo.id_actor == idActor);
     } else if (idProyecto != -1){
         data = dataBase.filter(item => item.actor_estadillo.estadillo.registre_produccio.registre_entrada.id_registre_entrada == idProyecto);
@@ -200,14 +201,17 @@ function guardarCelda() {
     $.post('/calendari/crear', datos)
         .done(function (datosCalendari) {
             
-            data.push(datosCalendari.calendari);
-
+            console.log(datosCalendari.calendari);
+            
+            //data.push(datosCalendari.calendari);
+            dataBase.push(datosCalendari.calendari);
+            
             let valorActual = Number($(celda).attr('aria-valuenow'))
             let takesSuma = ((takes*100)/200) + valorActual;
             if (takes && takes > 0) {
-                $(celda).attr('aria-valuenow', takesSuma)
-                $(celda).text(takesSuma + '%')
-                $(celda).css({ 'width': takesSuma + '%' })
+                $(celda).attr('aria-valuenow', takesSuma);
+                $(celda).text(takesSuma + '%');
+                $(celda).css({ 'width': takesSuma + '%' });
                 if (takesSuma < 25) {
                     $(celda)[0].className = 'progress-bar barra progress-bar-striped bg-success';
                 } else if (takesSuma < 50) {
@@ -744,7 +748,7 @@ function seleccionarActorCalendario(id, elemento) {
             },
             success: function (response) {
                 calendarioActor = response;
-                console.log(response);
+                console.log(actores);
                 $('#selectPelis-editar').removeAttr('readonly');
                 $('#selectPelis-editar').val(response.calendar.actor_estadillo.estadillo.registre_produccio.referencia_titol);
                 $('#actorEstadillo-editar').val(response.calendar.id_actor_estadillo);
@@ -808,7 +812,7 @@ function seleccionarActorCalendario(id, elemento) {
 }
 
 function filtroActorTkEditar(e) {
-    if (e.id_actor == response.calendar.actor_estadillo.id_actor && e.takes_restantes > 0){
+    if (e.id_actor == calendarioActor.calendar.actor_estadillo.id_actor && e.takes_restantes > 0){
         return e;
     }
 }
@@ -860,6 +864,7 @@ function editarActor() {
                     element.data_fi = fi_split[0] + " " + $('#takesFin-editar').val();
                 }
             });
+            
             var horaActor = $('#' + calendarioActorSeleccionado_id + "-" + $('#actorEstadillo-editar').val() + "-" + calendarioActor.calendar.calendari.num_sala + " .horaActor");
             horaActor.text("(" + $('#takesIni-editar').val() + ")");
             vaciarValoresEditar();
@@ -902,6 +907,7 @@ function eliminarCalendarioActor() {
                     });
                 }
             });
+
             data = undefined;
             data = nuevoAmanecer;
             $('#' + calendarioActorSeleccionado_id + "-" + calendarioActor.calendar.id_actor_estadillo + "-" + calendarioActor.calendar.calendari.num_sala).remove();

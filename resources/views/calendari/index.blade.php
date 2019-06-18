@@ -155,8 +155,8 @@
 
                         <div class="row">
                             <form id="pasarLista" action="" method="POST" class="col-8 mt-4">
-                                <div style="background-color: whitesmoke; overflow-y: scroll;">
-                                    <table class="table" style="width: 100%; height: 250px; margin-top: 30px;">
+                                <div style="background-color: whitesmoke; overflow-y: scroll; max-height: 294px;">
+                                    <table class="table" style="width: 100%;  margin-top: 30px;">
                                         <tbody id="pasarLista-tabla">
                                             @foreach($actoresPorDia as $key => $dia)
                                                 @foreach($dia as $key2 => $actor)

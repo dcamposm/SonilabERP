@@ -261,6 +261,7 @@ class CalendariController extends Controller
             
             $calendari->save();
             $calendari->calendari;
+            $calendari->actorEstadillo->estadillo->registreProduccio->registreEntrada;
             return response()->json(['success'=> true,'calendari'=>$calendari],201);
         }
     }
