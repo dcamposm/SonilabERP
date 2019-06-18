@@ -49,16 +49,39 @@
                     </div>
                 </div>
                 <div class="modal-body">
-                    <p id="takes-celda"></p>
-                    <label for="selectPelis"></label>
-                    <input required id="selectPelis" class="form-control"/>
-                    <input id="actorEstadillo" class="form-control" type="hidden" value="-1">
-                    <label for="numberTakes" class="mt-3">Takes a realitzar:</label>
-                    <input required id="numberTakes" type="number" min="1"><br/><br/>
-                    <label for="takesIni">Hora d'inici:</label>
-                    <input required id="takesIni" type="time">
-                    <label for="takesFin">Hora final:</label>
-                    <input required id="takesFin" type="time">
+                    <div class="form-row">
+                        <div class="col">
+                            <label for="selectPelis"></label>
+                            <input required id="selectPelis" class="form-control"/>
+                            <input id="actorEstadillo" class="form-control" type="hidden" value="-1">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="numberTakes" class="mt-3">Takes a realitzar:</label>
+                            <input required id="numberTakes" class="form-control" type="number" min="0">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="takesIni">Hora d'inici:</label>
+                            <input required id="takesIni" class="form-control" type="time">
+                        </div>
+                        <div class="form-group col">
+                            <label for="takesFin">Hora final:</label>
+                            <input required id="takesFin" class="form-control" type="time">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label" for="canso">Canço</label>
+                            <input id="canso" class="form-check-input ml-1" type="checkbox" value="1" readonly>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label" for="narracio">Narració</label>
+                            <input id="narracio" class="form-check-input ml-1" type="checkbox" value="1" readonly>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Tancar</button>
@@ -133,7 +156,7 @@
                         <div class="row">
                             <form id="pasarLista" action="" method="POST" class="col mt-4">
                                 <div style="background-color: whitesmoke; overflow-y: scroll;">
-                                    <table class="table" style="width: 100%; height: 200px; margin-top: 30px;">
+                                    <table class="table" style="width: 100%; height: 250px; margin-top: 30px;">
                                         <tbody id="pasarLista-tabla">
                                             @foreach($actoresPorDia as $key => $dia)
                                                 @foreach($dia as $key2 => $actor)
@@ -168,16 +191,40 @@
                             <div class="col container">
                                 <form action="" method="POST">
                                     <div>
-                                        <p id="takes-celda-editar"></p>
-                                        <label for="selectPelis"></label>
-                                        <input required id="selectPelis-editar" readonly/>
-                                        <input id="actorEstadillo-editar" class="form-control" type="hidden" value="-1"><br/><br/>
-                                        <label for="numberTakes-editar">Takes a realizar:</label>
-                                        <input id="numberTakes-editar" type="number" min="1"><br/><br/>
-                                        <label for="takesIni-editar">Hora de inicio:</label>
-                                        <input id="takesIni-editar" type="time">
-                                        <label for="takesFin-editar">Hora final:</label>
-                                        <input id="takesFin-editar" type="time">
+                                        
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <label for="selectPelis"></label>
+                                                <input required id="selectPelis-editar" readonly class="form-control" style="width: 100%;"/>
+                                                <input id="actorEstadillo-editar" class="form-control" type="hidden" value="-1">
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col">
+                                                <label for="numberTakes-editar" class="mt-3">Takes a realitzar:</label>
+                                                <input id="numberTakes-editar" class="form-control" type="number" min="1">
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col">
+                                                <label for="takesIni-editar">Hora d'inici:</label>
+                                                <input id="takesIni-editar" class="form-control" type="time">
+                                            </div>
+                                            <div class="form-group col">
+                                                <label for="takesFin-editar">Hora final:</label>
+                                                <input id="takesFin-editar" class="form-control" type="time">
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label" for="canso-editar">Canço</label>
+                                                <input id="canso-editar" class="form-check-input ml-1" type="checkbox" value="1" readonly>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label" for="narracio-editar">Narració</label>
+                                                <input id="narracio-editar" class="form-check-input ml-1" type="checkbox" value="1" readonly>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="mt-5">
                                         <!-- TODO: Crear estas dos funciones en el fichero js -->

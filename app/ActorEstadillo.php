@@ -29,6 +29,6 @@ class ActorEstadillo extends Model
     }
     
     public function calendar() {
-        return $this->belongsTo('App\Calendar','id','id_actor_estadillo');
+        return $this->hasMany('App\Calendar','id_actor_estadillo','id');
     }
 }

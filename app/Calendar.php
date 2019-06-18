@@ -12,6 +12,8 @@ class Calendar extends Model {
         //"id_calendar",
         "id_actor_estadillo",
         "num_takes",
+        "canso_calendar",
+        "narracio_calendar",
         "data_inici",
         "data_fi",
         "id_calendar_carrec",
@@ -25,7 +27,7 @@ class Calendar extends Model {
     ];
 
     public function actorEstadillo() {
-        return $this->hasOne('App\ActorEstadillo','id','id_actor_estadillo');
+        return $this->belongsTo('App\ActorEstadillo','id_actor_estadillo','id');
     }
     
     public function director() {

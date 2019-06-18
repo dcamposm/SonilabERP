@@ -87,12 +87,12 @@ function crearTablaCalendario() {
         for (let h = 0; h < 6; h++) {
             if (h == 0) {
                 // Crea un div con el número de la sala:
-                fila.append('<div class="sala celda">' + sala + '</div>')
+                fila.append('<div class="sala celda" style=" height: 100px;">' + sala + '</div>')
             } else {
                 // Crea el día de la sala.
                 // Es necesario crear el atributo "dia" y "sala", para que después cuando le hagamos clic
                 // podamos coger el día y la sala de la casilla que hayamos seleccionado.
-                fila.append('<div class="col celda" dia="' + dias[h - 1] + '" sala="' + sala + '"><div class="progress barra_progreso"><div class="progress-bar barra progress-bar-striped" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div></div></div>')
+                fila.append('<div class="col celda" dia="' + dias[h - 1] + '" sala="' + sala + '" style=" height: 100px;"><div class="progress barra_progreso"><div class="progress-bar barra progress-bar-striped" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div></div></div>')
             }
         }
         contenedor.append(fila)
@@ -166,6 +166,18 @@ function guardarCelda() {
     var num_sala = celda.parentElement.parentElement.getAttribute("sala");
     var actorEstadillo = $('#actorEstadillo').val();
     
+    if ($("#canso").prop('checked') == true){
+        var canso = $('#canso').val();
+    } else {
+        var canso = 0;
+    }
+    if ($("#narracio").prop('checked') == true){
+        var narracio = $('#narracio').val();
+    } else {
+        var narracio = 0;
+    }
+    
+    
     let takes = Number($('#numberTakes').val());
 
     /** Comprobación errores inputs modal **/
@@ -184,7 +196,7 @@ function guardarCelda() {
         errores = true
     }
     if (errores) return
-    var datos = { id_actor_estadillo: actorEstadillo, num_takes: takes, data_inici: data_inici, data_fi: data_fi, num_sala: num_sala };
+    var datos = { id_actor_estadillo: actorEstadillo, num_takes: takes, data_inici: data_inici, data_fi: data_fi, num_sala: num_sala , canso_calendar: canso, narracio_calendar: narracio};
     $.post('/calendari/crear', datos)
         .done(function (datosCalendari) {
             
@@ -206,14 +218,19 @@ function guardarCelda() {
                     $(celda)[0].className = 'progress-bar barra progress-bar-striped bg-danger';
                 }
             }
-            // trabajadores[persona[0]][2][$('#selectPelis').val()] = trabajadores[persona[0]][2][$('#selectPelis').val()] - takes
+
             var nombreActor = "";
             var idActor = 0;
 
             $.each(actores, function( key, element ) {
                 if (element.id_actor_estadillo == $('#actorEstadillo').val() && persona.id_actor == element.id_actor) {
                     element.takes_restantes = element.takes_restantes-takes;
-
+                    if ($("#narracio").prop('checked') == true){
+                        element.narracio_estadillo = 0;
+                    }
+                    if ($("#canso").prop('checked') == true){
+                        element.canso_estadillo = 0;
+                    }
                     nombreActor = element.nombre_actor;
                     idActor = element.id_actor;
                 }                
@@ -247,10 +264,6 @@ function guardarCelda() {
             console.log(error);
         });
 
-
-
-    //limpiarListado()
-    //listarTrabajadores()
     $('#exampleModal').modal('hide');
 }
 
@@ -352,7 +365,6 @@ function closeNav() {
     $('#btnAdd').show();
 }
 
-
 //// MODALS /////
 
 // Variables globales para guardar el dia y la sala que se han seleccionado al hacer clic en alguna celda:
@@ -417,9 +429,9 @@ $('#exampleModal').on('show.bs.modal', function (e) {
     $('#takesFin').val('');
     $('#takes-celda').text('Takes per assignar a la sala: ' + restantes);
     $('#takes-celda').attr('class', 'mb-0');
-    
+        
     var options = {
-        data: actores,
+        data: actores.filter(filtroActorTk),
         placeholder: "Selecciona un registre",
         getValue: "nombre_reg_complet",
 
@@ -427,13 +439,32 @@ $('#exampleModal').on('show.bs.modal', function (e) {
                 match: {
                     enabled: true
                 }, onChooseEvent: function() {
-                    var selectedPost = $("#selectPelis").getSelectedItemData();
-                    $('#numberTakes').attr('max', selectedPost.takes_restantes);
-                    $('#numberTakes').val(selectedPost.takes_restantes);
-                    $('#actorEstadillo').val(selectedPost.id_actor_estadillo);
+                    var selected = $("#selectPelis").getSelectedItemData();
+                    $('#numberTakes').attr('max', selected.takes_restantes);
+                    $('#numberTakes').val(selected.takes_restantes);
+                    $('#actorEstadillo').val(selected.id_actor_estadillo);
+                    $("#canso").prop('checked', false);
+                    $("#narracio").prop('checked', false);
+                    
+                    if (selected.canso_estadillo == 1){
+                        $('#canso').removeAttr('readonly');
+                    } else {
+                        $('#canso').attr('readonly', '');
+                    }
+                    if (selected.narracio_estadillo == 1){
+                        $('#narracio').removeAttr('readonly');
+                    } else {
+                        $('#narracio').attr('readonly', '');
+                    }
+                    
                 }, onHideListEvent: function() {
                     if ($("#selectPelis").val() == ''){
                         $("#actorEstadillo").val('-1');
+                        $('#numberTakes').val(1);
+                        $("#canso").prop('checked', false);
+                        $("#narracio").prop('checked', false);
+                        $('#canso').attr('readonly', '');
+                        $('#narracio').attr('readonly', '');
                     }
                 }
         },
@@ -441,9 +472,7 @@ $('#exampleModal').on('show.bs.modal', function (e) {
         template: {
                 type: "custom",
                 method: function(value, item) {
-                    if (item.id_actor == persona.id_actor && item.takes_restantes > 0) {
                         return value;
-                    }  
                 }
         },
     };
@@ -451,6 +480,12 @@ $('#exampleModal').on('show.bs.modal', function (e) {
     $("#selectPelis").easyAutocomplete(options);
     var parentSearch = $('#selectPelis').parent().css({"width": "100%"});
 });
+//Funccio per filtra un actor i si te més takes que 0
+function filtroActorTk(e) {
+    if (e.id_actor == persona.id_actor && e.takes_restantes > 0){
+        return e;
+    }
+}
 
 $('#exampleModal2').on('shown.bs.modal', function () {
     // Volvemos a llamar a esta función para volver a crear la tabla del modal, básicamente
@@ -469,6 +504,12 @@ $('#exampleModal2').on('hide.bs.modal', function () {
     $('#numberTakes-editar').val('');
     $('#takesIni-editar').val('');
     $('#takesFin-editar').val('');
+    $('#canso-editar').attr('readonly', '');
+    $("#canso-editar").prop('checked', false);
+    $('#narracio-editar').attr('readonly', '');
+    $("#narracio-editar").prop('checked', false); 
+    calendarioActorSeleccionado_id = 0;
+    $(elementoSeleccionado).removeClass('actorAsistencia-seleccionado');
 });
 
 function pintarTablaHoras() {
@@ -487,7 +528,7 @@ function pintarTablaHoras() {
             for (let i = horaIni; i <= horaFin; i++) {
                 if (i == horaFin) {
                     for (let h = 0; h < minFin; h++) {
-                        pintar($('#td_' + pad(i) + '-' + pad(h)));
+                        pintar($('#td_' + i + '-' + pad(h)));
                     }
                 } else if (i == horaIni) {
                     for (let h = minIni; h < 60; h++) {
@@ -495,7 +536,7 @@ function pintarTablaHoras() {
                     }
                 } else {
                     for (let h = 0; h < 60; h++) {
-                        pintar($('#td_' + pad(i) + '-' + pad(h)));
+                        pintar($('#td_' + i + '-' + pad(h)));
                     }
                 }
             }
@@ -594,7 +635,6 @@ function tablaHoras() {
         var trT = document.createElement('tr')
         trT.id = "tr_" + i
 
-        //$(hora).append(divTableM)
         $(hora).append(tableT)
         $(tableT).append(trT)
 
@@ -607,9 +647,6 @@ function tablaHoras() {
             $(trT).append(tdT)
         }
     }
-    /*
-        8:30 13:30
-        15:30 20:30*/
 }
 
 function pad(num) {
@@ -619,7 +656,6 @@ function pad(num) {
 function pintar(elemento) {
     elemento.css({ 'background-color': 'red' })
 }
-
 
 ///// CAMBIAR TÉCNICO /////
 function cambiarTecnico(torn) {
@@ -708,12 +744,28 @@ function seleccionarActorCalendario(id, elemento) {
             },
             success: function (response) {
                 calendarioActor = response;
+                console.log(response);
                 $('#selectPelis-editar').removeAttr('readonly');
                 $('#selectPelis-editar').val(response.calendar.actor_estadillo.estadillo.registre_produccio.referencia_titol);
                 $('#actorEstadillo-editar').val(response.calendar.id_actor_estadillo);
                 $('#numberTakes-editar').val(response.calendar.num_takes);
                 $('#takesIni-editar').val(response.calendar.data_inici.split(' ')[1]);
                 $('#takesFin-editar').val(response.calendar.data_fi.split(' ')[1]);
+                
+                if (response.calendar.actor_estadillo.canso_estadillo == 1){
+                    $("#canso-editar").removeAttr('readonly')
+                    if (response.calendar.canso_calendar == 1) $("#canso-editar").prop('checked', true);
+                } else {
+                    $("#canso-editar").attr('readonly', '')
+                    $("#canso-editar").prop('checked', false);
+                }               
+                if (response.calendar.actor_estadillo.narracio_estadillo  == 1){
+                    $("#narracio-editar").removeAttr('readonly')
+                    if (response.calendar.narracio_calendar == 1) $("#narracio-editar").prop('checked', true); 
+                } else {
+                    $("#narracio-editar").attr('readonly', '')
+                    $("#narracio-editar").prop('checked', false);
+                }     
                 
                 var options = {
                     data: actores,
@@ -740,7 +792,7 @@ function seleccionarActorCalendario(id, elemento) {
                             method: function(value, item) {
                                 if (item.id_actor == response.calendar.actor_estadillo.id_actor && item.takes_restantes > 0) {
                                     return value;
-                                }  
+                                }
                             }
                     },
                     
@@ -748,7 +800,6 @@ function seleccionarActorCalendario(id, elemento) {
                 };
 
                 $("#selectPelis-editar").easyAutocomplete(options);
-                //var parentSearch = $('#selectPelis-editar').parent().css({"width": "100%"});
             },
             error: function (error) {
                 console.error(error);
@@ -772,9 +823,10 @@ var options = {
 };
 
 $("#selectPelis-editar").easyAutocomplete(options);
-
+var parentSearch = $('#selectPelis-editar').parent().css({"width": "100%"});
 
 function editarActor() {
+    //console.log($("#narracio-editar").prop('checked') ? 1 : 0);
     $.ajax({
         url: '/calendari/editar/' + calendarioActorSeleccionado_id,
         type: 'POST',
@@ -788,12 +840,12 @@ function editarActor() {
             data_inici: $('#takesIni-editar').val(),
             data_fi: $('#takesFin-editar').val(),
             num_sala: parseInt(calendarioActor.calendar.calendari.num_sala),
+            canso_calendar: ($("#canso-editar").prop('checked') ? 1 : 0),
+            narracio_calendar: ($("#narracio-editar").prop('checked') ? 1 : 0),
         },
         success: function (response) {
-            //console.error(response);
+            //console.log(response);
             // Guarda los datos en la variable "data" y vuelve a recargar el calendario:
-            /*console.log('data');
-            console.log(data);*/
             $.each(data, function( key, element ) {
                 if (element.id_calendar == calendarioActorSeleccionado_id) {
                     var inici_split = element.data_inici.split(' ');
@@ -863,9 +915,15 @@ function eliminarCalendarioActor() {
 function vaciarValoresEditar() {
     calendarioActorSeleccionado_id = 0;
     elementoSeleccionado.className = "";
+    
     $('#numberTakes-editar').val("");
     $('#takesIni-editar').val("");
     $('#takesFin-editar').val("");
     $("#selectPelis-editar").val("")
     $('#actorEstadillo-editar').val(-1);
+    
+    $('#canso-editar').attr('readonly', '');
+    $("#canso-editar").prop('checked', false);
+    $('#narracio-editar').attr('readonly', '');
+    $("#narracio-editar").prop('checked', false); 
 }
