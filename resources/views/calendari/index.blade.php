@@ -169,11 +169,11 @@
                                                                 <label class="btn btn-success {{ $actor->asistencia == 1 ? 'active' : '' }}">
                                                                     <input type="radio" name="actor-{{ $actor->id_empleat }}-{{$actor->id_calendar}}" id="actor-{{ $actor->id_empleat }}" class="actor-dia-{{$actor->dia}}-{{$actor->num_sala}}" autocomplete="off" value="1" {{ $actor->asistencia == 1 ? 'checked' : '' }}> Present
                                                                 </label>
-                                                                <label class="btn btn-danger {{ $actor->asistencia == 0 ? 'active' : '' }}">
-                                                                    <input type="radio" name="actor-{{ $actor->id_empleat }}-{{$actor->id_calendar}}" id="actor-{{ $actor->id_empleat }}" class="actor-dia-{{$actor->dia}}-{{$actor->num_sala}}" autocomplete="off" value="0" {{ $actor->asistencia == 0 ? 'checked' : '' }}> No present
+                                                                <label class="btn btn-danger {{ $actor->asistencia === 0 ? 'active' : '' }}">
+                                                                    <input type="radio" name="actor-{{ $actor->id_empleat }}-{{$actor->id_calendar}}" id="actor-{{ $actor->id_empleat }}" class="actor-dia-{{$actor->dia}}-{{$actor->num_sala}}" autocomplete="off" value="0" {{ $actor->asistencia === 0 ? 'checked' : '' }}> No present
                                                                 </label>
-                                                                <label class="btn btn-secondary {{ $actor->asistencia == null ? 'active' : '' }}">
-                                                                    <input type="radio" name="actor-{{ $actor->id_empleat }}-{{$actor->id_calendar}}" id="actor-{{ $actor->id_empleat }}" class="actor-dia-{{$actor->dia}}-{{$actor->num_sala}}" autocomplete="off" value="null" {{ $actor->asistencia == null ? 'checked' : '' }}> Pendent
+                                                                <label class="btn btn-secondary {{ is_null($actor->asistencia) ? 'active' : '' }}">
+                                                                    <input type="radio" name="actor-{{ $actor->id_empleat }}-{{$actor->id_calendar}}" id="actor-{{ $actor->id_empleat }}" class="actor-dia-{{$actor->dia}}-{{$actor->num_sala}}" autocomplete="off" value="null" {{ is_null($actor->asistencia) ? 'checked' : '' }}> Pendent
                                                                 </label>
                                                             </div>
                                                         </td>
