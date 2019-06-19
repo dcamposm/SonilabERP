@@ -123,7 +123,8 @@ class CalendariController extends Controller
                                              DB::raw('LPAD(MINUTE(slb_calendars.data_inici), 2, 0) as minuts'),
                                              'slb_actors_estadillo.id as id_actor_estadillo',
                                              'slb_calendars.id_calendar as id_calendar',
-                                             'slb_calendars.asistencia')
+                                             'slb_calendars.asistencia',
+                                             'slb_calendars.id_director')
                                     ->join('slb_actors_estadillo', 'slb_actors_estadillo.id_actor', '=', 'slb_empleats_externs.id_empleat')
                                     ->join('slb_calendars', 'slb_calendars.id_actor_estadillo', '=', 'slb_actors_estadillo.id')
                                     ->join('slb_calendar_carrecs', 'slb_calendar_carrecs.id_calendar_carrec', '=', 'slb_calendars.id_calendar_carrec')
@@ -137,6 +138,11 @@ class CalendariController extends Controller
         }
         //return response()->json($actoresPorDia);
         $tecnicsAsignados = CalendarCarrec::where('data', '>=', $dia1)->where('data', '<=', $dia5)->get();
+        $directors = EmpleatExtern::select('slb_empleats_externs.id_empleat', 'nom_empleat', 'cognom1_empleat', 'cognom2_empleat')
+                                        ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', '=', 'slb_empleats_externs.id_empleat')
+                                        ->join('slb_carrecs', 'slb_carrecs.id_carrec', '=', 'slb_carrecs_empleats.id_carrec')
+                                        ->distinct()->where('slb_carrecs.nom_carrec', '=', 'Director')
+                                        ->get();
 
         return View('calendari.index', ["fechas"    => $fechas, 
                                         "week"      => $week,
@@ -145,6 +151,7 @@ class CalendariController extends Controller
                                         "urlBase"   => $urlBase,
                                         "actores"   => $actores,
                                         "tecnics"   => $tecnics,
+                                        "directors"   => $directors,
                                         "data"      => $data,
                                         "actoresPorDia" => $actoresPorDia,
                                         "tecnicsAsignados" => $tecnicsAsignados]);
@@ -254,6 +261,7 @@ class CalendariController extends Controller
             
             $calendari->save();
             $calendari->calendari;
+            $calendari->actorEstadillo->estadillo->registreProduccio->registreEntrada;
             return response()->json(['success'=> true,'calendari'=>$calendari],201);
         }
     }
