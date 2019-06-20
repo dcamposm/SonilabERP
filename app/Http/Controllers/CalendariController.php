@@ -49,7 +49,10 @@ class CalendariController extends Controller
         $data = json_encode(Calendar::where('data_inici', '>=', $dia1)
                                     ->where('data_fi', '<=', $dia5)
                                     ->with('actorEstadillo.estadillo.registreProduccio.registreEntrada')
+                                    ->with('actorEstadillo.empleat')
                                     ->with('calendari')
+                                    ->with('director')
+                                    ->orderBy('slb_calendars.data_inici')
                                     ->get());
 
         //return response()->json($data);
@@ -207,9 +210,9 @@ class CalendariController extends Controller
             // Aplica los nuevos cambios del calendario en la base de datos:
             $calendario->save();
         }
-
+        $calendario = Calendar::all();
         // Retorna una respuesta:
-        return response()->json("Tot Ok!");
+        return response()->json($calendario);
     }
 
     public function create(){
@@ -262,6 +265,8 @@ class CalendariController extends Controller
             $calendari->save();
             $calendari->calendari;
             $calendari->actorEstadillo->estadillo->registreProduccio->registreEntrada;
+            $calendari->actorEstadillo->empleat;
+            $calendari->director;
             return response()->json(['success'=> true,'calendari'=>$calendari],201);
         }
     }
