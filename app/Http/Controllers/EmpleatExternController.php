@@ -158,137 +158,138 @@ class EmpleatExternController extends Controller
         //return response()->json(request()->all());
         $empleat = EmpleatExtern::find($id);
 
-        if ($empleat) {
-            // Modifica datos personales del empleado
-            $data = request()->all();
-            $empleat->fill($data);
-            
-            if ($_FILES["imatge_empleat"]["tmp_name"]!=""){
-                $empleat['imatge_empleat'] = base64_encode(file_get_contents($_FILES["imatge_empleat"]["tmp_name"]));
-            }
+        if (!$empleat) {
+            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar el personal, hi ha hagut un error amb el Servidor.'));
+        }
+        // Modifica datos personales del empleado
+        $data = request()->all();
+        $empleat->fill($data);
 
-            try {
-                $empleat->save(); 
-            } catch (\Exception $ex) {
-                return redirect()->back()->withErrors(array('error' => 'ERROR. El email, dni o nss ja existeixen'));
-            }
+        if ($_FILES["imatge_empleat"]["tmp_name"]!=""){
+            $empleat['imatge_empleat'] = base64_encode(file_get_contents($_FILES["imatge_empleat"]["tmp_name"]));
+        }
 
-            // Modifica cargos del empleado
+        try {
+            $empleat->save(); 
+        } catch (\Exception $ex) {
+            return redirect()->back()->withErrors(array('error' => 'ERROR. El email, dni o nss ja existeixen'));
+        }
 
-            // TODO: Hacer la parte de modificar los cargos
+        // Modifica cargos del empleado
 
-            $camposCargos = Carrec::all(); //["director","tecnic_sala","ajustador","actor","traductor","linguista"];
-            $idiomas = Idioma::all(); //["Català", 'Castellà', "Anglès"];
-            $tarifas = Tarifa::all();
+        // TODO: Hacer la parte de modificar los cargos
 
-            $datos = [];
-            //return response()->json(request()->all());
+        $camposCargos = Carrec::all(); //["director","tecnic_sala","ajustador","actor","traductor","linguista"];
+        $idiomas = Idioma::all(); //["Català", 'Castellà', "Anglès"];
+        $tarifas = Tarifa::all();
 
-            foreach ($camposCargos as $key => $carrec) {
-                $id_carrec = $carrec->id_carrec;
-                $nomCarrec = $carrec->input_name;
+        $datos = [];
+        //return response()->json(request()->all());
 
-                if (($nomCarrec == "director" || $nomCarrec == "tecnic_sala") && request()->has($nomCarrec)) {
-                    //return response()->json(request()->all());
+        foreach ($camposCargos as $key => $carrec) {
+            $id_carrec = $carrec->id_carrec;
+            $nomCarrec = $carrec->input_name;
+
+            if (($nomCarrec == "director" || $nomCarrec == "tecnic_sala") && request()->has($nomCarrec)) {
+                //return response()->json(request()->all());
+                foreach ($tarifas as $key => $tarifa) {
+                    $nombre_corto = $tarifa->nombre_corto;
+                    $id_tarifa = $tarifa->id_tarifa;
+                    //return response()->json($id_tarifa);
+                    if(!empty(request()->input("preu_$nomCarrec"."_$nombre_corto"))){
+                        //return response()->json($tarifa->id);
+                        $datos["id_empleat"] = $empleat->id_empleat;
+                        $datos["id_carrec"] = $id_carrec;
+                        $datos["id_idioma"] = 0;
+                        $datos["empleat_homologat"] = 0;
+                        $datos["rotllo"] = 0;
+                        $datos["contracta"] =(int) request()->input("contracta_$nomCarrec");
+                        $datos["preu_carrec"] = request()->input("preu_$nomCarrec"."_$nombre_corto");//coge el valor mandado del input
+                        $datos["id_tarifa"] = $tarifa->id;
+                        //return response()->json($datos);
+                        $carrecAntic = CarrecEmpleat::where([
+                            ['id_empleat', $id],
+                            ['id_carrec', $id_carrec],
+                            ['id_idioma', '0'],
+                            ['id_tarifa', $tarifa->id],
+                        ])->first();
+                        //return response()->json($carrecAntic);
+                        if (empty($carrecAntic)) {
+                            $carrecEmpleat = new CarrecEmpleat($datos);
+                            //return response()->json($carrecEmpleat);
+                            $carrecEmpleat->save();
+                        } else {
+                            $carrecAntic->fill($datos);
+                            //return response()->json($carrecAntic);
+                            $carrecAntic->save();
+                        }
+                    }
+                }
+            } else if (request()->has($nomCarrec)) {
+                foreach ($idiomas as $key => $idioma) {
                     foreach ($tarifas as $key => $tarifa) {
                         $nombre_corto = $tarifa->nombre_corto;
                         $id_tarifa = $tarifa->id_tarifa;
-                        //return response()->json($id_tarifa);
-                        if(!empty(request()->input("preu_$nomCarrec"."_$nombre_corto"))){
-                            //return response()->json($tarifa->id);
+                        $id_idioma = $idioma->id_idioma;
+                        $nom_idioma = $idioma->idioma;
+                        //return response()->json(request()->input("preu_$nomCarrec" . "_$nom_idioma" . "_$nombre_corto"));
+                        if (request()->has("idioma_$nomCarrec" . "_$nom_idioma") && !empty(request()->input("preu_$nomCarrec" . "_$nom_idioma" . "_$nombre_corto")) && !empty(request()->input("preu_$nomCarrec" . "_$nom_idioma" . "_$nombre_corto"))) {
+                            //return response()->json(request()->input("preu_$nomCarrec" . "_$nom_idioma" . "_$nombre_corto"));
                             $datos["id_empleat"] = $empleat->id_empleat;
                             $datos["id_carrec"] = $id_carrec;
-                            $datos["id_idioma"] = 0;
-                            $datos["empleat_homologat"] = 0;
-                            $datos["rotllo"] = 0;
-                            $datos["contracta"] =(int) request()->input("contracta_$nomCarrec");
-                            $datos["preu_carrec"] = request()->input("preu_$nomCarrec"."_$nombre_corto");//coge el valor mandado del input
+                            $datos["id_idioma"] = $id_idioma;
+                            $datos["empleat_homologat"] = (request()->has("homologat_$nomCarrec" . "_$nom_idioma")) ? request()->input("homologat_$nomCarrec" . "_$nom_idioma") : 0;
+                            $datos["rotllo"] = (request()->has("rotllo_$nomCarrec" . "_$nom_idioma")) ? request()->input("rotllo_$nomCarrec" . "_$nom_idioma") : 0;
+                            $datos["contracta"] =(int) request()->input('contracta_'.$nomCarrec);
+                            $datos["preu_carrec"] = request()->input("preu_$nomCarrec" . "_$nom_idioma" . "_$nombre_corto");
                             $datos["id_tarifa"] = $tarifa->id;
-                            //return response()->json($datos);
+                            //(Tarifa::select('id')->where('id_carrec',$id_carrec)->first())->id;
+
                             $carrecAntic = CarrecEmpleat::where([
                                 ['id_empleat', $id],
                                 ['id_carrec', $id_carrec],
-                                ['id_idioma', '0'],
+                                ['id_idioma', $id_idioma],
                                 ['id_tarifa', $tarifa->id],
                             ])->first();
-                            //return response()->json($carrecAntic);
+                            //return response()->json($datos["id_carrec"]);
                             if (empty($carrecAntic)) {
                                 $carrecEmpleat = new CarrecEmpleat($datos);
-                                //return response()->json($carrecEmpleat);
                                 $carrecEmpleat->save();
                             } else {
                                 $carrecAntic->fill($datos);
-                                //return response()->json($carrecAntic);
                                 $carrecAntic->save();
                             }
-                        }
+                        } else if (!empty(request()->input("preu_$nomCarrec" . "_$nom_idioma" . "_$nombre_corto"))){
+                            $carrecAntic = CarrecEmpleat::where([
+                                ['id_empleat', $id],
+                                ['id_carrec', $id_carrec],
+                                ['id_idioma', $id_idioma],
+                                ['id_tarifa', $tarifa->id],
+                            ])->first();
+                            if (!empty($carrecAntic)){
+                                $carrecAntic->delete();
+                            }
+                        } else {
+                            $carrecAntic = CarrecEmpleat::where([
+                                ['id_empleat', $id],
+                                ['id_carrec', $id_carrec],
+                                ['id_idioma', $id_idioma],
+                                ['id_tarifa', $tarifa->id],
+                            ])->first();
+                            if (!empty($carrecAntic)){
+                                $carrecAntic->delete();
+                            }
+                        }  
                     }
-                } else if (request()->has($nomCarrec)) {
-                    foreach ($idiomas as $key => $idioma) {
-                        foreach ($tarifas as $key => $tarifa) {
-                            $nombre_corto = $tarifa->nombre_corto;
-                            $id_tarifa = $tarifa->id_tarifa;
-                            $id_idioma = $idioma->id_idioma;
-                            $nom_idioma = $idioma->idioma;
-                            //return response()->json(request()->input("preu_$nomCarrec" . "_$nom_idioma" . "_$nombre_corto"));
-                            if (request()->has("idioma_$nomCarrec" . "_$nom_idioma") && !empty(request()->input("preu_$nomCarrec" . "_$nom_idioma" . "_$nombre_corto")) && !empty(request()->input("preu_$nomCarrec" . "_$nom_idioma" . "_$nombre_corto"))) {
-                                //return response()->json(request()->input("preu_$nomCarrec" . "_$nom_idioma" . "_$nombre_corto"));
-                                $datos["id_empleat"] = $empleat->id_empleat;
-                                $datos["id_carrec"] = $id_carrec;
-                                $datos["id_idioma"] = $id_idioma;
-                                $datos["empleat_homologat"] = (request()->has("homologat_$nomCarrec" . "_$nom_idioma")) ? request()->input("homologat_$nomCarrec" . "_$nom_idioma") : 0;
-                                $datos["rotllo"] = (request()->has("rotllo_$nomCarrec" . "_$nom_idioma")) ? request()->input("rotllo_$nomCarrec" . "_$nom_idioma") : 0;
-                                $datos["contracta"] =(int) request()->input('contracta_'.$nomCarrec);
-                                $datos["preu_carrec"] = request()->input("preu_$nomCarrec" . "_$nom_idioma" . "_$nombre_corto");
-                                $datos["id_tarifa"] = $tarifa->id;
-                                //(Tarifa::select('id')->where('id_carrec',$id_carrec)->first())->id;
-
-                                $carrecAntic = CarrecEmpleat::where([
-                                    ['id_empleat', $id],
-                                    ['id_carrec', $id_carrec],
-                                    ['id_idioma', $id_idioma],
-                                    ['id_tarifa', $tarifa->id],
-                                ])->first();
-                                //return response()->json($datos["id_carrec"]);
-                                if (empty($carrecAntic)) {
-                                    $carrecEmpleat = new CarrecEmpleat($datos);
-                                    $carrecEmpleat->save();
-                                } else {
-                                    $carrecAntic->fill($datos);
-                                    $carrecAntic->save();
-                                }
-                            } else if (!empty(request()->input("preu_$nomCarrec" . "_$nom_idioma" . "_$nombre_corto"))){
-                                $carrecAntic = CarrecEmpleat::where([
-                                    ['id_empleat', $id],
-                                    ['id_carrec', $id_carrec],
-                                    ['id_idioma', $id_idioma],
-                                    ['id_tarifa', $tarifa->id],
-                                ])->first();
-                                if (!empty($carrecAntic)){
-                                    $carrecAntic->delete();
-                                }
-                            } else {
-                                $carrecAntic = CarrecEmpleat::where([
-                                    ['id_empleat', $id],
-                                    ['id_carrec', $id_carrec],
-                                    ['id_idioma', $id_idioma],
-                                    ['id_tarifa', $tarifa->id],
-                                ])->first();
-                                if (!empty($carrecAntic)){
-                                    $carrecAntic->delete();
-                                }
-                            }  
-                        }
-                    }   
-                }else if(!request()->has($nomCarrec)){
-                    $carrecAntic = CarrecEmpleat::where([
-                        ['id_empleat', '=', $id],
-                        ['id_carrec', '=', $id_carrec]
-                    ])->delete();
-                }
+                }   
+            }else if(!request()->has($nomCarrec)){
+                $carrecAntic = CarrecEmpleat::where([
+                    ['id_empleat', '=', $id],
+                    ['id_carrec', '=', $id_carrec]
+                ])->delete();
             }
-            return redirect()->route('empleatIndex')->with('success', 'S\'ha modificat el personal correctament');
         }
+        return redirect()->route('empleatIndex')->with('success', 'S\'ha modificat el personal correctament');        
     }
 
     public function delete(Request $request)
@@ -297,10 +298,9 @@ class EmpleatExternController extends Controller
         EmpleatExtern::where('id_empleat', $request["id"])->delete();
         return redirect()->route('empleatIndex');
     }
-    
+//Funcio per fer consultes dels Empleat, s'utilitza per els inputs EasyAutocomplete d'alguns formularis
     public function search(Request $request)
     {
-        //return response()->json($request);
         if ($request->search != 'director' && $request->search != 'tecnic_mix' && $request->search != 'Actor'){
             $empleats = EmpleatExtern::select('slb_empleats_externs.id_empleat', 'nom_empleat', 'cognom1_empleat', 'cognom2_empleat')
                                     ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', '=', 'slb_empleats_externs.id_empleat')

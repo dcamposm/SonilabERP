@@ -43,11 +43,11 @@ body, html, main{
     height: 100%;
 }
 .tablaMinutos{
-    width: 5px;
+    width: 1.7%;
     /* background-color: pink; */
 }
 .tablaMinutosT{
-    width: 5px;
+    width: 1.7%;
     /* background-color: orange; */
 }
 .encabezado{
@@ -132,7 +132,7 @@ body, html, main{
 }
 
 .llistaActors{
-    font-size: 10px;
+    font-size: 11px;
     height: 15px;
 }
 

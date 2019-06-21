@@ -162,16 +162,14 @@ function cargarDatos() {
                                     <div class="col-4 llistaActors '+(element.asistencia === 0 ? 'actorNoPres' : '')+'" style="padding-left: 5px; padding-right: 5px;">'+element.actor_estadillo.empleat.cognom1_empleat+' '+element.actor_estadillo.empleat.nom_empleat+'</div>\n\
                                     <div class="col-1 llistaActors '+(element.asistencia === 0 ? 'actorNoPres' : '')+'" style="padding-left: 5px; padding-right: 5px;">'+element.num_takes+'TK</div>\n\
                                     <div class="col-4 llistaActors '+(element.asistencia === 0 ? 'actorNoPres' : '')+'" style="padding-left: 5px; padding-right: 5px;">'+element.actor_estadillo.estadillo.registre_produccio.referencia_titol+'</div>\n\
-                                    <div class="col-2 llistaActors '+(element.asistencia === 0 ? 'actorNoPres' : '')+'" style="padding-left: 5px; padding-right: 5px;">'+(element.id_director != 0 ? element.director.nom_empleat : '')+'</div>\n\
-                                 </div>'
+                                    <div class="col-2 llistaActors '+(element.asistencia === 0 ? 'actorNoPres' : '')+'" style="padding-left: 5px; padding-right: 5px;">'+(element.id_director != 0 ? element.director.nom_empleat : '')+'</div>'
                 $("[dia=" + element.data_inici.split(' ')[0] + "][sala=" + element.calendari.num_sala + "]").children('.mati').append(actorSala);
             } else {
                 var actorSala = '<div class="col-1 llistaActors '+(element.asistencia === 0 ? 'actorNoPres' : '')+'" style="padding-left: 5px; padding-right: 5px;">'+element.data_inici.split(' ')[1]+'</div>\n\
                                     <div class="col-4 llistaActors '+(element.asistencia === 0 ? 'actorNoPres' : '')+'" style="padding-left: 5px; padding-right: 5px;">'+element.actor_estadillo.empleat.cognom1_empleat+' '+element.actor_estadillo.empleat.nom_empleat+'</div>\n\
                                     <div class="col-1 llistaActors '+(element.asistencia === 0 ? 'actorNoPres' : '')+'" style="padding-left: 5px; padding-right: 5px;">'+element.num_takes+'TK</div>\n\
                                     <div class="col-4 llistaActors '+(element.asistencia === 0 ? 'actorNoPres' : '')+'" style="padding-left: 5px; padding-right: 5px;">'+element.actor_estadillo.estadillo.registre_produccio.referencia_titol+'</div>\n\
-                                    <div class="col-2 llistaActors '+(element.asistencia === 0 ? 'actorNoPres' : '')+'" style="padding-left: 5px; padding-right: 5px;">'+(element.id_director != 0 ? element.director.nom_empleat : '')+'</div>\n\
-                                 </div>'
+                                    <div class="col-2 llistaActors '+(element.asistencia === 0 ? 'actorNoPres' : '')+'" style="padding-left: 5px; padding-right: 5px;">'+(element.id_director != 0 ? element.director.nom_empleat : '')+'</div>'
                 $("[dia=" + element.data_inici.split(' ')[0] + "][sala=" + element.calendari.num_sala + "]").children('.tarda').append(actorSala);
             }
             
@@ -209,7 +207,6 @@ function filtrar(){
         data = dataBase.filter(item => item.actor_estadillo.id_actor == idActor);
         data = dataBase.filter(item => item.actor_estadillo.estadillo.registre_produccio.registre_entrada.id_registre_entrada == idProyecto);
     } else if (idActor != -1){
-        console.log(data);
         data = dataBase.filter(item => item.actor_estadillo.id_actor == idActor);
     } else if (idProyecto != -1){
         data = dataBase.filter(item => item.actor_estadillo.estadillo.registre_produccio.registre_entrada.id_registre_entrada == idProyecto);
@@ -500,7 +497,8 @@ $('#exampleModal').on('show.bs.modal', function (e) {
     $('#takesFin').val('');
     $('#takes-celda').text('Takes per assignar a la sala: ' + restantes);
     $('#takes-celda').attr('class', 'mb-0');
-        
+    $("#actorEstadillo").val('-1');
+    
     var options = {
         data: actores.filter(filtroActorTk),
         placeholder: "Selecciona un registre",
@@ -616,7 +614,6 @@ function pintarTablaHoras() {
 }
 
 function tablaHoras() {
-
     var manyana = document.createElement('div');
     manyana.id = "morning";
     manyana.classList.add('row');

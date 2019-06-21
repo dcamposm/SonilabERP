@@ -87,21 +87,23 @@ class UserController extends Controller
     function editarUsuario(UserUpdateRequest $request, $id){
         $usuario = User::find($id);
         
-        if ($usuario){
-            $usuario->fill(request()->all());
-
-            if ($_FILES["imatge_usuari"]["tmp_name"]!=""){
-                $usuario['imatge_usuari'] = base64_encode(file_get_contents($_FILES["imatge_usuari"]["tmp_name"]));
-            }
-
-            try{
-                $usuario->save();
-            } catch (\Exception $e){
-                return redirect()->back()->withErrors(array('error' => 'ERROR. L\'alias o el email ja existeixen'));
-            }
-
-            return redirect()->route('indexUsuariIntern')->with('success', 'S\'ha modificat el usuari correctament');
+        if (!$usuario){
+            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar l\'usuari, hi ha hagut un error amb el Servidor.'));
         }
+        
+        $usuario->fill(request()->all());
+
+        if ($_FILES["imatge_usuari"]["tmp_name"]!=""){
+            $usuario['imatge_usuari'] = base64_encode(file_get_contents($_FILES["imatge_usuari"]["tmp_name"]));
+        }
+
+        try{
+            $usuario->save();
+        } catch (\Exception $e){
+            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar l\'usuari.'));
+        }
+
+        return redirect()->route('indexUsuariIntern')->with('success', 'S\'ha modificat l\'usuari correctament');
     }
     
     /**
@@ -117,9 +119,11 @@ class UserController extends Controller
             ['id_usuari', '<>', '1']
         ]);
 
-        if ($user) {
-            $user->delete();
-            return redirect()->back()->with('success', 'S\'ha eliminat el usuari correctament');
+        if (!$user) {
+            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut eliminar l\'usuari, hi ha hagut un error amb el Servidor.'));
         }
+        
+        $user->delete();
+        return redirect()->back()->with('success', 'S\'ha eliminat el usuari correctament');
     }
 }

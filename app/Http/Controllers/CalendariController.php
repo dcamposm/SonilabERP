@@ -6,16 +6,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Validator;
-use App\Calendar;
-use App\CalendarCarrec;
+use App\{Calendar, CalendarCarrec, EmpleatExtern, ActorEstadillo, Estadillo, Carrec, RegistreProduccio, RegistreEntrada};
 use DateTime;
-use App\EmpleatExtern;
-use App\ActorEstadillo;
-use App\Estadillo;
-use App\Carrec;
 use DB;
-use App\RegistreProduccio;
-use App\RegistreEntrada;
+use App\Http\Requests\{CalendariCreateRequest, CalendariUpdateRequest, CalendariCarrecCreateRequest, CalendariCarrecUpdateRequest};
 
 class CalendariController extends Controller
 {
@@ -215,63 +209,46 @@ class CalendariController extends Controller
         return response()->json($calendario);
     }
 
-    public function create(){
-        //return response()->json(request()->all());
-        $v = Validator::make(request()->all(),[
-            //'id_calendar'=>'required|max:35',
-            'id_actor_estadillo'=>'required',
-            'num_takes'=>'required|regex:/^[0-9]+$/',//^[0-9]+$
-            'data_inici'=>'required',
-            'data_fi'=>'required',
-            'num_sala'=>'required'
-        ]);
+    public function create(CalendariCreateRequest $request){
+        // Datos correctos.
+        $requestData = request()->all();
 
-        if ($v->fails()) {
-            // Datos incorrectos.
-            return response()->json(['success'=> false,"iesse"=>$v->errors()],400);
+        $requestData['data_inici'] = Carbon::createFromFormat('d-m-Y H:i:s', request()->input('data_inici'));
+        $requestData['data_fi'] = Carbon::createFromFormat('d-m-Y H:i:s', request()->input('data_fi'));
+
+        if (strtotime($requestData['data_inici']) < strtotime( $requestData['data_inici']->format('Y-m-d')." 13:30:01")){
+            $torn = 0;
+        } else {
+            $torn = 1;
         }
-        else {
-            //return response()->json(request()->all());
-            // Datos correctos.
-            $requestData = request()->all();
-            
-            $requestData['data_inici'] = Carbon::createFromFormat('d-m-Y H:i:s', request()->input('data_inici'));
-            $requestData['data_fi'] = Carbon::createFromFormat('d-m-Y H:i:s', request()->input('data_fi'));
-            
-            if (strtotime($requestData['data_inici']) < strtotime( $requestData['data_inici']->format('Y-m-d')." 13:30:01")){
-                $torn = 0;
-            } else {
-                $torn = 1;
-            }
-            
-            $calendariCarrec = CalendarCarrec::where('num_sala', $requestData['num_sala'])
-                                                ->where('data', $requestData['data_inici']->format('Y-m-d'))
-                                                ->where('torn', $torn)->first();
-            
-            if (!$calendariCarrec){
-                $calendariCarrec = new CalendarCarrec($requestData);
-                $calendariCarrec->data = $requestData['data_inici']->format('Y-m-d');
-                $calendariCarrec->torn = $torn;
-                
-                $calendariCarrec->save();
-            }
-            
-            $actorEstadillo = ActorEstadillo::find($requestData['id_actor_estadillo']);
-            
-            $calendari = new Calendar($requestData);  
-            $calendari->id_calendar_carrec = $calendariCarrec->id_calendar_carrec;
-            $calendari->id_director = $actorEstadillo->estadillo->registreProduccio->id_director;
-            
-            $calendari->save();
-            $calendari->calendari;
-            $calendari->actorEstadillo->estadillo->registreProduccio->registreEntrada;
-            $calendari->actorEstadillo->empleat;
-            $calendari->director;
-            return response()->json(['success'=> true,'calendari'=>$calendari],201);
+
+        $calendariCarrec = CalendarCarrec::where('num_sala', $requestData['num_sala'])
+                                            ->where('data', $requestData['data_inici']->format('Y-m-d'))
+                                            ->where('torn', $torn)->first();
+
+        if (!$calendariCarrec){
+            $calendariCarrec = new CalendarCarrec($requestData);
+            $calendariCarrec->data = $requestData['data_inici']->format('Y-m-d');
+            $calendariCarrec->torn = $torn;
+
+            $calendariCarrec->save();
         }
+
+        $actorEstadillo = ActorEstadillo::find($requestData['id_actor_estadillo']);
+
+        $calendari = new Calendar($requestData);  
+        $calendari->id_calendar_carrec = $calendariCarrec->id_calendar_carrec;
+        $calendari->id_director = $actorEstadillo->estadillo->registreProduccio->id_director;
+
+        $calendari->save();
+        $calendari->calendari;
+        $calendari->actorEstadillo->estadillo->registreProduccio->registreEntrada;
+        $calendari->actorEstadillo->empleat;
+        $calendari->director;
+        return response()->json(['success'=> true,'calendari'=>$calendari],201);
     }
 
-    public function update($id){
+    public function update(CalendariUpdateRequest $request, $id){
         $calendari = Calendar::findOrFail($id);
         // NOTE: Hay que hacer que el data_inici y el date_fi se le asigne las horas y los minutos que le lleguen
         //       del frontend.
@@ -287,50 +264,33 @@ class CalendariController extends Controller
             'canso_calendar'     => request()->get('canso_calendar'),
             'narracio_calendar'     => request()->get('narracio_calendar')
         );
-        //return response()->json($valores);
-
-        $v = Validator::make($valores,[
-            //'id_calendar'=>'required|max:35',
-            'id_actor_estadillo' => 'required',
-            'num_takes'          => 'required',
-            'data_inici'         => 'required',
-            'data_fi'            => 'required',
-            'num_sala'           => 'required'
-        ]);
-
-        if ($v->fails()) {
-            // Datos incorrectos.
-            return redirect()->back()->withErrors($v)->withInput();
+        
+        if (strtotime($valores['data_inici']) < strtotime( date('Y-m-d', strtotime($valores['data_inici']))." 13:30:01")){
+            $torn = 0;
+        } else {
+            $torn = 1;
         }
-        else {
-            if (strtotime($valores['data_inici']) < strtotime( date('Y-m-d', strtotime($valores['data_inici']))." 13:30:01")){
-                $torn = 0;
-            } else {
-                $torn = 1;
-            }
-            
-            $calendariCarrec = CalendarCarrec::where('num_sala', $valores['num_sala'])
-                                                ->where('data', date('Y-m-d', strtotime($valores['data_inici'])))
-                                                ->where('torn', $torn)->first();
-            
-            if (!$calendariCarrec){
-                $calendariCarrec = new CalendarCarrec($requestData);
-                $calendariCarrec->data = $requestData['data_inici']->format('Y-m-d');
-                $calendariCarrec->torn = $torn;
-                
-                $calendariCarrec->save();
-            }
-            
-            $actorEstadillo = ActorEstadillo::find($valores['id_actor_estadillo']);
-            //return response()->json(request()->all());
-            // Datos correctos.
-            $calendari->fill($valores);  
-            $calendari->id_calendar_carrec = $calendariCarrec->id_calendar_carrec;
-            $calendari->id_director = $actorEstadillo->estadillo->registreProduccio->id_director;
-            $calendari->save();
-            
-            return response()->json("Tot Ok!");
+
+        $calendariCarrec = CalendarCarrec::where('num_sala', $valores['num_sala'])
+                                            ->where('data', date('Y-m-d', strtotime($valores['data_inici'])))
+                                            ->where('torn', $torn)->first();
+
+        if (!$calendariCarrec){
+            $calendariCarrec = new CalendarCarrec($requestData);
+            $calendariCarrec->data = $requestData['data_inici']->format('Y-m-d');
+            $calendariCarrec->torn = $torn;
+
+            $calendariCarrec->save();
         }
+
+        $actorEstadillo = ActorEstadillo::find($valores['id_actor_estadillo']);
+        // Datos correctos.
+        $calendari->fill($valores);  
+        $calendari->id_calendar_carrec = $calendariCarrec->id_calendar_carrec;
+        $calendari->id_director = $actorEstadillo->estadillo->registreProduccio->id_director;
+        $calendari->save();
+
+        return response()->json("Tot Ok!");
     }
 
     public function delete($id){
@@ -341,50 +301,20 @@ class CalendariController extends Controller
     }
     
     
-    public function calendariCarrecInsertar(){
-        $v = Validator::make(request()->all(),[
-            //'id_calendar'=>'required|max:35',
-            'id_empleat'=>'required|max:35|exists:slb_empleats_externs',
-            'num_sala'=>'required|regex:/^[0-9]+$/',//^[0-9]+$
-            'data'=>'required|max:35',
-            'torn'=>'required|max:3',
-        ]);
+    public function calendariCarrecInsertar(CalendariCarrecCreateRequest $request){
+        $calendariCarrec = new CalendarCarrec(request()->all());  
+        $calendariCarrec->save();
 
-        if ($v->fails()) {
-            // Datos incorrectos.
-            
-            return redirect()->back()->withErrors($v)->withInput();
-        }
-        else {
-            $calendariCarrec = new CalendarCarrec(request()->all());  
-            $calendariCarrec->save();
-            //return response()->json(request()->all());
-
-            return redirect()->route('showCalendari');
-        }
+        return redirect()->route('showCalendari');
     }
     
-    public function calendariCarrecEditar($id){
+    public function calendariCarrecEditar(CalendariCarrecUpdateRequest $request, $id){
         $calendariCarrec = CalendarCarrec::findOrFail($id);
-        $v = Validator::make(request()->all(),[
-            'id_empleat'=>'required|max:35|exists:slb_empleats_externs',
-            'num_sala'=>'required|regex:/^[0-9]+$/',
-            'data'=>'required|max:35',
-            'torn'=>'required|max:3',
-        ]);
-        
-        if ($v->fails()) {
-            // Datos incorrectos.
-            return redirect()->back()->withErrors($v)->withInput();
-        }
-        else {
-            //return response()->json(request()->all());
-            // Datos correctos.
-            $calendariCarrec->fill(request()->all());  
-            $calendariCarrec->save();
+        // Datos correctos.
+        $calendariCarrec->fill(request()->all());  
+        $calendariCarrec->save();
 
-            return response()->json(request()->all());
-        }
+        return response()->json(request()->all());
     }
 
     public function calendariCarrecDelete($id){

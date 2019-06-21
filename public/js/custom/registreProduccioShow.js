@@ -69,6 +69,11 @@ function formTable(){
                                 $("#"+idArray[0]).attr("value", selectedPost.id_registre_entrada);
                                 $('#searchEntrada').addClass("is-valid");
                                 $("#searchEntrada").val(selectedPost.id_registre_entrada+" "+selectedPost.titol).trigger("change");
+                            }, onHideListEvent: function() {
+                                if ($("#searchEntrada").val() == ''){
+                                    $("#"+idArray[0]).val('');
+                                    $("#searchEntrada").removeClass("is-valid");
+                                }
                             }
                     },
 
@@ -110,6 +115,11 @@ function formTable(){
                                     $("#"+idArray[0]).attr("value", selectedPost.id_empleat);
                                     $("#search-"+idArray[0]).addClass("is-valid");
                                     $("#search-"+idArray[0]).val(selectedPost.nom_cognom).trigger("change");
+                                }, onHideListEvent: function() {
+                                    if ($("#search-"+idArray[0]).val() == ''){
+                                        $("#"+idArray[0]).val('');
+                                        $("#search-"+idArray[0]).removeClass("is-valid");
+                                    }
                                 }
                         },
 
@@ -144,7 +154,7 @@ function setEventsValidator(){
     $('select').change(validarSelect);
 
     function validarInput(){
-        console.log($(this).attr('id'));
+        //console.log($(this).attr('id'));
         if ($(this).attr('type') == 'number') {
             var pattern = /^\d*$/;
             if ($(this).val() == ''){
