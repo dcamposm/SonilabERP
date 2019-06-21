@@ -30,6 +30,7 @@ class HomeController extends Controller
             //return response()->json($user);
             return view('home', array('user' => $user));
         }
+        
         $user = User::with('missatgeDay')->find($auth->id_usuari);
         //return response()->json($user);
         return view('home', array('user' => $user));

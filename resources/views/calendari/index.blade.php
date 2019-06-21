@@ -21,13 +21,17 @@
                 <button id="btnAdd" class="btn btn-success boton"  type="button" onclick="openNav()">AFEGIR</button>
              </div>
         </div>
-        <div class="row">
-            <div class="sala-vacia">0</div>
-            <div class="col col-fecha">Dilluns : {{$fechas[0]}}</div>
-            <div class="col col-fecha">Dimarts : {{$fechas[1]}}</div>
-            <div class="col col-fecha">Dimecres : {{$fechas[2]}}</div>
-            <div class="col col-fecha">Dijous : {{$fechas[3]}}</div>
-            <div class="col col-fecha">Divendres : {{$fechas[4]}}</div>
+        <div class="row" style="min-width: 2000px;">
+            <div class="sala-vacia">
+                <button type="button" class="btn btn-sm alternar">
+                    <span class="fas fa-calendar" style="margin-right: 0px;"></span>
+                </button>  
+            </div>
+            <div class="col col-fecha" style="font-weight: bold;">DILLUNS : {{$fechas[0]}}</div>
+            <div class="col col-fecha" style="font-weight: bold;">DIMARTS : {{$fechas[1]}}</div>
+            <div class="col col-fecha" style="font-weight: bold;">DIMECRES : {{$fechas[2]}}</div>
+            <div class="col col-fecha" style="font-weight: bold;">DIJOUS : {{$fechas[3]}}</div>
+            <div class="col col-fecha" style="font-weight: bold;">DIVENDRES : {{$fechas[4]}}</div>
         </div>
         <div id="calendarContent"></div>
     </div>
@@ -161,7 +165,7 @@
                                             @foreach($actoresPorDia as $key => $dia)
                                                 @foreach($dia as $key2 => $actor)
                                                     <tr id="{{$actor->id_calendar}}-{{$actor->id_actor_estadillo}}-{{$actor->num_sala}}" class="dia-{{$actor->dia}}-{{$actor->num_sala}} lista-actores">
-                                                        <td id="actor_mod-{{ $actor->id_calendar }}" onclick="seleccionarActorCalendario(this.id, this)">
+                                                        <td id="actor_mod-{{ $actor->id_calendar }}" onclick="seleccionarActorCalendario(this.id, this)" class="col-8">
                                                             @if ($actor->id_director == 0)
                                                                 <span class="horaActor">{{'('.$actor->hora.':'.$actor->minuts.')'}}</span> {{$actor->nom_cognom}} 
                                                             @else

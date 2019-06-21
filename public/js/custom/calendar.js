@@ -7,11 +7,25 @@ $('#semanaMas').on('click', function () {
     changeCalendar(1);
 });
 
+$('.alternar').on('click', function () {
+    $('#calendarContent').html('');
+    if (getCookie("tablaActual")==0){
+        document.cookie = "tablaActual = 1";
+    } else {
+        document.cookie = "tablaActual = 0";
+    }
+    carregarCalendari(); 
+});
+
 $('#btnGuardar').click(guardarCelda);
 
-crearTablaCalendario();
-tablaHoras();
-cargarDatos();
+carregarCalendari();
+
+function carregarCalendari(){
+    crearTablaCalendario();
+    tablaHoras();
+    cargarDatos(); 
+}
 
 var persona = undefined;
 var takesPosibles = undefined;
@@ -80,36 +94,87 @@ var optionsRegistre = {
 $("#searchEntrada").easyAutocomplete(optionsRegistre);
 
 function crearTablaCalendario() {
-    var contenedor = $('#calendarContent');
-    for (let i = 0; i < 8; i++) {
-        var fila = $('<div class="row fila"></div>');
-        var sala = i + 1;
-        for (let h = 0; h < 6; h++) {
-            if (h == 0) {
-                // Crea un div con el número de la sala:
-                fila.append('<div class="sala celda" style=" height: 100px;">' + sala + '</div>');
-            } else {
-                // Crea el día de la sala.
-                // Es necesario crear el atributo "dia" y "sala", para que después cuando le hagamos clic
-                // podamos coger el día y la sala de la casilla que hayamos seleccionado.
-                fila.append('<div class="col celda" dia="' + dias[h - 1] + '" sala="' + sala + '" style=" height: 100px;"><div class="progress barra_progreso"><div class="progress-bar barra progress-bar-striped" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div></div></div>');
+    if (getCookie("tablaActual")==0 || getCookie("tablaActual")===""){
+        document.cookie = "tablaActual = 0";
+        var contenedor = $('#calendarContent');
+        for (let i = 0; i < 8; i++) {
+            var fila = $('<div class="row fila"  style="min-width: 2000px;"></div>');
+            var sala = i + 1;
+            // Crea un div con el número de la sala:
+            fila.append('<div class="sala celda" style="height: 200px;">' + sala + '</div>');
+            for (let h = 0; h < 5; h++) {
+                    // Crea el día de la sala.
+                    // Es necesario crear el atributo "dia" y "sala", para que después cuando le hagamos clic
+                    // podamos coger el día y la sala de la casilla que hayamos seleccionado.
+                    fila.append('<div class="col celda" dia="' + dias[h] + '" sala="' + sala + '" style=" height: 200px;">\n\
+                                    <div class="progress barra_progreso">\n\
+                                        <div class="progress-bar barra progress-bar-striped" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">\n\
+                                            0%\n\
+                                        </div>\n\
+                                    </div>\n\
+                                </div>'
+                    );
             }
+            contenedor.append(fila);
         }
-        contenedor.append(fila);
+    } else {
+        document.cookie = "tablaActual = 1";
+        var contenedor = $('#calendarContent');
+        for (let i = 0; i < 8; i++) {
+            var fila = $('<div class="row fila"  style="min-width: 2000px;"></div>');
+            var sala = i + 1;
+            // Crea un div con el número de la sala:
+            fila.append('<div class="sala celda" style=" height: 200px;">' + sala + '</div>');
+            for (let h = 0; h < 5; h++) {
+                    // Crea el día de la sala.
+                    // Es necesario crear el atributo "dia" y "sala", para que después cuando le hagamos clic
+                    // podamos coger el día y la sala de la casilla que hayamos seleccionado.
+                    fila.append('<div class="col celda" dia="' + dias[h] + '" sala="' + sala + '" style=" min-height: 200px;">\n\
+                                    <div class="row mati" style=" min-height: 100px;"></div>\n\
+                                    <div class="row tarda" style=" min-height: 100px;"></div>\n\
+                                </div>'
+                    );
+            }
+            contenedor.append(fila);
+        }
     }
+    
     $('.celda').attr('ondrop', 'drop(event)');
     $('.celda').attr('ondragover', 'allowDrop(event)');
 }
 
 function cargarDatos() {
-    $.each(data, function( key, element ) {       
-        var celda = $("[dia=" + element.data_inici.split(' ')[0] + "][sala=" + element.calendari.num_sala + "]")[0].children[0].children[0];
-        var perce = Number(celda.innerText.replace('%', '')) + ((element.num_takes)*100)/200;
-        celda.innerText = perce + '%';
-        celda.style.width = perce + '%';
-        celda.setAttribute('aria-valuenow', perce);
-        cambiarColorCelda(celda, perce);
-    });
+    //console.log(data);
+    if (getCookie("tablaActual")==0){
+        $.each(data, function( key, element ) {   
+            var celda = $("[dia=" + element.data_inici.split(' ')[0] + "][sala=" + element.calendari.num_sala + "]")[0].children[0].children[0];
+            var perce = Number(celda.innerText.replace('%', '')) + ((element.num_takes)*100)/200;
+            celda.innerText = perce + '%';
+            celda.style.width = perce + '%';
+            celda.setAttribute('aria-valuenow', perce);
+            cambiarColorCelda(celda, perce);
+        });
+    } else {
+        $.each(data, function( key, element ) {       
+            if (element.data_inici.split(' ')[1] <= '13:30') {
+                
+                var actorSala = '<div class="col-1 llistaActors '+(element.asistencia === 0 ? 'actorNoPres' : '')+'" style="padding-left: 5px; padding-right: 5px;">'+element.data_inici.split(' ')[1]+'</div>\n\
+                                    <div class="col-4 llistaActors '+(element.asistencia === 0 ? 'actorNoPres' : '')+'" style="padding-left: 5px; padding-right: 5px;">'+element.actor_estadillo.empleat.cognom1_empleat+' '+element.actor_estadillo.empleat.nom_empleat+'</div>\n\
+                                    <div class="col-1 llistaActors '+(element.asistencia === 0 ? 'actorNoPres' : '')+'" style="padding-left: 5px; padding-right: 5px;">'+element.num_takes+'TK</div>\n\
+                                    <div class="col-4 llistaActors '+(element.asistencia === 0 ? 'actorNoPres' : '')+'" style="padding-left: 5px; padding-right: 5px;">'+element.actor_estadillo.estadillo.registre_produccio.referencia_titol+'</div>\n\
+                                    <div class="col-2 llistaActors '+(element.asistencia === 0 ? 'actorNoPres' : '')+'" style="padding-left: 5px; padding-right: 5px;">'+(element.id_director != 0 ? element.director.nom_empleat : '')+'</div>'
+                $("[dia=" + element.data_inici.split(' ')[0] + "][sala=" + element.calendari.num_sala + "]").children('.mati').append(actorSala);
+            } else {
+                var actorSala = '<div class="col-1 llistaActors '+(element.asistencia === 0 ? 'actorNoPres' : '')+'" style="padding-left: 5px; padding-right: 5px;">'+element.data_inici.split(' ')[1]+'</div>\n\
+                                    <div class="col-4 llistaActors '+(element.asistencia === 0 ? 'actorNoPres' : '')+'" style="padding-left: 5px; padding-right: 5px;">'+element.actor_estadillo.empleat.cognom1_empleat+' '+element.actor_estadillo.empleat.nom_empleat+'</div>\n\
+                                    <div class="col-1 llistaActors '+(element.asistencia === 0 ? 'actorNoPres' : '')+'" style="padding-left: 5px; padding-right: 5px;">'+element.num_takes+'TK</div>\n\
+                                    <div class="col-4 llistaActors '+(element.asistencia === 0 ? 'actorNoPres' : '')+'" style="padding-left: 5px; padding-right: 5px;">'+element.actor_estadillo.estadillo.registre_produccio.referencia_titol+'</div>\n\
+                                    <div class="col-2 llistaActors '+(element.asistencia === 0 ? 'actorNoPres' : '')+'" style="padding-left: 5px; padding-right: 5px;">'+(element.id_director != 0 ? element.director.nom_empleat : '')+'</div>'
+                $("[dia=" + element.data_inici.split(' ')[0] + "][sala=" + element.calendari.num_sala + "]").children('.tarda').append(actorSala);
+            }
+            
+        });
+    }
 
     cargarActores();
     $('.celda').click(ampliarCasilla);
@@ -142,7 +207,6 @@ function filtrar(){
         data = dataBase.filter(item => item.actor_estadillo.id_actor == idActor);
         data = dataBase.filter(item => item.actor_estadillo.estadillo.registre_produccio.registre_entrada.id_registre_entrada == idProyecto);
     } else if (idActor != -1){
-        console.log(data);
         data = dataBase.filter(item => item.actor_estadillo.id_actor == idActor);
     } else if (idProyecto != -1){
         data = dataBase.filter(item => item.actor_estadillo.estadillo.registre_produccio.registre_entrada.id_registre_entrada == idProyecto);
@@ -433,7 +497,8 @@ $('#exampleModal').on('show.bs.modal', function (e) {
     $('#takesFin').val('');
     $('#takes-celda').text('Takes per assignar a la sala: ' + restantes);
     $('#takes-celda').attr('class', 'mb-0');
-        
+    $("#actorEstadillo").val('-1');
+    
     var options = {
         data: actores.filter(filtroActorTk),
         placeholder: "Selecciona un registre",
@@ -549,7 +614,6 @@ function pintarTablaHoras() {
 }
 
 function tablaHoras() {
-
     var manyana = document.createElement('div');
     manyana.id = "morning";
     manyana.classList.add('row');
@@ -708,8 +772,20 @@ $('#pasarLista').click(function (e) {
                 Accept: 'application/json'
             },
             data: asistencia.serializeArray(),  // Le pasamos los datos serializados.
-            success: function (response) {
-                console.log(response);
+            success: function (response) { 
+                $.each(data, function( key, element ) {    
+                    $.each(response, function( key2, element2 ) {  
+                        if (element.asistencia !== element2.asistencia && element.id_calendar === element2.id_calendar){
+                            element.asistencia = element2.asistencia;
+                        }
+                    }); 
+                });
+                
+                $('#calendarContent').html('');
+                carregarCalendari();
+                
+                tablaHoras();
+                pintarTablaHoras();
             },
             error: function (error) {
                 console.error(error);
@@ -748,7 +824,7 @@ function seleccionarActorCalendario(id, elemento) {
             },
             success: function (response) {
                 calendarioActor = response;
-                console.log(actores);
+                //console.log(actores);
                 $('#selectPelis-editar').removeAttr('readonly');
                 $('#selectPelis-editar').val(response.calendar.actor_estadillo.estadillo.registre_produccio.referencia_titol);
                 $('#actorEstadillo-editar').val(response.calendar.id_actor_estadillo);
@@ -936,4 +1012,20 @@ function vaciarValoresEditar() {
     $("#canso-editar").prop('checked', false);
     $('#narracio-editar').attr('readonly', '');
     $("#narracio-editar").prop('checked', false); 
+}
+//Funcio per obtenir el valor d'una cookie
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) === ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) === 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
 }

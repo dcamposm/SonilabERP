@@ -12,6 +12,23 @@ body, html, main{
     color: black !important;
     height: 70px;
 }
+
+.mati{
+   margin-left: 0px;
+   margin-right: 0px; 
+}
+
+.tarda {
+    border-top: 1px solid black;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.alternar{
+    padding: 1px;
+    background-color: transparent;
+}
+
 .labelFechaManana{
     top:-25px;
     left: 0;
@@ -26,11 +43,11 @@ body, html, main{
     height: 100%;
 }
 .tablaMinutos{
-    width: 5px;
+    width: 1.7%;
     /* background-color: pink; */
 }
 .tablaMinutosT{
-    width: 5px;
+    width: 1.7%;
     /* background-color: orange; */
 }
 .encabezado{
@@ -94,14 +111,16 @@ body, html, main{
 }
 
 .sala{
-    padding: 15px;
+    width:40px; 
     background-color: pink;
+    text-align: center;
+    padding-top: 10px;
 }
 
 .sala-vacia{
-    padding-left: 15px;
-    padding-right: 15px;
+    width:40px;
     color: transparent;
+    text-align: center;
     background-color: pink;
     border: 1px solid black;
 }
@@ -110,6 +129,15 @@ body, html, main{
     text-align: center;
     background-color: pink;
     border: 1px solid black;
+}
+
+.llistaActors{
+    font-size: 11px;
+    height: 15px;
+}
+
+.actorNoPres{
+    background-color: red;
 }
 
 /* SIDEBAR */ 

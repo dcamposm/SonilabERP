@@ -22,7 +22,7 @@ class Missatge extends Model
     {
         return $this->belongsTo('App\User', 'id_usuari', 'id_usuari');
     }
-    
+    //Misstage per indicar un registre nou de producció
     public function missatgeNewRegistre($registreEntrada, $registreProduccio)
     {
         $fecha_actual = date("d-m-Y");               
@@ -33,7 +33,7 @@ class Missatge extends Model
         $this->id_referencia =$registreProduccio->id;
         $this->data_final =date("Y-m-d",strtotime($fecha_actual."+ 7 days"));
     }
-    
+    //Missatge d'un registre d'entrada creat
     public function missatgeResponsableRegistreCreate($registreEntrada)
     {
         $fecha_actual = date("d-m-Y");          
@@ -44,7 +44,7 @@ class Missatge extends Model
         $this->id_referencia =$registreEntrada->id_registre_entrada;
         $this->data_final =date("Y-m-d",strtotime($fecha_actual."+ 7 days"));
     }
-
+    //Missatge d'un registre d'entrada modificat
     public function missatgeResponsableRegistreUpdate($registreEntrada)
     {
         $fecha_actual = date("d-m-Y");          
@@ -55,10 +55,9 @@ class Missatge extends Model
         $this->id_referencia = $registreEntrada->id_registre_entrada;
         $this->data_final = date("Y-m-d",strtotime($fecha_actual."+ 7 days"));
     }
-
+    //Missatge de l'entrega d'un registre d'entrada del tipus media Pelicula
     public function missatgeEntregaPeliculaRegistre($registreEntrada, $registreProduccio)
-    {
-        $fecha_actual = date("d-m-Y");               
+    {             
         $this->id_usuari = $registreEntrada->id_usuari;
         $this->missatge = "Entrega per el dia ".date("d-m-Y",strtotime($registreEntrada->sortida)). " de la referencia ".$registreEntrada->referencia_titol;
         $this->type = "alertEntrega";
@@ -66,15 +65,28 @@ class Missatge extends Model
         $this->id_referencia =$registreProduccio->id;
         $this->data_final =date("Y-m-d",strtotime($registreEntrada->sortida));
     }
-
+    //Missatge de l'entrega d'un registre d'entrada del tipus media Serie o Documental
     public function missatgeEntregaPackRegistre($registreEntrada, $registreProduccio, $contSet)
-    {
-        $fecha_actual = date("d-m-Y");               
+    {           
         $this->id_usuari = $registreEntrada->id_usuari;
         $this->missatge = "Entrega per el dia ".date("d-m-Y",strtotime($registreProduccio->data_entrega)). " de la referencia ".$registreEntrada->referencia_titol." setmana ".$contSet;
         $this->type = "alertEntrega";
         $this->referencia ='registreEntrada';
         $this->id_referencia =$registreEntrada->id_registre_entrada;
         $this->data_final =date("Y-m-d",strtotime($registreProduccio->data_entrega));
+    }
+    //Missatge quanr es modifica una entrada del calendari, per els usuaris d'administració
+    public function missatgeCalendariUpdate($calendari)
+    {
+        $users = User::where('id_departament', 4)->get();
+        $fecha_actual = date("d-m-Y");
+        foreach ($users as $user){
+            $this->id_usuari = $user->id_usuari;
+            $this->missatge = "S'ha modificat.";
+            $this->type = "calendariUpdate";
+            $this->referencia = 'calendar';
+            $this->id_referencia = $calendari->id_calendar;
+            $this->data_final =date("Y-m-d",strtotime($fecha_actual."+ 7 days"));
+        }
     }
 }
