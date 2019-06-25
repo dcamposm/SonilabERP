@@ -5,7 +5,7 @@
 <div class="container-fluid">
     <div class="row justify-content-between">
         <div class="col mt-1">
-        @if (Auth::user()->hasAnyRole(['1', '4']))
+        @if (Auth::user()->hasAnyRole(['1', '5']))
             <a href="{{ url('/registreEntrada/crear') }}" class="btn btn-success">
                 <span class="fas fa-atlas"></span>
                 NOVA REFERÈNCIA
@@ -103,7 +103,7 @@
                 <th>TIPUS</th>
                 <th>MINUTS TOTALS</th>
                 <th>EPISODIS TOTALS</th>
-                @if (Auth::user()->hasAnyRole(['1', '4']))
+                @if (Auth::user()->hasAnyRole(['1', '5']))
                 <th>ACCIONS</th>
                 @endif
             </tr>
@@ -126,10 +126,10 @@
                 <td style="vertical-align: middle;">{{ $registreEntrada->media->nom_media }}</td>
                 <td style="vertical-align: middle; text-align: center;">{{ $registreEntrada->minuts }}</td>
                 <td style="vertical-align: middle; text-align: center;">{{ $registreEntrada->total_episodis }}</td>
-                @if (Auth::user()->hasAnyRole(['1', '4']))
+                @if (Auth::user()->hasAnyRole(['1', '5']))
                 <td style="vertical-align: middle;">
                     <a href="{{ route('registreEntradaUpdateView', array('id' => $registreEntrada['id_registre_entrada'])) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">MODIFICAR</a>
-                    @if (Auth::user()->hasAnyRole(['4']))
+                    @if (Auth::user()->hasAnyRole(['5']))
                         <button class="btn btn-danger btn-sm" onclick="self.seleccionarRegistreEntrada({{ $registreEntrada['id_registre_entrada'] }}, '{{ $registreEntrada['titol'] }}')" data-toggle="modal" data-target="#exampleModalCenter" style="font-size: 11px;">ESBORRAR</button>
                         <form id="delete-{{ $registreEntrada['id_registre_entrada'] }}" action="{{ route('esborrarRegistreEntrada') }}" method="POST">
                             @csrf

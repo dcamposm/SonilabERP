@@ -34,9 +34,9 @@ class DatabaseSeeder extends Seeder
         $this->call(slb_usuarisTableSeeder::class);
         User::reguard();
 
-        EmpleatExtern::unguard();
+        /*EmpleatExtern::unguard();
         $this->call(slb_empleats_externsTableSeeder::class);
-        EmpleatExtern::reguard();
+        EmpleatExtern::reguard();*/
 
         Idioma::unguard();
         $this->call(slb_idiomesTableSeeder::class);
@@ -46,17 +46,17 @@ class DatabaseSeeder extends Seeder
         $this->call(slb_carrecs::class);
         Carrec::reguard();
 
-        CarrecEmpleat::unguard();
+        /*CarrecEmpleat::unguard();
         $this->call(slb_carrecs_empleats::class);
-        CarrecEmpleat::reguard();
+        CarrecEmpleat::reguard();*/
 
         Tarifa::unguard();
         $this->call(slb_tarifasTableSeeder::class);
         Tarifa::reguard();
 
-        Client::unguard();
+        /*Client::unguard();
         $this->call(slb_clientsSeeder::class);
-        Client::reguard();
+        Client::reguard();*/
 
         Servei::unguard();
         $this->call(slb_serveisSeeder::class);
@@ -66,7 +66,7 @@ class DatabaseSeeder extends Seeder
         $this->call(slb_tipus_mediaSeeder::class);
         TipusMedia::reguard();
 
-        RegistreEntrada::unguard();
+        /*RegistreEntrada::unguard();
         $this->call(slb_registre_entradesSeeder::class);
         RegistreEntrada::reguard();
         
@@ -80,6 +80,6 @@ class DatabaseSeeder extends Seeder
 
         Calendar::unguard();
         $this->call(slb_CalendarsSeeder::class);
-        Calendar::reguard();
+        Calendar::reguard();*/
     }
 }

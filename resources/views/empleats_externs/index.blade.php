@@ -4,7 +4,7 @@
 <div class="container-fluid">
   <div class="row">
         <div class="col">
-            @if (Auth::user()->hasAnyRole(['1', '4']))
+            @if (Auth::user()->hasAnyRole(['1', '5']))
             <a href="{{ url('/empleats/crear') }}" class="btn btn-success mt-1">
                 <span class="fas fa-user-plus"></span>
                 AFEGIR TREBALLADOR
@@ -45,7 +45,7 @@
                 <th>COGNOM</th>
                 <th>TELÈFON</th>
                 <th>CARRECS</th>
-                @if (Auth::user()->hasAnyRole(['1', '4']))
+                @if (Auth::user()->hasAnyRole(['1', '5']))
                 <th>ACCIONS</th>
                 @endif
             </tr>
@@ -67,7 +67,7 @@
                         @endforeach
                         </ul>
                     </td>
-                    @if (Auth::user()->hasAnyRole(['1', '4']))
+                    @if (Auth::user()->hasAnyRole(['1', '5']))
                         <td style="vertical-align: middle;">
                             <a href="{{ route('empleatUpdateView', ['id' => $empleat['id_empleat']]) }}" class="btn btn-primary"> MODIFICAR </a>
                             <button onclick="setEmpleatPerEsborrar({{$empleat['id_empleat']}}, '{{$empleat['nom_empleat']}} {{$empleat['cognom1_empleat']}} {{$empleat['cognom2_empleat']}}')" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">ESBORRAR</button>

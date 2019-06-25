@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Validator;
-use App\{Calendar, CalendarCarrec, EmpleatExtern, ActorEstadillo, Estadillo, Carrec, RegistreProduccio, RegistreEntrada};
+use App\{Calendar, CalendarCarrec, Missatge, User, EmpleatExtern, ActorEstadillo, Estadillo, Carrec, RegistreProduccio, RegistreEntrada};
 use DateTime;
 use DB;
 use App\Http\Requests\{CalendariCreateRequest, CalendariUpdateRequest, CalendariCarrecCreateRequest, CalendariCarrecUpdateRequest};
@@ -21,11 +21,9 @@ class CalendariController extends Controller
             $week = $fecha->weekOfYear;
             $year = $fecha->year;
             $mes = $meses[($fecha->format('n')) - 1];
-            //return response()->json($mes);
         } else {
             $fecha->setISODate($year, $week);
             $mes = $meses[($fecha->format('n')) - 1];
-            //return response()->json($mes);
         }
         $dia1 = $fecha->startOfWeek();
         $dia2 = $dia1->copy()->addDay();
@@ -49,8 +47,6 @@ class CalendariController extends Controller
                                     ->orderBy('slb_calendars.data_inici')
                                     ->get());
 
-        //return response()->json($data);
-        
         $urlBase = route('showCalendari');
 
         $takes_restantes = ActorEstadillo::select('slb_actors_estadillo.id as id_actor_estadillo',
@@ -133,7 +129,7 @@ class CalendariController extends Controller
                     
             array_push($actoresPorDia, $act_dia);
         }
-        //return response()->json($actoresPorDia);
+
         $tecnicsAsignados = CalendarCarrec::where('data', '>=', $dia1)->where('data', '<=', $dia5)->get();
         $directors = EmpleatExtern::select('slb_empleats_externs.id_empleat', 'nom_empleat', 'cognom1_empleat', 'cognom2_empleat')
                                         ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', '=', 'slb_empleats_externs.id_empleat')
@@ -199,7 +195,6 @@ class CalendariController extends Controller
             else {
                 $calendario->asistencia = intval($dato);
             }
-            // return response()->json($calendario);
 
             // Aplica los nuevos cambios del calendario en la base de datos:
             $calendario->save();
@@ -245,6 +240,7 @@ class CalendariController extends Controller
         $calendari->actorEstadillo->estadillo->registreProduccio->registreEntrada;
         $calendari->actorEstadillo->empleat;
         $calendari->director;
+        
         return response()->json(['success'=> true,'calendari'=>$calendari],201);
     }
 
@@ -252,7 +248,6 @@ class CalendariController extends Controller
         $calendari = Calendar::findOrFail($id);
         // NOTE: Hay que hacer que el data_inici y el date_fi se le asigne las horas y los minutos que le lleguen
         //       del frontend.
-
         $data_inici = explode(" ",$calendari->data_inici)[0].' '.request()->input('data_inici').':00';
         $data_fi = explode(" ", $calendari->data_fi)[0].' '.request()->input('data_fi').':00';
         $valores = array(
@@ -289,7 +284,14 @@ class CalendariController extends Controller
         $calendari->id_calendar_carrec = $calendariCarrec->id_calendar_carrec;
         $calendari->id_director = $actorEstadillo->estadillo->registreProduccio->id_director;
         $calendari->save();
-
+        
+        $users = User::where('id_departament', 4)->get();
+        foreach ($users as $user){
+            $missatge = new Missatge();
+            $missatge->missatgeCalendariUpdate($calendari, $user->id_usuari); 
+            $missatge->save(); 
+        }
+          
         return response()->json("Tot Ok!");
     }
 
@@ -336,6 +338,7 @@ class CalendariController extends Controller
 
     public function getPeliculas() {
         $peliculas = RegistreProduccio::all();
+        
         return $peliculas;
     }
 }

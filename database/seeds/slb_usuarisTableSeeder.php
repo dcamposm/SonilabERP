@@ -20,33 +20,23 @@ class slb_usuarisTableSeeder extends Seeder
         // Añadimos una entrada a esta tabla
         User::create(array(
             'id_usuari' => '1',
-            'cognom1_usuari' => 'Admin',
-            'cognom2_usuari' => 'Admin',
+            'cognom1_usuari' => '',
+            'cognom2_usuari' => '',
             'email_usuari' => 'admin@admin.cat',
-            'alias_usuari' => 'admin',
-            'contrasenya_usuari' => 'SL_admin.2019',
+            'alias_usuari' => 'Administrador',
+            'contrasenya_usuari' => 'SL_admin-1234',
             'imatge_usuari' => $image,
-            'id_departament' => '1'
+            'id_departament' => '5'
         ));
         User::create(array(
             'id_usuari' => '2',
-            'cognom1_usuari' => 'test',
-            'cognom2_usuari' => 'test',
+            'cognom1_usuari' => '',
+            'cognom2_usuari' => '',
             'email_usuari' => 'test@test.com',
             'alias_usuari' => 'test',
             'contrasenya_usuari' => 'test',
             'imatge_usuari' => $image,
             'id_departament' => '1'
-        ));
-        User::create(array(
-            'id_usuari' => '3',
-            'cognom1_usuari' => 'productor',
-            'cognom2_usuari' => 'productor',
-            'email_usuari' => 'productor@test.com',
-            'alias_usuari' => 'productor',
-            'contrasenya_usuari' => 'productor',
-            'imatge_usuari' => $image,
-            'id_departament' => '2'
         ));
     }
 }

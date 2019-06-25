@@ -26,7 +26,7 @@ class HomeController extends Controller
     {
         $auth = Auth::user();
         
-        if ($auth->hasRole(4)){
+        if (($auth->hasAnyRole([1, 5]))){
             $user = User::with('missatgeDay')->get();
             //return response()->json($user);
             return view('home', array('user' => $user));

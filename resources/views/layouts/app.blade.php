@@ -140,11 +140,11 @@
                         <li class="nav-item">
                             <a class="{{ Request::is('empleats*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('empleatIndex') }}"><span class="fas fa-users"></span><span class="sidebar-link underline">Personal Extern</span></a>
                         </li>
-
+                        @if(Auth::user()->hasAnyRole(['1','5']))
                         <li class="nav-item">
                             <a class="{{ Request::is('usuaris*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('indexUsuariIntern')}}"><span class="fas fa-user-plus"></span><span class="sidebar-link underline">Gestió d'Usuaris</span></a>
                         </li>
-
+                        @endif
                         <li class="nav-item">
                             <a class="{{ Request::is('showCalendari*') ? 'nav-link active' : 'nav-link' }}" href="{{ route('showCalendari') }}"><span class="fas fa-calendar"></span><span class="sidebar-link underline">Calendari</span></a>
                         </li>

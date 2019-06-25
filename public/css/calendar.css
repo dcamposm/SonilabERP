@@ -26,6 +26,8 @@ body, html, main{
 
 .alternar{
     padding: 1px;
+    padding-top: 6px;
+    padding-bottom: 0px;
     background-color: transparent;
 }
 

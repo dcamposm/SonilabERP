@@ -20,7 +20,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 //------------------Rutes usuaris------------------
-Route::middleware(['role: 1, 4'])->group(function () { //Middleware para dar acceso a los roles indicados,  en este caso 1 (Dis.Estudi) i 4 (Administracion)
+Route::middleware(['role: 1, 5'])->group(function () { //Middleware para dar acceso a los roles indicados,  en este caso 1 (Dis.Estudi) i 5 (Sistemes&IT)
     Route::get('/usuaris/interns/index', 'UserController@getIndex')->name('indexUsuariIntern');
     Route::get('/usuaris/interns/buscar', 'UserController@find')->name('usuariFind');
     Route::get('/usuaris/interns/show/{id}', 'UserController@getShow')->name('veureUsuariIntern');
@@ -32,7 +32,7 @@ Route::middleware(['role: 1, 4'])->group(function () { //Middleware para dar acc
     Route::get('/usuaris/search', 'UserController@search')->name('usuariSearch');
 });
 //-------------------Rutes empleats externs-------------------
-Route::middleware(['role: 1, 2, 4'])->group(function () {
+Route::middleware(['role: 1, 2, 4, 5'])->group(function () {
     Route::get('/empleats', 'EmpleatExternController@index')->name('empleatIndex');
     Route::get('/empleats/buscar', 'EmpleatExternController@find')->name('empleatFind');
     Route::get('/empleats/mostrar/{id}', 'EmpleatExternController@show')->name('empleatShow');
@@ -44,11 +44,11 @@ Route::middleware(['role: 1, 2, 4'])->group(function () {
     Route::get('/empleats/search', 'EmpleatExternController@search')->name('empleatSearch');
 });
 //------------------Rutes registres entrada------------------
-Route::middleware(['role: 1, 2, 4'])->group(function () {
+Route::middleware(['role: 1, 2, 4, 5'])->group(function () {
     Route::get('/registreEntrada', 'RegistreEntradaController@index')->name('indexRegistreEntrada');
     Route::get('/registreEntrada/buscar', 'RegistreEntradaController@find')->name('registreEntradaFind');
     Route::get('/registreEntrada/mostrar/{id}', 'RegistreEntradaController@show')->name('mostrarRegistreEntrada');
-    Route::middleware(['role: 1, 4'])->group(function () {
+    Route::middleware(['role: 1, 5'])->group(function () {
         Route::get('/registreEntrada/crear', 'RegistreEntradaController@insertView')->name('registreEntradaInsertView');
         Route::post('/registreEntrada/crear', 'RegistreEntradaController@insert')->name('registreEntradaInsert');
         Route::get('/registreEntrada/modificar/{id}', 'RegistreEntradaController@updateView')->name('registreEntradaUpdateView');
@@ -58,10 +58,10 @@ Route::middleware(['role: 1, 2, 4'])->group(function () {
     Route::get('/registreEntrada/search', 'RegistreEntradaController@search')->name('registreEntradaSearch');
 });
 //-----------------------Rutes clients-----------------------
-Route::middleware(['role: 1, 2, 4'])->group(function () {
+Route::middleware(['role: 1, 2, 4, 5'])->group(function () {
     Route::get('/clients', 'ClientController@index')->name('indexClient');
     Route::get('/clients/mostrar/{id}', 'ClientController@show')->name('mostrarClient');
-    Route::middleware(['role: 1, 4'])->group(function () {
+    Route::middleware(['role: 1, 5'])->group(function () {
         Route::get('/clients/crear', 'ClientController@insertView')->name('clientInsertView');
         Route::post('/clients/crear', 'ClientController@insert')->name('clientInsert');
         Route::get('/clients/modificar/{id}', 'ClientController@updateView')->name('clientUpdateView');
@@ -69,16 +69,8 @@ Route::middleware(['role: 1, 2, 4'])->group(function () {
         Route::post('/clients/esborrar', 'ClientController@delete')->name('esborrarClient');
     });
 });
-//-----------------------Rutes idiomes-----------------------
-Route::get('/idiomes', 'IdiomaController@index')->name('indexIdioma');
-Route::get('/idiomes/mostrar/{id}', 'IdiomaController@show')->name('idiomaShow');
-Route::get('/idiomes/crear', 'IdiomaController@insertView')->name('idiomaInsertView');
-Route::post('/idiomes/crear', 'IdiomaController@insert')->name('idiomaInsert');
-Route::get('/idiomes/modificar/{id}', 'IdiomaController@updateView')->name('idiomaUpdateView');
-Route::post('/idiomes/modificar/{id}', 'IdiomaController@update')->name('idiomaUpdate');
-Route::post('/idiomes/esborrar', 'IdiomaController@delete')->name('idiomaDelete');
 //------------------Rutes registre producció------------------
-Route::middleware(['role: 1,2,3,4'])->group(function () {
+Route::middleware(['role: 1,2,3,4,5'])->group(function () {
     Route::get('/registreProduccio', 'RegistreProduccioController@getIndex')->name('indexRegistreProduccio');
     Route::get('/registreProduccio/buscar', 'RegistreProduccioController@find')->name('registreProduccioFind');
     Route::get('/registreProduccio/crear', 'RegistreProduccioController@createView')->name('createRegistreProduccio');
@@ -102,7 +94,7 @@ Route::middleware(['role: 1,2,3,4'])->group(function () {
 });
 
 //------------------Rutes estadillo------------------
-Route::middleware(['role: 1,2,4'])->group(function () {
+Route::middleware(['role: 1,2,4,5'])->group(function () {
     Route::get('/estadillos', 'EstadilloController@index')->name('indexEstadillos');
     Route::get('/estadillos/buscar', 'EstadilloController@find')->name('estadilloFind');
     Route::get('/estadillos/buscar/actor/{id}/{id_setmana?}', 'EstadilloController@findActor')->name('actorFind');
@@ -127,7 +119,7 @@ Route::middleware(['role: 1,2,4'])->group(function () {
 });
 
 //------------------Rutes vec------------------
-Route::middleware(['role: 1,2,4'])->group(function () {
+Route::middleware(['role: 1,2,4,5'])->group(function () {
     Route::get('/vec/{ref?}', 'CostController@index')->name('indexVec');
 
     Route::get('/vec/mostrar/{id}/{data?}', 'CostController@show')->name('mostrarVec');
@@ -143,7 +135,7 @@ Route::middleware(['role: 1,2,4'])->group(function () {
 });
 
 //------------------Rutes calendari------------------
-Route::middleware(['role: 1,2,3,4'])->group(function () {
+Route::middleware(['role: 1,2,3,4,5'])->group(function () {
     Route::get('/calendari', 'CalendariController@showCalendari')->name('showCalendari');
     Route::get('/calendari/{year}/{week}', 'CalendariController@showCalendari')->name('showCalendariByDate');
 

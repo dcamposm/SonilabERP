@@ -74,6 +74,7 @@ class RegistreProduccioIndex implements Responsable
 
     public function toResponse($request)
     {
+        //return response()->json($this->registreProduccio);
         return view('registre_produccio.index', [
             'registreProduccions' => $this->registreProduccio,
             'registreEntrades' => $this->registreEntrada,

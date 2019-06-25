@@ -88,7 +88,7 @@
     <div class="row">
         @foreach( $carrecsEmpelat as $key => $carrec )
         
-        <div class="{{(Auth::user()->hasAnyRole(['1', '4'])) ? 'col-12' : 'col-6 col-sm-6 col-md-3'  }}">
+        <div class="{{(Auth::user()->hasAnyRole(['1', '4', '5'])) ? 'col-12' : 'col-6 col-sm-6 col-md-3'  }}">
             <table class="table">
                 <thead class="thead-dark" style="border-left: 3px solid white">
                     <tr class="row">
@@ -99,7 +99,7 @@
                 <tbody>
                     @foreach( $carrec as $key2 => $info )
                         @if ($key2 === 0)     
-                            @if(Auth::user()->hasRole('1') OR Auth::user()->hasRole('4'))
+                            @if(Auth::user()->hasAnyRole(['1', '4', '5']))
                             <tr class="row">
                                 @foreach ($info as $key => $tarifa) 
                                     <td class="col">{{ strtr(strtoupper($tarifa['tarifa']), "àáèéíóúüç", "ÀÁÈÉÍÓÚÜÇ") }}</td>
@@ -114,7 +114,7 @@
                             @endif
                         @elseif ($key2 !== 'contracta')
                             <tr class="row table-active">
-                                <td class="col"><img src="{{url('/')}}/img/flags/{{$key2}}.png" class="rounded"> {{ strtr(strtoupper($key2), "àáèéíóúüç", "ÀÁÈÉÍÓÚÜÇ") }}</td>                   
+                                <td class="col"><img src="{{url('/')}}/img/flags/{{$key2}}.png" class="rounded" style="width: 15px;"> {{ strtr(strtoupper($key2), "àáèéíóúüç", "ÀÁÈÉÍÓÚÜÇ") }}</td>                   
                                 <td class="col">
                                 @foreach ($info as $key3 => $tarifa) 
                                     @if ($tarifa['empleat_homologat'] == '1')
@@ -132,7 +132,7 @@
                                 @endforeach
                                 </td>
                             </tr>
-                            @if(Auth::user()->hasAnyRole(['1', '4']))
+                            @if(Auth::user()->hasAnyRole(['1', '4', '5']))
                                 <tr class="row text-center bg-white">
                                     @foreach ($info as $key => $infoTarifa) 
                                         @if ($infoTarifa['nomCarrec'] == 'Actor')

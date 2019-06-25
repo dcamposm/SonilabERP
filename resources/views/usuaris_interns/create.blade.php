@@ -53,7 +53,13 @@
                 <select class="form-control {{!empty($usuario) ? 'is-valid' : ''}}" name="id_departament">
                     <option></option>
                     @foreach( $departaments as $departament )
-                        <option value="{{$departament['id_departament']}}" {{((!empty($usuario) && $usuario->id_departament == $departament['id_departament'])) || (old('id_departament') == $departament['id_departament']) ? 'selected' : ''}} >{{$departament['nom_departament']}}</option>
+                        @if(Auth::user()->hasRole(['5']))
+                            <option value="{{$departament['id_departament']}}" {{((!empty($usuario) && $usuario->id_departament == $departament['id_departament'])) || (old('id_departament') == $departament['id_departament']) ? 'selected' : ''}} >{{$departament['nom_departament']}}</option>
+                        @else
+                            @if($departament->id_departament != 5)
+                                <option value="{{$departament['id_departament']}}" {{((!empty($usuario) && $usuario->id_departament == $departament['id_departament'])) || (old('id_departament') == $departament['id_departament']) ? 'selected' : ''}} >{{$departament['nom_departament']}}</option>
+                            @endif
+                        @endif
                     @endforeach
                 </select>
                 <span class="text-danger">{{ $errors->first('id_departament') }}</span>
