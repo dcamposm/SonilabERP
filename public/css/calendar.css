@@ -26,7 +26,9 @@ body, html, main{
 
 .alternar{
     padding: 1px;
-    background-color: transparent;
+    padding-top: 6px;
+    padding-bottom: 0px;
+    background-color: pink;
 }
 
 .labelFechaManana{
