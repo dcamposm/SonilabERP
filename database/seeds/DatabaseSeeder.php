@@ -30,9 +30,9 @@ class DatabaseSeeder extends Seeder
         $this->call(slb_departamentsTableSeeder::class);
         Departament::reguard();
 
-        User::unguard();
+        /*User::unguard();
         $this->call(slb_usuarisTableSeeder::class);
-        User::reguard();
+        User::reguard();*/
 
         /*EmpleatExtern::unguard();
         $this->call(slb_empleats_externsTableSeeder::class);
