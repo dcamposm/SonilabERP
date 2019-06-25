@@ -16,7 +16,7 @@
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">REFERENCIA:</td>
                 <td class="col-sm-1 align-middle text-center">
-                @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+                @if (Auth::user()->hasAnyRole(['1', '2', '5']))
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
@@ -25,7 +25,7 @@
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">SUB-REFERENCIA:</td>
                 <td class="col-sm-1 align-middle text-center">
-                @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+                @if (Auth::user()->hasAnyRole(['1', '2', '5']))
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
@@ -34,7 +34,7 @@
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">DATA ENTREGA:</td>
                 <td class="col-sm-1 align-middle text-center">
-                @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+                @if (Auth::user()->hasAnyRole(['1', '2', '5']))
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
@@ -43,7 +43,7 @@
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">SETMANA:</td>
                 <td class="col-sm-1 align-middle text-center">
-                @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+                @if (Auth::user()->hasAnyRole(['1', '2', '5']))
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
@@ -52,7 +52,7 @@
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">TÍTOL ORIGINAL:</td>
                 <td class="col-sm-1 align-middle text-center">
-                @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+                @if (Auth::user()->hasAnyRole(['1', '2', '5']))
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
@@ -61,7 +61,7 @@
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">TÍTOL TRADUÏT:</td>
                 <td class="col-sm-1 align-middle text-center">
-                @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+                @if (Auth::user()->hasAnyRole(['1', '2', '5']))
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
@@ -70,7 +70,7 @@
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">QC VO:</td>
                 <td class="col-sm-1 align-middle text-center">
-                @if (Auth::user()->hasAnyRole(['1', '3', '4']))
+                @if (Auth::user()->hasAnyRole(['1', '3', '5']))
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
@@ -79,7 +79,7 @@
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">QC M&E:</td>
                 <td class="col-sm-1 align-middle text-center">
-                @if (Auth::user()->hasAnyRole(['1', '3', '4']))
+                @if (Auth::user()->hasAnyRole(['1', '3', '5']))
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
@@ -88,7 +88,7 @@
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">PPP:</td>
                 <td class="col-sm-1 align-middle text-center">
-                @if (Auth::user()->hasAnyRole(['1', '3', '4']))
+                @if (Auth::user()->hasAnyRole(['1', '3', '5']))
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
@@ -97,7 +97,7 @@
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">TRADUCTOR:</td>
                 <td class="col-sm-1 align-middle text-center">
-                @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+                @if (Auth::user()->hasAnyRole(['1', '2', '5']))
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
@@ -106,7 +106,7 @@
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">DATA TRADUCTOR:</td>
                 <td class="col-sm-1 align-middle text-center">
-                @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+                @if (Auth::user()->hasAnyRole(['1', '2', '5']))
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
@@ -115,7 +115,7 @@
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">AJUSTADOR:</td>
                 <td class="col-sm-1 align-middle text-center">
-                @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+                @if (Auth::user()->hasAnyRole(['1', '2', '5']))
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
@@ -124,7 +124,7 @@
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">DATA AJUSTADOR:</td>
                 <td class="col-sm-1 align-middle text-center">
-                @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+                @if (Auth::user()->hasAnyRole(['1', '2', '5']))
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
@@ -133,7 +133,7 @@
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">LINGÜISTA:</td>
                 <td class="col-sm-1 align-middle text-center">
-                @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+                @if (Auth::user()->hasAnyRole(['1', '2', '5']))
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
@@ -142,7 +142,7 @@
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">DATA LINGÜISTA:</td>
                 <td class="col-sm-1 align-middle text-center">
-                @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+                @if (Auth::user()->hasAnyRole(['1', '2', '5']))
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
@@ -151,7 +151,7 @@
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">DIRECTOR:</td>
                 <td class="col-sm-1 align-middle text-center">
-                @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+                @if (Auth::user()->hasAnyRole(['1', '2', '5']))
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>              
@@ -160,7 +160,7 @@
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">CASTING:</td>
                 <td class="col-sm-1 align-middle text-center">
-                @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+                @if (Auth::user()->hasAnyRole(['1', '2', '5']))
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
@@ -169,7 +169,7 @@
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">PROPOSTES:</td>
                 <td class="col-sm-1 align-middle text-center">
-                @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+                @if (Auth::user()->hasAnyRole(['1', '2', '5']))
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
@@ -178,7 +178,7 @@
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">INSERTS:</td>
                 <td class="col-sm-1 align-middle text-center">
-                @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+                @if (Auth::user()->hasAnyRole(['1', '2', '5']))
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
@@ -187,7 +187,7 @@
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">CONVOS:</td>
                 <td class="col-sm-1 align-middle text-center">
-                @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+                @if (Auth::user()->hasAnyRole(['1', '2', '5']))
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
@@ -196,7 +196,7 @@
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">INICI SALA:</td>
                 <td class="col-sm-1 align-middle text-center">
-                @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+                @if (Auth::user()->hasAnyRole(['1', '2', '5']))
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
@@ -205,7 +205,7 @@
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">PPS:</td>
                 <td class="col-sm-1 align-middle text-center">
-                @if (Auth::user()->hasAnyRole(['1', '3', '4']))
+                @if (Auth::user()->hasAnyRole(['1', '3', '5']))
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
@@ -214,7 +214,7 @@
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">FINAL SALA:</td>
                 <td class="col-sm-1 align-middle text-center">
-                @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+                @if (Auth::user()->hasAnyRole(['1', '2', '5']))
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
@@ -223,7 +223,7 @@
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">TÉCNIC MIX:</td>
                 <td class="col-sm-1 align-middle text-center">
-                @if (Auth::user()->hasAnyRole(['1', '3', '4']))
+                @if (Auth::user()->hasAnyRole(['1', '3', '5']))
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
@@ -232,7 +232,7 @@
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">DATA TÉCNIC MIX:</td>
                 <td class="col-sm-1 align-middle text-center">
-                @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+                @if (Auth::user()->hasAnyRole(['1', '2', '5']))
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
@@ -241,7 +241,7 @@
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">RETAKES:</td>
                 <td class="col-sm-1 align-middle text-center">
-                @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+                @if (Auth::user()->hasAnyRole(['1', '2', '5']))
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
@@ -250,7 +250,7 @@
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">QC MIX:</td>
                 <td class="col-sm-1 align-middle text-center">
-                @if (Auth::user()->hasAnyRole(['1', '3', '4']))
+                @if (Auth::user()->hasAnyRole(['1', '3', '5']))
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
@@ -259,7 +259,7 @@
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">PPE:</td>
                 <td class="col-sm-1 align-middle text-center">
-                @if (Auth::user()->hasAnyRole(['1', '3', '4']))
+                @if (Auth::user()->hasAnyRole(['1', '3', '5']))
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
@@ -268,7 +268,7 @@
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">ESTAT:</td>
                 <td class="col-sm-1 align-middle text-center">
-                @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+                @if (Auth::user()->hasAnyRole(['1', '2', '5']))
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>

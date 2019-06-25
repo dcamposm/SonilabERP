@@ -13,7 +13,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    @if (Auth::user()->hasAnyRole(['1','4']))
+                    @if (Auth::user()->hasAnyRole(['1','5']))
                        @foreach ($user as $usuari)
                             @if (isset($usuari->missatgeDay))
                             @foreach($usuari->missatgeDay->where('type', 'registreEntradaCreate') as $missatge)
@@ -57,7 +57,7 @@
                 <div class="card-header">ÚLTIMS REGISTRES MODIFICATS</div>
 
                 <div class="card-body">
-                    @if (Auth::user()->hasAnyRole(['1','4']))
+                    @if (Auth::user()->hasAnyRole(['1','5']))
                        @foreach ($user as $usuari)
                             @if (isset($usuari->missatgeDay))
                                 @foreach($usuari->missatgeDay->where('type', 'registreEntradaUpdate') as $missatge)
@@ -80,7 +80,7 @@
                 <div class="card-header">AVISOS D'ENTREGUES</div>
 
                 <div class="card-body">
-                    @if (Auth::user()->hasAnyRole(['1','4']))
+                    @if (Auth::user()->hasAnyRole(['1','5']))
                        @foreach ($user as $usuari)
                             @if (isset($usuari->missatgeDay))
                                 @foreach($usuari->missatgeDay->where('type', 'alertEntrega') as $missatge)
@@ -131,7 +131,7 @@
                 <div class="card-header">ALERTES</div>
 
                 <div class="card-body">
-                    @if (Auth::user()->hasAnyRole(['1','4']))
+                    @if (Auth::user()->hasAnyRole(['1','5']))
                        @foreach ($user as $usuari)
                             @if (isset($usuari->missatgeDay))
                                 @foreach($usuari->missatgeDay->where('type', 'alert') as $missatge)

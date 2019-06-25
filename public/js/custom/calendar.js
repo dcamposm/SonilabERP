@@ -804,9 +804,10 @@ var elementoSeleccionado = undefined;
 function seleccionarActorCalendario(id, elemento) {
     // Le da estilo al elemento seleccionado:
     if (elementoSeleccionado != undefined) {
-        elementoSeleccionado.className = "";
+        $(elementoSeleccionado).removeClass("actorAsistencia-seleccionado");
     }
-    elemento.className = "actorAsistencia-seleccionado";
+    
+    $(elemento).addClass("actorAsistencia-seleccionado");
     elementoSeleccionado = elemento;
 
     calendarioActorSeleccionado_id = id.split('-')[1];
@@ -987,7 +988,12 @@ function eliminarCalendarioActor() {
             data = undefined;
             data = nuevoAmanecer;
             $('#' + calendarioActorSeleccionado_id + "-" + calendarioActor.calendar.id_actor_estadillo + "-" + calendarioActor.calendar.calendari.num_sala).remove();
+                        
             vaciarValoresEditar();
+            
+            $('#calendarContent').html('');
+            carregarCalendari(); 
+
             tablaHoras();
             pintarTablaHoras();
         },

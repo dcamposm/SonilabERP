@@ -75,18 +75,17 @@ class Missatge extends Model
         $this->id_referencia =$registreEntrada->id_registre_entrada;
         $this->data_final =date("Y-m-d",strtotime($registreProduccio->data_entrega));
     }
-    //Missatge quanr es modifica una entrada del calendari, per els usuaris d'administració
-    public function missatgeCalendariUpdate($calendari)
+    //Missatge quanr es modifica un actor d'una sala del calendari
+    public function missatgeCalendariUpdate($calendari, $id_user)
     {
-        $users = User::where('id_departament', 4)->get();
         $fecha_actual = date("d-m-Y");
-        foreach ($users as $user){
-            $this->id_usuari = $user->id_usuari;
-            $this->missatge = "S'ha modificat.";
-            $this->type = "calendariUpdate";
-            $this->referencia = 'calendar';
-            $this->id_referencia = $calendari->id_calendar;
-            $this->data_final =date("Y-m-d",strtotime($fecha_actual."+ 7 days"));
-        }
+        
+        $this->id_usuari = $id_user;
+        $this->missatge = "S'ha modificat.";
+        $this->type = "calendariUpdate";
+        $this->referencia = 'calendar';
+        $this->id_referencia = $calendari->id_calendar;
+        $this->data_final =date("Y-m-d",strtotime($fecha_actual."+ 7 days"));
+
     }
 }

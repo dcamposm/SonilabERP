@@ -8,19 +8,19 @@
     @else
     <div class="row">
     @endif
-        @if(Auth::user()->hasAnyRole(['1','2','4']))
+        @if(Auth::user()->hasAnyRole(['1','2','4','5']))
         <div class="col">
             <button class="btn btn-success mt-1" data-toggle="modal" data-target="#ModalInsert">
                 <span class="fas fa-atlas"></span>
                 AFEGIR REGISTRE DE PRODUCCIÓ
             </button>
-            @if (Auth::user()->hasAnyRole(['4']))
+            @if (Auth::user()->hasAnyRole(['5']))
             <a href="{{ url('/estadillos') }}" class="btn btn-success mt-1">
                 <span class="fas fa-clipboard-list"></span>
                 ESTADILLOS
             </a>
             @endif
-            @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+            @if (Auth::user()->hasAnyRole(['1', '2', '4','5']))
             <a href="{{ url('/vec') }}" class="btn btn-success mt-1">
                 <i class="fas fa-calculator"></i>
                 VEC
@@ -41,7 +41,7 @@
                             <option value="subreferencia">SUB-REFERÈNCIA</option>
                             <option value="data_entrega" id="date">DATA D'ENTREGA</option>
                             <option value="estat" id="estat">ESTAT</option>
-                            @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+                            @if (Auth::user()->hasAnyRole(['1', '2', '4','5']))
                                 @if (Auth::user()->hasAnyRole(['2']))
                                     <option value="titol_traduit">TÍTOL TRADUIT</option>
                                     <option value="id_traductor">TRADUCTOR</option>
@@ -83,7 +83,7 @@
                             <option value="subreferencia">SUB-REFERÈNCIA</option>
                             <option value="data_entrega" id="date">DATA D'ENTREGA</option>
                             <option value="estat" id="estat">ESTAT</option>
-                            @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+                            @if (Auth::user()->hasAnyRole(['1', '2', '4','5']))
                                 @if (Auth::user()->hasAnyRole(['2']))
                                     <option value="titol_traduit">TÍTOL TRADUIT</option>
                                     <option value="id_traductor">TRADUCTOR</option>
@@ -143,7 +143,7 @@
     <table class="table tableIndex" id="parentTable" style="margin-top: 10px;  min-width: 1000px; border-collapse:collapse;">
         <thead>
             <tr>
-                @if (Auth::user()->hasAnyRole(['1', '4']))
+                @if (Auth::user()->hasAnyRole(['1', '4','5']))
                     <th>REF.</th> 
                     <th>SUB-REF</th> 
                     <th>DATA D'ENTREGA</th>
@@ -219,7 +219,7 @@
                         <td style="vertical-align: middle;">{{$registreProduccio->setmana}}</td>
                         <td style="vertical-align: middle;">{{!empty($registreProduccio->registreEntrada->usuari->nom_cognom) ? $registreProduccio->registreEntrada->usuari->nom_cognom : ''}}</td>
                         <td style="vertical-align: middle;">{{$registreProduccio->titol}}</td>
-                        @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+                        @if (Auth::user()->hasAnyRole(['1', '2', '4','5']))
                             @if (Auth::user()->hasAnyRole(['2']))
                                 <td style="vertical-align: middle;">{{ $registreProduccio->titol_traduit }}</td>
                                 <td style="vertical-align: middle;">{{ $registreProduccio->traductor ? $registreProduccio->traductor->nom_empleat : '' }}</td>
@@ -281,7 +281,7 @@
                         @endif
                         <td style="vertical-align: middle;">
                             <a href="{{ route('mostrarRegistreProduccio', array('id' => $registreProduccio->id)) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">MODIFICAR</a>
-                            @if (Auth::user()->hasAnyRole(['4']))
+                            @if (Auth::user()->hasAnyRole(['5']))
                                 <button class="btn btn-danger btn-sm" style="font-size: 11px;" onclick="self.seleccionarRegistreProduccio({{ $registreProduccio->id }}, '{{ $registreProduccio->id_registre_entrada.' '.$registreProduccio->titol.' '.$registreProduccio->subreferencia }}')" data-toggle="modal" data-target="#exampleModalCenter">ESBORRAR</button>
                                 <form id="delete-{{ $registreProduccio->id }}" action="{{ route('deleteRegistre') }}" method="POST">
                                     @csrf
@@ -307,7 +307,7 @@
                                 <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}_{{$key1}}">{{ $episodi['setmana'] }}</td>
                                 <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}_{{$key1}}">{{$episodi['responsable']}}</td>
                                 <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}_{{$key1}}">{{ $episodi['titol'] }}</td>
-                                @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+                                @if (Auth::user()->hasAnyRole(['1', '2', '4','5']))
                                     @if (Auth::user()->hasAnyRole(['2']))
                                         <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}_{{$key1}}"></td>
                                         <td style="vertical-align: middle;" class="accordion cursor" data-toggle="collapse" data-target="#collapse{{$key}}_{{$key1}}"></td>
@@ -389,9 +389,9 @@
                                 </td>
                                 <td style="vertical-align: middle;">{{ date('d/m/Y', strtotime($episodi->data_entrega)) }}</td>
                                 <td style="vertical-align: middle;">{{$episodi->setmana}}</td>
-                                <td style="vertical-align: middle;">{{$episodi->registreEntrada->usuari->nom_cognom}}</td>
+                                <td style="vertical-align: middle;">{{$episodi->registreEntrada->usuari != null ? $episodi->registreEntrada->usuari->nom_cognom : ''}}</td>
                                 <td style="vertical-align: middle;">{{$episodi->titol}}</td>
-                                @if (Auth::user()->hasAnyRole(['1', '2', '4']))
+                                @if (Auth::user()->hasAnyRole(['1', '2', '4','5']))
                                     @if (Auth::user()->hasAnyRole(['2']))
                                         <td style="vertical-align: middle;">{{ $episodi->titol_traduit }}</td>
                                         <td style="vertical-align: middle;">{{ $episodi->traductor ? $episodi->traductor->nom_empleat : '' }}</td>
@@ -440,7 +440,7 @@
                                 @endif
                                 <td style="vertical-align: middle;">
                                     <a href="{{ route('mostrarRegistreProduccio', array('id' => $episodi->id)) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">MODIFICAR</a>
-                                    @if (Auth::user()->hasAnyRole(['4']))
+                                    @if (Auth::user()->hasAnyRole(['5']))
                                         <button class="btn btn-danger btn-sm" style="font-size: 11px;" onclick="self.seleccionarRegistreProduccio({{ $episodi->id }}, '{{ $episodi->id_registre_entrada.' '.$episodi->titol.' '.$episodi->subreferencia }}')" data-toggle="modal" data-target="#exampleModalCenter">ESBORRAR</button>
                                         <form id="delete-{{ $episodi->id }}" action="{{ route('deleteRegistre') }}" method="POST">
                                             @csrf

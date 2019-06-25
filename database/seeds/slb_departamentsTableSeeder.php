@@ -18,22 +18,27 @@ class slb_departamentsTableSeeder extends Seeder
         Departament::create(array(
             'id_departament' => '1',
             'nom_departament' => 'Direcció',
-            'descripcio_departament' => 'Usuari que interactua amb l\'aplicació per administrar-la.'
+            'descripcio_departament' => 'Usuaris del departament de direcció.'
         ));
         Departament::create(array(
             'id_departament' => '2',
             'nom_departament' => 'Producció',
-            'descripcio_departament' => 'Usuari que interactua amb l\'aplicació per administrar-la.'
+            'descripcio_departament' => 'Usuaris del departament de producció.'
         ));
         Departament::create(array(
             'id_departament' => '3',
             'nom_departament' => 'Tècnic',
-            'descripcio_departament' => 'Usuari que interactua amb l\'aplicació per administrar-la.'
+            'descripcio_departament' => 'Usuaris del departament tècnic.'
         ));
         Departament::create(array(
             'id_departament' => '4',
             'nom_departament' => 'Administració',
-            'descripcio_departament' => 'Usuari que interactua amb l\'aplicació per administrar-la.'
+            'descripcio_departament' => 'Usuaris del departament d\'administració.'
+        ));
+        Departament::create(array(
+            'id_departament' => '5',
+            'nom_departament' => 'Sistemes',
+            'descripcio_departament' => 'Usuaris del departament de Sistems & IT.'
         ));
     }
 }
