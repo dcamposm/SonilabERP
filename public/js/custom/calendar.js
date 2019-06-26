@@ -237,6 +237,8 @@ function guardarCelda() {
     }
     
     var actorEstadillo = $('#actorEstadillo').val();
+    
+    var actorEstadillo = $('#actorEstadillo').val();
     console.log(celda);
     console.log(num_sala);
     if ($("#canso").prop('checked') == true){
