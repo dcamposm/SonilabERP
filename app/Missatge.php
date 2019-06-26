@@ -86,6 +86,16 @@ class Missatge extends Model
         $this->referencia = 'calendar';
         $this->id_referencia = $calendari->id_calendar;
         $this->data_final =date("Y-m-d",strtotime($fecha_actual."+ 7 days"));
-
     }
+    public function missatgeResponsableRegistreUpdateCamp($registreEntrada, $mod)
+    {
+        $fecha_actual = date("d-m-Y");          
+        $this->id_usuari = $registreEntrada->id_usuari;
+        $this->missatge = $mod;
+        $this->type = "registreEntradaUpdateCamp";
+        $this->referencia ='registreEntrada';
+        $this->id_referencia = $registreEntrada->id_registre_entrada;
+        $this->data_final = date("Y-m-d",strtotime($fecha_actual."+ 7 days"));
+    }
+    
 }

@@ -348,7 +348,8 @@ function drop(ev) {
         }
     });
 
-    celda = $(ev.target).attr('aria-valuenow') ? ev.target : ev.target.children[0];
+    celda = $(ev.target).attr('aria-valuenow') ? ev.target : (ev.target.children[0] ? ev.target.children[0] : ev.target.parentElement);
+
     $('#exampleModal').modal('show');
 }
 

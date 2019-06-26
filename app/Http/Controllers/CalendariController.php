@@ -57,9 +57,9 @@ class CalendariController extends Controller
                                                     'slb_actors_estadillo.narracio_estadillo',
                                                     'slb_actors_estadillo.canso_estadillo',
                                                     'slb_estadillo.id_registre_produccio')
-                                            ->join('slb_estadillo', 'slb_estadillo.id_estadillo', '=', 'slb_actors_estadillo.id_produccio')
-                                            ->join('slb_registres_produccio', 'slb_registres_produccio.id', '=', 'slb_estadillo.id_registre_produccio')
-                                            ->distinct()->where('slb_registres_produccio.estat', '=', 'Pendent')
+                                            ->join('slb_estadillo', 'slb_estadillo.id_estadillo', 'slb_actors_estadillo.id_produccio')
+                                            ->join('slb_registres_produccio', 'slb_registres_produccio.id', 'slb_estadillo.id_registre_produccio')
+                                            ->distinct()->where('slb_registres_produccio.estat', 'Pendent')
                                             ->with('calendar')->get();                          
         
         foreach ($takes_restantes as $key => $value) {
@@ -95,9 +95,9 @@ class CalendariController extends Controller
         $actores = json_encode($takes_restantes);
 
         $tecnics = EmpleatExtern::select('slb_empleats_externs.id_empleat', 'slb_empleats_externs.nom_empleat', 'slb_empleats_externs.cognom1_empleat', 'slb_empleats_externs.cognom2_empleat')
-                                  ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', '=', 'slb_empleats_externs.id_empleat')
-                                  ->join('slb_carrecs', 'slb_carrecs.id_carrec', '=', 'slb_carrecs_empleats.id_carrec')
-                                  ->distinct()->where('slb_carrecs.nom_carrec', '=', 'Tècnic de sala')
+                                  ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', 'slb_empleats_externs.id_empleat')
+                                  ->join('slb_carrecs', 'slb_carrecs.id_carrec', 'slb_carrecs_empleats.id_carrec')
+                                  ->distinct()->where('slb_carrecs.nom_carrec', 'Tècnic de sala')
                                   ->get();
         
         // TODO: Hacer que los actores no se repitan o que si se repiten que se coja también la hora.
@@ -118,9 +118,9 @@ class CalendariController extends Controller
                                              'slb_calendars.id_calendar as id_calendar',
                                              'slb_calendars.asistencia',
                                              'slb_calendars.id_director')
-                                    ->join('slb_actors_estadillo', 'slb_actors_estadillo.id_actor', '=', 'slb_empleats_externs.id_empleat')
-                                    ->join('slb_calendars', 'slb_calendars.id_actor_estadillo', '=', 'slb_actors_estadillo.id')
-                                    ->join('slb_calendar_carrecs', 'slb_calendar_carrecs.id_calendar_carrec', '=', 'slb_calendars.id_calendar_carrec')
+                                    ->join('slb_actors_estadillo', 'slb_actors_estadillo.id_actor', 'slb_empleats_externs.id_empleat')
+                                    ->join('slb_calendars', 'slb_calendars.id_actor_estadillo', 'slb_actors_estadillo.id')
+                                    ->join('slb_calendar_carrecs', 'slb_calendar_carrecs.id_calendar_carrec', 'slb_calendars.id_calendar_carrec')
                                     ->distinct()->where( DB::raw('DAY(slb_calendars.data_inici)'), '=', $diaz->format('d'))
                                     ->where( DB::raw('MONTH(slb_calendars.data_inici)'), '=', $diaz->format('m'))
                                     ->where( DB::raw('YEAR(slb_calendars.data_inici)'), '=', $diaz->format('Y'))

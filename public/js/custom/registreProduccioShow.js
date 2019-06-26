@@ -101,9 +101,9 @@ function formTable(){
                             });
                         });
                     }
-                    
+                    console.log(rutaSearchEmpleat+"?search="+idArray[0]+"&idioma="+registre.registre_entrada.id_idioma);
                     var options = {
-                        url:  rutaSearchEmpleat+"?search="+idArray[0],
+                        url:  rutaSearchEmpleat+"?search="+idArray[0]+"&idioma="+registre.registre_entrada.id_idioma,
 
                         getValue: "nom_cognom",
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
 use App\{User, Departament};
 use App\Http\Responsables\User\{UserIndex, UserCreate};
 use App\Http\Requests\{UserCreateRequest, UserUpdateRequest};
@@ -39,7 +40,11 @@ class UserController extends Controller
         *Funcio per retornar la vista index dels usuaris interns
     */
     function getIndex(){
-        $usuaris= User::all();
+        if ((Auth::user()->hasAnyRole([5]))){
+            $usuaris= User::all(); 
+        }   else {
+            $usuaris= User::where('id_departament', '!=', 5)->get(); 
+        }
         
         return new UserIndex($usuaris);
     }
