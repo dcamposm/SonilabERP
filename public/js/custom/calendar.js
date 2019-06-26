@@ -226,11 +226,19 @@ function refrescarCalendarioFiltrado(){
 }
 
 function guardarCelda() {
-    var data_inici = celda.parentElement.parentElement.getAttribute("dia") + " " + $('#takesIni').val() + ":00";
-    var data_fi = celda.parentElement.parentElement.getAttribute("dia") + " " + $('#takesFin').val() + ":00";
-    var num_sala = celda.parentElement.parentElement.getAttribute("sala");
-    var actorEstadillo = $('#actorEstadillo').val();
+    if (getCookie("tablaActual")==0){
+        var data_inici = celda.parentElement.parentElement.getAttribute("dia") + " " + $('#takesIni').val() + ":00";
+        var data_fi = celda.parentElement.parentElement.getAttribute("dia") + " " + $('#takesFin').val() + ":00";
+        var num_sala = celda.parentElement.parentElement.getAttribute("sala");
+    } else {
+        var data_inici = celda.getAttribute("dia") + " " + $('#takesIni').val() + ":00";
+        var data_fi = celda.getAttribute("dia") + " " + $('#takesFin').val() + ":00";
+        var num_sala = celda.getAttribute("sala"); 
+    }
     
+    var actorEstadillo = $('#actorEstadillo').val();
+    console.log(celda);
+    console.log(num_sala);
     if ($("#canso").prop('checked') == true){
         var canso = $('#canso').val();
     } else {
