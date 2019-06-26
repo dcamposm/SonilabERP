@@ -46,7 +46,7 @@ class CalendariController extends Controller
                                     ->with('director')
                                     ->orderBy('slb_calendars.data_inici')
                                     ->get());
-
+        
         $urlBase = route('showCalendari');
 
         $takes_restantes = ActorEstadillo::select('slb_actors_estadillo.id as id_actor_estadillo',

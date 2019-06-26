@@ -26,7 +26,7 @@ class RegistreProduccioController extends Controller {
 
     public function show($id) {
         $registreProduccio = RegistreProduccio::with('registreEntrada')->find($id);
-        
+
 //----------Si entra el reponsable del registre d'entrada i el registre te un missatge NEW, elimina el missatge---------------
         if ($registreProduccio->registreEntrada->id_usuari == Auth::user()->id_usuari){
             Missatge::where([['id_referencia', $id],
