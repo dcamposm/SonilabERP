@@ -45,7 +45,7 @@ class UserController extends Controller
         }   else {
             $usuaris= User::where('id_departament', '!=', 5)->get(); 
         }
-        
+
         return new UserIndex($usuaris);
     }
     /*

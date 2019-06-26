@@ -349,7 +349,7 @@ function drop(ev) {
     });
 
     celda = $(ev.target).attr('aria-valuenow') ? ev.target : (ev.target.children[0] ? ev.target.children[0] : ev.target.parentElement);
-    console.log(celda);
+
     $('#exampleModal').modal('show');
 }
 
@@ -831,7 +831,7 @@ function seleccionarActorCalendario(id, elemento) {
             },
             success: function (response) {
                 calendarioActor = response;
-                //console.log(actores);
+
                 $('#selectPelis-editar').removeAttr('readonly');
                 $('#selectPelis-editar').val(response.calendar.actor_estadillo.estadillo.registre_produccio.referencia_titol);
                 $('#actorEstadillo-editar').val(response.calendar.id_actor_estadillo);
@@ -984,8 +984,10 @@ function eliminarCalendarioActor() {
                         data_inici: element.data_inici,
                         id_actor_estadillo: element.id_actor_estadillo,
                         id_calendar: element.id_calendar,
-                        num_sala: element.num_sala,
                         num_takes: element.num_takes,
+                        id_director: element.id_director,
+                        director: element.director,
+                        calendari: element.calendari,
                         updated_at: element.updated_at
                     });
                 }
@@ -996,7 +998,7 @@ function eliminarCalendarioActor() {
             $('#' + calendarioActorSeleccionado_id + "-" + calendarioActor.calendar.id_actor_estadillo + "-" + calendarioActor.calendar.calendari.num_sala).remove();
                         
             vaciarValoresEditar();
-            
+            console.log(data);
             $('#calendarContent').html('');
             carregarCalendari(); 
 
