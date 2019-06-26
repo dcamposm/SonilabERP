@@ -349,7 +349,7 @@ function drop(ev) {
     });
 
     celda = $(ev.target).attr('aria-valuenow') ? ev.target : (ev.target.children[0] ? ev.target.children[0] : ev.target.parentElement);
-
+    console.log(celda);
     $('#exampleModal').modal('show');
 }
 
@@ -488,8 +488,13 @@ $('#exampleModal').on('show.bs.modal', function (e) {
 
     takesPosibles = takes;
 
-    var data_inici = celda.parentElement.parentElement.getAttribute("dia");
-    var num_sala = celda.parentElement.parentElement.getAttribute("sala");
+    if ($(celda).attr('dia')){
+        var data_inici = celda.getAttribute("dia");
+        var num_sala = celda.getAttribute("sala");
+    } else {
+        var data_inici = celda.parentElement.parentElement.getAttribute("dia");
+        var num_sala = celda.parentElement.parentElement.getAttribute("sala");
+    }
     $('#crear-subtitulo').text('Dia: '+data_inici+' - Sala: '+num_sala);
     $("#selectPelis").val('');
     $('#numberTakes').attr('max', takesPosibles);
