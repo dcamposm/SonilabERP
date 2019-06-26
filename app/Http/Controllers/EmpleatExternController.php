@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\{Carrec,CarrecEmpleat,EmpleatExtern,Idioma,Tarifa};
+use App\{Carrec,CarrecEmpleat,EmpleatExtern,Idioma,Tarifa,RegistreEntrada};
 use Illuminate\Http\Request;
 use App\Http\Responsables\EmpleatExtern\{EmpleatExternIndex,EmpleatExternShow,EmpleatExternCreate,EmpleatExternUpdate};
 use App\Http\Requests\EmpleatExternCreateRequest;
@@ -284,8 +284,8 @@ class EmpleatExternController extends Controller
                 }   
             }else if(!request()->has($nomCarrec)){
                 $carrecAntic = CarrecEmpleat::where([
-                    ['id_empleat', '=', $id],
-                    ['id_carrec', '=', $id_carrec]
+                    ['id_empleat', $id],
+                    ['id_carrec', $id_carrec]
                 ])->delete();
             }
         }
@@ -303,28 +303,30 @@ class EmpleatExternController extends Controller
     {
         if ($request->search != 'director' && $request->search != 'tecnic_mix' && $request->search != 'Actor'){
             $empleats = EmpleatExtern::select('slb_empleats_externs.id_empleat', 'nom_empleat', 'cognom1_empleat', 'cognom2_empleat')
-                                    ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', '=', 'slb_empleats_externs.id_empleat')
-                                    ->join('slb_tarifas', 'slb_tarifas.id', '=', 'slb_carrecs_empleats.id_tarifa')
-                                    ->distinct()->where('slb_tarifas.nombre_corto', '=', $request->search)
+                                    ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', 'slb_empleats_externs.id_empleat')
+                                    ->join('slb_tarifas', 'slb_tarifas.id', 'slb_carrecs_empleats.id_tarifa')
+                                    ->distinct()
+                                    ->where('slb_tarifas.nombre_corto', $request->search)
+                                    ->where('slb_carrecs_empleats.id_idioma', $request->idioma)
                                     ->get();
         } else {
             if ($request->search == 'director'){
                 $empleats = EmpleatExtern::select('slb_empleats_externs.id_empleat', 'nom_empleat', 'cognom1_empleat', 'cognom2_empleat')
-                                        ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', '=', 'slb_empleats_externs.id_empleat')
-                                        ->join('slb_carrecs', 'slb_carrecs.id_carrec', '=', 'slb_carrecs_empleats.id_carrec')
-                                        ->distinct()->where('slb_carrecs.nom_carrec', '=', 'Director')
+                                        ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', 'slb_empleats_externs.id_empleat')
+                                        ->join('slb_carrecs', 'slb_carrecs.id_carrec', 'slb_carrecs_empleats.id_carrec')
+                                        ->distinct()->where('slb_carrecs.nom_carrec', 'Director')
                                         ->get();
             } elseif ($request->search == 'Actor') {
                 $empleats = EmpleatExtern::select('slb_empleats_externs.id_empleat', 'nom_empleat', 'cognom1_empleat', 'cognom2_empleat')
-                                        ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', '=', 'slb_empleats_externs.id_empleat')
-                                        ->join('slb_carrecs', 'slb_carrecs.id_carrec', '=', 'slb_carrecs_empleats.id_carrec')
-                                        ->distinct()->where('slb_carrecs.nom_carrec', '=', $request->search)
+                                        ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', 'slb_empleats_externs.id_empleat')
+                                        ->join('slb_carrecs', 'slb_carrecs.id_carrec', 'slb_carrecs_empleats.id_carrec')
+                                        ->distinct()->where('slb_carrecs.nom_carrec', $request->search)
                                         ->get();
             } else {
                 $empleats = EmpleatExtern::select('slb_empleats_externs.id_empleat', 'nom_empleat', 'cognom1_empleat', 'cognom2_empleat')
-                                        ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', '=', 'slb_empleats_externs.id_empleat')
-                                        ->join('slb_carrecs', 'slb_carrecs.id_carrec', '=', 'slb_carrecs_empleats.id_carrec')
-                                        ->distinct()->where('slb_carrecs.nom_carrec', '=', 'Tècnic de sala')
+                                        ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', 'slb_empleats_externs.id_empleat')
+                                        ->join('slb_carrecs', 'slb_carrecs.id_carrec', 'slb_carrecs_empleats.id_carrec')
+                                        ->distinct()->where('slb_carrecs.nom_carrec', 'Tècnic de sala')
                                         ->get();
             }
                 

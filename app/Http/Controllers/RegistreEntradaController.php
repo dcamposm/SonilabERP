@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
 use Illuminate\Support\Facades\Mail;
 use App\{RegistreEntrada,Missatge,RegistreProduccio,Estadillo,ActorEstadillo,Costos,EmpleatCost};
 use App\Mail\{RegistreEntradaCreat, RegistreEntradaUpdate};
-use App\Http\Responsables\RegistreEntrada\{RegistreEntradaIndex,RegistreEntradaCreate};
+use App\Http\Responsables\RegistreEntrada\{RegistreEntradaIndex,RegistreEntradaCreate, RegistreEntradaShow};
 use App\Http\Requests\RegistreEntradaCreateRequest;
 
 class RegistreEntradaController extends Controller
@@ -125,7 +126,7 @@ class RegistreEntradaController extends Controller
 
     public function updateView($id) {
         $registreEntrada = RegistreEntrada::find($id);
-        
+               
         return new RegistreEntradaCreate($registreEntrada);
     }
 
@@ -139,15 +140,27 @@ class RegistreEntradaController extends Controller
             /*$registre = RegistreEntrada::find($id);//registre que s'utilitza per comprovar las dades. S'utilitza en el mail
             $mail = new RegistreEntradaUpdate($registre,$registreEntrada);//Creacio del contingut del mail*/
             //return response()->json($registreEntrada->getDirty());//El getDirty() serveix per veure els atributs modificats.
+            $modificat = $registreEntrada->getDirty();
             try {
                 $registreEntrada->save(); 
             } catch (\Exception $ex) {
                 return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar el registre d\'entrada.'));
             }
-//-------------------------------Missatge per responsable de modificacions----------------------------------            
+            //return response()->json($modificat);
+//-------------------------------Missatge per responsable de modificacions----------------------------------     
+            Missatge::where([['id_referencia', $registreEntrada->id_registre_entrada],
+                        ['type', 'registreEntradaUpdate'],
+                        ['referencia', 'registreEntrada']])                   
+                        ->delete();
             $missatge = new Missatge;
             $missatge->missatgeResponsableRegistreUpdate($registreEntrada);
             $missatge->save();
+            
+            foreach ($modificat as $key => $mod){
+                $missatge = new Missatge;
+                $missatge->missatgeResponsableRegistreUpdateCamp($registreEntrada, $key);
+                $missatge->save();
+            }
 //-------------------------------Email amb Model Mail----------------------------------
             //Mail::to('dcampos@paycom.es')->send($mail);
             return redirect()->back()->with('success', 'Registre d\'entrada modificat correctament.');
@@ -156,11 +169,25 @@ class RegistreEntradaController extends Controller
     
     public function show($id){
         $registreEntrada = RegistreEntrada::find($id);
-
-        return view('registre_entrada.show', array(
-            'registreEntrada' => $registreEntrada
-        ));
+        
+        $missatge = Missatge::where([['id_referencia', $id],
+                        ['type', 'registreEntradaUpdateCamp'],
+                        ['referencia', 'registreEntrada']])                   
+                        ->get();
+        if ($registreEntrada->id_usuari == Auth::user()->id_usuari){
+            Missatge::where([['id_referencia', $id],
+                        ['type', 'registreEntradaUpdateCamp'],
+                        ['referencia', 'registreEntrada']])                   
+                        ->delete();
+            Missatge::where([['id_referencia', $id],
+                        ['type', 'registreEntradaUpdate'],
+                        ['referencia', 'registreEntrada']])                   
+                        ->delete();
+        }
+        
+        return new RegistreEntradaShow($registreEntrada, $missatge);
     }
+    
     public function delete(Request $request) {
         //Elimina tots els estadillos relacionats amb el registre d'Entrada que s'eliminara
         $estadillos = Estadillo::all();
