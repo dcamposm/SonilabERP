@@ -265,28 +265,29 @@ function guardarCelda() {
     $.post('/calendari/crear', datos)
         .done(function (datosCalendari) {
             
-            console.log(datosCalendari.calendari);
+            //console.log(datosCalendari.calendari);
             
             //data.push(datosCalendari.calendari);
             dataBase.push(datosCalendari.calendari);
-            
-            let valorActual = Number($(celda).attr('aria-valuenow'))
-            let takesSuma = ((takes*100)/200) + valorActual;
-            if (takes && takes > 0) {
-                $(celda).attr('aria-valuenow', takesSuma);
-                $(celda).text(takesSuma + '%');
-                $(celda).css({ 'width': takesSuma + '%' });
-                if (takesSuma < 25) {
-                    $(celda)[0].className = 'progress-bar barra progress-bar-striped bg-success';
-                } else if (takesSuma < 50) {
-                    $(celda)[0].className = 'progress-bar barra progress-bar-striped bg-info';
-                } else if (takesSuma < 75) {
-                    $(celda)[0].className = 'progress-bar barra progress-bar-striped bg-warning';
-                } else if (takesSuma <= 100) {
-                    $(celda)[0].className = 'progress-bar barra progress-bar-striped bg-danger';
+            if (getCookie("tablaActual")==0){
+                let valorActual = Number($(celda).attr('aria-valuenow'))
+                let takesSuma = ((takes*100)/200) + valorActual;
+                if (takes && takes > 0) {
+                    $(celda).attr('aria-valuenow', takesSuma);
+                    $(celda).text(takesSuma + '%');
+                    $(celda).css({ 'width': takesSuma + '%' });
+                    if (takesSuma < 25) {
+                        $(celda)[0].className = 'progress-bar barra progress-bar-striped bg-success';
+                    } else if (takesSuma < 50) {
+                        $(celda)[0].className = 'progress-bar barra progress-bar-striped bg-info';
+                    } else if (takesSuma < 75) {
+                        $(celda)[0].className = 'progress-bar barra progress-bar-striped bg-warning';
+                    } else if (takesSuma <= 100) {
+                        $(celda)[0].className = 'progress-bar barra progress-bar-striped bg-danger';
+                    }
                 }
             }
-
+            
             var nombreActor = "";
             var idActor = 0;
 
@@ -327,6 +328,12 @@ function guardarCelda() {
             var td2 = $(td2Value);
             tr.append(td2);
             $('#pasarLista-tabla').append(tr);
+            
+            $('#calendarContent').html('');
+            carregarCalendari(); 
+
+            tablaHoras();
+            pintarTablaHoras();
         })
         .fail(function (error) {
             console.log(error);
@@ -998,7 +1005,7 @@ function eliminarCalendarioActor() {
             $('#' + calendarioActorSeleccionado_id + "-" + calendarioActor.calendar.id_actor_estadillo + "-" + calendarioActor.calendar.calendari.num_sala).remove();
                         
             vaciarValoresEditar();
-            console.log(data);
+
             $('#calendarContent').html('');
             carregarCalendari(); 
 
