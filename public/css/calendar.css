@@ -10,17 +10,42 @@ body, html, main{
     border: 1px solid black;
     padding: 0px;
     color: black !important;
+    height: 200px;
+}
+
+.celda2{
+    border: 1px solid black;
+    padding: 0px;
+    color: black !important;
     height: 70px;
 }
 
+.rowMati {
+    width: 100px;
+    border-bottom: 1px solid black;
+    padding: 0px;
+    margin: 0px 15px 0px 15px;
+    height: 100px;
+}
+
+.rowTarda {
+    width: 98px;
+    padding: 0px;
+    margin: 0px 15px 0px 15px;
+    height: 98px;
+}
+
+.det{
+    width: 100%;
+    margin-left: 0px;
+    height: 100%;
+}
+
 .mati{
-   margin-left: 0px;
-   margin-right: 0px; 
+    margin-right: 0px; 
 }
 
 .tarda {
-    border-top: 1px solid black;
-    margin-left: 0px;
     margin-right: 0px;
 }
 
@@ -46,11 +71,9 @@ body, html, main{
 }
 .tablaMinutos{
     width: 1.7%;
-    /* background-color: pink; */
 }
 .tablaMinutosT{
     width: 1.7%;
-    /* background-color: orange; */
 }
 .encabezado{
     align-items: center;
@@ -140,6 +163,13 @@ body, html, main{
 
 .actorNoPres{
     background-color: red;
+}
+
+.viewTecnic {
+    writing-mode: vertical-lr;
+    transform: rotate(180deg);
+    text-align: center;
+    border-left: 1px solid black;
 }
 
 /* SIDEBAR */ 

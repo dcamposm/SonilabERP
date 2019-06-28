@@ -167,11 +167,11 @@
                                                     <tr id="{{$actor->id_calendar}}-{{$actor->id_actor_estadillo}}-{{$actor->num_sala}}" class="dia-{{$actor->dia}}-{{$actor->num_sala}} lista-actores">
                                                         <td id="actor_mod-{{ $actor->id_calendar }}" onclick="seleccionarActorCalendario(this.id, this)" class="col-8">
                                                             @if ($actor->id_director == 0)
-                                                                <span class="horaActor">{{'('.$actor->hora.':'.$actor->minuts.')'}}</span> {{$actor->nom_cognom}} 
+                                                            <span class="horaActor">{{'('.$actor->hora.':'.$actor->minuts.')'}}</span> <span id="content_actor">{{$actor->nom_cognom}}</span>
                                                             @else
                                                                 @foreach($directors as $director)
                                                                     @if ($actor->id_director == $director->id_empleat)
-                                                                        <span class="horaActor">{{'('.$actor->hora.':'.$actor->minuts.')'}}</span> {{$actor->nom_cognom}} - {{$director->nom_cognom}}
+                                                                        <span class="horaActor">{{'('.$actor->hora.':'.$actor->minuts.')'}}</span> <span id="content_actor">{{$actor->nom_cognom}} - {{$director->nom_cognom}}</span>
                                                                     @endif
                                                                 @endforeach
                                                             @endif
@@ -214,34 +214,39 @@
                                         <div class="form-row">
                                             <div class="form-group col">
                                                 <label for="numberTakes-editar" class="mt-3">Takes a realitzar:</label>
-                                                <input id="numberTakes-editar" class="form-control" type="number" min="1">
+                                                <input id="numberTakes-editar" class="form-control" type="number" min="1" readonly>
                                             </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-group col">
                                                 <label for="takesIni-editar">Hora d'inici:</label>
-                                                <input id="takesIni-editar" class="form-control" type="time">
+                                                <input id="takesIni-editar" class="form-control" type="time" readonly>
                                             </div>
                                             <div class="form-group col">
                                                 <label for="takesFin-editar">Hora final:</label>
-                                                <input id="takesFin-editar" class="form-control" type="time">
+                                                <input id="takesFin-editar" class="form-control" type="time" readonly>
                                             </div>
                                         </div>
                                         <div class="form-row">
                                             <div class="form-check form-check-inline">
-                                                <label class="form-check-label" for="canso-editar">Canço</label>
-                                                <input id="canso-editar" class="form-check-input ml-1" type="checkbox" value="1" readonly>
+                                                    <label class="form-check-label mt-3" for="canso-editar">Canço</label>
+                                                    <input id="canso-editar" class="form-check-input ml-1 mt-3" type="checkbox" value="1" readonly>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <label class="form-check-label" for="narracio-editar">Narració</label>
-                                                <input id="narracio-editar" class="form-check-input ml-1" type="checkbox" value="1" readonly>
+                                                <label class="form-check-label mt-3" for="narracio-editar">Narració</label>
+                                                <input id="narracio-editar" class="form-check-input ml-1 mt-3" type="checkbox" value="1" readonly>
+                                            </div>
+                                            <div class="form-check col">
+                                                <label for="selectDirector"></label>
+                                                <input required id="selectDirector-editar" readonly class="form-control" style="width: 100%;" placeholder="Selecciona un director"/>
+                                                <input id="director-editar" class="form-control" type="hidden" value="-1">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="mt-5">
                                         <!-- TODO: Crear estas dos funciones en el fichero js -->
-                                        <button class="btn btn-primary" type="button" onclick="editarActor()">Modificar</button>
-                                        <button class="btn btn-danger"  type="button" onclick="eliminarCalendarioActor()">Eliminar</button>
+                                        <button class="btn btn-primary" id="botoEditar" type="button" onclick="editarActor()" disabled>Modificar</button>
+                                        <button class="btn btn-danger" id="botoEliminarActor"  type="button" onclick="eliminarCalendarioActor()" disabled>Eliminar</button>
                                     </div>
                                 </form>
                             </div>
