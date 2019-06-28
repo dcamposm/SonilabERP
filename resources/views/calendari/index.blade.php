@@ -127,7 +127,7 @@
                                         <form action="" method="POST">
                                             {{-- TODO: Falta pasarle el turno a la función. --}}
                                             <select id="tecnico0" class="form-control" name="tecnic" onchange="cambiarTecnico(0)">
-                                                <option value="" selected="true" disabled="disabled">Sel·leccioni tècnic</option>
+                                                <option value="0" selected></option>
                                                 @foreach($tecnics as $key => $tecnic)
                                                     {{-- TODO: Falta hacer la condición para seleccionar el técnico seleccionado. --}}
                                                     <option value="{{$tecnic['id_empleat']}}" {{--(algo) ? 'selected' : ''--}} >{{$tecnic['nom_empleat']}} {{ $tecnic['cognom1_empleat'] }} {{ $tecnic['cognom2_empleat'] }}</option>
@@ -135,6 +135,7 @@
                                             </select>
                                         </form>
                                     </td>
+                                    <td><input type="color" class="form-control" name="color_empleat" id="color0" value="#ffffff" onchange="cambiarTecnico(0)"></td>
                                 </tr>
 
                                 <tr>
@@ -145,7 +146,7 @@
                                         <form action="" method="POST">
                                             {{-- TODO: Falta pasarle el turno a la función. --}}
                                             <select id="tecnico1" class="form-control" name="tecnic" onchange="cambiarTecnico(1)">
-                                                <option value="" selected="true" disabled="disabled">Sel·leccioni tècnic</option>
+                                                <option value="0" selected></option>
                                                 @foreach($tecnics as $key => $tecnic)
                                                     {{-- TODO: Falta hacer la condición para seleccionar el técnico seleccionado. --}}
                                                     <option value="{{$tecnic['id_empleat']}}" {{--(algo) ? 'selected' : ''--}} >{{$tecnic['nom_empleat']}} {{ $tecnic['cognom1_empleat'] }} {{ $tecnic['cognom2_empleat'] }}</option>
@@ -153,6 +154,7 @@
                                             </select>
                                         </form>
                                     </td>
+                                    <td><input type="color" class="form-control" name="color_empleat" id="color1" value="#ffffff" onchange="cambiarTecnico(1)"></td>
                                 </tr>
                             </tbody>
                         </table>

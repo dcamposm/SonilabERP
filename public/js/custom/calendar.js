@@ -27,6 +27,14 @@ function carregarCalendari(){
     cargarDatos(); 
 }
 
+function resetCalendari(){
+    $('#calendarContent').html('');
+    carregarCalendari();
+
+    tablaHoras();
+    pintarTablaHoras();
+}
+
 var persona = undefined;
 var takesPosibles = undefined;
 
@@ -138,7 +146,7 @@ function crearTablaCalendario() {
                                     <div class="row">\n\
                                         <div class="col rowMati">\n\
                                             <div class="row det">\n\
-                                                <div class="viewTecnic">'+ (!tecnicMati[0] ? '' : tecnicMati[0].empleat.nom_empleat) +'</div>\n\
+                                                <div class="viewTecnic" style="background-color: '+ (!tecnicMati[0] ? '' : (!tecnicMati[0].color_empleat ? '' : tecnicMati[0].color_empleat)) +'">'+ (!tecnicMati[0] ? '' : (!tecnicMati[0].empleat ? '' : tecnicMati[0].empleat.nom_empleat)) +'</div>\n\
                                                 <div class="col mati"></div>\n\
                                             </div>\n\
                                         </div>\n\
@@ -146,7 +154,7 @@ function crearTablaCalendario() {
                                     <div class="row">\n\
                                         <div class="col rowTarda">\n\
                                             <div class="row det">\n\
-                                                <div class="viewTecnic">'+ (!tecnicTarda[0] ? '' : tecnicTarda[0].empleat.nom_empleat) +'</div>\n\
+                                                <div class="viewTecnic" style="background-color: '+ (!tecnicTarda[0] ? '' : (!tecnicTarda[0].color_empleat ? '' : tecnicTarda[0].color_empleat)) +'">'+ (!tecnicTarda[0] ? '' : (!tecnicTarda[0].empleat ? '' : tecnicTarda[0].empleat.nom_empleat) ) +'</div>\n\
                                                 <div class="col tarda"></div>\n\
                                             </div>\n\
                                         </div>\n\
@@ -369,11 +377,7 @@ function guardarCelda() {
             tr.append(td2);
             $('#pasarLista-tabla').append(tr);
             
-            $('#calendarContent').html('');
-            carregarCalendari(); 
-
-            tablaHoras();
-            pintarTablaHoras();
+            resetCalendari();
         })
         .fail(function (error) {
             console.log(error);
@@ -504,16 +508,38 @@ function ampliarCasilla(e) {
     
     $('#tecnico0').val('');
     $('#tecnico1').val('');
+    
     $.each(tecnicsAsignados, function( key, element ) {
         if (element.num_sala == salaSeleccionada && element.data==diaSeleccionado){
             if (element.torn == 0){ //mañana
-                $('#tecnico0').val(element.id_empleat);
+                if (element.id_empleat != 0){
+                    $('#tecnico0').val(element.id_empleat);
+                    
+                    if (!$('#color0').val(element.color_empleat)){
+                        $('#color0').val('#ffffff'); 
+                    } else {
+                        $('#color0').val(element.color_empleat)
+                    }
+                } else {
+                    $('#tecnico0').val('0');
+                }
             } else if (element.torn == 1){ //tarde
-                $('#tecnico1').val(element.id_empleat);
+                if (element.id_empleat != 0){
+                    $('#tecnico1').val(element.id_empleat);
+                    
+                    if (!$('#color1').val(element.color_empleat)){
+                        $('#color1').val('#ffffff');
+                    } else {
+                        $('#color1').val(element.color_empleat)
+                    }
+                } else {
+                    $('#tecnico1').val('0');
+                }
             }
         }
     });
 
+    
     $('#dialog').css({ 'width': window.innerWidth - 30 });
     $('#dialog').css({ 'max-width': window.innerWidth - 30 });
     $('#dialog').css({ 'height': window.innerHeight - 30 });
@@ -803,12 +829,24 @@ function cambiarTecnico(torn) {
             'data': diaSeleccionado,
             'sala': salaSeleccionada,
             'cargo': 'Tècnic de sala',
-            'torn': torn
+            'torn': torn,
+            'color_empleat': $('#color' + torn).val()
         },
         success: function (response) {
-            //console.log(response);
-            // TODO: Poner el id_empleado nuevo en el array, para que cuando se vuelva a abrir esté ya cambiado.
-            tecnicsAsignados.push(response);
+            var newTec = 1;
+
+            $.each(tecnicsAsignados, function( key, element ) {
+                if (element.id_calendar_carrec == response.id_calendar_carrec) {
+                    tecnicsAsignados[key] = response;
+                    newTec = 0;
+                }
+            });
+            
+            if (newTec == 1){
+                tecnicsAsignados.push(response);
+            }
+
+            resetCalendari();
         },
         error: function (error) {
             console.error(error);
@@ -816,7 +854,6 @@ function cambiarTecnico(torn) {
         }
     });
 }
-
 
 $('#pasarLista').click(function (e) {
     e.preventDefault();
@@ -846,11 +883,7 @@ $('#pasarLista').click(function (e) {
                     }); 
                 });
                 
-                $('#calendarContent').html('');
-                carregarCalendari();
-                
-                tablaHoras();
-                pintarTablaHoras();
+                resetCalendari()
             },
             error: function (error) {
                 console.error(error);
@@ -1057,12 +1090,9 @@ function editarActor() {
                 $('#' + calendarioActorSeleccionado_id + "-" + calendarioActor.calendar.id_actor_estadillo + "-" + calendarioActor.calendar.calendari.num_sala).find('#content_actor').text(response.actor_estadillo.empleat.nom_cognom);
             }
             
-            $('#calendarContent').html('');
-            carregarCalendari(); 
+            resetCalendari();
             
             vaciarValoresEditar();
-            tablaHoras();
-            pintarTablaHoras();
         },
         error: function (error) {
             console.error(error);
@@ -1109,11 +1139,7 @@ function eliminarCalendarioActor() {
                         
             vaciarValoresEditar();
 
-            $('#calendarContent').html('');
-            carregarCalendari(); 
-
-            tablaHoras();
-            pintarTablaHoras();
+            resetCalendari();
         },
         error: function (error) {
             console.error(error);
