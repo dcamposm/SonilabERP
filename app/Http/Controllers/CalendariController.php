@@ -157,6 +157,7 @@ class CalendariController extends Controller
         $sala       = $request->get('sala');
         $id_empleat = $request->get('id_empleat');
         $torn       = $request->get('torn');
+        $color      = $request->get('color_empleat');
 
         // Comprueba si ya existe un registro en la base de datos:
         $calendariCarrec = CalendarCarrec::where('data', '=', $data)
@@ -168,14 +169,15 @@ class CalendariController extends Controller
         }
 
         // Asignamos los valores al objeto:
-        $calendariCarrec->data       = $data;
-        $calendariCarrec->num_sala   = $sala;
-        $calendariCarrec->id_empleat = $id_empleat;
-        $calendariCarrec->torn       = $torn;
-
+        $calendariCarrec->data          = $data;
+        $calendariCarrec->num_sala      = $sala;
+        $calendariCarrec->id_empleat    = $id_empleat;
+        $calendariCarrec->torn          = $torn;
+        $calendariCarrec->color_empleat = $color;
         // Guardamos el objeto en la base de datos:
         $calendariCarrec->save();
-
+        
+        $calendariCarrec->empleat;
         // Retornamos el resultado para indicar que todo ha ido OK:
         return response()->json($calendariCarrec);
     }
