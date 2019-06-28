@@ -235,7 +235,7 @@ function cargarActores() {
     $('#trabajadores').html('');
     for (const key in trabajadores) {
         if (trabajadores[key].takes_restantes > 0){
-            $('#trabajadores').append('<li id=' + trabajadores[key].id_actor + ' draggable="true" ondragstart="drag(event)">' + trabajadores[key].nombre_actor + ' - ' + trabajadores[key].takes_restantes + ' takes</li>');
+            $('#trabajadores').append('<li id=' + trabajadores[key].id_actor + ' draggable="true" ondragstart="drag(event)">' + trabajadores[key].nombre_actor + '</li>');
         }
     }
 }
@@ -515,7 +515,7 @@ function ampliarCasilla(e) {
                 if (element.id_empleat != 0){
                     $('#tecnico0').val(element.id_empleat);
                     
-                    if (!$('#color0').val(element.color_empleat)){
+                    if (!$('#color0').val()){
                         $('#color0').val('#ffffff'); 
                     } else {
                         $('#color0').val(element.color_empleat)
@@ -527,7 +527,7 @@ function ampliarCasilla(e) {
                 if (element.id_empleat != 0){
                     $('#tecnico1').val(element.id_empleat);
                     
-                    if (!$('#color1').val(element.color_empleat)){
+                    if (!$('#color1').val()){
                         $('#color1').val('#ffffff');
                     } else {
                         $('#color1').val(element.color_empleat)
