@@ -126,12 +126,31 @@ function crearTablaCalendario() {
             // Crea un div con el número de la sala:
             fila.append('<div class="sala celda" style=" height: 200px;">' + sala + '</div>');
             for (let h = 0; h < 5; h++) {
+                d = dias[h];
+                s = sala;
+
+                var tecnicMati = tecnicsAsignados.filter(filtroTecnicSalaM);
+                var tecnicTarda = tecnicsAsignados.filter(filtroTecnicSalaT);
                     // Crea el día de la sala.
                     // Es necesario crear el atributo "dia" y "sala", para que después cuando le hagamos clic
                     // podamos coger el día y la sala de la casilla que hayamos seleccionado.
                     fila.append('<div class="col celda" dia="' + dias[h] + '" sala="' + sala + '" style=" min-height: 200px;">\n\
-                                    <div class="row mati" style=" min-height: 100px;"></div>\n\
-                                    <div class="row tarda" style=" min-height: 100px;"></div>\n\
+                                    <div class="row">\n\
+                                        <div class="col rowMati">\n\
+                                            <div class="row det">\n\
+                                                <div class="viewTecnic">'+ (!tecnicMati[0] ? '' : tecnicMati[0].empleat.nom_empleat) +'</div>\n\
+                                                <div class="col mati"></div>\n\
+                                            </div>\n\
+                                        </div>\n\
+                                    </div>\n\
+                                    <div class="row">\n\
+                                        <div class="col rowTarda">\n\
+                                            <div class="row det">\n\
+                                                <div class="viewTecnic">'+ (!tecnicTarda[0] ? '' : tecnicTarda[0].empleat.nom_empleat) +'</div>\n\
+                                                <div class="col tarda"></div>\n\
+                                            </div>\n\
+                                        </div>\n\
+                                    </div>\n\
                                 </div>'
                     );
             }
@@ -143,8 +162,18 @@ function crearTablaCalendario() {
     $('.celda').attr('ondragover', 'allowDrop(event)');
 }
 
+function filtroTecnicSalaM(e) {
+    if (e.data == d && e.num_sala == s && e.torn == 0){
+        return e;
+    }
+}
+function filtroTecnicSalaT(e) {
+    if (e.data == d && e.num_sala == s && e.torn == 1){
+        return e;
+    }
+}
+
 function cargarDatos() {
-    //console.log(data);
     if (getCookie("tablaActual")==0){
         $.each(data, function( key, element ) {   
             var celda = $("[dia=" + element.data_inici.split(' ')[0] + "][sala=" + element.calendari.num_sala + "]")[0].children[0].children[0];
@@ -154,23 +183,27 @@ function cargarDatos() {
             celda.setAttribute('aria-valuenow', perce);
             cambiarColorCelda(celda, perce);
         });
-    } else {
+    } else {       
         $.each(data, function( key, element ) {       
             if (element.data_inici.split(' ')[1] <= '13:30') {
                 
-                var actorSala = '<div class="col-1 llistaActors '+(element.asistencia === 0 ? 'actorNoPres' : '')+'" style="padding-left: 5px; padding-right: 5px;">'+element.data_inici.split(' ')[1]+'</div>\n\
-                                    <div class="col-4 llistaActors '+(element.asistencia === 0 ? 'actorNoPres' : '')+'" style="padding-left: 5px; padding-right: 5px;">'+element.actor_estadillo.empleat.cognom1_empleat+' '+element.actor_estadillo.empleat.nom_empleat+'</div>\n\
-                                    <div class="col-1 llistaActors '+(element.asistencia === 0 ? 'actorNoPres' : '')+'" style="padding-left: 5px; padding-right: 5px;">'+element.num_takes+'TK</div>\n\
-                                    <div class="col-4 llistaActors '+(element.asistencia === 0 ? 'actorNoPres' : '')+'" style="padding-left: 5px; padding-right: 5px;">'+element.actor_estadillo.estadillo.registre_produccio.referencia_titol+'</div>\n\
-                                    <div class="col-2 llistaActors '+(element.asistencia === 0 ? 'actorNoPres' : '')+'" style="padding-left: 5px; padding-right: 5px;">'+(element.id_director != 0 ? element.director.nom_empleat : '')+'</div>'
-                $("[dia=" + element.data_inici.split(' ')[0] + "][sala=" + element.calendari.num_sala + "]").children('.mati').append(actorSala);
+                var actorSala = '<div class="row '+(element.asistencia === 0 ? 'actorNoPres' : '')+'">\
+                                    <div class="col-1 llistaActors" style="padding-left: 5px; padding-right: 0px;">'+element.data_inici.split(' ')[1]+'</div>\n\
+                                    <div class="col-4 llistaActors" style="padding-left: 5px; padding-right: 5px;">'+element.actor_estadillo.empleat.cognom1_empleat+' '+element.actor_estadillo.empleat.nom_empleat+'</div>\n\
+                                    <div class="col-1 llistaActors" style="padding-left: 5px; padding-right: 5px;">'+element.num_takes+'TK</div>\n\
+                                    <div class="col-4 llistaActors" style="padding-left: 5px; padding-right: 5px;">'+element.actor_estadillo.estadillo.registre_produccio.referencia_titol+'</div>\n\
+                                    <div class="col-2 llistaActors" style="padding-left: 5px; padding-right: 5px;">'+(element.id_director != 0 ? element.director.nom_empleat : '')+'</div>\n\
+                                </div>'
+                $("[dia=" + element.data_inici.split(' ')[0] + "][sala=" + element.calendari.num_sala + "]").children().children().children().children('.mati').append(actorSala);
             } else {
-                var actorSala = '<div class="col-1 llistaActors '+(element.asistencia === 0 ? 'actorNoPres' : '')+'" style="padding-left: 5px; padding-right: 5px;">'+element.data_inici.split(' ')[1]+'</div>\n\
-                                    <div class="col-4 llistaActors '+(element.asistencia === 0 ? 'actorNoPres' : '')+'" style="padding-left: 5px; padding-right: 5px;">'+element.actor_estadillo.empleat.cognom1_empleat+' '+element.actor_estadillo.empleat.nom_empleat+'</div>\n\
-                                    <div class="col-1 llistaActors '+(element.asistencia === 0 ? 'actorNoPres' : '')+'" style="padding-left: 5px; padding-right: 5px;">'+element.num_takes+'TK</div>\n\
-                                    <div class="col-4 llistaActors '+(element.asistencia === 0 ? 'actorNoPres' : '')+'" style="padding-left: 5px; padding-right: 5px;">'+element.actor_estadillo.estadillo.registre_produccio.referencia_titol+'</div>\n\
-                                    <div class="col-2 llistaActors '+(element.asistencia === 0 ? 'actorNoPres' : '')+'" style="padding-left: 5px; padding-right: 5px;">'+(element.id_director != 0 ? element.director.nom_empleat : '')+'</div>'
-                $("[dia=" + element.data_inici.split(' ')[0] + "][sala=" + element.calendari.num_sala + "]").children('.tarda').append(actorSala);
+                var actorSala = '<div class="row '+(element.asistencia === 0 ? 'actorNoPres' : '')+'">\n\
+                                    <div class="col-1 llistaActors" style="padding-left: 5px; padding-right: 5px;">'+element.data_inici.split(' ')[1]+'</div>\n\
+                                    <div class="col-4 llistaActors" style="padding-left: 5px; padding-right: 5px;">'+element.actor_estadillo.empleat.cognom1_empleat+' '+element.actor_estadillo.empleat.nom_empleat+'</div>\n\
+                                    <div class="col-1 llistaActors" style="padding-left: 5px; padding-right: 5px;">'+element.num_takes+'TK</div>\n\
+                                    <div class="col-4 llistaActors" style="padding-left: 5px; padding-right: 5px;">'+element.actor_estadillo.estadillo.registre_produccio.referencia_titol+'</div>\n\
+                                    <div class="col-2 llistaActors" style="padding-left: 5px; padding-right: 5px;">'+(element.id_director != 0 ? element.director.nom_empleat : '')+'</div>\n\
+                                </div>'
+                $("[dia=" + element.data_inici.split(' ')[0] + "][sala=" + element.calendari.num_sala + "]").children().children().children().children('.tarda').append(actorSala);
             }
             
         });
@@ -361,9 +394,13 @@ function drop(ev) {
             persona = element; //persona es el elemento arrastrado
         }
     });
-
-    celda = $(ev.target).attr('aria-valuenow') ? ev.target : (ev.target.children[0] ? ev.target.children[0] : ev.target.parentElement);
-
+    //console.log(ev.target.parentElement.parentElement.parentElement.parentElement);
+    if (getCookie("tablaActual")==0){
+        celda = $(ev.target).attr('aria-valuenow') ? ev.target : ev.target.children[0];
+    } else {
+        celda = ev.target.parentElement.parentElement.parentElement.parentElement;
+    }
+    
     $('#exampleModal').modal('show');
 }
 
@@ -467,7 +504,6 @@ function ampliarCasilla(e) {
     
     $('#tecnico0').val('');
     $('#tecnico1').val('');
-    
     $.each(tecnicsAsignados, function( key, element ) {
         if (element.num_sala == salaSeleccionada && element.data==diaSeleccionado){
             if (element.torn == 0){ //mañana
@@ -587,16 +623,24 @@ $('#exampleModal2').on('shown.bs.modal', function () {
 });
 
 $('#exampleModal2').on('hide.bs.modal', function () {
-    $('#selectPelis-editar').attr('readonly');
+    $('#selectPelis-editar').attr('readonly', '');
     $('#selectPelis-editar').val('');
     $('#actorEstadillo-editar').val(-1);
+    $('#selectDirector-editar').attr('readonly', '');
+    $('#selectDirector-editar').val('');
+    $('#director-editar').val(-1);
     $('#numberTakes-editar').val('');
+    $('#numberTakes-editar').attr('readonly', '');
     $('#takesIni-editar').val('');
+    $('#takesIni-editar').attr('readonly', '');
     $('#takesFin-editar').val('');
+    $('#takesFin-editar').attr('readonly', '');
     $('#canso-editar').attr('readonly', '');
     $("#canso-editar").prop('checked', false);
     $('#narracio-editar').attr('readonly', '');
-    $("#narracio-editar").prop('checked', false); 
+    $("#narracio-editar").prop('checked', false);
+    $('#botoEditar').attr('disabled', '');
+    $('#botoEliminarActor').attr('disabled', '');
     calendarioActorSeleccionado_id = 0;
     $(elementoSeleccionado).removeClass('actorAsistencia-seleccionado');
 });
@@ -660,7 +704,7 @@ function tablaHoras() {
         
         horaTextM.classList.add('labelFechaManana');
         hora.classList.add('col');
-        hora.classList.add('celda');
+        hora.classList.add('celda2');
         $(hora).append(horaTextM);
         
         if (i == 12) {
@@ -701,7 +745,7 @@ function tablaHoras() {
 
         hora.id = i + ':30';
         hora.classList.add('col');
-        hora.classList.add('celda');
+        hora.classList.add('celda2');
         horaTextT.classList.add('labelFechaTarde');
         $(hora).append(horaTextT);
         
@@ -755,13 +799,14 @@ function cambiarTecnico(torn) {
             Accept: 'application/json'
         },
         data: {
-            'id_empleat': $('#tecnico' + torn).val(),  // Ej: tecnico0, tecnico1
+            'id_empleat': parseInt($('#tecnico' + torn).val()),  // Ej: tecnico0, tecnico1
             'data': diaSeleccionado,
             'sala': salaSeleccionada,
             'cargo': 'Tècnic de sala',
             'torn': torn
         },
         success: function (response) {
+            //console.log(response);
             // TODO: Poner el id_empleado nuevo en el array, para que cuando se vuelva a abrir esté ya cambiado.
             tecnicsAsignados.push(response);
         },
@@ -845,13 +890,30 @@ function seleccionarActorCalendario(id, elemento) {
             },
             success: function (response) {
                 calendarioActor = response;
-
+                //console.log(response);
                 $('#selectPelis-editar').removeAttr('readonly');
                 $('#selectPelis-editar').val(response.calendar.actor_estadillo.estadillo.registre_produccio.referencia_titol);
                 $('#actorEstadillo-editar').val(response.calendar.id_actor_estadillo);
+                
+                if (response.calendar.director){
+                    $('#selectDirector-editar').removeAttr('readonly');
+                    $('#selectDirector-editar').val(response.calendar.director.nom_cognom);
+                    $('#director-editar').val(response.calendar.id_director);
+                } else {
+                    $('#selectDirector-editar').removeAttr('readonly');
+                    $('#selectDirector-editar').val('');
+                    $('#director-editar').val('0'); 
+                }
+                
+                $('#numberTakes-editar').removeAttr('readonly');
+                $('#takesIni-editar').removeAttr('readonly');
+                $('#takesFin-editar').removeAttr('readonly');
                 $('#numberTakes-editar').val(response.calendar.num_takes);
                 $('#takesIni-editar').val(response.calendar.data_inici.split(' ')[1]);
                 $('#takesFin-editar').val(response.calendar.data_fi.split(' ')[1]);
+                
+                $('#botoEditar').removeAttr('disabled');
+                $('#botoEliminarActor').removeAttr('disabled');
                 
                 if (response.calendar.actor_estadillo.canso_estadillo == 1){
                     $("#canso-editar").removeAttr('readonly');
@@ -899,6 +961,36 @@ function seleccionarActorCalendario(id, elemento) {
                 };
 
                 $("#selectPelis-editar").easyAutocomplete(options);
+                
+                var options2 = {
+                    url:  rutaSearchEmpleat+"?search=director",
+                    placeholder: "Selecciona un director",
+                    getValue: "nom_cognom",
+
+                    list: {
+                            match: {
+                                enabled: true
+                            }, onChooseEvent: function() {
+                                var selectedPost = $("#selectDirector-editar").getSelectedItemData();
+                                $('#director-editar').val(selectedPost.id_empleat);
+                            }, onHideListEvent: function() {
+                                if ($("#selectDirector-editar").val() == ''){
+                                    $("#director-editar").val('0');
+                                }
+                            }
+                    },
+
+                    template: {
+                            type: "custom",
+                            method: function(value, item) {
+                                    return value;
+                            }
+                    },
+                    
+                    theme: "bootstrap"
+                };
+
+                $("#selectDirector-editar").easyAutocomplete(options2);
             },
             error: function (error) {
                 console.error(error);
@@ -931,7 +1023,6 @@ $("#selectPelis-editar").easyAutocomplete(options);
 var parentSearch = $('#selectPelis-editar').parent().css({"width": "100%"});
 
 function editarActor() {
-    //console.log($("#narracio-editar").prop('checked') ? 1 : 0);
     $.ajax({
         url: '/calendari/editar/' + calendarioActorSeleccionado_id,
         type: 'POST',
@@ -947,23 +1038,28 @@ function editarActor() {
             num_sala: parseInt(calendarioActor.calendar.calendari.num_sala),
             canso_calendar: ($("#canso-editar").prop('checked') ? 1 : 0),
             narracio_calendar: ($("#narracio-editar").prop('checked') ? 1 : 0),
+            id_director: parseInt($('#director-editar').val())
         },
         success: function (response) {
-            //console.log(response);
             // Guarda los datos en la variable "data" y vuelve a recargar el calendario:
             $.each(data, function( key, element ) {
                 if (element.id_calendar == calendarioActorSeleccionado_id) {
-                    var inici_split = element.data_inici.split(' ');
-                    var fi_split = element.data_fi.split(' ');
-
-                    element.num_takes = parseInt($('#numberTakes-editar').val());
-                    element.data_inici = inici_split[0] + " " + $('#takesIni-editar').val();
-                    element.data_fi = fi_split[0] + " " + $('#takesFin-editar').val();
+                    data[key] = response;
                 }
             });
-            
+
             var horaActor = $('#' + calendarioActorSeleccionado_id + "-" + $('#actorEstadillo-editar').val() + "-" + calendarioActor.calendar.calendari.num_sala + " .horaActor");
             horaActor.text("(" + $('#takesIni-editar').val() + ")");
+
+            if (response.director){
+                $('#' + calendarioActorSeleccionado_id + "-" + calendarioActor.calendar.id_actor_estadillo + "-" + calendarioActor.calendar.calendari.num_sala).find('#content_actor').text(response.actor_estadillo.empleat.nom_cognom+' - '+response.director.nom_cognom);
+            } else {
+                $('#' + calendarioActorSeleccionado_id + "-" + calendarioActor.calendar.id_actor_estadillo + "-" + calendarioActor.calendar.calendari.num_sala).find('#content_actor').text(response.actor_estadillo.empleat.nom_cognom);
+            }
+            
+            $('#calendarContent').html('');
+            carregarCalendari(); 
+            
             vaciarValoresEditar();
             tablaHoras();
             pintarTablaHoras();
@@ -1035,7 +1131,8 @@ function vaciarValoresEditar() {
     $('#takesFin-editar').val("");
     $("#selectPelis-editar").val("")
     $('#actorEstadillo-editar').val(-1);
-    
+    $("#selectDirector-editar").val("")
+    $('#director-editar').val(-1);
     $('#canso-editar').attr('readonly', '');
     $("#canso-editar").prop('checked', false);
     $('#narracio-editar').attr('readonly', '');

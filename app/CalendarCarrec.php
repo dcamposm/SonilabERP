@@ -27,6 +27,6 @@ class CalendarCarrec extends Model
     }
     
     public function empleat() {
-        return $this->hasMany('App\EmpleatExtern', 'id_empleat', 'id_empleat');
+        return $this->hasOne('App\EmpleatExtern', 'id_empleat', 'id_empleat');
     }
 }

@@ -130,7 +130,7 @@ class CalendariController extends Controller
             array_push($actoresPorDia, $act_dia);
         }
 
-        $tecnicsAsignados = CalendarCarrec::where('data', '>=', $dia1)->where('data', '<=', $dia5)->get();
+        $tecnicsAsignados = CalendarCarrec::where('data', '>=', $dia1)->where('data', '<=', $dia5)->with('empleat')->get();
         $directors = EmpleatExtern::select('slb_empleats_externs.id_empleat', 'nom_empleat', 'cognom1_empleat', 'cognom2_empleat')
                                         ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', '=', 'slb_empleats_externs.id_empleat')
                                         ->join('slb_carrecs', 'slb_carrecs.id_carrec', '=', 'slb_carrecs_empleats.id_carrec')
@@ -257,7 +257,8 @@ class CalendariController extends Controller
             'data_fi'            => $data_fi,
             'num_sala'           => request()->get('num_sala'),
             'canso_calendar'     => request()->get('canso_calendar'),
-            'narracio_calendar'     => request()->get('narracio_calendar')
+            'narracio_calendar'     => request()->get('narracio_calendar'),
+            'id_director'        =>request()->get('id_director'),
         );
         
         if (strtotime($valores['data_inici']) < strtotime( date('Y-m-d', strtotime($valores['data_inici']))." 13:30:01")){
@@ -282,7 +283,6 @@ class CalendariController extends Controller
         // Datos correctos.
         $calendari->fill($valores);  
         $calendari->id_calendar_carrec = $calendariCarrec->id_calendar_carrec;
-        $calendari->id_director = $actorEstadillo->estadillo->registreProduccio->id_director;
         $calendari->save();
         
         $users = User::where('id_departament', 4)->get();
@@ -291,8 +291,13 @@ class CalendariController extends Controller
             $missatge->missatgeCalendariUpdate($calendari, $user->id_usuari); 
             $missatge->save(); 
         }
-          
-        return response()->json("Tot Ok!");
+         
+        $calendari->calendari;
+        $calendari->actorEstadillo->estadillo->registreProduccio->registreEntrada;
+        $calendari->actorEstadillo->empleat;
+        $calendari->director;
+        
+        return response()->json($calendari);
     }
 
     public function delete($id){
@@ -329,6 +334,7 @@ class CalendariController extends Controller
     public function cogerCalendarioActor() {
         $calendar = Calendar::with('actorEstadillo.estadillo.registreProduccio')
                 ->with('calendari')
+                ->with('director')
                 ->find(request()->get('id'));
 
         return response()->json(array(
