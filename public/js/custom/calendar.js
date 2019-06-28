@@ -506,8 +506,10 @@ function ampliarCasilla(e) {
 
     // TODO: Seleccionar a los técnicos dependiendo del día y la sala seleccionadas.
     
-    $('#tecnico0').val('');
-    $('#tecnico1').val('');
+    $('#tecnico0').val('0');
+    $('#tecnico1').val('0');
+    $('#color0').val('#ffffff');
+    $('#color1').val('#ffffff');
     
     $.each(tecnicsAsignados, function( key, element ) {
         if (element.num_sala == salaSeleccionada && element.data==diaSeleccionado){
@@ -515,25 +517,13 @@ function ampliarCasilla(e) {
                 if (element.id_empleat != 0){
                     $('#tecnico0').val(element.id_empleat);
                     
-                    if (!$('#color0').val()){
-                        $('#color0').val('#ffffff'); 
-                    } else {
-                        $('#color0').val(element.color_empleat)
-                    }
-                } else {
-                    $('#tecnico0').val('0');
+                    $('#color0').val(element.color_empleat) 
                 }
             } else if (element.torn == 1){ //tarde
                 if (element.id_empleat != 0){
                     $('#tecnico1').val(element.id_empleat);
                     
-                    if (!$('#color1').val()){
-                        $('#color1').val('#ffffff');
-                    } else {
-                        $('#color1').val(element.color_empleat)
-                    }
-                } else {
-                    $('#tecnico1').val('0');
+                    $('#color1').val(element.color_empleat)
                 }
             }
         }
