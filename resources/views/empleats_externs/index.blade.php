@@ -76,18 +76,8 @@
                                 <input type="hidden" readonly name="id" value="{{$empleat['id_empleat']}}">
                             </form>
                         </td>
-                        @if (Auth::user()->hasAnyRole(['1', '4']))
-                            <td style="vertical-align: middle;">
-                                <a href="{{ route('empleatUpdateView', ['id' => $empleat['id_empleat']]) }}" class="btn btn-primary"> MODIFICAR </a>
-                                <button onclick="setEmpleatPerEsborrar({{$empleat['id_empleat']}}, '{{$empleat['nom_empleat']}} {{$empleat['cognom1_empleat']}} {{$empleat['cognom2_empleat']}}')" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">ESBORRAR</button>
-                                <form id="delete-{{ $empleat['id_empleat'] }}" action="{{ route('empleatDelete') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" readonly name="id" value="{{$empleat['id_empleat']}}">
-                                </form>
-                            </td>
-                        @endif
-                    </tr>
-                @endif
+                    @endif
+                </tr>
             @endforeach
         </tbody>
     </table>
