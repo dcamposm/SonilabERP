@@ -186,7 +186,7 @@ function crearTablaCalendario() {
                                     <div class="row rowTarda">\n\
                                         <div class="col colGlob">\n\
                                             <div class="row det">\n\
-                                                <div class="viewTecnic" style="'+ (!tecnicTarda[0] ? '' : (!tecnicTarda[0].color_empleat ? '' : 'background-color: '+tecnicTarda[0].color_empleat+'; border-left: 1px solid black;')) +'">'+ (!tecnicTarda[0] ? '' : (!tecnicTarda[0].empleat ? '' : tecnicTarda[0].empleat.nom_empleat) ) +'</div>\n\
+                                                <div class="viewTecnic" style="'+ (!tecnicTarda[0] ? '' : (!tecnicTarda[0].color_empleat || !tecnicTarda[0].empleat ? '' : 'background-color: '+tecnicTarda[0].color_empleat+'; border-left: 1px solid black;')) +'">'+ (!tecnicTarda[0] ? '' : (!tecnicTarda[0].empleat ? '' : tecnicTarda[0].empleat.nom_empleat) ) +'</div>\n\
                                                 <div class="col tarda"></div>\n\
                                             </div>\n\
                                         </div>\n\

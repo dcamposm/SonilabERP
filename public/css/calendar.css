@@ -68,10 +68,9 @@ body, html, main{
 }
 
 .alternar{
-    padding: 1px;
-    padding-top: 6px;
-    padding-bottom: 0px;
-    background-color: pink;
+    padding: 0px;
+    background-color: transparent;
+    margin: 5px 0px 0px 0px;
 }
 
 .labelFechaManana{
