@@ -1,6 +1,9 @@
 input[type="checkbox"][readonly] {
   pointer-events: none;
 }
+input[type="color"][readonly] {
+  pointer-events: none;
+}
 
 body, html, main{
     height: 100% !important;
@@ -10,7 +13,9 @@ body, html, main{
     border: 1px solid black;
     padding: 0px;
     color: black !important;
-    height: 200px;
+    height: 400px;
+    display:flex;
+    flex-direction: column;
 }
 
 .celda2{
@@ -21,32 +26,45 @@ body, html, main{
 }
 
 .rowMati {
-    width: 100px;
+    flex:1;
+    width: 100%;
     border-bottom: 1px solid black;
     padding: 0px;
-    margin: 0px 15px 0px 15px;
-    height: 100px;
+    margin: 0px 0px 0px 0px;
+    display:flex;
+}
+
+.colGlob {
+   width: 100%; 
+   margin: 0px 0px 0px 0px !important;
 }
 
 .rowTarda {
-    width: 98px;
-    padding: 0px;
-    margin: 0px 15px 0px 15px;
-    height: 98px;
+    flex:1;
+    width: 100%;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    display:flex;
+}
+
+.colGlob {
+   width: 100% !important;
+   margin: 0px 0px 0px 0px !important;
+   padding: 0px 0px 0px 0px;
 }
 
 .det{
     width: 100%;
-    margin-left: 0px;
     height: 100%;
+    margin: 0px 0px 0px 0px !important;
 }
 
 .mati{
-    margin-right: 0px; 
+    width: 100%;
 }
 
 .tarda {
-    margin-right: 0px;
+    width: 100%;
 }
 
 .alternar{
@@ -169,7 +187,6 @@ body, html, main{
     writing-mode: vertical-lr;
     transform: rotate(180deg);
     text-align: center;
-    border-left: 1px solid black;
 }
 
 /* SIDEBAR */ 
@@ -187,7 +204,7 @@ body, html, main{
     padding-top: 60px;
 }
 
-.sidenav li {
+#trabajadores li {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
     font-size: 20px;

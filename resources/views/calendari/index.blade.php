@@ -5,12 +5,13 @@
 <div class="container-fluid">
     <div id="mySidenav" class="sidenav pt-5">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <input id="searchActorSide" class="form-control"/>
         <div id="trabajadores">
 
         </div>
     </div>
 
-    <div id="contenedor" class="container-fluid contenedor">
+    <div id="contenedor" class="container-fluid contenedor mb-3">
         <div class="row encabezado mb-4">
             <div class="input-group">
                 <input id="searchActor" class="form-control" style="width: 300px;"/>
@@ -84,6 +85,9 @@
                         <div class="form-check form-check-inline">
                             <label class="form-check-label" for="narracio">Narració</label>
                             <input id="narracio" class="form-check-input ml-1" type="checkbox" value="1" readonly>
+                        </div>
+                        <div class="form-group col-2">
+                            <input type="color" class="form-control mt-2" name="color" id="color" value="#ffffff">
                         </div>
                     </div>
                 </div>
@@ -230,18 +234,23 @@
                                             </div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="form-check form-check-inline">
-                                                    <label class="form-check-label mt-3" for="canso-editar">Canço</label>
-                                                    <input id="canso-editar" class="form-check-input ml-1 mt-3" type="checkbox" value="1" readonly>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <label class="form-check-label mt-3" for="narracio-editar">Narració</label>
-                                                <input id="narracio-editar" class="form-check-input ml-1 mt-3" type="checkbox" value="1" readonly>
-                                            </div>
-                                            <div class="form-check col">
+                                            <div class="form-group col">
                                                 <label for="selectDirector"></label>
-                                                <input required id="selectDirector-editar" readonly class="form-control" style="width: 100%;" placeholder="Selecciona un director"/>
+                                                <input required id="selectDirector-editar" readonly class="form-control" style="width: 100%;" placeholder="Selecciona director"/>
                                                 <input id="director-editar" class="form-control" type="hidden" value="-1">
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-check form-check-inline">
+                                                    <label class="form-check-label" for="canso-editar">Canço</label>
+                                                    <input id="canso-editar" class="form-check-input ml-1" type="checkbox" value="1" readonly>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label" for="narracio-editar">Narració</label>
+                                                <input id="narracio-editar" class="form-check-input ml-1" type="checkbox" value="1" readonly>
+                                            </div>
+                                            <div class="form-group col-2">
+                                                <input type="color" class="form-control mt-2" name="color-editar" id="color-editar" value="#ffffff" readonly>
                                             </div>
                                         </div>
                                     </div>
