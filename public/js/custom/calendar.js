@@ -82,7 +82,7 @@ var optionsRegistre = {
                 var selectedPost = $("#searchEntrada").getSelectedItemData();
                 $("#filtroEntrada").attr("value", selectedPost.id_registre_entrada);
                 $("#searchEntrada").val(selectedPost.id_registre_entrada+" "+selectedPost.titol).trigger("change");
-                filtrar()
+                filtrar();
             }, onHideListEvent: function() {
                 if ($("#searchEntrada").val() == ''){
                     $("#filtroEntrada").val('-1');
@@ -105,16 +105,17 @@ function crearTablaCalendario() {
     if (getCookie("tablaActual")==0 || getCookie("tablaActual")===""){
         document.cookie = "tablaActual = 0";
         var contenedor = $('#calendarContent');
+        
         for (let i = 0; i < 8; i++) {
             var fila = $('<div class="row fila"  style="min-width: 2000px;"></div>');
             var sala = i + 1;
             // Crea un div con el número de la sala:
-            fila.append('<div class="sala celda" style="height: 200px;">' + sala + '</div>');
+            fila.append('<div class="sala celda">' + sala + '</div>');
             for (let h = 0; h < 5; h++) {
                     // Crea el día de la sala.
                     // Es necesario crear el atributo "dia" y "sala", para que después cuando le hagamos clic
                     // podamos coger el día y la sala de la casilla que hayamos seleccionado.
-                    fila.append('<div class="col celda" dia="' + dias[h] + '" sala="' + sala + '" style=" height: 200px;">\n\
+                    fila.append('<div class="col celda" dia="' + dias[h] + '" sala="' + sala + '">\n\
                                     <div class="progress barra_progreso">\n\
                                         <div class="progress-bar barra progress-bar-striped" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">\n\
                                             0%\n\
@@ -132,7 +133,7 @@ function crearTablaCalendario() {
             var fila = $('<div class="row fila"  style="min-width: 2000px;"></div>');
             var sala = i + 1;
             // Crea un div con el número de la sala:
-            fila.append('<div class="sala celda" style=" height: 200px;">' + sala + '</div>');
+            fila.append('<div class="sala celda">' + sala + '</div>');
             for (let h = 0; h < 5; h++) {
                 d = dias[h];
                 s = sala;
@@ -143,18 +144,18 @@ function crearTablaCalendario() {
                     // Es necesario crear el atributo "dia" y "sala", para que después cuando le hagamos clic
                     // podamos coger el día y la sala de la casilla que hayamos seleccionado.
                     fila.append('<div class="col celda" dia="' + dias[h] + '" sala="' + sala + '" style=" min-height: 200px;">\n\
-                                    <div class="row">\n\
-                                        <div class="col rowMati">\n\
+                                    <div class="row rowMati">\n\
+                                        <div class="col colGlob">\n\
                                             <div class="row det">\n\
-                                                <div class="viewTecnic" style="background-color: '+ (!tecnicMati[0] ? '' : (!tecnicMati[0].color_empleat ? '' : tecnicMati[0].color_empleat)) +'">'+ (!tecnicMati[0] ? '' : (!tecnicMati[0].empleat ? '' : tecnicMati[0].empleat.nom_empleat)) +'</div>\n\
+                                                <div class="viewTecnic" style="'+ (!tecnicMati[0]  ? '' : (!tecnicMati[0].color_empleat || !tecnicMati[0].empleat ? '' : 'background-color: '+tecnicMati[0].color_empleat+'; border-left: 1px solid black;')) +'">'+ (!tecnicMati[0] ? '' : (!tecnicMati[0].empleat ? '' : tecnicMati[0].empleat.nom_empleat)) +'</div>\n\
                                                 <div class="col mati"></div>\n\
                                             </div>\n\
                                         </div>\n\
                                     </div>\n\
-                                    <div class="row">\n\
-                                        <div class="col rowTarda">\n\
+                                    <div class="row rowTarda">\n\
+                                        <div class="col colGlob">\n\
                                             <div class="row det">\n\
-                                                <div class="viewTecnic" style="background-color: '+ (!tecnicTarda[0] ? '' : (!tecnicTarda[0].color_empleat ? '' : tecnicTarda[0].color_empleat)) +'">'+ (!tecnicTarda[0] ? '' : (!tecnicTarda[0].empleat ? '' : tecnicTarda[0].empleat.nom_empleat) ) +'</div>\n\
+                                                <div class="viewTecnic" style="'+ (!tecnicTarda[0] ? '' : (!tecnicTarda[0].color_empleat ? '' : 'background-color: '+tecnicTarda[0].color_empleat+'; border-left: 1px solid black;')) +'">'+ (!tecnicTarda[0] ? '' : (!tecnicTarda[0].empleat ? '' : tecnicTarda[0].empleat.nom_empleat) ) +'</div>\n\
                                                 <div class="col tarda"></div>\n\
                                             </div>\n\
                                         </div>\n\
@@ -312,11 +313,8 @@ function guardarCelda() {
     var datos = { id_actor_estadillo: actorEstadillo, num_takes: takes, data_inici: data_inici, data_fi: data_fi, num_sala: num_sala , canso_calendar: canso, narracio_calendar: narracio};
     $.post('/calendari/crear', datos)
         .done(function (datosCalendari) {
-            
-            //console.log(datosCalendari.calendari);
-            
-            //data.push(datosCalendari.calendari);
             dataBase.push(datosCalendari.calendari);
+    
             if (getCookie("tablaActual")==0){
                 let valorActual = Number($(celda).attr('aria-valuenow'))
                 let takesSuma = ((takes*100)/200) + valorActual;
@@ -324,6 +322,7 @@ function guardarCelda() {
                     $(celda).attr('aria-valuenow', takesSuma);
                     $(celda).text(takesSuma + '%');
                     $(celda).css({ 'width': takesSuma + '%' });
+                    
                     if (takesSuma < 25) {
                         $(celda)[0].className = 'progress-bar barra progress-bar-striped bg-success';
                     } else if (takesSuma < 50) {
@@ -529,7 +528,6 @@ function ampliarCasilla(e) {
         }
     });
 
-    
     $('#dialog').css({ 'width': window.innerWidth - 30 });
     $('#dialog').css({ 'max-width': window.innerWidth - 30 });
     $('#dialog').css({ 'height': window.innerHeight - 30 });
@@ -561,6 +559,7 @@ $('#exampleModal').on('show.bs.modal', function (e) {
         var data_inici = celda.parentElement.parentElement.getAttribute("dia");
         var num_sala = celda.parentElement.parentElement.getAttribute("sala");
     }
+    
     $('#crear-subtitulo').text('Dia: '+data_inici+' - Sala: '+num_sala);
     $("#selectPelis").val('');
     $('#numberTakes').attr('max', takesPosibles);
@@ -716,8 +715,6 @@ function tablaHoras() {
         var horaTextM = document.createElement('span');
         horaTextM.innerText = pad(i) + ':30';
         
-        
-        
         horaTextM.classList.add('labelFechaManana');
         hora.classList.add('col');
         hora.classList.add('celda2');
@@ -758,7 +755,6 @@ function tablaHoras() {
         var horaTextT = document.createElement('span');
         horaTextT.innerText = i + ':30';
 
-
         hora.id = i + ':30';
         hora.classList.add('col');
         hora.classList.add('celda2');
@@ -787,7 +783,6 @@ function tablaHoras() {
         $(tableT).append(trT);
 
         for (let m = 30; m < 90; m++) {
-
             var tdT = document.createElement('td');
 
             tdT.id = "td_" + (m < 60 ? i : (i + 1)) + "-" + (m < 60 ? m : pad((m - 60)));
@@ -847,7 +842,6 @@ function cambiarTecnico(torn) {
 
 $('#pasarLista').click(function (e) {
     e.preventDefault();
-
     // Comprobación "chapucera" para comprobar que se ha hecho clic al botón "Desar llista":
     if (e.target.id == 'enviarListaAsistencia') {
         // Cogemos los campos del formulario el cual se está mostrando por pantalla.
@@ -955,7 +949,7 @@ function seleccionarActorCalendario(id, elemento) {
                 
                 var options = {
                     data: actores.filter(filtroActorTkEditar),
-                    placeholder: "Selecciona un registre",
+                    placeholder: "Selecciona registre",
                     getValue: "nombre_reg_complet",
 
                     list: {
@@ -987,7 +981,7 @@ function seleccionarActorCalendario(id, elemento) {
                 
                 var options2 = {
                     url:  rutaSearchEmpleat+"?search=director",
-                    placeholder: "Selecciona un director",
+                    placeholder: "Selecciona director",
                     getValue: "nom_cognom",
 
                     list: {
@@ -1031,7 +1025,7 @@ function filtroActorTkEditar(e) {
 
 var options = {
     url: rutaSearchProduccio,
-    placeholder: "Selecciona un registre",
+    placeholder: "Selecciona registre",
     getValue: "referencia_titol",
 
     list: {

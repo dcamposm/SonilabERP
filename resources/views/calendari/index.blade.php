@@ -10,7 +10,7 @@
         </div>
     </div>
 
-    <div id="contenedor" class="container-fluid contenedor">
+    <div id="contenedor" class="container-fluid contenedor mb-3">
         <div class="row encabezado mb-4">
             <div class="input-group">
                 <input id="searchActor" class="form-control" style="width: 300px;"/>
@@ -240,7 +240,7 @@
                                             </div>
                                             <div class="form-check col">
                                                 <label for="selectDirector"></label>
-                                                <input required id="selectDirector-editar" readonly class="form-control" style="width: 100%;" placeholder="Selecciona un director"/>
+                                                <input required id="selectDirector-editar" readonly class="form-control" style="width: 100%;" placeholder="Selecciona director"/>
                                                 <input id="director-editar" class="form-control" type="hidden" value="-1">
                                             </div>
                                         </div>
