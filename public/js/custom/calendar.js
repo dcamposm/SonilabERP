@@ -100,6 +100,37 @@ var optionsRegistre = {
 };
 
 $("#searchEntrada").easyAutocomplete(optionsRegistre);
+actoresSave = actores;
+var optionsActorSide = {
+    url:  rutaSearchEmpleat+"?search=Actor",
+    placeholder: "Filtrar actor",
+    getValue: "nom_cognom",
+    
+    list: {
+            match: {
+                enabled: true
+            }, onChooseEvent: function() {
+                var selectedPost = $("#searchActorSide").getSelectedItemData();
+                
+                actores = actoresSave.filter(item => item.id_actor == selectedPost.id_empleat);
+                cargarActores();
+            }, onHideListEvent: function() {
+                if ($("#searchActorSide").val() == ''){
+                    actores = actoresSave;
+                    cargarActores();
+                }
+            }
+    },
+    
+    template: {
+            type: "custom",
+            method: function(value, item) {
+                    return value;
+            }
+    },
+};
+
+$("#searchActorSide").easyAutocomplete(optionsActorSide);
 
 function crearTablaCalendario() {
     if (getCookie("tablaActual")==0 || getCookie("tablaActual")===""){
@@ -200,7 +231,7 @@ function cargarDatos() {
                                     <div class="col-1 llistaActors" style="padding-left: 5px; padding-right: 0px;">'+element.data_inici.split(' ')[1]+'</div>\n\
                                     <div class="col-4 llistaActors" style="padding-left: 5px; padding-right: 5px;">'+element.actor_estadillo.empleat.cognom1_empleat+' '+element.actor_estadillo.empleat.nom_empleat+'</div>\n\
                                     <div class="col-1 llistaActors" style="padding-left: 5px; padding-right: 5px;">'+element.num_takes+'TK</div>\n\
-                                    <div class="col-4 llistaActors" style="padding-left: 5px; padding-right: 5px;">'+element.actor_estadillo.estadillo.registre_produccio.referencia_titol+'</div>\n\
+                                    <div class="col-4 llistaActors" style="padding-left: 5px; padding-right: 5px; '+(!element.color_calendar  ? '' : ('background-color: '+element.color_calendar+';'))+'">'+element.actor_estadillo.estadillo.registre_produccio.referencia_titol+'</div>\n\
                                     <div class="col-2 llistaActors" style="padding-left: 5px; padding-right: 5px;">'+(element.id_director != 0 ? element.director.nom_empleat : '')+'</div>\n\
                                 </div>'
                 $("[dia=" + element.data_inici.split(' ')[0] + "][sala=" + element.calendari.num_sala + "]").children().children().children().children('.mati').append(actorSala);
@@ -209,7 +240,7 @@ function cargarDatos() {
                                     <div class="col-1 llistaActors" style="padding-left: 5px; padding-right: 5px;">'+element.data_inici.split(' ')[1]+'</div>\n\
                                     <div class="col-4 llistaActors" style="padding-left: 5px; padding-right: 5px;">'+element.actor_estadillo.empleat.cognom1_empleat+' '+element.actor_estadillo.empleat.nom_empleat+'</div>\n\
                                     <div class="col-1 llistaActors" style="padding-left: 5px; padding-right: 5px;">'+element.num_takes+'TK</div>\n\
-                                    <div class="col-4 llistaActors" style="padding-left: 5px; padding-right: 5px;">'+element.actor_estadillo.estadillo.registre_produccio.referencia_titol+'</div>\n\
+                                    <div class="col-4 llistaActors" style="padding-left: 5px; padding-right: 5px; '+(!element.color_calendar  ? '' : ('background-color: '+element.color_calendar+';'))+'">'+element.actor_estadillo.estadillo.registre_produccio.referencia_titol+'</div>\n\
                                     <div class="col-2 llistaActors" style="padding-left: 5px; padding-right: 5px;">'+(element.id_director != 0 ? element.director.nom_empleat : '')+'</div>\n\
                                 </div>'
                 $("[dia=" + element.data_inici.split(' ')[0] + "][sala=" + element.calendari.num_sala + "]").children().children().children().children('.tarda').append(actorSala);
@@ -240,6 +271,8 @@ function cargarActores() {
         }
     }
 }
+
+
 
 function filtrar(){
     var idActor = $('#filtroActor').val();
@@ -309,8 +342,13 @@ function guardarCelda() {
         $("#numberTakes")[0].setCustomValidity('');
         errores = true;
     }
+    
+    console.log($("#color").val() == '#ffffff' ? null :$("#color").val());
+    
+    let color = $("#color").val() == '#ffffff' ? null :$("#color").val();
+    
     if (errores) return
-    var datos = { id_actor_estadillo: actorEstadillo, num_takes: takes, data_inici: data_inici, data_fi: data_fi, num_sala: num_sala , canso_calendar: canso, narracio_calendar: narracio};
+    var datos = { id_actor_estadillo: actorEstadillo, num_takes: takes, data_inici: data_inici, data_fi: data_fi, num_sala: num_sala , canso_calendar: canso, narracio_calendar: narracio, color_calendar: color};
     $.post('/calendari/crear', datos)
         .done(function (datosCalendari) {
             dataBase.push(datosCalendari.calendari);
@@ -569,6 +607,7 @@ $('#exampleModal').on('show.bs.modal', function (e) {
     $('#takes-celda').text('Takes per assignar a la sala: ' + restantes);
     $('#takes-celda').attr('class', 'mb-0');
     $("#actorEstadillo").val('-1');
+    $("#color").val('#ffffff');
     
     var options = {
         data: actores.filter(filtroActorTk),
@@ -654,6 +693,8 @@ $('#exampleModal2').on('hide.bs.modal', function () {
     $("#canso-editar").prop('checked', false);
     $('#narracio-editar').attr('readonly', '');
     $("#narracio-editar").prop('checked', false);
+    $('#color-editar').attr('readonly', '');
+    $("#color-editar").val('#ffffff');
     $('#botoEditar').attr('disabled', '');
     $('#botoEliminarActor').attr('disabled', '');
     calendarioActorSeleccionado_id = 0;
@@ -907,7 +948,7 @@ function seleccionarActorCalendario(id, elemento) {
             },
             success: function (response) {
                 calendarioActor = response;
-                //console.log(response);
+                
                 $('#selectPelis-editar').removeAttr('readonly');
                 $('#selectPelis-editar').val(response.calendar.actor_estadillo.estadillo.registre_produccio.referencia_titol);
                 $('#actorEstadillo-editar').val(response.calendar.id_actor_estadillo);
@@ -925,9 +966,13 @@ function seleccionarActorCalendario(id, elemento) {
                 $('#numberTakes-editar').removeAttr('readonly');
                 $('#takesIni-editar').removeAttr('readonly');
                 $('#takesFin-editar').removeAttr('readonly');
+                $('#color-editar').removeAttr('readonly');
                 $('#numberTakes-editar').val(response.calendar.num_takes);
                 $('#takesIni-editar').val(response.calendar.data_inici.split(' ')[1]);
                 $('#takesFin-editar').val(response.calendar.data_fi.split(' ')[1]);
+                
+                if (response.calendar.color_calendar) $('#color-editar').val(response.calendar.color_calendar);
+                else $('#color-editar').val('#ffffff');
                 
                 $('#botoEditar').removeAttr('disabled');
                 $('#botoEliminarActor').removeAttr('disabled');
@@ -1055,7 +1100,8 @@ function editarActor() {
             num_sala: parseInt(calendarioActor.calendar.calendari.num_sala),
             canso_calendar: ($("#canso-editar").prop('checked') ? 1 : 0),
             narracio_calendar: ($("#narracio-editar").prop('checked') ? 1 : 0),
-            id_director: parseInt($('#director-editar').val())
+            id_director: parseInt($('#director-editar').val()),
+            color_calendar: $('#color-editar').val(),
         },
         success: function (response) {
             // Guarda los datos en la variable "data" y vuelve a recargar el calendario:
@@ -1147,6 +1193,8 @@ function vaciarValoresEditar() {
     $("#canso-editar").prop('checked', false);
     $('#narracio-editar').attr('readonly', '');
     $("#narracio-editar").prop('checked', false); 
+    $('#color-editar').attr('readonly', '');
+    $("#color-editar").val('#ffffff');
 }
 //Funcio per obtenir el valor d'una cookie
 function getCookie(cname) {

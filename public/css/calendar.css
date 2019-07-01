@@ -1,6 +1,9 @@
 input[type="checkbox"][readonly] {
   pointer-events: none;
 }
+input[type="color"][readonly] {
+  pointer-events: none;
+}
 
 body, html, main{
     height: 100% !important;
@@ -201,7 +204,7 @@ body, html, main{
     padding-top: 60px;
 }
 
-.sidenav li {
+#trabajadores li {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
     font-size: 20px;
