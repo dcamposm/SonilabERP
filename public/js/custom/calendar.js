@@ -274,7 +274,49 @@ function cargarActores() {
     }
 }
 
+function actulitzarActors(){
+    $.ajax({
+        url: '/calendari/postActors',
+        type: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            Accept: 'application/json'
+        },
+        data: {
+        },
+        success: function (response) {
+            actores = response;
+            cargarActores();
+        },
+        error: function (error) {
+            console.error(error);
+            alert("Error Actualitzar Actors");
+        }
+    });
+}
 
+function actulitzarDades(){
+    $.ajax({
+        url: '/calendari/postDades',
+        type: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            Accept: 'application/json'
+        },
+        data: {
+            week: week,
+            year: year
+        },
+        success: function (response) {
+            data = response;
+            resetCalendari();
+        },
+        error: function (error) {
+            console.error(error);
+            alert("Error Actualitzar Dades");
+        }
+    });
+}
 
 function filtrar(){
     var idActor = $('#filtroActor').val();
@@ -347,17 +389,13 @@ function guardarCelda() {
         $("#numberTakes")[0].setCustomValidity('');
         errores = true;
     }
-    
-    console.log($("#color").val() == '#ffffff' ? null :$("#color").val());
-    
+        
     let color = $("#color").val() == '#ffffff' ? null :$("#color").val();
     
     if (errores) return
     var datos = { id_actor_estadillo: actorEstadillo, num_takes: takes, data_inici: data_inici, data_fi: data_fi, num_sala: num_sala , canso_calendar: canso, narracio_calendar: narracio, color_calendar: color};
     $.post('/calendari/crear', datos)
         .done(function (datosCalendari) {
-            dataBase.push(datosCalendari.calendari);
-    
             if (getCookie("tablaActual")==0){
                 let valorActual = Number($(celda).attr('aria-valuenow'))
                 let takesSuma = ((takes*100)/200) + valorActual;
@@ -377,9 +415,6 @@ function guardarCelda() {
                     }
                 }
             }
-            
-            var nombreActor = "";
-            var idActor = 0;
 
             $.each(actores, function( key, element ) {
                 if (element.id_actor_estadillo == $('#actorEstadillo').val() && persona.id_actor == element.id_actor) {
@@ -390,16 +425,13 @@ function guardarCelda() {
                     if ($("#canso").prop('checked') == true){
                         element.canso_estadillo = 0;
                     }
-                    nombreActor = element.nombre_actor;
-                    idActor = element.id_actor;
                 }                
             });
             cargarActores();
-
-            resetCalendari();
+            actulitzarDades();
         })
         .fail(function (error) {
-            console.log(error);
+            console.error(error);
         });
 
     $('#exampleModal').modal('hide');
@@ -462,7 +494,7 @@ function creatPasarLlista(){
         },
         error: function (error) {
             console.error(error);
-            alert("Error Llista Acotrs");
+            alert("Error Llista Actors");
         }
     });
 }
@@ -479,7 +511,6 @@ function drop(ev) {
             persona = element; //persona es el elemento arrastrado
         }
     });
-    //console.log(ev.target.parentElement.parentElement.parentElement.parentElement);
     if (getCookie("tablaActual")==0){
         celda = $(ev.target).attr('aria-valuenow') ? ev.target : ev.target.children[0];
     } else {
@@ -1200,11 +1231,12 @@ function eliminarCalendarioActor() {
 
             data = undefined;
             data = nuevoAmanecer;
-            $('#' + calendarioActorSeleccionado_id + "-" + calendarioActor.calendar.id_actor_estadillo + "-" + calendarioActor.calendar.calendari.num_sala).remove();
                         
             vaciarValoresEditar();
 
             resetCalendari();
+            
+            actulitzarActors();
         },
         error: function (error) {
             console.error(error);
