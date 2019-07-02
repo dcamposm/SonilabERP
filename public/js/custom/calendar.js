@@ -25,12 +25,13 @@ function carregarCalendari(){
     crearTablaCalendario();
     tablaHoras();
     cargarDatos(); 
+    creatPasarLlista();
 }
 
 function resetCalendari(){
     $('#calendarContent').html('');
     carregarCalendari();
-
+    
     tablaHoras();
     pintarTablaHoras();
 }
@@ -100,6 +101,7 @@ var optionsRegistre = {
 };
 
 $("#searchEntrada").easyAutocomplete(optionsRegistre);
+
 actoresSave = actores;
 var optionsActorSide = {
     url:  rutaSearchEmpleat+"?search=Actor",
@@ -394,29 +396,6 @@ function guardarCelda() {
             });
             cargarActores();
 
-            var tr = $('<tr id="' + datosCalendari.calendari.id_calendar + '-' + datosCalendari.calendari.id_actor_estadillo + '-' + datosCalendari.calendari.calendari.num_sala + '" class="dia-' + datosCalendari.calendari.data_inici.split('-')[0] + '-' + datosCalendari.calendari.calendari.num_sala + ' lista-actores"></tr>');
-            var td1 = $('<td id="actor_mod-' + datosCalendari.calendari.id_calendar + '" onclick="seleccionarActorCalendario(this.id, this)"></td>');
-            var td1Value = '<div><span class="horaActor">(' + datosCalendari.calendari.data_inici.split(' ')[1] + ')</span> ' + nombreActor + '</div>';
-            td1.append($(td1Value));
-            tr.append(td1);
-            var td2Value = 
-            '<td>' + 
-                '<div class="btn-group btn-group-toggle" data-toggle="buttons">' + 
-                    '<label class="btn btn-success">' +
-                        '<input type="radio" name="actor-' + idActor + '-' + datosCalendari.calendari.id_calendar + '" id="actor-' + idActor + '" class="actor-dia-' + datosCalendari.calendari.data_inici.split('-')[0] + '-' + datosCalendari.calendari.calendari.num_sala + '" autocomplete="off" value="1"> Present' +
-                    '</label>' +
-                    '<label class="btn btn-danger">' +
-                        '<input type="radio" name="actor-' + idActor + '-' + datosCalendari.calendari.id_calendar + '" id="actor-' + idActor + '" class="actor-dia-' + datosCalendari.calendari.data_inici.split('-')[0] + '-' + datosCalendari.calendari.calendari.num_sala + '" autocomplete="off" value="0"> No present' +
-                    '</label>' +
-                    '<label class="btn btn-secondary active">' +
-                        '<input type="radio" name="actor-' + idActor + '-' + datosCalendari.calendari.id_calendar + '" id="actor-' + idActor + '" class="actor-dia-' + datosCalendari.calendari.data_inici.split('-')[0] + '-' + datosCalendari.calendari.calendari.num_sala + '" autocomplete="off" value="null"> Pendent' +
-                    '</label>' +
-                '</div>' +
-            '</td>';
-            var td2 = $(td2Value);
-            tr.append(td2);
-            $('#pasarLista-tabla').append(tr);
-            
             resetCalendari();
         })
         .fail(function (error) {
@@ -424,6 +403,68 @@ function guardarCelda() {
         });
 
     $('#exampleModal').modal('hide');
+}
+
+function creatPasarLlista(){
+    $.ajax({
+        url: '/calendari/actorsPerDia',
+        type: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            Accept: 'application/json'
+        },
+        data: {
+            fechas: dias
+        },
+        success: function (response) {
+            $('#pasarLista-tabla').html('');
+            $.each(response, function( key, dia ) {
+                $.each(dia, function( key2, actor ) {
+                    var tr = $('<tr id="' + actor.id_calendar + '-' + actor.id_actor_estadillo + '-' + actor.num_sala + '" class="dia-' + actor.dia + '-' + actor.num_sala+ ' lista-actores"></tr>');
+                    var td1 = $('<td id="actor_mod-' + actor.id_calendar + '" onclick="seleccionarActorCalendario(this.id, this)" class="col-8"></td>');
+                    if (actor.id_director == 0){
+                        var td1Value = '<span class="horaActor">(' + actor.hora+':'+actor.minuts + ') </span><span id="content_actor">' + actor.nom_cognom + '</span>';
+                        td1.append($(td1Value));
+                    } else {  
+                        $.each(directors, function( key3, director ) {
+                            if (actor.id_director == director.id_empleat){
+                                var td1Value = '<span class="horaActor">(' + actor.hora+':'+actor.minuts + ') </span><span id="content_actor">' + actor.nom_cognom + ' - ' + director.nom_cognom + '</span>';
+                                td1.append($(td1Value));
+                            }
+                        });
+                       
+                    }
+                    
+                    tr.append(td1);
+                    
+                    var td2Value = 
+                    '<td>' + 
+                        '<div class="btn-group btn-group-toggle" data-toggle="buttons">' + 
+                            '<label class="btn btn-success '+(actor.asistencia == 1 ? 'active' : '')+'">' +
+                                '<input type="radio" name="actor-' + actor.id_empleat + '-' + actor.id_calendar + '" id="actor-' + actor.id_empleat + '" class="actor-dia-' + actor.dia + '-' + actor.num_sala + '" autocomplete="off" value="1" '+(actor.asistencia == 1 ? 'checked' : '')+'> Present' +
+                            '</label>' +
+                            '<label class="btn btn-danger '+(actor.asistencia === 0 ? 'active' : '')+'">' +
+                                '<input type="radio" name="actor-' + actor.id_empleat + '-' + actor.id_calendar + '" id="actor-' + actor.id_empleat + '" class="actor-dia-' + actor.dia + '-' + actor.num_sala + '" autocomplete="off" value="0" '+(actor.asistencia == 1 ? 'checked' : '')+'> No present' +
+                            '</label>' +
+                            '<label class="btn btn-secondary '+(actor.asistencia === null ? 'active' : '')+'">' +
+                                '<input type="radio" name="actor-' + actor.id_empleat + '-' + actor.id_calendar + '" id="actor-' + actor.id_empleat + '" class="actor-dia-' + actor.dia + '-' + actor.num_sala + '" autocomplete="off" value="null" '+(actor.asistencia == 1 ? 'checked' : '')+'> Pendent' +
+                            '</label>' +
+                        '</div>' +
+                    '</td>';
+                    var td2 = $(td2Value);
+                    tr.append(td2);
+                    $('#pasarLista-tabla').append(tr);
+                });
+            });
+            
+            $('.lista-actores').hide();
+            $('.dia-' + parseInt(diaSeleccionado.split('-')[0]) + '-' + salaSeleccionada).show();
+        },
+        error: function (error) {
+            console.error(error);
+            alert("Error Llista Acotrs");
+        }
+    });
 }
 
 function allowDrop(ev) {
@@ -1114,22 +1155,13 @@ function editarActor() {
                 }
             });
 
-            var horaActor = $('#' + calendarioActorSeleccionado_id + "-" + $('#actorEstadillo-editar').val() + "-" + calendarioActor.calendar.calendari.num_sala + " .horaActor");
-            horaActor.text("(" + $('#takesIni-editar').val() + ")");
-
-            if (response.director){
-                $('#' + calendarioActorSeleccionado_id + "-" + calendarioActor.calendar.id_actor_estadillo + "-" + calendarioActor.calendar.calendari.num_sala).find('#content_actor').text(response.actor_estadillo.empleat.nom_cognom+' - '+response.director.nom_cognom);
-            } else {
-                $('#' + calendarioActorSeleccionado_id + "-" + calendarioActor.calendar.id_actor_estadillo + "-" + calendarioActor.calendar.calendari.num_sala).find('#content_actor').text(response.actor_estadillo.empleat.nom_cognom);
-            }
-            
             resetCalendari();
-            
+
             vaciarValoresEditar();
         },
         error: function (error) {
             console.error(error);
-            alert("No s'ha pogut modificar les dades del calendari de l'actor.");
+            alert("No s'ha pogut modificar les dades del calendari.");
         }
     });
 }

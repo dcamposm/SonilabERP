@@ -73,7 +73,7 @@ body, html, main{
     margin: 5px 0px 0px 0px;
 }
 
-.alternar:focus { outline:0 !important; } 
+.alternar:focus { outline:none !important; } 
 
 .alternar span{
     padding: 0px;
@@ -100,6 +100,10 @@ body, html, main{
 }
 .encabezado{
     align-items: center;
+}
+
+.encabezado .easy-autocomplete input{
+    border-radius: 0px;
 }
 
 .barra_progreso {
@@ -229,11 +233,21 @@ body, html, main{
     color: #f1f1f1;
 }
 
+.sidenav .easy-autocomplete{
+    height: 37px;
+    margin: 20px 0px 0px 0px;
+}
+
+.sidenav .easy-autocomplete input{
+    border-radius: 0px;
+}
+
 .sidenav .closebtn {
-    position: absolute;
-    right: 25px;
+    float: right;
     font-size: 36px;
+    height: 40px;
     color: white;
+    margin: -20px 0px 0px 0px;
 }
 
 #main {

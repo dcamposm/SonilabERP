@@ -101,34 +101,7 @@ class CalendariController extends Controller
                                   ->get();
         
         // TODO: Hacer que los actores no se repitan o que si se repiten que se coja también la hora.
-        $actoresPorDia = array();
-        foreach($fechas as $key => $fech) {
-            $diaz = DateTime::createFromFormat("d-m-Y", $fech);
-            
-            $act_dia = EmpleatExtern::select('slb_empleats_externs.id_empleat',
-                                             'slb_empleats_externs.nom_empleat',
-                                             'slb_empleats_externs.cognom1_empleat',
-                                             'slb_empleats_externs.cognom2_empleat',
-                                             'slb_calendars.id_calendar',
-                                             DB::raw('DAY(slb_calendars.data_inici) as dia'),
-                                             'slb_calendar_carrecs.num_sala',
-                                             DB::raw('LPAD(HOUR(slb_calendars.data_inici), 2, 0) as hora'),
-                                             DB::raw('LPAD(MINUTE(slb_calendars.data_inici), 2, 0) as minuts'),
-                                             'slb_actors_estadillo.id as id_actor_estadillo',
-                                             'slb_calendars.id_calendar as id_calendar',
-                                             'slb_calendars.asistencia',
-                                             'slb_calendars.id_director')
-                                    ->join('slb_actors_estadillo', 'slb_actors_estadillo.id_actor', 'slb_empleats_externs.id_empleat')
-                                    ->join('slb_calendars', 'slb_calendars.id_actor_estadillo', 'slb_actors_estadillo.id')
-                                    ->join('slb_calendar_carrecs', 'slb_calendar_carrecs.id_calendar_carrec', 'slb_calendars.id_calendar_carrec')
-                                    ->distinct()->where( DB::raw('DAY(slb_calendars.data_inici)'), '=', $diaz->format('d'))
-                                    ->where( DB::raw('MONTH(slb_calendars.data_inici)'), '=', $diaz->format('m'))
-                                    ->where( DB::raw('YEAR(slb_calendars.data_inici)'), '=', $diaz->format('Y'))
-                                    ->orderBy('slb_calendars.data_inici')
-                                    ->get();       
-                    
-            array_push($actoresPorDia, $act_dia);
-        }
+        $actoresPorDia = CalendariController::getActorsPerDia($fechas);
 
         $tecnicsAsignados = CalendarCarrec::where('data', '>=', $dia1)->where('data', '<=', $dia5)->with('empleat')->get();
         $directors = EmpleatExtern::select('slb_empleats_externs.id_empleat', 'nom_empleat', 'cognom1_empleat', 'cognom2_empleat')
@@ -275,8 +248,8 @@ class CalendariController extends Controller
                                             ->where('torn', $torn)->first();
 
         if (!$calendariCarrec){
-            $calendariCarrec = new CalendarCarrec($requestData);
-            $calendariCarrec->data = $requestData['data_inici']->format('Y-m-d');
+            $calendariCarrec = new CalendarCarrec($valores);
+            $calendariCarrec->data = date('Y-m-d',strtotime($valores['data_inici']));
             $calendariCarrec->torn = $torn;
 
             $calendariCarrec->save();
@@ -349,5 +322,45 @@ class CalendariController extends Controller
         $peliculas = RegistreProduccio::all();
         
         return $peliculas;
+    }
+    
+    public function actorsPerDia() {
+        $actoresPorDia = CalendariController::getActorsPerDia(request()->get('fechas'));
+        
+        return response()->json($actoresPorDia);
+    }
+    
+    public function getActorsPerDia($fechas) {
+        $actoresPorDia = array();
+        
+        foreach($fechas as $key => $fech) {
+            $diaz = DateTime::createFromFormat("d-m-Y", $fech);
+            
+            $act_dia = EmpleatExtern::select('slb_empleats_externs.id_empleat',
+                                             'slb_empleats_externs.nom_empleat',
+                                             'slb_empleats_externs.cognom1_empleat',
+                                             'slb_empleats_externs.cognom2_empleat',
+                                             'slb_calendars.id_calendar',
+                                             DB::raw('DAY(slb_calendars.data_inici) as dia'),
+                                             'slb_calendar_carrecs.num_sala',
+                                             DB::raw('LPAD(HOUR(slb_calendars.data_inici), 2, 0) as hora'),
+                                             DB::raw('LPAD(MINUTE(slb_calendars.data_inici), 2, 0) as minuts'),
+                                             'slb_actors_estadillo.id as id_actor_estadillo',
+                                             'slb_calendars.id_calendar as id_calendar',
+                                             'slb_calendars.asistencia',
+                                             'slb_calendars.id_director')
+                                    ->join('slb_actors_estadillo', 'slb_actors_estadillo.id_actor', 'slb_empleats_externs.id_empleat')
+                                    ->join('slb_calendars', 'slb_calendars.id_actor_estadillo', 'slb_actors_estadillo.id')
+                                    ->join('slb_calendar_carrecs', 'slb_calendar_carrecs.id_calendar_carrec', 'slb_calendars.id_calendar_carrec')
+                                    ->distinct()->where( DB::raw('DAY(slb_calendars.data_inici)'), '=', $diaz->format('d'))
+                                    ->where( DB::raw('MONTH(slb_calendars.data_inici)'), '=', $diaz->format('m'))
+                                    ->where( DB::raw('YEAR(slb_calendars.data_inici)'), '=', $diaz->format('Y'))
+                                    ->orderBy('slb_calendars.data_inici')
+                                    ->get();       
+                    
+            array_push($actoresPorDia, $act_dia);
+        }
+        
+        return $actoresPorDia;
     }
 }

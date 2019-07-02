@@ -153,7 +153,8 @@ Route::middleware(['role: 1,2,3,4,5'])->group(function () {
     
     Route::post('/calendari/desarLlistaAsistencia', 'CalendariController@desarLlistaAsistencia')->name('desarLlistaAsistencia');
     Route::post('/calendari/cogerCalendarioActor', 'CalendariController@cogerCalendarioActor')->name('cogerCalendarioActor');
-
+    Route::post('/calendari/actorsPerDia', 'CalendariController@actorsPerDia')->name('actorsPerDia');
+    
     Route::get('/calendari/getPeliculas', 'CalendariController@getPeliculas');
 });
     
