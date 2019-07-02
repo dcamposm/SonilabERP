@@ -73,6 +73,12 @@ body, html, main{
     margin: 5px 0px 0px 0px;
 }
 
+.alternar:focus { outline:0 !important; } 
+
+.alternar span{
+    padding: 0px;
+}
+
 .labelFechaManana{
     top:-25px;
     left: 0;
