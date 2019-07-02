@@ -48,51 +48,8 @@ class CalendariController extends Controller
                                     ->get());
         
         $urlBase = route('showCalendari');
-
-        $takes_restantes = ActorEstadillo::select('slb_actors_estadillo.id as id_actor_estadillo',
-                                                    'slb_actors_estadillo.id',
-                                                    'slb_actors_estadillo.take_estadillo as takes_restantes',
-                                                    'slb_actors_estadillo.id_actor',
-                                                    'slb_actors_estadillo.id_produccio',
-                                                    'slb_actors_estadillo.narracio_estadillo',
-                                                    'slb_actors_estadillo.canso_estadillo',
-                                                    'slb_estadillo.id_registre_produccio')
-                                            ->join('slb_estadillo', 'slb_estadillo.id_estadillo', 'slb_actors_estadillo.id_produccio')
-                                            ->join('slb_registres_produccio', 'slb_registres_produccio.id', 'slb_estadillo.id_registre_produccio')
-                                            ->distinct()->where('slb_registres_produccio.estat', 'Pendent')
-                                            ->with('calendar')->get();                          
         
-        foreach ($takes_restantes as $key => $value) {
-            if ($value->estadillo != null) {
-                if ($value->estadillo->registreProduccio != null){
-                    $empleado = EmpleatExtern::findOrFail($value->id_actor);
-                    $produccio = RegistreProduccio::findOrFail($value->id_registre_produccio);
-                    $entrada = RegistreEntrada::findOrFail($produccio->id_registre_entrada);
-                    $value->nombre_actor = $empleado->nom_cognom;
-                    $value->nombre_reg_entrada = $entrada->referencia_titol;
-                    $value->nombre_reg_produccio = $produccio->subreferencia != 0 ? $produccio->subreferencia : '';
-                    $value->nombre_reg_complet = $value->nombre_reg_entrada.' '.$value->nombre_reg_produccio;
-                    if ( isset($value->calendar[0]) ){
-                        foreach($value->calendar as $calendar) {
-                            $value->takes_restantes = $value->takes_restantes - $calendar->num_takes;
-                            if ($value->canso_estadillo == $calendar->canso_calendar){
-                                $value->canso_estadillo = 0;
-                            }
-                            if ($value->narracio_estadillo == $calendar->narracio_calendar) {
-                                $value->narracio_estadillo = 0;
-                            }  
-                        }
-                    } 
-                } else {
-                    unset($takes_restantes[$key]);
-                }
-                
-            } else {
-                unset($takes_restantes[$key]);
-            }
-        }
-
-        $actores = json_encode($takes_restantes);
+        $actores = CalendariController::getActors();
 
         $tecnics = EmpleatExtern::select('slb_empleats_externs.id_empleat', 'slb_empleats_externs.nom_empleat', 'slb_empleats_externs.cognom1_empleat', 'slb_empleats_externs.cognom2_empleat')
                                   ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', 'slb_empleats_externs.id_empleat')
@@ -322,6 +279,83 @@ class CalendariController extends Controller
         $peliculas = RegistreProduccio::all();
         
         return $peliculas;
+    }
+    
+    public function postActors() {
+        $actores = CalendariController::getActors();
+        
+        return response()->json($actores);
+    }
+    
+    public function getActors() {
+        $takes_restantes = ActorEstadillo::select('slb_actors_estadillo.id as id_actor_estadillo',
+                                                    'slb_actors_estadillo.id',
+                                                    'slb_actors_estadillo.take_estadillo as takes_restantes',
+                                                    'slb_actors_estadillo.id_actor',
+                                                    'slb_actors_estadillo.id_produccio',
+                                                    'slb_actors_estadillo.narracio_estadillo',
+                                                    'slb_actors_estadillo.canso_estadillo',
+                                                    'slb_estadillo.id_registre_produccio')
+                                            ->join('slb_estadillo', 'slb_estadillo.id_estadillo', 'slb_actors_estadillo.id_produccio')
+                                            ->join('slb_registres_produccio', 'slb_registres_produccio.id', 'slb_estadillo.id_registre_produccio')
+                                            ->distinct()->where('slb_registres_produccio.estat', 'Pendent')
+                                            ->with('calendar')->get();                          
+        
+        foreach ($takes_restantes as $key => $value) {
+            if ($value->estadillo != null) {
+                if ($value->estadillo->registreProduccio != null){
+                    $empleado = EmpleatExtern::findOrFail($value->id_actor);
+                    $produccio = RegistreProduccio::findOrFail($value->id_registre_produccio);
+                    $entrada = RegistreEntrada::findOrFail($produccio->id_registre_entrada);
+                    $value->nombre_actor = $empleado->nom_cognom;
+                    $value->nombre_reg_entrada = $entrada->referencia_titol;
+                    $value->nombre_reg_produccio = $produccio->subreferencia != 0 ? $produccio->subreferencia : '';
+                    $value->nombre_reg_complet = $value->nombre_reg_entrada.' '.$value->nombre_reg_produccio;
+                    if ( isset($value->calendar[0]) ){
+                        foreach($value->calendar as $calendar) {
+                            $value->takes_restantes = $value->takes_restantes - $calendar->num_takes;
+                            if ($value->canso_estadillo == $calendar->canso_calendar){
+                                $value->canso_estadillo = 0;
+                            }
+                            if ($value->narracio_estadillo == $calendar->narracio_calendar) {
+                                $value->narracio_estadillo = 0;
+                            }  
+                        }
+                    } 
+                } else {
+                    unset($takes_restantes[$key]);
+                }
+                
+            } else {
+                unset($takes_restantes[$key]);
+            }
+        }
+
+        $actores = $takes_restantes;
+        
+        return $actores;
+    }
+    
+    public function postDades() {
+        $fecha = Carbon::now();
+        $fecha->setISODate(request()->get('year'), request()->get('week'));
+
+        $dia1 = $fecha->startOfWeek();
+        $dia2 = $dia1->copy()->addDay();
+        $dia3 = $dia2->copy()->addDay();
+        $dia4 = $dia3->copy()->addDay();
+        $dia5 = $dia4->copy()->addDay()->addHours(23)->addMinutes(59);
+        
+        $data = Calendar::where('data_inici', '>=', $dia1)
+                                    ->where('data_fi', '<=', $dia5)
+                                    ->with('actorEstadillo.estadillo.registreProduccio.registreEntrada')
+                                    ->with('actorEstadillo.empleat')
+                                    ->with('calendari')
+                                    ->with('director')
+                                    ->orderBy('slb_calendars.data_inici')
+                                    ->get();
+        
+        return response()->json($data);
     }
     
     public function actorsPerDia() {
