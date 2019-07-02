@@ -168,36 +168,7 @@
                                 <div style="background-color: whitesmoke; overflow-y: scroll; max-height: 294px;">
                                     <table class="table" style="width: 100%;  margin-top: 30px;">
                                         <tbody id="pasarLista-tabla">
-                                            @foreach($actoresPorDia as $key => $dia)
-                                                @foreach($dia as $key2 => $actor)
-                                                    <tr id="{{$actor->id_calendar}}-{{$actor->id_actor_estadillo}}-{{$actor->num_sala}}" class="dia-{{$actor->dia}}-{{$actor->num_sala}} lista-actores">
-                                                        <td id="actor_mod-{{ $actor->id_calendar }}" onclick="seleccionarActorCalendario(this.id, this)" class="col-8">
-                                                            @if ($actor->id_director == 0)
-                                                            <span class="horaActor">{{'('.$actor->hora.':'.$actor->minuts.')'}}</span> <span id="content_actor">{{$actor->nom_cognom}}</span>
-                                                            @else
-                                                                @foreach($directors as $director)
-                                                                    @if ($actor->id_director == $director->id_empleat)
-                                                                        <span class="horaActor">{{'('.$actor->hora.':'.$actor->minuts.')'}}</span> <span id="content_actor">{{$actor->nom_cognom}} - {{$director->nom_cognom}}</span>
-                                                                    @endif
-                                                                @endforeach
-                                                            @endif
-                                                        </td>
-                                                        <td>
-                                                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                                                <label class="btn btn-success {{ $actor->asistencia == 1 ? 'active' : '' }}">
-                                                                    <input type="radio" name="actor-{{ $actor->id_empleat }}-{{$actor->id_calendar}}" id="actor-{{ $actor->id_empleat }}" class="actor-dia-{{$actor->dia}}-{{$actor->num_sala}}" autocomplete="off" value="1" {{ $actor->asistencia == 1 ? 'checked' : '' }}> Present
-                                                                </label>
-                                                                <label class="btn btn-danger {{ $actor->asistencia === 0 ? 'active' : '' }}">
-                                                                    <input type="radio" name="actor-{{ $actor->id_empleat }}-{{$actor->id_calendar}}" id="actor-{{ $actor->id_empleat }}" class="actor-dia-{{$actor->dia}}-{{$actor->num_sala}}" autocomplete="off" value="0" {{ $actor->asistencia === 0 ? 'checked' : '' }}> No present
-                                                                </label>
-                                                                <label class="btn btn-secondary {{ is_null($actor->asistencia) ? 'active' : '' }}">
-                                                                    <input type="radio" name="actor-{{ $actor->id_empleat }}-{{$actor->id_calendar}}" id="actor-{{ $actor->id_empleat }}" class="actor-dia-{{$actor->dia}}-{{$actor->num_sala}}" autocomplete="off" value="null" {{ is_null($actor->asistencia) ? 'checked' : '' }}> Pendent
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            @endforeach
+                                            
                                         </tbody>
                                     </table>
                                 </div>
@@ -275,6 +246,8 @@
     var urlBase = "<?php echo $urlBase ?>"
     var data = <?php echo $data ?>;
     var actores = <?php echo $actores ?>;
+    var actoresPorDia = @json($actoresPorDia);
+    var directors = @json($directors);
     var dataBase = data;   
     var tecnicsAsignados = <?php echo json_encode($tecnicsAsignados) ?>;
     var rutaSearchEmpleat = "{{route('empleatSearch')}}";
