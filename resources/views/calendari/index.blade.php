@@ -28,11 +28,11 @@
                     <span class="fas fa-calendar" style="margin-right: 0px;"></span>
                 </button>  
             </div>
-            <div class="col col-fecha" style="font-weight: bold;">DILLUNS : {{$fechas[0]}}</div>
-            <div class="col col-fecha" style="font-weight: bold;">DIMARTS : {{$fechas[1]}}</div>
-            <div class="col col-fecha" style="font-weight: bold;">DIMECRES : {{$fechas[2]}}</div>
-            <div class="col col-fecha" style="font-weight: bold;">DIJOUS : {{$fechas[3]}}</div>
-            <div class="col col-fecha" style="font-weight: bold;">DIVENDRES : {{$fechas[4]}}</div>
+            <div class="col col-fecha" style="font-weight: bold;">DILLUNS : {{date('d/m/Y', strtotime($fechas[0]))}}</div>
+            <div class="col col-fecha" style="font-weight: bold;">DIMARTS : {{date('d/m/Y', strtotime($fechas[1]))}}</div>
+            <div class="col col-fecha" style="font-weight: bold;">DIMECRES : {{date('d/m/Y', strtotime($fechas[2]))}}</div>
+            <div class="col col-fecha" style="font-weight: bold;">DIJOUS : {{date('d/m/Y', strtotime($fechas[3]))}}</div>
+            <div class="col col-fecha" style="font-weight: bold;">DIVENDRES : {{date('d/m/Y', strtotime($fechas[4]))}}</div>
         </div>
         <div id="calendarContent"></div>
     </div>
