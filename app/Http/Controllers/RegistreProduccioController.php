@@ -15,7 +15,7 @@ class RegistreProduccioController extends Controller {
     }
 
     public function getIndex() {
-        $registres = RegistreProduccio::orderBy('data_entrega')->get();
+        $registres = RegistreProduccio::orderBy('estat')->orderBy('data_entrega')->get();
 
         return new RegistreProduccioIndex($registres);
     }
@@ -167,9 +167,9 @@ class RegistreProduccioController extends Controller {
                 $raw = request()->input("searchBy").' like "'.strtolower(request()->input("search_term")).'"';;
             }
 
-            $registres = RegistreProduccio::with('traductor')->with('ajustador')
+            $registres = RegistreProduccio::with('registreEntrada')->with('traductor')->with('ajustador')
                             ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
-                            ->orderBy('estat')->orderBy('data_entrega')->orderBy(request()->input("orderBy"))->whereRaw($raw)->get();
+                            ->orderBy('estat')->orderBy(request()->input("orderBy"))->whereRaw($raw)->get();
         } else if (request()->input("searchBy") == 'responsable'){
             $registresEntrades = RegistreEntrada::where('id_usuari', request()->input("search_term"))->get();
 
@@ -181,14 +181,14 @@ class RegistreProduccioController extends Controller {
                 }
             }
             
-            $registres = RegistreProduccio::with('traductor')->with('ajustador')
+            $registres = RegistreProduccio::with('registreEntrada')->with('traductor')->with('ajustador')
                         ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
-                        ->orderBy('estat')->orderBy('data_entrega')->orderBy(request()->input("orderBy"))->whereRaw(!isset($raw) ? 0 : $raw)->get();
+                        ->orderBy('estat')->orderBy(request()->input("orderBy"))->whereRaw(!isset($raw) ? 0 : $raw)->get();
             //return response()->json($registres);
         } else {
-            $registres = RegistreProduccio::with('traductor')->with('ajustador')
+            $registres = RegistreProduccio::with('registreEntrada')->with('traductor')->with('ajustador')
                 ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
-                ->orderBy('estat')->orderBy('data_entrega')->orderBy(request()->input("orderBy"))->whereRaw('LOWER('.request()->input("searchBy").') like "%'.strtolower(request()->input("search_term")).'%"')
+                ->orderBy('estat')->orderBy(request()->input("orderBy"))->whereRaw('LOWER('.request()->input("searchBy").') like "%'.strtolower(request()->input("search_term")).'%"')
                 ->get();
         }
 
