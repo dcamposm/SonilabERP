@@ -15,6 +15,10 @@ class CheckRole
      */
     public function handle($request, Closure $next, ...$role)
     {
+        if (! $request->user()){
+            return redirect()->route('login');
+        }
+        
         if (! $request->user()->hasAnyRole($role)) {
             return back()->with('alert', 'WARNING. No tens accés autoritzat');
         }
