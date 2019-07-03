@@ -23,20 +23,26 @@ class RegistreProduccioIndex implements Responsable
             if ($registre->subreferencia == 0){
                 $this->registreProduccio[$registre->id_registre_entrada] = $registre;
             } else {
+                
                 if (!isset($this->registreProduccio[$registre->id_registre_entrada][$registre->setmana])){
-                    $this->registreProduccio[$registre->id_registre_entrada][$registre->setmana][0] = array(
-                        'id_registre_entrada' => $registre->id_registre_entrada,
-                        'min' => $registre->subreferencia,
-                        'max' => $registre->subreferencia,
-                        'titol' => $registre->registreEntrada->titol,
-                        'data' => $registre->data_entrega,
-                        'setmana' => $registre->setmana,
-                        'responsable' => !empty($registre->registreEntrada->usuari->nom_cognom) ? $registre->registreEntrada->usuari->nom_cognom : '',
-                        'estadillo' => $registre->estadillo,
-                        'vec' => $registre->vec,
-                        'estat' => $registre->estat,
-                        'new' => 0
-                    );
+                    try {
+                        $this->registreProduccio[$registre->id_registre_entrada][$registre->setmana][0] = array(
+                            'id_registre_entrada' => $registre->id_registre_entrada,
+                            'min' => $registre->subreferencia,
+                            'max' => $registre->subreferencia,
+                            'titol' => $registre->registreEntrada->titol,
+                            'data' => $registre->data_entrega,
+                            'setmana' => $registre->setmana,
+                            'responsable' => !empty($registre->registreEntrada->usuari->nom_cognom) ? $registre->registreEntrada->usuari->nom_cognom : '',
+                            'estadillo' => $registre->estadillo,
+                            'vec' => $registre->vec,
+                            'estat' => $registre->estat,
+                            'new' => 0
+                        );
+                    } catch (\Exception $ex) {
+                        dd($registre);
+                    }
+                    
                     
                     foreach ($this->missatges as $missatge) {
                         if ($missatge->id_referencia == $registre->id){
@@ -46,6 +52,7 @@ class RegistreProduccioIndex implements Responsable
                     
                     $this->registreProduccio[$registre->id_registre_entrada][$registre->setmana][$registre->subreferencia] = $registre;
                 } else {
+                    
                     if ($this->registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['max'] < $registre->subreferencia) {
                         $this->registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['max'] = $registre->subreferencia;
                     } else if ($this->registreProduccio[$registre->id_registre_entrada][$registre->setmana][0]['min'] > $registre->subreferencia){

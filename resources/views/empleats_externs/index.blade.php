@@ -44,6 +44,7 @@
                 <th>NOM</th> 
                 <th>COGNOMS</th>
                 <th>TELÈFON</th>
+                <th>EMAIL</th>
                 <th>CARRECS</th>
                 @if (Auth::user()->hasAnyRole(['1', '5']))
                 <th>ACCIONS</th>
@@ -56,6 +57,7 @@
                     <td style="vertical-align: middle;"><a class="font-weight-bold" href="{{ route('empleatShow', ['id' => $empleat['id_empleat']]) }}" style="text-decoration:none; color:black;">{{$empleat['nom_empleat']}} </a></td>
                     <td style="vertical-align: middle;">{{$empleat['cognom1_empleat']}}</td>
                     <td style="vertical-align: middle;">{{$empleat['telefon_empleat']}}</td>
+                    <td style="vertical-align: middle;">{{$empleat['email_empleat']}}</td>
                     <td style="padding: 0px;">
                         <ul class="list-group list-group-horizontal-sm" style="flex-direction: row;">
                         @foreach( $empleatsArray as $key => $empCarrec )
