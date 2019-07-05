@@ -24,7 +24,8 @@ class EmpleatExtern extends Model
         "naixement_empleat", 
         "nss_empleat", 
         "iban_empleat",
-        "pc_empleat"
+        "pc_empleat",
+        "color_empleat"
     ];
 
     protected $appends = ['nom_cognom'];
@@ -71,5 +72,10 @@ class EmpleatExtern extends Model
     public function produccioTecnic()
     {
         return $this->hasMany('App\RegistreProduccio', 'id_tecnic_mix', 'id_empleat');
+    }
+    
+    public function actorCalendar()
+    {
+        return $this->hasMany('App\Calendar','id_actor','id_empleat');
     }
 }

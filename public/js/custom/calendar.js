@@ -1,5 +1,4 @@
 /////  INIT  /////
-
 $('#semanaMenos').on('click', function () {
     changeCalendar(0);
 });
@@ -262,7 +261,7 @@ function cargarActores() {
         if (trabajadores[element.id_actor]){
             trabajadores[element.id_actor].takes_restantes = trabajadores[element.id_actor].takes_restantes + element.takes_restantes;
         } else {
-            trabajadores[element.id_actor] = {id_actor: element.id_actor, nombre_actor: element.nombre_actor, takes_restantes: element.takes_restantes};
+            trabajadores[element.id_actor] = {id_actor: element.id_actor, nombre_actor: element.empleat.nom_cognom, takes_restantes: element.takes_restantes};
         }
     });
 
@@ -648,19 +647,17 @@ function ampliarCasilla(e) {
 $('#exampleModal').on('show.bs.modal', function (e) {
     var modal = $(this);
 
-    let takes = 0;
+    /*let takes = 0;
     
     $.each(actores, function( key, element ) {
         if (element.id_actor == persona.id_actor) {
             takes = takes + element.takes_restantes;
         }
-    });
-    
-    modal.find('.modal-title').text(persona.nombre_actor + ' - ' + takes + ' takes restants');
+    });*/
 
-    var restantes = '';
+    modal.find('.modal-title').text(persona.empleat.nom_cognom/* + ' - ' + takes + ' takes restants'*/);
 
-    takesPosibles = takes;
+    //takesPosibles = takes;
 
     if ($(celda).attr('dia')){
         var data_inici = celda.getAttribute("dia");
@@ -672,12 +669,10 @@ $('#exampleModal').on('show.bs.modal', function (e) {
     
     $('#crear-subtitulo').text('Dia: '+data_inici+' - Sala: '+num_sala);
     $("#selectPelis").val('');
-    $('#numberTakes').attr('max', takesPosibles);
-    $('#numberTakes').val('1');
+    //$('#numberTakes').attr('max', takesPosibles);
+    $('#numberTakes').val('0');
     $('#takesIni').val('');
     $('#takesFin').val('');
-    $('#takes-celda').text('Takes per assignar a la sala: ' + restantes);
-    $('#takes-celda').attr('class', 'mb-0');
     $("#actorEstadillo").val('-1');
     $("#color").val('#ffffff');
     

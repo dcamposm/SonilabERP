@@ -78,16 +78,17 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-check form-check-inline">
-                            <label class="form-check-label" for="canso">Canço</label>
-                            <input id="canso" class="form-check-input ml-1" type="checkbox" value="1" readonly>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <label class="form-check-label" for="narracio">Narració</label>
-                            <input id="narracio" class="form-check-input ml-1" type="checkbox" value="1" readonly>
-                        </div>
-                        <div class="form-group col-2">
-                            <input type="color" class="form-control mt-2" name="color" id="color" value="#ffffff">
+                        <div class="form-group col">
+                            <label for="opcio_calendar">Opcions:</label>
+                            <select id="opcio_calendar " class="form-control" name="opcio_calendar ">
+                                <option value="0" selected></option>
+                                <option value="canço">CANÇO</option>
+                                <option value="narrador">NARRADOR</option>
+                                <option value="retakes">RETAKES</option>
+                                <option value="cues">CUES</option>
+                                <option value="casting">CASTING</option>
+                                <option value="trailer">TRAILER</option>
+                            </select>
                         </div>
                     </div>
                 </div>

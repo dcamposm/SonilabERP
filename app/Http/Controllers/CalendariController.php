@@ -40,8 +40,8 @@ class CalendariController extends Controller
 
         $data = json_encode(Calendar::where('data_inici', '>=', $dia1)
                                     ->where('data_fi', '<=', $dia5)
-                                    ->with('actorEstadillo.estadillo.registreProduccio.registreEntrada')
-                                    ->with('actorEstadillo.empleat')
+                                    ->with('actor.estadillo.estadillo.registreProduccio.registreEntrada')
+                                    ->with('actor')
                                     ->with('calendari')
                                     ->with('director')
                                     ->orderBy('slb_calendars.data_inici')
@@ -288,47 +288,34 @@ class CalendariController extends Controller
     }
     
     public function getActors() {
-        $takes_restantes = ActorEstadillo::select('slb_actors_estadillo.id as id_actor_estadillo',
-                                                    'slb_actors_estadillo.id',
-                                                    'slb_actors_estadillo.take_estadillo as takes_restantes',
-                                                    'slb_actors_estadillo.id_actor',
-                                                    'slb_actors_estadillo.id_produccio',
-                                                    'slb_actors_estadillo.narracio_estadillo',
-                                                    'slb_actors_estadillo.canso_estadillo',
-                                                    'slb_estadillo.id_registre_produccio')
+        $takes_restantes = ActorEstadillo::select('slb_actors_estadillo.id_actor',
+                                                    DB::raw('SUM(slb_actors_estadillo.take_estadillo) as takes_restantes'),
+                                                    'slb_registres_produccio.id_registre_entrada',
+                                                    'slb_registres_produccio.setmana')
+                                            ->join('slb_empleats_externs', 'slb_empleats_externs.id_empleat', 'slb_actors_estadillo.id_actor')
                                             ->join('slb_estadillo', 'slb_estadillo.id_estadillo', 'slb_actors_estadillo.id_produccio')
                                             ->join('slb_registres_produccio', 'slb_registres_produccio.id', 'slb_estadillo.id_registre_produccio')
-                                            ->distinct()->where('slb_registres_produccio.estat', 'Pendent')
-                                            ->with('calendar')->get();                          
-        
+                                            ->join('slb_registre_entrades', 'slb_registre_entrades.id_registre_entrada', 'slb_registres_produccio.id_registre_entrada')
+                                            ->groupBy('slb_actors_estadillo.id_actor','slb_registres_produccio.id_registre_entrada', 'slb_registres_produccio.setmana')
+                                            ->where('slb_registres_produccio.estat', 'Pendent')
+                                            ->with('empleat.actorCalendar')->get();                          
+        //dd($takes_restantes);
         foreach ($takes_restantes as $key => $value) {
-            if ($value->estadillo != null) {
-                if ($value->estadillo->registreProduccio != null){
-                    $empleado = EmpleatExtern::findOrFail($value->id_actor);
-                    $produccio = RegistreProduccio::findOrFail($value->id_registre_produccio);
-                    $entrada = RegistreEntrada::findOrFail($produccio->id_registre_entrada);
-                    $value->nombre_actor = $empleado->nom_cognom;
-                    $value->nombre_reg_entrada = $entrada->referencia_titol;
-                    $value->nombre_reg_produccio = $produccio->subreferencia != 0 ? $produccio->subreferencia : '';
-                    $value->nombre_reg_complet = $value->nombre_reg_entrada.' '.$value->nombre_reg_produccio;
-                    if ( isset($value->calendar[0]) ){
-                        foreach($value->calendar as $calendar) {
-                            $value->takes_restantes = $value->takes_restantes - $calendar->num_takes;
-                            if ($value->canso_estadillo == $calendar->canso_calendar){
-                                $value->canso_estadillo = 0;
-                            }
-                            if ($value->narracio_estadillo == $calendar->narracio_calendar) {
-                                $value->narracio_estadillo = 0;
-                            }  
-                        }
-                    } 
-                } else {
-                    unset($takes_restantes[$key]);
+            $entrada = RegistreEntrada::with('registreProduccio')->find($value->id_registre_entrada);
+
+            $value->nombre_reg_complet = $entrada->getReferenciaTitolPack($value->setmana);
+
+            if ( isset($value->empleat->actorCalendar[0])){
+                foreach($value->calendar as $calendar) {
+                    $value->takes_restantes = $value->takes_restantes - $calendar->num_takes;
+                    if ($value->canso_estadillo == $calendar->canso_calendar){
+                        $value->canso_estadillo = 0;
+                    }
+                    if ($value->narracio_estadillo == $calendar->narracio_calendar) {
+                        $value->narracio_estadillo = 0;
+                    }  
                 }
-                
-            } else {
-                unset($takes_restantes[$key]);
-            }
+            } 
         }
 
         $actores = $takes_restantes;
@@ -348,8 +335,8 @@ class CalendariController extends Controller
         
         $data = Calendar::where('data_inici', '>=', $dia1)
                                     ->where('data_fi', '<=', $dia5)
-                                    ->with('actorEstadillo.estadillo.registreProduccio.registreEntrada')
-                                    ->with('actorEstadillo.empleat')
+                                    ->with('actor.estadillo.estadillo.registreProduccio.registreEntrada')
+                                    ->with('actor')
                                     ->with('calendari')
                                     ->with('director')
                                     ->orderBy('slb_calendars.data_inici')
@@ -379,12 +366,10 @@ class CalendariController extends Controller
                                              'slb_calendar_carrecs.num_sala',
                                              DB::raw('LPAD(HOUR(slb_calendars.data_inici), 2, 0) as hora'),
                                              DB::raw('LPAD(MINUTE(slb_calendars.data_inici), 2, 0) as minuts'),
-                                             'slb_actors_estadillo.id as id_actor_estadillo',
                                              'slb_calendars.id_calendar as id_calendar',
                                              'slb_calendars.asistencia',
                                              'slb_calendars.id_director')
-                                    ->join('slb_actors_estadillo', 'slb_actors_estadillo.id_actor', 'slb_empleats_externs.id_empleat')
-                                    ->join('slb_calendars', 'slb_calendars.id_actor_estadillo', 'slb_actors_estadillo.id')
+                                    ->join('slb_calendars', 'slb_calendars.id_actor', 'slb_empleats_externs.id_empleat')
                                     ->join('slb_calendar_carrecs', 'slb_calendar_carrecs.id_calendar_carrec', 'slb_calendars.id_calendar_carrec')
                                     ->distinct()->where( DB::raw('DAY(slb_calendars.data_inici)'), '=', $diaz->format('d'))
                                     ->where( DB::raw('MONTH(slb_calendars.data_inici)'), '=', $diaz->format('m'))
@@ -394,7 +379,7 @@ class CalendariController extends Controller
                     
             array_push($actoresPorDia, $act_dia);
         }
-        
+        //dd($actoresPorDia);
         return $actoresPorDia;
     }
 }
