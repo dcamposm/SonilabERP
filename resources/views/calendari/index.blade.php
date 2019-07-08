@@ -58,7 +58,9 @@
                         <div class="col">
                             <label for="selectPelis"></label>
                             <input required id="selectPelis" class="form-control"/>
-                            <input id="actorEstadillo" class="form-control" type="hidden" value="-1">
+                            <input id="actor" class="form-control" type="hidden" value="-1">
+                            <input id="registreEntrada" class="form-control" type="hidden" value="-1">
+                            <input id="setmana" class="form-control" type="hidden" value="-1">
                         </div>
                     </div>
                     <div class="form-row">
@@ -72,12 +74,6 @@
                             <label for="takesIni">Hora d'inici:</label>
                             <input required id="takesIni" class="form-control" type="time">
                         </div>
-                        <div class="form-group col">
-                            <label for="takesFin">Hora final:</label>
-                            <input required id="takesFin" class="form-control" type="time">
-                        </div>
-                    </div>
-                    <div class="form-row">
                         <div class="form-group col">
                             <label for="opcio_calendar">Opcions:</label>
                             <select id="opcio_calendar " class="form-control" name="opcio_calendar ">
@@ -135,12 +131,11 @@
                                                 <option value="0" selected></option>
                                                 @foreach($tecnics as $key => $tecnic)
                                                     {{-- TODO: Falta hacer la condición para seleccionar el técnico seleccionado. --}}
-                                                    <option value="{{$tecnic['id_empleat']}}" {{--(algo) ? 'selected' : ''--}} >{{$tecnic['nom_empleat']}} {{ $tecnic['cognom1_empleat'] }} {{ $tecnic['cognom2_empleat'] }}</option>
+                                                    <option value="{{$tecnic['id_empleat']}}">{{$tecnic['nom_empleat']}} {{ $tecnic['cognom1_empleat'] }} {{ $tecnic['cognom2_empleat'] }}</option>
                                                 @endforeach
                                             </select>
                                         </form>
                                     </td>
-                                    <td><input type="color" class="form-control" name="color_empleat" id="color0" value="#ffffff" onchange="cambiarTecnico(0)"></td>
                                 </tr>
 
                                 <tr>
@@ -154,12 +149,11 @@
                                                 <option value="0" selected></option>
                                                 @foreach($tecnics as $key => $tecnic)
                                                     {{-- TODO: Falta hacer la condición para seleccionar el técnico seleccionado. --}}
-                                                    <option value="{{$tecnic['id_empleat']}}" {{--(algo) ? 'selected' : ''--}} >{{$tecnic['nom_empleat']}} {{ $tecnic['cognom1_empleat'] }} {{ $tecnic['cognom2_empleat'] }}</option>
+                                                    <option value="{{$tecnic['id_empleat']}}">{{$tecnic['nom_empleat']}} {{ $tecnic['cognom1_empleat'] }} {{ $tecnic['cognom2_empleat'] }}</option>
                                                 @endforeach
                                             </select>
                                         </form>
                                     </td>
-                                    <td><input type="color" class="form-control" name="color_empleat" id="color1" value="#ffffff" onchange="cambiarTecnico(1)"></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -186,7 +180,9 @@
                                             <div class="col">
                                                 <label for="selectPelis"></label>
                                                 <input required id="selectPelis-editar" readonly class="form-control" style="width: 100%;"/>
-                                                <input id="actorEstadillo-editar" class="form-control" type="hidden" value="-1">
+                                                <input id="actor-editar" class="form-control" type="hidden" value="-1">
+                                                <input id="registreEntrada-editar" class="form-control" type="hidden" value="-1">
+                                                <input id="setmana-editar" class="form-control" type="hidden" value="-1">
                                             </div>
                                         </div>
                                         <div class="form-row">
@@ -212,19 +208,6 @@
                                                 <input id="director-editar" class="form-control" type="hidden" value="-1">
                                             </div>
                                         </div>
-                                        <div class="form-row">
-                                            <div class="form-check form-check-inline">
-                                                    <label class="form-check-label" for="canso-editar">Canço</label>
-                                                    <input id="canso-editar" class="form-check-input ml-1" type="checkbox" value="1" readonly>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <label class="form-check-label" for="narracio-editar">Narració</label>
-                                                <input id="narracio-editar" class="form-check-input ml-1" type="checkbox" value="1" readonly>
-                                            </div>
-                                            <div class="form-group col-2">
-                                                <input type="color" class="form-control mt-2" name="color-editar" id="color-editar" value="#ffffff" readonly>
-                                            </div>
-                                        </div>
                                     </div>
                                     <div class="mt-5">
                                         <!-- TODO: Crear estas dos funciones en el fichero js -->
@@ -245,7 +228,7 @@
     var year = {{$year}}
     var dias = <?php echo json_encode($fechas) ?>;
     var urlBase = "<?php echo $urlBase ?>"
-    var data = <?php echo $data ?>;
+    var data = @json($data);
     var actores = <?php echo $actores ?>;
     var actoresPorDia = @json($actoresPorDia);
     var directors = @json($directors);

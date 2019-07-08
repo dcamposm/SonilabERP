@@ -24,7 +24,14 @@ class Calendar extends Model {
         'data_inici'  => 'date:d-m-Y H:i',
         'data_fi'  => 'date:d-m-Y H:i'
     ];
-
+    
+    protected $appends = ['referencia_titol'];
+    
+    public function getReferenciaTitolAttribute() {
+        $entrada = RegistreEntrada::with('registreProduccio')->find($this->id_registre_entrada);
+        return $entrada->getReferenciaTitolPack($this->setmana);
+    }   
+    
     public function actor() {
         return $this->belongsTo('App\EmpleatExtern','id_actor','id_empleat');
     }

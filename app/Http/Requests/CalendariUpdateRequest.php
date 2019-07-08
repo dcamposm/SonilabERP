@@ -20,11 +20,13 @@ class CalendariUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'id_actor_estadillo' => 'required',
-            'num_takes'          => 'required',
-            'data_inici'         => 'required',
-            'data_fi'            => 'required',
-            'num_sala'           => 'required'
+            'id_actor'=>'required',
+            'id_registre_entrada'=>'required',
+            'setmana'=>'required',
+            'num_takes'=>'required|regex:/^[0-9]+$/',//^[0-9]+$
+            'data_inici'=>'required',
+            //'data_fi'=>'required',
+            'num_sala'=>'required'
         ];
     }
 }
