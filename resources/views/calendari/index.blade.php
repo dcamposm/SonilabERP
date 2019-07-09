@@ -76,7 +76,7 @@
                         </div>
                         <div class="form-group col">
                             <label for="opcio_calendar">Opcions:</label>
-                            <select id="opcio_calendar " class="form-control" name="opcio_calendar ">
+                            <select id="opcio_calendar" class="form-control" name="opcio_calendar">
                                 <option value="0" selected></option>
                                 <option value="canço">CANÇO</option>
                                 <option value="narrador">NARRADOR</option>
@@ -188,7 +188,19 @@
                                         <div class="form-row">
                                             <div class="form-group col">
                                                 <label for="numberTakes-editar" class="mt-3">Takes a realitzar:</label>
-                                                <input id="numberTakes-editar" class="form-control" type="number" min="1" readonly>
+                                                <input id="numberTakes-editar" class="form-control" type="number" min="0" readonly>
+                                            </div>
+                                            <div class="form-group col">
+                                                <label for="opcio_calendar-editar" class="mt-3">Opcions:</label>
+                                                <select id="opcio_calendar-editar" class="form-control" name="opcio_calendar-editar" disabled="">
+                                                    <option value="0" selected></option>
+                                                    <option value="canço">CANÇO</option>
+                                                    <option value="narrador">NARRADOR</option>
+                                                    <option value="retakes">RETAKES</option>
+                                                    <option value="cues">CUES</option>
+                                                    <option value="casting">CASTING</option>
+                                                    <option value="trailer">TRAILER</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="form-row">

@@ -23,7 +23,7 @@ class CalendariUpdateRequest extends FormRequest
             'id_actor'=>'required',
             'id_registre_entrada'=>'required',
             'setmana'=>'required',
-            'num_takes'=>'required|regex:/^[0-9]+$/',//^[0-9]+$
+           'num_takes'=>'regex:/^[0-9]+$/',//^[0-9]+$
             'data_inici'=>'required',
             //'data_fi'=>'required',
             'num_sala'=>'required'

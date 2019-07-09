@@ -229,8 +229,8 @@ function cargarDatos() {
             if (element.data_inici.split(' ')[1] <= '13:30') {
                 var actorSala = '<div class="row '+(element.asistencia === 0 ? 'actorNoPres' : '')+'">\
                                     <div class="col-1 llistaActors" style="padding-left: 5px; padding-right: 0px;">'+element.data_inici.split(' ')[1]+'</div>\n\
-                                    <div class="col-4 llistaActors" style="padding-left: 5px; padding-right: 5px;">'+element.actor.cognom1_empleat+' '+element.actor.nom_empleat+'</div>\n\
-                                    <div class="col-1 llistaActors" style="padding-left: 5px; padding-right: 5px;">'+element.num_takes+'TK</div>\n\
+                                    <div class="col-3 llistaActors" style="padding-left: 5px; padding-right: 0px;">'+element.actor.cognom1_empleat+' '+element.actor.nom_empleat+'</div>\n\
+                                    <div class="col-2 llistaActors" style="padding-left: 5px; padding-right: 0px;">'+(!element.opcio_calendar ? (element.num_takes+'TK') : (element.opcio_calendar).toUpperCase())+'</div>\n\
                                     <div class="col-4 llistaActors" style="padding-left: 5px; padding-right: 5px; '+(!element.color_calendar  ? '' : ('background-color: '+element.color_calendar+';'))+'">'+element.referencia_titol+'</div>\n\
                                     <div class="col-2 llistaActors" style="padding-left: 5px; padding-right: 5px;">'+(element.id_director != 0 ? element.director.nom_empleat : '')+'</div>\n\
                                 </div>'
@@ -238,8 +238,8 @@ function cargarDatos() {
             } else {
                 var actorSala = '<div class="row '+(element.asistencia === 0 ? 'actorNoPres' : '')+'">\n\
                                     <div class="col-1 llistaActors" style="padding-left: 5px; padding-right: 5px;">'+element.data_inici.split(' ')[1]+'</div>\n\
-                                    <div class="col-4 llistaActors" style="padding-left: 5px; padding-right: 5px;">'+element.actor.cognom1_empleat+' '+element.actor.nom_empleat+'</div>\n\
-                                    <div class="col-1 llistaActors" style="padding-left: 5px; padding-right: 5px;">'+element.num_takes+'TK</div>\n\
+                                    <div class="col-3 llistaActors" style="padding-left: 5px; padding-right: 0px;">'+element.actor.cognom1_empleat+' '+element.actor.nom_empleat+'</div>\n\
+                                    <div class="col-2 llistaActors" style="padding-left: 5px; padding-right: 0px;">'+(!element.opcio_calendar ? (element.num_takes+'TK') : (element.opcio_calendar).toUpperCase())+'</div>\n\
                                     <div class="col-4 llistaActors" style="padding-left: 5px; padding-right: 5px; '+(!element.color_calendar  ? '' : ('background-color: '+element.color_calendar+';'))+'">'+element.referencia_titol+'</div>\n\
                                     <div class="col-2 llistaActors" style="padding-left: 5px; padding-right: 5px;">'+(element.id_director != 0 ? element.director.nom_empleat : '')+'</div>\n\
                                 </div>'
@@ -356,7 +356,7 @@ function guardarCelda() {
     var actor= $('#actor').val();  
     var registreEntrada= $('#registreEntrada').val(); 
     var setmana= $('#setmana').val(); 
-    
+    var opcio_calendar = $('#opcio_calendar').val();
     let takes = Number($('#numberTakes').val());
 
     /** Comprobación errores inputs modal **/
@@ -378,7 +378,13 @@ function guardarCelda() {
     //let color = $("#color").val() == '#ffffff' ? null :$("#color").val();
     
     if (errores) return
-    var datos = { id_actor: actor, id_registre_entrada: registreEntrada, setmana: setmana, num_takes: takes, data_inici: data_inici, num_sala: num_sala};
+    var datos = {id_actor: actor, 
+                id_registre_entrada: registreEntrada, 
+                setmana: setmana, 
+                num_takes: takes, 
+                data_inici: data_inici, 
+                num_sala: num_sala, 
+                opcio_calendar: opcio_calendar};
     $.post('/calendari/crear', datos)
         .done(function (datosCalendari) {
             if (getCookie("tablaActual")==0){
@@ -648,10 +654,11 @@ $('#exampleModal').on('show.bs.modal', function (e) {
     $("#selectPelis").val('');
     //$('#numberTakes').attr('max', takesPosibles);
     $('#numberTakes').val('0');
+    $('#numberTakes').removeAttr('readonly');
     $('#takesIni').val('');
     //$('#takesFin').val('');
     $("#actorEstadillo").val('-1');
-    $("#color").val('#ffffff');
+    $("#opcio_calendar").val('0');
     //console.log(actores);
     var options = {
         data: actores.filter(filtroActorTk),
@@ -663,8 +670,7 @@ $('#exampleModal').on('show.bs.modal', function (e) {
                     enabled: true
                 }, onChooseEvent: function() {
                     var selected = $("#selectPelis").getSelectedItemData();
-                    $('#numberTakes').attr('max', selected.takes_restantes);
-                    $('#numberTakes').val(selected.takes_restantes);
+                    if (!$('#numberTakes').attr('readonly')) $('#numberTakes').val(selected.takes_restantes);
                     $('#actor').val(selected.id_actor);
                     $('#registreEntrada').val(selected.id_registre_entrada);      
                     $('#setmana').val(selected.setmana);      
@@ -688,6 +694,20 @@ $('#exampleModal').on('show.bs.modal', function (e) {
 
     $("#selectPelis").easyAutocomplete(options);
     var parentSearch = $('#selectPelis').parent().css({"width": "100%"});
+    
+    $("#opcio_calendar").change(function() {
+        if($("#opcio_calendar").val() != 0) {
+            $('#numberTakes').val('');
+            $('#numberTakes').attr('readonly', '');
+        } else {
+            $.each(actores, function( key, element ) {
+                if (element.id_actor == $('#actor').val() && element.id_registre_entrada == $('#registreEntrada').val() && element.setmana == $('#setmana').val()){
+                    $('#numberTakes').val(element.takes_restantes);
+                }
+            });
+            $('#numberTakes').removeAttr('readonly', '');
+        }
+    });
 });
 //Funccio per filtra un actor i si te més takes que 0
 function filtroActorTk(e) {
@@ -707,28 +727,9 @@ $('#exampleModal2').on('shown.bs.modal', function () {
 });
 
 $('#exampleModal2').on('hide.bs.modal', function () {
-    $('#selectPelis-editar').attr('readonly', '');
-    $('#selectPelis-editar').val('');
-    $('#actorEstadillo-editar').val(-1);
-    $('#selectDirector-editar').attr('readonly', '');
-    $('#selectDirector-editar').val('');
-    $('#director-editar').val(-1);
-    $('#numberTakes-editar').val('');
-    $('#numberTakes-editar').attr('readonly', '');
-    $('#takesIni-editar').val('');
-    $('#takesIni-editar').attr('readonly', '');
-    $('#takesFin-editar').val('');
-    $('#takesFin-editar').attr('readonly', '');
-    $('#canso-editar').attr('readonly', '');
-    $("#canso-editar").prop('checked', false);
-    $('#narracio-editar').attr('readonly', '');
-    $("#narracio-editar").prop('checked', false);
-    $('#color-editar').attr('readonly', '');
-    $("#color-editar").val('#ffffff');
-    $('#botoEditar').attr('disabled', '');
-    $('#botoEliminarActor').attr('disabled', '');
-    calendarioActorSeleccionado_id = 0;
-    $(elementoSeleccionado).removeClass('actorAsistencia-seleccionado');
+    $('#tecnico0').removeClass("is-invalid");
+    $('#tecnico1').removeClass("is-invalid");
+    vaciarValoresEditar();
 });
 
 function pintarTablaHoras() {
@@ -888,6 +889,9 @@ function cambiarTecnico(torn) {
             'torn': torn
         },
         success: function (response) {
+            $('#tecnico0').removeClass("is-invalid");
+            $('#tecnico1').removeClass("is-invalid");
+            
             var newTec = 1;
 
             $.each(tecnicsAsignados, function( key, element ) {
@@ -905,7 +909,13 @@ function cambiarTecnico(torn) {
         },
         error: function (error) {
             console.error(error);
-            alert("No s'ha pogut canviar el tècnic :(");
+            
+            if (error.responseJSON.r == 1){
+                $('#tecnico'+error.responseJSON.torn).addClass("is-invalid");
+                alert("Aquest tècnic ja esta assignat.");
+            } else {
+               alert("No s'ha pogut canviar el tècnic."); 
+            }
         }
     });
 }
@@ -994,12 +1004,19 @@ function seleccionarActorCalendario(id, elemento) {
                     $('#director-editar').val('0'); 
                 }
                 
-                $('#numberTakes-editar').removeAttr('readonly');
+                if (!response.calendar.opcio_calendar) $('#numberTakes-editar').removeAttr('readonly');
+                else $('#numberTakes-editar').attr('readonly', '');
+                
                 $('#takesIni-editar').removeAttr('readonly');
                 $('#takesFin-editar').removeAttr('readonly');
-                $('#numberTakes-editar').val(response.calendar.num_takes);
+                $('#opcio_calendar-editar').removeAttr('disabled');
+                
+                if (!response.calendar.opcio_calendar) $('#numberTakes-editar').val(response.calendar.num_takes);
+                else $('#numberTakes-editar').val('');
+                
                 $('#takesIni-editar').val(response.calendar.data_inici.split(' ')[1]);
                 $('#takesFin-editar').val(response.calendar.data_fi.split(' ')[1]);
+                $('#opcio_calendar-editar').val(response.calendar.opcio_calendar);
                 
                 $('#botoEditar').removeAttr('disabled');
                 $('#botoEliminarActor').removeAttr('disabled');
@@ -1013,11 +1030,11 @@ function seleccionarActorCalendario(id, elemento) {
                             match: {
                                 enabled: true
                             }, onChooseEvent: function() {
-                                var selectedPost = $("#selectPelis-editar").getSelectedItemData();
-                                $('#numberTakes-editar').val(selectedPost.takes_restantes);
-                                $('#actor-editar').val(selectedPost.id_actor);
-                                $('#registreEntrada-editar').val(selectedPost.id_registre_entrada);
-                                $('#setmana-editar').val(selectedPost.setmana);
+                                var selected = $("#selectPelis-editar").getSelectedItemData();
+                                if (!$('#numberTakes-editar').attr('readonly')) $('#numberTakes-editar').val(selected.takes_restantes);
+                                $('#actor-editar').val(selected.id_actor);
+                                $('#registreEntrada-editar').val(selected.id_registre_entrada);
+                                $('#setmana-editar').val(selected.setmana);
                             }, onHideListEvent: function() {
                                 if ($("#selectPelis-editar").val() == ''){
                                     $("#actor-editar").val('-1');
@@ -1038,6 +1055,20 @@ function seleccionarActorCalendario(id, elemento) {
                 };
 
                 $("#selectPelis-editar").easyAutocomplete(options);
+                
+                $("#opcio_calendar-editar").change(function() {
+                    if($("#opcio_calendar-editar").val() != 0) {
+                        $('#numberTakes-editar').val('');
+                        $('#numberTakes-editar').attr('readonly', '');
+                    } else {
+                        $.each(actores, function( key, element ) {
+                            if (element.id_actor == $('#actor-editar').val() && element.id_registre_entrada == $('#registreEntrada-editar').val() && element.setmana == $('#setmana-editar').val()){
+                                $('#numberTakes-editar').val(element.takes_restantes);
+                            }
+                        });
+                        $('#numberTakes-editar').removeAttr('readonly', '');
+                    }
+                });
                 
                 var options2 = {
                     url:  rutaSearchEmpleat+"?search=director",
@@ -1111,9 +1142,10 @@ function editarActor() {
             id_actor: parseInt($('#actor-editar').val()),
             id_registre_entrada: parseInt($('#registreEntrada-editar').val()),
             setmana: parseInt($('#setmana-editar').val()),
-            num_takes: parseInt($('#numberTakes-editar').val()),
+            num_takes: $('#numberTakes-editar').val(),
             data_inici: $('#takesIni-editar').val(),
             data_fi: $('#takesFin-editar').val(),
+            opcio_calendar: $('#opcio_calendar-editar').val(),
             num_sala: parseInt(calendarioActor.calendar.calendari.num_sala),
             id_director: parseInt($('#director-editar').val()),
         },
@@ -1185,22 +1217,27 @@ function eliminarCalendarioActor() {
 }
 
 function vaciarValoresEditar() {
-    calendarioActorSeleccionado_id = 0;
-    elementoSeleccionado.className = "";
-    
-    $('#numberTakes-editar').val("");
-    $('#takesIni-editar').val("");
-    $('#takesFin-editar').val("");
-    $("#selectPelis-editar").val("")
-    $('#actorEstadillo-editar').val(-1);
-    $("#selectDirector-editar").val("")
+    $('#selectPelis-editar').attr('readonly', '');
+    $('#selectPelis-editar').val('');
+    $('#actor-editar').val(-1);
+    $('#registreEntrada-editar').val(-1);
+    $('#setmana-editar').val(-1);
+    $('#selectDirector-editar').attr('readonly', '');
+    $('#selectDirector-editar').val('');
     $('#director-editar').val(-1);
-    $('#canso-editar').attr('readonly', '');
-    $("#canso-editar").prop('checked', false);
-    $('#narracio-editar').attr('readonly', '');
-    $("#narracio-editar").prop('checked', false); 
-    $('#color-editar').attr('readonly', '');
-    $("#color-editar").val('#ffffff');
+    $('#numberTakes-editar').val('');
+    $('#numberTakes-editar').attr('readonly', '');
+    $('#takesIni-editar').val('');
+    $('#takesIni-editar').attr('readonly', '');
+    $('#takesFin-editar').val('');
+    $('#takesFin-editar').attr('readonly', '');
+    $('#opcio_calendar-editar').val('0');
+    $('#opcio_calendar-editar').attr('disabled', '');
+    $('#botoEditar').attr('disabled', '');
+    $('#botoEliminarActor').attr('disabled', '');
+    
+    calendarioActorSeleccionado_id = 0;
+    $(elementoSeleccionado).removeClass('actorAsistencia-seleccionado');
 }
 //Funcio per obtenir el valor d'una cookie
 function getCookie(cname) {

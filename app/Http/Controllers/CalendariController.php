@@ -90,14 +90,24 @@ class CalendariController extends Controller
         $torn       = $request->get('torn');
 
         // Comprueba si ya existe un registro en la base de datos:
-        $calendariCarrec = CalendarCarrec::where('data', '=', $data)
-                                           ->where('torn', '=', $torn)
+        if ($id_empleat != 0) {
+            $calendariCarrec = CalendarCarrec::whereData($data)
+                                           ->whereTorn($torn)
+                                           ->whereIdEmpleat($id_empleat)
                                            ->first();
-        if (!$calendariCarrec) {
-            // Si no existe entonces creamos el objeto.
-            $calendariCarrec = new CalendarCarrec;
+            
+            if ($calendariCarrec) {
+                // Si no existe entonces creamos el objeto.
+                return response()->json(['success'=> false,"r"=>1,"torn"=>$torn],400);
+            }
         }
-
+        $calendariCarrec = CalendarCarrec::whereData($data)
+                                           ->whereTorn($torn)
+                                           ->whereNumSala($sala)
+                                           ->first();
+        
+        if (!$calendariCarrec) $calendariCarrec = new CalendarCarrec;
+        
         // Asignamos los valores al objeto:
         $calendariCarrec->data          = $data;
         $calendariCarrec->num_sala      = $sala;
@@ -195,6 +205,7 @@ class CalendariController extends Controller
             'num_takes'              => request()->get('num_takes'),
             'data_inici'             => $data_inici,
             'data_fi'                => $data_fi,
+            'opcio_calendar'         => request()->get('opcio_calendar'),
             'num_sala'               => request()->get('num_sala'),
             'id_director'            =>request()->get('id_director'),
         );
