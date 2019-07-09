@@ -8,17 +8,6 @@
         @csrf
         <fieldset class="border p-2">
             <legend class="w-auto">DADES:</legend>
-            {{--<!--
-            <div class="row">
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="id_registre_entrada" style="font-weight: bold">REFERENCIA:</label>
-                        <input type="number" class="form-control" id="id_registre_entrada" placeholder="Entrar referencia" name="id_registre_entrada" value="{{!empty($registreEntrada) ? $registreEntrada->id_registre_entrada : old('id_registre_entrada')}}">
-                        <span class="text-danger">{{ $errors->first('id_registre_entrada') }}</span>
-                    </div>
-                </div>
-            </div>
-            -->--}}
             <div class="row">
                 <div class="col-6">
                     <div class="form-group">
@@ -37,6 +26,22 @@
                             @endforeach
                         </select>
                         <span class="text-danger">{{ $errors->first('id_client') }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="titol_curt" style="font-weight: bold">TÍTOL CURT: (OPCIONAL)</label>
+                        <input type="text" class="form-control {{!empty($registreEntrada) ? 'is-valid' : ''}}" id="titol_curt" name="titol_curt" value="{{!empty($registreEntrada) ? $registreEntrada->titol_curt : old('titol_curt')}}">
+                        <span class="text-danger">{{ $errors->first('titol_curt') }}</span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="color_referencia" style="font-weight: bold">COLOR:</label>
+                        <input type="color" class="form-control" id="color_referencia" name="color_referencia" value="{{!empty($registreEntrada) ? $registreEntrada->color_referencia : old('color_referencia')}}">
+                        <span class="text-danger">{{ $errors->first('color_referencia') }}</span>
                     </div>
                 </div>
             </div>

@@ -392,6 +392,10 @@ $fecha16AnyosMenos = Carbon::now()->subYears(16)->format('Y-m-d');
                                                 <label for="tarifa_tecnic2_inp" style="font-weight: bold">TARIFA MIX:</label>                                        
                                                 <input type="number" step="any" class="form-control {{ isset($carrecs['tecnic_sala']['mix']) ? 'is-valid' : ''}}" id="tarifa_tecnic2_inp" placeholder="Tarifa mix" name="preu_tecnic_sala_mix" value="{{ isset($carrecs['tecnic_sala']['mix']) ? $carrecs['tecnic_sala']['mix']['preu_carrec'] : ''}}">
                                             </div>
+                                            <div class="col-2">
+                                                <label for="color_empleat" style="font-weight: bold">COLOR:</label>
+                                                <input type="color" class="form-control" id="color_empleat" name="color_empleat" value="{{!empty($empleat) ? $empleat->color_empleat : '#ffffff'}}">
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>

@@ -155,7 +155,6 @@ class EmpleatExternController extends Controller
 
     public function update(EmpleatExternCreateRequest $request, $id)
     {
-        //return response()->json(request()->all());
         $empleat = EmpleatExtern::find($id);
 
         if (!$empleat) {
@@ -163,8 +162,9 @@ class EmpleatExternController extends Controller
         }
         // Modifica datos personales del empleado
         $data = request()->all();
+        
         $empleat->fill($data);
-
+        
         if ($_FILES["imatge_empleat"]["tmp_name"]!=""){
             $empleat['imatge_empleat'] = base64_encode(file_get_contents($_FILES["imatge_empleat"]["tmp_name"]));
         }

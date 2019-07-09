@@ -179,7 +179,7 @@ function crearTablaCalendario() {
                                     <div class="row rowMati">\n\
                                         <div class="col colGlob">\n\
                                             <div class="row det">\n\
-                                                <div class="viewTecnic" style="'+ (!tecnicMati[0]  ? '' : (!tecnicMati[0].color_empleat || !tecnicMati[0].empleat ? 'border-left: 1px solid black;' : 'background-color: '+tecnicMati[0].color_empleat+'; border-left: 1px solid black;')) +'">'+ (!tecnicMati[0] ? '' : (!tecnicMati[0].empleat ? '' : tecnicMati[0].empleat.nom_empleat)) +'</div>\n\
+                                                <div class="viewTecnic" style="'+ (!tecnicMati[0]  ? '' : (!tecnicMati[0].empleat ? 'border-left: 1px solid black;' : 'background-color: '+tecnicMati[0].empleat.color_empleat+'; border-left: 1px solid black;')) +'">'+ (!tecnicMati[0] ? '' : (!tecnicMati[0].empleat ? '' : tecnicMati[0].empleat.nom_empleat)) +'</div>\n\
                                                 <div class="col mati"></div>\n\
                                             </div>\n\
                                         </div>\n\
@@ -187,7 +187,7 @@ function crearTablaCalendario() {
                                     <div class="row rowTarda">\n\
                                         <div class="col colGlob">\n\
                                             <div class="row det">\n\
-                                                <div class="viewTecnic" style="'+ (!tecnicTarda[0] ? '' : (!tecnicTarda[0].color_empleat || !tecnicTarda[0].empleat ? 'border-left: 1px solid black;' : 'background-color: '+tecnicTarda[0].color_empleat+'; border-left: 1px solid black;')) +'">'+ (!tecnicTarda[0] ? '' : (!tecnicTarda[0].empleat ? '' : tecnicTarda[0].empleat.nom_empleat) ) +'</div>\n\
+                                                <div class="viewTecnic" style="'+ (!tecnicTarda[0] ? '' : (!tecnicTarda[0].empleat ? 'border-left: 1px solid black;' : 'background-color: '+tecnicTarda[0].empleat.color_empleat+'; border-left: 1px solid black;')) +'">'+ (!tecnicTarda[0] ? '' : (!tecnicTarda[0].empleat ? '' : tecnicTarda[0].empleat.nom_empleat) ) +'</div>\n\
                                                 <div class="col tarda"></div>\n\
                                             </div>\n\
                                         </div>\n\
@@ -225,13 +225,13 @@ function cargarDatos() {
             cambiarColorCelda(celda, perce);
         });
     } else {     
-        $.each(data, function( key, element ) {       
+        $.each(data, function( key, element ) {   
             if (element.data_inici.split(' ')[1] <= '13:30') {
                 var actorSala = '<div class="row '+(element.asistencia === 0 ? 'actorNoPres' : '')+'">\
                                     <div class="col-1 llistaActors" style="padding-left: 5px; padding-right: 0px;">'+element.data_inici.split(' ')[1]+'</div>\n\
                                     <div class="col-3 llistaActors" style="padding-left: 5px; padding-right: 0px;">'+element.actor.cognom1_empleat+' '+element.actor.nom_empleat+'</div>\n\
-                                    <div class="col-2 llistaActors" style="padding-left: 5px; padding-right: 0px;">'+(!element.opcio_calendar ? (element.num_takes+'TK') : (element.opcio_calendar).toUpperCase())+'</div>\n\
-                                    <div class="col-4 llistaActors" style="padding-left: 5px; padding-right: 5px; '+(!element.color_calendar  ? '' : ('background-color: '+element.color_calendar+';'))+'">'+element.referencia_titol+'</div>\n\
+                                    <div class="col-2 llistaActors" style="padding-left: 5px; padding-right: 0px;">'+(element.opcio_calendar == 0 ? (element.num_takes+'TK') : (element.opcio_calendar).toUpperCase())+'</div>\n\
+                                    <div class="col-4 llistaActors" style="padding-left: 5px; padding-right: 5px; '+(!element.registre_entrada  ? '' : ('background-color: '+element.registre_entrada.color_referencia+';'))+'">'+element.referencia_titol+'</div>\n\
                                     <div class="col-2 llistaActors" style="padding-left: 5px; padding-right: 5px;">'+(element.id_director != 0 ? element.director.nom_empleat : '')+'</div>\n\
                                 </div>'
                 $("[dia=" + element.data_inici.split(' ')[0] + "][sala=" + element.calendari.num_sala + "]").children().children().children().children('.mati').append(actorSala);
@@ -239,8 +239,8 @@ function cargarDatos() {
                 var actorSala = '<div class="row '+(element.asistencia === 0 ? 'actorNoPres' : '')+'">\n\
                                     <div class="col-1 llistaActors" style="padding-left: 5px; padding-right: 5px;">'+element.data_inici.split(' ')[1]+'</div>\n\
                                     <div class="col-3 llistaActors" style="padding-left: 5px; padding-right: 0px;">'+element.actor.cognom1_empleat+' '+element.actor.nom_empleat+'</div>\n\
-                                    <div class="col-2 llistaActors" style="padding-left: 5px; padding-right: 0px;">'+(!element.opcio_calendar ? (element.num_takes+'TK') : (element.opcio_calendar).toUpperCase())+'</div>\n\
-                                    <div class="col-4 llistaActors" style="padding-left: 5px; padding-right: 5px; '+(!element.color_calendar  ? '' : ('background-color: '+element.color_calendar+';'))+'">'+element.referencia_titol+'</div>\n\
+                                    <div class="col-2 llistaActors" style="padding-left: 5px; padding-right: 0px;">'+(element.opcio_calendar == 0 ? (element.num_takes+'TK') : (element.opcio_calendar).toUpperCase())+'</div>\n\
+                                    <div class="col-4 llistaActors" style="padding-left: 5px; padding-right: 5px; '+(!element.registre_entrada  ? '' : ('background-color: '+element.registre_entrada.color_referencia+';'))+'">'+element.referencia_titol+'</div>\n\
                                     <div class="col-2 llistaActors" style="padding-left: 5px; padding-right: 5px;">'+(element.id_director != 0 ? element.director.nom_empleat : '')+'</div>\n\
                                 </div>'
                 $("[dia=" + element.data_inici.split(' ')[0] + "][sala=" + element.calendari.num_sala + "]").children().children().children().children('.tarda').append(actorSala);
