@@ -1,5 +1,5 @@
 /////  INIT  /////
-
+console.log(actores);
 $('#semanaMenos').on('click', function () {
     changeCalendar(0);
 });

@@ -189,9 +189,9 @@ class CalendariController extends Controller
             'data_fi'            => $data_fi,
             'num_sala'           => request()->get('num_sala'),
             'canso_calendar'     => request()->get('canso_calendar'),
-            'narracio_calendar'     => request()->get('narracio_calendar'),
+            'narracio_calendar'  => request()->get('narracio_calendar'),
             'id_director'        =>request()->get('id_director'),
-            'color_calendar'        =>request()->get('color_calendar'),
+            'color_calendar'     =>request()->get('color_calendar'),
         );
         
         if (strtotime($valores['data_inici']) < strtotime( date('Y-m-d', strtotime($valores['data_inici']))." 13:30:01")){
