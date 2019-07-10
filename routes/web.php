@@ -146,7 +146,6 @@ Route::middleware(['role: 1,2,3,4,5'])->group(function () {
 
     Route::post('/calendari/cambiarCargo', 'CalendariController@cambiarCargo')->name('cambiarCargoCalendari');
 
-    
     Route::post('/calendari/crearCalendariCarrecs', 'CalendariController@calendariCarrecInsertar')->name('createCalendariCarrecs');
     Route::put('/calendari/editarCalendariCarrecs/{id}', 'CalendariController@calendariCarrecEditar')->name('updateCalendariCarrecs');
     Route::post('/calendari/esborrarCalendariCarrecs/{id}', 'CalendariController@calendariCarrecDelete')->name('deleteCalendariCarrecs');
@@ -156,6 +155,7 @@ Route::middleware(['role: 1,2,3,4,5'])->group(function () {
     Route::post('/calendari/postActors', 'CalendariController@postActors')->name('postActors');
     Route::post('/calendari/postDades', 'CalendariController@postDades')->name('postDades');
     Route::post('/calendari/actorsPerDia', 'CalendariController@actorsPerDia')->name('actorsPerDia');
+    Route::post('/calendari/day', 'CalendariController@getDay')->name('getDay');
     
     Route::get('/calendari/getPeliculas', 'CalendariController@getPeliculas');
 });

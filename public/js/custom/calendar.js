@@ -148,9 +148,18 @@ function crearTablaCalendario() {
                     // Es necesario crear el atributo "dia" y "sala", para que después cuando le hagamos clic
                     // podamos coger el día y la sala de la casilla que hayamos seleccionado.
                     fila.append('<div class="col celda" dia="' + dias[h] + '" sala="' + sala + '">\n\
-                                    <div class="progress barra_progreso">\n\
-                                        <div class="progress-bar barra progress-bar-striped" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">\n\
-                                            0%\n\
+                                    <div class="row rowMati">\n\
+                                        <div class="progress barra_progreso">\n\
+                                            <div class="progress-bar barra progress-bar-striped" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">\n\
+                                                0%\n\
+                                            </div>\n\
+                                        </div>\n\
+                                    </div>\n\
+                                    <div class="row rowTarda">\n\
+                                        <div class="progress barra_progreso">\n\
+                                            <div class="progress-bar barra progress-bar-striped" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">\n\
+                                                0%\n\
+                                            </div>\n\
                                         </div>\n\
                                     </div>\n\
                                 </div>'
@@ -217,7 +226,12 @@ function filtroTecnicSalaT(e) {
 function cargarDatos() {
     if (getCookie("tablaActual")==0){
         $.each(data, function( key, element ) {   
-            var celda = $("[dia=" + element.data_inici.split(' ')[0] + "][sala=" + element.calendari.num_sala + "]")[0].children[0].children[0];
+            if (element.data_inici.split(' ')[1] <= '13:30') {
+                var celda = $("[dia=" + element.data_inici.split(' ')[0] + "][sala=" + element.calendari.num_sala + "]")[0].children[0].children[0];
+            } else {
+                var celda = $("[dia=" + element.data_inici.split(' ')[0] + "][sala=" + element.calendari.num_sala + "]")[0].children[1].children[0];
+            }
+            
             var perce = Number(celda.innerText.replace('%', '')) + ((element.num_takes)*100)/200;
             celda.innerText = perce + '%';
             celda.style.width = perce + '%';
@@ -229,11 +243,11 @@ function cargarDatos() {
             if (element.data_inici.split(' ')[1] <= '13:30') {
                 var actorSala = '<div class="row '+(element.asistencia === 0 ? 'actorNoPres' : '')+'">\
                                     <div class="col-1 llistaActors" style="padding-left: 5px; padding-right: 0px;">'+element.data_inici.split(' ')[1]+'</div>\n\
-                                    <div class="col-3 llistaActors" style="padding-left: 5px; padding-right: 0px;">'+element.actor.cognom1_empleat+' '+element.actor.nom_empleat+'</div>\n\
+                                    <div class="col-4 llistaActors" style="padding-left: 5px; padding-right: 0px;">'+element.actor.cognom1_empleat+' '+element.actor.nom_empleat+'</div>\n\
                                     <div class="col-2 llistaActors" style="padding-left: 5px; padding-right: 0px;">'+(element.opcio_calendar == 0 ? (element.num_takes+'TK') : (element.opcio_calendar).toUpperCase())+'</div>\n\
-                                    <div class="col-4 llistaActors" style="padding-left: 5px; padding-right: 5px; '+(!element.registre_entrada  ? '' : ('background-color: '+element.registre_entrada.color_referencia+';'))+'">'+element.referencia_titol+'</div>\n\
+                                    <div class="col-3 llistaActors" style="padding-left: 5px; padding-right: 5px; '+(!element.registre_entrada  ? '' : ('background-color: '+element.registre_entrada.color_referencia+';'))+'">'+element.referencia_titol+'</div>\n\
                                     <div class="col-2 llistaActors" style="padding-left: 5px; padding-right: 5px;">'+(element.id_director != 0 ? element.director.nom_empleat : '')+'</div>\n\
-                                </div>'
+                                </div>';
                 $("[dia=" + element.data_inici.split(' ')[0] + "][sala=" + element.calendari.num_sala + "]").children().children().children().children('.mati').append(actorSala);
             } else {
                 var actorSala = '<div class="row '+(element.asistencia === 0 ? 'actorNoPres' : '')+'">\n\
@@ -242,10 +256,9 @@ function cargarDatos() {
                                     <div class="col-2 llistaActors" style="padding-left: 5px; padding-right: 0px;">'+(element.opcio_calendar == 0 ? (element.num_takes+'TK') : (element.opcio_calendar).toUpperCase())+'</div>\n\
                                     <div class="col-4 llistaActors" style="padding-left: 5px; padding-right: 5px; '+(!element.registre_entrada  ? '' : ('background-color: '+element.registre_entrada.color_referencia+';'))+'">'+element.referencia_titol+'</div>\n\
                                     <div class="col-2 llistaActors" style="padding-left: 5px; padding-right: 5px;">'+(element.id_director != 0 ? element.director.nom_empleat : '')+'</div>\n\
-                                </div>'
+                                </div>';
                 $("[dia=" + element.data_inici.split(' ')[0] + "][sala=" + element.calendari.num_sala + "]").children().children().children().children('.tarda').append(actorSala);
             }
-            
         });
     }
 
@@ -497,11 +510,11 @@ function drop(ev) {
         }
     });
     if (getCookie("tablaActual")==0){
-        celda = $(ev.target).attr('aria-valuenow') ? ev.target : ev.target.children[0];
+        celda = $(ev.target).attr('aria-valuenow') ? ev.target : ($(ev.target).parent().attr('dia') ? $(ev.target).parent() : $(ev.target).parent().parent());
     } else {
         celda = ev.target.parentElement.parentElement.parentElement.parentElement;
     }
-    
+
     $('#exampleModal').modal('show');
 }
 
@@ -643,8 +656,8 @@ $('#exampleModal').on('show.bs.modal', function (e) {
     //takesPosibles = takes;
 
     if ($(celda).attr('dia')){
-        var data_inici = celda.getAttribute("dia");
-        var num_sala = celda.getAttribute("sala");
+        var data_inici = $(celda).attr('dia');
+        var num_sala = $(celda).attr('sala');
     } else {
         var data_inici = celda.parentElement.parentElement.getAttribute("dia");
         var num_sala = celda.parentElement.parentElement.getAttribute("sala");
@@ -987,7 +1000,7 @@ function seleccionarActorCalendario(id, elemento) {
             },
             success: function (response) {
                 calendarioActor = response;
-                console.log(response.calendar);
+
                 $('#selectPelis-editar').removeAttr('readonly');
                 $('#selectPelis-editar').val(response.calendar.referencia_titol);
                 $('#actor-editar').val(response.calendar.id_actor);
@@ -1003,16 +1016,18 @@ function seleccionarActorCalendario(id, elemento) {
                     $('#selectDirector-editar').val('');
                     $('#director-editar').val('0'); 
                 }
-                
-                if (!response.calendar.opcio_calendar) $('#numberTakes-editar').removeAttr('readonly');
-                else $('#numberTakes-editar').attr('readonly', '');
+                console.log(response.calendar);
+                if (response.calendar.opcio_calendar == 0) {
+                    $('#numberTakes-editar').removeAttr('readonly');
+                    $('#numberTakes-editar').val(response.calendar.num_takes);
+                } else {
+                    $('#numberTakes-editar').attr('readonly', '');
+                    $('#numberTakes-editar').val('');
+                }
                 
                 $('#takesIni-editar').removeAttr('readonly');
                 $('#takesFin-editar').removeAttr('readonly');
                 $('#opcio_calendar-editar').removeAttr('disabled');
-                
-                if (!response.calendar.opcio_calendar) $('#numberTakes-editar').val(response.calendar.num_takes);
-                else $('#numberTakes-editar').val('');
                 
                 $('#takesIni-editar').val(response.calendar.data_inici.split(' ')[1]);
                 $('#takesFin-editar').val(response.calendar.data_fi.split(' ')[1]);

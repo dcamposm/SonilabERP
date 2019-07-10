@@ -396,4 +396,20 @@ class CalendariController extends Controller
         //dd($actoresPorDia);
         return $actoresPorDia;
     }
+    
+    public function getDay(Request $request) {
+        $d       = strtotime($request->get('day'));
+        $fecha   = date('Y-m-d', $d);
+
+        $data = Calendar::where('data_inici', '>=', $fecha)
+                                    ->with('actor.estadillo.estadillo.registreProduccio.registreEntrada')
+                                    ->with('actor')
+                                    ->with('calendari')
+                                    ->with('registreEntrada')
+                                    ->with('director')
+                                    ->orderBy('slb_calendars.data_inici')
+                                    ->get();
+        
+        return response()->json($data);
+    }
 }

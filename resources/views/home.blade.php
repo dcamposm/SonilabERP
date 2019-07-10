@@ -151,7 +151,7 @@
         </div>
         <div class="col-md-12 mt-3">
             <div class="card">
-                <div class="card-header">HORARIS DEL DÍA</div>
+                <div class="card-header">PLANNING DEL DÍA</div>
 
                 <div class="card-body">
                     *CALENDARI
@@ -160,4 +160,5 @@
         </div>
     </div>
 </div>
+<script type="text/javascript" src="{{ URL::asset('js/custom/home.js') }}"></script>
 @endsection
