@@ -90,7 +90,7 @@
     </div>
 
     {{-- TABLA DE REGISTROS DE ENTRADA --}}
-    <table class="table tableIndex" style="margin-top: 10px; min-width: 1200px;">
+    <table class="table tableIndex"  id="table" style="margin-top: 10px; min-width: 1200px;">
         <thead>
             <tr>
                 <th>REF.</th> 
@@ -101,10 +101,10 @@
                 <th>SERVEI</th>
                 <th>IDIOMA</th>
                 <th>TIPUS</th>
-                <th>MINUTS TOTALS</th>
-                <th>EPISODIS TOTALS</th>
+                <th class="sorter-false filter-false">MINUTS TOTALS</th>
+                <th class="sorter-false filter-false">EPISODIS TOTALS</th>
                 @if (Auth::user()->hasAnyRole(['1', '5']))
-                <th>ACCIONS</th>
+                <th class="sorter-false filter-false">ACCIONS</th>
                 @endif
             </tr>
         </thead>
