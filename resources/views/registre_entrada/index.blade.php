@@ -90,7 +90,7 @@
     </div>
 
     {{-- TABLA DE REGISTROS DE ENTRADA --}}
-    <table class="table tableIndex"  id="table" style="margin-top: 10px; min-width: 1200px;">
+    <table class="table tableIndex"  id="table" style="margin-top: 10px; min-width: 1300px;">
         <thead>
             <tr>
                 <th>REF.</th> 
