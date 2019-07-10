@@ -13,8 +13,7 @@ class CalendarCarrec extends Model
         "id_empleat",
         "num_sala",
         "data",
-        "torn",
-        "color_empleat",
+        "torn"
     ];
 
     protected $casts = [

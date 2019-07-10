@@ -38,15 +38,16 @@ class CalendariController extends Controller
             $dia5->format('d-m-Y')
         ];
 
-        $data = json_encode(Calendar::where('data_inici', '>=', $dia1)
+        $data = Calendar::where('data_inici', '>=', $dia1)
                                     ->where('data_fi', '<=', $dia5)
-                                    ->with('actorEstadillo.estadillo.registreProduccio.registreEntrada')
-                                    ->with('actorEstadillo.empleat')
+                                    ->with('actor.estadillo.estadillo.registreProduccio.registreEntrada')
+                                    ->with('actor')
                                     ->with('calendari')
+                                    ->with('registreEntrada')
                                     ->with('director')
                                     ->orderBy('slb_calendars.data_inici')
-                                    ->get());
-        
+                                    ->get();
+
         $urlBase = route('showCalendari');
         
         $actores = CalendariController::getActors();
@@ -87,23 +88,31 @@ class CalendariController extends Controller
         $sala       = $request->get('sala');
         $id_empleat = $request->get('id_empleat');
         $torn       = $request->get('torn');
-        $color      = $request->get('color_empleat');
 
         // Comprueba si ya existe un registro en la base de datos:
-        $calendariCarrec = CalendarCarrec::where('data', '=', $data)
-                                           ->where('torn', '=', $torn)
+        if ($id_empleat != 0) {
+            $calendariCarrec = CalendarCarrec::whereData($data)
+                                           ->whereTorn($torn)
+                                           ->whereIdEmpleat($id_empleat)
                                            ->first();
-        if (!$calendariCarrec) {
-            // Si no existe entonces creamos el objeto.
-            $calendariCarrec = new CalendarCarrec;
+            
+            if ($calendariCarrec) {
+                // Si no existe entonces creamos el objeto.
+                return response()->json(['success'=> false,"r"=>1,"torn"=>$torn],400);
+            }
         }
-
+        $calendariCarrec = CalendarCarrec::whereData($data)
+                                           ->whereTorn($torn)
+                                           ->whereNumSala($sala)
+                                           ->first();
+        
+        if (!$calendariCarrec) $calendariCarrec = new CalendarCarrec;
+        
         // Asignamos los valores al objeto:
         $calendariCarrec->data          = $data;
         $calendariCarrec->num_sala      = $sala;
         $calendariCarrec->id_empleat    = $id_empleat;
         $calendariCarrec->torn          = $torn;
-        $calendariCarrec->color_empleat = $color;
         // Guardamos el objeto en la base de datos:
         $calendariCarrec->save();
         
@@ -139,10 +148,12 @@ class CalendariController extends Controller
     public function create(CalendariCreateRequest $request){
         // Datos correctos.
         $requestData = request()->all();
-
+        //strtotime ( '+30 minute', strtotime ( ))
+       
         $requestData['data_inici'] = Carbon::createFromFormat('d-m-Y H:i:s', request()->input('data_inici'));
-        $requestData['data_fi'] = Carbon::createFromFormat('d-m-Y H:i:s', request()->input('data_fi'));
-
+        $data_fi = strtotime ( '+30 minute', strtotime ($requestData['data_inici']));
+        $requestData['data_fi'] = date('d-m-Y H:i:s', $data_fi);
+        
         if (strtotime($requestData['data_inici']) < strtotime( $requestData['data_inici']->format('Y-m-d')." 13:30:01")){
             $torn = 0;
         } else {
@@ -161,17 +172,22 @@ class CalendariController extends Controller
             $calendariCarrec->save();
         }
 
-        $actorEstadillo = ActorEstadillo::find($requestData['id_actor_estadillo']);
+        $produccio = RegistreProduccio::where('id_registre_entrada', $requestData['id_registre_entrada'])
+                                        ->where('setmana', $requestData['setmana'])
+                                        ->whereNotNull('id_director')->first();
 
         $calendari = new Calendar($requestData);  
         $calendari->id_calendar_carrec = $calendariCarrec->id_calendar_carrec;
-        $calendari->id_director = $actorEstadillo->estadillo->registreProduccio->id_director;
-
+        $calendari->id_director = $produccio->id_director;
+        $calendari->data_fi  = Carbon::createFromFormat('d-m-Y H:i:s', $requestData['data_fi']);
         $calendari->save();
-        $calendari->calendari;
-        $calendari->actorEstadillo->estadillo->registreProduccio->registreEntrada;
-        $calendari->actorEstadillo->empleat;
-        $calendari->director;
+        
+        $calendari = Calendar::where('id_calendar', $calendari->id_calendar )
+                                    ->with('actor.estadillo.estadillo.registreProduccio.registreEntrada')
+                                    ->with('actor')
+                                    ->with('calendari')
+                                    ->with('director')
+                                    ->first();
         
         return response()->json(['success'=> true,'calendari'=>$calendari],201);
     }
@@ -183,15 +199,15 @@ class CalendariController extends Controller
         $data_inici = explode(" ",$calendari->data_inici)[0].' '.request()->input('data_inici').':00';
         $data_fi = explode(" ", $calendari->data_fi)[0].' '.request()->input('data_fi').':00';
         $valores = array(
-            'id_actor_estadillo' => request()->get('id_actor_estadillo'),
-            'num_takes'          => request()->get('num_takes'),
-            'data_inici'         => $data_inici,
-            'data_fi'            => $data_fi,
-            'num_sala'           => request()->get('num_sala'),
-            'canso_calendar'     => request()->get('canso_calendar'),
-            'narracio_calendar'  => request()->get('narracio_calendar'),
-            'id_director'        =>request()->get('id_director'),
-            'color_calendar'     =>request()->get('color_calendar'),
+            'id_actor'               => request()->get('id_actor'),
+            'id_registre_entrada'    => request()->get('id_registre_entrada'),
+            'setmana'                => request()->get('setmana'),
+            'num_takes'              => request()->get('num_takes'),
+            'data_inici'             => $data_inici,
+            'data_fi'                => $data_fi,
+            'opcio_calendar'         => request()->get('opcio_calendar'),
+            'num_sala'               => request()->get('num_sala'),
+            'id_director'            =>request()->get('id_director'),
         );
         
         if (strtotime($valores['data_inici']) < strtotime( date('Y-m-d', strtotime($valores['data_inici']))." 13:30:01")){
@@ -212,7 +228,6 @@ class CalendariController extends Controller
             $calendariCarrec->save();
         }
 
-        $actorEstadillo = ActorEstadillo::find($valores['id_actor_estadillo']);
         // Datos correctos.
         $calendari->fill($valores);  
         $calendari->id_calendar_carrec = $calendariCarrec->id_calendar_carrec;
@@ -225,10 +240,12 @@ class CalendariController extends Controller
             $missatge->save(); 
         }
          
-        $calendari->calendari;
-        $calendari->actorEstadillo->estadillo->registreProduccio->registreEntrada;
-        $calendari->actorEstadillo->empleat;
-        $calendari->director;
+        $calendari = Calendar::where('id_calendar', $calendari->id_calendar )
+                                    ->with('actor.estadillo.estadillo.registreProduccio.registreEntrada')
+                                    ->with('actor')
+                                    ->with('calendari')
+                                    ->with('director')
+                                    ->first();
         
         return response()->json($calendari);
     }
@@ -265,7 +282,7 @@ class CalendariController extends Controller
     }
 
     public function cogerCalendarioActor() {
-        $calendar = Calendar::with('actorEstadillo.estadillo.registreProduccio')
+        $calendar = Calendar::with('actor.estadillo.estadillo.registreProduccio')
                 ->with('calendari')
                 ->with('director')
                 ->find(request()->get('id'));
@@ -288,51 +305,35 @@ class CalendariController extends Controller
     }
     
     public function getActors() {
-        $takes_restantes = ActorEstadillo::select('slb_actors_estadillo.id as id_actor_estadillo',
-                                                    'slb_actors_estadillo.id',
-                                                    'slb_actors_estadillo.take_estadillo as takes_restantes',
-                                                    'slb_actors_estadillo.id_actor',
-                                                    'slb_actors_estadillo.id_produccio',
-                                                    'slb_actors_estadillo.narracio_estadillo',
-                                                    'slb_actors_estadillo.canso_estadillo',
-                                                    'slb_estadillo.id_registre_produccio')
+        $takes_restantes = ActorEstadillo::select('slb_actors_estadillo.id_actor',
+                                                    DB::raw('SUM(slb_actors_estadillo.take_estadillo) as takes_restantes'),
+                                                    'slb_registres_produccio.id_registre_entrada',
+                                                    'slb_registres_produccio.setmana')
+                                            ->join('slb_empleats_externs', 'slb_empleats_externs.id_empleat', 'slb_actors_estadillo.id_actor')
                                             ->join('slb_estadillo', 'slb_estadillo.id_estadillo', 'slb_actors_estadillo.id_produccio')
                                             ->join('slb_registres_produccio', 'slb_registres_produccio.id', 'slb_estadillo.id_registre_produccio')
-                                            ->distinct()->where('slb_registres_produccio.estat', 'Pendent')
-                                            ->with('calendar')->get();                          
-        
+                                            ->join('slb_registre_entrades', 'slb_registre_entrades.id_registre_entrada', 'slb_registres_produccio.id_registre_entrada')
+                                            ->groupBy('slb_actors_estadillo.id_actor','slb_registres_produccio.id_registre_entrada', 'slb_registres_produccio.setmana')
+                                            ->where('slb_registres_produccio.estat', 'Pendent')
+                                            ->with('empleat.actorCalendar')->get();                          
+        //dd($takes_restantes);
+        $calendaris = Calendar::all();
         foreach ($takes_restantes as $key => $value) {
-            if ($value->estadillo != null) {
-                if ($value->estadillo->registreProduccio != null){
-                    $empleado = EmpleatExtern::findOrFail($value->id_actor);
-                    $produccio = RegistreProduccio::findOrFail($value->id_registre_produccio);
-                    $entrada = RegistreEntrada::findOrFail($produccio->id_registre_entrada);
-                    $value->nombre_actor = $empleado->nom_cognom;
-                    $value->nombre_reg_entrada = $entrada->referencia_titol;
-                    $value->nombre_reg_produccio = $produccio->subreferencia != 0 ? $produccio->subreferencia : '';
-                    $value->nombre_reg_complet = $value->nombre_reg_entrada.' '.$value->nombre_reg_produccio;
-                    if ( isset($value->calendar[0]) ){
-                        foreach($value->calendar as $calendar) {
-                            $value->takes_restantes = $value->takes_restantes - $calendar->num_takes;
-                            if ($value->canso_estadillo == $calendar->canso_calendar){
-                                $value->canso_estadillo = 0;
-                            }
-                            if ($value->narracio_estadillo == $calendar->narracio_calendar) {
-                                $value->narracio_estadillo = 0;
-                            }  
-                        }
-                    } 
-                } else {
-                    unset($takes_restantes[$key]);
-                }
-                
-            } else {
-                unset($takes_restantes[$key]);
-            }
-        }
+            $entrada = RegistreEntrada::with('registreProduccio')->find($value->id_registre_entrada);
 
-        $actores = $takes_restantes;
+            $value->nombre_reg_complet = $entrada->getReferenciaTitolPack($value->setmana);
+
+            if ( isset($value->empleat->actorCalendar[0])){
+                foreach($calendaris as $calendar) {
+                    if ($value->id_actor == $calendar->id_actor && $value->id_registre_entrada == $calendar->id_registre_entrada && $value->setmana == $calendar->setmana){
+                        $value->takes_restantes = $value->takes_restantes - $calendar->num_takes;
+                    }
+                }
+            } 
+        }
         
+        $actores = $takes_restantes;
+
         return $actores;
     }
     
@@ -348,8 +349,8 @@ class CalendariController extends Controller
         
         $data = Calendar::where('data_inici', '>=', $dia1)
                                     ->where('data_fi', '<=', $dia5)
-                                    ->with('actorEstadillo.estadillo.registreProduccio.registreEntrada')
-                                    ->with('actorEstadillo.empleat')
+                                    ->with('actor.estadillo.estadillo.registreProduccio.registreEntrada')
+                                    ->with('actor')
                                     ->with('calendari')
                                     ->with('director')
                                     ->orderBy('slb_calendars.data_inici')
@@ -379,12 +380,10 @@ class CalendariController extends Controller
                                              'slb_calendar_carrecs.num_sala',
                                              DB::raw('LPAD(HOUR(slb_calendars.data_inici), 2, 0) as hora'),
                                              DB::raw('LPAD(MINUTE(slb_calendars.data_inici), 2, 0) as minuts'),
-                                             'slb_actors_estadillo.id as id_actor_estadillo',
                                              'slb_calendars.id_calendar as id_calendar',
                                              'slb_calendars.asistencia',
                                              'slb_calendars.id_director')
-                                    ->join('slb_actors_estadillo', 'slb_actors_estadillo.id_actor', 'slb_empleats_externs.id_empleat')
-                                    ->join('slb_calendars', 'slb_calendars.id_actor_estadillo', 'slb_actors_estadillo.id')
+                                    ->join('slb_calendars', 'slb_calendars.id_actor', 'slb_empleats_externs.id_empleat')
                                     ->join('slb_calendar_carrecs', 'slb_calendar_carrecs.id_calendar_carrec', 'slb_calendars.id_calendar_carrec')
                                     ->distinct()->where( DB::raw('DAY(slb_calendars.data_inici)'), '=', $diaz->format('d'))
                                     ->where( DB::raw('MONTH(slb_calendars.data_inici)'), '=', $diaz->format('m'))
@@ -394,7 +393,23 @@ class CalendariController extends Controller
                     
             array_push($actoresPorDia, $act_dia);
         }
-        
+        //dd($actoresPorDia);
         return $actoresPorDia;
+    }
+    
+    public function getDay(Request $request) {
+        $d       = strtotime($request->get('day'));
+        $fecha   = date('Y-m-d', $d);
+
+        $data = Calendar::where('data_inici', '>=', $fecha)
+                                    ->with('actor.estadillo.estadillo.registreProduccio.registreEntrada')
+                                    ->with('actor')
+                                    ->with('calendari')
+                                    ->with('registreEntrada')
+                                    ->with('director')
+                                    ->orderBy('slb_calendars.data_inici')
+                                    ->get();
+        
+        return response()->json($data);
     }
 }

@@ -9,25 +9,35 @@ class Calendar extends Model {
     protected $table = 'slb_calendars';
     protected $primaryKey = 'id_calendar';
     protected $fillable = [
-        //"id_calendar",
-        "id_actor_estadillo",
+        "id_actor",
+        "id_registre_entrada",
+        "setmana",
         "num_takes",
-        "canso_calendar",
-        "narracio_calendar",
         "data_inici",
         "data_fi",
         "id_calendar_carrec",
         "asistencia",
         "id_director",
-        "color_calendar",
+        "opcio_calendar",
     ];
     protected $casts = [
         'data_inici'  => 'date:d-m-Y H:i',
         'data_fi'  => 'date:d-m-Y H:i'
     ];
-
-    public function actorEstadillo() {
-        return $this->belongsTo('App\ActorEstadillo','id_actor_estadillo','id');
+    
+    protected $appends = ['referencia_titol'];
+    
+    public function getReferenciaTitolAttribute() {
+        $entrada = RegistreEntrada::with('registreProduccio')->find($this->id_registre_entrada);
+        return $entrada->getReferenciaTitolPack($this->setmana);
+    }   
+    
+    public function actor() {
+        return $this->belongsTo('App\EmpleatExtern','id_actor','id_empleat');
+    }
+    
+    public function registreEntrada() {
+        return $this->belongsTo('App\RegistreEntrada', 'id_registre_entrada', 'id_registre_entrada');
     }
     
     public function director() {

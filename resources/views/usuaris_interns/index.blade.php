@@ -36,14 +36,14 @@
     </div>
     
     {{-- TABLA D'USUARIS --}}
-    <table class="table tableIndex mt-3" style="min-width: 800px;">
+    <table class="table tableIndex mt-3" id="table" style="min-width: 800px;">
         <thead>
             <tr>
                 <th>NOM</th> 
                 <th>COGNOMS</th>
                 <th>EMAIL</th>
                 <th>DEPARTAMENT</th>
-                <th>ACCIONS</th>
+                <th class="sorter-false filter-false">ACCIONS</th>
             </tr>
         </thead>
         <tbody>

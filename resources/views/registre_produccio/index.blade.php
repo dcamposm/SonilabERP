@@ -140,19 +140,19 @@
     </div>
 
     {{-- TABLA DE REGISTROS DE ENTRADA --}}
-    <table class="table tableIndex" id="parentTable" style="margin-top: 10px;  min-width: 1000px; border-collapse:collapse;">
+    <table class="table tableIndex" id="table" style="margin-top: 10px;  min-width: 1000px; border-collapse:collapse;">
         <thead>
             <tr>
                 @if (Auth::user()->hasAnyRole(['1', '4','5']))
                     <th>REF.</th> 
-                    <th>SUB-REF</th> 
+                    <th  class="sorter-false filter-false">SUB-REF</th> 
                     <th>DATA D'ENTREGA</th>
-                    <th>SETMANA</th>
+                    <th  class="sorter-false filter-false">SETMANA</th>
                     <th>RESPONSABLE</th>
                     <th>TÍTOL ORIGINAL</th>
-                    <th>ESTADILLO</th>
-                    <th>VEC</th>
-                    <th>ACCIONS</th>
+                    <th  class="sorter-false filter-false">ESTADILLO</th>
+                    <th  class="sorter-false filter-false">VEC</th>
+                    <th  class="sorter-false filter-false">ACCIONS</th>
                 @elseif (Auth::user()->hasAnyRole(['2']))
                     <th>REF.</th> 
                     <th>SUB-REF</th> 

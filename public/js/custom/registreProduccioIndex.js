@@ -97,3 +97,11 @@ else {
 }
 
 $('#searchBy').change(selectSearch);
+
+$(function() {
+    $("#table").tablesorter({
+      theme : "bootstrap",
+
+      headerTemplate: '{content} {icon}',	
+    });  
+});

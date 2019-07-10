@@ -14,6 +14,7 @@
     <script src="{{ asset('bootstrap-4.3.1/js/bootstrap.min.js') }}" defer></script>
     <!-- <script src="{{ asset('js/sidebar.js') }}" defer></script> -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{{asset('js/jquery.tablesorter.js')}}"></script>
     <script src="{{asset('js/EasyAutocomplete/jquery.easy-autocomplete.min.js')}}"></script> 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -24,6 +25,7 @@
     <link href="{{ asset('bootstrap-4.3.1/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/project.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/theme.bootstrap_4.css') }}">
 
     <style>
     .cursor {

@@ -46,3 +46,9 @@ function selectSearch() {
 }
 
 $('#searchBy').change(selectSearch);  
+
+$("#table").tablesorter({
+    theme : "bootstrap",
+    
+    headerTemplate: '{content} {icon}'
+});

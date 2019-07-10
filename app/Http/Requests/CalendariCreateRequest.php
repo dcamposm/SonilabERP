@@ -20,10 +20,12 @@ class CalendariCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'id_actor_estadillo'=>'required',
+            'id_actor'=>'required',
+            'id_registre_entrada'=>'required',
+            'setmana'=>'required',
             'num_takes'=>'required|regex:/^[0-9]+$/',//^[0-9]+$
             'data_inici'=>'required',
-            'data_fi'=>'required',
+            //'data_fi'=>'required',
             'num_sala'=>'required'
         ];
     }

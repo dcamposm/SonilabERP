@@ -18,7 +18,9 @@ body {
     vertical-align: text-bottom;
 }
 
-
+.tablesorter-header-inner{
+    font-size: 12px;
+}
 
 /*
  * Sidebar

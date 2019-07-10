@@ -14,6 +14,7 @@ class RegistreEntrada extends Model
         'ot',
         'oc',
         'titol',
+        'titol_curt',
         'sortida',
         'id_usuari',
         'id_client',
@@ -24,7 +25,8 @@ class RegistreEntrada extends Model
         'total_episodis',
         'episodis_setmanals',
         'entregues_setmanals',
-        'estat'
+        'estat',
+        'color_referencia'
     ];
     
     protected $appends = ['referencia_titol'];
@@ -33,7 +35,22 @@ class RegistreEntrada extends Model
         return $this->id_registre_entrada.' '.$this->titol;
     }    
     
-     public function usuari()
+    public function getReferenciaTitolPack($setmana) {
+        $registre = array_filter($this->registreProduccio->toArray(), function ($registreProuduccio) use ($setmana){
+            return($registreProuduccio['setmana'] == $setmana);
+        });
+        
+        $first = reset($registre);
+        $last = end($registre);
+        
+        if ($first['subreferencia'] == 0){
+            return $this->id_registre_entrada.' '.($this->titol_curt ? $this->titol_curt : $this->titol);
+        } else {
+            return $this->id_registre_entrada.' '.($this->titol_curt ? $this->titol_curt : $this->titol).' '.$first['subreferencia'].'_'.$last['subreferencia'];
+        }
+    } 
+    
+    public function usuari()
     {
         return $this->belongsTo('App\User', 'id_usuari', 'id_usuari');
     }
@@ -62,5 +79,9 @@ class RegistreEntrada extends Model
     {
         return $this->hasMany('App\RegistreProduccio', 'id_registre_entrada', 'id_registre_entrada');
     }
-
+    
+    public function calendar()
+    {
+        return $this->hasMany('App\Calendar', 'id_registre_entrada', 'id_registre_entrada');
+    }
 }

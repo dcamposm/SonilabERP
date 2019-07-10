@@ -38,7 +38,7 @@
         </div>
     </div>
     
-    <table class="table tableIndex mt-3" style="min-width: 1000px;">
+    <table class="table tableIndex mt-3" id="table" style="min-width: 1000px;">
         <thead>
             <tr>
                 <th>NOM</th> 
@@ -47,7 +47,7 @@
                 <th>EMAIL</th>
                 <th>CARRECS</th>
                 @if (Auth::user()->hasAnyRole(['1', '5']))
-                <th>ACCIONS</th>
+                <th class="sorter-false filter-false">ACCIONS</th>
                 @endif
             </tr>
         </thead>
