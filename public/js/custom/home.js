@@ -15,7 +15,7 @@ function calendarDay() {
         },
         error: function (error) {
             console.error(error);
-            alert("No s'ha pogut esborrar l'event :(");
+            //alert("No s'ha pogut esborrar l'event :(");
         }
     });
 }
