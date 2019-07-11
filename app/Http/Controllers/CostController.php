@@ -185,9 +185,8 @@ class CostController extends Controller
 
             $empleatsInfo = array();
             foreach ($vecs as $vec) {
-                //return response()->json($vecs);
+                //dd($vecs);
                 if ($vec->registreProduccio->vec == 1){
-                    //return response()->json($id);
                     if ($vec->registreProduccio->id_registre_entrada == $id && date('d-m-Y', strtotime($vec->registreProduccio->data_entrega)) == $data){
                         //return response()->json($vec);
                         if (!isset($vecInfo)) {

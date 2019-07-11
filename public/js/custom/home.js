@@ -12,7 +12,7 @@ function calendarDay() {
         },
         success: function (response) {
             var dia = new Date().getDate()+'/'+(new Date().getMonth()+1)+'/'+new Date().getFullYear();
-            console.log(response);
+
             $("#day").text('- '+dia);
             
             for (let i = 0; i < 8; i++) {
