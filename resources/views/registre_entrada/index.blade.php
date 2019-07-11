@@ -128,9 +128,9 @@
                 <td style="vertical-align: middle; text-align: center;">{{ $registreEntrada->total_episodis }}</td>
                 @if (Auth::user()->hasAnyRole(['1', '5']))
                 <td style="vertical-align: middle;">
-                    <a href="{{ route('registreEntradaUpdateView', array('id' => $registreEntrada['id_registre_entrada'])) }}" class="btn btn-primary btn-sm" style="font-size: 11px;">MODIFICAR</a>
+                    <a href="{{ route('registreEntradaUpdateView', array('id' => $registreEntrada['id_registre_entrada'])) }}" class="btn btn-primary btn-sm m-1" style="font-size: 11px;">MODIFICAR</a>
                     @if (Auth::user()->hasAnyRole(['5']))
-                        <button class="btn btn-danger btn-sm" onclick="self.seleccionarRegistreEntrada({{ $registreEntrada['id_registre_entrada'] }}, '{{ $registreEntrada['titol'] }}')" data-toggle="modal" data-target="#exampleModalCenter" style="font-size: 11px;">ESBORRAR</button>
+                        <button class="btn btn-danger btn-sm m-1" onclick="self.seleccionarRegistreEntrada({{ $registreEntrada['id_registre_entrada'] }}, '{{ $registreEntrada['titol'] }}')" data-toggle="modal" data-target="#exampleModalCenter" style="font-size: 11px;">ESBORRAR</button>
                         <form id="delete-{{ $registreEntrada['id_registre_entrada'] }}" action="{{ route('esborrarRegistreEntrada') }}" method="POST">
                             @csrf
                             <input type="hidden" readonly name="id" value="{{ $registreEntrada['id_registre_entrada'] }}">
