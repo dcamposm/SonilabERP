@@ -151,14 +151,27 @@
         </div>
         <div class="col-md-12 mt-3">
             <div class="card">
-                <div class="card-header">PLANNING DEL DÍA</div>
-
+                <div class="card-header">PLANNING DEL DÍA <spam id="day"></spam></div>
                 <div class="card-body">
-                    *CALENDARI
+                    <div class="row">
+                        <div class="col col-fecha" style="font-weight: bold;">1</div>
+                        <div class="col col-fecha" style="font-weight: bold;">2</div>
+                        <div class="col col-fecha" style="font-weight: bold;">3</div>
+                        <div class="col col-fecha" style="font-weight: bold;">4</div>
+                    </div>
+                    <div id="calendar"></div>
+                    <div class="row">
+                        <div class="col col-fecha" style="font-weight: bold;">5</div>
+                        <div class="col col-fecha" style="font-weight: bold;">6</div>
+                        <div class="col col-fecha" style="font-weight: bold;">7</div>
+                        <div class="col col-fecha" style="font-weight: bold;">8</div>
+                    </div>
+                    <div id="calendar2"></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <script type="text/javascript" src="{{ URL::asset('js/custom/home.js') }}"></script>
+<link rel="stylesheet" href="{{ URL::asset('css/calendar.css') }}" />
 @endsection
