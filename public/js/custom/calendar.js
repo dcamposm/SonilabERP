@@ -6,6 +6,10 @@ $('#semanaMas').on('click', function () {
     changeCalendar(1);
 });
 
+$('#day').on('click', function () {
+    alert($(this).attr('dia'));
+});
+
 $('.alternar').on('click', function () {
     $('#calendarContent').html('');
     if (getCookie("tablaActual")==0){

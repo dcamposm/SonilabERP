@@ -23,9 +23,9 @@ class ActorEstadilloImport implements ToModel, WithHeadingRow
     public function model(array $row)
     {
         if (!is_null($row['nom'])){
-            $actor = EmpleatExtern::whereRaw('LOWER(nom_empleat) like "%'. strtolower($row['nom']).'%"'
-                    . 'AND LOWER(cognom1_empleat) like "%'. strtolower($row['cognom']).'%"')->first();
-                       
+            $actor = EmpleatExtern::whereRaw('LOWER(nom_empleat) like "%'. trim(strtolower($row['nom']), " ").'%"'
+                    . 'AND LOWER(cognom1_empleat) like "%'. trim(strtolower($row['cognom']), " ").'%"')->first();
+                      
             if ($actor){
                 $actorEstadillo = ActorEstadillo::where('id_produccio' , $this->id_estadillo)
                                 ->where('id_actor',$actor->id_empleat)->first();
