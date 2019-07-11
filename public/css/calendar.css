@@ -198,6 +198,13 @@ body, html, main{
     text-align: center;
 }
 
+.rotar{
+    writing-mode: vertical-lr;
+    transform: rotate(180deg);
+    text-align: center;
+    font-size: 20px;
+}
+
 /* SIDEBAR */ 
 
 .sidenav {

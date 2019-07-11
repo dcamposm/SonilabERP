@@ -401,7 +401,7 @@ class CalendariController extends Controller
         $d       = strtotime($request->get('day'));
         $fecha   = date('Y-m-d', $d);
 
-        $data = Calendar::where('data_inici', '>=', $fecha)
+        $data = Calendar::where(DB::raw('DATE(data_inici)'), $fecha)
                                     ->with('actor.estadillo.estadillo.registreProduccio.registreEntrada')
                                     ->with('actor')
                                     ->with('calendari')
@@ -410,6 +410,8 @@ class CalendariController extends Controller
                                     ->orderBy('slb_calendars.data_inici')
                                     ->get();
         
-        return response()->json($data);
+        $tecnics = CalendarCarrec::where('data', $fecha)->with('empleat')->get();
+        
+        return response()->json(["data" => $data, "tecnics" => $tecnics]);
     }
 }

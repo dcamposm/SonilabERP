@@ -155,7 +155,7 @@ Route::middleware(['role: 1,2,3,4,5'])->group(function () {
     Route::post('/calendari/postActors', 'CalendariController@postActors')->name('postActors');
     Route::post('/calendari/postDades', 'CalendariController@postDades')->name('postDades');
     Route::post('/calendari/actorsPerDia', 'CalendariController@actorsPerDia')->name('actorsPerDia');
-    Route::post('/calendari/day', 'CalendariController@getDay')->name('getDay');
+    Route::get('/calendari/day', 'CalendariController@getDay')->name('getDay');
     
     Route::get('/calendari/getPeliculas', 'CalendariController@getPeliculas');
 });

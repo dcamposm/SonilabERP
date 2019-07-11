@@ -154,6 +154,7 @@ class EstadilloController extends Controller
             }
         }
         $registre = Estadillo::find($id)->registreProduccio;
+        
         return view('estadillos.create', array('estadillos'=> $estadillos,
             'registreProduccio'=> $arrayProjectes, 'registre'=>$registre));
     }
