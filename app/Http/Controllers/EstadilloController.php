@@ -357,17 +357,19 @@ class EstadilloController extends Controller
         $actor = array();
         
         foreach ($registreProduccio as $projecte){
-            
-            //return response()->json($projecte);
             if (!empty($projecte->getEstadillo->actors)){
                 $projecte->getEstadillo->actors;
-                array_push ($actor , ActorEstadillo::where('id_produccio', $projecte->getEstadillo->id_estadillo)
+                $act = ActorEstadillo::where('id_produccio', $projecte->getEstadillo->id_estadillo)
                                                                 ->where('id_actor', $id_actor)
-                                                                ->first());
+                                                                ->first();
+                
+                
+                if ($act) {
+                    array_push ($actor , $act);
+                }
             }
         }
 
-        //return response()->json($actor);
         return view('estadillos.createActor', array('actor'=> $actor,'empleats'=> $empleats, 'registreProduccio'=> $registreProduccio));
     }
 

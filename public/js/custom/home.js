@@ -2,7 +2,7 @@ calendarDay();
 function calendarDay() {
     $.ajax({
         url: '/calendari/day/',
-        type: 'post',
+        type: 'get',
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             Accept: 'application/json'
@@ -12,7 +12,7 @@ function calendarDay() {
         },
         success: function (response) {
             var dia = new Date().getDate()+'/'+(new Date().getMonth()+1)+'/'+new Date().getFullYear();
-            console.log(response);
+
             $("#day").text('- '+dia);
             
             for (let i = 0; i < 8; i++) {

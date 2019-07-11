@@ -151,7 +151,7 @@
         </div>
         <div class="col-md-12 mt-3">
             <div class="card">
-                <div class="card-header">PLANNING DEL DÍA <spam id="day"></spam></div>
+                <div class="card-header">PLANNING DEL DIA <spam id="day"></spam></div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col col-fecha" style="font-weight: bold;">1</div>
