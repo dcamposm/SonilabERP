@@ -9,6 +9,10 @@ body, html, main{
     height: 100% !important;
 }
 
+#tornar{
+    color: white;
+}
+
 .celda{
     border: 1px solid black;
     padding: 0px;
@@ -34,11 +38,6 @@ body, html, main{
     display:flex;
 }
 
-.colGlob {
-   width: 100%; 
-   margin: 0px 0px 0px 0px !important;
-}
-
 .rowTarda {
     flex:1;
     width: 100%;
@@ -51,6 +50,18 @@ body, html, main{
    width: 100% !important;
    margin: 0px 0px 0px 0px !important;
    padding: 0px 0px 0px 0px;
+}
+
+.rowHeader {
+    width: 100%;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+}
+
+.col-fecha-H{
+    text-align: center;
+    background-color: pink;
+    border-bottom: 1px solid black;
 }
 
 .det{
