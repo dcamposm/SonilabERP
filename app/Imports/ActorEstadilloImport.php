@@ -40,8 +40,8 @@ class ActorEstadilloImport implements ToModel, WithHeadingRow
                     $actorEstadillo->update([
                         'id_produccio' => $this->id_estadillo,
                         'id_actor' => $actor->id_empleat,
-                        'take_estadillo' => $row['tks_tot'],
-                        'cg_estadillo' => $row['cg'],
+                        'take_estadillo' => trim($row['tks_tot'], " "),
+                        'cg_estadillo' => trim($row['cg'], " "),
                         'canso_estadillo' => is_null($row['n']) ? 0 : 1,
                         'narracio_estadillo' => is_null($row['c']) ? 0 : 1,
                     ]);
