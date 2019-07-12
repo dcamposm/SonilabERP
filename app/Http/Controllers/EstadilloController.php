@@ -94,9 +94,14 @@ class EstadilloController extends Controller
         //CREACIÓ DELS ACTORS DEL ESTADILLO
         //Fem la importació del excel utilitzant una classe Import, aquesta 
         //classe es del paquet de excel_laravel. Ubicació de la classe "App\Imports"
-        Excel::import(new ActorEstadilloImport($estadillo->id_estadillo), request()->file('import_file'));
+        $import = new ActorEstadilloImport($estadillo->id_estadillo);
+                
+        Excel::import($import, request()->file('import_file'));
         
-        return redirect()->back()->with('success', 'Estadillo importat correctament.');  
+        $errors = $import->errors;
+        
+        if (empty($import->errors)) return redirect()->back()->with('success', 'Estadillo importat correctament.');  
+        else return redirect()->back()->with('error', $errors);
     }
     
     public function insert()
@@ -362,8 +367,7 @@ class EstadilloController extends Controller
                 $act = ActorEstadillo::where('id_produccio', $projecte->getEstadillo->id_estadillo)
                                                                 ->where('id_actor', $id_actor)
                                                                 ->first();
-                
-                
+
                 if ($act) {
                     array_push ($actor , $act);
                 }
