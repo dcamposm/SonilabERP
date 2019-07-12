@@ -59,10 +59,10 @@ class ActorEstadilloImport implements ToModel, WithHeadingRow
                     ]); 
                 }
             }
+            
+            array_push ($this->errors , 'ERROR. El actor '.$row['nom'].' '.$row['cognom'].' no existeix.');
         }
         
-        array_push ($this->errors , 'ERROR. El actor '.$row['nom'].' '.$row['cognom'].' no existeix.');
-
         return ;
     }
 }
