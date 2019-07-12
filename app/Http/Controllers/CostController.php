@@ -378,7 +378,7 @@ class CostController extends Controller
                 $total += $totalSS;
                 //return response()->json($empleatsInfo);
             }
-            //return response()->json($empleatsInfo);
+            //dd($empleatsInfo);
             return View('vec.show', array('vec' => $vecInfo, 'empleatsInfo' => $empleatsInfo, 'total' => $total, 'totalSS' => $totalSS));
         }
     }
@@ -418,6 +418,24 @@ class CostController extends Controller
                                             $costTotal += $actorCarrec->preu_carrec * $actor->cg_estadillo;
                                         } else if ($actorCarrec->tarifa->nombre_corto == 'docu') {
                                             $docu = $actorCarrec->preu_carrec;
+                                        } else if ($actorCarrec->tarifa->nombre_corto == 'canso' && $actor->canso_estadillo == 1) {
+                                            $empleatCan = new EmpleatCost();
+                                            $empleatCan->id_costos = $vec->id_costos;
+                                            $empleatCan->id_empleat = $actor->id_actor;
+                                            $empleatCan->cost_empleat = $actorCarrec->preu_carrec;
+                                            $total += $empleatCan->cost_empleat;
+                                            //$totalSS += $empleatCost->cost_empleat;
+                                            $empleatCan->id_tarifa = 9;
+                                            $empleatCan->save();
+                                        } else if ($actorCarrec->tarifa->nombre_corto == 'narrador' && $actor->narracio_estadillo == 1) {
+                                            $empleatNar = new EmpleatCost();
+                                            $empleatNar->id_costos = $vec->id_costos;
+                                            $empleatNar->id_empleat = $actor->id_actor;
+                                            $empleatNar->cost_empleat = $actorCarrec->preu_carrec;
+                                            $total += $empleatNar->cost_empleat;
+                                            //$totalSS += $empleatCost->cost_empleat;
+                                            $empleatNar->id_tarifa = 11;
+                                            $empleatNar->save();
                                         }
                                     }
                                 }
@@ -447,13 +465,13 @@ class CostController extends Controller
                                             $totalSS += $empleatCost->cost_empleat;
                                             $empleatCost->id_tarifa = 6;
                                             $empleatCost->save();
-                                        } else if ($actorCarrec->tarifa->nombre_corto == 'canso') {
+                                        } else if ($actorCarrec->tarifa->nombre_corto == 'canso' && $actor->canso_estadillo == 1) {
                                             $empleatCost->cost_empleat = $actorCarrec->preu_carrec;
                                             $total += $empleatCost->cost_empleat;
                                             //$totalSS += $empleatCost->cost_empleat;
                                             $empleatCost->id_tarifa = 9;
                                             $empleatCost->save();
-                                        } else if ($actorCarrec->tarifa->nombre_corto == 'narrador') {
+                                        } else if ($actorCarrec->tarifa->nombre_corto == 'narrador' && $actor->narracio_estadillo  == 1) {
                                             $empleatCost->cost_empleat = $actorCarrec->preu_carrec;
                                             $total += $empleatCost->cost_empleat;
                                             //$totalSS += $empleatCost->cost_empleat;
@@ -482,6 +500,24 @@ class CostController extends Controller
                                             $costTotal += $actorCarrec->preu_carrec * $actor->cg_estadillo;
                                         } else if ($actorCarrec->tarifa->nombre_corto == 'docu') {
                                             $docu = $actorCarrec->preu_carrec;
+                                        } else if ($actorCarrec->tarifa->nombre_corto == 'canso' && $actor->canso_estadillo == 1) {
+                                            $empleatCan = new EmpleatCost();
+                                            $empleatCan->id_costos = $vec->id_costos;
+                                            $empleatCan->id_empleat = $actor->id_actor;
+                                            $empleatCan->cost_empleat = $actorCarrec->preu_carrec;
+                                            $total += $empleatCan->cost_empleat;
+                                            //$totalSS += $empleatCost->cost_empleat;
+                                            $empleatCan->id_tarifa = 9;
+                                            $empleatCan->save();
+                                        } else if ($actorCarrec->tarifa->nombre_corto == 'narrador' && $actor->narracio_estadillo == 1) {
+                                            $empleatNar = new EmpleatCost();
+                                            $empleatNar->id_costos = $vec->id_costos;
+                                            $empleatNar->id_empleat = $actor->id_actor;
+                                            $empleatNar->cost_empleat = $actorCarrec->preu_carrec;
+                                            $total += $empleatNar->cost_empleat;
+                                            //$totalSS += $empleatCost->cost_empleat;
+                                            $empleatNar->id_tarifa = 11;
+                                            $empleatCost->save();
                                         }
                                     }
                                 }
@@ -514,13 +550,13 @@ class CostController extends Controller
                                             $totalSS += $empleatCost->cost_empleat;
                                             $empleatCost->id_tarifa = 8;
                                             $empleatCost->save();
-                                        } else if ($actorCarrec->tarifa->nombre_corto == 'canso') {
+                                        } else if ($actorCarrec->tarifa->nombre_corto == 'canso' && $actor->canso_estadillo == 1) {
                                             $empleatCost->cost_empleat = $actorCarrec->preu_carrec;
                                             $total += $empleatCost->cost_empleat;
                                             //$totalSS += $empleatCost->cost_empleat;
                                             $empleatCost->id_tarifa = 9;
                                             $empleatCost->save();
-                                        } else if ($actorCarrec->tarifa->nombre_corto == 'narrador') {
+                                        } else if ($actorCarrec->tarifa->nombre_corto == 'narrador' && $actor->narracio_estadillo  == 1) {
                                             $empleatCost->cost_empleat = $actorCarrec->preu_carrec;
                                             $total += $empleatCost->cost_empleat;
                                             //$totalSS += $empleatCost->cost_empleat;
