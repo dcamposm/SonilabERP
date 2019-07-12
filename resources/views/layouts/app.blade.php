@@ -217,6 +217,13 @@
                 <span class="fas fa-exclamation-circle"></span>{{ !empty($errors->first('error')) ? $errors->first('error') : 'ERROR. No s\'han introduït correctament les dades.'  }}
             </div>
         @endif
+        @if (session('error'))
+            <div class="alert alert-danger" role="alert">
+                @foreach(session('error') as $error)
+                <span class="fas fa-exclamation-circle"></span>{{ $error }}<br>
+                @endforeach
+            </div>
+        @endif
         @if (session('alert'))
             <div class="alert alert-warning" role="alert">
                 <span class="fas fa-exclamation-triangle"></span>{{ session('alert') }}

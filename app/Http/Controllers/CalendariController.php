@@ -151,7 +151,14 @@ class CalendariController extends Controller
         //strtotime ( '+30 minute', strtotime ( ))
        
         $requestData['data_inici'] = Carbon::createFromFormat('d-m-Y H:i:s', request()->input('data_inici'));
-        $data_fi = strtotime ( '+30 minute', strtotime ($requestData['data_inici']));
+        
+        if (request()->input('num_takes') <= 10){
+            $data_fi = strtotime ( '+30 minute', strtotime ($requestData['data_inici']));
+        } else {
+            $min = (int)request()->input('num_takes')*3;
+            $data_fi = strtotime ( '+'.$min.' minute', strtotime ($requestData['data_inici']));
+        }
+        
         $requestData['data_fi'] = date('d-m-Y H:i:s', $data_fi);
         
         if (strtotime($requestData['data_inici']) < strtotime( $requestData['data_inici']->format('Y-m-d')." 13:30:01")){
