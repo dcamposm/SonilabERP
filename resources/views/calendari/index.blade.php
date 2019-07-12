@@ -12,27 +12,31 @@
     </div>
 
     <div id="contenedor" class="container-fluid contenedor mb-3">
-        <div class="row encabezado mb-4">
-            <div class="input-group">
-                <input id="searchActor" class="form-control" style="width: 300px;"/>
-                <input id="filtroActor" class="form-control" type="hidden" value="-1">
-                <input id="searchEntrada" class="form-control" style="width: 300px;"/>
-                <input id="filtroEntrada" class="form-control" type="hidden" value="-1">
+        <div class="row encabezado mb-4 justify-content-between">
+            <div class="col">
+                <div class="input-group">
+                    <input id="searchActor" class="form-control" style="width: 300px;"/>
+                    <input id="filtroActor" class="form-control" type="hidden" value="-1">
+                    <input id="searchEntrada" class="form-control" style="width: 300px;"/>
+                    <input id="filtroEntrada" class="form-control" type="hidden" value="-1">
+                 </div>
+            </div>
+            <div class="col">
                 <div class="semana"><div id="semanaMenos" class="btn btn-primary round-left"><span class="fas fa-angle-double-left"></span></div><span class="simil-btn btn">{{$mes}}</span><div id="semanaMas" class="btn btn-primary round-right"><span class="fas fa-angle-double-right"></span></div></div>
-                <button id="btnAdd" class="btn btn-success boton"  type="button" onclick="openNav()">AFEGIR</button>
-             </div>
+            </div>
+            <button id="btnAdd" class="btn btn-success boton"  type="button" onclick="openNav()">AFEGIR</button>
         </div>
-        <div class="row" style="min-width: 2000px;">
+        <div class="row" id="headerCotent" style="min-width: 2000px;">
             <div class="sala-vacia">
                 <button type="button" class="btn btn-sm alternar">
                     <span class="fas fa-calendar" style="margin-right: 0px;"></span>
                 </button>  
             </div>
-            <div class="col col-fecha" id="day" onclick="" dia="{{date('d/m/Y', strtotime($fechas[0]))}}" style="font-weight: bold;">DILLUNS : {{date('d/m/Y', strtotime($fechas[0]))}}</div>
-            <div class="col col-fecha" id="day" dia="{{date('d/m/Y', strtotime($fechas[1]))}}" style="font-weight: bold;">DIMARTS : {{date('d/m/Y', strtotime($fechas[1]))}}</div>
-            <div class="col col-fecha" id="day" dia="{{date('d/m/Y', strtotime($fechas[2]))}}" style="font-weight: bold;">DIMECRES : {{date('d/m/Y', strtotime($fechas[2]))}}</div>
-            <div class="col col-fecha" id="day" dia="{{date('d/m/Y', strtotime($fechas[3]))}}" style="font-weight: bold;">DIJOUS : {{date('d/m/Y', strtotime($fechas[3]))}}</div>
-            <div class="col col-fecha" id="day" dia="{{date('d/m/Y', strtotime($fechas[4]))}}" style="font-weight: bold;">DIVENDRES : {{date('d/m/Y', strtotime($fechas[4]))}}</div>
+            <div class="col col-fecha" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[0]))}}')" dia="{{date('d/m/Y', strtotime($fechas[0]))}}" style="font-weight: bold;">DILLUNS : {{date('d/m/Y', strtotime($fechas[0]))}}</div>
+            <div class="col col-fecha" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[1]))}}')" dia="{{date('d/m/Y', strtotime($fechas[1]))}}" style="font-weight: bold;">DIMARTS : {{date('d/m/Y', strtotime($fechas[1]))}}</div>
+            <div class="col col-fecha" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[2]))}}')" dia="{{date('d/m/Y', strtotime($fechas[2]))}}" style="font-weight: bold;">DIMECRES : {{date('d/m/Y', strtotime($fechas[2]))}}</div>
+            <div class="col col-fecha" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[3]))}}')" dia="{{date('d/m/Y', strtotime($fechas[3]))}}" style="font-weight: bold;">DIJOUS : {{date('d/m/Y', strtotime($fechas[3]))}}</div>
+            <div class="col col-fecha" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[4]))}}')" dia="{{date('d/m/Y', strtotime($fechas[4]))}}" style="font-weight: bold;">DIVENDRES : {{date('d/m/Y', strtotime($fechas[4]))}}</div>
         </div>
         <div id="calendarContent"></div>
     </div>
@@ -251,6 +255,7 @@
     var rutaSearchProduccio = "{{route('registreProduccioSearch')}}";
 </script>
 <script type="text/javascript" src="{{ URL::asset('js/custom/calendar.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('js/custom/calendarShowDay.js') }}"></script>
 <link rel="stylesheet" href="{{ URL::asset('css/calendar.css') }}" />
 
 @stop
