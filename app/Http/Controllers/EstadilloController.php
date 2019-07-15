@@ -77,8 +77,9 @@ class EstadilloController extends Controller
             }
             $projecte = RegistreProduccio::where('id', request()->input('id_estadillo'))->first();
         }
-        
+
         $estadillo = Estadillo::where('id_registre_produccio', $projecte['id'])->first();
+        
         //CREACIÓ ESTADILLO
         if ($projecte){
             if (!$estadillo){
@@ -159,6 +160,7 @@ class EstadilloController extends Controller
             }
         }
         $registre = Estadillo::find($id)->registreProduccio;
+        
         return view('estadillos.create', array('estadillos'=> $estadillos,
             'registreProduccio'=> $arrayProjectes, 'registre'=>$registre));
     }

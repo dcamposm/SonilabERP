@@ -26,7 +26,7 @@ class EmpleatExternCreateRequest extends FormRequest
             'codi_postal_empleat'   => array('required','regex:/^(?:0[1-9]|[1-4]\d|5[0-2])\d{3}$/'),
             'naixement_empleat'     => 'required',
             'nss_empleat'           => 'required',
-            'iban_empleat'          => 'required|regex:/^[A-Z]{2}[0-9]{2}[A-Z0-9]{1,30}$/'
+            //'iban_empleat'          => 'required|regex:/^[A-Z]{2}[0-9]{2}[A-Z0-9]{1,30}$/'
         ];
     }
     

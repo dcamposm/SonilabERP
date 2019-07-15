@@ -104,7 +104,7 @@ function validarInput(){
                 $(this).addClass("is-invalid");
             }
         } 
-    } else if ($(this).attr('id') == 'iban_empleat'){
+    } /*else if ($(this).attr('id') == 'iban_empleat'){
         var pattern = /^[A-Z]{2}[0-9]{2}[A-Z0-9]{1,30}$/;
         if ($(this).val() == ''){
             removeValid(this);
@@ -118,7 +118,7 @@ function validarInput(){
             } 
         }
         
-    } else if ($(this).attr('id') == 'email_empleat'){
+    }*/ else if ($(this).attr('id') == 'email_empleat'){
         var pattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if ($(this).val() == ''){
             removeValid(this);

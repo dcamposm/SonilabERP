@@ -36,7 +36,6 @@ class ActorEstadilloImport implements ToModel, WithHeadingRow
             if ($actor){
                 $actorEstadillo = ActorEstadillo::where('id_produccio' , $this->id_estadillo)
                                 ->where('id_actor',$actor->id_empleat)->first();
-                
                 if ($actorEstadillo){
                     $actorEstadillo->update([
                         'id_produccio' => $this->id_estadillo,
@@ -56,10 +55,12 @@ class ActorEstadilloImport implements ToModel, WithHeadingRow
                         'cg_estadillo' => $row['cg'],
                         'canso_estadillo' => is_null($row['n']) ? 0 : 1,
                         'narracio_estadillo' => is_null($row['c']) ? 0 : 1,
-                    ]); 
-                }
+                    ]);
+                    
+                    return ;
+                }  
             }
-            
+            //dd(mb_strtolower($row['cognom']));
             array_push ($this->errors , 'ERROR. El actor '.$row['nom'].' '.$row['cognom'].' no existeix.');
         }
         

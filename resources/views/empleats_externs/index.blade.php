@@ -42,7 +42,7 @@
         <thead>
             <tr>
                 <th>NOM</th> 
-                <th>COGNOM</th>
+                <th>COGNOMS</th>
                 <th>TELÈFON</th>
                 <th>EMAIL</th>
                 <th>CARRECS</th>

@@ -91,7 +91,7 @@ function formTable(){
                     content.text('');
                     content.append('<input id="search-'+idArray[0]+'" class="form-control"/>');
                     content.append('<input id="'+idArray[0]+'" class="form-control" type="hidden" name="id_'+idArray[0]+'" value="'+(empleats.hasOwnProperty(idArray[0]) ? empleats[idArray[0]].id_empleat : '')+'">');
-                    
+
                     if (empleats.hasOwnProperty(idArray[0])) {
                         $.each(empleatsCarrec, function( key, empleat ) {
                             $.each(empleat['carrec'], function( key1, carrec ) {
