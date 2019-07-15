@@ -67,7 +67,9 @@ class CalendariController extends Controller
                                         ->join('slb_carrecs', 'slb_carrecs.id_carrec', '=', 'slb_carrecs_empleats.id_carrec')
                                         ->distinct()->where('slb_carrecs.nom_carrec', '=', 'Director')
                                         ->get();
-
+        
+        $festius = CalendarCarrec::where('data', '>=', $dia1)->where('data', '<=', $dia5)->whereFestiu(1)->get();
+        
         return View('calendari.index', ["fechas"    => $fechas, 
                                         "week"      => $week,
                                         "year"      => $year,
@@ -78,7 +80,9 @@ class CalendariController extends Controller
                                         "directors"   => $directors,
                                         "data"      => $data,
                                         "actoresPorDia" => $actoresPorDia,
-                                        "tecnicsAsignados" => $tecnicsAsignados]);
+                                        "tecnicsAsignados" => $tecnicsAsignados,
+                                        "festius"   => $festius
+        ]);
     }
 
     public function cambiarCargo(Request $request) {
@@ -97,7 +101,6 @@ class CalendariController extends Controller
                                            ->first();
             
             if ($calendariCarrec) {
-                // Si no existe entonces creamos el objeto.
                 return response()->json(['success'=> false,"r"=>1,"torn"=>$torn],400);
             }
         }
@@ -323,7 +326,7 @@ class CalendariController extends Controller
                                             ->groupBy('slb_actors_estadillo.id_actor','slb_registres_produccio.id_registre_entrada', 'slb_registres_produccio.setmana')
                                             ->where('slb_registres_produccio.estat', 'Pendent')
                                             ->with('empleat.actorCalendar')->get();                          
-        //dd($takes_restantes);
+
         $calendaris = Calendar::all();
         foreach ($takes_restantes as $key => $value) {
             $entrada = RegistreEntrada::with('registreProduccio')->find($value->id_registre_entrada);

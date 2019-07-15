@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\Mail;
-use App\{RegistreEntrada,Missatge,RegistreProduccio,Estadillo,ActorEstadillo,Costos,EmpleatCost};
+use App\{RegistreEntrada,Missatge,RegistreProduccio,Estadillo,ActorEstadillo,Costos,EmpleatCost,Calendar};
 use App\Mail\{RegistreEntradaCreat, RegistreEntradaUpdate};
 use App\Http\Responsables\RegistreEntrada\{RegistreEntradaIndex,RegistreEntradaCreate, RegistreEntradaShow};
 use App\Http\Requests\RegistreEntradaCreateRequest;
@@ -197,6 +197,7 @@ class RegistreEntradaController extends Controller
                 $estadillo->delete();
             }
         }
+        
         //Elimina tots els costos relacionats amb el registre d'Entrada que s'eliminara
         $costos = Costos::all();
         foreach ($costos as $cost) {
@@ -206,7 +207,13 @@ class RegistreEntradaController extends Controller
             }
         }
         
-        //return response()->json($estadillos); 
+        $calendars = Calendar::all();
+        foreach ($calendars as $calendar) {
+            if ($calendar->id_registre_entrada == $request["id"]){
+                $calendar->delete();
+            }
+        }
+        
         RegistreEntrada::where('id_registre_entrada', $request["id"])->delete();
         //Elimina tots els missatges relacionats amb el registre d'Entrada que s'eliminara
         $registres = RegistreProduccio::where('id_registre_entrada', $request["id"])->get();
