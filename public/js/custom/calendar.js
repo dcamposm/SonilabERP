@@ -963,7 +963,7 @@ $('#pasarLista').click(function (e) {
         // Los campos del formulario tienen la siguiente clase que vemos en la siguiente línea,
         // que gracias al día y a la sala podemos saber qué campos coger.
         var asistencia = $('#pasarLista .actor-dia-' + diaSeleccionado.split('-')[0] + '-' + salaSeleccionada);
-
+        console.log(diaSeleccionado.split('-')[0]);
         $.ajax({
             url: '/calendari/desarLlistaAsistencia',
             type: 'POST',
@@ -973,6 +973,7 @@ $('#pasarLista').click(function (e) {
             },
             data: asistencia.serializeArray(),  // Le pasamos los datos serializados.
             success: function (response) { 
+                
                 $.each(data, function( key, element ) {    
                     $.each(response, function( key2, element2 ) {  
                         if (element.asistencia !== element2.asistencia && element.id_calendar === element2.id_calendar){
