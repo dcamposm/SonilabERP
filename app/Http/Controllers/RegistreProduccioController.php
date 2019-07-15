@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
-use App\{RegistreProduccio, EmpleatExtern, Missatge, Estadillo, Costos, RegistreEntrada};
+use App\{RegistreProduccio, EmpleatExtern, Missatge, Estadillo, Costos, RegistreEntrada,ActorEstadillo,EmpleatCost};
 use App\Http\Responsables\RegistreProduccio\{RegistreProduccioIndex, RegistreProduccioCreate, RegistreProduccioShow};
 use App\Http\Requests\{RegistreProduccioCreateRequest, RegistreProduccioUpdateRequest};
 
@@ -244,7 +244,18 @@ class RegistreProduccioController extends Controller {
     }
 
     public function delete(Request $request) {
+        ActorEstadillo::join('slb_estadillo', 'slb_estadillo.id_estadillo', 'slb_actors_estadillo.id_produccio')
+                        ->join('slb_registres_produccio', 'slb_registres_produccio.id', 'slb_estadillo.id_registre_produccio')
+                        ->where('slb_registres_produccio.id', request()->input("id"))
+                        ->delete();
+
         Estadillo::where('id_registre_produccio', request()->input("id"))->delete();
+        
+        EmpleatCost::join('slb_costos', 'slb_costos.id_costos', 'slb_empleats_costos.id_costos')
+                        ->join('slb_registres_produccio', 'slb_registres_produccio.id', 'slb_costos.id_registre_produccio')
+                        ->where('slb_registres_produccio.id', request()->input("id"))
+                        ->delete();
+        
         Costos::where('id_registre_produccio', request()->input("id"))->delete();
         RegistreProduccio::where('id', request()->input("id"))->delete();
         return redirect()->route('indexRegistreProduccio');

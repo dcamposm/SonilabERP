@@ -18,6 +18,8 @@ $('.alternar').on('click', function () {
 
 $('#btnGuardar').click(guardarCelda);
 
+$('#btnFesta').click(setFesta);
+
 carregarCalendari();
 
 function carregarCalendari(){
@@ -433,6 +435,25 @@ function guardarCelda() {
         });
 
     $('#exampleModal').modal('hide');
+}
+
+//setFesta
+
+function setFesta(){
+    var datos = {diaInici: $("#diaInici").val(), 
+                diaFi: $("#diaFi").val(), 
+                descripcio_festiu: $("#descripcio_festiu").val()};
+    $.post('/calendari/crear', datos)
+        .done(function (datosCalendari) {
+            
+            cargarActores();
+            actulitzarDades();
+        })
+        .fail(function (error) {
+            console.error(error);
+        });
+        
+    $('#modalConf').modal('hide');
 }
 
 function creatPasarLlista(){
@@ -1016,7 +1037,7 @@ function seleccionarActorCalendario(id, elemento) {
                     $('#selectDirector-editar').val('');
                     $('#director-editar').val('0'); 
                 }
-                console.log(response.calendar);
+
                 if (response.calendar.opcio_calendar == 0) {
                     $('#numberTakes-editar').removeAttr('readonly');
                     $('#numberTakes-editar').val(response.calendar.num_takes);
@@ -1194,33 +1215,9 @@ function eliminarCalendarioActor() {
         data: {
         },
         success: function (response) {
-            // Guarda los datos en la variable "data" y vuelve a recargar el calendario:
-            var nuevoAmanecer = [];
-            $.each(data, function( key, element ) {
-                if (element.id_calendar != calendarioActorSeleccionado_id) {
-                    nuevoAmanecer.push({
-                        actor_estadillo: element.actor_estadillo,
-                        asistencia: element.asistencia,
-                        created_at: element.created_at,
-                        data_fi: element.data_fi,
-                        data_inici: element.data_inici,
-                        id_actor_estadillo: element.id_actor_estadillo,
-                        id_calendar: element.id_calendar,
-                        num_takes: element.num_takes,
-                        id_director: element.id_director,
-                        director: element.director,
-                        calendari: element.calendari,
-                        updated_at: element.updated_at
-                    });
-                }
-            });
-
-            data = undefined;
-            data = nuevoAmanecer;
-                        
             vaciarValoresEditar();
 
-            resetCalendari();
+            actulitzarDades();
             
             actulitzarActors();
         },

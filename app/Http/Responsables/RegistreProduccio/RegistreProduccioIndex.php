@@ -2,7 +2,7 @@
 namespace App\Http\Responsables\RegistreProduccio;
 
 use Illuminate\Contracts\Support\Responsable;
-use App\{Missatge,RegistreEntrada, User};
+use App\{Missatge,RegistreEntrada, User, RegistreProduccio};
 
 class RegistreProduccioIndex implements Responsable
 {
@@ -18,12 +18,11 @@ class RegistreProduccioIndex implements Responsable
         $this->registreEntrada = RegistreEntrada::whereEstat('Pendent')->get();
         $this->usuaris = User::where('id_departament', 2)->get();
         $this->registreProduccio = array();
-        
+               
         foreach ($registres as $registre){
             if ($registre->subreferencia == 0){
                 $this->registreProduccio[$registre->id_registre_entrada] = $registre;
             } else {
-                
                 if (!isset($this->registreProduccio[$registre->id_registre_entrada][$registre->setmana])){
                     try {
                         $this->registreProduccio[$registre->id_registre_entrada][$registre->setmana][0] = array(
@@ -42,7 +41,6 @@ class RegistreProduccioIndex implements Responsable
                     } catch (\Exception $ex) {
                         dd($registre);
                     }
-                    
                     
                     foreach ($this->missatges as $missatge) {
                         if ($missatge->id_referencia == $registre->id){
@@ -81,7 +79,6 @@ class RegistreProduccioIndex implements Responsable
 
     public function toResponse($request)
     {
-        //return response()->json($this->registreProduccio);
         return view('registre_produccio.index', [
             'registreProduccions' => $this->registreProduccio,
             'registreEntrades' => $this->registreEntrada,

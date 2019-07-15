@@ -17,7 +17,7 @@ class CostController extends Controller
     public function index($ref = 0)
     {
         $vecs = Costos::with('registreProduccio.registreEntrada.client')->orderBy('id_registre_produccio')->get();       
-        //return response()->json($vecs);
+
         $costos = array();
         
         if ($ref == 0){
@@ -44,7 +44,6 @@ class CostController extends Controller
         } else {
             foreach ($vecs as $vec){
                 if ($vec->registreProduccio->id_registre_entrada == $ref){
-                    //return response()->json($vec);
                     if (!isset($costos[$vec->registreProduccio->id_registre_entrada][$vec->registreProduccio->data_entrega])){
                         $costos[$vec->registreProduccio->id_registre_entrada][$vec->registreProduccio->data_entrega]= array(
                             'titol'=>$vec->registreProduccio->titol,
@@ -58,7 +57,7 @@ class CostController extends Controller
                 }
             }
         }
-        //return response()->json($costos);
+
         $registreProduccio = RegistreProduccio::all();
         
         $arrayProjectes = array();
@@ -78,7 +77,7 @@ class CostController extends Controller
                 $exist = false;
             }
         }
-        //return response()->json($costos);
+
         return View('vec.index', array('costos' => $costos, 'registreProduccio' => $arrayProjectes));
     }
     
@@ -87,7 +86,7 @@ class CostController extends Controller
     public function showPack($id, $data = 0)
     {
         $vecs = Costos::with('registreProduccio.registreEntrada.client')->orderBy('id_registre_produccio')->get();
-        //return response()->json($vecs);
+
         $costos = array();
         foreach ($vecs as $vec){
             if ($vec->registreProduccio->id_registre_entrada == $id  && date('d-m-Y', strtotime($vec->registreProduccio->data_entrega)) == $data){
@@ -100,7 +99,7 @@ class CostController extends Controller
                 );
             }
         }
-        //return response()->json($costos);
+
         return View('vec.showPack', array('costos' => $costos));
     }
     

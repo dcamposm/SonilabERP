@@ -24,7 +24,8 @@
             <div class="col">
                 <div class="semana"><div id="semanaMenos" class="btn btn-primary round-left"><span class="fas fa-angle-double-left"></span></div><span class="simil-btn btn">{{$mes}}</span><div id="semanaMas" class="btn btn-primary round-right"><span class="fas fa-angle-double-right"></span></div></div>
             </div>
-            <button id="btnAdd" class="btn btn-success boton"  type="button" onclick="openNav()">AFEGIR</button>
+            <button id="btnAdd" class="btn btn-primary boton" data-toggle="modal" data-target="#modalConf">CONFIGURAR</button>
+            <button id="btnAdd" class="btn btn-success boton" type="button" onclick="openNav()">AFEGIR</button>
         </div>
         <div class="row" id="headerCotent" style="min-width: 2000px;">
             <div class="sala-vacia">
@@ -81,7 +82,8 @@
                         <div class="form-group col">
                             <label for="opcio_calendar">Opcions:</label>
                             <select id="opcio_calendar" class="form-control" name="opcio_calendar">
-                                <option value="0" selected></option>
+                                <option></option>
+                                <option value="0">TAKES</option>
                                 <option value="canço">CANÇO</option>
                                 <option value="narrador">NARRADOR</option>
                                 <option value="retakes">RETAKES</option>
@@ -179,7 +181,6 @@
                             <div class="col-4 container">
                                 <form action="" method="POST">
                                     <div>
-                                        
                                         <div class="form-row">
                                             <div class="col">
                                                 <label for="selectPelis"></label>
@@ -197,7 +198,7 @@
                                             <div class="form-group col">
                                                 <label for="opcio_calendar-editar" class="mt-3">Opcions:</label>
                                                 <select id="opcio_calendar-editar" class="form-control" name="opcio_calendar-editar" disabled="">
-                                                    <option value="0" selected></option>
+                                                    <option value="0" selected>TAKES</option>
                                                     <option value="canço">CANÇO</option>
                                                     <option value="narrador">NARRADOR</option>
                                                     <option value="retakes">RETAKES</option>
@@ -234,6 +235,41 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="modalConf" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">CONFIGURAR</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="diaInici" class="mt-3">Dia Inici:</label>
+                            <input required id="diaInici" class="form-control" type="date">
+                        </div>
+                        <div class="form-group col">
+                            <label for="diaFi" class="mt-3">Dia Final:</label>
+                            <input id="diaFi" class="form-control" type="date">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="descripcio_festiu">Descripció:</label>
+                            <textarea id="descripcio_festiu" class="form-control" type="text"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">TANCAR</button>
+                    <button id="btnFesta" type="button" class="btn btn-success">DESA</button>
                 </div>
             </div>
         </div>

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\{Carrec,CarrecEmpleat,EmpleatExtern,Idioma,Tarifa,RegistreEntrada};
+use App\{Carrec,CarrecEmpleat,EmpleatExtern,Idioma,Tarifa,RegistreEntrada,ActorEstadillo,Calendar};
 use Illuminate\Http\Request;
 use App\Http\Responsables\EmpleatExtern\{EmpleatExternIndex,EmpleatExternShow,EmpleatExternCreate,EmpleatExternUpdate};
 use App\Http\Requests\EmpleatExternCreateRequest;
@@ -294,7 +294,12 @@ class EmpleatExternController extends Controller
 
     public function delete(Request $request)
     {
+        ActorEstadillo::whereIdActor($request["id"])->delete();
+        
+        Calendar::whereIdActor($request["id"])->delete();
+        
         CarrecEmpleat::where('id_empleat', $request["id"])->delete();
+        
         EmpleatExtern::where('id_empleat', $request["id"])->delete();
         return redirect()->route('empleatIndex');
     }

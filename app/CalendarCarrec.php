@@ -13,7 +13,9 @@ class CalendarCarrec extends Model
         "id_empleat",
         "num_sala",
         "data",
-        "torn"
+        "torn",
+        "festiu",
+        "descripcio_festiu"
     ];
 
     protected $casts = [
