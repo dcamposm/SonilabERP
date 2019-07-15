@@ -141,7 +141,7 @@ function crearTablaCalendario() {
         var contenedor = $('#calendarContent');
         
         for (let i = 0; i < 8; i++) {
-            var fila = $('<div class="row fila"  style="min-width: 2000px;"></div>');
+            var fila = $('<div class="row fila"  style="min-width: 2500px;"></div>');
             var sala = i + 1;
             // Crea un div con el número de la sala:
             fila.append('<div class="sala celda">' + sala + '</div>');
@@ -173,7 +173,7 @@ function crearTablaCalendario() {
         document.cookie = "tablaActual = 1";
         var contenedor = $('#calendarContent');
         for (let i = 0; i < 8; i++) {
-            var fila = $('<div class="row fila"  style="min-width: 2000px;"></div>');
+            var fila = $('<div class="row fila"  style="min-width: 2500px;"></div>');
             var sala = i + 1;
             // Crea un div con el número de la sala:
             fila.append('<div class="sala celda">' + sala + '</div>');
@@ -247,7 +247,7 @@ function cargarDatos() {
                                     <div class="col-1 llistaActors" style="padding-left: 5px; padding-right: 0px;">'+element.data_inici.split(' ')[1]+'</div>\n\
                                     <div class="col-4 llistaActors" style="padding-left: 5px; padding-right: 0px;">'+element.actor.cognom1_empleat+' '+element.actor.nom_empleat+'</div>\n\
                                     <div class="llistaActors" style="padding-left: 5px; padding-right: 5px;">'+(element.opcio_calendar == 0 ? (element.num_takes+'TK') : (element.opcio_calendar).toUpperCase())+'</div>\n\
-                                    <div class="col-4 llistaActors" style="padding-left: 5px; padding-right: 5px; '+(!element.registre_entrada  ? '' : ('background-color: '+element.registre_entrada.color_referencia+';'))+'">'+element.referencia_titol+'</div>\n\
+                                    <div class="col-4 llistaActors" style="padding-left: 5px; padding-right: 5px; '+(!element.registre_entrada || element.asistencia === 0 ? '' : ('background-color: '+element.registre_entrada.color_referencia+';'))+'">'+element.referencia_titol+'</div>\n\
                                     <div class="llistaActors" style="padding-left: 5px; padding-right: 5px;">'+(element.id_director != 0 ? element.director.nom_empleat : '')+'</div>\n\
                                 </div>';
                 $("[dia=" + element.data_inici.split(' ')[0] + "][sala=" + element.calendari.num_sala + "]").children().children().children().children('.mati').append(actorSala);
@@ -256,7 +256,7 @@ function cargarDatos() {
                                     <div class="col-1 llistaActors" style="padding-left: 5px; padding-right: 0px;">'+element.data_inici.split(' ')[1]+'</div>\n\
                                     <div class="col-4 llistaActors" style="padding-left: 5px; padding-right: 0px;">'+element.actor.cognom1_empleat+' '+element.actor.nom_empleat+'</div>\n\
                                     <div class="llistaActors" style="padding-left: 5px; padding-right: 5px;">'+(element.opcio_calendar == 0 ? (element.num_takes+'TK') : (element.opcio_calendar).toUpperCase())+'</div>\n\
-                                    <div class="col-4 llistaActors" style="padding-left: 5px; padding-right: 5px; '+(!element.registre_entrada  ? '' : ('background-color: '+element.registre_entrada.color_referencia+';'))+'">'+element.referencia_titol+'</div>\n\
+                                    <div class="col-4 llistaActors" style="padding-left: 5px; padding-right: 5px; '+(!element.registre_entrada || element.asistencia === 0 ? '' : ('background-color: '+element.registre_entrada.color_referencia+';'))+'">'+element.referencia_titol+'</div>\n\
                                     <div class="llistaActors" style="padding-left: 5px; padding-right: 5px;">'+(element.id_director != 0 ? element.director.nom_empleat : '')+'</div>\n\
                                 </div>';
                 $("[dia=" + element.data_inici.split(' ')[0] + "][sala=" + element.calendari.num_sala + "]").children().children().children().children('.tarda').append(actorSala);
@@ -443,7 +443,7 @@ function setFesta(){
     var datos = {diaInici: $("#diaInici").val(), 
                 diaFi: $("#diaFi").val(), 
                 descripcio_festiu: $("#descripcio_festiu").val()};
-    $.post('/calendari/crear', datos)
+    /*$.post('/calendari/crear', datos)
         .done(function (datosCalendari) {
             
             cargarActores();
@@ -451,7 +451,7 @@ function setFesta(){
         })
         .fail(function (error) {
             console.error(error);
-        });
+        });*/
         
     $('#modalConf').modal('hide');
 }

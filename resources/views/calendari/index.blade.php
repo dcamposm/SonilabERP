@@ -27,7 +27,7 @@
             <button id="btnAdd" class="btn btn-primary boton" data-toggle="modal" data-target="#modalConf">CONFIGURAR</button>
             <button id="btnAdd" class="btn btn-success boton" type="button" onclick="openNav()">AFEGIR</button>
         </div>
-        <div class="row" id="headerCotent" style="min-width: 2000px;">
+        <div class="row" id="headerCotent" style="min-width: 2500px;">
             <div class="sala-vacia">
                 <button type="button" class="btn btn-sm alternar">
                     <span class="fas fa-calendar" style="margin-right: 0px;"></span>
