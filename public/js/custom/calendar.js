@@ -27,6 +27,16 @@ function carregarCalendari(){
     tablaHoras();
     cargarDatos(); 
     creatPasarLlista();
+    
+    if (getCookie("nomActor") !== "" && getCookie("nomActor") != -1){
+        $("#searchActor").val(getCookie("nomActor"));
+    }
+    
+    if (getCookie("nomRegistre") !== ""&& getCookie("nomRegistre") != -1){
+        $("#searchEntrada").val(getCookie("nomRegistre"));
+    }
+    
+    filtrar();
 }
 
 function resetCalendari(){
@@ -51,12 +61,16 @@ var optionsActor = {
                 enabled: true
             }, onChooseEvent: function() {
                 var selectedPost = $("#searchActor").getSelectedItemData();
-                $("#filtroActor").attr("value", selectedPost.id_empleat);
+                //$("#filtroActor").attr("value", selectedPost.id_empleat);
                 $("#searchActor").val(selectedPost.nom_cognom).trigger("change");
+                document.cookie = "idActor = "+selectedPost.id_empleat;
+                document.cookie = "nomActor = "+selectedPost.nom_cognom;
                 filtrar()
             }, onHideListEvent: function() {
                 if ($("#searchActor").val() == ''){
-                    $("#filtroActor").val('-1');
+                    //$("#filtroActor").val('-1');
+                    document.cookie = "idActor = -1";
+                    document.cookie = "nomActor = -1";
                     filtrar() 
                 }
             }
@@ -82,12 +96,16 @@ var optionsRegistre = {
                 enabled: true
             }, onChooseEvent: function() {
                 var selectedPost = $("#searchEntrada").getSelectedItemData();
-                $("#filtroEntrada").attr("value", selectedPost.id_registre_entrada);
-                $("#searchEntrada").val(selectedPost.id_registre_entrada+" "+selectedPost.titol).trigger("change");
+                //$("#filtroEntrada").attr("value", selectedPost.id_registre_entrada);
+                $("#searchEntrada").val(selectedPost.referencia_titol).trigger("change");
+                document.cookie = "idRegistre = "+selectedPost.id_registre_entrada;
+                document.cookie = "nomRegistre = "+selectedPost.referencia_titol;
                 filtrar();
             }, onHideListEvent: function() {
                 if ($("#searchEntrada").val() == ''){
-                    $("#filtroEntrada").val('-1');
+                    //$("#filtroEntrada").val('-1');
+                    document.cookie = "idRegistre = -1";
+                    document.cookie = "nomRegistre = -1";
                     filtrar(); 
                 }
             }
@@ -332,8 +350,17 @@ function actulitzarDades(){
 }
 
 function filtrar(){
-    var idActor = $('#filtroActor').val();
-    var idProyecto = $('#filtroEntrada').val();
+    if (getCookie("idActor") !== ""){
+        var idActor = getCookie("idActor");
+    } else {
+        var idActor = -1;
+    }
+    
+    if (getCookie("idRegistre") !== ""){
+        var idProyecto = $('#filtroEntrada').val();
+    } else {
+        var idProyecto = -1;
+    }
 
     if (idActor != -1 && idProyecto != -1){
         data = dataBase.filter(item => item.id_actor == idActor);

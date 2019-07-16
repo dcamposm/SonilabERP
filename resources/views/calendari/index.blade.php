@@ -16,9 +16,7 @@
             <div class="col">
                 <div class="input-group">
                     <input id="searchActor" class="form-control" style="width: 300px;"/>
-                    <input id="filtroActor" class="form-control" type="hidden" value="-1">
                     <input id="searchEntrada" class="form-control" style="width: 300px;"/>
-                    <input id="filtroEntrada" class="form-control" type="hidden" value="-1">
                  </div>
             </div>
             <div class="col">
@@ -33,11 +31,11 @@
                     <span class="fas fa-calendar" style="margin-right: 0px;"></span>
                 </button>  
             </div>
-            <div class="col col-fecha" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[0]))}}')" dia="{{date('d/m/Y', strtotime($fechas[0]))}}" style="font-weight: bold;">DILLUNS : {{date('d/m/Y', strtotime($fechas[0]))}}</div>
-            <div class="col col-fecha" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[1]))}}')" dia="{{date('d/m/Y', strtotime($fechas[1]))}}" style="font-weight: bold;">DIMARTS : {{date('d/m/Y', strtotime($fechas[1]))}}</div>
-            <div class="col col-fecha" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[2]))}}')" dia="{{date('d/m/Y', strtotime($fechas[2]))}}" style="font-weight: bold;">DIMECRES : {{date('d/m/Y', strtotime($fechas[2]))}}</div>
-            <div class="col col-fecha" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[3]))}}')" dia="{{date('d/m/Y', strtotime($fechas[3]))}}" style="font-weight: bold;">DIJOUS : {{date('d/m/Y', strtotime($fechas[3]))}}</div>
-            <div class="col col-fecha" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[4]))}}')" dia="{{date('d/m/Y', strtotime($fechas[4]))}}" style="font-weight: bold;">DIVENDRES : {{date('d/m/Y', strtotime($fechas[4]))}}</div>
+            <div class="col col-fecha cursor" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[0]))}}')" dia="{{date('d/m/Y', strtotime($fechas[0]))}}" style="font-weight: bold;">DILLUNS : {{date('d/m/Y', strtotime($fechas[0]))}}</div>
+            <div class="col col-fecha cursor" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[1]))}}')" dia="{{date('d/m/Y', strtotime($fechas[1]))}}" style="font-weight: bold;">DIMARTS : {{date('d/m/Y', strtotime($fechas[1]))}}</div>
+            <div class="col col-fecha cursor" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[2]))}}')" dia="{{date('d/m/Y', strtotime($fechas[2]))}}" style="font-weight: bold;">DIMECRES : {{date('d/m/Y', strtotime($fechas[2]))}}</div>
+            <div class="col col-fecha cursor" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[3]))}}')" dia="{{date('d/m/Y', strtotime($fechas[3]))}}" style="font-weight: bold;">DIJOUS : {{date('d/m/Y', strtotime($fechas[3]))}}</div>
+            <div class="col col-fecha cursor" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[4]))}}')" dia="{{date('d/m/Y', strtotime($fechas[4]))}}" style="font-weight: bold;">DIVENDRES : {{date('d/m/Y', strtotime($fechas[4]))}}</div>
         </div>
         <div id="calendarContent"></div>
     </div>
