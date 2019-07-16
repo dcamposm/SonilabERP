@@ -42,6 +42,8 @@ Route::middleware(['role: 1, 2, 4, 5'])->group(function () {
     Route::post('/empleats/modificar/{id}', 'EmpleatExternController@update')->name('empleatUpdate');
     Route::post('/empleats/esborrar', 'EmpleatExternController@delete')->name('empleatDelete');
     Route::get('/empleats/search', 'EmpleatExternController@search')->name('empleatSearch');
+    Route::post('/empleats/check', 'EmpleatExternController@check')->name('empleatCheck');
+    
 });
 //------------------Rutes registres entrada------------------
 Route::middleware(['role: 1, 2, 4, 5'])->group(function () {

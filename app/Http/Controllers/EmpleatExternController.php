@@ -340,4 +340,13 @@ class EmpleatExternController extends Controller
                             
         return response()->json($empleats);
     }
+    
+    public function check(Request $request)
+    {
+        if (EmpleatExtern::where($request['camp'], $request['value'])->first()){
+            return response()->json(true);
+        }
+
+        return response()->json(false);
+    }
 }

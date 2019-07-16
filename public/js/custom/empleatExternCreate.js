@@ -76,7 +76,7 @@ $('select').change(validarSelect);
 $('#naixement_empleat').change(validarDate);
 
 function validarInput(){
-    //console.log($(this).attr('id'));
+    //CODI POSTAL
     if ($(this).attr('id') == 'codi_postal_empleat'){
         var pattern = /^(?:0[1-9]|[1-4]\d|5[0-2])\d{3}$/;
         
@@ -91,20 +91,24 @@ function validarInput(){
                 $(this).addClass("is-invalid");
             }
         }
-    } else if ($(this).attr('id') == 'dni_empleat'){
+    } 
+    //DNI
+    else if ($(this).attr('id') == 'dni_empleat'){
         var pattern = /[0-9A-Z][0-9]{7}[A-Z]/;
         if ($(this).val() == ''){
             removeValid(this);
         } else {
             if (pattern.test($(this).val())){
-                $(this).removeClass("is-invalid");
-                $(this).addClass("is-valid");
+                checkUnique($(this).attr('id'), $(this).val());
             } else {
                 $(this).removeClass("is-valid");
                 $(this).addClass("is-invalid");
+                $(this).next().text('');
             }
         } 
-    } /*else if ($(this).attr('id') == 'iban_empleat'){
+    } 
+    //IBAN
+    /*else if ($(this).attr('id') == 'iban_empleat'){
         var pattern = /^[A-Z]{2}[0-9]{2}[A-Z0-9]{1,30}$/;
         if ($(this).val() == ''){
             removeValid(this);
@@ -118,20 +122,24 @@ function validarInput(){
             } 
         }
         
-    }*/ else if ($(this).attr('id') == 'email_empleat'){
+    }*/
+    //EMAIL
+    else if ($(this).attr('id') == 'email_empleat'){
         var pattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if ($(this).val() == ''){
             removeValid(this);
         } else {
             if (pattern.test($(this).val())){
-                $(this).removeClass("is-invalid");
-                $(this).addClass("is-valid");
+                checkUnique($(this).attr('id'), $(this).val());
             } else {
                 $(this).removeClass("is-valid");
                 $(this).addClass("is-invalid");
+                $(this).next().text('');
             }
         }
-    } else if ($(this).attr('id') == 'telefon_empleat' || $(this).attr('id') == 'nss_empleat'){
+    } 
+    //TELEFON
+    else if ($(this).attr('id') == 'telefon_empleat'){
         var pattern = /^\d*$/;
         if ($(this).val() == ''){
             removeValid(this);
@@ -144,13 +152,32 @@ function validarInput(){
                 $(this).addClass("is-invalid");
             }
         }
-    } else if ($(this).attr('id') == 'direccio_empleat') {
+    } 
+    //NSS
+    else if ($(this).attr('id') == 'nss_empleat'){
+        var pattern = /^\d*$/;
+        if ($(this).val() == ''){
+            removeValid(this);
+        } else {
+            if (pattern.test($(this).val())){
+                checkUnique($(this).attr('id'), $(this).val());
+            } else {
+                $(this).removeClass("is-valid");
+                $(this).addClass("is-invalid");
+                $(this).next().text('');
+            }
+        }
+    }
+    //DIRECCIO
+    else if ($(this).attr('id') == 'direccio_empleat') {
         if ($(this).val() == ''){
             removeValid(this);
         } else {
             $(this).addClass("is-valid");            
         }
-    } else if ($(this).attr('type') == 'number') {
+    } 
+    //NUMBERS
+    else if ($(this).attr('type') == 'number') {
         var pattern = /^([0-9]+)([.]?)[0-9]{0,2}$/;
         if ($(this).val() == ''){
             removeValid(this);
@@ -163,7 +190,9 @@ function validarInput(){
                 $(this).addClass("is-invalid");
             }
         }
-    } else if ($(this).attr('type') == 'text'){
+    } 
+    //TEXT
+    else if ($(this).attr('type') == 'text'){
         var pattern = /^\D*$/;
         if ($(this).val() == ''){
             removeValid(this);
@@ -198,7 +227,37 @@ function validarDate(){
 }
 
 function removeValid(input){
-    //console.log(input);
     $(input).removeClass("is-valid");
     $(input).removeClass("is-invalid");
+    $(input).next().text('');
+}
+
+function checkUnique(camp, value){
+    $.ajax({
+        url: '/empleats/check',
+        type: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            Accept: 'application/json'
+        },
+        data: {
+            camp: camp,
+            value: value,
+        },
+        success: function (response) {
+            if (response == true){
+                $('#'+camp).removeClass("is-valid");
+                $('#'+camp).addClass("is-invalid");
+                $('#'+camp).next().text('Aquesta dada ja existeix.');
+            } else {
+                $('#'+camp).removeClass("is-invalid");
+                $('#'+camp).addClass("is-valid");
+                $('#'+camp).next().text('');
+            }
+        },
+        error: function (error) {
+            console.error(error);
+            alert("Error al comprovar una dada");
+        }
+    });
 }
