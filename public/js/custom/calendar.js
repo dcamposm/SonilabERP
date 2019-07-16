@@ -16,18 +16,7 @@ $('.alternar').on('click', function () {
     carregarCalendari(); 
 });
 
-$('#btnGuardar').click(guardarCelda);
-
-$('#btnFesta').click(setFesta);
-
-carregarCalendari();
-
-function carregarCalendari(){
-    crearTablaCalendario();
-    tablaHoras();
-    cargarDatos(); 
-    creatPasarLlista();
-    
+if (getCookie("nomActor") !== "" && getCookie("nomActor") != -1 || getCookie("nomRegistre") !== ""&& getCookie("nomRegistre") != -1){
     if (getCookie("nomActor") !== "" && getCookie("nomActor") != -1){
         $("#searchActor").val(getCookie("nomActor"));
     }
@@ -39,12 +28,21 @@ function carregarCalendari(){
     filtrar();
 }
 
+$('#btnGuardar').click(guardarCelda);
+
+$('#btnFesta').click(setFesta);
+
+carregarCalendari();
+
+function carregarCalendari(){
+    crearTablaCalendario();
+    cargarDatos(); 
+    creatPasarLlista();
+}
+
 function resetCalendari(){
     $('#calendarContent').html('');
     carregarCalendari();
-    
-    tablaHoras();
-    pintarTablaHoras();
 }
 
 var persona = undefined;
@@ -778,12 +776,6 @@ function filtroActorTk(e) {
 }
 
 $('#exampleModal2').on('shown.bs.modal', function () {
-    // Volvemos a llamar a esta función para volver a crear la tabla del modal, básicamente
-    // para que cuando cambiemos de día no se visualice el contenido anterior.
-    tablaHoras();
-
-    pintarTablaHoras();
-    
     $('#exampleModalLabel2').text('Sala: ' + salaSeleccionada + ' / Dia: ' + diaSeleccionado);
 });
 
@@ -792,138 +784,6 @@ $('#exampleModal2').on('hide.bs.modal', function () {
     $('#tecnico1').removeClass("is-invalid");
     vaciarValoresEditar();
 });
-
-function pintarTablaHoras() {
-    $.each(data, function( key, element ) {
-        var ele_dia = element.data_inici.split(' ');
-
-        // Si el día y la sala son los mismos que los seleccionados pintará la tabla:
-        if (ele_dia[0] == diaSeleccionado && element.calendari.num_sala == salaSeleccionada) {
-            var optimizarEsBueno = element.data_fi.split(' ');  // ¿A veces?
-
-            var horaIni = ele_dia[1].split(':')[0];
-            var horaFin = optimizarEsBueno[1].split(':')[0];
-            var minIni = ele_dia[1].split(':')[1];
-            var minFin = optimizarEsBueno[1].split(':')[1];
-
-            for (let i = horaIni; i <= horaFin; i++) {
-                if (i == horaFin) {
-                    for (let h = 0; h < minFin; h++) {
-                        pintar($('#td_' + i + '-' + pad(h)));
-                    }
-                } else if (i == horaIni) {
-                    for (let h = minIni; h < 60; h++) {
-                        pintar($('#td_' + i + '-' + pad(h)));
-                    }
-                } else {
-                    for (let h = 0; h < 60; h++) {
-                        pintar($('#td_' + i + '-' + pad(h)));
-                    }
-                }
-            }
-        }
-    });
-}
-
-function tablaHoras() {
-    var manyana = document.createElement('div');
-    manyana.id = "morning";
-    manyana.classList.add('row');
-    var tarde = document.createElement('div');
-    tarde.id = "evening";
-    tarde.classList.add('row');
-
-    // Vacia la tabla antigua:
-    $('#tablaHoras').empty();
-
-    $('#tablaHoras').append(manyana);
-    //HACER TABLA DE HORAS
-    $('#tablaHoras').append(tarde);
-
-    for (let i = 8; i < 13; i++) {
-
-        var hora = document.createElement('div');
-        hora.id = pad(i) + ':30';
-
-        var horaTextM = document.createElement('span');
-        horaTextM.innerText = pad(i) + ':30';
-        
-        horaTextM.classList.add('labelFechaManana');
-        hora.classList.add('col');
-        hora.classList.add('celda2');
-        $(hora).append(horaTextM);
-        
-        if (i == 12) {
-            var horaTextM2 = document.createElement('span');
-            horaTextM2.innerText = pad(i)+1 + ':30';
-            
-            $(horaTextM2).css('margin-left', '85%');
-            
-            horaTextM2.classList.add('labelFechaManana');
-            $(hora).append(horaTextM2);
-        }
-        
-        $('#morning').append(hora);
-
-        var tableM = document.createElement('table');
-        tableM.id = 'tableMinutosM';
-        tableM.classList.add('tableP');
-        var trM = document.createElement('tr');
-        trM.id = "tr_" + pad(i);
-
-        $(hora).append(tableM);
-        $(tableM).append(trM);
-
-        for (let m = 30; m < 90; m++) {
-            var tdM = document.createElement('td')
-            tdM.id = "td_" + (m < 60 ? pad(i) : pad((i + 1))) + "-" + (m < 60 ? pad(m) : pad((m - 60)));
-            tdM.classList.add('tablaMinutos');
-            $(trM).append(tdM);
-        }
-    }
-
-    for (let i = 15; i < 20; i++) {
-        var hora = document.createElement('div');
-
-        var horaTextT = document.createElement('span');
-        horaTextT.innerText = i + ':30';
-
-        hora.id = i + ':30';
-        hora.classList.add('col');
-        hora.classList.add('celda2');
-        horaTextT.classList.add('labelFechaTarde');
-        $(hora).append(horaTextT);
-        
-        if (i == 19) {
-            var horaTextT2 = document.createElement('span');
-            horaTextT2.innerText = pad(i)+1 + ':30';
-            
-            $(horaTextT2).css('margin-left', '85%');
-            
-            horaTextT2.classList.add('labelFechaTarde');
-            $(hora).append(horaTextT2);
-        }
-        
-        $('#evening').append(hora);
-
-        var tableT = document.createElement('table');
-        tableT.id = 'tableMinutosT';
-        tableT.classList.add('tableP');
-        var trT = document.createElement('tr');
-        trT.id = "tr_" + i;
-
-        $(hora).append(tableT);
-        $(tableT).append(trT);
-
-        for (let m = 30; m < 90; m++) {
-            var tdT = document.createElement('td');
-
-            tdT.id = "td_" + (m < 60 ? i : (i + 1)) + "-" + (m < 60 ? m : pad((m - 60)));
-            tdT.classList.add('tablaMinutosT');
-            $(trT).append(tdT);
-        }
-    }
-}
 
 function pad(num) {
     return num < 10 ? '0' + num : num;

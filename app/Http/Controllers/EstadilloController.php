@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\{Estadillo,RegistreProduccio,ActorEstadillo,EmpleatExtern,CarrecEmpleat};
+use App\{Estadillo,RegistreProduccio,ActorEstadillo,EmpleatExtern,CarrecEmpleat,Calendar};
 use Excel;
 use Validator;
 use App\Http\Responsables\Estadillo\{EstadilloIndex,EstadilloShowActor,EstadilloShowActorSetmana};
 use App\Imports\ActorEstadilloImport;
+use DB;
+
 class EstadilloController extends Controller
 {
     public function __construct()
@@ -99,43 +101,39 @@ class EstadilloController extends Controller
                 
         Excel::import($import, request()->file('import_file'));
         
-        $errors = $import->errors;
+        EstadilloController::updateCalendar($estadillo->registreProduccio->id_registre_entrada, $estadillo->registreProduccio->setmana);
+
+        if (!empty($import->errors)) return redirect()->back()->with('error', $import->errors);
         
-        if (empty($import->errors)) return redirect()->back()->with('success', 'Estadillo importat correctament.');  
-        else return redirect()->back()->with('error', $errors);
+        return redirect()->back()->with('success', 'Estadillo importat correctament.');
     }
     
     public function insert()
     {
-        //return response()->json(request()->all());
         $v = Validator::make(request()->all(), [
             'id_registre_produccio'   => 'required',
         ]);
 
         if ($v->fails()) {
             return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
-        } else {
-            
-            if (RegistreProduccio::find(request()->input('id_registre_produccio'))){
-                $projecte = RegistreProduccio::find(request()->input('id_registre_produccio'));
-                //return response()->json($projecte);
-                $estadillo = new Estadillo;
-                
-                $estadillo->id_registre_produccio=request()->input('id_registre_produccio');
-                $estadillo->save();
-                
-                try {
-                    $estadillo->save(); 
-                } catch (\Exception $ex) {
-                    return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut crear el estadillo.'));
-                }
-
-                return redirect()->route('indexEstadillos')->with('success', 'Estadillo creat correctament.');
-            } else {
-                return redirect()->back()->withErrors(array('error' => 'ERROR. No existeix aquest registre'));
-            }
-            
         }
+        
+        if (!RegistreProduccio::find(request()->input('id_registre_produccio'))){
+            return redirect()->back()->withErrors(array('error' => 'ERROR. No existeix aquest registre'));
+        }
+        
+        $projecte = RegistreProduccio::find(request()->input('id_registre_produccio'));
+        
+        $estadillo = new Estadillo;
+        $estadillo->id_registre_produccio=request()->input('id_registre_produccio');
+
+        try {
+            $estadillo->save(); 
+        } catch (\Exception $ex) {
+            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut crear el estadillo.'));
+        }
+
+        return redirect()->route('indexEstadillos')->with('success', 'Estadillo creat correctament.');
     }
     
     public function updateView($id) {
@@ -174,23 +172,22 @@ class EstadilloController extends Controller
     
             if ($v->fails()) {
                 return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar les dades.'));
-            } else {
-                $projecte = RegistreProduccio::find(request()->input('id_registre_produccio'));
-                //return response()->json($projecte);
-                $estadillo->id_registre_produccio=request()->input('id_registre_produccio');
-                $estadillo->save();
-                
-                $projecte->estadillo = request()->input('validat');
-                $projecte->save();
-                
-                try {
-                    $estadillo->save(); 
-                } catch (\Exception $ex) {
-                    return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar el estadillo.'));
-                }
-    
-                return redirect()->route('indexEstadillos')->with('success', 'Estadillo modificat correctament.');
             }
+            $projecte = RegistreProduccio::find(request()->input('id_registre_produccio'));
+
+            $estadillo->id_registre_produccio=request()->input('id_registre_produccio');
+            $estadillo->save();
+
+            $projecte->estadillo = request()->input('validat');
+            $projecte->save();
+
+            try {
+                $estadillo->save(); 
+            } catch (\Exception $ex) {
+                return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar el estadillo.'));
+            }
+
+            return redirect()->route('indexEstadillos')->with('success', 'Estadillo modificat correctament.');
         }
     }
     
@@ -266,57 +263,51 @@ class EstadilloController extends Controller
 
     public function insertActor($setmana = 0)
     {
-        //return response()->json(request()->all());
-        if ($setmana == 0){
-           $v = Validator::make(request()->all(), [
-                'id_actor'          => 'required'
-            ]);
-
-            if ($v->fails()) {
-                return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha elegit un actor'));
-            } else {
-                $actor = new ActorEstadillo(request()->all());               
-
-                try {
-                    $actor->save(); 
-                } catch (\Exception $ex) {
-                    return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut afegir l\'actor.'));
-                }
-
-                return redirect()->back()->with('success', 'Actor afegit correctament.');
-            } 
-        }
-        
-        //return response()->json(request()->all());
-        
         $v = Validator::make(request()->all(), [
-            'id_actor'          => 'required'
+                'id_actor'          => 'required'
         ]);
         
-        if ($v->fails()) {
-                return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
-            } else {
-                $estadillos= Estadillo::all();
-                //return response()->json($estadillos);
-                foreach ($estadillos as $estadillo){
-                    //return response()->json($estadillo->id_registre_produccio);
-                    if (request()->has('take_estadillo_'.$estadillo->id_registre_produccio)){
-                        //return response()->json($estadillo->id_estadillo);
-                        if (!ActorEstadillo::where('id_produccio',$estadillo->id_estadillo)->where('id_actor', request()->input('id_actor'))->first()){
-                            //return response()->json($estadillo->id_registre_produccio);
-                            $actor = new ActorEstadillo;
-                            $actor->id_produccio=$estadillo->id_estadillo;
-                            $actor->id_actor=request()->input('id_actor');
-                            $actor->take_estadillo=request()->input('take_estadillo_'.$estadillo->id_registre_produccio);
-                            $actor->cg_estadillo=request()->input('cg_estadillo_'.$estadillo->id_registre_produccio);
-                            $actor->save();
-                        }
-                        //return response()->json($estadillo->id_registre_produccio);
-                    }                    
-                    //return response()->json('FALSE');
-                }
-                return redirect()->back()->with('success', 'Actor afegit correctament.');
+        if ($setmana == 0){
+            if ($v->fails()) {
+                return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha elegit un actor'));
             }
+            $actor = new ActorEstadillo(request()->all());               
+
+            try {
+                $actor->save(); 
+            } catch (\Exception $ex) {
+                return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut afegir l\'actor.'));
+            }
+            
+            EstadilloController::updateCalendar($actor->estadillo->registreProduccio->id_registre_entrada, $actor->estadillo->registreProduccio->setmana);
+            
+            return redirect()->back()->with('success', 'Actor afegit correctament.');
+        }
+        
+        if ($v->fails()) {
+            return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
+        }
+        $estadillos= Estadillo::all();
+        //return response()->json($estadillos);
+        foreach ($estadillos as $estadillo){
+            //return response()->json($estadillo->id_registre_produccio);
+            if (request()->has('take_estadillo_'.$estadillo->id_registre_produccio)){
+                //return response()->json($estadillo->id_estadillo);
+                if (!ActorEstadillo::where('id_produccio',$estadillo->id_estadillo)->where('id_actor', request()->input('id_actor'))->first()){
+                    //return response()->json($estadillo->id_registre_produccio);
+                    $actor = new ActorEstadillo;
+                    $actor->id_produccio=$estadillo->id_estadillo;
+                    $actor->id_actor=request()->input('id_actor');
+                    $actor->take_estadillo=request()->input('take_estadillo_'.$estadillo->id_registre_produccio);
+                    $actor->cg_estadillo=request()->input('cg_estadillo_'.$estadillo->id_registre_produccio);
+                    $actor->save();
+                }
+            }                    
+        }
+        
+        EstadilloController::updateCalendar($actor->estadillo->registreProduccio->id_registre_entrada, $actor->estadillo->registreProduccio->setmana);
+        
+        return redirect()->back()->with('success', 'Actor afegit correctament.');
     }
     
     public function updateActorView($id, $id_actor, $setmana = 0) {
@@ -398,7 +389,9 @@ class EstadilloController extends Controller
                     } catch (\Exception $ex) {
                         return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar l\'actor.'));
                     }
-
+                    
+                    EstadilloController::updateCalendar($actor->estadillo->registreProduccio->id_registre_entrada, $actor->estadillo->registreProduccio->setmana);
+                    
                     return redirect()->back()->with('success', 'Actor modificat correctament.');
                 }
             }  
@@ -441,6 +434,9 @@ class EstadilloController extends Controller
                 }                    
                 //return response()->json('FALSE');
             }
+            
+            EstadilloController::updateCalendar($actor->estadillo->registreProduccio->id_registre_entrada, $actor->estadillo->registreProduccio->setmana);
+            
             return redirect()->back()->with('success', 'Actor afegit correctament.');
         }
     }
@@ -599,17 +595,61 @@ class EstadilloController extends Controller
     {
         ActorEstadillo::where('id_produccio', $request["id"])->delete();
         $estadillo = Estadillo::where('id_estadillo', $request["id"])->first();
-        //return response()->json($estadillo);
+        
+        $id_registre_entarda = $estadillo->registreProduccio->id_registre_entarda;
+        $setmana = $estadillo->registreProduccio->setmana;
+
         $produccio = RegistreProduccio::find($estadillo->id_registre_produccio);
         $produccio->estadillo = false;
         $produccio->save();
+        
         $estadillo->delete();
+        
+        updateCalendar($id_registre_entarda, $setmana);
+        
         return redirect()->back()->with('success', 'Estadillo eliminat correctament.');
     }
     
     public function deleteActor(Request $request) //Funcio per esborrar un actor
     {
-        ActorEstadillo::where('id', $request["id"])->delete();
+        $actor = ActorEstadillo::where('id', $request["id"])->first();
+        
+        $id_registre_entarda = $actor->estadillo->registreProduccio->id_registre_entarda;
+        $setmana = $actor->estadillo->registreProduccio->setmana;
+
+        $actor->delete();
+        
+        updateCalendar($id_registre_entarda, $setmana);
+        
         return redirect()->back()->with('success', 'Actor eliminat correctament.');
+    }
+    
+    public function updateCalendar($id_registre_entarda, $setmana) //Funcio per actualitzar el calendari apartir d'un registre d'entarda i una setmana
+    {
+        $actors = ActorEstadillo::select('slb_actors_estadillo.id_actor',
+                                    DB::raw('SUM(slb_actors_estadillo.take_estadillo) as takes_totals'),
+                                    'slb_registres_produccio.id_registre_entrada',
+                                    'slb_registres_produccio.setmana')
+                            ->join('slb_empleats_externs', 'slb_empleats_externs.id_empleat', 'slb_actors_estadillo.id_actor')
+                            ->join('slb_estadillo', 'slb_estadillo.id_estadillo', 'slb_actors_estadillo.id_produccio')
+                            ->join('slb_registres_produccio', 'slb_registres_produccio.id', 'slb_estadillo.id_registre_produccio')
+                            ->join('slb_registre_entrades', 'slb_registre_entrades.id_registre_entrada', 'slb_registres_produccio.id_registre_entrada')
+                            ->groupBy('slb_actors_estadillo.id_actor','slb_registres_produccio.id_registre_entrada', 'slb_registres_produccio.setmana')
+                            ->where('slb_registres_produccio.id_registre_entrada', $id_registre_entarda)
+                            ->where('slb_registres_produccio.setmana', $setmana)
+                            ->with('empleat.actorCalendar')->get();
+
+        foreach ($actors as $actor){
+            $calendar = Calendar::where('id_registre_entrada', $actor->id_registre_entrada)
+                    ->whereSetmana($actor->setmana)
+                    ->where('id_actor', $actor->id_actor)
+                    ->first();
+
+            if ($calendar){
+                $calendar->num_takes = $actor->takes_totals;
+
+                $calendar->save();
+            }
+        }
     }
 }

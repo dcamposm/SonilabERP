@@ -111,9 +111,6 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div id="tablaHoras" class="">
-
-                    </div>
                     <div style="margin-top: 30px;">
                         {{-- TODO: Modificar la función para guardar el técnico (front, back) para que admita los turnos. --}}
                         <table style="width: 50%;">
