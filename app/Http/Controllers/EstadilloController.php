@@ -623,25 +623,22 @@ class EstadilloController extends Controller
         
         return redirect()->back()->with('success', 'Actor eliminat correctament.');
     }
-    
-    public function updateCalendar($id_registre_entarda, $setmana) //Funcio per actualitzar el calendari apartir d'un registre d'entarda i una setmana
+    //Funcio per actualitzar el calendari apartir d'un registre d'entarda i una setmana
+    public function updateCalendar($id_registre_entarda, $setmana) 
     {
         $actors = ActorEstadillo::select('slb_actors_estadillo.id_actor',
-                                    DB::raw('SUM(slb_actors_estadillo.take_estadillo) as takes_totals'),
-                                    'slb_registres_produccio.id_registre_entrada',
-                                    'slb_registres_produccio.setmana')
-                            ->join('slb_empleats_externs', 'slb_empleats_externs.id_empleat', 'slb_actors_estadillo.id_actor')
+                                    DB::raw('SUM(slb_actors_estadillo.take_estadillo) as takes_totals'))
                             ->join('slb_estadillo', 'slb_estadillo.id_estadillo', 'slb_actors_estadillo.id_produccio')
                             ->join('slb_registres_produccio', 'slb_registres_produccio.id', 'slb_estadillo.id_registre_produccio')
                             ->join('slb_registre_entrades', 'slb_registre_entrades.id_registre_entrada', 'slb_registres_produccio.id_registre_entrada')
-                            ->groupBy('slb_actors_estadillo.id_actor','slb_registres_produccio.id_registre_entrada', 'slb_registres_produccio.setmana')
+                            ->groupBy('slb_actors_estadillo.id_actor')
                             ->where('slb_registres_produccio.id_registre_entrada', $id_registre_entarda)
                             ->where('slb_registres_produccio.setmana', $setmana)
-                            ->with('empleat.actorCalendar')->get();
+                            ->get();
 
         foreach ($actors as $actor){
-            $calendar = Calendar::where('id_registre_entrada', $actor->id_registre_entrada)
-                    ->whereSetmana($actor->setmana)
+            $calendar = Calendar::where('id_registre_entrada', $id_registre_entarda)
+                    ->whereSetmana($setmana)
                     ->where('id_actor', $actor->id_actor)
                     ->first();
 
@@ -651,5 +648,16 @@ class EstadilloController extends Controller
                 $calendar->save();
             }
         }
+    }
+    
+    public function getActors() {
+        $actors = ActorEstadillo::select('slb_actors_estadillo.id_actor')
+                                ->join('slb_estadillo', 'slb_estadillo.id_estadillo', 'slb_actors_estadillo.id_produccio')
+                                ->join('slb_registres_produccio', 'slb_registres_produccio.id', 'slb_estadillo.id_registre_produccio')
+                                ->groupBy('slb_actors_estadillo.id_actor')
+                                ->where('slb_registres_produccio.estat', 'Pendent')
+                                ->get();                          
+
+        return $actors;
     }
 }

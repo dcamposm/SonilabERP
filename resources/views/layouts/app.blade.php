@@ -13,7 +13,8 @@
     <!-- Scripts -->
     <script src="{{ asset('bootstrap-4.3.1/js/bootstrap.min.js') }}" defer></script>
     <!-- <script src="{{ asset('js/sidebar.js') }}" defer></script> -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script> -->
+    <script type="text/javascript" src="{{asset('js/jquery-3.4.1.min.js')}}"></script> 
     <script type="text/javascript" src="{{asset('js/jquery.tablesorter.js')}}"></script>
     <script src="{{asset('js/EasyAutocomplete/jquery.easy-autocomplete.min.js')}}"></script> 
     <!-- Fonts -->
@@ -250,8 +251,8 @@ window.name=self.pageYOffset || (document.documentElement.scrollTop+document.bod
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>-->
 <!--FontAwsome-->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
-
+<!--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">-->
+<link href="{{ asset('fontawesome-free-5.9.0-web/css/all.css') }}" rel="stylesheet">
 
 
 </body>

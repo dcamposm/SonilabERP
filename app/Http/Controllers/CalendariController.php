@@ -149,47 +149,48 @@ class CalendariController extends Controller
     }
 
     public function create(CalendariCreateRequest $request){
-        // Datos correctos.
-        $requestData = request()->all();
-        //strtotime ( '+30 minute', strtotime ( ))
-       
-        $requestData['data_inici'] = Carbon::createFromFormat('d-m-Y H:i:s', request()->input('data_inici'));
+        $request['data_inici'] = Carbon::createFromFormat('d-m-Y H:i:s', request()->input('data_inici'));
         
-        if (request()->input('num_takes') <= 10){
-            $data_fi = strtotime ( '+30 minute', strtotime ($requestData['data_inici']));
-        } else {
-            $min = (int)request()->input('num_takes')*3;
-            $data_fi = strtotime ( '+'.$min.' minute', strtotime ($requestData['data_inici']));
+        if (!$request['data_fi']) {
+            if (request()->input('num_takes') <= 10){
+                $data_fi = strtotime ( '+30 minute', strtotime ($request['data_inici']));
+            } else {
+                $min = (int)request()->input('num_takes')*3;
+                $data_fi = strtotime ( '+'.$min.' minute', strtotime ($request['data_inici']));
+            }
+
+            $request['data_fi'] = date('d-m-Y H:i:s', $data_fi);
         }
         
-        $requestData['data_fi'] = date('d-m-Y H:i:s', $data_fi);
         
-        if (strtotime($requestData['data_inici']) < strtotime( $requestData['data_inici']->format('Y-m-d')." 13:30:01")){
+        if (strtotime($request['data_inici']) < strtotime( $request['data_inici']->format('Y-m-d')." 13:30:01")){
             $torn = 0;
         } else {
             $torn = 1;
         }
 
-        $calendariCarrec = CalendarCarrec::where('num_sala', $requestData['num_sala'])
-                                            ->where('data', $requestData['data_inici']->format('Y-m-d'))
+        $calendariCarrec = CalendarCarrec::where('num_sala', $request['num_sala'])
+                                            ->where('data', $request['data_inici']->format('Y-m-d'))
                                             ->where('torn', $torn)->first();
-
+        
         if (!$calendariCarrec){
-            $calendariCarrec = new CalendarCarrec($requestData);
-            $calendariCarrec->data = $requestData['data_inici']->format('Y-m-d');
+            $calendariCarrec = new CalendarCarrec($request);
+            $calendariCarrec->data = $request['data_inici']->format('Y-m-d');
             $calendariCarrec->torn = $torn;
 
             $calendariCarrec->save();
         }
-
-        $produccio = RegistreProduccio::where('id_registre_entrada', $requestData['id_registre_entrada'])
-                                        ->where('setmana', $requestData['setmana'])
+        if (!request()->input('id_director')) {
+            $produccio = RegistreProduccio::where('id_registre_entrada', $request['id_registre_entrada'])
+                                        ->where('setmana', $request['setmana'])
                                         ->whereNotNull('id_director')->first();
-
-        $calendari = new Calendar($requestData);  
+        }
+        
+        //return response()->json(['success'=> true, $request->input()],201);
+        $calendari = new Calendar($request->input());  
         $calendari->id_calendar_carrec = $calendariCarrec->id_calendar_carrec;
-        $calendari->id_director = $produccio->id_director;
-        $calendari->data_fi  = Carbon::createFromFormat('d-m-Y H:i:s', $requestData['data_fi']);
+        $calendari->id_director = !request()->input('id_director') ? $produccio->id_director : ($request['id_director'] == -1 ? 0 : $request['id_director']);
+        $calendari->data_fi  = Carbon::createFromFormat('d-m-Y H:i:s', $request['data_fi']);
         $calendari->save();
         
         $calendari = Calendar::where('id_calendar', $calendari->id_calendar )

@@ -113,7 +113,7 @@
                 <div class="modal-body">
                     <div style="margin-top: 30px;">
                         {{-- TODO: Modificar la función para guardar el técnico (front, back) para que admita los turnos. --}}
-                        <table style="width: 50%;">
+                        <table style="width: 50%;" class="mb-4">
                             <thead>
                                 <td></td>
                                 <td>
@@ -158,10 +158,12 @@
                                 </tr>
                             </tbody>
                         </table>
-
                         <div class="row">
-                            <form id="pasarLista" action="" method="POST" class="col-8 mt-4">
-                                <div style="background-color: whitesmoke; overflow-y: scroll; max-height: 294px;">
+                            <button class="btn btn-success ml-3" type="button" onclick="menuAfegir()">AFEGIR ACTOR</button>
+                        </div>
+                        <div class="row">
+                            <form id="pasarLista" action="" method="POST" class="col">
+                                <div style="background-color: whitesmoke; overflow-y: scroll; min-height: 400px;">
                                     <table class="table" style="width: 100%;  margin-top: 30px;">
                                         <tbody id="pasarLista-tabla">
                                             
@@ -173,9 +175,16 @@
                                 </div>
                             </form>
 
-                            <div class="col-4 container">
+                            <div class="col-4 container" id="menuActors" hidden>
                                 <form action="" method="POST">
                                     <div>
+                                        <div class="form-row" id="formSelectActor" hidden>
+                                            <div class="col">
+                                                <label for="selectActor"></label>
+                                                <input required id="selectActor-editar" class="form-control" style="width: 100%;"/>
+                                                <input id="idActor-editar" class="form-control" type="hidden" value="-1">
+                                            </div>
+                                        </div>
                                         <div class="form-row">
                                             <div class="col">
                                                 <label for="selectPelis"></label>
@@ -221,10 +230,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="mt-5">
-                                        <!-- TODO: Crear estas dos funciones en el fichero js -->
-                                        <button class="btn btn-primary" id="botoEditar" type="button" onclick="editarActor()" disabled>Modificar</button>
-                                        <button class="btn btn-danger" id="botoEliminarActor"  type="button" onclick="eliminarCalendarioActor()" disabled>Eliminar</button>
+                                    
+                                    <div class="mt-5" id="botonsAfegir" hidden>
+                                        <button class="btn btn-success" id="botoAfegir" type="button" onclick="afegirActor()">Afegir</button>
+                                    </div>
+                                    <div class="mt-5" id="botonsModificar" hidden>
+                                        <button class="btn btn-primary" id="botoEditar" type="button" onclick="editarActor()">Modificar</button>
+                                        <button class="btn btn-danger" id="botoEliminarActor"  type="button" onclick="eliminarCalendarioActor()">Eliminar</button>
                                     </div>
                                 </form>
                             </div>

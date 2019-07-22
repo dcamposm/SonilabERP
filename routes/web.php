@@ -118,6 +118,8 @@ Route::middleware(['role: 1,2,4,5'])->group(function () {
 
     Route::post('/estadillos/esborrar', 'EstadilloController@delete')->name('esborrarEstadillo');
     Route::post('/estadillos/esborrar/actor', 'EstadilloController@deleteActor')->name('esborrarEstadilloActor');
+    
+    Route::get('/estadillos/actors', 'EstadilloController@getActors')->name('getActors');
 });
 
 //------------------Rutes vec------------------

@@ -312,7 +312,6 @@
 </div>
 
 <script>
-    //alert(@json($registreProduccio->estat))
     var registre = @json($registreProduccio);
     var empleatsCarrec = @json($empleatsCarrec);
     var empleats = @json($empleats);

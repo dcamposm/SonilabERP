@@ -18,6 +18,12 @@ class ActorEstadillo extends Model
         "narracio_estadillo"
     ];
     
+    protected $appends = ['nom_cognom'];
+    
+    public function getNomCognomAttribute() {
+        return $this->empleat->nom_empleat.' '.$this->empleat->cognom1_empleat.' '.$this->empleat->cognom2_empleat;
+    }
+    
     public function empleat()
     {
         return $this->belongsTo('App\EmpleatExtern', 'id_actor', 'id_empleat');
