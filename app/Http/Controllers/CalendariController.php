@@ -363,6 +363,7 @@ class CalendariController extends Controller
                                     ->with('actor.estadillo.estadillo.registreProduccio.registreEntrada')
                                     ->with('actor')
                                     ->with('calendari')
+                                    ->with('registreEntrada')
                                     ->with('director')
                                     ->orderBy('slb_calendars.data_inici')
                                     ->get();
@@ -387,11 +388,12 @@ class CalendariController extends Controller
                                              'slb_empleats_externs.cognom1_empleat',
                                              'slb_empleats_externs.cognom2_empleat',
                                              'slb_calendars.id_calendar',
+                                             'slb_calendars.id_registre_entrada',
+                                             'slb_calendars.setmana',
                                              DB::raw('DAY(slb_calendars.data_inici) as dia'),
                                              'slb_calendar_carrecs.num_sala',
                                              DB::raw('LPAD(HOUR(slb_calendars.data_inici), 2, 0) as hora'),
                                              DB::raw('LPAD(MINUTE(slb_calendars.data_inici), 2, 0) as minuts'),
-                                             'slb_calendars.id_calendar as id_calendar',
                                              'slb_calendars.asistencia',
                                              'slb_calendars.id_director')
                                     ->join('slb_calendars', 'slb_calendars.id_actor', 'slb_empleats_externs.id_empleat')
@@ -401,9 +403,19 @@ class CalendariController extends Controller
                                     ->where( DB::raw('YEAR(slb_calendars.data_inici)'), '=', $diaz->format('Y'))
                                     ->orderBy('slb_calendars.data_inici')
                                     ->get();       
-                    
+            
+            foreach ($act_dia as $key => $act) {
+                if (isset($act['id_registre_entrada'])){
+
+                    $entrada = RegistreEntrada::with('registreProduccio')->find($act['id_registre_entrada']);
+                    $act->nombre_reg_complet = $entrada->getReferenciaTitolPack($act['setmana']);
+                }
+            }
+            
             array_push($actoresPorDia, $act_dia);
         }
+        
+        
         //dd($actoresPorDia);
         return $actoresPorDia;
     }

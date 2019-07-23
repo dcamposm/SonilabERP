@@ -162,19 +162,37 @@
                             <button class="btn btn-success ml-3" type="button" onclick="menuAfegir()">AFEGIR ACTOR</button>
                         </div>
                         <div class="row">
-                            <form id="pasarLista" action="" method="POST" class="col">
-                                <div style="background-color: whitesmoke; overflow-y: scroll; min-height: 400px;">
-                                    <table class="table" style="width: 100%;  margin-top: 30px;">
-                                        <tbody id="pasarLista-tabla">
-                                            
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div style="margin-top: 15px;">
-                                    <button id="enviarListaAsistencia" type="button" class="btn btn-success">Desar llista</button>
-                                </div>
-                            </form>
+                            <div class="col">
+                                <div class="row">
+                                    <div style="background-color: whitesmoke; overflow-y: scroll; min-height: 200px; width: 100%;">
+                                        <table class="table" style="width: 100%;  margin-top: 30px;">
+                                            <thead>
+                                                <tr>
+                                                    <th>MATÍ</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="pasarListaMati-tabla">
 
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div style="background-color: whitesmoke; overflow-y: scroll; min-height: 200px;  width: 100%;">
+                                        <table class="table" style="width: 100%;  margin-top: 30px;">
+                                            <thead>
+                                                <tr>
+                                                    <th>TARDA</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="pasarListaTarda-tabla">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <div class="col-4 container" id="menuActors" hidden>
                                 <form action="" method="POST">
                                     <div>

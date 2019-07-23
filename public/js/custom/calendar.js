@@ -362,6 +362,7 @@ function actulitzarDades(){
         },
         success: function (response) {
             data = response;
+
             resetCalendari();
         },
         error: function (error) {
@@ -517,18 +518,20 @@ function creatPasarLlista(){
             fechas: dias
         },
         success: function (response) {
-            $('#pasarLista-tabla').html('');
+            $('#pasarListaMati-tabla').html('');
+            $('#pasarListaTarda-tabla').html('');
+            
             $.each(response, function( key, dia ) {
                 $.each(dia, function( key2, actor ) {
-                    var tr = $('<tr id="' + actor.id_calendar + '-' + actor.id_actor_estadillo + '-' + actor.num_sala + '" class="dia-' + actor.dia + '-' + actor.num_sala+ ' lista-actores"></tr>');
-                    var td1 = $('<td id="actor_mod-' + actor.id_calendar + '" onclick="seleccionarActorCalendario(this.id, this)" class="col-8"></td>');
+                    var tr = $('<tr id="' + actor.id_calendar + '-' + actor.id_actor_estadillo + '-' + actor.num_sala + '" class="dia-' + actor.dia + '-' + actor.num_sala+ ' lista-actores"></tr>');//nombre_reg_complet
+                    var td1 = $('<td id="actor_mod-' + actor.id_calendar + '" onclick="seleccionarActorCalendario(this.id,this)" class="col-8"></td>');
                     if (actor.id_director == 0){
-                        var td1Value = '<span class="horaActor">(' + actor.hora+':'+actor.minuts + ') </span><span id="content_actor">' + actor.nom_cognom + '</span>';
+                        var td1Value = '<span class="horaActor">(' + actor.hora+':'+actor.minuts + ') </span><span id="content_actor">' + actor.nom_cognom + ' - ' + actor.nombre_reg_complet + '</span>';
                         td1.append($(td1Value));
                     } else {  
                         $.each(directors, function( key3, director ) {
                             if (actor.id_director == director.id_empleat){
-                                var td1Value = '<span class="horaActor">(' + actor.hora+':'+actor.minuts + ') </span><span id="content_actor">' + actor.nom_cognom + ' - ' + director.nom_cognom + '</span>';
+                                var td1Value = '<span class="horaActor">(' + actor.hora+':'+actor.minuts + ') </span><span id="content_actor">' + actor.nom_cognom + ' - ' + actor.nombre_reg_complet + ' - ' + director.nom_cognom + '</span>';
                                 td1.append($(td1Value));
                             }
                         });
@@ -537,23 +540,13 @@ function creatPasarLlista(){
                     
                     tr.append(td1);
                     
-                    var td2Value = 
-                    '<td>' + 
-                        '<div class="btn-group btn-group-toggle" data-toggle="buttons">' + 
-                            '<label class="btn btn-success '+(actor.asistencia == 1 ? 'active' : '')+'">' +
-                                '<input type="radio" name="actor-' + actor.id_empleat + '-' + actor.id_calendar + '" id="actor-' + actor.id_empleat + '" class="actor-dia-' + pad(actor.dia) + '-' + actor.num_sala + '" autocomplete="off" value="1" '+(actor.asistencia == 1 ? 'checked' : '')+'> Present' +
-                            '</label>' +
-                            '<label class="btn btn-danger '+(actor.asistencia === 0 ? 'active' : '')+'">' +
-                                '<input type="radio" name="actor-' + actor.id_empleat + '-' + actor.id_calendar + '" id="actor-' + actor.id_empleat + '" class="actor-dia-' + pad(actor.dia) + '-' + actor.num_sala + '" autocomplete="off" value="0" '+(actor.asistencia == 1 ? 'checked' : '')+'> No present' +
-                            '</label>' +
-                            '<label class="btn btn-secondary '+(actor.asistencia === null ? 'active' : '')+'">' +
-                                '<input type="radio" name="actor-' + actor.id_empleat + '-' + actor.id_calendar + '" id="actor-' + actor.id_empleat + '" class="actor-dia-' + pad(actor.dia) + '-' + actor.num_sala + '" autocomplete="off" value="null" '+(actor.asistencia == 1 ? 'checked' : '')+'> Pendent' +
-                            '</label>' +
-                        '</div>' +
-                    '</td>';
-                    var td2 = $(td2Value);
-                    tr.append(td2);
-                    $('#pasarLista-tabla').append(tr);
+                    if (actor.hora <= '13') {
+                        $('#pasarListaMati-tabla').append(tr);
+                    } else {
+                        $('#pasarListaTarda-tabla').append(tr);
+                    }
+                     
+                    
                 });
             });
             
@@ -806,6 +799,9 @@ $('#exampleModal2').on('shown.bs.modal', function () {
 $('#exampleModal2').on('hide.bs.modal', function () {
     $('#tecnico0').removeClass("is-invalid");
     $('#tecnico1').removeClass("is-invalid");
+    calendarioActorSeleccionado_id = 0;
+    $(elementoSeleccionado).removeClass('actorAsistencia-seleccionado');
+    $('#menuActors').attr('hidden', '');
     vaciarValoresEditar();
 });
 
@@ -1048,6 +1044,8 @@ var parentSearch = $('#selectPelis-editar').parent().css({"width": "100%"});
 
 function menuAfegir() {
     vaciarValoresEditar();
+    $(elementoSeleccionado).removeClass('actorAsistencia-seleccionado');
+    
     $('#menuActors').removeAttr('hidden');
     $('#formSelectActor').removeAttr('hidden');
     
@@ -1268,9 +1266,7 @@ function vaciarValoresEditar() {
     $('#botonsAfegir').attr('hidden', '');
     $('#formSelectActor').attr('hidden', '');
     $("#idActor-editar").val('-1');
-    
-    calendarioActorSeleccionado_id = 0;
-    $(elementoSeleccionado).removeClass('actorAsistencia-seleccionado');
+    //$(elementoSeleccionado).removeClass('actorAsistencia-seleccionado');
 }
 
 function selectDirector(){
