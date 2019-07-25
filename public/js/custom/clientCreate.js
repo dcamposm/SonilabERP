@@ -3,7 +3,6 @@ $('input').keyup(validarInput);
 $('select').change(validarSelect);
 
 function validarInput(){
-    console.log($(this).attr('id'));
     if ($(this).attr('id') == 'telefon_client'){
         var pattern = /^\d*$/;
         if ($(this).val() == ''){

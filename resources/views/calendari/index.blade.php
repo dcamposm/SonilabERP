@@ -75,7 +75,7 @@
                     <div class="form-row">
                         <div class="form-group col">
                             <label for="takesIni">Hora d'inici:</label>
-                            <input required id="takesIni" class="form-control" type="time">
+                            <input required id="takesIni" class="form-control" min="8:30" type="time">
                         </div>
                         <div class="form-group col">
                             <label for="opcio_calendar">Opcions:</label>
@@ -158,13 +158,15 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <div class="row">
-                            <button class="btn btn-success ml-3" type="button" onclick="menuAfegir()">AFEGIR ACTOR</button>
+                        <div class="row justify-content-between">
+                            <div>
+                                <button class="btn btn-success btn-sm ml-3" type="button" onclick="menuAfegir()">AFEGIR ACTOR</button>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <div class="row">
-                                    <div style="background-color: whitesmoke; overflow-y: scroll; min-height: 200px; width: 100%;">
+                                    <div style="background-color: whitesmoke; overflow-y: scroll; height: 200px; width: 100%;">
                                         <table class="table" style="width: 100%;  margin-top: 30px;">
                                             <thead>
                                                 <tr>
@@ -178,7 +180,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div style="background-color: whitesmoke; overflow-y: scroll; min-height: 200px;  width: 100%;">
+                                    <div style="background-color: whitesmoke; overflow-y: scroll; height: 200px;  width: 100%;">
                                         <table class="table" style="width: 100%;  margin-top: 30px;">
                                             <thead>
                                                 <tr>
@@ -194,13 +196,15 @@
                             </div>
                             
                             <div class="col-4 container" id="menuActors" hidden>
-                                <form action="" method="POST">
+                                <div class="alert alert-danger" id="errorEditar" role="alert" hidden>
+                                    <span class="fas fa-exclamation-circle"></span> ERROR
+                                </div>
+                                <form action="" method="POST" id="formEditar">
                                     <div>
                                         <div class="form-row" id="formSelectActor" hidden>
                                             <div class="col">
                                                 <label for="selectActor"></label>
                                                 <input required id="selectActor-editar" class="form-control" style="width: 100%;"/>
-                                                <input id="idActor-editar" class="form-control" type="hidden" value="-1">
                                             </div>
                                         </div>
                                         <div class="form-row">
@@ -233,7 +237,7 @@
                                         <div class="form-row">
                                             <div class="form-group col">
                                                 <label for="takesIni-editar">Hora d'inici:</label>
-                                                <input id="takesIni-editar" class="form-control" type="time" readonly>
+                                                <input id="takesIni-editar" class="form-control" min="8:30" type="time" readonly>
                                             </div>
                                             <div class="form-group col">
                                                 <label for="takesFin-editar">Hora final:</label>
@@ -243,18 +247,18 @@
                                         <div class="form-row">
                                             <div class="form-group col">
                                                 <label for="selectDirector"></label>
-                                                <input required id="selectDirector-editar" readonly class="form-control" style="width: 100%;" placeholder="Selecciona director"/>
+                                                <input id="selectDirector-editar" readonly class="form-control" style="width: 100%;" placeholder="Selecciona director"/>
                                                 <input id="director-editar" class="form-control" type="hidden" value="-1">
                                             </div>
                                         </div>
                                     </div>
                                     
                                     <div class="mt-5" id="botonsAfegir" hidden>
-                                        <button class="btn btn-success" id="botoAfegir" type="button" onclick="afegirActor()">Afegir</button>
+                                        <button class="btn btn-success" id="botoAfegir" type="submit">Afegir</button>
                                     </div>
                                     <div class="mt-5" id="botonsModificar" hidden>
-                                        <button class="btn btn-primary" id="botoEditar" type="button" onclick="editarActor()">Modificar</button>
-                                        <button class="btn btn-danger" id="botoEliminarActor"  type="button" onclick="eliminarCalendarioActor()">Eliminar</button>
+                                        <button class="btn btn-primary" id="botoEditar" type="submit">Modificar</button>
+                                        <button class="btn btn-danger" id="botoEliminar"  type="submit">Eliminar</button>
                                     </div>
                                 </form>
                             </div>
@@ -316,6 +320,7 @@
     var rutaSearchProduccio = "{{route('registreProduccioSearch')}}";
 </script>
 <script type="text/javascript" src="{{ URL::asset('js/custom/calendar.js') }}"></script>
+<script type="text/javascript" src="{{ URL::asset('js/custom/calendarCheck.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/custom/calendarShowDay.js') }}"></script>
 <link rel="stylesheet" href="{{ URL::asset('css/calendar.css') }}" />
 
