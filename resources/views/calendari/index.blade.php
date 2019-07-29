@@ -22,22 +22,26 @@
             <div class="col">
                 <div class="semana"><div id="semanaMenos" class="btn btn-primary round-left"><span class="fas fa-angle-double-left"></span></div><span class="simil-btn btn">{{$mes}}</span><div id="semanaMas" class="btn btn-primary round-right"><span class="fas fa-angle-double-right"></span></div></div>
             </div>
+            <button id="download-pdf" class="btn btn-primary boton"><i class="fas fa-print"></i>IMPRIMIR</button>
             <button id="btnAdd" class="btn btn-primary boton" data-toggle="modal" data-target="#modalConf">CONFIGURAR</button>
             <button id="btnAdd" class="btn btn-success boton" type="button" onclick="openNav()">AFEGIR</button>
         </div>
-        <div class="row" id="headerCotent" style="min-width: 2500px;">
-            <div class="sala-vacia">
-                <button type="button" class="btn btn-sm alternar">
-                    <span class="fas fa-calendar" style="margin-right: 0px;"></span>
-                </button>  
+        <div id="calendar" style="min-width: 2500px; padding-left: 15px; padding-right: 15px;">
+            <div class="row" id="headerCotent" style="min-width: 2500px;">
+                <div class="sala-vacia">
+                    <button type="button" class="btn btn-sm alternar">
+                        <span class="fas fa-calendar" style="margin-right: 0px;"></span>
+                    </button>  
+                </div>
+                <div class="col col-fecha cursor" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[0]))}}')" dia="{{date('d/m/Y', strtotime($fechas[0]))}}" style="font-weight: bold;">DILLUNS : {{date('d/m/Y', strtotime($fechas[0]))}}</div>
+                <div class="col col-fecha cursor" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[1]))}}')" dia="{{date('d/m/Y', strtotime($fechas[1]))}}" style="font-weight: bold;">DIMARTS : {{date('d/m/Y', strtotime($fechas[1]))}}</div>
+                <div class="col col-fecha cursor" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[2]))}}')" dia="{{date('d/m/Y', strtotime($fechas[2]))}}" style="font-weight: bold;">DIMECRES : {{date('d/m/Y', strtotime($fechas[2]))}}</div>
+                <div class="col col-fecha cursor" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[3]))}}')" dia="{{date('d/m/Y', strtotime($fechas[3]))}}" style="font-weight: bold;">DIJOUS : {{date('d/m/Y', strtotime($fechas[3]))}}</div>
+                <div class="col col-fecha cursor" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[4]))}}')" dia="{{date('d/m/Y', strtotime($fechas[4]))}}" style="font-weight: bold;">DIVENDRES : {{date('d/m/Y', strtotime($fechas[4]))}}</div>
             </div>
-            <div class="col col-fecha cursor" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[0]))}}')" dia="{{date('d/m/Y', strtotime($fechas[0]))}}" style="font-weight: bold;">DILLUNS : {{date('d/m/Y', strtotime($fechas[0]))}}</div>
-            <div class="col col-fecha cursor" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[1]))}}')" dia="{{date('d/m/Y', strtotime($fechas[1]))}}" style="font-weight: bold;">DIMARTS : {{date('d/m/Y', strtotime($fechas[1]))}}</div>
-            <div class="col col-fecha cursor" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[2]))}}')" dia="{{date('d/m/Y', strtotime($fechas[2]))}}" style="font-weight: bold;">DIMECRES : {{date('d/m/Y', strtotime($fechas[2]))}}</div>
-            <div class="col col-fecha cursor" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[3]))}}')" dia="{{date('d/m/Y', strtotime($fechas[3]))}}" style="font-weight: bold;">DIJOUS : {{date('d/m/Y', strtotime($fechas[3]))}}</div>
-            <div class="col col-fecha cursor" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[4]))}}')" dia="{{date('d/m/Y', strtotime($fechas[4]))}}" style="font-weight: bold;">DIVENDRES : {{date('d/m/Y', strtotime($fechas[4]))}}</div>
+            <div id="calendarContent"></div>
         </div>
-        <div id="calendarContent"></div>
+        
     </div>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -56,7 +60,10 @@
                         <h6 id="crear-subtitulo">Sub Title</h6>
                     </div>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" id="formAfegir">
+                    <div class="alert alert-danger" id="errorAfegir" role="alert" hidden>
+                        <span class="fas fa-exclamation-circle"></span> ERROR
+                    </div>
                     <div class="form-row">
                         <div class="col">
                             <label for="selectPelis"></label>
@@ -160,7 +167,7 @@
                         </table>
                         <div class="row justify-content-between">
                             <div>
-                                <button class="btn btn-success btn-sm ml-3" type="button" onclick="menuAfegir()">AFEGIR ACTOR</button>
+                                <button class="btn btn-success btn-sm ml-3 mb-2" type="button" onclick="menuAfegir()">AFEGIR ACTOR</button>
                             </div>
                         </div>
                         <div class="row">
@@ -304,6 +311,7 @@
         </div>
     </div>
 </div>
+<link rel="stylesheet" href="{{ URL::asset('css/calendar.css') }}" />
 <script>
     var week = {{$week}}
     var year = {{$year}}
@@ -322,6 +330,5 @@
 <script type="text/javascript" src="{{ URL::asset('js/custom/calendar.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/custom/calendarCheck.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/custom/calendarShowDay.js') }}"></script>
-<link rel="stylesheet" href="{{ URL::asset('css/calendar.css') }}" />
-
+<script type="text/javascript" src="{{ URL::asset('js/custom/calendarPDF.js') }}"></script>
 @stop

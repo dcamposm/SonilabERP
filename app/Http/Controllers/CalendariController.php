@@ -437,4 +437,14 @@ class CalendariController extends Controller
         
         return response()->json(["data" => $data, "tecnics" => $tecnics]);
     }
+    
+    /*public function imprimir($fechas) {
+        $data = $this->getData();
+        $date = date('Y-m-d');
+        $invoice = "2222";
+        $view =  \View::make('pdf.invoice', compact('data', 'date', 'invoice'))->render();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+        return $pdf->stream('invoice');
+    }*/
 }

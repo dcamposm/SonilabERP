@@ -28,8 +28,6 @@ if (getCookie("nomActor") !== "" && getCookie("nomActor") != -1 || getCookie("no
     filtrar();
 }
 
-$('#btnGuardar').click(guardarCelda);
-
 $('#btnFesta').click(setFesta);
 
 carregarCalendari();
@@ -151,6 +149,8 @@ var optionsActorSide = {
 
 $("#searchActorSide").easyAutocomplete(optionsActorSide);
 
+var parentSearch = $('#searchActorSide').parent().css({"width": "100%"});
+
 function crearTablaCalendario() {
     if (getCookie("tablaActual")==0 || getCookie("tablaActual")===""){
         document.cookie = "tablaActual = 0";
@@ -223,7 +223,7 @@ function crearTablaCalendario() {
                                     <div class="row rowMati">\n\
                                         <div class="col colGlob">\n\
                                             <div class="row det">\n\
-                                                <div class="viewTecnic" style="'+ (!tecnicMati[0]  ? '' : (!tecnicMati[0].empleat ? 'border-left: 1px solid black;' : 'background-color: '+tecnicMati[0].empleat.color_empleat+'; border-left: 1px solid black;')) +'">'+ (!tecnicMati[0] ? '' : (!tecnicMati[0].empleat ? '' : tecnicMati[0].empleat.nom_empleat)) +'</div>\n\
+                                                <div class="viewTecnic" style="'+ (!tecnicMati[0]  ? '' : (!tecnicMati[0].empleat ? 'border-left: 1px solid black;' : 'background-color: '+tecnicMati[0].empleat.color_empleat+'; border-right: 1px solid black;')) +'"><div class="rotar">'+ (!tecnicMati[0] ? '' : (!tecnicMati[0].empleat ? '' : tecnicMati[0].empleat.nom_empleat)) +'</div></div>\n\
                                                 <div class="col mati"></div>\n\
                                             </div>\n\
                                         </div>\n\
@@ -231,7 +231,7 @@ function crearTablaCalendario() {
                                     <div class="row rowTarda">\n\
                                         <div class="col colGlob">\n\
                                             <div class="row det">\n\
-                                                <div class="viewTecnic" style="'+ (!tecnicTarda[0] ? '' : (!tecnicTarda[0].empleat ? 'border-left: 1px solid black;' : 'background-color: '+tecnicTarda[0].empleat.color_empleat+'; border-left: 1px solid black;')) +'">'+ (!tecnicTarda[0] ? '' : (!tecnicTarda[0].empleat ? '' : tecnicTarda[0].empleat.nom_empleat) ) +'</div>\n\
+                                                <div class="viewTecnic" style="'+ (!tecnicTarda[0] ? '' : (!tecnicTarda[0].empleat ? 'border-left: 1px solid black;' : 'background-color: '+tecnicTarda[0].empleat.color_empleat+'; border-right: 1px solid black;')) +'"><div class="rotar">'+ (!tecnicTarda[0] ? '' : (!tecnicTarda[0].empleat ? '' : tecnicTarda[0].empleat.nom_empleat) ) +'</div></div>\n\
                                                 <div class="col tarda"></div>\n\
                                             </div>\n\
                                         </div>\n\
@@ -568,8 +568,12 @@ function drop(ev) {
             persona = element; //persona es el elemento arrastrado
         }
     });
+
     if (getCookie("tablaActual")==0){
-        celda = $(ev.target).attr('aria-valuenow') ? ev.target : ($(ev.target).parent().attr('dia') ? $(ev.target).parent() : $(ev.target).parent().parent());
+        if ($(ev.target).attr('class') == 'row rowMati') celda = $(ev.target).parent().find('[aria-valuenow]')[0];
+        else if ($(ev.target).attr('class') == 'row rowTarda') celda = $(ev.target).parent().find('[aria-valuenow]')[1];
+        else celda = ev.target;
+        
     } else {
         celda = ev.target.parentElement.parentElement.parentElement.parentElement;
     }
@@ -702,18 +706,8 @@ function ampliarCasilla(e) {
 $('#exampleModal').on('show.bs.modal', function (e) {
     var modal = $(this);
 
-    /*let takes = 0;
-    
-    $.each(actores, function( key, element ) {
-        if (element.id_actor == persona.id_actor) {
-            takes = takes + element.takes_restantes;
-        }
-    });*/
-
     modal.find('.modal-title').text(persona.empleat.nom_cognom/* + ' - ' + takes + ' takes restants'*/);
-
-    //takesPosibles = takes;
-
+    
     if ($(celda).attr('dia')){
         var data_inici = $(celda).attr('dia');
         var num_sala = $(celda).attr('sala');
@@ -754,6 +748,8 @@ $('#exampleModal').on('show.bs.modal', function (e) {
                     $('#actor').val(selected.id_actor);
                     $('#registreEntrada').val(selected.id_registre_entrada);      
                     $('#setmana').val(selected.setmana);      
+                    
+                    checkTakesAfegir();
                 }, onHideListEvent: function() {
                     if ($("#selectPelis").val() == ''){
                         $("#actor").val('-1');
@@ -802,7 +798,13 @@ $('#exampleModal2').on('shown.bs.modal', function () {
     $('#exampleModalLabel2').attr('numSalaSelec', salaSeleccionada); 
 });
 
-$('#exampleModal2').on('hide.bs.modal', function () {
+$('#exampleModal').on('hide.bs.modal', function () {
+    $('#errorAfegir').attr('hidden', '');
+    $('#numberTakes').removeClass("is-invalid");
+    $('#numberTakes').removeClass("is-valid");
+});
+
+$('#exampleModal').on('hide.bs.modal', function () {
     $('#tecnico0').removeClass("is-invalid");
     $('#tecnico1').removeClass("is-invalid");
     calendarioActorSeleccionado_id = 0;
@@ -986,7 +988,7 @@ function seleccionarActorCalendario(id, elemento) {
                                 $('#registreEntrada-editar').val(selected.id_registre_entrada);
                                 $('#setmana-editar').val(selected.setmana);
                                 
-                                checkTakes();
+                                checkTakesEditar();
                             }, onHideListEvent: function() {
                                 if ($("#selectPelis-editar").val() == ''){
                                     $("#actor-editar").val('-1');
@@ -1101,7 +1103,7 @@ function menuAfegir() {
                                     $('#registreEntrada-editar').val(selected.id_registre_entrada);
                                     $('#setmana-editar').val(selected.setmana);
                                     
-                                    checkTakes();
+                                    checkTakesEditar();
                                 }, onHideListEvent: function() {
                                     if ($("#selectPelis-editar").val() == ''){
                                         $("#actor-editar").val('-1');
@@ -1273,15 +1275,20 @@ function vaciarValoresEditar() {
     $('#selectActor-editar').val('');
     $('#selectPelis-editar').attr('readonly', '');
     $('#selectPelis-editar').val('');
+    
     $('#actor-editar').val(-1);
     $('#registreEntrada-editar').val(-1);
     $('#setmana-editar').val(-1);
+    
     $('#selectDirector-editar').attr('readonly', '');
     $('#selectDirector-editar').val('');
     $('#director-editar').val(-1);
+    
     $('#numberTakes-editar').val('');
     $('#numberTakes-editar').attr('readonly', '');
     $('#numberTakes-editar').removeClass("is-invalid");
+    $('#numberTakes-editar').removeClass("is-valid");
+    
     $('#takesIni-editar').val('');
     $('#takesIni-editar').attr('readonly', '');
     $('#takesFin-editar').val('');
@@ -1290,14 +1297,15 @@ function vaciarValoresEditar() {
     $('#takesIni-editar').removeClass("is-invalid");
     $('#takesFin-editar').removeClass("is-valid");
     $('#takesFin-editar').removeClass("is-invalid");
+    
     $('#opcio_calendar-editar').val('0');
     $('#opcio_calendar-editar').attr('disabled', '');
+    
     $('#botonsModificar').attr('hidden', '');
     $('#botonsAfegir').attr('hidden', '');
     $('#formSelectActor').attr('hidden', '');
-    $("#actor-editar").val('-1');
+    
     $('#errorEditar').attr('hidden', '');
-    //$(elementoSeleccionado).removeClass('actorAsistencia-seleccionado');
 }
 
 function selectDirector(){

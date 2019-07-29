@@ -17,6 +17,8 @@
     <script type="text/javascript" src="{{asset('js/jquery-3.4.1.min.js')}}"></script> 
     <script type="text/javascript" src="{{asset('js/jquery.tablesorter.js')}}"></script>
     <script src="{{asset('js/EasyAutocomplete/jquery.easy-autocomplete.min.js')}}"></script> 
+    <script src="{{asset('js/html2canvas.min.js')}}"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
