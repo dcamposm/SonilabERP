@@ -280,7 +280,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">CONFIGURAR</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">CONFIGURAR - Dia de Festa</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -326,6 +326,7 @@
     var rutaSearchEmpleat = "{{route('empleatSearch')}}";
     var rutaSearchEntrada = "{{route('registreEntradaSearch')}}";
     var rutaSearchProduccio = "{{route('registreProduccioSearch')}}";
+    var festius = @json($festius);
 </script>
 <script type="text/javascript" src="{{ URL::asset('js/custom/calendar.js') }}"></script>
 <script type="text/javascript" src="{{ URL::asset('js/custom/calendarCheck.js') }}"></script>

@@ -156,32 +156,47 @@ function crearTablaCalendario() {
         document.cookie = "tablaActual = 0";
         var contenedor = $('#calendarContent');
         
-        for (let i = 0; i < 8; i++) {
+        for (var i = 0; i < 8; i++) {
             var fila = $('<div class="row fila"  style="min-width: 2500px;"></div>');
             var sala = i + 1;
             // Crea un div con el número de la sala:
             fila.append('<div class="sala celda">' + sala + '</div>');
-            for (let h = 0; h < 5; h++) {
-                    // Crea el día de la sala.
+            for (var h = 0; h < 5; h++) {
+                    var festiu = festius.filter(function(e) {
+                        if (e.data == dias[h] && e.num_sala == sala && e.torn == null){
+                            return e;
+                        }
+                    })
+                    
+                    if (festiu.length) {
+                        fila.append('<div class="col celda festiu" dia="' + dias[h] + '" sala="' + sala + '">\n\
+                                        <div class="row rowMati bg-info"></div>\n\
+                                        <div class="row rowTarda bg-info"></div>\n\
+                                    </div>'
+                        );
+                    }
+                    // Crea el día de la sala sino es festiu.
                     // Es necesario crear el atributo "dia" y "sala", para que después cuando le hagamos clic
                     // podamos coger el día y la sala de la casilla que hayamos seleccionado.
-                    fila.append('<div class="col celda" dia="' + dias[h] + '" sala="' + sala + '">\n\
-                                    <div class="row rowMati">\n\
-                                        <div class="progress barra_progreso">\n\
-                                            <div class="progress-bar barra progress-bar-striped" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">\n\
-                                                0%\n\
+                    else {
+                        fila.append('<div class="col celda" dia="' + dias[h] + '" sala="' + sala + '">\n\
+                                        <div class="row rowMati">\n\
+                                            <div class="progress barra_progreso">\n\
+                                                <div class="progress-bar barra progress-bar-striped" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">\n\
+                                                    0%\n\
+                                                </div>\n\
                                             </div>\n\
                                         </div>\n\
-                                    </div>\n\
-                                    <div class="row rowTarda">\n\
-                                        <div class="progress barra_progreso">\n\
-                                            <div class="progress-bar barra progress-bar-striped" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">\n\
-                                                0%\n\
+                                        <div class="row rowTarda">\n\
+                                            <div class="progress barra_progreso">\n\
+                                                <div class="progress-bar barra progress-bar-striped" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">\n\
+                                                    0%\n\
+                                                </div>\n\
                                             </div>\n\
                                         </div>\n\
-                                    </div>\n\
-                                </div>'
-                    );
+                                    </div>'
+                        );
+                    }
             }
             contenedor.append(fila);
         }
@@ -213,9 +228,23 @@ function crearTablaCalendario() {
             for (let h = 0; h < 5; h++) {
                 d = dias[h];
                 s = sala;
+                
+                var festiu = festius.filter(function(e) {
+                    if (e.data == d && e.num_sala == sala && e.torn == null){
+                        return e;
+                    }
+                })
 
-                var tecnicMati = tecnicsAsignados.filter(filtroTecnicSalaM);
-                var tecnicTarda = tecnicsAsignados.filter(filtroTecnicSalaT);
+                if (festiu.length) {
+                    fila.append('<div class="col celda festiu" dia="' + dias[h] + '" sala="' + sala + '">\n\
+                                    <div class="row rowMati bg-info"></div>\n\
+                                    <div class="row rowTarda bg-info"></div>\n\
+                                </div>'
+                    );
+                }
+                else {
+                    var tecnicMati = tecnicsAsignados.filter(filtroTecnicSalaM);
+                    var tecnicTarda = tecnicsAsignados.filter(filtroTecnicSalaT);
                     // Crea el día de la sala.
                     // Es necesario crear el atributo "dia" y "sala", para que después cuando le hagamos clic
                     // podamos coger el día y la sala de la casilla que hayamos seleccionado.
@@ -238,6 +267,7 @@ function crearTablaCalendario() {
                                     </div>\n\
                                 </div>'
                     );
+                }
             }
             contenedor.append(fila);
         }
@@ -245,6 +275,8 @@ function crearTablaCalendario() {
     
     $('.celda').attr('ondrop', 'drop(event)');
     $('.celda').attr('ondragover', 'allowDrop(event)');
+    $('.festiu').attr('ondrop', '');
+    $('.festiu').attr('ondragover', '');
 }
 
 function filtroTecnicSalaM(e) {
@@ -306,6 +338,7 @@ function cargarDatos() {
 
     cargarActores();
     $('.celda').click(ampliarCasilla);
+    $('.festiu').unbind( "click" );
 }
 
 function cargarActores() {
@@ -491,17 +524,17 @@ function setFesta(){
     var datos = {diaInici: $("#diaInici").val(), 
                 diaFi: $("#diaFi").val(), 
                 descripcio_festiu: $("#descripcio_festiu").val()};
-    /*$.post('/calendari/crear', datos)
-        .done(function (datosCalendari) {
-            
+    $.post('/calendari/setDiaFestiu', datos)
+        .done(function (response) {
             cargarActores();
             actulitzarDades();
+            $('#modalConf').modal('hide');
         })
         .fail(function (error) {
             console.error(error);
-        });*/
+        });
         
-    $('#modalConf').modal('hide');
+    
 }
 
 function creatPasarLlista(){
@@ -730,7 +763,7 @@ $('#exampleModal').on('show.bs.modal', function (e) {
     //$('#takesFin').val('');
     $("#actorEstadillo").val('-1');
     $("#opcio_calendar").val('0');
-    //console.log(actores);
+
     var options = {
         data: actores.filter(filtroActorTk),
         placeholder: "Selecciona un registre",
@@ -813,6 +846,12 @@ $('#exampleModal').on('hide.bs.modal', function () {
     vaciarValoresEditar();
 });
 
+$('#modalConf').on('hide.bs.modal', function () {
+    $('#diaInici').val('');
+    $('#diaFi').val('');
+    $('#descripcio_festiu').val('');
+});
+
 function pad(num) {
     return num < 10 ? '0' + num : num;
 }
@@ -878,7 +917,7 @@ $('#pasarLista').click(function (e) {
         // Los campos del formulario tienen la siguiente clase que vemos en la siguiente línea,
         // que gracias al día y a la sala podemos saber qué campos coger.
         var asistencia = $('#pasarLista .actor-dia-' + diaSeleccionado.split('-')[0] + '-' + salaSeleccionada);
-        console.log(diaSeleccionado.split('-')[0]);
+
         $.ajax({
             url: '/calendari/desarLlistaAsistencia',
             type: 'POST',

@@ -9,7 +9,7 @@ use Validator;
 use App\{Calendar, CalendarCarrec, Missatge, User, EmpleatExtern, ActorEstadillo, Estadillo, Carrec, RegistreProduccio, RegistreEntrada};
 use DateTime;
 use DB;
-use App\Http\Requests\{CalendariCreateRequest, CalendariUpdateRequest, CalendariCarrecCreateRequest, CalendariCarrecUpdateRequest};
+use App\Http\Requests\{CalendariCreateRequest, CalednariCreateDiaFestiuRequest, CalendariUpdateRequest, CalendariCarrecCreateRequest, CalendariCarrecUpdateRequest};
 
 class CalendariController extends Controller
 {
@@ -174,7 +174,8 @@ class CalendariController extends Controller
                                             ->where('torn', $torn)->first();
         
         if (!$calendariCarrec){
-            $calendariCarrec = new CalendarCarrec($request);
+            $calendariCarrec = new CalendarCarrec();
+            $calendariCarrec->num_sala = $request['num_sala'];
             $calendariCarrec->data = $request['data_inici']->format('Y-m-d');
             $calendariCarrec->torn = $torn;
 
@@ -414,9 +415,7 @@ class CalendariController extends Controller
             
             array_push($actoresPorDia, $act_dia);
         }
-        
-        
-        //dd($actoresPorDia);
+
         return $actoresPorDia;
     }
     
@@ -438,13 +437,40 @@ class CalendariController extends Controller
         return response()->json(["data" => $data, "tecnics" => $tecnics]);
     }
     
-    /*public function imprimir($fechas) {
-        $data = $this->getData();
-        $date = date('Y-m-d');
-        $invoice = "2222";
-        $view =  \View::make('pdf.invoice', compact('data', 'date', 'invoice'))->render();
-        $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadHTML($view);
-        return $pdf->stream('invoice');
-    }*/
+    public function setDiaFestiu(CalednariCreateDiaFestiuRequest $request) {
+        if ($request['diaInici'] == $request['diaFi'] || !isset($request['diaFi'])){
+            for ($i = 1; $i <=8; $i++){
+                $calendariCarrec = new CalendarCarrec();  
+
+                $calendariCarrec->num_sala = $i;
+                $calendariCarrec->data = $request['diaInici']->format('Y-m-d');
+                $calendariCarrec->festiu = 1;
+                $calendariCarrec->descripcio_festiu  = $request['descripcio_festiu'];
+
+                $calendariCarrec->save();
+            }
+            
+            return response()->json(['success'=> true],201);
+        }
+        
+        $diaI = date('z', strtotime($request['diaInici']));
+        $diaF = date('z', strtotime($request['diaFi']));
+        
+        $f = $diaF-$diaI;
+        
+        for ($i = 0; $i <= $f; $i++) {
+            for ($s = 1; $s <=8; $s++){
+                $calendariCarrec = new CalendarCarrec();  
+
+                $calendariCarrec->num_sala = $s;
+                $calendariCarrec->data = date("Y-m-d",strtotime($request['diaInici']."+ ".$i." days")); 
+                $calendariCarrec->festiu = 1;
+                $calendariCarrec->descripcio_festiu  = $request['descripcio_festiu'];
+
+                $calendariCarrec->save();
+            }
+        }
+        
+        return response()->json(['success'=> true],201);
+    }
 }

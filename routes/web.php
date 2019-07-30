@@ -145,6 +145,7 @@ Route::middleware(['role: 1,2,3,4,5'])->group(function () {
 
     Route::get('/calendari/crear', 'CalendariController@createCalendari')->name('createCalendari');
     Route::post('/calendari/crear', 'CalendariController@create')->name('createCalendari');
+    Route::post('/calendari/setDiaFestiu', 'CalendariController@setDiaFestiu')->name('setDiaFestiu');
     Route::post('/calendari/editar/{id}', "CalendariController@update")->name('updateCalendari');
     Route::post('/calendari/esborrar/{id}', 'CalendariController@delete')->name('deleteCalendari');
 
