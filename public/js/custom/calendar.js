@@ -99,7 +99,6 @@ var optionsRegistre = {
                 filtrar();
             }, onHideListEvent: function() {
                 if ($("#searchEntrada").val() == ''){
-                    //$("#filtroEntrada").val('-1');
                     document.cookie = "idRegistre = -1";
                     document.cookie = "nomRegistre = -1";
                     filtrar(); 
@@ -129,12 +128,22 @@ var optionsActorSide = {
             }, onChooseEvent: function() {
                 var selectedPost = $("#searchActorSide").getSelectedItemData();
                 
-                actores = actoresSave.filter(item => item.id_actor == selectedPost.id_empleat);
+                if ($("#searchRegistreSide").val() == ''){
+                    actores = actoresSave.filter(item => item.id_actor == selectedPost.id_empleat);
+                } else {
+                    actores = actores.filter(item => item.id_actor == selectedPost.id_empleat);
+                }
+                
                 cargarActores();
             }, onHideListEvent: function() {
                 if ($("#searchActorSide").val() == ''){
-                    actores = actoresSave;
-                    cargarActores();
+                    if ($("#searchRegistreSide").val() == ''){
+                        actores = actoresSave;
+                        cargarActores();
+                    } else {
+                        actores = actoresSave.filter(item => item.id_actor != -1);
+                        cargarActores();
+                    }
                 }
             }
     },
@@ -150,6 +159,49 @@ var optionsActorSide = {
 $("#searchActorSide").easyAutocomplete(optionsActorSide);
 
 var parentSearch = $('#searchActorSide').parent().css({"width": "100%"});
+
+var optionsRegistreSide = {
+    url:  rutaSearchEntrada,
+    placeholder: "Filtrar registre d'entrada",
+    getValue: "referencia_titol",
+
+    list: {
+            match: {
+                enabled: true
+            }, onChooseEvent: function() {
+                var selectedPost = $("#searchRegistreSide").getSelectedItemData();
+                
+                if ($("#searchActorSide").val() == ''){
+                    actores = actoresSave.filter(item => item.id_registre_entrada == selectedPost.id_registre_entrada);
+                } else {
+                    actores = actores.filter(item => item.id_registre_entrada == selectedPost.id_registre_entrada);
+                }
+                
+                cargarActores();
+            }, onHideListEvent: function() {
+                if ($("#searchRegistreSide").val() == ''){
+                    if ($("#searchActorSide").val() == ''){
+                        actores = actoresSave;
+                        cargarActores();
+                    } else {
+                        actores = actoresSave.filter(item => item.id_registre_entrada != -1); 
+                        cargarActores();
+                    }
+                }
+            }
+    },
+
+    template: {
+            type: "custom",
+            method: function(value, item) {
+                    return value;
+            }
+    },
+};
+
+$("#searchRegistreSide").easyAutocomplete(optionsRegistreSide);
+
+var parentSearch = $('#searchRegistreSide').parent().css({"width": "100%", "margin-top": "0px"});
 
 function crearTablaCalendario() {
     if (getCookie("tablaActual")==0 || getCookie("tablaActual")===""){
@@ -413,7 +465,7 @@ function filtrar(){
     }
     
     if (getCookie("idRegistre") !== ""){
-        var idProyecto = $('#filtroEntrada').val();
+        var idProyecto = getCookie("idRegistre");
     } else {
         var idProyecto = -1;
     }
@@ -432,7 +484,6 @@ function filtrar(){
     refrescarCalendarioFiltrado();
     cargarDatos();
 }
-
 ///// FUNCTIONS /////
 
 function refrescarCalendarioFiltrado(){
@@ -533,8 +584,6 @@ function setFesta(){
         .fail(function (error) {
             console.error(error);
         });
-        
-    
 }
 
 function creatPasarLlista(){
@@ -610,7 +659,7 @@ function drop(ev) {
     } else {
         celda = ev.target.parentElement.parentElement.parentElement.parentElement;
     }
-
+    actores = actoresSave;
     $('#exampleModal').modal('show');
 }
 
@@ -829,6 +878,7 @@ $('#exampleModal2').on('shown.bs.modal', function () {
     $('#exampleModalLabel2').text('Sala: ' + salaSeleccionada + ' / Dia: ' + diaSeleccionado);
     $('#exampleModalLabel2').attr('diaSelec', diaSeleccionado);
     $('#exampleModalLabel2').attr('numSalaSelec', salaSeleccionada); 
+    actores = actoresSave;
 });
 
 $('#exampleModal').on('hide.bs.modal', function () {
@@ -926,8 +976,7 @@ $('#pasarLista').click(function (e) {
                 Accept: 'application/json'
             },
             data: asistencia.serializeArray(),  // Le pasamos los datos serializados.
-            success: function (response) { 
-                
+            success: function (response) {  
                 $.each(data, function( key, element ) {    
                     $.each(response, function( key2, element2 ) {  
                         if (element.asistencia !== element2.asistencia && element.id_calendar === element2.id_calendar){
@@ -1104,105 +1153,113 @@ var parentSearch = $('#selectPelis-editar').parent().css({"width": "100%"});
 
 function menuAfegir() {
     vaciarValoresEditar();
-    $(elementoSeleccionado).removeClass('actorAsistencia-seleccionado');
     
-    $('#menuActors').removeAttr('hidden');
-    $('#formSelectActor').removeAttr('hidden');
-    
-    $('#botonsAfegir').removeAttr('hidden');
-    
-    var options = {
-        url:  "/estadillos/actors",
-        placeholder: "Selecciona actor",
-        getValue: "nom_cognom",
+    if ($('#menuActors').attr('hidden') == 'hidden') {
+        $(elementoSeleccionado).removeClass('actorAsistencia-seleccionado');
 
-        list: {
-                match: {
-                    enabled: true
-                }, onChooseEvent: function() {
-                    var selected = $("#selectActor-editar").getSelectedItemData();
-                    $('#actor-editar').val(selected.id_actor);
-                    activarFormEditar();
-                    
-                    var options2 = {
-                        data: actores.filter(filtroActorTkAfegir),
-                        placeholder: "Selecciona registre",
-                        getValue: "nombre_reg_complet",
+        $('#menuActors').removeAttr('hidden');
+        $('#formSelectActor').removeAttr('hidden');
 
-                        list: {
-                                match: {
-                                    enabled: true
-                                }, onChooseEvent: function() {
-                                    var selected = $("#selectPelis-editar").getSelectedItemData();
-                                    if (!$('#numberTakes-editar').attr('readonly')){
-                                        $('#numberTakes-editar').val(selected.takes_restantes);
-                                        $('#numberTakes-editar').attr('max', selected.takes_restantes);
+        $('#botonsAfegir').removeAttr('hidden');
+
+        var options = {
+            url:  "/estadillos/actors",
+            placeholder: "Selecciona actor",
+            getValue: "nom_cognom",
+
+            list: {
+                    match: {
+                        enabled: true
+                    }, onChooseEvent: function() {
+                        var selected = $("#selectActor-editar").getSelectedItemData();
+                        $('#actor-editar').val(selected.id_actor);
+                        activarFormEditar();
+
+                        var options2 = {
+                            data: actores.filter(filtroActorTkAfegir),
+                            placeholder: "Selecciona registre",
+                            getValue: "nombre_reg_complet",
+
+                            list: {
+                                    match: {
+                                        enabled: true
+                                    }, onChooseEvent: function() {
+                                        var selected = $("#selectPelis-editar").getSelectedItemData();
+                                        if (!$('#numberTakes-editar').attr('readonly')){
+                                            $('#numberTakes-editar').val(selected.takes_restantes);
+                                            $('#numberTakes-editar').attr('max', selected.takes_restantes);
+                                        }
+                                        $('#actor-editar').val(selected.id_actor);
+                                        $('#registreEntrada-editar').val(selected.id_registre_entrada);
+                                        $('#setmana-editar').val(selected.setmana);
+
+                                        checkTakesEditar();
+                                    }, onHideListEvent: function() {
+                                        if ($("#selectPelis-editar").val() == ''){
+                                            $("#actor-editar").val('-1');
+                                            $("#registreEntrada-editar").val('-1');
+                                            $("#setmana-editar").val('-1');
+                                        }
                                     }
-                                    $('#actor-editar').val(selected.id_actor);
-                                    $('#registreEntrada-editar').val(selected.id_registre_entrada);
-                                    $('#setmana-editar').val(selected.setmana);
-                                    
-                                    checkTakesEditar();
-                                }, onHideListEvent: function() {
-                                    if ($("#selectPelis-editar").val() == ''){
-                                        $("#actor-editar").val('-1');
-                                        $("#registreEntrada-editar").val('-1');
-                                        $("#setmana-editar").val('-1');
+                            },
+
+                            template: {
+                                    type: "custom",
+                                    method: function(value, item) {
+                                            return value;
                                     }
-                                }
-                        },
+                            },
 
-                        template: {
-                                type: "custom",
-                                method: function(value, item) {
-                                        return value;
-                                }
-                        },
+                            theme: "bootstrap"
+                        };
 
-                        theme: "bootstrap"
-                    };
+                        $("#selectPelis-editar").easyAutocomplete(options2);
 
-                    $("#selectPelis-editar").easyAutocomplete(options2);
-                    
-                    $("#opcio_calendar-editar").change(function() {
-                        if($("#opcio_calendar-editar").val() != 0) {
-                            $('#numberTakes-editar').val('');
-                            $('#numberTakes-editar').attr('readonly', '');
-                        } else {
-                            $.each(actores, function( key, element ) {
-                                if (element.id_actor == $('#actor-editar').val() && element.id_registre_entrada == $('#registreEntrada-editar').val() && element.setmana == $('#setmana-editar').val()){
-                                    $('#numberTakes-editar').val(element.takes_restantes);
-                                }
-                            });
-                            $('#numberTakes-editar').removeAttr('readonly', '');
+                        $("#opcio_calendar-editar").change(function() {
+                            if($("#opcio_calendar-editar").val() != 0) {
+                                $('#numberTakes-editar').val('');
+                                $('#numberTakes-editar').attr('readonly', '');
+                            } else {
+                                $.each(actores, function( key, element ) {
+                                    if (element.id_actor == $('#actor-editar').val() && element.id_registre_entrada == $('#registreEntrada-editar').val() && element.setmana == $('#setmana-editar').val()){
+                                        $('#numberTakes-editar').val(element.takes_restantes);
+                                    }
+                                });
+                                $('#numberTakes-editar').removeAttr('readonly', '');
+                            }
+                        });
+
+                        selectDirector();
+                    }, onHideListEvent: function() {
+                        if ($("#selectActor-editar").val() == ''){
+                            $("#actor-editar").val('-1');
+
+                            vaciarValoresEditar();
+
+                            $('#menuActors').removeAttr('hidden');
+                            $('#formSelectActor').removeAttr('hidden');
+                            $('#botonsAfegir').removeAttr('hidden');
                         }
-                    });
-                    
-                    selectDirector();
-                }, onHideListEvent: function() {
-                    if ($("#selectActor-editar").val() == ''){
-                        $("#actor-editar").val('-1');
-                        
-                        vaciarValoresEditar();
-                        
-                        $('#menuActors').removeAttr('hidden');
-                        $('#formSelectActor').removeAttr('hidden');
-                        $('#botonsAfegir').removeAttr('hidden');
                     }
-                }
-        },
+            },
 
-        template: {
-                type: "custom",
-                method: function(value, item) {
-                        return value;
-                }
-        },
+            template: {
+                    type: "custom",
+                    method: function(value, item) {
+                            return value;
+                    }
+            },
 
-        theme: "bootstrap"
-    };
+            theme: "bootstrap"
+        };
 
-    $("#selectActor-editar").easyAutocomplete(options);
+        $("#selectActor-editar").easyAutocomplete(options);
+    } else {
+        console.log('hidden')
+        $('#menuActors').attr('hidden', '');
+        $('#formSelectActor').attr('hidden', '');
+        $('#botonsAfegir').attr('hidden', '');
+    }
 }
 
 function filtroActorTkAfegir(e) {
@@ -1256,20 +1313,17 @@ function editarActor() {
             id_director: parseInt($('#director-editar').val()),
         },
         success: function (response) {
-            // Guarda los datos en la variable "data" y vuelve a recargar el calendario:
-            $.each(data, function( key, element ) {
-                if (element.id_calendar == calendarioActorSeleccionado_id) {
-                    data[key] = response;
-                }
-            });
-
-            resetCalendari();
-
             vaciarValoresEditar();
+            
+            actulitzarDades();
+            
+            actulitzarActors();
+            
+            resetCalendari();            
         },
         error: function (error) {
             console.error(error);
-            alert("No s'ha pogut modificar les dades del calendari.");
+            alert("No s'ha pogut modificar l'actor.");
         }
     });
 }

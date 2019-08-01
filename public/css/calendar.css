@@ -168,6 +168,9 @@ body, html, main{
     border-color: #3490dc;
     color: #fff;
     border-radius: 0px;
+    cursor: default !important;
+    font-size: 1rem;
+    padding: .375rem .75rem;
 }
 
 .boton{

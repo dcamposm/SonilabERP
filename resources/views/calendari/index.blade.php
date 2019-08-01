@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-
 <div class="container-fluid">
     <div id="mySidenav" class="sidenav pt-5">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <input id="searchActorSide" class="form-control"/>
+        <input id="searchRegistreSide" class="form-control"/>
         <div id="trabajadores">
 
         </div>
@@ -20,7 +20,15 @@
                  </div>
             </div>
             <div class="col">
-                <div class="semana"><div id="semanaMenos" class="btn btn-primary round-left"><span class="fas fa-angle-double-left"></span></div><span class="simil-btn btn">{{$mes}}</span><div id="semanaMas" class="btn btn-primary round-right"><span class="fas fa-angle-double-right"></span></div></div>
+                <div class="semana btn-group" role="group">
+                    <div id="semanaMenos" class="btn btn-primary round-left">
+                        <span class="fas fa-angle-double-left"></span>
+                    </div>
+                    <span class="bg-primary simil-btn">{{$mes}}</span>
+                    <div id="semanaMas" class="btn btn-primary round-right">
+                        <span class="fas fa-angle-double-right"></span>
+                    </div>
+                </div>
             </div>
             <button id="download-pdf" class="btn btn-primary boton"><i class="fas fa-print"></i>IMPRIMIR</button>
             <button id="btnAdd" class="btn btn-primary boton" data-toggle="modal" data-target="#modalConf">CONFIGURAR</button>

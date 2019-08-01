@@ -438,26 +438,10 @@ class CalendariController extends Controller
     }
     
     public function setDiaFestiu(CalednariCreateDiaFestiuRequest $request) {
-        if ($request['diaInici'] == $request['diaFi'] || !isset($request['diaFi'])){
-            for ($i = 1; $i <=8; $i++){
-                $calendariCarrec = new CalendarCarrec();  
+        if (isset($request['diaFi'])){
+            $f = date('z', strtotime($request['diaFi']))-date('z', strtotime($request['diaInici']));
+        } else $f = 0;
 
-                $calendariCarrec->num_sala = $i;
-                $calendariCarrec->data = $request['diaInici']->format('Y-m-d');
-                $calendariCarrec->festiu = 1;
-                $calendariCarrec->descripcio_festiu  = $request['descripcio_festiu'];
-
-                $calendariCarrec->save();
-            }
-            
-            return response()->json(['success'=> true],201);
-        }
-        
-        $diaI = date('z', strtotime($request['diaInici']));
-        $diaF = date('z', strtotime($request['diaFi']));
-        
-        $f = $diaF-$diaI;
-        
         for ($i = 0; $i <= $f; $i++) {
             for ($s = 1; $s <=8; $s++){
                 $calendariCarrec = new CalendarCarrec();  

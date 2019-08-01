@@ -82,8 +82,9 @@ function validarInput(){
                 $(this).addClass("is-invalid");
             }
         }
-    } 
+    }
 }
+
 
 function checkTakesEditar(){
     var dia = $('#formEditar').parents("div").find('[diaSelec]').attr('diaSelec');
