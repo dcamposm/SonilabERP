@@ -62,16 +62,16 @@ function showDay(day) {
                                         <div class="col-1 llistaActors" style="padding-left: 5px; padding-right: 1px;">'+element.data_inici.split(' ')[1]+'</div>\n\
                                         <div class="col-3 llistaActors" style="padding-left: 1px; padding-right: 1px;">'+element.actor.cognom1_empleat+' '+element.actor.nom_empleat+'</div>\n\
                                         <div class="col-1 llistaActors" style="padding-left: 5px; padding-right: 5px;">'+(element.opcio_calendar == 0 ? (element.num_takes+'TK') : (element.opcio_calendar).toUpperCase())+'</div>\n\
-                                        <div class="col-5 llistaActors" style="padding-left: 1px; padding-right: 1px; '+(!element.registre_entrada || element.asistencia === 0 ? '' : ('background-color: '+element.registre_entrada.color_referencia+';'))+'">'+element.referencia_titol+'</div>\n\
+                                        <div class="col-5 llistaActors" style="padding-left: 5px; padding-right: 1px; '+(!element.registre_entrada || element.asistencia === 0 ? '' : ('background-color: '+element.registre_entrada.color_referencia+';'))+'">'+element.referencia_titol+'</div>\n\
                                         <div class="llistaActors" style="padding-left: 1px; padding-right: 1px;">'+(element.id_director != 0 ? element.director.nom_empleat : '')+'</div>\n\
                                     </div>';
                     $("[sala=" + element.calendari.num_sala + "]").children().children().children().children('.mati').append(actorSala);
                 } else {
                     var actorSala = '<div class="row '+(element.asistencia === 0 ? 'actorNoPres' : '')+'">\n\
-                                        <div class="llistaActors" style="padding-left: 5px; padding-right: 1px;">'+element.data_inici.split(' ')[1]+'</div>\n\
-                                        <div class="col-4 llistaActors" style="padding-left: 1px; padding-right: 1px;">'+element.actor.cognom1_empleat+' '+element.actor.nom_empleat+'</div>\n\
-                                        <div class="llistaActors" style="padding-left: 5px; padding-right: 5px;">'+(element.opcio_calendar == 0 ? (element.num_takes+'TK') : (element.opcio_calendar).toUpperCase())+'</div>\n\
-                                        <div class="col-4 llistaActors" style="padding-left: 1px; padding-right: 1px; '+(!element.registre_entrada || element.asistencia === 0 ? '' : ('background-color: '+element.registre_entrada.color_referencia+';'))+'">'+element.referencia_titol+'</div>\n\
+                                        <div class="col-1 llistaActors" style="padding-left: 5px; padding-right: 1px;">'+element.data_inici.split(' ')[1]+'</div>\n\
+                                        <div class="col-3 llistaActors" style="padding-left: 1px; padding-right: 1px;">'+element.actor.cognom1_empleat+' '+element.actor.nom_empleat+'</div>\n\
+                                        <div class="col-1 llistaActors" style="padding-left: 5px; padding-right: 5px;">'+(element.opcio_calendar == 0 ? (element.num_takes+'TK') : (element.opcio_calendar).toUpperCase())+'</div>\n\
+                                        <div class="col-5 llistaActors" style="padding-left: 5px; padding-right: 1px; '+(!element.registre_entrada || element.asistencia === 0 ? '' : ('background-color: '+element.registre_entrada.color_referencia+';'))+'">'+element.referencia_titol+'</div>\n\
                                         <div class="llistaActors" style="padding-left: 1px; padding-right: 1px;">'+(element.id_director != 0 ? element.director.nom_empleat : '')+'</div>\n\
                                     </div>';
                     $("[sala=" + element.calendari.num_sala + "]").children().children().children().children('.tarda').append(actorSala);
