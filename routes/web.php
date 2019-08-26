@@ -155,7 +155,6 @@ Route::middleware(['role: 1,2,3,4,5'])->group(function () {
     Route::put('/calendari/editarCalendariCarrecs/{id}', 'CalendariController@calendariCarrecEditar')->name('updateCalendariCarrecs');
     Route::post('/calendari/esborrarCalendariCarrecs/{id}', 'CalendariController@calendariCarrecDelete')->name('deleteCalendariCarrecs');
     
-    Route::post('/calendari/desarLlistaAsistencia', 'CalendariController@desarLlistaAsistencia')->name('desarLlistaAsistencia');
     Route::post('/calendari/cogerCalendarioActor', 'CalendariController@cogerCalendarioActor')->name('cogerCalendarioActor');
     Route::post('/calendari/postActors', 'CalendariController@postActors')->name('postActors');
     Route::post('/calendari/postDades', 'CalendariController@postDades')->name('postDades');

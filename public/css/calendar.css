@@ -27,6 +27,24 @@ body, html, main{
     font-size: 29px;
 }
 
+.tornM {
+    flex:1;
+    width: 100%;
+    border-bottom: 1px solid black;
+    padding: 0px;
+    margin: 0px 0px 10px 0px;
+    display:flex;
+}
+
+.tornT{
+    flex:1;
+    width: 100%;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    display:flex;
+}
+
+
 .celdaT{
     border: 1px solid black;
     padding: 0px;
@@ -34,6 +52,11 @@ body, html, main{
     display:flex;
     flex-direction: column;
     font-size: 29px;
+}
+
+.sala.celdaT {
+    width:80px; 
+    font-size: 20px !important;
 }
 
 .celda2{
@@ -192,10 +215,6 @@ body, html, main{
 }
 
 .contenedor-margen{
-    /*width: -moz-calc(100% - 300px);
-    width: -webkit-calc(100% - 300px);
-    width: -o-calc(100% - 300px);
-    width: calc(100% - 300px);*/
     margin-right: 300px;
 }
 
@@ -204,6 +223,17 @@ body, html, main{
     background-color: pink;
     text-align: center;
     padding-top: 10px;
+}
+
+.sala.numS {
+    padding-top: 170px;
+}
+
+.torns {
+    display:flex;
+    flex-direction: column;
+    padding: 0px;
+    margin: 0px 0px 0px 0px;
 }
 
 .sala-vacia{
@@ -237,6 +267,27 @@ body, html, main{
 .rotar{
     transform: rotate(270deg);
     font-size: 20px;
+}
+
+.rotar2{
+    writing-mode: vertical-lr;
+    transform: rotate(180deg);
+    text-align: center;
+    font-size: 20px;
+}
+
+.rotarM{
+    transform: rotate(270deg);
+    font-size: 15px;
+    height: auto;
+    padding-top: 85px;
+}
+
+.rotarT{
+    transform: rotate(270deg);
+    font-size: 15px;
+    height: auto;
+    padding-top: 80px;
 }
 
 /* SIDEBAR */ 

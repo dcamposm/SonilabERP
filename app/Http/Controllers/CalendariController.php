@@ -124,30 +124,6 @@ class CalendariController extends Controller
         return response()->json($calendariCarrec);
     }
 
-    public function desarLlistaAsistencia() {
-        // Coge la petición y la recorre:
-        $datos = request()->all();
-        foreach ($datos as $key => $dato) {
-            // Coge el identificador del calendario (el valor de key es: actor-idEmpleado-idCalendar):
-            $id_calendar = explode('-', $key)[2];
-
-            // Coge el calendario en cuestión de la base de datos y modifica la asistencia:
-            $calendario = Calendar::find($id_calendar);
-            if ($dato == "null") {
-                $calendario->asistencia = null;
-            }
-            else {
-                $calendario->asistencia = intval($dato);
-            }
-
-            // Aplica los nuevos cambios del calendario en la base de datos:
-            $calendario->save();
-        }
-        $calendario = Calendar::all();
-        // Retorna una respuesta:
-        return response()->json($calendario);
-    }
-
     public function create(CalendariCreateRequest $request){
         $request['data_inici'] = Carbon::createFromFormat('d-m-Y H:i:s', request()->input('data_inici'));
         
@@ -187,7 +163,6 @@ class CalendariController extends Controller
                                         ->whereNotNull('id_director')->first();
         }
         
-        //return response()->json(['success'=> true, $request->input()],201);
         $calendari = new Calendar($request->input());  
         $calendari->id_calendar_carrec = $calendariCarrec->id_calendar_carrec;
         $calendari->id_director = !request()->input('id_director') ? $produccio->id_director : ($request['id_director'] == -1 ? 0 : $request['id_director']);

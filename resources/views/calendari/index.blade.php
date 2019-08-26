@@ -41,6 +41,7 @@
                         <span class="fas fa-calendar" style="margin-right: 0px;"></span>
                     </button>  
                 </div>
+                <div class="sala-vacia" ></div>
                 <div class="col col-fecha cursor" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[0]))}}')" dia="{{date('d/m/Y', strtotime($fechas[0]))}}" style="font-weight: bold;">DILLUNS : {{date('d/m/Y', strtotime($fechas[0]))}}</div>
                 <div class="col col-fecha cursor" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[1]))}}')" dia="{{date('d/m/Y', strtotime($fechas[1]))}}" style="font-weight: bold;">DIMARTS : {{date('d/m/Y', strtotime($fechas[1]))}}</div>
                 <div class="col col-fecha cursor" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[2]))}}')" dia="{{date('d/m/Y', strtotime($fechas[2]))}}" style="font-weight: bold;">DIMECRES : {{date('d/m/Y', strtotime($fechas[2]))}}</div>

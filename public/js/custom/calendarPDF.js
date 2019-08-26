@@ -7,6 +7,7 @@ $('#download-pdf').click(function() {
     var options = {
          pagesplit: true
     };
+    
     pdf.addHTML(document.getElementById('calendar'), 0, 0, options, function(){
     	//pdf.save('test.pdf');
         window.open(pdf.output('bloburl'), '_blank');

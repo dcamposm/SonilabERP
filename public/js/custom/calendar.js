@@ -212,7 +212,19 @@ function crearTablaCalendario() {
             var fila = $('<div class="row fila"  style="min-width: 2500px;"></div>');
             var sala = i + 1;
             // Crea un div con el número de la sala:
-            fila.append('<div class="sala celda">' + sala + '</div>');
+            fila.append('<div class="sala celda numS">' + sala + '</div>');
+            fila.append('<div class="sala celda" style=" min-height: 200px;">\n\
+                            <div class="col torns">\n\
+                                <div class="row tornM">\n\
+                                    <div class="rotarM">Matí</div>\n\
+                                </div>\n\
+                                <div class="row tornT">\n\
+                                    <div class="rotarT">Tarda</div>\n\
+                                </div>\n\
+                            </div>\n\
+                        </div>'
+                    );
+            
             for (var h = 0; h < 5; h++) {
                     var festiu = festius.filter(function(e) {
                         if (e.data == dias[h] && e.num_sala == sala && e.torn == null){
@@ -276,7 +288,18 @@ function crearTablaCalendario() {
             var fila = $('<div class="row fila"  style="min-width: 2500px;"></div>');
             var sala = i + 1;
             // Crea un div con el número de la sala:
-            fila.append('<div class="sala celda">' + sala + '</div>');
+            fila.append('<div class="sala celda numS">' + sala + '</div>');
+            fila.append('<div class="sala celda" style=" min-height: 200px;">\n\
+                            <div class="col torns">\n\
+                                <div class="row tornM">\n\
+                                    <div class="rotarM">Matí</div>\n\
+                                </div>\n\
+                                <div class="row tornT">\n\
+                                    <div class="rotarT">Tarda</div>\n\
+                                </div>\n\
+                            </div>\n\
+                        </div>'
+                    );
             for (let h = 0; h < 5; h++) {
                 d = dias[h];
                 s = sala;
@@ -329,6 +352,8 @@ function crearTablaCalendario() {
     $('.celda').attr('ondragover', 'allowDrop(event)');
     $('.festiu').attr('ondrop', '');
     $('.festiu').attr('ondragover', '');
+    $('.sala').attr('ondrop', '');
+    $('.sala').attr('ondragover', '');
 }
 
 function filtroTecnicSalaM(e) {
@@ -494,11 +519,11 @@ function refrescarCalendarioFiltrado(){
 function guardarCelda() {
     if (getCookie("tablaActual")==0){
         var data_inici = celda.parentElement.parentElement.getAttribute("dia") + " " + $('#takesIni').val() + ":00";
-        //var data_fi = celda.parentElement.parentElement.getAttribute("dia") + " " + $('#takesFin').val() + ":00";
+
         var num_sala = celda.parentElement.parentElement.getAttribute("sala");
     } else {
         var data_inici = celda.getAttribute("dia") + " " + $('#takesIni').val() + ":00";
-        //var data_fi = celda.getAttribute("dia") + " " + $('#takesFin').val() + ":00";
+
         var num_sala = celda.getAttribute("sala"); 
     }
     
@@ -513,20 +538,12 @@ function guardarCelda() {
     if ($("#takesIni")[0].checkValidity() == false) {
         errores = true;
     }
-    /*if ($("#takesFin")[0].checkValidity() == false){
-        errores = true;
-    } */
+
     if ($("#numberTakes")[0].checkValidity() == false) {
         errores = true;
     }
-    /*if (takesPosibles < takes){
-        $("#numberTakes")[0].setCustomValidity('');
-        errores = true;
-    }*/
-        
-    //let color = $("#color").val() == '#ffffff' ? null :$("#color").val();
     
-    if (errores) return
+    if (errores) return;
     var datos = {id_actor: actor, 
                 id_registre_entrada: registreEntrada, 
                 setmana: setmana, 
@@ -647,7 +664,7 @@ function drop(ev) {
     var data = ev.dataTransfer.getData("text");
     $.each(actores, function( key, element ) {
         if (element.id_actor == data) {
-            persona = element; //persona es el elemento arrastrado
+            persona = element;
         }
     });
 
@@ -766,7 +783,7 @@ function ampliarCasilla(e) {
     
     $.each(tecnicsAsignados, function( key, element ) {
         if (element.num_sala == salaSeleccionada && element.data==diaSeleccionado){
-            if (element.torn == 0){ //mañana
+            if (element.torn == 0){ //mati
                 if (element.id_empleat != 0){
                     $('#tecnico0').val(element.id_empleat);
                 }
@@ -803,13 +820,13 @@ $('#exampleModal').on('show.bs.modal', function (e) {
     $('#crear-subtitulo').attr('numSala', num_sala);
     
     $("#selectPelis").val('');
-    //$('#numberTakes').attr('max', takesPosibles);
+
     $('#numberTakes').val('0');
     $('#numberTakes').removeAttr('readonly');
     $('#takesIni').removeClass("is-valid");
     $('#takesIni').removeClass("is-invalid");
     $('#takesIni').val('');
-    //$('#takesFin').val('');
+
     $("#actorEstadillo").val('-1');
     $("#opcio_calendar").val('0');
 
@@ -957,43 +974,6 @@ function cambiarTecnico(torn) {
         }
     });
 }
-
-$('#pasarLista').click(function (e) {
-    e.preventDefault();
-    // Comprobación "chapucera" para comprobar que se ha hecho clic al botón "Desar llista":
-    if (e.target.id == 'enviarListaAsistencia') {
-        // Cogemos los campos del formulario el cual se está mostrando por pantalla.
-        // Para ello es necesario hacer uso del día seleccionado y la sala seleccionada.
-        // Los campos del formulario tienen la siguiente clase que vemos en la siguiente línea,
-        // que gracias al día y a la sala podemos saber qué campos coger.
-        var asistencia = $('#pasarLista .actor-dia-' + diaSeleccionado.split('-')[0] + '-' + salaSeleccionada);
-
-        $.ajax({
-            url: '/calendari/desarLlistaAsistencia',
-            type: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                Accept: 'application/json'
-            },
-            data: asistencia.serializeArray(),  // Le pasamos los datos serializados.
-            success: function (response) {  
-                $.each(data, function( key, element ) {    
-                    $.each(response, function( key2, element2 ) {  
-                        if (element.asistencia !== element2.asistencia && element.id_calendar === element2.id_calendar){
-                            element.asistencia = element2.asistencia;
-                        }
-                    }); 
-                });
-                
-                resetCalendari()
-            },
-            error: function (error) {
-                console.error(error);
-                alert("No s'ha pogut desar la llista :(");
-            }
-        });
-    }
-});
 
 var calendarioActorSeleccionado_id = 0;
 var calendarioActor = [];
@@ -1154,112 +1134,105 @@ var parentSearch = $('#selectPelis-editar').parent().css({"width": "100%"});
 function menuAfegir() {
     vaciarValoresEditar();
     
-    if ($('#menuActors').attr('hidden') == 'hidden') {
-        $(elementoSeleccionado).removeClass('actorAsistencia-seleccionado');
+    $(elementoSeleccionado).removeClass('actorAsistencia-seleccionado');
 
-        $('#menuActors').removeAttr('hidden');
-        $('#formSelectActor').removeAttr('hidden');
+    $('#menuActors').removeAttr('hidden');
+    $('#formSelectActor').removeAttr('hidden');
 
-        $('#botonsAfegir').removeAttr('hidden');
+    $('#botonsAfegir').removeAttr('hidden');
 
-        var options = {
-            url:  "/estadillos/actors",
-            placeholder: "Selecciona actor",
-            getValue: "nom_cognom",
+    var options = {
+        url:  "/estadillos/actors",
+        placeholder: "Selecciona actor",
+        getValue: "nom_cognom",
 
-            list: {
-                    match: {
-                        enabled: true
-                    }, onChooseEvent: function() {
-                        var selected = $("#selectActor-editar").getSelectedItemData();
-                        $('#actor-editar').val(selected.id_actor);
-                        activarFormEditar();
+        list: {
+                match: {
+                    enabled: true
+                }, onChooseEvent: function() {
+                    var selected = $("#selectActor-editar").getSelectedItemData();
+                    $('#actor-editar').val(selected.id_actor);
+                    activarFormEditar();
 
-                        var options2 = {
-                            data: actores.filter(filtroActorTkAfegir),
-                            placeholder: "Selecciona registre",
-                            getValue: "nombre_reg_complet",
+                    var options2 = {
+                        data: actores.filter(filtroActorTkAfegir),
+                        placeholder: "Selecciona registre",
+                        getValue: "nombre_reg_complet",
 
-                            list: {
-                                    match: {
-                                        enabled: true
-                                    }, onChooseEvent: function() {
-                                        var selected = $("#selectPelis-editar").getSelectedItemData();
-                                        if (!$('#numberTakes-editar').attr('readonly')){
-                                            $('#numberTakes-editar').val(selected.takes_restantes);
-                                            $('#numberTakes-editar').attr('max', selected.takes_restantes);
-                                        }
-                                        $('#actor-editar').val(selected.id_actor);
-                                        $('#registreEntrada-editar').val(selected.id_registre_entrada);
-                                        $('#setmana-editar').val(selected.setmana);
-
-                                        checkTakesEditar();
-                                    }, onHideListEvent: function() {
-                                        if ($("#selectPelis-editar").val() == ''){
-                                            $("#actor-editar").val('-1');
-                                            $("#registreEntrada-editar").val('-1');
-                                            $("#setmana-editar").val('-1');
-                                        }
+                        list: {
+                                match: {
+                                    enabled: true
+                                }, onChooseEvent: function() {
+                                    var selected = $("#selectPelis-editar").getSelectedItemData();
+                                    if (!$('#numberTakes-editar').attr('readonly')){
+                                        $('#numberTakes-editar').val(selected.takes_restantes);
+                                        $('#numberTakes-editar').attr('max', selected.takes_restantes);
                                     }
-                            },
+                                    $('#actor-editar').val(selected.id_actor);
+                                    $('#registreEntrada-editar').val(selected.id_registre_entrada);
+                                    $('#setmana-editar').val(selected.setmana);
 
-                            template: {
-                                    type: "custom",
-                                    method: function(value, item) {
-                                            return value;
+                                    checkTakesEditar();
+                                }, onHideListEvent: function() {
+                                    if ($("#selectPelis-editar").val() == ''){
+                                        $("#actor-editar").val('-1');
+                                        $("#registreEntrada-editar").val('-1');
+                                        $("#setmana-editar").val('-1');
                                     }
-                            },
+                                }
+                        },
 
-                            theme: "bootstrap"
-                        };
+                        template: {
+                                type: "custom",
+                                method: function(value, item) {
+                                        return value;
+                                }
+                        },
 
-                        $("#selectPelis-editar").easyAutocomplete(options2);
+                        theme: "bootstrap"
+                    };
 
-                        $("#opcio_calendar-editar").change(function() {
-                            if($("#opcio_calendar-editar").val() != 0) {
-                                $('#numberTakes-editar').val('');
-                                $('#numberTakes-editar').attr('readonly', '');
-                            } else {
-                                $.each(actores, function( key, element ) {
-                                    if (element.id_actor == $('#actor-editar').val() && element.id_registre_entrada == $('#registreEntrada-editar').val() && element.setmana == $('#setmana-editar').val()){
-                                        $('#numberTakes-editar').val(element.takes_restantes);
-                                    }
-                                });
-                                $('#numberTakes-editar').removeAttr('readonly', '');
-                            }
-                        });
+                    $("#selectPelis-editar").easyAutocomplete(options2);
 
-                        selectDirector();
-                    }, onHideListEvent: function() {
-                        if ($("#selectActor-editar").val() == ''){
-                            $("#actor-editar").val('-1');
-
-                            vaciarValoresEditar();
-
-                            $('#menuActors').removeAttr('hidden');
-                            $('#formSelectActor').removeAttr('hidden');
-                            $('#botonsAfegir').removeAttr('hidden');
+                    $("#opcio_calendar-editar").change(function() {
+                        if($("#opcio_calendar-editar").val() != 0) {
+                            $('#numberTakes-editar').val('');
+                            $('#numberTakes-editar').attr('readonly', '');
+                        } else {
+                            $.each(actores, function( key, element ) {
+                                if (element.id_actor == $('#actor-editar').val() && element.id_registre_entrada == $('#registreEntrada-editar').val() && element.setmana == $('#setmana-editar').val()){
+                                    $('#numberTakes-editar').val(element.takes_restantes);
+                                }
+                            });
+                            $('#numberTakes-editar').removeAttr('readonly', '');
                         }
+                    });
+
+                    selectDirector();
+                }, onHideListEvent: function() {
+                    if ($("#selectActor-editar").val() == ''){
+                        $("#actor-editar").val('-1');
+
+                        vaciarValoresEditar();
+
+                        $('#menuActors').removeAttr('hidden');
+                        $('#formSelectActor').removeAttr('hidden');
+                        $('#botonsAfegir').removeAttr('hidden');
                     }
-            },
+                }
+        },
 
-            template: {
-                    type: "custom",
-                    method: function(value, item) {
-                            return value;
-                    }
-            },
+        template: {
+                type: "custom",
+                method: function(value, item) {
+                        return value;
+                }
+        },
 
-            theme: "bootstrap"
-        };
+        theme: "bootstrap"
+    };
 
-        $("#selectActor-editar").easyAutocomplete(options);
-    } else {
-        console.log('hidden')
-        $('#menuActors').attr('hidden', '');
-        $('#formSelectActor').attr('hidden', '');
-        $('#botonsAfegir').attr('hidden', '');
-    }
+    $("#selectActor-editar").easyAutocomplete(options);
 }
 
 function filtroActorTkAfegir(e) {
