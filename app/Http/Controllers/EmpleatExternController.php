@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\{Carrec,CarrecEmpleat,EmpleatExtern,Idioma,Tarifa,RegistreEntrada,ActorEstadillo,Calendar};
+use App\{Carrec,CarrecEmpleat,EmpleatExtern,Idioma,Tarifa,RegistreEntrada,ActorEstadillo,Calendar, CalendarCarrec};
 use Illuminate\Http\Request;
 use App\Http\Responsables\EmpleatExtern\{EmpleatExternIndex,EmpleatExternShow,EmpleatExternCreate,EmpleatExternUpdate};
 use App\Http\Requests\EmpleatExternCreateRequest;
@@ -297,10 +297,16 @@ class EmpleatExternController extends Controller
         ActorEstadillo::whereIdActor($request["id"])->delete();
         
         Calendar::whereIdActor($request["id"])->delete();
+        Calendar::whereIdDirector($request["id"])
+                ->update(["id_director" => 0]);
         
-        CarrecEmpleat::where('id_empleat', $request["id"])->delete();
+        CalendarCarrec::whereIdEmpleat($request["id"])
+                ->update(["id_empleat" => null]);
         
-        EmpleatExtern::where('id_empleat', $request["id"])->delete();
+        CarrecEmpleat::whereIdEmpleat($request["id"])->delete();
+        
+        EmpleatExtern::whereIdEmpleat($request["id"])->delete();
+        
         return redirect()->route('empleatIndex');
     }
 //Funcio per fer consultes dels Empleat, s'utilitza per els inputs EasyAutocomplete d'alguns formularis
