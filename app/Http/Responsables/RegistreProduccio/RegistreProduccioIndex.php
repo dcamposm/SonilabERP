@@ -39,7 +39,7 @@ class RegistreProduccioIndex implements Responsable
                             'new' => 0
                         );
                     } catch (\Exception $ex) {
-                        dd($registre);
+                        abort(404);
                     }
                     
                     foreach ($this->missatges as $missatge) {

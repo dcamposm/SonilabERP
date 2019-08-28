@@ -57,8 +57,6 @@ $("#searchEntrada").easyAutocomplete(options);
 var parentSearch = $('#searchEntrada').parent().css({"width": "100%"});
 //--------Funcions per el filtra-----------
 function selectSearch() {
-//var value = $('#searchBy').val();
-
 //alert($('#searchBy').children(":selected").attr("id")); //Com obtenir el id del option
 if ($('#searchBy').children(":selected").attr("id") == 'estat') {
     $('#search_term').remove();

@@ -244,7 +244,6 @@ class CalendariController extends Controller
         return response()->json("Esborrat Ok!");
     }
     
-    
     public function calendariCarrecInsertar(CalendariCarrecCreateRequest $request){
         $calendariCarrec = new CalendarCarrec(request()->all());  
         $calendariCarrec->save();

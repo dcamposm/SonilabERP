@@ -32,7 +32,7 @@ class EstadilloController extends Controller
            
             $estadillos = Estadillo::find($id); //Busca l'estadillo
             $estadillos->registreProduccio;
-            //return response()->json($estadillos);
+            
             return new EstadilloShowActor($actors, $estadillos, $empleats);
         } 
         
@@ -45,12 +45,10 @@ class EstadilloController extends Controller
     
     public function showSetmana($id, $id_setmana) { //Funcio que mostra els etadillos per una setmana
         $registreProduccio = RegistreProduccio::where('id_registre_entrada', $id)->where('setmana', $id_setmana)->get();
-        //return response()->json($registreProduccio);
         
         foreach($registreProduccio as $registre){
             $registre->getEstadillo;
-        }
-        //return response()->json($registreProduccio);      
+        }      
         
         return View('estadillos.show', array('registreProduccio'=>$registreProduccio));
     }

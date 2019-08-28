@@ -10,8 +10,6 @@ use App\EmpleatExtern;
 class ActorEstadilloImport implements ToModel, WithHeadingRow
 {
     protected $id_estadillo;
-    /*protected $nom;
-    protected $cognom;*/
     public $errors;
 
     public function __construct($id)
@@ -25,10 +23,7 @@ class ActorEstadilloImport implements ToModel, WithHeadingRow
     * @return \Illuminate\Database\Eloquent\Model|null
     */
     public function model(array $row)
-    {
-        /*$this->nom = $row['nom'];
-        $this->cognom = $row['cognom'];*/
-        
+    {        
         if (!is_null($row['nom'])){
             $actor = EmpleatExtern::whereRaw('LOWER(nom_empleat) like "%'. trim(mb_strtolower($row['nom']), " ").'%"'
                     . 'AND LOWER(cognom1_empleat) like "%'. trim(mb_strtolower($row['cognom']), " ").'%"')->first();
@@ -60,7 +55,7 @@ class ActorEstadilloImport implements ToModel, WithHeadingRow
                     return ;
                 }  
             }
-            //dd(mb_strtolower($row['cognom']));
+
             array_push ($this->errors , 'ERROR. El actor '.$row['nom'].' '.$row['cognom'].' no existeix.');
         }
         

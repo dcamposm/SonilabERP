@@ -33,6 +33,7 @@ $('#btnFesta').click(setFesta);
 carregarCalendari();
 
 function carregarCalendari(){
+    actoresSave = actores;
     crearTablaCalendario();
     cargarDatos(); 
     creatPasarLlista();
@@ -116,7 +117,6 @@ var optionsRegistre = {
 
 $("#searchEntrada").easyAutocomplete(optionsRegistre);
 
-actoresSave = actores;
 var optionsActorSide = {
     url:  rutaSearchEmpleat+"?search=Actor",
     placeholder: "Filtrar actor",
@@ -449,6 +449,7 @@ function actulitzarActors(){
         },
         success: function (response) {
             actores = response;
+            actoresSave = actores;
             cargarActores();
         },
         error: function (error) {
@@ -677,6 +678,7 @@ function drop(ev) {
         celda = ev.target.parentElement.parentElement.parentElement.parentElement;
     }
     actores = actoresSave;
+
     $('#exampleModal').modal('show');
 }
 
@@ -804,7 +806,7 @@ function ampliarCasilla(e) {
 
 $('#exampleModal').on('show.bs.modal', function (e) {
     var modal = $(this);
-
+    
     modal.find('.modal-title').text(persona.empleat.nom_cognom/* + ' - ' + takes + ' takes restants'*/);
     
     if ($(celda).attr('dia')){
@@ -829,7 +831,7 @@ $('#exampleModal').on('show.bs.modal', function (e) {
 
     $("#actorEstadillo").val('-1');
     $("#opcio_calendar").val('0');
-
+    
     var options = {
         data: actores.filter(filtroActorTk),
         placeholder: "Selecciona un registre",

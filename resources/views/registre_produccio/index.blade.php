@@ -145,14 +145,14 @@
             <tr>
                 @if (Auth::user()->hasAnyRole(['1', '4','5']))
                     <th>REF.</th> 
-                    <th  class="sorter-false filter-false">SUB-REF</th> 
+                    <th class="sorter-false filter-false">SUB-REF</th> 
                     <th>DATA D'ENTREGA</th>
-                    <th  class="sorter-false filter-false">SETMANA</th>
+                    <th class="sorter-false filter-false">SETMANA</th>
                     <th>RESPONSABLE</th>
                     <th>TÍTOL ORIGINAL</th>
-                    <th  class="sorter-false filter-false">ESTADILLO</th>
-                    <th  class="sorter-false filter-false">VEC</th>
-                    <th  class="sorter-false filter-false">ACCIONS</th>
+                    <th class="sorter-false filter-false">ESTADILLO</th>
+                    <th class="sorter-false filter-false">VEC</th>
+                    <th class="sorter-false filter-false">ACCIONS</th>
                 @elseif (Auth::user()->hasAnyRole(['2']))
                     <th>REF.</th> 
                     <th>SUB-REF</th> 
@@ -178,7 +178,7 @@
                     <th>FINAL SALA</th>
                     <th>DATA MIX</th>
                     <th>RETAKES</th>
-                    <th>ACCIONS</th>
+                    <th class="sorter-false filter-false">ACCIONS</th>
                 @elseif (Auth::user()->hasAnyRole(['3']))
                     <th>REF.</th> 
                     <th>SUB-REF</th> 
@@ -195,7 +195,7 @@
                     <th>QC MIX</th>
                     <th>PPE</th>
                     <th>RETAKES</th>
-                    <th>ACCIONS</th>
+                    <th class="sorter-false filter-false">ACCIONS</th>
                 @endif
             </tr>
         </thead>

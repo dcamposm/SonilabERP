@@ -22,7 +22,7 @@ $('#searchBy').change(selectSearch);
 //--------Funcions per el buscador-----------
 function selectSearch() {
     if ($('#searchBy').children(":selected").attr("id") == 'departament') {
-         $('#search_term').remove();
+        $('#search_term').remove();
 
         var select = document.createElement("select");
         $(select).attr("name", "search_term");

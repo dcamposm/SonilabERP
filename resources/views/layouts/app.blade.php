@@ -223,7 +223,7 @@
         @if (session('error'))
             <div class="alert alert-danger" role="alert">
                 @foreach(session('error') as $error)
-                <span class="fas fa-exclamation-circle"></span>{{ $error }}<br>
+                    <span class="fas fa-exclamation-circle"></span>{{ $error }}<br>
                 @endforeach
             </div>
         @endif

@@ -6,7 +6,6 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">ÚLTIMS REGISTRES CREATS</div>
-
                 <div class="card-body">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
@@ -16,19 +15,19 @@
                     @if (Auth::user()->hasAnyRole(['1','5']))
                        @foreach ($user as $usuari)
                             @if (isset($usuari->missatgeDay))
-                            @foreach($usuari->missatgeDay->where('type', 'registreEntradaCreate') as $missatge)
-                                <div class="alert alert-success" role="alert">
-                                    <form method = "GET" action= '{{ route('registreProduccioFind') }}' id='search'>
-                                        @csrf
-                                        <input type="hidden" id="searchBy" class="form-control" name="searchBy" value="id_registre_entrada">
-                                        <input type="hidden" id="searchBy" class="form-control" name="orderBy" value="id_registre_entrada">
-                                        <input type="hidden" id="search_term" class="form-control" name="search_term" value="{{$missatge->id_referencia}}">
-                                        <a class="alert-link" onclick="this.parentNode.submit();" href="#">
-                                            {{$missatge->missatge}} - {{$usuari->alias_usuari}}
-                                        </a>
-                                    </form>
-                                </div>
-                            @endforeach
+                                @foreach($usuari->missatgeDay->where('type', 'registreEntradaCreate') as $missatge)
+                                    <div class="alert alert-success" role="alert">
+                                        <form method = "GET" action= '{{ route('registreProduccioFind') }}' id='search'>
+                                            @csrf
+                                            <input type="hidden" id="searchBy" class="form-control" name="searchBy" value="id_registre_entrada">
+                                            <input type="hidden" id="searchBy" class="form-control" name="orderBy" value="id_registre_entrada">
+                                            <input type="hidden" id="search_term" class="form-control" name="search_term" value="{{$missatge->id_referencia}}">
+                                            <a class="alert-link" onclick="this.parentNode.submit();" href="#">
+                                                {{$missatge->missatge}} - {{$usuari->alias_usuari}}
+                                            </a>
+                                        </form>
+                                    </div>
+                                @endforeach
                             @endif
                        @endforeach
                     @else
