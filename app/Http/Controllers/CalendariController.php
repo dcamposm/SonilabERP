@@ -412,20 +412,48 @@ class CalendariController extends Controller
     }
     
     public function setDiaFestiu(CalednariCreateDiaFestiuRequest $request) {
-        if (isset($request['diaFi'])){
+        if ($request['diaFi'] != null){
             $f = date('z', strtotime($request['diaFi']))-date('z', strtotime($request['diaInici']));
         } else $f = 0;
 
         for ($i = 0; $i <= $f; $i++) {
             for ($s = 1; $s <=8; $s++){
-                $calendariCarrec = new CalendarCarrec();  
+                $calendariCarrec = CalendarCarrec::where('num_sala', $s)
+                        ->where('data', date("Y-m-d",strtotime($request['diaInici']."+ ".$i." days")))
+                        ->first();  
+                
+                if ($calendariCarrec) {
+                    if ($calendariCarrec->festiu == 0) {
+                        Calendar::where('id_calendar_carrec', $calendariCarrec->id_calendar_carrec)->delete();
+                        
+                        $calendariCarrecs = CalendarCarrec::where('num_sala', $s)
+                            ->where('data', date("Y-m-d",strtotime($request['diaInici']."+ ".$i." days")))
+                            ->delete();
+                          
+                        $$calendariCarrec = new CalendarCarrec();
+                        $calendariCarrec->num_sala = $s;
+                        $calendariCarrec->data = date("Y-m-d",strtotime($request['diaInici']."+ ".$i." days")); 
+                        $calendariCarrec->festiu = 1;
+                        $calendariCarrec->descripcio_festiu  = $request['descripcio_festiu'];
 
-                $calendariCarrec->num_sala = $s;
-                $calendariCarrec->data = date("Y-m-d",strtotime($request['diaInici']."+ ".$i." days")); 
-                $calendariCarrec->festiu = 1;
-                $calendariCarrec->descripcio_festiu  = $request['descripcio_festiu'];
+                        $calendariCarrec->save();
+                    } else {
+                        Calendar::where('id_calendar_carrec', $calendariCarrec->id_calendar_carrec)->delete();
+                        
+                        $calendariCarrecs = CalendarCarrec::where('num_sala', $s)
+                            ->where('data', date("Y-m-d",strtotime($request['diaInici']."+ ".$i." days")))
+                            ->delete();
+                    }
+                } else {
+                    $calendariCarrec = new CalendarCarrec();
+                    $calendariCarrec->num_sala = $s;
+                    $calendariCarrec->data = date("Y-m-d",strtotime($request['diaInici']."+ ".$i." days")); 
+                    $calendariCarrec->festiu = 1;
+                    $calendariCarrec->descripcio_festiu  = $request['descripcio_festiu'];
 
-                $calendariCarrec->save();
+                    $calendariCarrec->save();
+                }
+                
             }
         }
         

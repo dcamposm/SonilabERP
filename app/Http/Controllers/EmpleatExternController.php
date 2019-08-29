@@ -35,9 +35,13 @@ class EmpleatExternController extends Controller
     public function find()
     {
         if (request()->input("searchBy") == 'carrec'){  
-            $empleats = EmpleatExtern::with(['carrec' => function($query){
-                            $query->where('id_carrec', request()->input("search_term"));
-                        }])->get();
+            $empleats = EmpleatExtern::select('slb_empleats_externs.id_empleat', 
+                                            'nom_empleat', 'cognom1_empleat', 
+                                            'cognom2_empleat',
+                                            'telefon_empleat', 
+                                            'email_empleat')
+                                        ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', 'slb_empleats_externs.id_empleat')
+                                        ->distinct()->where('slb_carrecs_empleats.id_carrec', request()->input("search_term"))->get();
         } else {
             //Amb el whereRaw ens dona la posibilitat de poder fer consultes amb més opcions
             $empleats = EmpleatExtern::whereRaw('LOWER('. request()->input("searchBy").') like "%'. strtolower(request()->input("search_term")).'%"')

@@ -37,7 +37,7 @@ function showDay(day) {
                                 <div class="row rowMati">\n\
                                     <div class="col colGlob">\n\
                                         <div class="row det">\n\
-                                            <div class="viewTecnic" style="'+ (!tecnicMati[0]  ? '' : (!tecnicMati[0].empleat ? 'border-left: 1px solid black;' : 'background-color: '+tecnicMati[0].empleat.color_empleat+'; border-right: 1px solid black;')) +'"><div class="rotar">'+ (!tecnicMati[0] ? '' : (!tecnicMati[0].empleat ? '' : tecnicMati[0].empleat.nom_empleat)) +'</div></div>\n\
+                                            <div class="viewTecnic" style="'+ (!tecnicMati[0]  ? '' : (!tecnicMati[0].empleat ? 'border-left: 1px solid black;' : 'background-color: '+tecnicMati[0].empleat.color_empleat+'; border-right: 1px solid black;')) +'"><div class="rotar">'+ (!tecnicMati[0] ? '' : (!tecnicMati[0].empleat ? '' : (tecnicMati[0].empleat.nom_empleat).split(' ')[0])) +'</div></div>\n\
                                             <div class="col mati"></div>\n\
                                         </div>\n\
                                     </div>\n\
@@ -45,7 +45,7 @@ function showDay(day) {
                                 <div class="row rowTarda">\n\
                                     <div class="col colGlob">\n\
                                         <div class="row det">\n\
-                                            <div class="viewTecnic" style="'+ (!tecnicTarda[0] ? '' : (!tecnicTarda[0].empleat ? 'border-left: 1px solid black;' : 'background-color: '+tecnicTarda[0].empleat.color_empleat+'; border-right: 1px solid black;')) +'"><div class="rotar">'+ (!tecnicTarda[0] ? '' : (!tecnicTarda[0].empleat ? '' : tecnicTarda[0].empleat.nom_empleat) ) +'</div></div>\n\
+                                            <div class="viewTecnic" style="'+ (!tecnicTarda[0] ? '' : (!tecnicTarda[0].empleat ? 'border-left: 1px solid black;' : 'background-color: '+tecnicTarda[0].empleat.color_empleat+'; border-right: 1px solid black;')) +'"><div class="rotar">'+ (!tecnicTarda[0] ? '' : (!tecnicTarda[0].empleat ? '' : (tecnicTarda[0].empleat.nom_empleat).split(' ')[0]) ) +'</div></div>\n\
                                             <div class="col tarda"></div>\n\
                                         </div>\n\
                                     </div>\n\

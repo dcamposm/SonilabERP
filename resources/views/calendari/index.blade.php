@@ -30,7 +30,7 @@
                     </div>
                 </div>
             </div>
-            <button id="download-pdf" class="btn btn-primary boton"><i class="fas fa-print"></i>IMPRIMIR</button>
+            <button id="btnAdd" class="btn btn-primary boton" data-toggle="modal" data-target="#modalPrint"><i class="fas fa-print"></i>IMPRIMIR</button>
             <button id="btnAdd" class="btn btn-primary boton" data-toggle="modal" data-target="#modalConf">CONFIGURAR</button>
             <button id="btnAdd" class="btn btn-success boton" type="button" onclick="openNav()">AFEGIR</button>
         </div>
@@ -42,11 +42,11 @@
                     </button>  
                 </div>
                 <div class="sala-vacia" ></div>
-                <div class="col col-fecha cursor" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[0]))}}')" dia="{{date('d/m/Y', strtotime($fechas[0]))}}" style="font-weight: bold;">DILLUNS : {{date('d/m/Y', strtotime($fechas[0]))}}</div>
-                <div class="col col-fecha cursor" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[1]))}}')" dia="{{date('d/m/Y', strtotime($fechas[1]))}}" style="font-weight: bold;">DIMARTS : {{date('d/m/Y', strtotime($fechas[1]))}}</div>
-                <div class="col col-fecha cursor" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[2]))}}')" dia="{{date('d/m/Y', strtotime($fechas[2]))}}" style="font-weight: bold;">DIMECRES : {{date('d/m/Y', strtotime($fechas[2]))}}</div>
-                <div class="col col-fecha cursor" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[3]))}}')" dia="{{date('d/m/Y', strtotime($fechas[3]))}}" style="font-weight: bold;">DIJOUS : {{date('d/m/Y', strtotime($fechas[3]))}}</div>
-                <div class="col col-fecha cursor" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[4]))}}')" dia="{{date('d/m/Y', strtotime($fechas[4]))}}" style="font-weight: bold;">DIVENDRES : {{date('d/m/Y', strtotime($fechas[4]))}}</div>
+                <div class="col col-fecha cursor" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[0]))}}')" dia="{{date('d-m-Y', strtotime($fechas[0]))}}" style="font-weight: bold;">DILLUNS : {{date('d/m/Y', strtotime($fechas[0]))}}</div>
+                <div class="col col-fecha cursor" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[1]))}}')" dia="{{date('d-m-Y', strtotime($fechas[1]))}}" style="font-weight: bold;">DIMARTS : {{date('d/m/Y', strtotime($fechas[1]))}}</div>
+                <div class="col col-fecha cursor" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[2]))}}')" dia="{{date('d-m-Y', strtotime($fechas[2]))}}" style="font-weight: bold;">DIMECRES : {{date('d/m/Y', strtotime($fechas[2]))}}</div>
+                <div class="col col-fecha cursor" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[3]))}}')" dia="{{date('d-m-Y', strtotime($fechas[3]))}}" style="font-weight: bold;">DIJOUS : {{date('d/m/Y', strtotime($fechas[3]))}}</div>
+                <div class="col col-fecha cursor" id="day" onclick="showDay('{{date('d-m-Y', strtotime($fechas[4]))}}')" dia="{{date('d-m-Y', strtotime($fechas[4]))}}" style="font-weight: bold;">DIVENDRES : {{date('d/m/Y', strtotime($fechas[4]))}}</div>
             </div>
             <div id="calendarContent"></div>
         </div>
@@ -285,11 +285,72 @@
         </div>
     </div>
     
+    <div class="modal fade" id="modalPrint" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">IMPRIMIR</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <div class="form-check">
+                                <input class="form-check-input dayPrint" type="checkbox" value="0" id="dilluns">
+                                <label class="form-check-label" for="dilluns">
+                                  Dilluns
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input dayPrint" type="checkbox" value="1" id="dimarts">
+                                <label class="form-check-label" for="dimarts">
+                                  Dimarts
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input dayPrint" type="checkbox" value="2" id="dimecres">
+                                <label class="form-check-label" for="dimecres">
+                                  Dimecres
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group col">
+                            <div class="form-check">
+                                <input class="form-check-input dayPrint" type="checkbox" value="3" id="dijous">
+                                <label class="form-check-label" for="dijous">
+                                  Dijous
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input dayPrint" type="checkbox" value="4" id="divendres">
+                                <label class="form-check-label" for="divendres">
+                                  Divendres
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="5" id="allDayPrint">
+                                <label class="form-check-label" for="allDayPrint">
+                                  Tots
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">TANCAR</button>
+                    <button id="download-pdf" type="button" class="btn btn-success">IMPRIMIR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <div class="modal fade" id="modalConf" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">CONFIGURAR - Dia de Festa</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">CONFIGURAR - Dies Festius</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

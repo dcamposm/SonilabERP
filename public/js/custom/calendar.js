@@ -209,8 +209,9 @@ function crearTablaCalendario() {
         var contenedor = $('#calendarContent');
         
         for (var i = 0; i < 8; i++) {
-            var fila = $('<div class="row fila"  style="min-width: 2500px;"></div>');
             var sala = i + 1;
+            var fila = $('<div class="row fila" salaRow="'+sala+'"  style="min-width: 2500px;"></div>');
+            
             // Crea un div con el número de la sala:
             fila.append('<div class="sala celda numS">' + sala + '</div>');
             fila.append('<div class="sala celda" style=" min-height: 200px;">\n\
@@ -264,7 +265,7 @@ function crearTablaCalendario() {
             }
             contenedor.append(fila);
         }
-        var fila = $('<div class="row fila"  style="min-width: 2500px;"></div>');
+        var fila = $('<div class="row fila" salaRow="'+sala+'"  style="min-width: 2500px;"></div>');
         
         fila.append('<div class="sala celdaT" style="font-size: 11px;">TOTAL</div>');
         
@@ -285,8 +286,9 @@ function crearTablaCalendario() {
         document.cookie = "tablaActual = 1";
         var contenedor = $('#calendarContent');
         for (let i = 0; i < 8; i++) {
-            var fila = $('<div class="row fila"  style="min-width: 2500px;"></div>');
             var sala = i + 1;
+            var fila = $('<div class="row fila" salaRow="'+sala+'"  style="min-width: 2500px;"></div>');
+            
             // Crea un div con el número de la sala:
             fila.append('<div class="sala celda numS">' + sala + '</div>');
             fila.append('<div class="sala celda" style=" min-height: 200px;">\n\
@@ -595,8 +597,9 @@ function setFesta(){
                 descripcio_festiu: $("#descripcio_festiu").val()};
     $.post('/calendari/setDiaFestiu', datos)
         .done(function (response) {
-            cargarActores();
             actulitzarDades();
+            
+            actulitzarActors();
             $('#modalConf').modal('hide');
         })
         .fail(function (error) {
@@ -633,7 +636,6 @@ function creatPasarLlista(){
                                 td1.append($(td1Value));
                             }
                         });
-                       
                     }
                     
                     tr.append(td1);
