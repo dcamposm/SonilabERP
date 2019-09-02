@@ -13,13 +13,28 @@ $('#download-pdf').click(function() {
     }
     
     $('.encabezado').hide();
-    $('#calendar').css({
-        "padding": "50px 0px 30px 55px",
-    });
-    $('[salarow="4"]').css('margin-bottom', '180px');
     
-    var pdf = new jsPDF('l', 'pt', 'a3');
-    pdf.internal.scaleFactor = 2.14;
+    if ($('.orientation:checked').val() == "l") {
+        $('#calendar').css({
+            "padding": "50px 0px 30px 55px",
+            "margin-right": "30px"
+        });    
+        
+        $('[salarow="4"]').css('margin-bottom', '180px');
+    } else {
+        $('#calendar').css({
+            "padding": "50px 0px 30px 85px",
+            "min-width": "1600px"
+        });
+        
+        $('[salarow="5"]').css('margin-bottom', '400px');
+    }
+
+    var pdf = new jsPDF(''+$('.orientation:checked').val()+'', 'pt', 'a3');
+    
+    if ($('.orientation:checked').val() == "l") pdf.internal.scaleFactor = 2.14;
+    else pdf.internal.scaleFactor = 2;
+    
     var options = {
          pagesplit: true
     };
@@ -29,9 +44,10 @@ $('#download-pdf').click(function() {
         window.open(pdf.output('bloburl'), '_blank');
     });
     
-    $('[salarow="4"]').css('margin-bottom', '0px');
+    $('[salarow]').css('margin-bottom', '0px');
     $('#calendar').css({
-        "padding": "0px 15px 0px 15px"
+        "padding": "0px 15px 0px 15px",
+        "min-width": "2500px"
     });
     $('.encabezado').show();
     $('[dia]').show();

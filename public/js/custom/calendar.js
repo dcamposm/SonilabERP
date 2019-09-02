@@ -206,11 +206,12 @@ var parentSearch = $('#searchRegistreSide').parent().css({"width": "100%", "marg
 function crearTablaCalendario() {
     if (getCookie("tablaActual")==0 || getCookie("tablaActual")===""){
         document.cookie = "tablaActual = 0";
+        $('.llegenda').show();
         var contenedor = $('#calendarContent');
-        
+        $('#calendar').css('min-width', '2500px');
         for (var i = 0; i < 8; i++) {
             var sala = i + 1;
-            var fila = $('<div class="row fila" salaRow="'+sala+'"  style="min-width: 2500px;"></div>');
+            var fila = $('<div class="row fila" salaRow="'+sala+'"></div>');
             
             // Crea un div con el número de la sala:
             fila.append('<div class="sala celda numS">' + sala + '</div>');
@@ -265,7 +266,7 @@ function crearTablaCalendario() {
             }
             contenedor.append(fila);
         }
-        var fila = $('<div class="row fila" salaRow="'+sala+'"  style="min-width: 2500px;"></div>');
+        var fila = $('<div class="row fila" salaRow="'+sala+'"></div>');
         
         fila.append('<div class="sala celdaT" style="font-size: 11px;">TOTAL</div>');
         
@@ -284,24 +285,28 @@ function crearTablaCalendario() {
         contenedor.append(fila);
     } else {
         document.cookie = "tablaActual = 1";
+        $('.llegenda').hide();
         var contenedor = $('#calendarContent');
+        $('#calendar').css('min-width', '2500px');
         for (let i = 0; i < 8; i++) {
             var sala = i + 1;
-            var fila = $('<div class="row fila" salaRow="'+sala+'"  style="min-width: 2500px;"></div>');
+            var fila = $('<div class="row fila" salaRow="'+sala+'"></div>');
             
             // Crea un div con el número de la sala:
             fila.append('<div class="sala celda numS">' + sala + '</div>');
-            fila.append('<div class="sala celda" style=" min-height: 200px;">\n\
-                            <div class="col torns">\n\
-                                <div class="row tornM">\n\
-                                    <div class="rotarM">Matí</div>\n\
-                                </div>\n\
-                                <div class="row tornT">\n\
-                                    <div class="rotarT">Tarda</div>\n\
-                                </div>\n\
-                            </div>\n\
-                        </div>'
-                    );
+            fila.append(
+                '<div class="sala celda" style=" min-height: 200px;">\n\
+                    <div class="col torns">\n\
+                        <div class="row tornM">\n\
+                            <div class="rotarM">Matí</div>\n\
+                        </div>\n\
+                        <div class="row tornT">\n\
+                            <div class="rotarT">Tarda</div>\n\
+                        </div>\n\
+                    </div>\n\
+                </div>'
+            );
+    
             for (let h = 0; h < 5; h++) {
                 d = dias[h];
                 s = sala;

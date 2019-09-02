@@ -34,8 +34,27 @@
             <button id="btnAdd" class="btn btn-primary boton" data-toggle="modal" data-target="#modalConf">CONFIGURAR</button>
             <button id="btnAdd" class="btn btn-success boton" type="button" onclick="openNav()">AFEGIR</button>
         </div>
-        <div id="calendar" style="min-width: 2500px; padding-left: 15px; padding-right: 15px;">
-            <div class="row" id="headerCotent" style="min-width: 2500px;">
+        <div class="d-flex" id="llegenda" style="margin-top: 10px; height: 25px;">
+            <div class="llegenda">
+                <span style="font-size: 15px;" class="text-success">&#9646;</span>
+                <span style="font-size: 11px; padding: 1px;"><25</span>
+            </div>
+            <div class="llegenda">
+                <span style="font-size: 15px;" class="text-info">&#9646;</span>
+                <span style="font-size: 11px; padding: 1px;"><50</span>
+            </div>
+            <div class="llegenda">
+                <span style="font-size: 15px;" class="text-warning">&#9646;</span>
+                <span style="font-size: 11px; padding: 1px;"><75</span>
+            </div>
+            <div class="llegenda">
+                <span style="font-size: 15px;" class="text-danger">&#9646;</span>
+                <span style="font-size: 11px; padding: 1px;"><100</span>
+            </div>
+            <div style="clear:both;"></div>
+        </div>
+        <div id="calendar">
+            <div class="row" id="headerCotent">
                 <div class="sala-vacia">
                     <button type="button" class="btn btn-sm alternar">
                         <span class="fas fa-calendar" style="margin-right: 0px;"></span>
@@ -315,6 +334,12 @@
                                   Dimecres
                                 </label>
                             </div>
+                            <div class="form-check  mt-4">
+                                <input class="form-check-input orientation" name="orientation" type="radio" value="l" id="horitzontal" checked>
+                                <label class="form-check-label" for="horitzontal">
+                                  Horitzontal
+                                </label>
+                            </div>
                         </div>
                         <div class="form-group col">
                             <div class="form-check">
@@ -333,6 +358,12 @@
                                 <input class="form-check-input" type="checkbox" value="5" id="allDayPrint">
                                 <label class="form-check-label" for="allDayPrint">
                                   Tots
+                                </label>
+                            </div>
+                            <div class="form-check mt-4">
+                                <input class="form-check-input orientation" name="orientation" type="radio" value="p" id="vertical">
+                                <label class="form-check-label" for="vertical">
+                                  Vertical
                                 </label>
                             </div>
                         </div>

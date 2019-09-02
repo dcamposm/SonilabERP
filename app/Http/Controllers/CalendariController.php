@@ -16,7 +16,7 @@ class CalendariController extends Controller
     public function showCalendari($year = null, $week = null){
         $meses = array("Gener","Febrer","Març","Abril","Maig","Juny","Juliol","Agost","Setembre","Octubre","Novembre","Decembre");
         $fecha = Carbon::now();
-        //return response()->json($fecha->month);
+
         if ($week == null || $year == null){
             $week = $fecha->weekOfYear;
             $year = $fecha->year;
@@ -430,7 +430,7 @@ class CalendariController extends Controller
                             ->where('data', date("Y-m-d",strtotime($request['diaInici']."+ ".$i." days")))
                             ->delete();
                           
-                        $$calendariCarrec = new CalendarCarrec();
+                        $calendariCarrec = new CalendarCarrec();
                         $calendariCarrec->num_sala = $s;
                         $calendariCarrec->data = date("Y-m-d",strtotime($request['diaInici']."+ ".$i." days")); 
                         $calendariCarrec->festiu = 1;

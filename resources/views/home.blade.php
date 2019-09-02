@@ -152,20 +152,7 @@
             <div class="card">
                 <div class="card-header">PLANNING DEL DIA <spam id="day"></spam></div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col col-fecha" style="font-weight: bold;">1</div>
-                        <div class="col col-fecha" style="font-weight: bold;">2</div>
-                        <div class="col col-fecha" style="font-weight: bold;">3</div>
-                        <div class="col col-fecha" style="font-weight: bold;">4</div>
-                    </div>
-                    <div id="calendar"></div>
-                    <div class="row">
-                        <div class="col col-fecha" style="font-weight: bold;">5</div>
-                        <div class="col col-fecha" style="font-weight: bold;">6</div>
-                        <div class="col col-fecha" style="font-weight: bold;">7</div>
-                        <div class="col col-fecha" style="font-weight: bold;">8</div>
-                    </div>
-                    <div id="calendar2"></div>
+                    <div id="calendar1"></div>
                 </div>
             </div>
         </div>
