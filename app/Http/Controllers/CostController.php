@@ -1,12 +1,9 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\{Costos,RegistreProduccio,EmpleatCost};
 use Validator;
 use Illuminate\Support\Facades\Route; 
-
 class CostController extends Controller
 {
     public function __construct()
@@ -17,7 +14,6 @@ class CostController extends Controller
     public function index($ref = 0)
     {
         $vecs = Costos::with('registreProduccio.registreEntrada.client')->orderBy('id_registre_produccio')->get();       
-
         $costos = array();
         
         if ($ref == 0){
@@ -57,7 +53,6 @@ class CostController extends Controller
                 }
             }
         }
-
         $registreProduccio = RegistreProduccio::all();
         
         $arrayProjectes = array();
@@ -77,7 +72,6 @@ class CostController extends Controller
                 $exist = false;
             }
         }
-
         return View('vec.index', array('costos' => $costos, 'registreProduccio' => $arrayProjectes));
     }
     
@@ -86,7 +80,6 @@ class CostController extends Controller
     public function showPack($id, $data = 0)
     {
         $vecs = Costos::with('registreProduccio.registreEntrada.client')->orderBy('id_registre_produccio')->get();
-
         $costos = array();
         foreach ($vecs as $vec){
             if ($vec->registreProduccio->id_registre_entrada == $id  && date('d-m-Y', strtotime($vec->registreProduccio->data_entrega)) == $data){
@@ -99,7 +92,6 @@ class CostController extends Controller
                 );
             }
         }
-
         return View('vec.showPack', array('costos' => $costos));
     }
     
@@ -123,15 +115,11 @@ class CostController extends Controller
                                 'cg' => 0,
                                 'total' => $empleat->cost_empleat
                             );
-
                             //$total += $empleat->cost_empleat;
-                            //return response()->json($empleatsInfo);
                             foreach ($empleat->empleat->estadillo as $actor){
                                 if ($actor->id_produccio == $vec->registreProduccio->getEstadillo->id_estadillo){
-
                                     $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['tk'] += $actor->take_estadillo;
                                     $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['cg'] += $actor->cg_estadillo;
-                                    //return response()->json($empleatsInfo);
                                 }
                             }
                         } else {
@@ -151,7 +139,6 @@ class CostController extends Controller
                             'total' => $empleat->cost_empleat
                         );
                     }
-
                     
                 } else {
                     if (!isset($empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat])) {
@@ -165,15 +152,15 @@ class CostController extends Controller
                         else array_push($empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['tasca'], $empleat->tarifa->carrec->nom_carrec);
                     } else {
                         //$total += $empleat->cost_empleat;
-                        //return response()->json($empleat->tarifa->nombre_corto);
                         if ($empleat->tarifa->carrec->nom_carrec == 'Traductor') array_push($empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['tasca'], $empleat->tarifa->nombre_corto);
                         $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['total'] += $empleat->cost_empleat;
                     } 
                 }
             }
-            //return response()->json($empleatsInfo);
+
             $totalSS = ($totalSS/100)*32.35;
             $total = $vec->cost_total;
+            
             return View('vec.show', array('vec' => $vec, 'empleatsInfo' => $empleatsInfo, 'total' => $total, 'totalSS' => $totalSS, 'return' => 1));
         } else {
             $vecs = Costos::with('registreProduccio.registreEntrada.client')->with('empleats.empleat.carrec.carrec')->orderBy('id_registre_produccio')->get();
@@ -181,13 +168,10 @@ class CostController extends Controller
             $total = 0;
             $totalSS = 0;
             $maxDocu = array();
-
             $empleatsInfo = array();
             foreach ($vecs as $vec) {
-                //dd($vecs);
                 if ($vec->registreProduccio->vec == 1){
                     if ($vec->registreProduccio->id_registre_entrada == $id && date('d-m-Y', strtotime($vec->registreProduccio->data_entrega)) == $data){
-                        //return response()->json($vec);
                         if (!isset($vecInfo)) {
                             $vecInfo = array(
                                 'ref' => $id,
@@ -195,13 +179,13 @@ class CostController extends Controller
                                 'client' => $vec->registreProduccio->registreEntrada->client->nom_client,
                                 'entrega' => $data,
                                 'setmana' => $vec->registreProduccio->setmana,
-                                'episodis' => array($vec->registreProduccio->subreferencia)
+                                'episodis' => array($vec->registreProduccio->subreferencia),
+                                'preu_venda'=> $vec->preu_venda
                             );
                         } else {
                             array_push($vecInfo['episodis'],$vec->registreProduccio->subreferencia);
                         }
                         foreach ($vec->empleats as $empleat){
-                            //return response()->json($vec->empleats);
                             //----------------------INFO ACTORS----------------------
                             if ($empleat->tarifa->carrec->nom_carrec == 'Actor'){
                                 //------------Show la tarifa que no sigui ni canço ni documental ni narració--------------
@@ -213,31 +197,21 @@ class CostController extends Controller
                                             'cg' => 0,
                                             'total' => $empleat->cost_empleat
                                         );
-                                        //return response()->json($empleatsInfo);
                                         foreach ($empleat->empleat->estadillo as $actor){
-                                            //return response()->json($vec->registreProduccio->getEstadillo->id_estadillo);
                                             if ($actor->id_produccio == $vec->registreProduccio->getEstadillo->id_estadillo){
-                                                //return response()->json($empleat->id_tarifa);
                                                 if ($empleat->id_tarifa == 5 || $empleat->id_tarifa == 7){
                                                     $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['tk'] += $actor->take_estadillo;
                                                 } else if ($empleat->id_tarifa == 6 || $empleat->id_tarifa == 8){
                                                    $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['cg'] += $actor->cg_estadillo; 
                                                 }
-                                                //return response()->json($empleatsInfo);
                                             }
-                                            //return response()->json($vec->registreProduccio->getEstadillo->id_estadillo);
                                         }
-
                                         $total += $empleat->cost_empleat;
                                         $totalSS += $empleat->cost_empleat;
-
-                                        //return response()->json($empleatsInfo);
                                     } else {
-                                        //return response()->json($vec->empleats);
                                         $total += $empleat->cost_empleat;
                                         $totalSS += $empleat->cost_empleat;
                                         foreach ($empleat->empleat->estadillo as $actor){
-                                            //return response()->json($vec->registreProduccio->getEstadillo);
                                             if ($actor->id_produccio == $vec->registreProduccio->getEstadillo->id_estadillo){
                                                 if ($empleat->id_tarifa == 5 || $empleat->id_tarifa == 7){
                                                     $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['tk'] += $actor->take_estadillo;
@@ -246,10 +220,7 @@ class CostController extends Controller
                                                 }
                                             }
                                         }
-
                                         $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['total'] += $empleat->cost_empleat;
-
-                                        //return response()->json($empleat);
                                     } 
                                 //---------------Show tarifa canço-----------
                                 } else if ($empleat->tarifa->nombre_corto == 'canso'){
@@ -281,13 +252,11 @@ class CostController extends Controller
                                     }
                                 //------------Show tarifa documental------------
                                 } else if ($empleat->tarifa->nombre_corto == 'docu'){
-                                    //return response()->json($empleat->empleat->carrec);;
                                     foreach ($empleat->empleat->carrec as $carrec) {
                                         if ($carrec->id_tarifa == 10){
                                             $maxDocu[$empleat->empleat->id_empleat]['docu'] = $carrec->preu_carrec;
                                         }
                                     }
-                                    //return response()->json($maxDocu);
                                     if (!isset($empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat])) {
                                         $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat] = array(
                                             'nom' => ($empleat->empleat->nom_empleat.' '.$empleat->empleat->cognom1_empleat),
@@ -295,27 +264,19 @@ class CostController extends Controller
                                             'cg' => 0,
                                             'total' => $empleat->cost_empleat
                                         );
-                                        //return response()->json($empleatsInfo);
                                         foreach ($empleat->empleat->estadillo as $actor){
-                                            //return response()->json($vec->registreProduccio->getEstadillo->id_estadillo);
                                             if ($actor->id_produccio == $vec->registreProduccio->getEstadillo->id_estadillo){
-                                                //return response()->json($empleat->id_tarifa);
                                                 if ($empleat->id_tarifa == 10){
                                                     $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['tk'] += $actor->take_estadillo;
                                                     $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['cg'] += $actor->cg_estadillo; 
                                                 }
                                             }
                                         }
-
                                         //$total += $empleat->cost_empleat;
                                         //$totalSS += $empleat->cost_empleat;
-
-                                        //return response()->json($empleatsInfo);
                                     } else {
                                         foreach ($empleat->empleat->estadillo as $actor){
-                                            //return response()->json($vec->registreProduccio->getEstadillo->id_estadillo);
                                             if ($actor->id_produccio == $vec->registreProduccio->getEstadillo->id_estadillo){
-                                                //return response()->json($empleat->id_tarifa);
                                                 if ($empleat->id_tarifa == 10){
                                                     $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['tk'] += $actor->take_estadillo;
                                                     $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['cg'] += $actor->cg_estadillo; 
@@ -334,7 +295,6 @@ class CostController extends Controller
                                 
                             //-------------INFO COL·LABORADORS--------------
                             else {
-                                //return response()->json($vec);
                                 if (!isset($empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat])) {
                                     $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat] = array(
                                         'nom' => ($empleat->empleat->nom_empleat.' '.$empleat->empleat->cognom1_empleat),
@@ -342,20 +302,16 @@ class CostController extends Controller
                                         'total' => $empleat->cost_empleat
                                     );
                                    $total += $empleat->cost_empleat;
-                                    //return response()->json($empleatsInfo);
                                 } else {
                                     $total += $empleat->cost_empleat;
-
                                     if ($empleat->tarifa->carrec->nom_carrec == 'Traductor'){
                                         if (isset($empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['tasca'][$empleat->tarifa->nombre_corto])){
                                             $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['tasca'][$empleat->tarifa->nombre_corto]['cost']+=$empleat->cost_empleat;
                                             array_push($empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['tasca'][$empleat->tarifa->nombre_corto]['episodis'], $vec->registreProduccio->subreferencia);
                                         } else {
                                             $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['tasca'][$empleat->tarifa->nombre_corto] = array('cost'=>$empleat->cost_empleat,'episodis' => array($vec->registreProduccio->subreferencia));
-
                                         }
                                     }
-
                                     $empleatsInfo[$empleat->tarifa->carrec->nom_carrec][$empleat->empleat->id_empleat]['total'] += $empleat->cost_empleat;
                                 } 
                             }
@@ -363,7 +319,6 @@ class CostController extends Controller
                     }
                 }
             }
-            //return response()->json($maxDocu);
             if (empty($maxDocu)){
                 $totalSS = ($totalSS/100)*32.35;
                 $total += $totalSS;
@@ -375,9 +330,8 @@ class CostController extends Controller
                 
                 $totalSS = ($totalSS/100)*32.35;
                 $total += $totalSS;
-                //return response()->json($empleatsInfo);
             }
-            //dd($empleatsInfo);
+            
             return View('vec.show', array('vec' => $vecInfo, 'empleatsInfo' => $empleatsInfo, 'total' => $total, 'totalSS' => $totalSS));
         }
     }
@@ -387,8 +341,8 @@ class CostController extends Controller
         $registre = RegistreProduccio::with('getEstadillo.actors.empleat.carrec.tarifa')->with('traductor.carrec')
                 ->with('ajustador')->with('linguista')->with('director')->with('tecnic')
                 ->with('registreEntrada')->find($id);
-
         $vec = Costos::where('id_registre_produccio', $id)->first();
+        
         if (!$vec){
             if ($registre->getEstadillo != null){
                 $vec = new Costos();
@@ -529,14 +483,12 @@ class CostController extends Controller
                                 $totalSS += $costTotal;
                         //--------------Altres Medies-------------------
                             } else {
-                                //return response()->json($actor);
                                 foreach ($actor->empleat->carrec as $actorCarrec){
                                     $empleatCost = new EmpleatCost();
                                     $empleatCost->id_costos = $vec->id_costos;
                                     $empleatCost->id_empleat = $actor->id_actor;
                                     if ($registre->registreEntrada->id_idioma == $actorCarrec->id_idioma && 
                                         ($actorCarrec->tarifa->nombre_corto == 'cine_take'|| $actorCarrec->tarifa->nombre_corto == 'cine_cg') && $actorCarrec->preu_carrec != 0){
-
                                         if ($actorCarrec->tarifa->nombre_corto == 'cine_take') {
                                             $empleatCost->cost_empleat = $actorCarrec->preu_carrec * $actor->take_estadillo;
                                             $total += $empleatCost->cost_empleat;
@@ -569,13 +521,11 @@ class CostController extends Controller
                     }
                     $total += ($totalSS/100)*32.35;
                 }
-                //return response()->json($registre->getEstadillo->actors);
                 //-----------------------Costos Traductor-------------------
                 if ($registre->traductor != null){
                     $empleatCost = new EmpleatCost();
                     $empleatCost->id_costos = $vec->id_costos;
                     $empleatCost->id_empleat = $registre->traductor->id_empleat;
-
                     foreach ($registre->traductor->carrec as $empleatCarrec){
                         if ($registre->registreEntrada->id_idioma == $empleatCarrec->id_idioma && $empleatCarrec->tarifa->nombre_corto == 'traductor' && $empleatCarrec->preu_carrec != 0){
                             $empleatCost->cost_empleat = $empleatCarrec->preu_carrec * ($registre->registreEntrada->total_episodis != 0 ? ($registre->registreEntrada->minuts / $registre->registreEntrada->total_episodis) : $registre->registreEntrada->minuts );
@@ -661,14 +611,12 @@ class CostController extends Controller
                         }
                     }
                 }
-
                 $registre->vec = 1;
                 $registre->save();
-
                 $vecF = Costos::find($vec->id_costos);
                 $vecF->cost_total = $total;
                 $vecF->save();
-                //return response()->json(Route::currentRouteName());
+                
                 if (Route::currentRouteName() == "vecActualitzar") {
                     return redirect()->back()->with('success', 'S\'ha actualitzat la valoració correctament');
                 } else if (Route::currentRouteName() == "vecInsert"){
@@ -688,17 +636,13 @@ class CostController extends Controller
         } else {
             return redirect()->route('indexRegistreProduccio')->withErrors(array('error' => 'ERROR. No s\'ha pogut crear la valoració, de la subreferencia '.$registre->subreferencia.', és té que crear el estadillo abans.'));
         }
-        //return response()->json($registre); 
-        //Poner mensaje error no esta el estadillo creado
     }
     
     public function insert()
     {
-        //return response()->json(request()->all());
         $v = Validator::make(request()->all(), [
             'id_registre_produccio'   => 'required',
         ]);
-
         if ($v->fails()) {
             return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
         } else {
@@ -711,11 +655,11 @@ class CostController extends Controller
         if ($setmana == 0){
             EmpleatCost::where('id_costos', $id)->delete();
             $costos = Costos::where('id_costos', $id)->first();
-            //return response()->json($costos);
+
             $id_registre = $costos->id_registre_produccio;
-            //return response()->json($estadillo);
+
             $costos->delete();
-            //return response()->json($costos);
+
             return CostController::generar($id_registre);  
         } else {
             $registres = RegistreProduccio::where('id_registre_entrada', $id)->where('setmana', $setmana)->get();
@@ -725,7 +669,7 @@ class CostController extends Controller
                 EmpleatCost::where('id_costos', $costos->id_costos)->delete();
                 $costos->delete();
             }
-            //return response()->json($registres);
+
             return CostController::generarSetmana($id, $setmana); 
         }
         
@@ -735,7 +679,7 @@ class CostController extends Controller
     {
         $registres = RegistreProduccio::where('id_registre_entrada', $id)->where('setmana', $setmana)->get();
         $estadillos = RegistreProduccio::where('estadillo', 1)->where('setmana', $setmana)->where('id_registre_entrada', $id)->get();
-        //return response()->json($estadillos->count());
+
         if ($registres->count() != $estadillos->count()){
             return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut crear la valoració, és té que crear els estadillos i validar-los abans.'));
         } else {
@@ -751,11 +695,10 @@ class CostController extends Controller
     }
     
     public function delete(Request $request) {
-        //return response()->json($request->all());
         if (!$request->input('setmana')){
             EmpleatCost::where('id_costos', $request["id"])->delete();
             $costos = Costos::where('id_costos', $request["id"])->first();
-            //return response()->json($estadillo);
+
             $produccio = RegistreProduccio::find($costos->id_registre_produccio);
             $produccio->vec = false;
             $produccio->save();
@@ -765,7 +708,7 @@ class CostController extends Controller
             
             foreach ($registres as $registre) {
                 $costos = Costos::where('id_registre_produccio', $registre->id)->first();
-                //return response()->json($costos);
+
                 if ($costos){
                    EmpleatCost::where('id_costos', $costos->id_costos)->delete(); 
                    $costos->delete();
@@ -777,5 +720,23 @@ class CostController extends Controller
         }
         
         return redirect()->back()->with('success', 'Valoració econòmica eliminada correctament.');
+    }
+    
+    public function setPreuVenda(Request $request) {
+        if ($request["setmana"] == 0){
+            $costos = Costos::where('id_registre_produccio', $request["id"])->first();
+            $costos->preu_venda = $request["preu_venda"];
+            $costos->save();
+        } else {
+            $registres = RegistreProduccio::where('id_registre_entrada', $request["id"])->where('setmana', $request["setmana"])->get();
+            
+            foreach ($registres as $registre) {
+                $costos = Costos::where('id_registre_produccio', $registre->id)->first();
+                $costos->preu_venda = $request["preu_venda"];
+                $costos->save();
+            }
+        }
+        
+        return ;
     }
 }

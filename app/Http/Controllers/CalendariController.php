@@ -194,7 +194,7 @@ class CalendariController extends Controller
             'data_fi'                => $data_fi,
             'opcio_calendar'         => request()->get('opcio_calendar'),
             'num_sala'               => request()->get('num_sala'),
-            'id_director'            =>request()->get('id_director'),
+            'id_director'            => request()->get('id_director'),
         );
         
         if (strtotime($valores['data_inici']) < strtotime( date('Y-m-d', strtotime($valores['data_inici']))." 13:30:01")){
@@ -457,6 +457,7 @@ class CalendariController extends Controller
             }
         }
         
-        return response()->json(['success'=> true],201);
+        $festius = CalendarCarrec::where('data', '>=', date("Y-m-d",strtotime($request['fechas'][0])))->where('data', '<=', date("Y-m-d",strtotime($request['fechas'][4])))->whereFestiu(1)->get();
+        return response()->json($festius);
     }
 }

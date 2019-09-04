@@ -11,7 +11,8 @@ class Costos extends Model
 
     public  $fillable = [ 
         "id_registre_produccio",
-        "cost_total"
+        "cost_total",
+        "preu_venda"
     ];
 
     public function empleats()

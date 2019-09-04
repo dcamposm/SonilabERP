@@ -136,6 +136,8 @@ Route::middleware(['role: 1,2,4,5'])->group(function () {
     Route::get('/vec/modificar/{id}', 'CostController@updateView')->name('vecUpdateView');
 
     Route::post('/vec/esborrar', 'CostController@delete')->name('esborrarVec');
+    
+    Route::post('/vec/setPreuVenda', 'CostController@setPreuVenda')->name('setPreuVenda');
 });
 
 //------------------Rutes calendari------------------

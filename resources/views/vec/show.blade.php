@@ -151,15 +151,24 @@
                     @endif
                     <tr class="row text-white justify-content-end">
                         <td class="col-2 font-weight-bold" style="background-color: #212529;">TOTAL COSTOS</td>
-                        <td class="col-2" style="background-color: #212529;">{{number_format($total, 2, '.', '')}}€</td>
+                        <td class="col-2" id="costosTotals" style="background-color: #212529;">{{number_format($total, 2, '.', '')}}€</td>
                     </tr>
                     <tr class="row text-white justify-content-end">
-                        <td class="col-2 font-weight-bold"  style="background-color: #212529;">VENDA</td>
-                        <td class="col-2"  style="background-color: #212529;"></td>
+                        <td class="col-2 font-weight-bold"  style="background-color: #212529;">
+                            <div class="row justify-content-between">
+                                <div class="col">VENDA</div>
+                                <div class="col-4">
+                                    <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>  
+                                </div>
+                            </div>
+                        </td>
+                        <td class="col-2" id="preuVenda"  style="background-color: #212529;">
+                            {{$vec["preu_venda"]}}€
+                        </td>
                     </tr>
                     <tr class="row text-white  justify-content-end">
                         <td class="col-2 font-weight-bold text-center" style="background-color: #212529;">%</td>
-                        <td class="col-2" style="background-color: #212529;"></td>
+                        <td class="col-2" id="percen" style="background-color: #212529;"></td>
                     </tr>
                 </tbody>
             </table>
@@ -178,12 +187,16 @@
                 TORNAR
             </a>    
         @endif
+        <a id="save" class="btn btn-success text-white" style="display: none;">DESAR</a>
         @if (isset($vec->registreProduccio->id_registre_entrada))
-            <a href="{{ route('vecActualitzar', array('id' => $vec->id_costos)) }}" class="btn btn-warning">ACTUALITZAR</a>
+            <a href="{{ route('vecActualitzar', array('id' => $vec->id_costos)) }}" id="update" class="btn btn-warning">ACTUALITZAR</a>
         @else
-            <a href="{{ route('vecActualitzar', array('id' => $vec['ref'], 'setmana' => $vec['setmana'])) }}" class="btn btn-warning">ACTUALITZAR</a>
+            <a href="{{ route('vecActualitzar', array('id' => $vec['ref'], 'setmana' => $vec['setmana'])) }}" id="update" class="btn btn-warning">ACTUALITZAR</a>
         @endif
     </div>
 </div>
-
+<script>
+    var vec = @json($vec);
+</script>
+<script type="text/javascript" src="{{ URL::asset('js/custom/vecShow.js') }}"></script>
 @stop

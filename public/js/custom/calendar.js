@@ -599,13 +599,16 @@ function guardarCelda() {
 function setFesta(){
     var datos = {diaInici: $("#diaInici").val(), 
                 diaFi: $("#diaFi").val(), 
-                descripcio_festiu: $("#descripcio_festiu").val()};
+                descripcio_festiu: $("#descripcio_festiu").val(),
+                fechas: dias};
     $.post('/calendari/setDiaFestiu', datos)
         .done(function (response) {
+            $('#modalConf').modal('hide');
+            festius = response;
+
             actulitzarDades();
             
             actulitzarActors();
-            $('#modalConf').modal('hide');
         })
         .fail(function (error) {
             console.error(error);
@@ -946,7 +949,7 @@ function cambiarTecnico(torn) {
             Accept: 'application/json'
         },
         data: {
-            'id_empleat': parseInt($('#tecnico' + torn).val()),  // Ej: tecnico0, tecnico1
+            'id_empleat': parseInt($('#tecnico' + torn).val()),
             'data': diaSeleccionado,
             'sala': salaSeleccionada,
             'cargo': 'Tècnic de sala',
