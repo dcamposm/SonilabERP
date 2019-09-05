@@ -15,13 +15,13 @@
     </div>
 
     {{-- TABLA DE CLIENTS --}}
-    <table class="table tableIndex mt-3" style="min-width: 800px;">
+    <table class="table tableIndex mt-3" id="table" style="min-width: 800px;">
         <thead>
             <tr>
-                <th><span style="font-size: 11px;">NOM</span></th> 
-                <th><span style="font-size: 11px;">EMAIL</span></th>
-                <th><span style="font-size: 11px;">TELÈFON</span></th>
-                <th><span style="font-size: 11px;">ACCIONS</span></th>
+                <th>NOM</th> 
+                <th>EMAIL</th>
+                <th>TELÈFON</th>
+                <th class="sorter-false filter-false">ACCIONS</th>
             </tr>
         </thead>
         <tbody>

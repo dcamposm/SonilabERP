@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\{Costos,RegistreProduccio,EmpleatCost};
+use App\Http\Requests\CostSetPreuVendaRequest;
 use Validator;
 use Illuminate\Support\Facades\Route; 
 class CostController extends Controller
@@ -722,7 +723,7 @@ class CostController extends Controller
         return redirect()->back()->with('success', 'Valoració econòmica eliminada correctament.');
     }
     
-    public function setPreuVenda(Request $request) {
+    public function setPreuVenda(CostSetPreuVendaRequest $request) {
         if ($request["setmana"] == 0){
             $costos = Costos::where('id_registre_produccio', $request["id"])->first();
             $costos->preu_venda = $request["preu_venda"];

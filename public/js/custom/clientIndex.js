@@ -20,3 +20,9 @@ self.esborrarClient = function () {
         document.all["delete-" + self.clientPerEsborrar].submit(); 
     }
 }
+
+$("#table").tablesorter({
+    theme : "bootstrap",
+    
+    headerTemplate: '{content} {icon}'
+});
