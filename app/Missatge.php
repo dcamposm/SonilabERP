@@ -22,6 +22,12 @@ class Missatge extends Model
     {
         return $this->belongsTo('App\User', 'id_usuari', 'id_usuari');
     }
+    
+    public function clean()
+    {
+        return $this->where('data_final','<',date("Y-m-d"))->delete();
+    }
+    
     //Misstage per indicar un registre nou de producció
     public function missatgeNewRegistre($registreEntrada, $registreProduccio)
     {
@@ -70,7 +76,7 @@ class Missatge extends Model
     {           
         $this->id_usuari = $registreEntrada->id_usuari;
         $this->missatge = "Entrega per el dia ".date("d-m-Y",strtotime($registreProduccio->data_entrega)). " de la referencia ".$registreEntrada->referencia_titol." setmana ".$contSet;
-        $this->type = "alertEntrega";
+        $this->type = "avisEntrega";
         $this->referencia ='registreEntrada';
         $this->id_referencia =$registreEntrada->id_registre_entrada;
         $this->data_final =date("Y-m-d",strtotime($registreProduccio->data_entrega));
@@ -87,7 +93,7 @@ class Missatge extends Model
         $this->id_referencia = $calendari->id_calendar;
         $this->data_final =date("Y-m-d",strtotime($fecha_actual."+ 7 days"));
     }
-    
+    //Missatge que indica  el ultim camp modificat d'un Registre d'entrada al Responsable
     public function missatgeResponsableRegistreUpdateCamp($registreEntrada, $mod)
     {
         $fecha_actual = date("d-m-Y");          
@@ -98,5 +104,24 @@ class Missatge extends Model
         $this->id_referencia = $registreEntrada->id_registre_entrada;
         $this->data_final = date("Y-m-d",strtotime($fecha_actual."+ 7 days"));
     }
-    
+    //Missatge de les dades d'entrega dels traductors, ajustadors i lingüistes
+    public function missatgeAlertaEntregaProduccio($registreProduccio, $alerta, $type,$data)
+    {             
+        $this->id_usuari = $registreProduccio->registreEntrada->id_usuari;
+        $this->missatge = "Entrega ".$alerta." de la referencia ".$registreProduccio->referencia_titol." per el dia ".date("d-m-Y",strtotime($data));
+        $this->type = "alertEntrega".$type;
+        $this->referencia ='registreProduccio';
+        $this->id_referencia =$registreProduccio->id;
+        $this->data_final =date("Y-m-d",strtotime($data));
+    }
+    //Missatge de les dades d'entrega dels traductors, ajustadors i lingüistes
+    public function missatgeAlertaIniciSala($registreProduccio)
+    {             
+        $this->id_usuari = $registreProduccio->registreEntrada->id_usuari;
+        $this->missatge = "Recordatori de inici sala de la referencia ".$registreProduccio->referencia_titol." per el dia ".date("d-m-Y",strtotime($registreProduccio->inici_sala));
+        $this->type = "alertIniciSala";
+        $this->referencia ='registreProduccio';
+        $this->id_referencia =$registreProduccio->id;
+        $this->data_final =date("Y-m-d",strtotime($registreProduccio->inici_sala));
+    }
 }

@@ -13,15 +13,15 @@
         <tbody>
             <tr class="row">
                 <td class="font-weight-bold col-sm-3">REFÈRENCIA:</td>
-                <td class="col">{{ isset($vec->registreProduccio->id_registre_entrada) ? $vec->registreProduccio->id_registre_entrada : $vec['ref'] }}</td>
+                <td class="col">{{ $vec->registreProduccio->id_registre_entrada ?? $vec['ref'] }}</td>
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-3">TITOL:</td>
-                <td class="col">{{ isset($vec->registreProduccio->registreEntrada->titol) ? $vec->registreProduccio->registreEntrada->titol : $vec['titol'] }}</td>
+                <td class="col">{{ $vec->registreProduccio->registreEntrada->titol ?? $vec['titol'] }}</td>
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-3">CLIENT:</td>
-                <td class="col">{{ isset($vec->registreProduccio->registreEntrada->client->nom_client) ? $vec->registreProduccio->registreEntrada->client->nom_client : $vec['client'] }}</td>
+                <td class="col">{{ $vec->registreProduccio->registreEntrada->client->nom_client ?? $vec['client'] }}</td>
             </tr>
             @if (isset($vec->registreProduccio->subreferencia))
                 @if ($vec->registreProduccio->subreferencia != 0)

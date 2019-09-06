@@ -46,7 +46,7 @@ class RegistreProduccioController extends Controller {
     //Update de la vista Show    
     public function update($id){
         $prod = RegistreProduccio::find($id);
-        
+         
         if (request()->input('subreferencia')){
             if ($prod->subreferencia != request()->input('subreferencia')){
                 $registre = RegistreProduccio::where('id_registre_entrada', $prod->id_referencia_entrada)
@@ -58,7 +58,9 @@ class RegistreProduccioController extends Controller {
             }
         }
         $prod->fill(request()->all());               
-
+        
+        RegistreProduccioController::messagesUpdate($prod);
+        
         try {
             $prod->save(); 
         } catch (\Exception $ex) {
@@ -243,7 +245,7 @@ class RegistreProduccioController extends Controller {
         return redirect()->route('indexRegistreProduccio')->with('success', 'Registre de producció creat correctament.');
     }
 
-    public function delete(Request $request) {
+    public function delete() {
         ActorEstadillo::join('slb_estadillo', 'slb_estadillo.id_estadillo', 'slb_actors_estadillo.id_produccio')
                         ->join('slb_registres_produccio', 'slb_registres_produccio.id', 'slb_estadillo.id_registre_produccio')
                         ->where('slb_registres_produccio.id', request()->input("id"))
@@ -258,13 +260,46 @@ class RegistreProduccioController extends Controller {
         
         Costos::where('id_registre_produccio', request()->input("id"))->delete();
         RegistreProduccio::where('id', request()->input("id"))->delete();
+        
         return redirect()->route('indexRegistreProduccio');
     }
     
-    public function search(Request $request)
+    public function search()
     {
         $registreProduccio = RegistreProduccio::all();
         
         return response()->json($registreProduccio);
+    }
+    
+    public function messagesUpdate($referencia)
+    {
+        foreach (request()->input() as $key => $request) {
+            if ($key != '_token') {
+                switch ($key) {
+                    case 'data_traductor':
+                        $missatge = Missatge::firstOrNew(['id_referencia' => $referencia->id, 'referencia' => 'registreProduccio', 'type' => 'alertEntregaTraduccio']);
+                        $missatge->missatgeAlertaEntregaProduccio($referencia, 'de la traducció','Traduccio', $referencia->data_traductor);
+                        $missatge->save();
+                    break;
+                    case 'data_ajustador':
+                        $missatge = Missatge::firstOrNew(['id_referencia' => $referencia->id, 'referencia' => 'registreProduccio', 'type' => 'alertEntregaAjust']);
+                        $missatge->missatgeAlertaEntregaProduccio($referencia, "de l'ajust",'Ajust', $referencia->data_ajustador);
+                        $missatge->save();
+                    break;
+                    case 'data_linguista':
+                        $missatge = Missatge::firstOrNew(['id_referencia' => $referencia->id, 'referencia' => 'registreProduccio', 'type' => 'alertEntregaCorreccio']);
+                        $missatge->missatgeAlertaEntregaProduccio($referencia, 'de la correcció','Correccio', $referencia->data_linguista);
+                        $missatge->save();
+                    break;
+                    case 'inici_sala':
+                        $missatge = Missatge::firstOrNew(['id_referencia' => $referencia->id, 'referencia' => 'registreProduccio', 'type' => 'alertIniciSala']);
+                        $missatge->missatgeAlertaIniciSala($referencia);
+                        $missatge->save();
+                    break;
+                }
+            } 
+        }
+        
+        return ;
     }
 }

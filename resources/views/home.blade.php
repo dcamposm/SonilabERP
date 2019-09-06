@@ -82,7 +82,7 @@
                     @if (Auth::user()->hasAnyRole(['1','5']))
                        @foreach ($user as $usuari)
                             @if (isset($usuari->missatgeDay))
-                                @foreach($usuari->missatgeDay->where('type', 'alertEntrega') as $missatge)
+                                @foreach($usuari->missatgeDay->where('type', 'avisEntrega') as $missatge)
                                     @if ($missatge->referencia == 'registreEntrada'  && date("Y-m-d",strtotime(date("d-m-Y")."+ 7 days")) >= $missatge->data_final)
                                         <div class="alert alert-warning" role="alert">
                                             <form method = "GET" action= '{{ route('registreProduccioFind') }}' id='search'>
@@ -102,7 +102,7 @@
                             @endif
                        @endforeach
                     @else
-                        @forelse($user->missatgeDay->where('type', 'alertEntrega') as $missatge)
+                        @forelse($user->missatgeDay->where('type', 'avisEntrega') as $missatge)
                             @if ($missatge->referencia == 'registreEntrada' && date("Y-m-d",strtotime(date("d-m-Y")."+ 7 days")) >= $missatge->data_final)
                                 <div class="alert alert-warning" role="alert">
                                     <form method = "GET" action= '{{ route('registreProduccioFind') }}' id='search'>
@@ -128,19 +128,23 @@
         <div class="col-md-6 mt-3">
             <div class="card">
                 <div class="card-header">ALERTES</div>
-
+                @inject('str', 'Illuminate\Support\Str')
                 <div class="card-body">
                     @if (Auth::user()->hasAnyRole(['1','5']))
                        @foreach ($user as $usuari)
                             @if (isset($usuari->missatgeDay))
-                                @foreach($usuari->missatgeDay->where('type', 'alert') as $missatge)
-                                    <div class="alert alert-success" role="alert"> <a class="alert-link" href="{{route('mostrarRegistreEntrada', array('id' => $missatge->id_referencia))}}">{{$missatge->missatge}}</a></div>
+                                @foreach($usuari->missatgeDay as $missatge)
+                                    @if ($str->startsWith($missatge->type, "alert"))
+                                        <div class="alert alert-success" role="alert"><a class="alert-link" href="{{route('mostrarRegistreEntrada', array('id' => $missatge->id_referencia))}}">{{$missatge->missatge}}</a></div>
+                                    @endif    
                                 @endforeach
                             @endif
                        @endforeach
                     @else
-                        @forelse($user->missatgeDay->where('type', 'alert') as $missatge)
-                            <div class="alert alert-success" role="alert"> <a class="alert-link" href="{{route('mostrarRegistreEntrada', array('id' => $missatge->id_referencia))}}">{{$missatge->missatge}}</a></div>
+                        @forelse($user->missatgeDay as $missatge)
+                            @if ($str->startsWith($missatge->type, "alert"))
+                                <div class="alert alert-success" role="alert"><a class="alert-link" href="{{route('mostrarRegistreEntrada', array('id' => $missatge->id_referencia))}}">{{$missatge->missatge}}</a></div>
+                            @endif    
                         @empty
                             No tens missatges.
                         @endforelse

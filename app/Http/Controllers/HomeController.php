@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\User;
+use App\{User,Missatge};
+
 class HomeController extends Controller
 {
     /**
@@ -25,7 +26,10 @@ class HomeController extends Controller
     public function index()
     {
         $auth = Auth::user();
-
+        
+        $missatge = new Missatge;
+        $missatge->clean();
+        
         if (($auth->hasAnyRole([1, 5]))){
             $user = User::with('missatgeDay')->get();
 
