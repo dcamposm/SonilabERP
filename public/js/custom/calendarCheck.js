@@ -105,41 +105,44 @@ function checkTakesEditar(){
     perce += parseInt($('#numberTakes-editar').val());
 
     if (perce > 100){
+        removeValid($('#numberTakes-editar'));
         $('#numberTakes-editar').addClass("is-invalid");
         $('#errorEditar').removeAttr('hidden');
         $('#errorEditar').text('Els takes superen la capacitat.');
     } else {
+        removeValid($('#numberTakes-editar'));
         $('#numberTakes-editar').addClass("is-valid");
     }
 }
 
 function checkTakesAfegir(){
-    if ($('#takesIni').val() != ''){
-        var dia = $('#formAfegir').parents("div").find('[diaini]').attr('diaini');
-        var sala = $('#formAfegir').parents("div").find('[numsala]').attr('numsala');
+    var dia = $('#formAfegir').parents("div").find('[diaini]').attr('diaini');
+    var sala = $('#formAfegir').parents("div").find('[numsala]').attr('numsala');
 
-        if ($('#takesIni').val() <= "13:30") var torn = 0;
-        else var torn = 1;
+    if ($('#takesIni').val() <= "13:30") var torn = 0;
+    else var torn = 1;
 
-        var perce = 0;
+    var perce = 0;
 
-        $.each(data, function( key, element ) { 
-            if (element.calendari.torn == torn && element.data_inici.split(' ')[0] ==  dia && element.calendari.num_sala == sala) {
-                if (element.id_registre_entrada != $('#registreEntrada').val() || element.setmana != $('#setmana').val() || element.id_actor != $('#actor').val()){
-                    perce += element.num_takes;
-                }
+    $.each(data, function( key, element ) { 
+        if (element.calendari.torn == torn && element.data_inici.split(' ')[0] ==  dia && element.calendari.num_sala == sala) {
+            if (element.id_registre_entrada != $('#registreEntrada').val() || element.setmana != $('#setmana').val() || element.id_actor != $('#actor').val()){
+                perce += element.num_takes;
             }
-        });
-        perce += parseInt($('#numberTakes').val());
-
-        if (perce > 100){
-            $('#numberTakes').addClass("is-invalid");
-            $('#errorAfegir').removeAttr('hidden');
-            $('#errorAfegir').text('Els takes superen la capacitat.');
-        } else {
-            $('#numberTakes').addClass("is-valid");
         }
-    }    
+    });
+    
+    perce += parseInt($('#numberTakes').val());
+    console.log(perce);
+    if (perce > 100){
+        removeValid($('#numberTakes'));
+        $('#numberTakes').addClass("is-invalid");
+        $('#errorAfegir').removeAttr('hidden');
+        $('#errorAfegir').text('Els takes superen la capacitat.');
+    } else {
+        removeValid($('#numberTakes'));
+        $('#numberTakes').addClass("is-valid");
+    } 
 }
 
 function removeValid(input){

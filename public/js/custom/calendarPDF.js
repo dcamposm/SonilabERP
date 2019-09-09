@@ -22,10 +22,18 @@ $('#download-pdf').click(function() {
         
         $('[salarow="4"]').css('margin-bottom', '180px');
     } else {
-        $('#calendar').css({
-            "padding": "50px 0px 30px 85px",
-            "min-width": "1600px"
-        });
+        if (r > 1) {
+            $('#calendar').css({
+                "padding": "50px 0px 30px 85px",
+                "min-width": "1600px"
+            });
+        } else {
+            $('#calendar').css({
+                "padding": "50px 0px 30px 85px",
+                "margin-right": "1600px",
+                "min-width": "880px"
+            });
+        }
         
         $('[salarow="5"]').css('margin-bottom', '400px');
     }

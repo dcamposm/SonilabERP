@@ -1,6 +1,28 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="row encabezado justify-content-between position-fixed bg-white">
+    <div class="col">
+        <div class="input-group">
+            <input id="searchActor" class="form-control" style="width: 300px;"/>
+            <input id="searchEntrada" class="form-control" style="width: 300px;"/>
+         </div>
+    </div>
+    <div class="col">
+        <div class="semana btn-group" role="group">
+            <div id="semanaMenos" class="btn btn-primary round-left">
+                <span class="fas fa-angle-double-left"></span>
+            </div>
+            <span class="bg-primary simil-btn">{{$mes}}</span>
+            <div id="semanaMas" class="btn btn-primary round-right">
+                <span class="fas fa-angle-double-right"></span>
+            </div>
+        </div>
+    </div>
+    <button id="btnAdd" class="btn btn-primary boton" data-toggle="modal" data-target="#modalPrint"><i class="fas fa-print"></i>IMPRIMIR</button>
+    <button id="btnAdd" class="btn btn-primary boton" data-toggle="modal" data-target="#modalConf">CONFIGURAR</button>
+    <button id="btnAdd" class="btn btn-success boton" type="button" onclick="openNav()">AFEGIR</button>
+</div>
 <div class="container-fluid">
     <div id="mySidenav" class="sidenav pt-5">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -10,31 +32,8 @@
 
         </div>
     </div>
-
     <div id="contenedor" class="container-fluid contenedor mb-3">
-        <div class="row encabezado mb-4 justify-content-between">
-            <div class="col">
-                <div class="input-group">
-                    <input id="searchActor" class="form-control" style="width: 300px;"/>
-                    <input id="searchEntrada" class="form-control" style="width: 300px;"/>
-                 </div>
-            </div>
-            <div class="col">
-                <div class="semana btn-group" role="group">
-                    <div id="semanaMenos" class="btn btn-primary round-left">
-                        <span class="fas fa-angle-double-left"></span>
-                    </div>
-                    <span class="bg-primary simil-btn">{{$mes}}</span>
-                    <div id="semanaMas" class="btn btn-primary round-right">
-                        <span class="fas fa-angle-double-right"></span>
-                    </div>
-                </div>
-            </div>
-            <button id="btnAdd" class="btn btn-primary boton" data-toggle="modal" data-target="#modalPrint"><i class="fas fa-print"></i>IMPRIMIR</button>
-            <button id="btnAdd" class="btn btn-primary boton" data-toggle="modal" data-target="#modalConf">CONFIGURAR</button>
-            <button id="btnAdd" class="btn btn-success boton" type="button" onclick="openNav()">AFEGIR</button>
-        </div>
-        <div class="d-flex" id="llegenda" style="margin-top: 10px; height: 25px;">
+        <div class="d-flex" id="llegenda" style="margin-top: 70px; height: 25px;">
             <div class="llegenda">
                 <span style="font-size: 15px;" class="text-success">&#9646;</span>
                 <span style="font-size: 11px; padding: 1px;"><25</span>
@@ -193,8 +192,8 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <div class="row justify-content-between">
-                            <div>
+                        <div class="row justify-content-end">
+                            <div class="mr-3">
                                 <button class="btn btn-success btn-sm ml-3 mb-2" type="button" onclick="menuAfegir()">AFEGIR ACTOR</button>
                             </div>
                         </div>

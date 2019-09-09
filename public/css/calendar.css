@@ -158,6 +158,10 @@ body, html, main{
 }
 .encabezado{
     align-items: center;
+    z-index: 1;
+    width: 83%;
+    margin: -10px 0px 0px 0px;
+    padding: 5px 5px 5px 5px;
 }
 
 .encabezado .easy-autocomplete input{
