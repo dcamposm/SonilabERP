@@ -191,72 +191,53 @@ class EstadilloController extends Controller
     
     
     public function insertActorView($id, $setmana=0){
-        $carrecEmpleat = CarrecEmpleat::where('id_carrec', '1')->get();
-        
-        $cont = 0;
-        $empleatsArray = array();
-        foreach ($carrecEmpleat as $empleat){
-            if (!isset($empleatsArray)){                    
-                $empleatsArray[$cont] = $empleat->id_empleat;
-                $cont++;
-            } else {
-                $rep = false;
-                for ($i = 0; $i < $cont; $i++){
-                    if ($empleatsArray[$i] == $empleat->id_empleat){
-                        $rep = true;
-                        $i = $cont;
-                    }
-                }
-
-                if ($rep == false) {
-                    $empleatsArray[$cont] = $empleat->id_empleat;
-                    $cont++;
-                }
-            }
-        }
-
-        $empleats = Array();
-        
-        //return response()->json($empleats);
         if ($setmana == 0){
-           $estadillos = Estadillo::with('actors')->find($id);
-            //Despres introdueix en una altre array, tots els atributs del empleat
-            for ($i = 0; $i < count($empleatsArray); $i++){
-                $ext = false;
-                foreach ($estadillos->actors as $actor) {
-                    if ($actor->id_actor == $empleatsArray[$i]){
-                        $ext = true;
-                    }
-                }
-                if ($ext == false) {
-                    $empleats[$i] =  EmpleatExtern::where('id_empleat', $empleatsArray[$i])->first();
-                }
-            } 
+            $estadillos = Estadillo::with('actors')->find($id);
+            $empleats = EmpleatExtern::select('slb_empleats_externs.id_empleat as id_actor',
+                                        'slb_empleats_externs.nom_empleat',
+                                        'slb_empleats_externs.cognom1_empleat',
+                                        'slb_empleats_externs.cognom2_empleat')
+                            ->join('slb_actors_estadillo', 'slb_actors_estadillo.id_actor', 'slb_empleats_externs.id_empleat')
+                            ->join('slb_estadillo', 'slb_estadillo.id_estadillo', 'slb_actors_estadillo.id_produccio')
+                            ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', 'slb_empleats_externs.id_empleat')
+                            ->distinct()
+                            ->where('slb_carrecs_empleats.id_carrec', 1)
+                            ->whereNotExists(function($query) use ($id)
+                                {
+                                    $query->select('slb_actors_estadillo.id_actor')
+                                          ->from('slb_actors_estadillo')
+                                          ->whereRaw('slb_empleats_externs.id_empleat = slb_actors_estadillo.id_actor')
+                                          ->where('slb_actors_estadillo.id_produccio', $id);
+                                })
+                            ->get();
+                            
             return View('estadillos.createActor', array('empleats'=>$empleats, 'estadillos'=>$estadillos)); 
         } 
         
         $registreProduccio = RegistreProduccio::with('getEstadillo.actors')->where('id_registre_entrada', $id)->where('setmana', $setmana)->get();
-        //return response()->json($registreProduccio);
-        //Despres introdueix en una altre array, tots els atributs del empleat
-        for ($i = 0; $i < count($empleatsArray); $i++){
-            $ext = false;
-            foreach ($registreProduccio as $registre) {
-                if (!empty($registre->getEstadillo->actors)) {
-                    foreach ($registre->getEstadillo->actors as $actor) {
-                        if ($actor->id_actor == $empleatsArray[$i]){
-                            $ext = true;
-                        }
-                    }
-                }
-            }
-            if ($ext == false) {
-                $empleats[$i] =  EmpleatExtern::where('id_empleat', $empleatsArray[$i])->first();
-            }
-        } 
 
-        //return response()->json($empleats);
+        $empleats = EmpleatExtern::select('slb_empleats_externs.id_empleat as id_actor',
+                                        'slb_empleats_externs.nom_empleat',
+                                        'slb_empleats_externs.cognom1_empleat',
+                                        'slb_empleats_externs.cognom2_empleat')
+                            ->join('slb_actors_estadillo', 'slb_actors_estadillo.id_actor', 'slb_empleats_externs.id_empleat')
+                            ->join('slb_estadillo', 'slb_estadillo.id_estadillo', 'slb_actors_estadillo.id_produccio')
+                            ->join('slb_carrecs_empleats', 'slb_carrecs_empleats.id_empleat', 'slb_empleats_externs.id_empleat')
+                            ->distinct()
+                            ->where('slb_carrecs_empleats.id_carrec', 1)
+                            ->whereNotExists(function($query) use ($id, $setmana)
+                                {
+                                    $query->select('slb_actors_estadillo.id_actor')
+                                            ->from('slb_actors_estadillo')
+                                            ->join('slb_estadillo', 'slb_estadillo.id_estadillo', 'slb_actors_estadillo.id_produccio')
+                                            ->join('slb_registres_produccio', 'slb_registres_produccio.id', 'slb_estadillo.id_registre_produccio')
+                                            ->whereRaw('slb_empleats_externs.id_empleat = slb_actors_estadillo.id_actor')
+                                            ->where('slb_registres_produccio.id_registre_entrada', $id)
+                                            ->where('slb_registres_produccio.setmana', $setmana);
+                                })
+                            ->get();
+
         return View('estadillos.createActor', array('empleats'=>$empleats, 'registreProduccio' => $registreProduccio));
-        
     }
 
     public function insertActor($setmana = 0)
@@ -286,13 +267,10 @@ class EstadilloController extends Controller
             return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'han introduit totes les dades'));
         }
         $estadillos= Estadillo::all();
-        //return response()->json($estadillos);
+        
         foreach ($estadillos as $estadillo){
-            //return response()->json($estadillo->id_registre_produccio);
             if (request()->has('take_estadillo_'.$estadillo->id_registre_produccio)){
-                //return response()->json($estadillo->id_estadillo);
                 if (!ActorEstadillo::where('id_produccio',$estadillo->id_estadillo)->where('id_actor', request()->input('id_actor'))->first()){
-                    //return response()->json($estadillo->id_registre_produccio);
                     $actor = new ActorEstadillo;
                     $actor->id_produccio=$estadillo->id_estadillo;
                     $actor->id_actor=request()->input('id_actor');
@@ -308,95 +286,100 @@ class EstadilloController extends Controller
         return redirect()->back()->with('success', 'Actor afegit correctament.');
     }
     
-    public function updateActorView($id, $id_actor, $setmana = 0) {
-        $carrecEmpleat = CarrecEmpleat::where('id_carrec', '1')->get();
-        
-        $cont = 0;
-        $empleatsArray = array();
-        foreach ($carrecEmpleat as $empleat){
-            if (!isset($empleatsArray)){                    
-                $empleatsArray[$cont] = $empleat->id_empleat;
-                $cont++;
-            } else {
-                $rep = false;
-                for ($i = 0; $i < $cont; $i++){
-                    if ($empleatsArray[$i] == $empleat->id_empleat){
-                        $rep = true;
-                        $i = $cont;
-                    }
-                }
-
-                if ($rep == false) {
-                    $empleatsArray[$cont] = $empleat->id_empleat;
-                    $cont++;
-                }
-            }
-        }
-
-        $empleats = Array();
-        //Despres introdueix en una altre array, tots els atributs del empleat
-        for ($i = 0; $i < count($empleatsArray); $i++){
-            $empleats[$i] =  EmpleatExtern::where('id_empleat', $empleatsArray[$i])->first();
-        } 
-        
+    public function updateActorView($id, $id_actor, $setmana = 0) {            
         if ($setmana == 0){
+            $empleats = EmpleatExtern::select('slb_empleats_externs.id_empleat as id_actor',
+                                        'slb_empleats_externs.nom_empleat',
+                                        'slb_empleats_externs.cognom1_empleat',
+                                        'slb_empleats_externs.cognom2_empleat',
+                                        'slb_actors_estadillo.take_estadillo',
+                                        'slb_actors_estadillo.cg_estadillo',
+                                        'slb_actors_estadillo.canso_estadillo',
+                                        'slb_actors_estadillo.narracio_estadillo')
+                            ->join('slb_actors_estadillo', 'slb_actors_estadillo.id_actor', 'slb_empleats_externs.id_empleat')
+                            ->join('slb_estadillo', 'slb_estadillo.id_estadillo', 'slb_actors_estadillo.id_produccio')
+                            ->where('slb_estadillo.id_estadillo', $id)
+                            ->get();
+             
             $estadillos = Estadillo::find($id);
-            //return response()->json($estadillos);
+           
             $actor = ActorEstadillo::where('id_produccio', $id)->where('id_actor', $id_actor)->first();
-            
-            //return response()->json($empleats);
-            
+
             return View('estadillos.createActor', array('actor'=> $actor,'empleats'=>$empleats, 'estadillos'=>$estadillos)); 
         } 
+        
         $registreProduccio = RegistreProduccio::where('id_registre_entrada', $id)->where('setmana', $setmana)->get();
-        //return response()->json($registreProduccio);
+
         $actor = array();
         
         foreach ($registreProduccio as $projecte){
             if (!empty($projecte->getEstadillo->actors)){
                 $projecte->getEstadillo->actors;
-                $act = ActorEstadillo::where('id_produccio', $projecte->getEstadillo->id_estadillo)
+                $actor = ActorEstadillo::where('id_produccio', $projecte->getEstadillo->id_estadillo)
                                                                 ->where('id_actor', $id_actor)
                                                                 ->first();
 
-                if ($act) {
-                    array_push ($actor , $act);
-                }
+                break;
             }
         }
-
-        return view('estadillos.createActor', array('actor'=> $actor,'empleats'=> $empleats, 'registreProduccio'=> $registreProduccio));
+        
+        $empleatsPack = EmpleatExtern::select('slb_empleats_externs.id_empleat as id_actor',
+                                        'slb_empleats_externs.nom_empleat',
+                                        'slb_empleats_externs.cognom1_empleat',
+                                        'slb_empleats_externs.cognom2_empleat',
+                                        'slb_actors_estadillo.take_estadillo',
+                                        'slb_actors_estadillo.cg_estadillo',
+                                        'slb_actors_estadillo.canso_estadillo',
+                                        'slb_actors_estadillo.narracio_estadillo',
+                                        'slb_registres_produccio.id_registre_entrada',
+                                        'slb_registres_produccio.id as id_produccio',
+                                        'slb_registres_produccio.setmana'
+                )
+                            ->join('slb_actors_estadillo', 'slb_actors_estadillo.id_actor', 'slb_empleats_externs.id_empleat')
+                            ->join('slb_estadillo', 'slb_estadillo.id_estadillo', 'slb_actors_estadillo.id_produccio')
+                            ->join('slb_registres_produccio', 'slb_registres_produccio.id', 'slb_estadillo.id_registre_produccio')
+                            ->where('slb_registres_produccio.id_registre_entrada', $id)
+                            ->where('slb_registres_produccio.setmana', $setmana)
+                            ->get();
+        
+        $empleats= EmpleatExtern::select('slb_empleats_externs.id_empleat as id_actor',
+                                        'slb_empleats_externs.nom_empleat',
+                                        'slb_empleats_externs.cognom1_empleat',
+                                        'slb_empleats_externs.cognom2_empleat')
+                            ->join('slb_actors_estadillo', 'slb_actors_estadillo.id_actor', 'slb_empleats_externs.id_empleat')
+                            ->join('slb_estadillo', 'slb_estadillo.id_estadillo', 'slb_actors_estadillo.id_produccio')
+                            ->join('slb_registres_produccio', 'slb_registres_produccio.id', 'slb_estadillo.id_registre_produccio')
+                            ->where('slb_registres_produccio.id_registre_entrada', $id)
+                            ->where('slb_registres_produccio.setmana', $setmana)
+                            ->distinct()
+                            ->get();
+        
+        return view('estadillos.createActor', array('actor'=> $actor,'empleats'=> $empleats, 'empleatsPack'=> $empleatsPack,'registreProduccio'=> $registreProduccio));
     }
 
     public function updateActor($id, $id_actor, $setmana=0) {
-        
         if ($setmana == 0) {
-            $actor = ActorEstadillo::where('id_produccio',$id)->where('id_actor',$id_actor)->first();
+            $actor = ActorEstadillo::where('id_produccio',$id)->where('id_actor',request()->input('id_actor'))->first();
             if ($actor) {
-                $v = Validator::make(request()->all(), [
-                    'id_actor'          => 'required',
-                ]);
-
-                if ($v->fails()) {
-                    return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar les dades.'));
-                } else {
-                    $actor->fill(request()->all());
-
-                    try {
-                        $actor->save(); 
-                    } catch (\Exception $ex) {
-                        return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar l\'actor.'));
-                    }
-                    
-                    EstadilloController::updateCalendar($actor->estadillo->registreProduccio->id_registre_entrada, $actor->estadillo->registreProduccio->setmana);
-                    
-                    return redirect()->back()->with('success', 'Actor modificat correctament.');
+                $actor->fill(request()->all());
+                if (!request()->input('canso_estadillo')){
+                    $actor->canso_estadillo = 0;
                 }
+                if (!request()->input('narracio_estadillo')){
+                    $actor->narracio_estadillo = 0;
+                }
+                try {
+                    $actor->save(); 
+                } catch (\Exception $ex) {
+                    return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar l\'actor.'));
+                }
+
+                EstadilloController::updateCalendar($actor->estadillo->registreProduccio->id_registre_entrada, $actor->estadillo->registreProduccio->setmana);
+
+                return redirect()->back()->with('success', 'Actor modificat correctament.');
             }  
         }
-        
-        //return response()->json($id_actor);
-        
+
         $v = Validator::make(request()->all(), [
             'id_actor'          => 'required'
         ]);
@@ -408,29 +391,29 @@ class EstadilloController extends Controller
             $estadillos= Estadillo::all();
 
             foreach ($estadillos as $estadillo){
-                //return response()->json($estadillo->id_registre_produccio);
                 if (request()->has('take_estadillo_'.$estadillo->id_registre_produccio)){
                     $actor = ActorEstadillo::where('id_produccio', $estadillo->id_estadillo)
                                 ->where('id_actor', request()->input('id_actor'))->first();
-                    //return response()->json($actor);
+
                     if (!$actor) {
                         $actor = new ActorEstadillo;
                         $actor->id_produccio=$estadillo->id_estadillo;
                         $actor->id_actor=request()->input('id_actor');
                         $actor->take_estadillo=request()->input('take_estadillo_'.$estadillo->id_registre_produccio);
                         $actor->cg_estadillo=request()->input('cg_estadillo_'.$estadillo->id_registre_produccio);
+                        $actor->canso_estadillo= request()->input('canso_estadillo_'.$estadillo->id_registre_produccio) ?? 0;
+                        $actor->narracio_estadillo= request()->input('narracio_estadillo_'.$estadillo->id_registre_produccio) ?? 0;
                         $actor->save();
                     } else {
-                        //return response()->json($actor);
                         $actor->id_produccio=$estadillo->id_estadillo;
                         $actor->id_actor=request()->input('id_actor');
                         $actor->take_estadillo=request()->input('take_estadillo_'.$estadillo->id_registre_produccio);
                         $actor->cg_estadillo=request()->input('cg_estadillo_'.$estadillo->id_registre_produccio);
+                        $actor->canso_estadillo= request()->input('canso_estadillo_'.$estadillo->id_registre_produccio) ?? 0;
+                        $actor->narracio_estadillo= request()->input('narracio_estadillo_'.$estadillo->id_registre_produccio) ?? 0;
                         $actor->save(); 
                     }
-                    //return response()->json($estadillo->id_registre_produccio);
                 }                    
-                //return response()->json('FALSE');
             }
             
             EstadilloController::updateCalendar($actor->estadillo->registreProduccio->id_registre_entrada, $actor->estadillo->registreProduccio->setmana);
@@ -603,7 +586,7 @@ class EstadilloController extends Controller
         
         $estadillo->delete();
         
-        updateCalendar($id_registre_entarda, $setmana);
+        $this->updateCalendar($id_registre_entarda, $setmana);
         
         return redirect()->back()->with('success', 'Estadillo eliminat correctament.');
     }
@@ -617,7 +600,7 @@ class EstadilloController extends Controller
 
         $actor->delete();
         
-        updateCalendar($id_registre_entarda, $setmana);
+        $this->updateCalendar($id_registre_entarda, $setmana);
         
         return redirect()->back()->with('success', 'Actor eliminat correctament.');
     }
