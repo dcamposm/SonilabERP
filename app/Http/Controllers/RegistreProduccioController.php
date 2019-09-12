@@ -15,7 +15,7 @@ class RegistreProduccioController extends Controller {
     }
 
     public function getIndex() {
-        $registres = RegistreProduccio::orderBy('data_entrega')->get();
+        $registres = RegistreProduccio::orderBy('data_entrega', 'desc')->get();
 
         return new RegistreProduccioIndex($registres);
     }
@@ -186,7 +186,6 @@ class RegistreProduccioController extends Controller {
             $registres = RegistreProduccio::with('traductor')->with('ajustador')
                         ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')
                         ->orderBy(request()->input("orderBy"))->whereRaw(!isset($raw) ? 0 : $raw)->get();
-            //return response()->json($registres);
         } else {
             $registres = RegistreProduccio::with('traductor')->with('ajustador')
                 ->with('linguista')->with('director')->with('tecnic')->with('getEstadillo')

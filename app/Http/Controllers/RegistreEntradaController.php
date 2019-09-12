@@ -131,7 +131,6 @@ class RegistreEntradaController extends Controller
     }
 
     public function update(RegistreEntradaCreateRequest $request, $id) {
-        //return response()->json(request()->all());
         $registreEntrada = RegistreEntrada::find($id);
         
         if ($registreEntrada) {
@@ -139,14 +138,12 @@ class RegistreEntradaController extends Controller
 
             /*$registre = RegistreEntrada::find($id);//registre que s'utilitza per comprovar las dades. S'utilitza en el mail
             $mail = new RegistreEntradaUpdate($registre,$registreEntrada);//Creacio del contingut del mail*/
-            //return response()->json($registreEntrada->getDirty());//El getDirty() serveix per veure els atributs modificats.
             $modificat = $registreEntrada->getDirty();
             try {
                 $registreEntrada->save(); 
             } catch (\Exception $ex) {
                 return redirect()->back()->withErrors(array('error' => 'ERROR. No s\'ha pogut modificar el registre d\'entrada.'));
             }
-            //return response()->json($modificat);
 //-------------------------------Missatge per responsable de modificacions----------------------------------     
             Missatge::where([['id_referencia', $registreEntrada->id_registre_entrada],
                         ['type', 'registreEntradaUpdate'],

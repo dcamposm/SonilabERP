@@ -144,7 +144,6 @@ class EmpleatExternController extends Controller
 
                                 $carrecEmpleat = new CarrecEmpleat($datos);
                                 // TODO: Validar "carrecEmpleat"
-                                //return response()->json($datos);
                                 $carrecEmpleat->save();
 
                             }   
@@ -188,20 +187,18 @@ class EmpleatExternController extends Controller
         $tarifas = Tarifa::all();
 
         $datos = [];
-        //return response()->json(request()->all());
 
         foreach ($camposCargos as $key => $carrec) {
             $id_carrec = $carrec->id_carrec;
             $nomCarrec = $carrec->input_name;
 
             if (($nomCarrec == "director" || $nomCarrec == "tecnic_sala") && request()->has($nomCarrec)) {
-                //return response()->json(request()->all());
                 foreach ($tarifas as $key => $tarifa) {
                     $nombre_corto = $tarifa->nombre_corto;
                     $id_tarifa = $tarifa->id_tarifa;
-                    //return response()->json($id_tarifa);
+
                     if(!empty(request()->input("preu_$nomCarrec"."_$nombre_corto"))){
-                        //return response()->json($tarifa->id);
+
                         $datos["id_empleat"] = $empleat->id_empleat;
                         $datos["id_carrec"] = $id_carrec;
                         $datos["id_idioma"] = 0;
@@ -210,21 +207,21 @@ class EmpleatExternController extends Controller
                         $datos["contracta"] =(int) request()->input("contracta_$nomCarrec");
                         $datos["preu_carrec"] = request()->input("preu_$nomCarrec"."_$nombre_corto");//coge el valor mandado del input
                         $datos["id_tarifa"] = $tarifa->id;
-                        //return response()->json($datos);
+
                         $carrecAntic = CarrecEmpleat::where([
                             ['id_empleat', $id],
                             ['id_carrec', $id_carrec],
                             ['id_idioma', '0'],
                             ['id_tarifa', $tarifa->id],
                         ])->first();
-                        //return response()->json($carrecAntic);
+
                         if (empty($carrecAntic)) {
                             $carrecEmpleat = new CarrecEmpleat($datos);
-                            //return response()->json($carrecEmpleat);
+
                             $carrecEmpleat->save();
                         } else {
                             $carrecAntic->fill($datos);
-                            //return response()->json($carrecAntic);
+
                             $carrecAntic->save();
                         }
                     }
@@ -236,9 +233,8 @@ class EmpleatExternController extends Controller
                         $id_tarifa = $tarifa->id_tarifa;
                         $id_idioma = $idioma->id_idioma;
                         $nom_idioma = $idioma->idioma;
-                        //return response()->json(request()->input("preu_$nomCarrec" . "_$nom_idioma" . "_$nombre_corto"));
+                        
                         if (request()->has("idioma_$nomCarrec" . "_$nom_idioma") && !empty(request()->input("preu_$nomCarrec" . "_$nom_idioma" . "_$nombre_corto")) && !empty(request()->input("preu_$nomCarrec" . "_$nom_idioma" . "_$nombre_corto"))) {
-                            //return response()->json(request()->input("preu_$nomCarrec" . "_$nom_idioma" . "_$nombre_corto"));
                             $datos["id_empleat"] = $empleat->id_empleat;
                             $datos["id_carrec"] = $id_carrec;
                             $datos["id_idioma"] = $id_idioma;
@@ -255,7 +251,7 @@ class EmpleatExternController extends Controller
                                 ['id_idioma', $id_idioma],
                                 ['id_tarifa', $tarifa->id],
                             ])->first();
-                            //return response()->json($datos["id_carrec"]);
+
                             if (empty($carrecAntic)) {
                                 $carrecEmpleat = new CarrecEmpleat($datos);
                                 $carrecEmpleat->save();

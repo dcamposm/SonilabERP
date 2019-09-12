@@ -140,7 +140,6 @@ class EstadilloController extends Controller
         $estadillos = Estadillo::find($id);
         $arrayProjectes = array();
         $cont = 0;
- 
         
         foreach ($registreProduccio as $projecte){
             $exist = false;
@@ -424,17 +423,14 @@ class EstadilloController extends Controller
 
     public function find()
     {
-        //return response()->json(request()->all());
         if (request()->input("searchBy") == '1'){
             $estadillos = Estadillo::all()->sortBy("id_registre_produccio");
-            //return response()->json($estadillos[1]->registreProduccio);
+
             $showEstadillos = array();
 
             foreach ($estadillos as $estadillo){
-                //return response()->json($projecte);
                 if ($estadillo->registreProduccio->estadillo == request()->input("search_Validat")) {
                     if ($estadillo->registreProduccio->subreferencia!=0){
-                        //return response()->json($estadillo);
                         if (!isset($showEstadillos[$estadillo->registreProduccio->id_registre_entrada])){
                             $showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]= array(
                                 'titol'=>$estadillo->registreProduccio->titol,
@@ -443,7 +439,6 @@ class EstadilloController extends Controller
                                 'max'=>$estadillo->registreProduccio->subreferencia,
                                 'validat'=>$estadillo->registreProduccio->estadillo
                             );
-                            //return response()->json($showEstadillos);
                         } else {
                             if(!isset($showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana])){
                                 $showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]= array(
@@ -454,7 +449,6 @@ class EstadilloController extends Controller
                                     'validat'=>$estadillo->registreProduccio->estadillo
                                 );
                             } else {
-                                //return response()->json($estadillo);
                                 if ($showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]['max']<$estadillo->registreProduccio->subreferencia){
                                     $showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]['max'] = $estadillo->registreProduccio->subreferencia;
                                 } else if ($showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]['min']>$estadillo->registreProduccio->subreferencia){
@@ -466,28 +460,24 @@ class EstadilloController extends Controller
                             }
                         }
                     } else {
-                        //return response()->json($estadillo);
                         $showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]= array(
                             'id_estadillo'=>$estadillo->id_estadillo,
                             'setmana' => $estadillo->registreProduccio->setmana,
                             'titol'=>$estadillo->registreProduccio->titol,
                             'validat'=>$estadillo->registreProduccio->estadillo
                         );
-                        //return response()->json($showEstadillos);
                     }
                 }
             }
             
         }  else {
             $estadillos = Estadillo::all()->sortBy("id_registre_produccio");
-            //return response()->json($estadillos[1]->registreProduccio);
+
             $showEstadillos = array();
 
             foreach ($estadillos as $estadillo){
-                //return response()->json($projecte);
                 if ($estadillo->registreProduccio->id_registre_entrada == request()->input("search_term") || preg_match('/'.request()->input("search_term").'/i' , $estadillo->registreProduccio->titol)) {
                     if ($estadillo->registreProduccio->subreferencia!=0){
-                        //return response()->json($estadillo);
                         if (!isset($showEstadillos[$estadillo->registreProduccio->id_registre_entrada])){
                             $showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]= array(
                                 'titol'=>$estadillo->registreProduccio->titol,
@@ -496,7 +486,6 @@ class EstadilloController extends Controller
                                 'max'=>$estadillo->registreProduccio->subreferencia,
                                 'validat'=>$estadillo->registreProduccio->estadillo
                             );
-                            //return response()->json($showEstadillos);
                         } else {
                             if(!isset($showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana])){
                                 $showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]= array(
@@ -507,7 +496,6 @@ class EstadilloController extends Controller
                                     'validat'=>$estadillo->registreProduccio->estadillo
                                 );
                             } else {
-                                //return response()->json($estadillo);
                                 if ($showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]['max']<$estadillo->registreProduccio->subreferencia){
                                     $showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]['max'] = $estadillo->registreProduccio->subreferencia;
                                 } else if ($showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]['min']>$estadillo->registreProduccio->subreferencia){
@@ -519,14 +507,12 @@ class EstadilloController extends Controller
                             }
                         }
                     } else {
-                        //return response()->json($estadillo);
                         $showEstadillos[$estadillo->registreProduccio->id_registre_entrada][$estadillo->registreProduccio->setmana]= array(
                             'id_estadillo'=>$estadillo->id_estadillo,
                             'setmana' => $estadillo->registreProduccio->setmana,
                             'titol'=>$estadillo->registreProduccio->titol,
                             'validat'=>$estadillo->registreProduccio->estadillo
                         );
-                        //return response()->json($showEstadillos);
                     }
                 }
             }
@@ -562,10 +548,10 @@ class EstadilloController extends Controller
                                     . 'OR LOWER(cognom2_empleat) like "%'. strtolower(request()->input("search_term")).'%"')->get();
         if ($id_setmana == 0){
             $actors = ActorEstadillo::where('id_produccio', $id)->get(); 
-            //return response()->json($empleats);
+
             $estadillos = Estadillo::find($id);
             $estadillos->registreProduccio;
-            //return response()->json($estadillos);
+
             return new EstadilloShowActor($actors, $estadillos, $empleats);
         } 
         

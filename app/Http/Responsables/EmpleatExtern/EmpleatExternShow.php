@@ -21,7 +21,7 @@ class EmpleatExternShow   implements Responsable
         foreach ($carrecs as $key => $carrec) {
             $idioma = $carrec->idioma;
             $tarifa = $carrec->tarifa;
-            //return response()->json($carrec);
+
             $this->carrecsEmpelat[$carrec->carrec->nom_carrec]['contracta'] = $carrec->contracta;
             $this->carrecsEmpelat[$carrec->carrec->nom_carrec][(empty($idioma)) ? 0 : $idioma->idioma][$carrec->id] = array(
                 'nomCarrec' => $carrec->carrec->nom_carrec,

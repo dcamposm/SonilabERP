@@ -21,7 +21,6 @@ class RegistreEntradaShow implements Responsable
 
     public function toResponse($request)
     {
-        //return response()->json($this->missatge);
         return View('registre_entrada.show', [
             'registreEntrada' => $this->registreEntrades,
             'missatges' => $this->missatge

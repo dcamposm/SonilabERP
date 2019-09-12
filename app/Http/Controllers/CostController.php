@@ -658,22 +658,36 @@ class CostController extends Controller
             $costos = Costos::where('id_costos', $id)->first();
 
             $id_registre = $costos->id_registre_produccio;
-
+            $preu_venda = $costos->preu_venda;
             $costos->delete();
 
-            return CostController::generar($id_registre);  
+            $messatge = CostController::generar($id_registre);
+            
+            $costos = Costos::where('id_registre_produccio', $id_registre)->first();
+            $costos->preu_venda = $preu_venda;
+            $costos->save();
+            
+            return $messatge;
         } else {
             $registres = RegistreProduccio::where('id_registre_entrada', $id)->where('setmana', $setmana)->get();
             
             foreach ($registres as $registre) {
                 $costos = Costos::where('id_registre_produccio', $registre->id)->first();
                 EmpleatCost::where('id_costos', $costos->id_costos)->delete();
+                
+                $id_registre = $costos->id_registre_produccio;
+                $preu_venda = $costos->preu_venda;
                 $costos->delete();
+                
+                CostController::generar($id_registre);
+            
+                $costos = Costos::where('id_registre_produccio', $id_registre)->first();
+                $costos->preu_venda = $preu_venda;
+                $costos->save();
             }
-
-            return CostController::generarSetmana($id, $setmana); 
-        }
-        
+            
+            return redirect()->back()->with('success', 'S\'ha actualitzat la valoració correctament');
+        }   
     }
     
     public function generarSetmana($id, $setmana)

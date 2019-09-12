@@ -64,7 +64,6 @@ class EstadilloShowActorSetmana  implements Responsable
 
     public function toResponse($request)
     {
-        //return response()->json($this->registres);
         return view('estadillos.showActor', array(
             'actors'    => $this->actors,
             'empleats'    => $this->empleats,
