@@ -133,7 +133,7 @@ function checkTakesAfegir(){
     });
     
     perce += parseInt($('#numberTakes').val());
-    console.log(perce);
+
     if (perce > 100){
         removeValid($('#numberTakes'));
         $('#numberTakes').addClass("is-invalid");

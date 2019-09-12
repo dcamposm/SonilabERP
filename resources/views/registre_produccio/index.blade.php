@@ -56,7 +56,7 @@
                                     <option value="inserts" id="inserts">INSERTS</option>
                                     <option value="convos" id="fet">CONVOS</option>
                                     <option value="inici_sala" id="date">INICI SALA</option>
-                                    <option value="final_sala" id="date">FINAL SALA</option>
+                                    <option value="final_sala" id="fet">FINAL SALA</option>
                                     <option value="data_tecnic_mix" id="date">DATA MIX</option>
                                     <option value="retakes" id="retakes">RETAKES</option>
                                 @endif
@@ -98,7 +98,7 @@
                                     <option value="inserts" id="inserts">INSERTS</option>
                                     <option value="convos" id="fet">CONVOS</option>
                                     <option value="inici_sala" id="date">INICI SALA</option>
-                                    <option value="final_sala" id="date">FINAL SALA</option>
+                                    <option value="final_sala" id="fet">FINAL SALA</option>
                                     <option value="data_tecnic_mix" id="date">DATA MIX</option>
                                     <option value="retakes" id="retakes">RETAKES</option>
                                 @endif
@@ -248,7 +248,7 @@
                                 </td>
                                 <td style="vertical-align: middle;">{{ $registreProduccio->convos == 0 ? '' : 'FET' }}</td>
                                 <td style="vertical-align: middle;">{{ $registreProduccio->inici_sala != 0 ? date('d/m/Y', strtotime($registreProduccio->inici_sala)) : '' }}</td>
-                                <td style="vertical-align: middle;">{{ $registreProduccio->final_sala != 0 ? date('d/m/Y', strtotime($registreProduccio->final_sala)) : '' }}</td>
+                                <td style="vertical-align: middle;">{{ $registreProduccio->final_sala == 0 ? '' : 'FET' }}</td>
                                 <td style="vertical-align: middle;">{{ $registreProduccio->data_tecnic_mix != 0 ? date('d/m/Y', strtotime($registreProduccio->data_tecnic_mix)) : '' }}</td>
                                 <td style="vertical-align: middle;">{{ $registreProduccio->retakes }}</td>
                             @else
@@ -413,7 +413,7 @@
                                         </td>
                                         <td style="vertical-align: middle;">{{ $episodi->convos == 0 ? '' : 'FET' }}</td>
                                         <td style="vertical-align: middle;">{{ $episodi->inici_sala != 0 ? date('d/m/Y', strtotime($episodi->inici_sala)) : '' }}</td>
-                                        <td style="vertical-align: middle;">{{ $episodi->final_sala != 0 ? date('d/m/Y', strtotime($episodi->final_sala)) : '' }}</td>
+                                        <td style="vertical-align: middle;">{{ $episodi->final_sala == 0 ? '' : 'FET' }}</td>
                                         <td style="vertical-align: middle;">{{ $episodi->data_tecnic_mix != 0 ? date('d/m/Y', strtotime($episodi->data_tecnic_mix)) : '' }}</td>
                                         <td style="vertical-align: middle;">{{ $episodi->retakes }}</td>
                                     @else

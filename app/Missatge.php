@@ -114,7 +114,7 @@ class Missatge extends Model
         $this->id_referencia =$registreProduccio->id;
         $this->data_final =date("Y-m-d",strtotime($data));
     }
-    //Missatge de les dades d'entrega dels traductors, ajustadors i lingüistes
+    //Missatge de avis de inci de sala d'un registre de producció
     public function missatgeAlertaIniciSala($registreProduccio)
     {             
         $this->id_usuari = $registreProduccio->registreEntrada->id_usuari;
@@ -123,5 +123,15 @@ class Missatge extends Model
         $this->referencia ='registreProduccio';
         $this->id_referencia =$registreProduccio->id;
         $this->data_final =date("Y-m-d",strtotime($registreProduccio->inici_sala));
+    }
+    //Missatge de avis de la data mix
+    public function missatgeAlertaDataMix($registreProduccio)
+    {             
+        $this->id_usuari = $registreProduccio->registreEntrada->id_usuari;
+        $this->missatge = "Recordatori de la data mix de la referencia ".$registreProduccio->referencia_titol." per el dia ".date("d-m-Y",strtotime($registreProduccio->data_tecnic_mix));
+        $this->type = "alertDataMix";
+        $this->referencia ='registreProduccio';
+        $this->id_referencia =$registreProduccio->id;
+        $this->data_final =date("Y-m-d",strtotime($registreProduccio->data_tecnic_mix));
     }
 }

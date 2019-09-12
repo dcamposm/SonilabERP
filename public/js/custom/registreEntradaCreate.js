@@ -12,9 +12,6 @@ $( document ).ready(function() {
     }
 });
 function hideInputs() {
-    //var value = $('#id_media').val();
-
-    //alert(value);
     if ($('#id_media').val() < '5' && $('#id_media').val() > 1) {
         $('#total_ep').hide();
         $('#ep_set').hide();
@@ -35,7 +32,6 @@ $('select').change(validarSelect);
 $('#sortida').change(validarDate);
 
 function validarInput(){
-    console.log($(this).attr('id'));
     if ($(this).attr('type') == 'number') {
         var pattern = /^\d*$/;
         if ($(this).val() == ''){

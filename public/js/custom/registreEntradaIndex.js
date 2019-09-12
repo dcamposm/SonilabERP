@@ -24,9 +24,6 @@ self.esborrarRegistreEntrada = function () {
 
 //--------Funcions per el buscador-----------
 function selectSearch() {
-    //var value = $('#searchBy').val();
-
-    //alert(value);
     if ($('#searchBy').children(":selected").attr("id") == 'select') {
         $('#search_term').remove();
 

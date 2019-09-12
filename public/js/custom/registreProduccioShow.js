@@ -1,12 +1,11 @@
 function formTable(){
-    //alert($(this).attr('type'));
     if ($(this).attr('type') == 'button'){
         var content = $(this).parent().next();
 
         var value = content.text();
         var id = content.attr('id');
         var idArray = id.split("-");
-        //alert(content.attr('id'));
+        
         if (idArray[1] == 'S'){
             var select = document.createElement("select");
 
@@ -35,7 +34,7 @@ function formTable(){
                 $(select).append('<option value="0"'+("0" == registre[idArray[0]] ? "selected" : "")+'></option>');
                 $(select).append('<option value="1"'+("1" == registre[idArray[0]] ? "selected" : "")+'>FET</option>');
             }              
-            /*<td class="col"></td>*/
+
             content.text('');
             content.append(select);
         } else if (idArray[1] == 'D'){
@@ -87,58 +86,56 @@ function formTable(){
 
                 $("#searchEntrada").easyAutocomplete(options);
             } else if (idArray[2] == 'P'){ 
-                //if (idArray[0] == 'traductor') {
-                    content.text('');
-                    content.append('<input id="search-'+idArray[0]+'" class="form-control"/>');
-                    content.append('<input id="'+idArray[0]+'" class="form-control" type="hidden" name="id_'+idArray[0]+'" value="'+(empleats.hasOwnProperty(idArray[0]) ? empleats[idArray[0]].id_empleat : '')+'">');
+                content.text('');
+                content.append('<input id="search-'+idArray[0]+'" class="form-control"/>');
+                content.append('<input id="'+idArray[0]+'" class="form-control" type="hidden" name="id_'+idArray[0]+'" value="'+(empleats.hasOwnProperty(idArray[0]) ? empleats[idArray[0]].id_empleat : '')+'">');
 
-                    if (empleats.hasOwnProperty(idArray[0])) {
-                        $.each(empleatsCarrec, function( key, empleat ) {
-                            $.each(empleat['carrec'], function( key1, carrec ) {
-                                if (empleat['id_empleat'] == empleats[idArray[0]].id_empleat) {
-                                    $("#search-"+idArray[0]).val(empleat.nom_empleat+' '+empleat.cognom1_empleat+' '+empleat.cognom2_empleat);
-                                }
-                            });
+                if (empleats.hasOwnProperty(idArray[0])) {
+                    $.each(empleatsCarrec, function( key, empleat ) {
+                        $.each(empleat['carrec'], function( key1, carrec ) {
+                            if (empleat['id_empleat'] == empleats[idArray[0]].id_empleat) {
+                                $("#search-"+idArray[0]).val(empleat.nom_empleat+' '+empleat.cognom1_empleat+' '+empleat.cognom2_empleat);
+                            }
                         });
+                    });
+                }
+                console.log(rutaSearchEmpleat+"?search="+idArray[0]+"&idioma="+registre.registre_entrada.id_idioma);
+                var options = {
+                    url:  rutaSearchEmpleat+"?search="+idArray[0]+"&idioma="+registre.registre_entrada.id_idioma,
+
+                    getValue: "nom_cognom",
+
+                    list: {
+                            match: {
+                                enabled: true
+                            }, onChooseEvent: function() {
+                                var selectedPost = $("#search-"+idArray[0]).getSelectedItemData();
+                                $("#"+idArray[0]).attr("value", selectedPost.id_empleat);
+                                $("#search-"+idArray[0]).addClass("is-valid");
+                                $("#search-"+idArray[0]).val(selectedPost.nom_cognom).trigger("change");
+                            }, onHideListEvent: function() {
+                                if ($("#search-"+idArray[0]).val() == ''){
+                                    $("#"+idArray[0]).val('');
+                                    $("#search-"+idArray[0]).removeClass("is-valid");
+                                }
+                            }
+                    },
+
+                    template: {
+                            type: "custom",
+                            method: function(value, item) {
+                                    return value;
+                            }
                     }
-                    console.log(rutaSearchEmpleat+"?search="+idArray[0]+"&idioma="+registre.registre_entrada.id_idioma);
-                    var options = {
-                        url:  rutaSearchEmpleat+"?search="+idArray[0]+"&idioma="+registre.registre_entrada.id_idioma,
+                };
 
-                        getValue: "nom_cognom",
-
-                        list: {
-                                match: {
-                                    enabled: true
-                                }, onChooseEvent: function() {
-                                    var selectedPost = $("#search-"+idArray[0]).getSelectedItemData();
-                                    $("#"+idArray[0]).attr("value", selectedPost.id_empleat);
-                                    $("#search-"+idArray[0]).addClass("is-valid");
-                                    $("#search-"+idArray[0]).val(selectedPost.nom_cognom).trigger("change");
-                                }, onHideListEvent: function() {
-                                    if ($("#search-"+idArray[0]).val() == ''){
-                                        $("#"+idArray[0]).val('');
-                                        $("#search-"+idArray[0]).removeClass("is-valid");
-                                    }
-                                }
-                        },
-
-                        template: {
-                                type: "custom",
-                                method: function(value, item) {
-                                        return value;
-                                }
-                        }
-                    };
-
-                    $("#search-"+idArray[0]).easyAutocomplete(options);
-                //}
+                $("#search-"+idArray[0]).easyAutocomplete(options);
             }  
         }  else {
             content.text('');
             content.append('<input type="text" name="'+idArray[0]+'" id="'+idArray[0]+'" class="form-control" value="'+value+'">');
         }
-        //alert(textArray[0]);
+
         $('#botoTornar').attr('href', '#');
         $('#botoTornar').attr('data-toggle', 'modal');
         $('#botoTornar').attr('data-target', '#modalTornar');
@@ -154,7 +151,6 @@ function setEventsValidator(){
     $('select').change(validarSelect);
 
     function validarInput(){
-        //console.log($(this).attr('id'));
         if ($(this).attr('type') == 'number') {
             var pattern = /^\d*$/;
             if ($(this).val() == ''){
@@ -191,7 +187,6 @@ function setEventsValidator(){
     }
 
     function validarSelect(){
-        //console.log($(this).children(":selected").val());
         if ($(this).children(":selected").val() == '' || $(this).children(":selected").val() == '0'){
             removeValid(this);
         } else {
@@ -200,7 +195,6 @@ function setEventsValidator(){
     }
 
     function removeValid(input){
-        //console.log(input);
         $(input).removeClass("is-valid");
         $(input).removeClass("is-invalid");
     } 

@@ -48,7 +48,7 @@ $('#download-pdf').click(function() {
     };
     
     pdf.addHTML(document.getElementById('calendar'), 0, 0, options, function(){
-    	//pdf.save('test.pdf');
+    	//pdf.save('test.pdf'); //Per descarregar directament
         window.open(pdf.output('bloburl'), '_blank');
     });
     

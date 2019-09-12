@@ -15,7 +15,7 @@ class RegistreProduccioController extends Controller {
     }
 
     public function getIndex() {
-        $registres = RegistreProduccio::orderBy('data_entrega', 'desc')->get();
+        $registres = RegistreProduccio::orderBy('estat', 'asc')->orderBy('data_entrega', 'asc')->get();
 
         return new RegistreProduccioIndex($registres);
     }
@@ -59,7 +59,7 @@ class RegistreProduccioController extends Controller {
         }
         $prod->fill(request()->all());               
         
-        RegistreProduccioController::messagesUpdate($prod);
+        RegistreProduccioController::missatgesUpdate($prod);
         
         try {
             $prod->save(); 
@@ -85,7 +85,6 @@ class RegistreProduccioController extends Controller {
     }
 
     public function updateComanda(RegistreProduccioUpdateRequest $request, $id){
-        //pongo esto de relleno
         $prod = RegistreProduccio::find($id);
 
         $prod->fill(request()->all());               
@@ -100,7 +99,6 @@ class RegistreProduccioController extends Controller {
     }
     
     public function updatePreparacio(RegistreProduccioUpdateRequest $request, $id){
-        //pongo esto de relleno
         $prod = RegistreProduccio::find($id);
 
         $prod->fill(request()->all());               
@@ -270,7 +268,7 @@ class RegistreProduccioController extends Controller {
         return response()->json($registreProduccio);
     }
     
-    public function messagesUpdate($referencia)
+    public function missatgesUpdate($referencia)
     {
         foreach (request()->input() as $key => $request) {
             if ($key != '_token') {
@@ -293,6 +291,11 @@ class RegistreProduccioController extends Controller {
                     case 'inici_sala':
                         $missatge = Missatge::firstOrNew(['id_referencia' => $referencia->id, 'referencia' => 'registreProduccio', 'type' => 'alertIniciSala']);
                         $missatge->missatgeAlertaIniciSala($referencia);
+                        $missatge->save();
+                    break;
+                    case 'data_tecnic_mix':
+                        $missatge = Missatge::firstOrNew(['id_referencia' => $referencia->id, 'referencia' => 'registreProduccio', 'type' => 'alertIniciSala']);
+                        $missatge->missatgeAlertaDataMix($referencia);
                         $missatge->save();
                     break;
                 }

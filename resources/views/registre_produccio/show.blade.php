@@ -218,7 +218,7 @@
                     <button id="mod" class="btn btn-outline-success btn-sm" type="button"><span class="far fa-edit align-middle text-center" style="margin-right: 0px;"></span></button>
                 @endif
                 </td>
-                <td class="col" id="final_sala-D">{{ $registreProduccio['final_sala']==0 ? '' : date('d/m/Y', strtotime($registreProduccio['final_sala']))}}</td>
+                <td class="col" id="final_sala-S">{{ $registreProduccio['final_sala']==0 ? '' : 'Fet'}}</td>
             </tr>
             <tr class="row">
                 <td class="font-weight-bold col-sm-2">TÉCNIC MIX:</td>

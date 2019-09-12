@@ -1,5 +1,4 @@
 function mostrarCamps(valor) {
-     
     switch(valor){
         case "actor":
                     if (colActor.style.display == 'none') {
@@ -209,7 +208,6 @@ function validarInput(){
 }
 
 function validarSelect(){
-    //console.log($(this).children(":selected").val());
     if ($(this).children(":selected").val() == ''){
         removeValid(this);
     } else {

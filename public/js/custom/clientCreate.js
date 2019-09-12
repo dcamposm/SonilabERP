@@ -79,7 +79,6 @@ function validarInput(){
 }
 
 function validarSelect(){
-    //console.log($(this).children(":selected").val());
     if ($(this).children(":selected").val() == ''){
         removeValid(this);
     } else {
@@ -88,7 +87,6 @@ function validarSelect(){
 }
 
 function removeValid(input){
-    //console.log(input);
     $(input).removeClass("is-valid");
     $(input).removeClass("is-invalid");
 }
