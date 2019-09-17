@@ -21,14 +21,14 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 //------------------Rutes usuaris------------------
 Route::middleware(['role: 1, 5'])->group(function () { //Middleware para dar acceso a los roles indicados,  en este caso 1 (Dis.Estudi) i 5 (Sistemes&IT)
-    Route::get('/usuaris/interns/index', 'UserController@getIndex')->name('indexUsuariIntern');
-    Route::get('/usuaris/interns/buscar', 'UserController@find')->name('usuariFind');
-    Route::get('/usuaris/interns/show/{id}', 'UserController@getShow')->name('veureUsuariIntern');
-    Route::get('/usuaris/interns/crear', 'UserController@viewRegistre');
-    Route::post('/usuaris/interns/crear', 'UserController@crearUsuario')->name('crearUsuariIntern');
-    Route::get('/usuaris/interns/editar/{id}', 'UserController@viewEditarUsuario')->name('editarUsuariIntern');
-    Route::post('/usuaris/interns/editar/{id}', 'UserController@editarUsuario')->name('editarUsuariIntern');
-    Route::post('/usuaris/interns/esborrar', 'UserController@esborrarUsuari')->name('esborrarUsuariIntern');
+    Route::get('/usuaris/index', 'UserController@getIndex')->name('indexUsuariIntern');
+    Route::get('/usuaris/buscar', 'UserController@find')->name('usuariFind');
+    Route::get('/usuaris/show/{id}', 'UserController@getShow')->name('veureUsuariIntern');
+    Route::get('/usuaris/crear', 'UserController@viewRegistre');
+    Route::post('/usuaris/crear', 'UserController@crearUsuario')->name('crearUsuariIntern');
+    Route::get('/usuaris/editar/{id}', 'UserController@viewEditarUsuario')->name('editarUsuariIntern');
+    Route::post('/usuaris/editar/{id}', 'UserController@editarUsuario')->name('editarUsuariIntern');
+    Route::post('/usuaris/esborrar', 'UserController@esborrarUsuari')->name('esborrarUsuariIntern');
     Route::get('/usuaris/search', 'UserController@search')->name('usuariSearch');
 });
 //-------------------Rutes empleats externs-------------------

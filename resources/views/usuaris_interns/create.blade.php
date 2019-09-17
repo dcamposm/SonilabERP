@@ -91,7 +91,7 @@
         </div>
         
         <div class="row justify-content-between">
-            <a href="{{ url('/usuaris/interns/index') }}" class="btn btn-primary col-2">
+            <a href="{{ url('/usuaris/index') }}" class="btn btn-primary col-2">
                 <span class="fas fa-angle-double-left"></span>
                 TORNAR
             </a> 

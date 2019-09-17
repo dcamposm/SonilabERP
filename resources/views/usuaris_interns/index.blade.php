@@ -4,7 +4,7 @@
 <div class="container-fluid">
     <div class="row justify-content-between">
         <div class="col">
-            <a href="{{ url('/usuaris/interns/crear') }}" class="btn btn-success mt-1">
+            <a href="{{ url('/usuaris/crear') }}" class="btn btn-success mt-1">
                 <span class="fas fa-user-plus"></span>
                 AFEGIR USUARI
             </a>  
@@ -91,7 +91,7 @@
 
     </div>
     @if (Route::currentRouteName() == "usuariFind")
-        <a href="{{ url('/usuaris/interns/index') }}" class="btn btn-primary">
+        <a href="{{ url('/usuaris/index') }}" class="btn btn-primary">
             <span class="fas fa-angle-double-left"></span>
             TORNAR
         </a> 
