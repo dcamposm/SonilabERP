@@ -5,7 +5,7 @@ $('#semanaMenos').on('click', function () {
 $('#semanaMas').on('click', function () {
     changeCalendar(1);
 });
-
+//Funció per canviar de vista, (0)Percentatges (1)Detallada
 $('.alternar').on('click', function () {
     $('#calendarContent').html('');
     if (getCookie("tablaActual")==0){
@@ -31,14 +31,14 @@ if (getCookie("nomActor") !== "" && getCookie("nomActor") != -1 || getCookie("no
 $('#btnFesta').click(setFesta);
 
 carregarCalendari();
-
+//Funció per carregar el contingut de la vista calendari
 function carregarCalendari(){
     actoresSave = actores;
     crearTablaCalendario();
     cargarDatos(); 
     creatPasarLlista();
 }
-
+//Funció per recarregar el calendari
 function resetCalendari(){
     $('#calendarContent').html('');
     carregarCalendari();
@@ -48,6 +48,7 @@ var persona = undefined;
 var takesPosibles = undefined;
 
 //INPUTS EASY-AUTOCOMPLETE
+//Opcions per el input per filtrar actors
 var optionsActor = {
     url:  rutaSearchEmpleat+"?search=Actor",
     placeholder: "Filtrar per actor",
@@ -82,7 +83,7 @@ var optionsActor = {
 };
 
 $("#searchActor").easyAutocomplete(optionsActor);
-
+//Opcions per el input per filtrar registres d'entrada
 var optionsRegistre = {
     url:  rutaSearchEntrada,
     placeholder: "Filtrar per registre d'entrada",
@@ -116,7 +117,7 @@ var optionsRegistre = {
 };
 
 $("#searchEntrada").easyAutocomplete(optionsRegistre);
-
+//Opcions per el input per filtrar actors del menu lateral
 var optionsActorSide = {
     url:  rutaSearchEmpleat+"?search=Actor",
     placeholder: "Filtrar actor",
@@ -159,7 +160,7 @@ var optionsActorSide = {
 $("#searchActorSide").easyAutocomplete(optionsActorSide);
 
 var parentSearch = $('#searchActorSide').parent().css({"width": "100%"});
-
+//Opcions per el input per filtrar registre d'entrada del menu lateral
 var optionsRegistreSide = {
     url:  rutaSearchEntrada,
     placeholder: "Filtrar registre d'entrada",
@@ -198,11 +199,17 @@ var optionsRegistreSide = {
             }
     },
 };
+//0 8 37 4 8 0
+function myFunction() {
+  var x = Math.floor((Math.random() * 2) + 1);
+  console.log(x);
+}
+myFunction();
 
 $("#searchRegistreSide").easyAutocomplete(optionsRegistreSide);
 
 var parentSearch = $('#searchRegistreSide').parent().css({"width": "100%", "margin-top": "0px"});
-
+//Funció per crear la taula de contingut del calendari
 function crearTablaCalendario() {
     if (getCookie("tablaActual")==0 || getCookie("tablaActual")===""){
         document.cookie = "tablaActual = 0";
@@ -362,18 +369,19 @@ function crearTablaCalendario() {
     $('.sala').attr('ondrop', '');
     $('.sala').attr('ondragover', '');
 }
-
+//Funció per filtara els tecnic del matí
 function filtroTecnicSalaM(e) {
     if (e.data == d && e.num_sala == s && e.torn == 0){
         return e;
     }
 }
+//Funció per filtara els tecnic de la tarda
 function filtroTecnicSalaT(e) {
     if (e.data == d && e.num_sala == s && e.torn == 1){
         return e;
     }
 }
-
+//Funció per cargar les dades de la taula del calendari
 function cargarDatos() {
     if (getCookie("tablaActual")==0){
         $.each(data, function( key, element ) {   
@@ -424,7 +432,7 @@ function cargarDatos() {
     $('.celda').click(ampliarCasilla);
     $('.festiu').unbind( "click" );
 }
-
+//Funció per cargar els acotrs del menu lateral
 function cargarActores() {
     var trabajadores = {};
 
@@ -443,7 +451,7 @@ function cargarActores() {
         }
     }
 }
-
+//Funció per actilitzar els actors del menu lateral
 function actulitzarActors(){
     $.ajax({
         url: '/calendari/postActors',
@@ -465,7 +473,7 @@ function actulitzarActors(){
         }
     });
 }
-
+//Funció per actilitzar les dades de les variables
 function actulitzarDades(){
     $.ajax({
         url: '/calendari/postDades',
@@ -489,7 +497,7 @@ function actulitzarDades(){
         }
     });
 }
-
+//Funció que filtra el contingut del calendari
 function filtrar(){
     if (getCookie("idActor") !== ""){
         var idActor = getCookie("idActor");
@@ -518,12 +526,12 @@ function filtrar(){
     cargarDatos();
 }
 ///// FUNCTIONS /////
-
+//Funció per recarregar el calendari amb les dades filtrades
 function refrescarCalendarioFiltrado(){
     $('#calendarContent').html('');
     crearTablaCalendario();
 }
-
+//Funció per desa un actor a una sala
 function guardarCelda() {
     if (getCookie("tablaActual")==0){
         var data_inici = celda.parentElement.parentElement.getAttribute("dia") + " " + $('#takesIni').val() + ":00";
@@ -595,7 +603,7 @@ function guardarCelda() {
 
     $('#exampleModal').modal('hide');
 }
-
+//Funció per assignar els dies festius
 function setFesta(){
     var datos = {diaInici: $("#diaInici").val(), 
                 diaFi: $("#diaFi").val(), 
@@ -614,7 +622,7 @@ function setFesta(){
             console.error(error);
         });
 }
-
+//Funció per posar la llisat dels actors de la vista ampliada d'una sala
 function creatPasarLlista(){
     $.ajax({
         url: '/calendari/actorsPerDia',
@@ -669,7 +677,7 @@ function creatPasarLlista(){
 function allowDrop(ev) {
     ev.preventDefault();
 }
-
+//Funció per el drop quan s'ha arrosega els actor del menu lateral
 function drop(ev) {
     ev.preventDefault();
     var data = ev.dataTransfer.getData("text");
@@ -691,7 +699,7 @@ function drop(ev) {
 
     $('#exampleModal').modal('show');
 }
-
+//Funcio per canviar de setmana
 function changeCalendar(que) {
     if (que == 0) {
         if (week == 1) {
@@ -712,7 +720,7 @@ function changeCalendar(que) {
     window.location = urlBase + '/' + year + '/' + week;
 
 }
-
+//Funció per canviar el color de les sales de la vista de percentatges
 function cambiarColorCelda(celda, takes) {
     $(celda).attr('aria-valuenow', takes);
     $(celda).text(takes + '%');
@@ -727,7 +735,6 @@ function cambiarColorCelda(celda, takes) {
         $(celda)[0].className = 'progress-bar barra progress-bar-striped bg-danger';
     }
 }
-
 
 // Las siguientes dos funciones obtenidas de: https://stackoverflow.com/a/18479176
 function getWeekNumber(d) {
@@ -749,13 +756,13 @@ function weeksInYear(year) {
     var week = getWeekNumber(d)[1];
     return week == 1 ? getWeekNumber(d.setDate(24))[1] : week;
 }
-
+//Funció que habilitat el arrosegament
 function drag(ev) {
     ev.dataTransfer.setData("text", ev.target.id);
 }
 
 ///// SIDEBAR /////
-
+//Funció per obrir el menu lateral
 function openNav() {
     document.getElementById("mySidenav").style.width = "300px";
     document.getElementsByTagName("main")[0].classList.add('contenedor-margen');
@@ -764,7 +771,7 @@ function openNav() {
 
     $('#btnAdd').hide();
 }
-
+//Funció per tancar el menu lateral
 function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
     document.getElementsByTagName("main")[0].classList.remove('contenedor-margen');
@@ -813,7 +820,7 @@ function ampliarCasilla(e) {
     $('#dialog').css({ 'max-height': window.innerHeight - 30 });
     $('#exampleModal2').modal('show');
 }
-
+//Funció per posar la informació i habilitar els inputs de la vista modal afegir actor
 $('#exampleModal').on('show.bs.modal', function (e) {
     var modal = $(this);
     
@@ -902,7 +909,7 @@ function filtroActorTk(e) {
         return e;
     }
 }
-
+//////// Funcións per les vistes modals //////
 $('#exampleModal2').on('shown.bs.modal', function () {
     $('#exampleModalLabel2').text('Sala: ' + salaSeleccionada + ' / Dia: ' + diaSeleccionado);
     $('#exampleModalLabel2').attr('diaSelec', diaSeleccionado);
@@ -992,7 +999,7 @@ var calendarioActor = [];
 
 // Elemento seleccionado de la lista de asistencia:
 var elementoSeleccionado = undefined;
-
+//Funció que posa les dades en el menu de modificar de la vista ampliada, la seleccionar un actor
 function seleccionarActorCalendario(id, elemento) {
     // Le da estilo al elemento seleccionado:
     if (elementoSeleccionado != undefined) {
@@ -1120,7 +1127,7 @@ function seleccionarActorCalendario(id, elemento) {
         });
     }
 }
-
+//Funció per filtrar els actors amb takes superiors a 0
 function filtroActorTkEditar(e) {
     if (e.id_actor == calendarioActor.calendar.id_actor && e.takes_restantes > 0){
         return e;
@@ -1142,7 +1149,7 @@ var options = {
 
 $("#selectPelis-editar").easyAutocomplete(options);
 var parentSearch = $('#selectPelis-editar').parent().css({"width": "100%"});
-
+//Funció per mostrar i posar el inputs del menu afegir de la vsita ampliada
 function menuAfegir() {
     vaciarValoresEditar();
     
@@ -1246,13 +1253,13 @@ function menuAfegir() {
 
     $("#selectActor-editar").easyAutocomplete(options);
 }
-
+//Funcio per filtrar els actors amb takes superiors a 0
 function filtroActorTkAfegir(e) {
     if (e.id_actor == $("#actor-editar").val() && e.takes_restantes > 0){
         return e;
     }
 }
-
+//Funció ajax per afegir un actor
 function afegirActor(){
     var datos = {id_actor: parseInt($('#actor-editar').val()),
                 id_registre_entrada: parseInt($('#registreEntrada-editar').val()),
@@ -1277,7 +1284,7 @@ function afegirActor(){
             console.error(error);
         });
 }
-
+//Funció ajax per editar un actor
 function editarActor() {
     $.ajax({
         url: '/calendari/editar/' + calendarioActorSeleccionado_id,
@@ -1312,7 +1319,7 @@ function editarActor() {
         }
     });
 }
-
+//Funció ajax per eliminar un actor
 function eliminarCalendarioActor() {
     $.ajax({
         url: '/calendari/esborrar/' + calendarioActorSeleccionado_id,
@@ -1337,7 +1344,7 @@ function eliminarCalendarioActor() {
         }
     });
 }
-
+//Funció per activar els inputs del formulari de modificar de la vista ampliada
 function activarFormEditar(){
     $('#selectPelis-editar').removeAttr('readonly');
     $('#selectDirector-editar').removeAttr('readonly');
@@ -1348,7 +1355,7 @@ function activarFormEditar(){
     $('#takesFin-editar').removeAttr('readonly');
     $('#opcio_calendar-editar').removeAttr('disabled');
 }
-
+//Funció per buidar els inputs del formulari de modificar de la vista ampliada
 function vaciarValoresEditar() {
     $('#selectActor-editar').val('');
     $('#selectPelis-editar').attr('readonly', '');
@@ -1385,7 +1392,7 @@ function vaciarValoresEditar() {
     
     $('#errorEditar').attr('hidden', '');
 }
-
+//Funcioó per el input easyAutocomplete dels directors
 function selectDirector(){
     var options3 = {
         url:  rutaSearchEmpleat+"?search=director",

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Facades\Mail;
-use App\{RegistreEntrada,Missatge,RegistreProduccio,Estadillo,ActorEstadillo,Costos,EmpleatCost,Calendar};
+use App\{RegistreEntrada,Missatge, User,RegistreProduccio,Estadillo,ActorEstadillo,Costos,EmpleatCost,Calendar};
 use App\Mail\{RegistreEntradaCreat, RegistreEntradaUpdate};
 use App\Http\Responsables\RegistreEntrada\{RegistreEntradaIndex,RegistreEntradaCreate, RegistreEntradaShow};
 use App\Http\Requests\RegistreEntradaCreateRequest;
@@ -119,8 +119,8 @@ class RegistreEntradaController extends Controller
 //------------------Email amb Model Mail (No Borrar)--------------------
         /*$registreEntrada = RegistreEntrada::find($registreEntrada->id_registre_entrada);
 
-        Mail::to('dcampos@paycom.es')->send(new RegistreEntradaCreat($registreEntrada));*/
-
+        sendMail(2, 'RegistreEntradaCreat', $registreEntrada);//id_departamento, modeloMail, registro*/
+        
         return redirect()->back()->with('success', 'Registre d\'entrada creat correctament.');
     }
 
@@ -222,5 +222,20 @@ class RegistreEntradaController extends Controller
         Missatge::where('id_referencia', $request["id"])->whereReferencia('registreEntrada')->delete();
         
         return redirect()->route('indexRegistreEntrada');
+    }
+    
+    public function sendMail($roles, $type, $registre = [])
+    {        
+        switch ($type) {
+            case 'RegistreEntradaCreat':
+                $users = User::where('id_departament', $roles)->get();
+                
+                foreach ($users as $user){
+                    Mail::to($user->email_usuari)->send(new RegistreEntradaCreat($registre));
+                }
+            break;
+        } 
+        
+        return ;
     }
 }

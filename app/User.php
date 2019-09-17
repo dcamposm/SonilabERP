@@ -88,7 +88,7 @@ class User extends Authenticatable
     public function missatgeDay()
     {
         return $this->hasMany('App\Missatge', 'id_usuari', 'id_usuari')->where('data_final','>',date("Y-m-d"));
-    } 
+    }   
     //Funciones para comprobar los roles del usuario
     public function authorizeRoles($roles)
     {
