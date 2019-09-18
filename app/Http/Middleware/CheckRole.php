@@ -20,7 +20,7 @@ class CheckRole
         }
         
         if (! $request->user()->hasAnyRole($role)) {
-            return back()->with('alert', 'WARNING. No tens accés autoritzat');
+            return back()->with('alert', 'WARNING. No tens accés autoritzat.');
         }
         
         return $next($request);

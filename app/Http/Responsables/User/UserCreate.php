@@ -6,7 +6,8 @@ use App\Departament;
 class UserCreate implements Responsable
 {
     /*
-        *Classe Responsable que gestiona el retornament a la vista create d'usuari interns
+        *Classe Responsable que gestiona el retornament a la vista create 
+        *d'usuari interns
     */
     protected $user;
     protected $departaments;

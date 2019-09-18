@@ -116,7 +116,7 @@ class RegistreEntradaController extends Controller
         $missatge = new Missatge;
         $missatge->missatgeResponsableRegistreCreate($registreEntrada);
         $missatge->save(); 
-//------------------Email amb Model Mail (No Borrar)--------------------
+//------------------Email amb Model Mail--------------------
         /*$registreEntrada = RegistreEntrada::find($registreEntrada->id_registre_entrada);
 
         sendMail(2, 'RegistreEntradaCreat', $registreEntrada);//id_departamento, modeloMail, registro*/
@@ -136,8 +136,8 @@ class RegistreEntradaController extends Controller
         if ($registreEntrada) {
             $registreEntrada->fill(request()->all());
 
-            /*$registre = RegistreEntrada::find($id);//registre que s'utilitza per comprovar las dades. S'utilitza en el mail
-            $mail = new RegistreEntradaUpdate($registre,$registreEntrada);//Creacio del contingut del mail*/
+            //$registre = RegistreEntrada::find($id);//registre que s'utilitza per comprovar las dades. S'utilitza en el mail
+
             $modificat = $registreEntrada->getDirty();
             try {
                 $registreEntrada->save(); 
@@ -159,6 +159,7 @@ class RegistreEntradaController extends Controller
                 $missatge->save();
             }
 //-------------------------------Email amb Model Mail----------------------------------
+            //sendMail(2, 'RegistreEntradaCreat', [$registre,$registreEntrada]);//id_departamento, modeloMail, registro  
             //Mail::to('dcampos@paycom.es')->send($mail);
             return redirect()->back()->with('success', 'Registre d\'entrada modificat correctament.');
         }
@@ -224,14 +225,22 @@ class RegistreEntradaController extends Controller
         return redirect()->route('indexRegistreEntrada');
     }
     
-    public function sendMail($roles, $type, $registre = [])
+    public function sendMail(int $roles, $type, $registres = [])
     {        
         switch ($type) {
             case 'RegistreEntradaCreat':
                 $users = User::where('id_departament', $roles)->get();
                 
                 foreach ($users as $user){
-                    Mail::to($user->email_usuari)->send(new RegistreEntradaCreat($registre));
+                    Mail::to($user->email_usuari)->send(new RegistreEntradaCreat($registres));
+                }
+            break;
+            case 'RegistreEntradaUpdate':
+                $users = User::where('id_departament', $roles)->get();
+                
+                foreach ($users as $user){
+                    $mail = new RegistreEntradaUpdate($registres[0],$registres[1]);//Creacio del contingut del mail
+                    Mail::to($user->email_usuari)->send($mail);
                 }
             break;
         } 
