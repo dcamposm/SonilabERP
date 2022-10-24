@@ -25,7 +25,8 @@ class User extends Authenticatable
         "alias_usuari", 
         "contrasenya_usuari",
         "imatge_usuari", 
-        "id_departament"
+        "id_departament",
+        "telefon_usuario"
     ];
 
     /**

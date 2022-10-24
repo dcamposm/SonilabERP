@@ -64,6 +64,14 @@
                 </select>
                 <span class="text-danger">{{ $errors->first('id_departament') }}</span>
             </div>
+
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="telefon_usuario" style="font-weight: bold">TELEFON:</label>
+                    <input type="tel" class="form-control {{!empty($usuario) ? 'is-valid' : ''}}" id="telefon_usuario" placeholder="Entrar segon cognom" name="telefon_usuario" value="{{!empty($usuario) ? $usuario->telefon_usuario : old('telefon_usuario')}}">
+                    <span class="text-danger">{{ $errors->first('telefon_usuario') }}</span>
+                </div>
+            </div>
         </div>
 
         <div class="row mt-3">

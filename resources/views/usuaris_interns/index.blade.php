@@ -42,6 +42,7 @@
                 <th>NOM</th> 
                 <th>COGNOMS</th>
                 <th>EMAIL</th>
+                <th>TELEFON</th>
                 <th>DEPARTAMENT</th>
                 <th class="sorter-false filter-false">ACCIONS</th>
             </tr>
@@ -54,6 +55,7 @@
                 </td>
                 <td style="vertical-align: middle;">{{ $usuari->cognom1_usuari }} {{ $usuari->cognom2_usuari }}</td>
                 <td style="vertical-align: middle;">{{ $usuari->email_usuari }}</td>
+                <td style="vertical-align: middle;">{{ $usuari->telefon_usuario }}</td>
                 <td style="vertical-align: middle;">{{ $usuari->departament->nom_departament }}</td>
                 <td style="vertical-align: middle;">
                     <a href="{{ route('editarUsuariIntern', array('id' => $usuari['id_usuari'])) }}" class="btn btn-primary btn-sm"><span style="font-size: 11px;">MODIFICAR</span></a>
